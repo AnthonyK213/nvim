@@ -1,0 +1,4 @@
+{
+    "coc.preferences.formatOnType": true,
+    //"pairs.enableCharacters": ["(", "[", "{", "'", "\""]
+}
