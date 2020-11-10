@@ -1,6 +1,6 @@
 """ Global variables.
 " Leader key
-let g:mapleader="\<Space>"
+let g:mapleader = "\<Space>"
 " Pairs
 let g:custom_pairs = ["()", "[]", "{}", "''", "\"\""]
 let g:quote_list = ["\"", "'"]

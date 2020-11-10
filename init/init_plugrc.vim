@@ -10,15 +10,15 @@ colorscheme onedark
 augroup nerdtreebehave
     autocmd!
     " Open NERDTree automatically when vim starts up on opening a directory
-    autocmd StdinReadPre * let s:std_in=1
+    autocmd StdinReadPre * let s:std_in = 1
     autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
     " Close vim if the only window left open is a NERDTree
     "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup end
-let g:NERDTreeDirArrowExpandable='+'
-let g:NERDTreeDirArrowCollapsible='-'
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
+let g:NERDTreeDirArrowExpandable  = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 inoremap <silent> <F3> <Esc>:NERDTreeToggle<CR>
 tnoremap <silent> <F3> <C-\><C-N>:NERDTreeToggle<CR>
@@ -30,8 +30,8 @@ tnoremap <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
 """ signify
 augroup signify
     autocmd!
-    au BufEnter,BufRead * let g:signify_disable_by_default=0
-    au BufEnter,BufRead *.md,*.org let g:signify_disable_by_default=1
+    au BufEnter,BufRead * let g:signify_disable_by_default = 0
+    au BufEnter,BufRead *.md,*.org let g:signify_disable_by_default = 1
 augroup end
 " Signs
 let g:signify_sign_add               = '+'
@@ -39,48 +39,49 @@ let g:signify_sign_delete            = '_'
 let g:signify_sign_delete_first_line = '‾'
 let g:signify_sign_change            = '~'
 " Disable the numbers disctracting
-let g:signify_sign_show_count=0
-let g:signify_sign_show_text =1
+let g:signify_sign_show_count = 0
+let g:signify_sign_show_text  = 1
 nnoremap <silent> <leader>st :SignifyToggle<CR>
 
 
 """ vim-airline
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#branch#enabled=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#enabled  = 1
 " Symbols
-let g:airline_symbols={}
-let g:airline_symbols.branch=''
+let g:airline_symbols = {}
+let g:airline_symbols.branch = ''
 " Separators
 "     ;     ;    
-let g:airline_left_sep=''
-let g:airline_left_alt_sep=''
-let g:airline_right_sep=''
-let g:airline_right_alt_sep=''
-let g:airline#extensions#tabline#left_sep=''
-let g:airline#extensions#tabline#left_alt_sep=''
-let g:airline#extensions#tabline#right_sep=''
-let g:airline#extensions#tabline#right_alt_sep=''
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
 " Tab
-let g:airline#extensions#tabline#formatter='unique_tail'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 " Color
-let g:airline_theme='onedark'
+let g:airline_theme = 'onedark'
 
 
 """ vim-markdown
-let g:vim_markdown_override_foldtext=0
-let g:vim_markdown_math=1
-let g:vim_markdown_new_list_item_indent=2
-let g:vim_markdown_autowrite=1
-"let g:vim_markdown_folding_disabled=1
-"let g:vim_markdown_no_default_key_mappings=1
-"let g:vim_markdown_auto_insert_bullets=0
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_math = 1
+let g:vim_markdown_autowrite = 1
+let g:vim_markdown_folding_disabled = 1
+"let g:vim_markdown_override_foldtext = 0
+"let g:vim_markdown_folding_level = 6
+"let g:vim_markdown_no_default_key_mappings = 1
+"let g:vim_markdown_auto_insert_bullets = 0
 nnoremap <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nnoremap <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
 
 
 """ markdown preview
-let g:mkdp_auto_start=0
-let g:mkdp_auto_close=1
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
 let g:mkdp_preview_options = {
     \ 'mkit': {},
     \ 'katex': {},
@@ -98,8 +99,8 @@ let g:mkdp_preview_options = {
 """ vim-table-mode
 augroup vimtable
     autocmd!
-    au BufEnter,BufRead *    let g:table_mode_corner='+'
-    au BufEnter,BufRead *.md let g:table_mode_corner='|'
+    au BufEnter,BufRead *    let g:table_mode_corner = '+'
+    au BufEnter,BufRead *.md let g:table_mode_corner = '|'
 augroup end
 nnoremap <silent> <leader>tf :TableModeRealign<CR>
 nnoremap <silent> <leader>ta :TableAddFormula<CR>
@@ -107,35 +108,28 @@ nnoremap <silent> <leader>tc :TableEvalFormulaLine<CR>
 
 
 """ vimtex
-let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer='SumatraPDF'
+let g:tex_flavor = 'latex'
+let g:vimtex_view_general_viewer = 'SumatraPDF'
 let g:vimtex_view_general_options
     \ = '-reuse-instance -forward-search @tex @line @pdf'
-let g:vimtex_view_general_options_latexmk='-reuse-instance'
-let g:vimtex_compiler_progname='nvr'
+let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+let g:vimtex_compiler_progname = 'nvr'
 
 
 """ vim-orgmode
 "let g:org_indent=2
-let agenda_path=expand(g:onedrive_path . "/Documents/Agenda/Agenda.org")
-let g:org_agenda_files=[agenda_path]
+let agenda_path = expand(g:onedrive_path . "/Documents/Agenda/Agenda.org")
+let g:org_agenda_files = [agenda_path]
 command! Agenda :exe ":tabnew " . agenda_path
 
 
 """ IndentLine
-let g:indentLine_enabled=1
 augroup indentline
     autocmd!
-    au BufEnter,BufRead * let g:indentLine_enabled=1
-    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled=0
+    au BufEnter,BufRead * let g:indentLine_enabled = 1 | let g:indentLine_setConceal = 1
+    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0 | let g:indentLine_setConceal = 0
 augroup end
-let g:indentLine_setConceal=1
-let g:indentLine_char='¦'
-
-
-""" deoplete
-"let g:deoplete#enable_at_startup=1
-"set completeopt-=preview
+let g:indentLine_char = '¦'
 
 
 """ Coc.nvim

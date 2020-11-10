@@ -4,6 +4,11 @@ Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 
+"" deoplete
+let g:deoplete#enable_at_startup=1
+set completeopt-=preview
+
+
 set relativenumber
 set foldenable
 set foldmethod=syntax
