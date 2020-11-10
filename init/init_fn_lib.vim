@@ -17,13 +17,13 @@ function! Lib_Get_Git_Root()
 endfunction
 
 
-""" Get the character around the cursor. <C-r> is recommended.
+""" Get the character around the cursor.
 function! Lib_Get_Char(num)
     return matchstr(getline('.'), '\%' . (col('.') + a:num - 1) . 'c.')
 endfunction
 
 
-""" Is the character a letter?
+""" Determines whether a character is a letter or a symbol.
 function! Lib_Is_Word(char)
     let code = char2nr(a:char)
     if code > 128
@@ -40,7 +40,7 @@ function! Lib_Is_Word(char)
 endfunction
 
 
-""" Return the <cWORD>, but remove the noisy characters.
+""" Return the <cWORD> without the noisy characters.
 function! Lib_Get_Clean_CWORD(del_list)
     let c_word = expand("<cWORD>")
     while index(a:del_list, c_word[(len(c_word) - 1)]) >= 0 && len(c_word) >= 2
@@ -53,7 +53,7 @@ function! Lib_Get_Clean_CWORD(del_list)
 endfunction
 
 
-""" Return the selection as string.
+""" Return the selections as string.
 function! Lib_Get_Visual_Selection()
     try
         let a_save = @a

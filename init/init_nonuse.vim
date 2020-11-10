@@ -72,16 +72,13 @@ function! Pair_Quote(quote)
     let next_char = Lib_Get_Char(1)
     let l_is_word = Lib_Is_Word(last_char)
     let n_is_word = Lib_Is_Word(next_char)
-    let quote_list = ["\"", "'"]
-    let rust_quote = ["<", "&"]    " Rust lifetime annotation.
-    let lisp_quote = ["("]         " Lisp quote.
     if next_char ==# a:quote && (last_char ==# a:quote || l_is_word) 
         return "\<C-G>U\<Right>"
-    endif
-    if l_is_word || n_is_word || index(quote_list + rust_quote, last_char) >= 0 || index(quote_list + lisp_quote, next_char) >= 0
+    elseif l_is_word || n_is_word || index(g:quote_list + g:last_spec, last_char) >= 0 || index(g:quote_list + g:next_spec, next_char) >= 0
         return a:quote
+    else
+        return a:quote . a:quote . "\<C-G>U\<Left>"
     endif
-    return a:quote . a:quote . "\<C-G>U\<Left>"
 endfunction
 
 inoremap <silent>  (   <C-r>=Pair_Mates("(")<CR>

@@ -17,7 +17,7 @@ if !empty(glob(expand('$ONEDRIVE')))
     let g:usr_desktop = expand(fnamemodify(g:onedrive_path, ':h') . "/Desktop")
 else
     let g:onedrive_path = expand('$HOME')
-    let g:usr_desktop = expand('$HOME')
+    let g:usr_desktop = expand('$HOME/Desktop')
 endif
 
 
@@ -139,5 +139,6 @@ inoremap <silent>  ]   <C-r>=PairClose("]")<CR>
 inoremap <silent>  }   <C-r>=PairClose("}")<CR>
 inoremap <silent>  '   <C-r>=PairQuote("'")<CR>
 inoremap <silent>  "   <C-r>=PairQuote("\"")<CR>
+" <CR> could be remapped by other plugin.
 inoremap <silent> <CR> <C-r>=PairEnter()<CR>
 inoremap <silent> <BS> <C-r>=PairBacks()<CR>
