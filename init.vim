@@ -1,10 +1,10 @@
-source <sfile>:h/init/init_plugin.vim
+"source <sfile>:h/init/init_plugin.vim
 source <sfile>:h/init/init_basics.vim
 source <sfile>:h/init/init_custom.vim
 source <sfile>:h/init/init_fn_lib.vim
 source <sfile>:h/init/init_depend.vim
 source <sfile>:h/init/init_depwin.vim
 "source <sfile>:h/init/init_depwsl.vim
-source <sfile>:h/init/init_plugrc.vim
-"source <sfile>:h/init/init_subsrc.vim
-"source <sfile>:h/themes/one_dark.vim
+"source <sfile>:h/init/init_plugrc.vim
+source <sfile>:h/init/init_subsrc.vim
+source <sfile>:h/themes/one_dark.vim
