@@ -15,6 +15,6 @@ tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 
 
 """ Completion
-inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : Pair_Enter()
+inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : PairEnter()
 inoremap <silent><expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
