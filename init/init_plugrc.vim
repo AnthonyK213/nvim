@@ -125,10 +125,11 @@ command! Agenda :exe ":tabnew " . agenda_path
 
 """ IndentLine
 let g:indentLine_char = '¦'
+let g:indentLine_setConceal = 1
 augroup indentline
     autocmd!
-    au BufEnter,BufRead * let g:indentLine_enabled = 1 | let g:indentLine_setConceal = 1
-    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0 | let g:indentLine_setConceal = 0
+    au BufEnter,BufRead * let g:indentLine_enabled = 1
+    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
 augroup end
 
 
