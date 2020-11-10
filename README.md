@@ -26,7 +26,7 @@
    * > git clone git@github.com:AnthonyK213/nvim.git
 
 6. **Install plugins via vim-plug**
-   * > :PlugInstall.
+   * > :PlugInstall
 
 7. **Coc plugins**
    * coc-rls
