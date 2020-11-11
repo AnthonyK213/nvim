@@ -2,15 +2,18 @@
 " Leader key
 let g:mapleader = "\<Space>"
 " Pairs
-let g:usr_pairs = ["()", "[]", "{}", "\"\"", "''", "``", "**", "<>"]
-let g:usr_quote = ["\"", "'"]
-augroup specialquote
-    autocmd!
-    au BufEnter,BufRead *      let g:last_spec = []         | let g:next_spec = []
-    au BufEnter,BufRead *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
-    au BufEnter,BufRead *.lisp let g:last_spec = []         | let g:next_spec = ["("]
-    au BufEnter,BufRead *.vim  let g:last_spec = [""]       | let g:next_spec = []
-augroup end
+let g:usr_pairs = {
+    \ "("  : ")",
+    \ "["  : "]",
+    \ "{"  : "}",
+    \ "'"  : "'",
+    \ "\"" : "\"",
+    \ "*"  : "*",
+    \ "`"  : "`",
+    \ "<"  : ">",
+    \ "**" : "**",
+    \ "***": "***"
+  \ }
 " Directories
 if !empty(glob(expand('$ONEDRIVE')))
     let g:onedrive_path = expand('$ONEDRIVE')
@@ -34,26 +37,37 @@ function! MouseToggle()
 endfunction
 
 " Pairs
-function! IsEncompByPair(pair_list)
-    let last_char = Lib_Get_Char(0)
-    let next_char = Lib_Get_Char(1)
-    return index(a:pair_list, last_char . next_char)
+let g:usr_quote = []
+for [key, value] in items(g:usr_pairs)
+    if key ==# value | let g:usr_quote += [key] | endif
+endfor
+
+augroup specialquote
+    autocmd!
+    au BufEnter,BufRead *      let g:last_spec = []         | let g:next_spec = []
+    au BufEnter,BufRead *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
+    au BufEnter,BufRead *.lisp let g:last_spec = []         | let g:next_spec = ["("]
+    au BufEnter,BufRead *.vim  let g:last_spec = [""]       | let g:next_spec = []
+augroup end
+
+function! IsEncompByPair(pair_dict)
+    return index(items(a:pair_dict), [Lib_Get_Char(0), Lib_Get_Char(1)]) >= 0
 endfunction
 
 function! PairEnter()
-    return IsEncompByPair(g:usr_pairs) >= 0 ? "\<CR>\<ESC>O" : "\<CR>"
+    return IsEncompByPair(g:usr_pairs) ? "\<CR>\<ESC>O" : "\<CR>"
 endfunction
 
 function! PairBacks()
-    return IsEncompByPair(g:usr_pairs) >= 0 ? "\<C-G>U\<Right>\<BS>\<BS>" : "\<BS>"
+    return IsEncompByPair(g:usr_pairs) ? "\<C-g>u\<Right>\<BS>\<BS>" : "\<BS>"
 endfunction
 
-function! PairMates(pair_a, pair_b)
-    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . a:pair_b . "\<C-G>U\<Left>"
+function! PairMates(pair_a)
+    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . g:usr_pairs[a:pair_a] . repeat("\<C-g>u\<Left>", len(a:pair_a))
 endfunction
 
 function! PairClose(pair_b)
-    return Lib_Get_Char(1) ==# a:pair_b ? "\<C-G>U\<Right>" : a:pair_b
+    return Lib_Get_Char(1) ==# a:pair_b ? "\<C-g>u\<Right>" : a:pair_b
 endfunction
 
 function! PairQuote(quote)
@@ -62,11 +76,11 @@ function! PairQuote(quote)
     let l_is_word = Lib_Is_Word(last_char)
     let n_is_word = Lib_Is_Word(next_char)
     if next_char ==# a:quote && (last_char ==# a:quote || l_is_word)
-        return "\<C-G>U\<Right>"
+        return "\<C-g>u\<Right>"
     elseif l_is_word || n_is_word || index(g:usr_quote + g:last_spec, last_char) >= 0 || index(g:usr_quote + g:next_spec, next_char) >= 0
         return a:quote
     else
-        return a:quote . a:quote . "\<C-G>U\<Left>"
+        return a:quote . a:quote . "\<C-g>u\<Left>"
     endif
 endfunction
 
@@ -85,31 +99,7 @@ command! Time :echo strftime('%Y-%m-%d %a %T')
 
 
 """ Key mapping
-" Nevigate
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
-nnoremap <M-w> <C-w>w
-inoremap <M-h> <Esc><C-w>h
-inoremap <M-j> <Esc><C-w>j
-inoremap <M-k> <Esc><C-w>k
-inoremap <M-l> <Esc><C-w>l
-inoremap <M-w> <Esc><C-w>w
-tnoremap <Esc> <C-\><C-n>
-tnoremap <M-h> <C-\><C-N><C-w>h
-tnoremap <M-j> <C-\><C-N><C-w>j
-tnoremap <M-k> <C-\><C-N><C-w>k
-tnoremap <M-l> <C-\><C-N><C-w>l
-tnoremap <M-w> <C-\><C-N><C-w>w
-" Buffer
-nnoremap <silent> <leader>bn :bn<CR>
-nnoremap <silent> <leader>bp :bp<CR>
-nnoremap <silent> <leader>bd :bd<CR>
-nnoremap <silent> <leader>cd :lcd %:p:h<CR>
-" Spell check
-nnoremap <silent> <leader>ss :set spell spelllang=en_us<CR>
-nnoremap <silent> <leader>se :set nospell<CR>
+" Ctrl
 " For wrapped lines
 nnoremap <C-j> gj
 nnoremap <C-k> gk
@@ -117,28 +107,44 @@ vnoremap <C-j> gj
 vnoremap <C-k> gk
 " Insert an orgmode-style timestamp at the end of the line
 nnoremap <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
-" Open vimrc(init.vim)
+" Meta
+" Open .vimrc(init.vim)
 nnoremap <M-,> :tabnew $MYVIMRC<CR>
-" markdown
-inoremap <expr> <M-p> "``\<C-G>U\<Left>"
-inoremap <expr> <M-i> "**\<C-G>U\<Left>"
-inoremap <expr> <M-b> "****\<C-G>U\<Left>\<C-G>U\<Left>"
-inoremap <expr> <M-m> "******\<C-G>U\<Left>\<C-G>U\<Left>\<C-G>U\<Left>"
+" Terminal
+tnoremap <Esc> <C-\><C-n>
+tnoremap <silent> <M-d> <C-\><C-N>:q<CR>
+" Nevigate
+for direct in ['h', 'j', 'k', 'l', 'w']
+    exe 'nnoremap <M-' . direct . '> <C-w>'            . direct
+    exe 'inoremap <M-' . direct . '> <ESC><C-w>'       . direct
+    exe 'tnoremap <M-' . direct . '> <C-\><C-n><C-w>'  . direct
+endfor
+" Buffer
+nnoremap <silent> <leader>bn :bn<CR>
+nnoremap <silent> <leader>bp :bp<CR>
+nnoremap <silent> <leader>bd :bd<CR>
+nnoremap <silent> <leader>cd :lcd %:p:h<CR>
 " Highlight off
 nnoremap <silent> <leader>h :noh<CR>
-" Terminal off
-tnoremap <silent> <M-d> <C-\><C-N>:q<CR>
+" Spell check
+nnoremap <silent> <leader>ss :set spell spelllang=en_us<CR>
+nnoremap <silent> <leader>se :set nospell<CR>
 " Mouse toggle
 nnoremap <silent> <F2> :call MouseToggle()<CR>
 " Pairs
-inoremap <silent>  (   <C-r>=PairMates("(", ")")<CR>
-inoremap <silent>  [   <C-r>=PairMates("[", "]")<CR>
-inoremap <silent>  {   <C-r>=PairMates("{", "}")<CR>
-inoremap <silent>  )   <C-r>=PairClose(")")<CR>
-inoremap <silent>  ]   <C-r>=PairClose("]")<CR>
-inoremap <silent>  }   <C-r>=PairClose("}")<CR>
-inoremap <silent>  '   <C-r>=PairQuote("'")<CR>
-inoremap <silent>  "   <C-r>=PairQuote("\"")<CR>
 " <CR> could be remapped by other plugin.
-inoremap <silent> <CR> <C-r>=PairEnter()<CR>
-inoremap <silent> <BS> <C-r>=PairBacks()<CR>
+inoremap <silent>  <CR> <C-r>=PairEnter()<CR>
+inoremap <silent>  <BS> <C-r>=PairBacks()<CR>
+inoremap <silent>   (   <C-r>=PairMates("(")<CR>
+inoremap <silent>   [   <C-r>=PairMates("[")<CR>
+inoremap <silent>   {   <C-r>=PairMates("{")<CR>
+inoremap <silent>   )   <C-r>=PairClose(")")<CR>
+inoremap <silent>   ]   <C-r>=PairClose("]")<CR>
+inoremap <silent>   }   <C-r>=PairClose("}")<CR>
+inoremap <silent>   '   <C-r>=PairQuote("'")<CR>
+inoremap <silent>   "   <C-r>=PairQuote("\"")<CR>
+" Markdown
+inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
+inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
+inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
+inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
