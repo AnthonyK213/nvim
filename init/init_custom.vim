@@ -119,6 +119,7 @@ for direct in ['h', 'j', 'k', 'l', 'w']
     exe 'inoremap <M-' . direct . '> <ESC><C-w>'       . direct
     exe 'tnoremap <M-' . direct . '> <C-\><C-n><C-w>'  . direct
 endfor
+" Leader
 " Buffer
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
