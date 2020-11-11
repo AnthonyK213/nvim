@@ -59,15 +59,15 @@ function! PairEnter()
 endfunction
 
 function! PairBacks()
-    return IsEncompByPair(g:usr_pairs) ? "\<C-g>u\<Right>\<BS>\<BS>" : "\<BS>"
+    return IsEncompByPair(g:usr_pairs) ? "\<C-g>U\<Right>\<BS>\<BS>" : "\<BS>"
 endfunction
 
 function! PairMates(pair_a)
-    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . g:usr_pairs[a:pair_a] . repeat("\<C-g>u\<Left>", len(a:pair_a))
+    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . g:usr_pairs[a:pair_a] . repeat("\<C-g>U\<Left>", len(a:pair_a))
 endfunction
 
 function! PairClose(pair_b)
-    return Lib_Get_Char(1) ==# a:pair_b ? "\<C-g>u\<Right>" : a:pair_b
+    return Lib_Get_Char(1) ==# a:pair_b ? "\<C-g>U\<Right>" : a:pair_b
 endfunction
 
 function! PairQuote(quote)
@@ -76,11 +76,11 @@ function! PairQuote(quote)
     let l_is_word = Lib_Is_Word(last_char)
     let n_is_word = Lib_Is_Word(next_char)
     if next_char ==# a:quote && (last_char ==# a:quote || l_is_word)
-        return "\<C-g>u\<Right>"
+        return "\<C-g>U\<Right>"
     elseif l_is_word || n_is_word || index(g:usr_quote + g:last_spec, last_char) >= 0 || index(g:usr_quote + g:next_spec, next_char) >= 0
         return a:quote
     else
-        return a:quote . a:quote . "\<C-g>u\<Left>"
+        return a:quote . a:quote . "\<C-g>U\<Left>"
     endif
 endfunction
 
