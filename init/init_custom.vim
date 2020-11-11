@@ -2,7 +2,7 @@
 " Leader key
 let g:mapleader = "\<Space>"
 " Pairs
-let g:usr_pairs = ["()", "[]", "{}", "\"\"", "''", "``", "**"]
+let g:usr_pairs = ["()", "[]", "{}", "\"\"", "''", "``", "**", "<>"]
 let g:usr_quote = ["\"", "'"]
 augroup specialquote
     autocmd!
