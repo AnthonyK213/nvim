@@ -2,14 +2,14 @@
 " Leader key
 let g:mapleader = "\<Space>"
 " Pairs
-let g:custom_pairs = ["()", "[]", "{}", "''", "\"\""]
-let g:quote_list = ["\"", "'"]
+let g:usr_pairs = ["()", "[]", "{}", "\"\"", "''", "``", "**"]
+let g:usr_quote = ["\"", "'"]
 augroup specialquote
     autocmd!
-    au BufEnter,BufRead *      let g:last_spec = [] | let g:next_spec = []
+    au BufEnter,BufRead *      let g:last_spec = []         | let g:next_spec = []
     au BufEnter,BufRead *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
-    au BufEnter,BufRead *.lisp let g:last_spec = [] | let g:next_spec = ["("]
-    au BufEnter,BufRead *.vim,*.vimrc let g:last_spec = [""] | let g:next_spec = []
+    au BufEnter,BufRead *.lisp let g:last_spec = []         | let g:next_spec = ["("]
+    au BufEnter,BufRead *.vim  let g:last_spec = [""]       | let g:next_spec = []
 augroup end
 " Directories
 if !empty(glob(expand('$ONEDRIVE')))
@@ -41,11 +41,11 @@ function! IsEncompByPair(pair_list)
 endfunction
 
 function! PairEnter()
-    return IsEncompByPair(g:custom_pairs) >= 0 ? "\<CR>\<ESC>O" : "\<CR>"
+    return IsEncompByPair(g:usr_pairs) >= 0 ? "\<CR>\<ESC>O" : "\<CR>"
 endfunction
 
 function! PairBacks()
-    return IsEncompByPair(g:custom_pairs) >= 0 ? "\<C-G>U\<Right>\<BS>\<BS>" : "\<BS>"
+    return IsEncompByPair(g:usr_pairs) >= 0 ? "\<C-G>U\<Right>\<BS>\<BS>" : "\<BS>"
 endfunction
 
 function! PairMates(pair_a, pair_b)
@@ -63,7 +63,7 @@ function! PairQuote(quote)
     let n_is_word = Lib_Is_Word(next_char)
     if next_char ==# a:quote && (last_char ==# a:quote || l_is_word)
         return "\<C-G>U\<Right>"
-    elseif l_is_word || n_is_word || index(g:quote_list + g:last_spec, last_char) >= 0 || index(g:quote_list + g:next_spec, next_char) >= 0
+    elseif l_is_word || n_is_word || index(g:usr_quote + g:last_spec, last_char) >= 0 || index(g:usr_quote + g:next_spec, next_char) >= 0
         return a:quote
     else
         return a:quote . a:quote . "\<C-G>U\<Left>"
@@ -120,10 +120,10 @@ nnoremap <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 " Open vimrc(init.vim)
 nnoremap <M-,> :tabnew $MYVIMRC<CR>
 " markdown
-inoremap <M-p> ``<Esc>i
-inoremap <M-i> **<Esc>i
-inoremap <M-b> ****<Esc>hi
-inoremap <M-m> ******<Esc>hhi
+inoremap <expr> <M-p> "``\<C-G>U\<Left>"
+inoremap <expr> <M-i> "**\<C-G>U\<Left>"
+inoremap <expr> <M-b> "****\<C-G>U\<Left>\<C-G>U\<Left>"
+inoremap <expr> <M-m> "******\<C-G>U\<Left>\<C-G>U\<Left>\<C-G>U\<Left>"
 " Highlight off
 nnoremap <silent> <leader>h :noh<CR>
 " Terminal off
