@@ -117,3 +117,7 @@ command! Bib call Biber()
 command! -nargs=* PushAll :call GitPushAll(<f-args>)
 " Run code
 command! -nargs=? CodeRun :call RunOrCompile(<q-args>)
+
+
+" Echo git status
+nnoremap <silent> <leader>vs :!git status<CR>

@@ -88,3 +88,14 @@ inoremap <expr> <M-p> "``\<C-G>U\<Left>"
 inoremap <expr> <M-i> "**\<C-G>U\<Left>"
 inoremap <expr> <M-b> "****"   . repeat("\<C-G>U\<Left>", 2)
 inoremap <expr> <M-m> "******" . repeat("\<C-G>U\<Left>", 3)
+
+" Git util
+function! GetGitBranch()
+    let git_root_path = Lib_Get_Git_Root()
+    if git_root_path[0] == 1
+        let git_head_path = git_root_path[1]. "/.git/HEAD"
+        return split(readfile(git_head_path)[0], '/')[-1]
+    elseif
+        echo 'Not a git repository.'
+    endif
+endfunction
