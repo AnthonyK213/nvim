@@ -8,11 +8,12 @@ let g:usr_pairs = {
     \ "{"  : "}",
     \ "'"  : "'",
     \ "\"" : "\"",
-    \ "*"  : "*",
     \ "`"  : "`",
-    \ "<"  : ">",
+    \ "*"  : "*",
     \ "**" : "**",
-    \ "***": "***"
+    \ "***": "***",
+    \ "<"  : ">",
+    \ "$"  : "$"
   \ }
 " Directories
 if !empty(glob(expand('$ONEDRIVE')))
@@ -63,7 +64,7 @@ function! PairBacks()
 endfunction
 
 function! PairMates(pair_a)
-    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . g:usr_pairs[a:pair_a] . repeat("\<C-g>U\<Left>", len(a:pair_a))
+    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . g:usr_pairs[a:pair_a] . repeat("\<C-g>U\<Left>", len(g:usr_pairs[a:pair_a]))
 endfunction
 
 function! PairClose(pair_b)
