@@ -63,6 +63,7 @@ function! RunOrCompile(option)
     if exts ==? 'py'
         call Lib_Belowright_Split(30)
         exe cmdh . 'python ' . file
+        redraw
     " C
     elseif exts ==? 'c'
         if optn ==? ''
@@ -77,10 +78,12 @@ function! RunOrCompile(option)
         else
             echo "Invalid argument."
         endif
+        redraw
     " C++
     elseif exts ==? 'cpp'
         call Lib_Belowright_Split(30)
         exe cmdh . 'g++ ' . file
+        redraw
     " RUST
     elseif exts ==? 'rs'
         if optn ==? ''
@@ -100,11 +103,14 @@ function! RunOrCompile(option)
         else
             echo "Invalid argument."
         endif
+        redraw
+    " VIML
+    elseif exts ==? 'vim'
+        exe 'source %'
     " ERROR
     else
         echo 'Unknown file type: .' . exts
     endif
-    redraw
 endfunction
 
 
