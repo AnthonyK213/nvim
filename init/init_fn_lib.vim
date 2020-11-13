@@ -40,6 +40,17 @@ function! Lib_Is_Word(char)
 endfunction
 
 
+""" Determines if a character is a Chinese character.
+function! Lib_Is_Hanzi(char)
+    let code = char2nr(a:char)
+    if code >= 0x4E00 && code <= 0x9FA5
+        return 1
+    else
+        return 0
+    endif
+endfunction
+
+
 """ Return the <cWORD> without the noisy characters.
 function! Lib_Get_Clean_CWORD(del_list)
     let c_word = expand("<cWORD>")

@@ -85,6 +85,29 @@ function! PairQuote(quote)
     endif
 endfunction
 
+""" Hanzi count.
+function! HanziCount(mode)
+    if a:mode ==? "n"
+        let content = readfile(expand('%:p'))
+        let h_count = 0
+        for line in content
+            for char in split(line, '.\zs')
+                if Lib_Is_Hanzi(char) | let h_count += 1 | endif
+            endfor
+        endfor
+        return h_count
+    elseif a:mode ==? "v"
+        let select = split(Lib_Get_Visual_Selection(), '.\zs')
+        let h_count = 0
+        for char in select
+            if Lib_Is_Hanzi(char) | let h_count += 1 | endif
+        endfor
+        return h_count
+    else
+        echom "Invalid mode argument."
+    endif
+endfunction
+
 
 """ Auto groups
 augroup filetypesbehave
@@ -150,3 +173,6 @@ inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
 inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
 inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
+" Hanzi count
+nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
+vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>

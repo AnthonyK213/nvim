@@ -87,11 +87,11 @@ inoremap <silent> <M-a> <Esc>ggVG
 nnoremap <M-e> :call Expl()<CR>
 inoremap <M-e> <Esc>:call Expl()<CR>
 " Search cword in web browser
-nnoremap <silent> <leader>wb :call SearchWeb("word", "baidu")<CR>
-nnoremap <silent> <leader>wg :call SearchWeb("word", "google")<CR>
-nnoremap <silent> <leader>wh :call SearchWeb("word", "github")<CR>
-nnoremap <silent> <leader>wy :call SearchWeb("word", "youdao")<CR>
-vnoremap <silent> <leader>wb :<C-u>call SearchWeb("sele", "baidu")<CR>
-vnoremap <silent> <leader>wg :<C-u>call SearchWeb("sele", "google")<CR>
-vnoremap <silent> <leader>wh :<C-u>call SearchWeb("sele", "github")<CR>
-vnoremap <silent> <leader>wy :<C-u>call SearchWeb("sele", "youdao")<CR>
+nnoremap <silent> <leader>fb :call SearchWeb("word", "baidu")<CR>
+nnoremap <silent> <leader>fg :call SearchWeb("word", "google")<CR>
+nnoremap <silent> <leader>fh :call SearchWeb("word", "github")<CR>
+nnoremap <silent> <leader>fy :call SearchWeb("word", "youdao")<CR>
+vnoremap <silent> <leader>fb :<C-u>call SearchWeb("sele", "baidu")<CR>
+vnoremap <silent> <leader>fg :<C-u>call SearchWeb("sele", "google")<CR>
+vnoremap <silent> <leader>fh :<C-u>call SearchWeb("sele", "github")<CR>
+vnoremap <silent> <leader>fy :<C-u>call SearchWeb("sele", "youdao")<CR>
