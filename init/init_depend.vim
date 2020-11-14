@@ -108,6 +108,8 @@ function! RunOrCompile(option)
     " VIML
     elseif exts ==? 'vim'
         exe 'source %'
+    elseif exts ==? 'lua'
+        exe 'luafile %'
     " ERROR
     else
         echo 'Unknown file type: .' . exts
