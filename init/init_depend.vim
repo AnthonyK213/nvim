@@ -108,6 +108,7 @@ function! RunOrCompile(option)
     " VIML
     elseif exts ==? 'vim'
         exe 'source %'
+    " LUA
     elseif exts ==? 'lua'
         exe 'luafile %'
     " ERROR
