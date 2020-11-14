@@ -55,25 +55,26 @@ endfunction
 " Run code
 function! RunOrCompile(option)
     let optn = a:option
+    let cmdh = 'term '
+    let size = min([30, nvim_win_get_height(0) / 2])
     let file = expand('%:t')
     let name = expand('%:r')
     let exts = expand('%:e')
-    let cmdh = 'term '
     " PYTHON
     if exts ==? 'py'
-        call Lib_Belowright_Split(30)
+        call Lib_Belowright_Split(size)
         exe cmdh . 'python ' . file
         redraw
     " C
     elseif exts ==? 'c'
         if optn ==? ''
-            call Lib_Belowright_Split(30)
-            exe cmdh . 'gcc ' . file . ' -o ' . name
+            call Lib_Belowright_Split(size)
+            exe cmdh . 'gcc ' . file . ' -o ' . name . ' & ' . name
         elseif optn ==? 'check'
-            call Lib_Belowright_Split(30)
+            call Lib_Belowright_Split(size)
             exe cmdh . 'gcc ' . file . ' -g -o ' . name
         elseif optn ==? 'build'
-            call Lib_Belowright_Split(30)
+            call Lib_Belowright_Split(size)
             exe cmdh . 'gcc ' . file . ' -O2 -o ' . name
         else
             echo "Invalid argument."
@@ -81,24 +82,24 @@ function! RunOrCompile(option)
         redraw
     " C++
     elseif exts ==? 'cpp'
-        call Lib_Belowright_Split(30)
+        call Lib_Belowright_Split(size)
         exe cmdh . 'g++ ' . file
         redraw
     " RUST
     elseif exts ==? 'rs'
         if optn ==? ''
-            call Lib_Belowright_Split(30)
+            call Lib_Belowright_Split(size)
             exe cmdh . 'cargo run'
         elseif optn ==? 'rustc'
-            call Lib_Belowright_Split(30)
+            call Lib_Belowright_Split(size)
             exe cmdh . 'rustc ' . file . ' & ' . name
         elseif optn ==? 'clean'
             exe '!cargo clean'
         elseif optn ==? 'check'
-            call Lib_Belowright_Split(30)
+            call Lib_Belowright_Split(size)
             exe cmdh . 'cargo check'
         elseif optn ==? 'build'
-            call Lib_Belowright_Split(30)
+            call Lib_Belowright_Split(size)
             exe cmdh . 'cargo build --release'
         else
             echo "Invalid argument."
