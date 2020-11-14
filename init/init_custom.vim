@@ -137,7 +137,7 @@ nnoremap <M-,> :tabnew $MYVIMRC<CR>
 " Terminal
 tnoremap <Esc> <C-\><C-n>
 tnoremap <silent> <M-d> <C-\><C-N>:q<CR>
-" Nevigate
+" Navigate
 for direct in ['h', 'j', 'k', 'l', 'w']
     exe 'nnoremap <M-' . direct . '> <C-w>'            . direct
     exe 'inoremap <M-' . direct . '> <ESC><C-w>'       . direct
