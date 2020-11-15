@@ -85,7 +85,7 @@ function! PairQuote(quote)
     endif
 endfunction
 
-""" Hanzi count.
+" Hanzi count.
 function! HanziCount(mode)
     if a:mode ==? "n"
         let content = readfile(expand('%:p'))
