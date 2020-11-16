@@ -14,8 +14,8 @@
 
 3. **Install node.js**
    * Add node.js binary folder to the path.
-   * > npm install yarn
-   * > npm install neovim
+   * > npm install yarn -g
+   * > npm install neovim -g
 
 4. **Manage the plugins by vim-plug**
    * Copy plug.vim into ~/AppData/Local/nvim-data/site/autoload/
