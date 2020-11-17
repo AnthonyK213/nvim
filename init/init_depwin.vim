@@ -87,6 +87,7 @@ inoremap <silent> <M-a> <Esc>ggVG
 nnoremap <M-e> :call Expl()<CR>
 inoremap <M-e> <Esc>:call Expl()<CR>
 " Search cword in web browser
+" <leader> f* -> f(ind)
 nnoremap <silent> <leader>fb :call SearchWeb("word", "baidu")<CR>
 nnoremap <silent> <leader>fg :call SearchWeb("word", "google")<CR>
 nnoremap <silent> <leader>fh :call SearchWeb("word", "github")<CR>

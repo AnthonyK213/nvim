@@ -130,4 +130,5 @@ command! -nargs=? CodeRun :call RunOrCompile(<q-args>)
 
 
 " Echo git status
+" <leader> v* -> v(ersion control)
 nnoremap <silent> <leader>vs :!git status<CR>
