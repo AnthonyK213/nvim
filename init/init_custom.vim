@@ -150,8 +150,8 @@ nnoremap <silent> <leader>bp :bp<CR>
 nnoremap <silent> <leader>bd :bd<CR>
 nnoremap <silent> <leader>cd :lcd %:p:h<CR>
 " Highlight off
-nnoremap <silent> <leader>h :noh<CR>
-" Spell check
+nnoremap <silent> <leader>nh :noh<CR>
+" Spell check; <leader> s* -> s(pell)
 nnoremap <silent> <leader>ss :set spell spelllang=en_us<CR>
 nnoremap <silent> <leader>se :set nospell<CR>
 " Mouse toggle
@@ -173,6 +173,6 @@ inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
 inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
 inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
-" Hanzi count
+" Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
 vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>

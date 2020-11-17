@@ -41,7 +41,12 @@ let g:signify_sign_change            = '~'
 " Disable the numbers disctracting
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
-nnoremap <silent> <leader>st :SignifyToggle<CR>
+" <leader> h* -> h(unk)
+nnoremap <silent> <leader>ht :SignifyToggle<CR>
+nmap <leader>hj <plug>(signify-next-hunk)
+nmap <leader>hk <plug>(signify-prev-hunk)
+nmap <leader>hJ 9999<plug>(signify-next-hunk)
+nmap <leader>hK 9999<plug>(signify-prev-hunk)
 
 
 """ vim-airline
@@ -75,6 +80,7 @@ let g:vim_markdown_folding_disabled = 1
 "let g:vim_markdown_folding_level = 6
 "let g:vim_markdown_no_default_key_mappings = 1
 "let g:vim_markdown_auto_insert_bullets = 0
+" <leader> m* -> m(arkdown)
 nnoremap <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nnoremap <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
 
@@ -102,6 +108,7 @@ augroup vimtable
     au BufEnter,BufRead *    let g:table_mode_corner = '+'
     au BufEnter,BufRead *.md let g:table_mode_corner = '|'
 augroup end
+" <leader> t* -> t(able-mode)
 nnoremap <silent> <leader>tf :TableModeRealign<CR>
 nnoremap <silent> <leader>ta :TableAddFormula<CR>
 nnoremap <silent> <leader>tc :TableEvalFormulaLine<CR>
@@ -191,6 +198,8 @@ augroup hlsymbol
     autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup end
 
+" <leader> j*  -> for no reason?
+" <leader> jl* -> l(ist)
 " Remap for rename current word
 nmap <leader>jr <Plug>(coc-rename)
 
