@@ -1,7 +1,8 @@
 """ Create a below right split window.
 function! Lib_Belowright_Split(height)
+    let height = min([a:height, nvim_win_get_height(0) / 2])
     belowright split
-    exe 'resize ' . a:height
+    exe 'resize ' . height
 endfunction
 
 

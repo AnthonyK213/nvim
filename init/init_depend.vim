@@ -55,8 +55,8 @@ endfunction
 " Run code
 function! RunOrCompile(option)
     let optn = a:option
+    let size = 30
     let cmdh = 'term '
-    let size = min([30, nvim_win_get_height(0) / 2])
     let file = expand('%:t')
     let name = expand('%:r')
     let exts = expand('%:e')
