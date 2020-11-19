@@ -28,11 +28,6 @@ tnoremap <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
 
 
 """ signify
-augroup signify
-    autocmd!
-    au BufEnter * let g:signify_disable_by_default = 0
-    au BufEnter *.md,*.org let g:signify_disable_by_default = 1
-augroup end
 " Signs
 let g:signify_sign_add               = '+'
 let g:signify_sign_delete            = '_'

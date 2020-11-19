@@ -32,6 +32,13 @@ augroup remember_folds
     au BufWinEnter ?* silent! loadview 1
 augroup end
 
+""" signify
+augroup signify
+    autocmd!
+    au BufEnter * let g:signify_disable_by_default = 0
+    au BufEnter *.md,*.org let g:signify_disable_by_default = 1
+augroup end
+
 
 " Pairs
 let g:usr_pairs = ["()", "[]", "{}", "\"\"", "''", "``", "**", "<>"]
