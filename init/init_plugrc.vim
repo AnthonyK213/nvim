@@ -30,8 +30,8 @@ tnoremap <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
 """ signify
 augroup signify
     autocmd!
-    au BufEnter,BufRead * let g:signify_disable_by_default = 0
-    au BufEnter,BufRead *.md,*.org let g:signify_disable_by_default = 1
+    au BufEnter * let g:signify_disable_by_default = 0
+    au BufEnter *.md,*.org let g:signify_disable_by_default = 1
 augroup end
 " Signs
 let g:signify_sign_add               = '+'
@@ -105,8 +105,8 @@ let g:mkdp_preview_options = {
 """ vim-table-mode
 augroup vimtable
     autocmd!
-    au BufEnter,BufRead *    let g:table_mode_corner = '+'
-    au BufEnter,BufRead *.md let g:table_mode_corner = '|'
+    au BufEnter *    let g:table_mode_corner = '+'
+    au BufEnter *.md let g:table_mode_corner = '|'
 augroup end
 " <leader> t* -> t(able-mode)
 nnoremap <silent> <leader>tf :TableModeRealign<CR>
@@ -135,8 +135,8 @@ let g:indentLine_char = '¦'
 let g:indentLine_setConceal = 1
 augroup indentline
     autocmd!
-    au BufEnter,BufRead * let g:indentLine_enabled = 1
-    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
+    au BufEnter * let g:indentLine_enabled = 1
+    au BufEnter *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
 augroup end
 
 

@@ -28,7 +28,6 @@ set autoindent smartindent
 set tabstop=4 shiftwidth=4 softtabstop=4
 set wrap linebreak showbreak=>
 set expandtab smarttab
-set scrolloff=5
 set backspace=2
 set splitbelow splitright
 set noerrorbells novisualbell

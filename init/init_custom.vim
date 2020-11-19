@@ -45,10 +45,10 @@ endfor
 
 augroup specialquote
     autocmd!
-    au BufEnter,BufRead *      let g:last_spec = []         | let g:next_spec = []
-    au BufEnter,BufRead *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
-    au BufEnter,BufRead *.lisp let g:last_spec = []         | let g:next_spec = ["("]
-    au BufEnter,BufRead *.vim  let g:last_spec = [""]       | let g:next_spec = []
+    au BufEnter *      let g:last_spec = []         | let g:next_spec = []
+    au BufEnter *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
+    au BufEnter *.lisp let g:last_spec = []         | let g:next_spec = ["("]
+    au BufEnter *.vim  let g:last_spec = [""]       | let g:next_spec = []
 augroup end
 
 function! IsEncompByPair(pair_dict)
@@ -112,7 +112,8 @@ endfunction
 """ Auto groups
 augroup filetypesbehave
     autocmd!
-    au BufEnter *.md,*.org,*.yml setlocal ts=2 sw=2 sts=2 nowrap nolinebreak
+    au BufEnter * setlocal so=5
+    au BufEnter *.md,*.org,*.yml setlocal ts=2 sw=2 sts=2 so=999 nowrap nolinebreak
     au BufEnter *.cs,*.pde,*.tex,*.java,*.lisp setlocal ts=2 sw=2 sts=2
 augroup end
 
