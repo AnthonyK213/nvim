@@ -130,8 +130,8 @@ let g:indentLine_char = '¦'
 let g:indentLine_setConceal = 1
 augroup indentline
     autocmd!
-    au BufEnter * let g:indentLine_enabled = 1
-    au BufEnter *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
+    au BufEnter,BufRead * let g:indentLine_enabled = 1
+    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
 augroup end
 
 
