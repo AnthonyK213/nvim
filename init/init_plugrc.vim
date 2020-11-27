@@ -1,9 +1,6 @@
-""" Colorscheme
-" Colorscheme Onedark
+""" Onedark
 colorscheme onedark
-" Colorscheme One
-"colorscheme one
-"let g:airline_theme='one'
+let g:airline_theme = 'onedark'
 
 
 """ NERDTree
@@ -37,11 +34,11 @@ let g:signify_sign_change            = '~'
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
 " <leader> h* -> h(unk)
-nnoremap <silent> <leader>ht :SignifyToggle<CR>
 nmap <leader>hj <plug>(signify-next-hunk)
 nmap <leader>hk <plug>(signify-prev-hunk)
 nmap <leader>hJ 9999<plug>(signify-next-hunk)
 nmap <leader>hK 9999<plug>(signify-prev-hunk)
+nnoremap <silent> <leader>ht :SignifyToggle<CR>
 
 
 """ vim-airline
@@ -51,30 +48,17 @@ let g:airline#extensions#branch#enabled  = 1
 let g:airline_symbols = {}
 let g:airline_symbols.branch = ''
 " Separators
-"     ;     ;    
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
-"let g:airline_right_sep = ''
-"let g:airline_right_alt_sep = ''
-"let g:airline#extensions#tabline#left_sep = ''
-"let g:airline#extensions#tabline#left_alt_sep = ''
-"let g:airline#extensions#tabline#right_sep = ''
-"let g:airline#extensions#tabline#right_alt_sep = ''
 " Tab
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-" Color
-let g:airline_theme = 'onedark'
 
 
 """ vim-markdown
-let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_math = 1
 let g:vim_markdown_autowrite = 1
 let g:vim_markdown_folding_disabled = 1
-"let g:vim_markdown_override_foldtext = 0
-"let g:vim_markdown_folding_level = 6
-"let g:vim_markdown_no_default_key_mappings = 1
-"let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 2
 " <leader> m* -> m(arkdown)
 nnoremap <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nnoremap <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
@@ -94,7 +78,7 @@ let g:mkdp_preview_options = {
     \ 'sequence_diagrams': {},
     \ 'flowchart_diagrams': {},
     \ 'content_editable': v:false
-    \ }
+  \ }
 
 
 """ vim-table-mode

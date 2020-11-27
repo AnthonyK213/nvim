@@ -4,7 +4,30 @@ Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 
-"" deoplete
+
+" One
+colorscheme one
+let g:airline_theme='one'
+
+
+""" vim-airline
+"     ;     ;    
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
+
+
+""" vim-markdown
+let g:vim_markdown_override_foldtext = 0
+let g:vim_markdown_folding_level = 6
+let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_auto_insert_bullets = 0
+
+
+""" deoplete
 let g:deoplete#enable_at_startup=1
 set completeopt-=preview
 
