@@ -97,6 +97,16 @@ function! PairQuote(quote)
     endif
 endfunction
 
+" Surround.
+function! Sele_Surround(quote_a, quote_b)
+    let [ln_stt, co_stt] = getpos("'<")[1:2]
+    let [ln_end, co_end] = getpos("'>")[1:2]
+    call setpos('.', [0, ln_end, co_end])
+    exe "normal! a" . a:quote_b
+    call setpos('.', [0, ln_stt, co_stt])
+    exe "normal! i" . a:quote_a
+endfunction
+
 " Hanzi count.
 function! HanziCount(mode)
     if a:mode ==? "n"
@@ -186,6 +196,18 @@ inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
 inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
 inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
+vnoremap <silent> <leader>ei :<C-u>call Sele_Surround("`", "`")<CR>
+vnoremap <silent> <leader>ep :<C-u>call Sele_Surround("*", "*")<CR>
+vnoremap <silent> <leader>eb :<C-u>call Sele_Surround("**", "**")<CR>
+vnoremap <silent> <leader>em :<C-u>call Sele_Surround("***", "***")<CR>
+" Surround; <leader> e* -> e(ncompass)
+vnoremap <silent> <leader>e( :<C-u>call Sele_Surround("(", ")")<CR>
+vnoremap <silent> <leader>e[ :<C-u>call Sele_Surround("[", "]")<CR>
+vnoremap <silent> <leader>e{ :<C-u>call Sele_Surround("{", "}")<CR>
+vnoremap <silent> <leader>e' :<C-u>call Sele_Surround("'", "'")<CR>
+vnoremap <silent> <leader>e" :<C-u>call Sele_Surround("\"", "\"")<CR>
+vnoremap <silent> <leader>e{ :<C-u>call Sele_Surround("<", ">")<CR>
+vnoremap <silent> <leader>e$ :<C-u>call Sele_Surround("$", "$")<CR>
 " Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
 vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
