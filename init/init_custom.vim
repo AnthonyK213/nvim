@@ -200,6 +200,7 @@ vnoremap <silent> <M-p> :<C-u>call Sele_Surround("`", "`")<CR>
 vnoremap <silent> <M-i> :<C-u>call Sele_Surround("*", "*")<CR>
 vnoremap <silent> <M-b> :<C-u>call Sele_Surround("**", "**")<CR>
 vnoremap <silent> <M-m> :<C-u>call Sele_Surround("***", "***")<CR>
+vnoremap <silent> <M-u> :<C-u>call Sele_Surround("<u>", "</u>")<CR>
 " Surround; <leader> e* -> e(ncompass)
 vnoremap <silent> <leader>e( :<C-u>call Sele_Surround("(", ")")<CR>
 vnoremap <silent> <leader>e[ :<C-u>call Sele_Surround("[", "]")<CR>
