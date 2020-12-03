@@ -196,8 +196,8 @@ inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
 inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
 inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
-vnoremap <silent> <leader>ei :<C-u>call Sele_Surround("`", "`")<CR>
-vnoremap <silent> <leader>ep :<C-u>call Sele_Surround("*", "*")<CR>
+vnoremap <silent> <leader>ep :<C-u>call Sele_Surround("`", "`")<CR>
+vnoremap <silent> <leader>ei :<C-u>call Sele_Surround("*", "*")<CR>
 vnoremap <silent> <leader>eb :<C-u>call Sele_Surround("**", "**")<CR>
 vnoremap <silent> <leader>em :<C-u>call Sele_Surround("***", "***")<CR>
 " Surround; <leader> e* -> e(ncompass)
