@@ -70,10 +70,10 @@ inoremap <M-`> <Esc>:call Term()<CR>i
 " Windows-like behaviors
 " Save
 nnoremap <silent> <C-s> :w<CR>
-inoremap <silent> <C-s> <Esc>:w<CR>a
+inoremap <silent> <C-s> <C-o>:w<CR>
 " Undo
 nnoremap <silent> <C-z> u
-inoremap <silent> <C-z> <Esc>ua
+inoremap <silent> <C-z> <C-o>u
 " Copy/Paste
 vnoremap <silent> <M-c> "+y
 vnoremap <silent> <M-x> "+x
