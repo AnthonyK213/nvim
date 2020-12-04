@@ -34,6 +34,7 @@ set noerrorbells novisualbell
 set winaltkeys=no
 set history=500
 set updatetime=300
+set notimeout nottimeout
 
 " Search
 set hlsearch incsearch

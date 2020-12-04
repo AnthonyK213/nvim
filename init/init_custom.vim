@@ -207,7 +207,7 @@ vnoremap <silent> <leader>e[ :<C-u>call Sele_Surround("[", "]")<CR>
 vnoremap <silent> <leader>e{ :<C-u>call Sele_Surround("{", "}")<CR>
 vnoremap <silent> <leader>e' :<C-u>call Sele_Surround("'", "'")<CR>
 vnoremap <silent> <leader>e" :<C-u>call Sele_Surround("\"", "\"")<CR>
-vnoremap <silent> <leader>e{ :<C-u>call Sele_Surround("<", ">")<CR>
+vnoremap <silent> <leader>e< :<C-u>call Sele_Surround("<", ">")<CR>
 vnoremap <silent> <leader>e$ :<C-u>call Sele_Surround("$", "$")<CR>
 " Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
