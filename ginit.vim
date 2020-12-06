@@ -8,5 +8,5 @@ set mouse=a
 set title
 :GuiTabline   0
 :GuiPopupmenu 0
-:GuiLinespace 0
+:GuiLinespace -2
 :GuiFont! 等距更纱黑体\ SC:h10
