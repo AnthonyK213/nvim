@@ -5,8 +5,8 @@ lcd %:p:h
 set mouse=a
 
 " GUI
-set title
+"set title
 :GuiTabline   0
 :GuiPopupmenu 0
-:GuiLinespace -2
+:GuiLinespace 0
 :GuiFont! 等距更纱黑体\ SC:h10
