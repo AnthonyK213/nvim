@@ -98,7 +98,7 @@ function! PairQuote(quote)
 endfunction
 
 " Surround.
-function! Sele_Surround(quote_a, quote_b)
+function! SelSurrnd(quote_a, quote_b)
     let [ln_stt, co_stt] = getpos("'<")[1:2]
     let [ln_end, co_end] = getpos("'>")[1:2]
     call setpos('.', [0, ln_end, co_end])
@@ -196,19 +196,19 @@ inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
 inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
 inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
-vnoremap <silent> <M-p> :<C-u>call Sele_Surround("`", "`")<CR>
-vnoremap <silent> <M-i> :<C-u>call Sele_Surround("*", "*")<CR>
-vnoremap <silent> <M-b> :<C-u>call Sele_Surround("**", "**")<CR>
-vnoremap <silent> <M-m> :<C-u>call Sele_Surround("***", "***")<CR>
-vnoremap <silent> <M-u> :<C-u>call Sele_Surround("<u>", "</u>")<CR>
+vnoremap <silent> <M-p> :<C-u>call SelSurrnd("`", "`")<CR>
+vnoremap <silent> <M-i> :<C-u>call SelSurrnd("*", "*")<CR>
+vnoremap <silent> <M-b> :<C-u>call SelSurrnd("**", "**")<CR>
+vnoremap <silent> <M-m> :<C-u>call SelSurrnd("***", "***")<CR>
+vnoremap <silent> <M-u> :<C-u>call SelSurrnd("<u>", "</u>")<CR>
 " Surround; <leader> e* -> e(ncompass)
-vnoremap <silent> <leader>e( :<C-u>call Sele_Surround("(", ")")<CR>
-vnoremap <silent> <leader>e[ :<C-u>call Sele_Surround("[", "]")<CR>
-vnoremap <silent> <leader>e{ :<C-u>call Sele_Surround("{", "}")<CR>
-vnoremap <silent> <leader>e' :<C-u>call Sele_Surround("'", "'")<CR>
-vnoremap <silent> <leader>e" :<C-u>call Sele_Surround("\"", "\"")<CR>
-vnoremap <silent> <leader>e< :<C-u>call Sele_Surround("<", ">")<CR>
-vnoremap <silent> <leader>e$ :<C-u>call Sele_Surround("$", "$")<CR>
+vnoremap <silent> <leader>e( :<C-u>call SelSurrnd("(", ")")<CR>
+vnoremap <silent> <leader>e[ :<C-u>call SelSurrnd("[", "]")<CR>
+vnoremap <silent> <leader>e{ :<C-u>call SelSurrnd("{", "}")<CR>
+vnoremap <silent> <leader>e' :<C-u>call SelSurrnd("'", "'")<CR>
+vnoremap <silent> <leader>e" :<C-u>call SelSurrnd("\"", "\"")<CR>
+vnoremap <silent> <leader>e< :<C-u>call SelSurrnd("<", ">")<CR>
+vnoremap <silent> <leader>e$ :<C-u>call SelSurrnd("$", "$")<CR>
 " Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
 vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
