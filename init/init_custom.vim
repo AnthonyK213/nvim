@@ -188,11 +188,14 @@ inoremap <silent>   {   <C-r>=PairMates("{")<CR>
 inoremap <silent>   )   <C-r>=PairClose(")")<CR>
 inoremap <silent>   ]   <C-r>=PairClose("]")<CR>
 inoremap <silent>   }   <C-r>=PairClose("}")<CR>
+inoremap <silent>   '   <C-r>=PairQuote("'")<CR>
 inoremap <silent>   "   <C-r>=PairQuote("\"")<CR>
 augroup pair_type
     autocmd!
-    au BufEnter * inoremap <silent> ' <C-r>=PairQuote("'")<CR>
-    au BufEnter *.el,*.lisp iunmap '
+    au BufEnter *.el,*.lisp  iunmap '
+    au BufLeave *.el,*.lisp  inoremap <silent> ' <C-r>=PairQuote("'")<CR>
+    au BufEnter *.xml,*.html inoremap <silent> < <C-r>=PairMates("<")<CR>
+    au BufLeave *.xml,*.html iunmap <
 augroup end
 " Markdown
 inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
