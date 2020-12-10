@@ -43,11 +43,10 @@ for [key, value] in items(g:usr_pairs)
     if key ==# value | let g:usr_quote += [key] | endif
 endfor
 
-augroup specialquote
+augroup pair_special
     autocmd!
     au BufEnter *      let g:last_spec = []         | let g:next_spec = []
     au BufEnter *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
-    au BufEnter *.lisp let g:last_spec = []         | let g:next_spec = ["("]
     au BufEnter *.vim  let g:last_spec = [""]       | let g:next_spec = []
 augroup end
 
@@ -132,7 +131,7 @@ endfunction
 
 
 """ Auto groups
-augroup filetypesbehave
+augroup filetype_behave
     autocmd!
     au BufEnter * setlocal so=5
     au BufEnter *.md,*.org,*.yml setlocal ts=2 sw=2 sts=2 so=999 nowrap nolinebreak
@@ -189,8 +188,12 @@ inoremap <silent>   {   <C-r>=PairMates("{")<CR>
 inoremap <silent>   )   <C-r>=PairClose(")")<CR>
 inoremap <silent>   ]   <C-r>=PairClose("]")<CR>
 inoremap <silent>   }   <C-r>=PairClose("}")<CR>
-inoremap <silent>   '   <C-r>=PairQuote("'")<CR>
 inoremap <silent>   "   <C-r>=PairQuote("\"")<CR>
+augroup pair_type
+    autocmd!
+    au BufEnter * inoremap <silent> ' <C-r>=PairQuote("'")<CR>
+    au BufEnter *.el,*.lisp iunmap '
+augroup end
 " Markdown
 inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>

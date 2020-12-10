@@ -4,7 +4,7 @@ let g:airline_theme = 'onedark'
 
 
 """ NERDTree
-augroup nerdtreebehave
+augroup nerdtree_behave
     autocmd!
     " Open NERDTree automatically when vim starts up on opening a directory
     autocmd StdinReadPre * let s:std_in = 1
