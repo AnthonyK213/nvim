@@ -38,12 +38,14 @@
 ``` vim
 source <sfile>:h/init/init_plugin.vim    " Vim-plug load plug-ins.
 source <sfile>:h/init/init_basics.vim    " A simple configuration with no dependencies.
-source <sfile>:h/init/init_custom.vim    " Custom functions(key mappings, auto pairing, etc.)
 source <sfile>:h/init/init_fn_lib.vim    " Public function library.
+source <sfile>:h/init/init_custom.vim    " Custom functions(key mappings, auto pairing, etc.)
 source <sfile>:h/init/init_depend.vim    " External cross-platform dependencies(Git, LaTex, etc.).
 source <sfile>:h/init/init_depwin.vim    " External dependencies(Microsoft Windows).
 source <sfile>:h/init/init_depwsl.vim    " External dependencies(Windows Subsystem for Linux).
 source <sfile>:h/init/init_plugrc.vim    " Configurations of plug-ins.(load plugin at first)
 source <sfile>:h/init/init_subsrc.vim    " When don't want to use plug-ins.(conflict with plugrc)
-source <sfile>:h/themes/one_dark.vim     " Color schemes.(conflict with plugrc)
+" Color schemes.(conflict with plugrc)
+source <sfile>:h/themes/one_dark.vim
+source <sfile>:h/themes/monokai.vim
 ```

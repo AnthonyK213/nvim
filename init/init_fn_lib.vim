@@ -77,36 +77,13 @@ function! Lib_Get_Visual_Selection()
 endfunction
 
 
-""" String in url format.
-function! Lib_Url_Format(str)
+""" Replace chars in a string according to a dictionary.
+function! Lib_Str_Escape(str, esc_dict)
     let str_lst = split(a:str, '.\zs')
-    let esc_dict = {
-        \ " " : "\\\%20",
-        \ "\"": "\\\%22",
-        \ "#" : "\\\%23",
-        \ "%" : "\\\%25",
-        \ "&" : "\\\%26",
-        \ "(" : "\\\%28",
-        \ ")" : "\\\%29",
-        \ "+" : "\\\%2B",
-        \ "," : "\\\%2C",
-        \ "/" : "\\\%2F",
-        \ ":" : "\\\%3A",
-        \ ";" : "\\\%3B",
-        \ "<" : "\\\%3C",
-        \ "=" : "\\\%3D",
-        \ ">" : "\\\%3E",
-        \ "?" : "\\\%3F",
-        \ "@" : "\\\%40",
-        \ "\\": "\\\%5C",
-        \ "|" : "\\\%7C",
-        \ "\n": "\\\%20",
-        \ "\r": "\\\%20"
-      \ }
     let i = 0
     for char in str_lst
-        if has_key(esc_dict, char)
-            let str_lst[i] = esc_dict[char]
+        if has_key(a:esc_dict, char)
+            let str_lst[i] = a:esc_dict[char]
         endif
         let i = i + 1
     endfor

@@ -35,10 +35,33 @@ function! SearchWeb(mode, site)
     let mode = a:mode
     let site = a:site
     let del_list = [".", ",", "'", "\"", ";", "*", "~", "`", "(", ")", "[", "]", "{", "}"]
+    let esc_url = {
+        \ " " : "\\\%20",
+        \ "\"": "\\\%22",
+        \ "#" : "\\\%23",
+        \ "%" : "\\\%25",
+        \ "&" : "\\\%26",
+        \ "(" : "\\\%28",
+        \ ")" : "\\\%29",
+        \ "+" : "\\\%2B",
+        \ "," : "\\\%2C",
+        \ "/" : "\\\%2F",
+        \ ":" : "\\\%3A",
+        \ ";" : "\\\%3B",
+        \ "<" : "\\\%3C",
+        \ "=" : "\\\%3D",
+        \ ">" : "\\\%3E",
+        \ "?" : "\\\%3F",
+        \ "@" : "\\\%40",
+        \ "\\": "\\\%5C",
+        \ "|" : "\\\%7C",
+        \ "\n": "\\\%20",
+        \ "\r": "\\\%20"
+      \ }
     if mode ==? "word"
-        let search_obj = Lib_Url_Format(Lib_Get_Clean_CWORD(del_list))
+        let search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(del_list), esc_url)
     elseif mode ==? "sele"
-        let search_obj = Lib_Url_Format(Lib_Get_Visual_Selection())
+        let search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), esc_url)
     else
         echom "Invalid mode argument."
     endif

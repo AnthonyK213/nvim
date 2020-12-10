@@ -15,6 +15,18 @@ let g:usr_pairs = {
     \ "<"  : ">",
     \ "$"  : "$"
   \ }
+let pair_map_dic = {
+    \ "("   : "Mates",
+    \ "["   : "Mates",
+    \ "{"   : "Mates",
+    \ ")"   : "Close",
+    \ "]"   : "Close",
+    \ "}"   : "Close",
+    \ "'"   : "Quote",
+    \ "\""  : "Quote",
+    \ "<CR>": "Enter",
+    \ "<BS>": "Backs"
+  \ }
 " Directories
 if !empty(glob(expand('$ONEDRIVE')))
     let g:onedrive_path = expand('$ONEDRIVE')
@@ -94,6 +106,18 @@ function! PairQuote(quote)
     else
         return a:quote . a:quote . "\<C-g>U\<Left>"
     endif
+endfunction
+
+function! PairMkMap(key, fn)
+    if a:key ==? "<CR>" || a:key ==? "<BS>"
+        let key = ""
+    else
+        let esc_quote = {
+            \ "\"": "\\\""
+          \ }
+        let key = "\"" . Lib_Str_Escape(a:key, esc_quote) . "\""
+    endif
+    exe 'inoremap <silent> ' . a:key . ' <C-r>=Pair' . a:fn . '(' . key . ')<CR>'
 endfunction
 
 " Surround.
@@ -180,22 +204,13 @@ nnoremap <silent> <leader>se :set nospell<CR>
 nnoremap <silent> <F2> :call MouseToggle()<CR>
 " Pairs
 " <CR> could be remapped by other plugin.
-inoremap <silent>  <CR> <C-r>=PairEnter()<CR>
-inoremap <silent>  <BS> <C-r>=PairBacks()<CR>
-inoremap <silent>   (   <C-r>=PairMates("(")<CR>
-inoremap <silent>   [   <C-r>=PairMates("[")<CR>
-inoremap <silent>   {   <C-r>=PairMates("{")<CR>
-inoremap <silent>   )   <C-r>=PairClose(")")<CR>
-inoremap <silent>   ]   <C-r>=PairClose("]")<CR>
-inoremap <silent>   }   <C-r>=PairClose("}")<CR>
-inoremap <silent>   '   <C-r>=PairQuote("'")<CR>
-inoremap <silent>   "   <C-r>=PairQuote("\"")<CR>
+for [key, fn] in items(pair_map_dic) | call PairMkMap(key, fn) | endfor
 augroup pair_type
     autocmd!
-    au BufEnter *.el,*.lisp  iunmap '
-    au BufLeave *.el,*.lisp  inoremap <silent> ' <C-r>=PairQuote("'")<CR>
-    au BufEnter *.xml,*.html inoremap <silent> < <C-r>=PairMates("<")<CR>
-    au BufLeave *.xml,*.html iunmap <
+    au BufEnter *.el,*.lisp  exe "iunmap '"
+    au BufLeave *.el,*.lisp  call PairMkMap("'", "Quote")
+    au BufEnter *.xml,*.html call PairMkMap("<", "Mates") | call PairMkMap(">", "Close")
+    au BufLeave *.xml,*.html exe 'iunmap <' | exe 'iunmap >'
 augroup end
 " Markdown
 inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
