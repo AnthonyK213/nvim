@@ -15,7 +15,7 @@ let g:usr_pairs = {
     \ "<"  : ">",
     \ "$"  : "$"
   \ }
-let pair_map_dic = {
+let g:pair_map_dic = {
     \ "("   : "Mates",
     \ "["   : "Mates",
     \ "{"   : "Mates",
@@ -27,6 +27,8 @@ let pair_map_dic = {
     \ "<CR>": "Enter",
     \ "<BS>": "Backs"
   \ }
+" Surround. Elements should be able to be found in usr_pairs.
+let g:sur_list = ["(", "[", "{", "'", "\"", "<", "$"]
 " Directories
 if !empty(glob(expand('$ONEDRIVE')))
     let g:onedrive_path = expand('$ONEDRIVE')
@@ -35,6 +37,10 @@ else
     let g:onedrive_path = expand('$HOME')
     let g:usr_desktop = expand('$HOME/Desktop')
 endif
+" Quote escape.
+let g:esc_quote = {
+    \ "\"": "\\\""
+  \ }
 
 
 """ Functions
@@ -112,10 +118,7 @@ function! PairMkMap(key, fn)
     if a:key ==? "<CR>" || a:key ==? "<BS>"
         let key = ""
     else
-        let esc_quote = {
-            \ "\"": "\\\""
-          \ }
-        let key = "\"" . Lib_Str_Escape(a:key, esc_quote) . "\""
+        let key = "\"" . Lib_Str_Escape(a:key, g:esc_quote) . "\""
     endif
     exe 'inoremap <silent> ' . a:key . ' <C-r>=Pair' . a:fn . '(' . key . ')<CR>'
 endfunction
@@ -128,6 +131,12 @@ function! SelSurrnd(quote_a, quote_b)
     exe "normal! a" . a:quote_b
     call setpos('.', [0, ln_stt, co_stt])
     exe "normal! i" . a:quote_a
+endfunction
+
+function! SurrndMap(key)
+    let key = "\"" . Lib_Str_Escape(a:key, g:esc_quote) . "\", "
+    let val = "\"" . Lib_Str_Escape(g:usr_pairs[a:key], g:esc_quote) . "\""
+    exe 'vnoremap <silent> <leader>e' . a:key . ' :<C-u>call SelSurrnd(' . key . val . ')<CR>'
 endfunction
 
 " Hanzi count.
@@ -204,7 +213,7 @@ nnoremap <silent> <leader>se :set nospell<CR>
 nnoremap <silent> <F2> :call MouseToggle()<CR>
 " Pairs
 " <CR> could be remapped by other plugin.
-for [key, fn] in items(pair_map_dic) | call PairMkMap(key, fn) | endfor
+for [key, fn] in items(g:pair_map_dic) | call PairMkMap(key, fn) | endfor
 augroup pair_type
     autocmd!
     au BufEnter *.el,*.lisp  exe "iunmap '"
@@ -212,7 +221,9 @@ augroup pair_type
     au BufEnter *.xml,*.html call PairMkMap("<", "Mates") | call PairMkMap(">", "Close")
     au BufLeave *.xml,*.html exe 'iunmap <' | exe 'iunmap >'
 augroup end
-" Markdown
+" Surround; <leader> e* -> e(ncompass)
+for item in g:sur_list | call SurrndMap(item) | endfor
+" Markdown pair & surround
 inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
 inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
 inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
@@ -222,14 +233,6 @@ vnoremap <silent> <M-i> :<C-u>call SelSurrnd("*", "*")<CR>
 vnoremap <silent> <M-b> :<C-u>call SelSurrnd("**", "**")<CR>
 vnoremap <silent> <M-m> :<C-u>call SelSurrnd("***", "***")<CR>
 vnoremap <silent> <M-u> :<C-u>call SelSurrnd("<u>", "</u>")<CR>
-" Surround; <leader> e* -> e(ncompass)
-vnoremap <silent> <leader>e( :<C-u>call SelSurrnd("(", ")")<CR>
-vnoremap <silent> <leader>e[ :<C-u>call SelSurrnd("[", "]")<CR>
-vnoremap <silent> <leader>e{ :<C-u>call SelSurrnd("{", "}")<CR>
-vnoremap <silent> <leader>e' :<C-u>call SelSurrnd("'", "'")<CR>
-vnoremap <silent> <leader>e" :<C-u>call SelSurrnd("\"", "\"")<CR>
-vnoremap <silent> <leader>e< :<C-u>call SelSurrnd("<", ">")<CR>
-vnoremap <silent> <leader>e$ :<C-u>call SelSurrnd("$", "$")<CR>
 " Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
 vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
