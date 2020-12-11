@@ -15,7 +15,7 @@ let g:usr_pairs = {
     \ "<"  : ">",
     \ "$"  : "$"
   \ }
-let g:pair_map_dic = {
+let g:pair_map_dict = {
     \ "("   : "Mates",
     \ "["   : "Mates",
     \ "{"   : "Mates",
@@ -27,8 +27,22 @@ let g:pair_map_dic = {
     \ "<CR>": "Enter",
     \ "<BS>": "Backs"
   \ }
+" Pair special quotes.
+augroup pair_special
+    autocmd!
+    au BufEnter *      let g:last_spec = []         | let g:next_spec = []
+    au BufEnter *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
+    au BufEnter *.vim  let g:last_spec = [""]       | let g:next_spec = []
+augroup end
 " Surround. Elements should be able to be found in usr_pairs.
 let g:sur_list = ["(", "[", "{", "'", "\"", "<", "$"]
+" Markdown pairs
+let g:md_map_dict = {
+    \ "`"  : "p",
+    \ "*"  : "i",
+    \ "**" : "b",
+    \ "***": "m"
+  \ }
 " Directories
 if !empty(glob(expand('$ONEDRIVE')))
     let g:onedrive_path = expand('$ONEDRIVE')
@@ -60,13 +74,6 @@ let g:usr_quote = []
 for [key, value] in items(g:usr_pairs)
     if key ==# value | let g:usr_quote += [key] | endif
 endfor
-
-augroup pair_special
-    autocmd!
-    au BufEnter *      let g:last_spec = []         | let g:next_spec = []
-    au BufEnter *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
-    au BufEnter *.vim  let g:last_spec = [""]       | let g:next_spec = []
-augroup end
 
 function! IsEncompByPair(pair_dict)
     return index(items(a:pair_dict), [Lib_Get_Char(0), Lib_Get_Char(1)]) >= 0
@@ -163,7 +170,7 @@ function! HanziCount(mode)
 endfunction
 
 
-""" Auto groups
+""" Filetype behave
 augroup filetype_behave
     autocmd!
     au BufEnter * setlocal so=5
@@ -213,7 +220,7 @@ nnoremap <silent> <leader>se :set nospell<CR>
 nnoremap <silent> <F2> :call MouseToggle()<CR>
 " Pairs
 " <CR> could be remapped by other plugin.
-for [key, fn] in items(g:pair_map_dic) | call PairMkMap(key, fn) | endfor
+for [key, fn] in items(g:pair_map_dict) | call PairMkMap(key, fn) | endfor
 augroup pair_type
     autocmd!
     au BufEnter *.el,*.lisp  exe "iunmap '"
@@ -224,14 +231,12 @@ augroup end
 " Surround; <leader> e* -> e(ncompass)
 for item in g:sur_list | call SurrndMap(item) | endfor
 " Markdown pair & surround
-inoremap <silent> <M-p> <C-r>=PairMates("`")<CR>
-inoremap <silent> <M-i> <C-r>=PairMates("*")<CR>
-inoremap <silent> <M-b> <C-r>=PairMates("**")<CR>
-inoremap <silent> <M-m> <C-r>=PairMates("***")<CR>
-vnoremap <silent> <M-p> :<C-u>call SelSurrnd("`", "`")<CR>
-vnoremap <silent> <M-i> :<C-u>call SelSurrnd("*", "*")<CR>
-vnoremap <silent> <M-b> :<C-u>call SelSurrnd("**", "**")<CR>
-vnoremap <silent> <M-m> :<C-u>call SelSurrnd("***", "***")<CR>
+for [key, val] in items(g:md_list)
+    let head = 'noremap <silent> <M-' . val . '> '
+    let args = '"' . key . '", "' . g:usr_pairs[key] . '"'
+    exe 'i' . head . '<C-r>=PairMates("' . key . '")<CR>'
+    exe 'v' . head . ':<C-u>call SelSurrnd(' . args . ')<CR>'
+endfor
 vnoremap <silent> <M-u> :<C-u>call SelSurrnd("<u>", "</u>")<CR>
 " Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
