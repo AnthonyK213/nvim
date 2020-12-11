@@ -194,6 +194,9 @@ vnoremap <C-k> gk
 " Insert an orgmode-style timestamp at the end of the line
 nnoremap <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 " Meta
+" Emacs command line
+inoremap <M-x> <C-o>:
+nnoremap <M-x> :
 " Open .vimrc(init.vim)
 nnoremap <M-,> :tabnew $MYVIMRC<CR>
 " Terminal

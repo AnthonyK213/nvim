@@ -102,7 +102,7 @@ vnoremap <silent> <M-c> "+y
 vnoremap <silent> <M-x> "+x
 nnoremap <silent> <M-v> "+p
 vnoremap <silent> <M-v> "+p
-inoremap <silent> <M-v> <Esc>"+pa
+inoremap <silent> <M-v> <C-R>=@+<CR>
 " Select
 nnoremap <silent> <M-a> ggVG
 inoremap <silent> <M-a> <Esc>ggVG
