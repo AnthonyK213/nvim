@@ -231,7 +231,7 @@ augroup end
 " Surround; <leader> e* -> e(ncompass)
 for item in g:sur_list | call SurrndMap(item) | endfor
 " Markdown pair & surround
-for [key, val] in items(g:md_list)
+for [key, val] in items(g:md_map_dict)
     let head = 'noremap <silent> <M-' . val . '> '
     let args = '"' . key . '", "' . g:usr_pairs[key] . '"'
     exe 'i' . head . '<C-r>=PairMates("' . key . '")<CR>'
