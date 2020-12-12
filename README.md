@@ -30,23 +30,27 @@
     - `init_basics.vim`
       > Basic configuration without any dependencies.
     - `init_custom.vim`
-      > Include some functions and key maps.  
+      > Global variables and key maps.
+    - `init_deflib.vim`
+      > Public function library.
+  - Utilities
+    - `init_myutil.vim`
+      > External cross-platform dependencies(Git, LaTex, etc.);
       > Functions:
       > - Mouse toggle
-      > - Auto pairs
-      > - Surround
       > - Chinese character count
-    - `init_fn_lib.vim`
-      > Public function library.
-  - Cooperate with external dependencies
-    - `init_depend.vim`
-      > External cross-platform dependencies(Git, LaTex, etc.).
+    - `init_pairau.vim`
+      > Going to make it a decent plug-in.
+      > Functions:
+      > - Auto pairs
+      > - Pairs Surrounding
+    - `init_subsrc.vim`
+      > When don't want to use any plug-in.(conflict with plugrc)
+  - Platforms
     - `init_depwin.vim`
       > External dependencies(Microsoft Windows).
     - `init_depwsl.vim`
       > External dependencies(Windows Subsystem for Linux).
-    - `init_subsrc.vim`
-      > When don't want to use any plug-in.(conflict with plugrc)
   - Plug-ins
     - `init_plugin.vim`
       > Vim-plug load plug-ins.
@@ -59,14 +63,14 @@
 ## init.vim
 ``` vim
 source <sfile>:h/init/init_basics.vim
-source <sfile>:h/init/init_fn_lib.vim
 source <sfile>:h/init/init_custom.vim
-source <sfile>:h/init/init_depend.vim
+source <sfile>:h/init/init_deflib.vim
 source <sfile>:h/init/init_depwin.vim
-source <sfile>:h/init/init_aupair.vim
-source <sfile>:h/init/init_subsrc.vim
+source <sfile>:h/init/init_myutil.vim
+source <sfile>:h/init/init_pairau.vim
 "source <sfile>:h/init/init_plugin.vim
 "source <sfile>:h/init/init_plugrc.vim
+source <sfile>:h/init/init_subsrc.vim
 
 source <sfile>:h/themes/one_dark.vim
 "source <sfile>:h/themes/monokai.vim
