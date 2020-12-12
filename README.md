@@ -40,12 +40,12 @@
       > External dependencies(Windows Subsystem for Linux).
   - Utilities
     - `init_fnutil.vim`
-      > External cross-platform dependencies(Git, LaTex, etc.);
+      > External cross-platform dependencies(Git, LaTex, etc.);  
       > Functions:
       > - Mouse toggle
       > - Chinese character count
     - `init_ipairs.vim`
-      > Going to make it a decent plug-in.
+      > Going to make it a decent plug-in.  
       > Functions:
       > - Auto pairs
       > - Pairs Surrounding
@@ -56,7 +56,7 @@
     - `init_plugin.vim`
       > Vim-plug load plug-ins.
     - `init_plugrc.vim`
-      > Configurations of plug-ins.(source init_plugin at first)
+      > Configurations of plug-ins.(source init_plugin at first)  
       > Include:
       > - Netrw configuration
       > - Build-in completion
