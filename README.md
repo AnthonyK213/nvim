@@ -1,12 +1,12 @@
 # Neovim Configuration
 
 ## Dependencies
-* **Python**
-  > pip install pynvim  
-  > pip install neovim-remote
-* **Node.js**
+* **Node.js**(to use coc.nvim & markdown-preview)
   > npm install yarn -g  
   > npm install neovim -g
+* **Python**(to use vim-orgmode)
+  > pip install pynvim  
+  > pip install neovim-remote
 * **vim-plug**
   - Windows
     - Set plug.vim into
