@@ -1,5 +1,39 @@
-""" Functions
-" Latex recipes (alternative)
+" Functions
+"" Mouse toggle
+function! MouseToggle()
+    if &mouse == 'a'
+        set mouse=
+        echom "Mouse disabled"
+    else
+        set mouse=a
+        echom "Mouse enabled"
+    endif
+endfunction
+
+"" Hanzi count.
+function! HanziCount(mode)
+    if a:mode ==? "n"
+        let content = readfile(expand('%:p'))
+        let h_count = 0
+        for line in content
+            for char in split(line, '.\zs')
+                if Lib_Is_Hanzi(char) | let h_count += 1 | endif
+            endfor
+        endfor
+        return h_count
+    elseif a:mode ==? "v"
+        let select = split(Lib_Get_Visual_Selection(), '.\zs')
+        let h_count = 0
+        for char in select
+            if Lib_Is_Hanzi(char) | let h_count += 1 | endif
+        endfor
+        return h_count
+    else
+        echom "Invalid mode argument."
+    endif
+endfunction
+
+"" Latex recipes (alternative)
 function! Xelatex()
     let name = expand('%:r')
     exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error ' . name . '.tex'
@@ -18,7 +52,7 @@ function! Biber()
     call Xelatex()
 endfunction
 
-" Git push all
+"" Git push all
 function! GitPushAll(...)
     let arg_list = a:000
     let git_root = Lib_Get_Git_Root()
@@ -52,7 +86,7 @@ function! GitPushAll(...)
     endif
 endfunction
 
-" Run code
+"" Run code
 function! RunOrCompile(option)
     let optn = a:option
     let size = 30
@@ -118,17 +152,26 @@ function! RunOrCompile(option)
 endfunction
 
 
-""" Commands
-" Latex
+" Key maps
+"" Echo git status: <leader> v* -> v(ersion control)
+nnoremap <silent> <leader>vs :!git status<CR>
+"" Mouse toggle
+nnoremap <silent> <F2> :call MouseToggle()<CR>
+"" Hanzi count; <leader> wc -> w(ord)c(ount)
+nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
+vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
+"" Insert an orgmode-style timestamp at the end of the line
+nnoremap <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
+
+
+" Commands
+"" Latex
 command! Xe1 call Xelatex()
 command! Xe2 call Xelatex2()
 command! Bib call Biber()
-" Git
+"" Git
 command! -nargs=* PushAll :call GitPushAll(<f-args>)
-" Run code
+"" Run code
 command! -nargs=? CodeRun :call RunOrCompile(<q-args>)
-
-
-" Echo git status
-" <leader> v* -> v(ersion control)
-nnoremap <silent> <leader>vs :!git status<CR>
+"" Echo time(May be useful in full screen?)
+command! Time :echo strftime('%Y-%m-%d %a %T')

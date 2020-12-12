@@ -1,4 +1,4 @@
-""" Create a below right split window.
+" Create a below right split window.
 function! Lib_Belowright_Split(height)
     let height = min([a:height, nvim_win_get_height(0) / 2])
     belowright split
@@ -6,7 +6,7 @@ function! Lib_Belowright_Split(height)
 endfunction
 
 
-""" Find the root directory of .git
+" Find the root directory of .git
 function! Lib_Get_Git_Root()
     let dir = expand('%:p:h')
     while 1
@@ -18,13 +18,13 @@ function! Lib_Get_Git_Root()
 endfunction
 
 
-""" Get the character around the cursor.
+" Get the character around the cursor.
 function! Lib_Get_Char(num) abort
     return matchstr(getline('.'), '\%' . (col('.') + a:num - 1) . 'c.')
 endfunction
 
 
-""" Determines whether a character is a letter or a symbol.
+" Determines whether a character is a letter or a symbol.
 function! Lib_Is_Word(char)
     let code = char2nr(a:char)
     if code > 128
@@ -41,7 +41,7 @@ function! Lib_Is_Word(char)
 endfunction
 
 
-""" Determines if a character is a Chinese character.
+" Determines if a character is a Chinese character.
 function! Lib_Is_Hanzi(char)
     let code = char2nr(a:char)
     if code >= 0x4E00 && code <= 0x9FA5
@@ -52,7 +52,7 @@ function! Lib_Is_Hanzi(char)
 endfunction
 
 
-""" Return the <cWORD> without the noisy characters.
+" Return the <cWORD> without the noisy characters.
 function! Lib_Get_Clean_CWORD(del_list)
     let c_word = expand("<cWORD>")
     while index(a:del_list, c_word[(len(c_word) - 1)]) >= 0 && len(c_word) >= 2
@@ -65,7 +65,7 @@ function! Lib_Get_Clean_CWORD(del_list)
 endfunction
 
 
-""" Return the selections as string.
+" Return the selections as string.
 function! Lib_Get_Visual_Selection()
     try
         let a_save = @a
@@ -77,7 +77,7 @@ function! Lib_Get_Visual_Selection()
 endfunction
 
 
-""" Replace chars in a string according to a dictionary.
+" Replace chars in a string according to a dictionary.
 function! Lib_Str_Escape(str, esc_dict)
     let str_lst = split(a:str, '.\zs')
     let i = 0
