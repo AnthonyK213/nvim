@@ -33,24 +33,24 @@
       > Global variables and key maps.
     - `init_deflib.vim`
       > Public function library.
+  - Platforms
+    - `init_depwin.vim`
+      > External dependencies(Microsoft Windows).
+    - `init_depwsl.vim`
+      > External dependencies(Windows Subsystem for Linux).
   - Utilities
-    - `init_myutil.vim`
+    - `init_fnutil.vim`
       > External cross-platform dependencies(Git, LaTex, etc.);
       > Functions:
       > - Mouse toggle
       > - Chinese character count
-    - `init_pairau.vim`
+    - `init_ipairs.vim`
       > Going to make it a decent plug-in.
       > Functions:
       > - Auto pairs
       > - Pairs Surrounding
     - `init_subsrc.vim`
       > When don't want to use any plug-in.(conflict with plugrc)
-  - Platforms
-    - `init_depwin.vim`
-      > External dependencies(Microsoft Windows).
-    - `init_depwsl.vim`
-      > External dependencies(Windows Subsystem for Linux).
   - Plug-ins
     - `init_plugin.vim`
       > Vim-plug load plug-ins.
