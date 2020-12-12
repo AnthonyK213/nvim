@@ -50,12 +50,16 @@
       > - Auto pairs
       > - Pairs Surrounding
     - `init_subsrc.vim`
-      > When don't want to use any plug-in.(conflict with plugrc)
+      > When don't want to use any plug-ins,
+      > this can be a simple substitute.
   - Plug-ins
     - `init_plugin.vim`
       > Vim-plug load plug-ins.
     - `init_plugrc.vim`
       > Configurations of plug-ins.(source init_plugin at first)
+      > Include:
+      > - Netrw configuration
+      > - Build-in completion
   - Color schemes
     - `onedark.vim`
     - `monokai.vim`
