@@ -1,8 +1,8 @@
-""" Python3 path
+" Python3 path
 let g:python3_host_prog=$HOME.'/Appdata/Local/Programs/Python/Python38/python.EXE'
 
 
-""" Ignore certain files and folders when globbing
+" Ignore certain files and folders when globbing
 set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
 set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
 set wildignore+=*.pyc
@@ -10,7 +10,7 @@ set wildignore+=*.DS_Store
 set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 
 
-""" Functions
+" Function
 function! Term()
     call Lib_Belowright_Split(15)
     terminal powershell.exe -nologo
@@ -81,36 +81,32 @@ function! SearchWeb(mode, site)
 endfunction
 
 
-""" Command
-command! -nargs=? -complete=file PDF :call PDFView(<f-args>)
-
-
-""" Key mapping
-" Terminal
+" Key maps
+"" Terminal
 nnoremap <M-`> :call Term()<CR>i
 inoremap <M-`> <Esc>:call Term()<CR>i
 
-" Windows-like behaviors
-" Save
+"" Windows-like behaviors
+""" Save
 nnoremap <silent> <C-s> :w<CR>
 inoremap <silent> <C-s> <C-o>:w<CR>
-" Undo
+""" Undo
 nnoremap <silent> <C-z> u
 inoremap <silent> <C-z> <C-o>u
-" Copy/Paste
+""" Copy/Paste
 vnoremap <silent> <M-c> "+y
 vnoremap <silent> <M-x> "+x
 nnoremap <silent> <M-v> "+p
 vnoremap <silent> <M-v> "+p
 inoremap <silent> <M-v> <C-R>=@+<CR>
-" Select
+""" Select
 nnoremap <silent> <M-a> ggVG
 inoremap <silent> <M-a> <Esc>ggVG
-" Explorer
+""" Explorer
 nnoremap <M-e> :call Expl()<CR>
 inoremap <M-e> <Esc>:call Expl()<CR>
-" Search cword in web browser
-" <leader> f* -> f(ind)
+
+"" Search cword in web browser; <leader> f* -> f(ind)
 nnoremap <silent> <leader>fb :call SearchWeb("word", "baidu")<CR>
 nnoremap <silent> <leader>fg :call SearchWeb("word", "google")<CR>
 nnoremap <silent> <leader>fh :call SearchWeb("word", "github")<CR>
@@ -119,3 +115,7 @@ vnoremap <silent> <leader>fb :<C-u>call SearchWeb("sele", "baidu")<CR>
 vnoremap <silent> <leader>fg :<C-u>call SearchWeb("sele", "google")<CR>
 vnoremap <silent> <leader>fh :<C-u>call SearchWeb("sele", "github")<CR>
 vnoremap <silent> <leader>fy :<C-u>call SearchWeb("sele", "youdao")<CR>
+
+
+" Command
+command! -nargs=? -complete=file PDF :call PDFView(<f-args>)

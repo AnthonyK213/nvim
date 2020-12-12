@@ -10,8 +10,8 @@ colorscheme one
 let g:airline_theme='one'
 
 
-""" vim-airline
-"     ;     ;    
+" vim-airline
+""     ;     ;    
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline#extensions#tabline#left_sep = ''
@@ -20,14 +20,14 @@ let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
 
 
-""" vim-markdown
+" vim-markdown
 let g:vim_markdown_override_foldtext = 0
 let g:vim_markdown_folding_level = 6
 let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_auto_insert_bullets = 0
 
 
-""" deoplete
+" deoplete
 let g:deoplete#enable_at_startup=1
 set completeopt-=preview
 
@@ -55,7 +55,7 @@ augroup remember_folds
     au BufWinEnter ?* silent! loadview 1
 augroup end
 
-""" signify
+" signify
 augroup signify
     autocmd!
     au BufEnter * let g:signify_disable_by_default = 0

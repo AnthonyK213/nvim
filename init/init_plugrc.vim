@@ -1,9 +1,9 @@
-""" Onedark
+" Onedark
 colorscheme onedark
 let g:airline_theme = 'onedark'
 
 
-""" NERDTree
+" NERDTree
 augroup nerdtree_behave
     autocmd!
     " Open NERDTree automatically when vim starts up on opening a directory
@@ -24,16 +24,16 @@ inoremap <silent> <M-n> <Esc>:NERDTreeFocus<CR>
 tnoremap <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
 
 
-""" signify
-" Signs
+" signify
+"" Signs
 let g:signify_sign_add               = '+'
 let g:signify_sign_delete            = '_'
 let g:signify_sign_delete_first_line = '‾'
 let g:signify_sign_change            = '~'
-" Disable the numbers disctracting
+"" Disable the numbers disctracting
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
-" <leader> h* -> h(unk)
+"" <leader> h* -> h(unk)
 nmap <leader>hj <plug>(signify-next-hunk)
 nmap <leader>hk <plug>(signify-prev-hunk)
 nmap <leader>hJ 9999<plug>(signify-next-hunk)
@@ -41,30 +41,30 @@ nmap <leader>hK 9999<plug>(signify-prev-hunk)
 nnoremap <silent> <leader>ht :SignifyToggle<CR>
 
 
-""" vim-airline
+" vim-airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled  = 1
-" Symbols
+"" Symbols
 let g:airline_symbols = {}
 let g:airline_symbols.branch = ''
-" Separators
+"" Separators
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
-" Tab
+"" Tab
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 
-""" vim-markdown
+" vim-markdown
 let g:vim_markdown_math = 1
 let g:vim_markdown_autowrite = 1
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 2
-" <leader> m* -> m(arkdown)
+"" <leader> m* -> m(arkdown)
 nnoremap <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nnoremap <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
 
 
-""" markdown preview
+" markdown preview
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_preview_options = {
@@ -81,19 +81,19 @@ let g:mkdp_preview_options = {
   \ }
 
 
-""" vim-table-mode
+" vim-table-mode
 augroup vimtable
     autocmd!
     au BufEnter *    let g:table_mode_corner = '+'
     au BufEnter *.md let g:table_mode_corner = '|'
 augroup end
-" <leader> t* -> t(able-mode)
+"" <leader> t* -> t(able-mode)
 nnoremap <silent> <leader>tf :TableModeRealign<CR>
 nnoremap <silent> <leader>ta :TableAddFormula<CR>
 nnoremap <silent> <leader>tc :TableEvalFormulaLine<CR>
 
 
-""" vimtex
+" vimtex
 let g:tex_flavor = 'latex'
 let g:vimtex_view_general_viewer = 'SumatraPDF'
 let g:vimtex_view_general_options
@@ -102,14 +102,14 @@ let g:vimtex_view_general_options_latexmk = '-reuse-instance'
 let g:vimtex_compiler_progname = 'nvr'
 
 
-""" vim-orgmode
+" vim-orgmode
 "let g:org_indent=2
 let agenda_path = expand(g:onedrive_path . "/Documents/Agenda/Agenda.org")
 let g:org_agenda_files = [agenda_path]
 command! OrgAgenda :exe ":tabnew " . agenda_path
 
 
-""" IndentLine
+" IndentLine
 let g:indentLine_char = '¦'
 let g:indentLine_setConceal = 1
 augroup indentline
@@ -119,7 +119,7 @@ augroup indentline
 augroup end
 
 
-""" Coc.nvim
+" Coc.nvim
 let g:coc_global_extentions = [
     "\ 'coc-pairs',
     \ 'coc-python',
@@ -127,7 +127,7 @@ let g:coc_global_extentions = [
     \ 'coc-vimtex'
   \ ]
 
-" Coc functions
+"" Coc functions
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'

@@ -43,7 +43,7 @@ let g:pairs_md_map = {
   \ }
 
 "" Pair special quotes.
-augroup pair_special
+augroup pairs_special
     autocmd!
     au BufEnter *      let g:last_spec = []         | let g:next_spec = []
     au BufEnter *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
@@ -137,10 +137,10 @@ function! SurrndMap(key)
 endfunction
 
 
-" Key mapping
+" Key maps
 "" <CR> could be remapped by other plugin.
 for [key, fn] in items(g:pairs_common_map) | call PairMkMap(key, fn) | endfor
-augroup pair_type
+augroup pairs_filetype
     autocmd!
     au BufEnter *.el,*.lisp  exe "iunmap '"
     au BufLeave *.el,*.lisp  call PairMkMap("'", "Quote")

@@ -1,4 +1,4 @@
-""" Load plugins
+" Load plugins
 call plug#begin(stdpath('data').'/plugged')
     Plug 'joshdick/onedark.vim'
     Plug 'vim-airline/vim-airline'
