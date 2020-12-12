@@ -66,8 +66,8 @@ source <sfile>:h/init/init_basics.vim
 source <sfile>:h/init/init_custom.vim
 source <sfile>:h/init/init_deflib.vim
 source <sfile>:h/init/init_depwin.vim
-source <sfile>:h/init/init_myutil.vim
-source <sfile>:h/init/init_pairau.vim
+source <sfile>:h/init/init_fnutil.vim
+source <sfile>:h/init/init_ipairs.vim
 "source <sfile>:h/init/init_plugin.vim
 "source <sfile>:h/init/init_plugrc.vim
 source <sfile>:h/init/init_subsrc.vim
