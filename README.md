@@ -57,7 +57,7 @@
     - `init_plugrc.vim`
       > Configurations of plug-ins.(source init_plugin at first)
   - Color schemes
-    - `one_dark.vim`
+    - `onedark.vim`
     - `monokai.vim`
 
 ## init.vim
@@ -72,6 +72,6 @@ source <sfile>:h/init/init_ipairs.vim
 "source <sfile>:h/init/init_plugrc.vim
 source <sfile>:h/init/init_subsrc.vim
 
-source <sfile>:h/themes/one_dark.vim
-"source <sfile>:h/themes/monokai.vim
+"source <sfile>:h/scheme/onedark.vim
+"source <sfile>:h/scheme/monokai.vim
 ```

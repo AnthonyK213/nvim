@@ -1,5 +1,4 @@
 {
-    //"pairs.enableCharacters": ["(", "[", "{", "'", "\""],
     "suggest.timeout": 500,
     "coc.preferences.formatOnType": true
 }
