@@ -148,7 +148,7 @@ function! s:ipairs_def_map(key, fn)
     else
         let key = "\"" . s:ipairs_str_escape(a:key) . "\""
     endif
-    exe 'inoremap <silent> ' . a:key . ' <C-r>=<SID>ipairs_' . a:fn . '(' . key . ')<CR>'
+    exe 'inoremap <silent><expr> ' . a:key . ' <SID>ipairs_' . a:fn . '(' . key . ')'
 endfunction
 
 "" Surround.

@@ -22,3 +22,9 @@ inoremap <silent><expr> <CR>
             \ index(["()", "[]", "{}"], Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0 ?
                 \ "\<CR>\<ESC>O" :
                 \ "\<CR>"
+
+
+"" {<space>cursor<space>}
+inoremap <silent><expr> <space> [Lib_Get_Char(0), Lib_Get_Char(1)] == ["{", "}"] ?
+            \ "\<space>\<space>\<Left>" :
+            \ "\<space>"
