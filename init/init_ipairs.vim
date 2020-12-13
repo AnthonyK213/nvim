@@ -164,9 +164,9 @@ for [key, fn] in items(g:pairs_common_map) | call s:ipairs_def_map(key, fn) | en
 augroup pairs_filetype
     autocmd!
     au BufEnter *.el,*.lisp  exe "iunmap '"
-    au BufLeave *.el,*.lisp  call s:ipairs_def_map("'", "Quote")
-    au BufEnter *.xml,*.html call s:ipairs_def_map("<", "Mates") | call s:ipairs_def_map(">", "Close")
-    au BufLeave *.xml,*.html exe 'iunmap <' | exe 'iunmap >'
+    au BufLeave *.el,*.lisp  call <SID>ipairs_def_map("'", "quote")
+    au BufEnter *.xml,*.html call <SID>ipairs_def_map("<", "mates") | call <SID>ipairs_def_map(">", "close")
+    au BufLeave *.xml,*.html exe 'inoremap < <' | exe 'inoremap > >'
 augroup end
 
 "" Surround; <leader> e* -> e(ncompass)
@@ -179,4 +179,4 @@ for [key, val] in items(g:pairs_md_map)
     exe 'i' . head . '<C-r>=<SID>ipairs_mates("' . key . '")<CR>'
     exe 'v' . head . ':<C-u>call <SID>ipairs_surround(' . args . ')<CR>'
 endfor
-vnoremap <silent> <M-u> :<C-u>call s:ipairs_surround("<u>", "</u>")<CR>
+vnoremap <silent> <M-u> :<C-u>call <SID>ipairs_surround("<u>", "</u>")<CR>
