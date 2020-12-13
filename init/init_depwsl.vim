@@ -12,7 +12,7 @@ set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 
 " Function
 function! Term()
-    call init_deflib#belowright#split(15)
+    call Lib_Belowright_Split(15)
     terminal bash
 endfunction
 
