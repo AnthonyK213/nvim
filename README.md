@@ -52,14 +52,14 @@
     - `init_subsrc.vim`
       > When don't want to use any plug-ins,
       > this can be a simple substitute.
-  - Plug-ins
-    - `init_plugin.vim`
-      > Vim-plug load plug-ins.
-    - `init_plugrc.vim`
-      > Configurations of plug-ins.(source init_plugin at first)  
       > Include:
       > - Netrw configuration
       > - Build-in completion
+  - Plug-ins
+    - `init_plugin.vim`
+      > Vim-plug load plug-ins.
+    - `init_plugrc.vim`; `init_rc_coc.vim`
+      > Configurations of plug-ins.(source init_plugin at first)  
   - Color schemes
     - `onedark.vim`
     - `monokai.vim`
@@ -74,6 +74,7 @@ source <sfile>:h/init/init_fnutil.vim
 source <sfile>:h/init/init_ipairs.vim
 "source <sfile>:h/init/init_plugin.vim
 "source <sfile>:h/init/init_plugrc.vim
+"source <sfile>:h/init/init_rc_coc.vim
 source <sfile>:h/init/init_subsrc.vim
 source <sfile>:h/scheme/onedark.vim
 "source <sfile>:h/scheme/monokai.vim
