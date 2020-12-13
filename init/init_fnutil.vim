@@ -157,6 +157,7 @@ endfunction
 nnoremap <silent> <leader>vs :!git status<CR>
 "" Mouse toggle
 nnoremap <silent> <F2> :call MouseToggle()<CR>
+inoremap <silent> <F2> <C-o>:call MouseToggle()<CR>
 "" Hanzi count; <leader> wc -> w(ord)c(ount)
 nnoremap <silent> <leader>wc :echo      'Chinese characters count: ' . HanziCount("n")<CR>
 vnoremap <silent> <leader>wc :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
