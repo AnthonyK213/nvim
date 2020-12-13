@@ -17,4 +17,8 @@ tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 """ Completion
 inoremap <silent><expr> <Tab>   Lib_Is_Word(Lib_Get_Char(0)) ? "\<C-N>" : "\<Tab>"
 inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : PairEnter()
+inoremap <silent><expr> <CR>
+            \ pumvisible() ? "\<C-y>" :
+            \ index(["()", "[]", "{}"], Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0 ?
+                \ "\<CR>\<ESC>O" :
+                \ "\<CR>"
