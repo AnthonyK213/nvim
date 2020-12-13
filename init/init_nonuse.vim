@@ -62,63 +62,6 @@ augroup signify
     au BufEnter *.md,*.org let g:signify_disable_by_default = 1
 augroup end
 
-
-" Pairs
-let g:usr_pairs = ["()", "[]", "{}", "\"\"", "''", "``", "**", "<>"]
-let g:usr_quote = ["\"", "'"]
-
-function! IsEncompByPair(pair_list)
-    return index(a:pair_list, Lib_Get_Char(0) . Lib_Get_Char(1))
-endfunction
-
-function! PairEnter()
-    return IsEncompByPair(g:usr_pairs) >= 0 ? "\<CR>\<ESC>O" : "\<CR>"
-endfunction
-
-function! PairBacks()
-    return IsEncompByPair(g:usr_pairs) >= 0 ? "\<C-G>U\<Right>\<BS>\<BS>" : "\<BS>"
-endfunction
-
-function! PairMates(pair_a, pair_b)
-    return Lib_Is_Word(Lib_Get_Char(1)) ? a:pair_a : a:pair_a . a:pair_b . "\<C-G>U\<Left>"
-endfunction
-
-function! PairClose(pair_b)
-    return Lib_Get_Char(1) ==# a:pair_b ? "\<C-G>U\<Right>" : a:pair_b
-endfunction
-
-function! PairQuote(quote)
-    let last_char = Lib_Get_Char(0)
-    let next_char = Lib_Get_Char(1)
-    let l_is_word = Lib_Is_Word(last_char)
-    let n_is_word = Lib_Is_Word(next_char)
-    if next_char ==# a:quote && (last_char ==# a:quote || l_is_word)
-        return "\<C-G>U\<Right>"
-    elseif l_is_word || n_is_word || index(g:usr_quote + g:last_spec, last_char) >= 0 || index(g:usr_quote + g:next_spec, next_char) >= 0
-        return a:quote
-    else
-        return a:quote . a:quote . "\<C-G>U\<Left>"
-    endif
-endfunction
-
-inoremap <silent>  (   <C-r>=PairMates("(", ")")<CR>
-inoremap <silent>  [   <C-r>=PairMates("[", "]")<CR>
-inoremap <silent>  {   <C-r>=PairMates("{", "}")<CR>
-inoremap <silent>  )   <C-r>=PairClose(")")<CR>
-inoremap <silent>  ]   <C-r>=PairClose("]")<CR>
-inoremap <silent>  }   <C-r>=PairClose("}")<CR>
-inoremap <silent>  '   <C-r>=PairQuote("'")<CR>
-inoremap <silent>  "   <C-r>=PairQuote("\"")<CR>
-" <CR> could be remapped by other plugin.
-inoremap <silent> <CR> <C-r>=PairEnter()<CR>
-inoremap <silent> <BS> <C-r>=PairBacks()<CR>
-
-" markdown
-inoremap <expr> <M-p> "``\<C-G>U\<Left>"
-inoremap <expr> <M-i> "**\<C-G>U\<Left>"
-inoremap <expr> <M-b> "****"   . repeat("\<C-G>U\<Left>", 2)
-inoremap <expr> <M-m> "******" . repeat("\<C-G>U\<Left>", 3)
-
 " Git util
 function! GetGitBranch()
     let git_root_path = Lib_Get_Git_Root()
@@ -130,6 +73,21 @@ function! GetGitBranch()
     endif
 endfunction
 
+" Determines whether a character is a letter or a symbol.
+function! Lib_Is_Letter(char)
+    let code = char2nr(a:char)
+    if code > 128
+        return 0
+    elseif code >= 48 && code <= 57
+        return 1
+    elseif code >= 65 && code <= 90
+        return 1
+    elseif code >= 97 && code <= 122
+        return 1
+    else
+        return 0
+    endif
+endfunction
 
 set ruler
 

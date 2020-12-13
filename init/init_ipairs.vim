@@ -63,20 +63,10 @@ function! s:ipairs_get_char(num) abort
     return matchstr(getline('.'), '\%' . (col('.') + a:num - 1) . 'c.')
 endfunction
 
-"" Determines whether a character is a letter or a symbol.
+"" If the character is a letter or a chinese character, 
+"" return 1; else 0.
 function! s:ipairs_is_word(char)
-    let code = char2nr(a:char)
-    if code > 128
-        return 0
-    elseif code >= 48 && code <= 57
-        return 1
-    elseif code >= 65 && code <= 90
-        return 1
-    elseif code >= 97 && code <= 122
-        return 1
-    else
-        return 0
-    endif
+    return a:char =~ '[a-z_\u4e00-\u9fa5]'
 endfunction
 
 "" Replace chars in a string according to a dictionary.

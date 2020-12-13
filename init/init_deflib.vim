@@ -24,31 +24,16 @@ function! Lib_Get_Char(num) abort
 endfunction
 
 
-" Determines whether a character is a letter or a symbol.
-function! Lib_Is_Word(char)
-    let code = char2nr(a:char)
-    if code > 128
-        return 0
-    elseif code >= 48 && code <= 57
-        return 1
-    elseif code >= 65 && code <= 90
-        return 1
-    elseif code >= 97 && code <= 122
-        return 1
-    else
-        return 0
-    endif
+" Determines whether a character is a letter.
+function! Lib_Is_Letter(char)
+    return a:char =~ '[a-z]'
 endfunction
 
 
 " Determines if a character is a Chinese character.
 function! Lib_Is_Hanzi(char)
     let code = char2nr(a:char)
-    if code >= 0x4E00 && code <= 0x9FA5
-        return 1
-    else
-        return 0
-    endif
+    return code >= 0x4E00 && code <= 0x9FA5 ? 1 : 0
 endfunction
 
 
