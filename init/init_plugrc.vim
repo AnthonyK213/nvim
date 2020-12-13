@@ -234,5 +234,11 @@ nnoremap <silent><nowait> <leader>jlp  :<C-u>CocListResume<CR>
 "" Float window scroll
 nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+inoremap <nowait><expr> <C-f>
+            \ coc#float#has_scroll() ?
+            \ "\<c-r>=coc#float#scroll(1)\<cr>" : 
+            \ col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
+inoremap <nowait><expr> <C-b>
+            \ coc#float#has_scroll() ?
+            \ "\<c-r>=coc#float#scroll(0)\<cr>" :
+            \ col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
