@@ -15,8 +15,14 @@ tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 
 
 """ Completion
-inoremap <silent><expr> <Tab>   Lib_Is_Letter(Lib_Get_Char(0)) ? "\<C-N>" : "\<Tab>"
-inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <Tab>
+            \ or(Lib_Is_Letter(Lib_Get_Char(0)), Lib_Is_Hanzi(Lib_Get_Char(0))) ?
+            \ "\<C-N>" :
+            \ "\<Tab>"
+inoremap <silent><expr> <S-TAB>
+            \ pumvisible() ?
+            \ "\<C-p>" :
+            \ "\<C-h>"
 inoremap <silent><expr> <CR>
             \ pumvisible() ? "\<C-y>" :
             \ index(["()", "[]", "{}"], Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0 ?
@@ -25,6 +31,7 @@ inoremap <silent><expr> <CR>
 
 
 "" {<space>cursor<space>}
-inoremap <silent><expr> <space> [Lib_Get_Char(0), Lib_Get_Char(1)] == ["{", "}"] ?
+inoremap <silent><expr> <space>
+            \ [Lib_Get_Char(0), Lib_Get_Char(1)] == ["{", "}"] ?
             \ "\<space>\<space>\<Left>" :
             \ "\<space>"
