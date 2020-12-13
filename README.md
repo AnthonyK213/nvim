@@ -75,7 +75,6 @@ source <sfile>:h/init/init_ipairs.vim
 "source <sfile>:h/init/init_plugin.vim
 "source <sfile>:h/init/init_plugrc.vim
 source <sfile>:h/init/init_subsrc.vim
-
-"source <sfile>:h/scheme/onedark.vim
+source <sfile>:h/scheme/onedark.vim
 "source <sfile>:h/scheme/monokai.vim
 ```
