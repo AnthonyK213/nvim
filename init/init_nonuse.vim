@@ -129,3 +129,19 @@ function! GetGitBranch()
         echo 'Not a git repository.'
     endif
 endfunction
+
+
+set ruler
+
+augroup TreeSitterSetting
+    autocmd!
+    au BufEnter *.c call TreeSitterSetting()
+augroup end
+
+function! TreeSitterSetting()
+lua << EOF
+vim.treesitter.require_language("c", "D:/App/Neovim/lib/nvim/parser/c.dll")
+parser = vim.treesitter.get_parser(0, "c")
+tstree = parser:parse()
+EOF
+endfunction
