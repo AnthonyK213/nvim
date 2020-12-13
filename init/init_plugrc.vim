@@ -213,25 +213,25 @@ command! -nargs=0 OR     :call CocAction('runCommand', 'editor.action.organizeIm
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-" Using CocList
-" Show all diagnostics
+"" Using CocList
+""" Show all diagnostics
 nnoremap <silent><nowait> <leader>jla  :<C-u>CocList diagnostics<cr>
-" Manage extensions
+""" Manage extensions
 nnoremap <silent><nowait> <leader>jle  :<C-u>CocList extensions<cr>
-" Show commands
+""" Show commands
 nnoremap <silent><nowait> <leader>jlc  :<C-u>CocList commands<cr>
-" Find symbol of current document
+""" Find symbol of current document
 nnoremap <silent><nowait> <leader>jlo  :<C-u>CocList outline<cr>
-" Search workspace symbols
+""" Search workspace symbols
 nnoremap <silent><nowait> <leader>jls  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
+""" Do default action for next item.
 nnoremap <silent><nowait> <leader>jlj  :<C-u>CocNext<CR>
-" Do default action for previous item.
+""" Do default action for previous item.
 nnoremap <silent><nowait> <leader>jlk  :<C-u>CocPrev<CR>
-" Resume latest coc list
+""" Resume latest coc list
 nnoremap <silent><nowait> <leader>jlp  :<C-u>CocListResume<CR>
 
-" Float window scroll
+"" Float window scroll
 nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
