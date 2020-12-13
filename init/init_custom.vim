@@ -22,11 +22,16 @@ augroup end
 
 " Key maps
 "" Ctrl
-""" For wrapped lines
-nnoremap <C-j> gj
-nnoremap <C-k> gk
-vnoremap <C-j> gj
-vnoremap <C-k> gk
+""" Moving cursor like emacs
+for [key, val] in items({"n":"j", "p":"k"})
+    exe 'nnoremap <C-' . key . '> g' . val
+    exe 'vnoremap <C-' . key . '> g' . val
+    exe 'inoremap <silent> <C-' . key . '> <C-o>g' . val
+endfor
+inoremap <silent> <C-a> <C-o>g0
+inoremap <silent> <C-e> <C-o>g$
+inoremap <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
+inoremap <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
 "" Meta
 """ Emacs command line
 inoremap <M-x> <C-o>:
