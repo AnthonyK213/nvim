@@ -64,8 +64,8 @@ let g:airline_mode_map = {
     \ 'S'      : 'S',
     \ ''     : 'S',
     \ 't'      : 'T',
-    \ 'v'      : 'v',
-    \ 'V'      : 'V',
+    \ 'v'      : 'V',
+    \ 'V'      : 'Ṿ',
     \ ''     : 'Ṽ',
     \ }
 "" Separators
