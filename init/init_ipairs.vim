@@ -64,7 +64,7 @@ let g:pairs_context = {
     \ 'b' : ['^.*\%', 'c'],
     \ 'f' : ['\%', 'c.*$']
   \ }
-function! g:pairs_context.impl(arg) abort
+function! g:pairs_context.get(arg) abort
     return matchstr(getline('.'), self[a:arg][0] . col('.') . self[a:arg][1])
 endfunction
 
@@ -86,7 +86,7 @@ endfunction
 
 "" Pairs
 function! s:ipairs_is_surrounded(pair_dict)
-    return index(items(a:pair_dict), [g:pairs_context.impl('l'), g:pairs_context.impl('n')]) >= 0
+    return index(items(a:pair_dict), [g:pairs_context.get('l'), g:pairs_context.get('n')]) >= 0
 endfunction
 
 function! s:ipairs_enter()
@@ -102,21 +102,21 @@ function! s:ipairs_backs()
 endfunction
 
 function! s:ipairs_mates(pair_a)
-    return g:pairs_context.impl('n') =~ s:ipairs_reg(g:pairs_is_word) ?
+    return g:pairs_context.get('n') =~ s:ipairs_reg(g:pairs_is_word) ?
                 \ a:pair_a :
                 \ a:pair_a . g:pairs_usr_def[a:pair_a] .
                     \ repeat("\<C-g>U\<Left>", len(g:pairs_usr_def[a:pair_a]))
 endfunction
 
 function! s:ipairs_close(pair_b)
-    return g:pairs_context.impl('n') ==# a:pair_b ?
+    return g:pairs_context.get('n') ==# a:pair_b ?
                 \ "\<C-g>U\<Right>" :
                 \ a:pair_b
 endfunction
 
 function! s:ipairs_quote(quote)
-    let last_char = g:pairs_context.impl('l')
-    let next_char = g:pairs_context.impl('n')
+    let last_char = g:pairs_context.get('l')
+    let next_char = g:pairs_context.get('n')
     if next_char ==# a:quote &&
        \ (last_char ==# a:quote || last_char =~ s:ipairs_reg(g:pairs_is_word))
         return "\<C-g>U\<Right>"
