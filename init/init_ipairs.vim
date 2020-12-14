@@ -43,12 +43,16 @@ let g:pairs_md_map = {
   \ }
 
 "" Pair special quotes.
+let g:last_spec = '"''\\'
+let g:next_spec = '"'''
+let g:back_spec = '^$'
 let g:pairs_is_word = 'a-z_\u4e00-\u9fa5'
 augroup pairs_special
     autocmd!
-    au BufEnter *      let g:last_spec = '"''\\'   | let g:next_spec = '"'''
-    au BufEnter *.rs   let g:last_spec = '"''\\&<' | let g:next_spec = '"'''
-    au BufEnter *.vim  let g:last_spec = '"''\\'   | let g:next_spec = '"'''
+    au BufEnter *.rs let g:last_spec = '"''\\&<'
+    au BufLeave *.rs let g:last_spec = '"''\\'
+    au BufEnter *.vim let g:back_spec = '^\s*$'
+    au BufLeave *.vim let g:back_spec = '^$'
 augroup end
 
 
@@ -58,13 +62,13 @@ function! s:ipairs_reg(str)
 endfunction
 
 "" Get the character around the cursor.
-let g:pairs_context = {
+let s:ipairs_context = {
     \ 'l' : ['.\%',   'c'],
     \ 'n' : ['\%',   'c.'],
     \ 'b' : ['^.*\%', 'c'],
     \ 'f' : ['\%', 'c.*$']
   \ }
-function! g:pairs_context.get(arg) abort
+function! s:ipairs_context.get(arg) abort
     return matchstr(getline('.'), self[a:arg][0] . col('.') . self[a:arg][1])
 endfunction
 
@@ -86,7 +90,7 @@ endfunction
 
 "" Pairs
 function! s:ipairs_is_surrounded(pair_dict)
-    return index(items(a:pair_dict), [g:pairs_context.get('l'), g:pairs_context.get('n')]) >= 0
+    return index(items(a:pair_dict), [s:ipairs_context.get('l'), s:ipairs_context.get('n')]) >= 0
 endfunction
 
 function! s:ipairs_enter()
@@ -102,26 +106,27 @@ function! s:ipairs_backs()
 endfunction
 
 function! s:ipairs_mates(pair_a)
-    return g:pairs_context.get('n') =~ s:ipairs_reg(g:pairs_is_word) ?
+    return s:ipairs_context.get('n') =~ s:ipairs_reg(g:pairs_is_word) ?
                 \ a:pair_a :
                 \ a:pair_a . g:pairs_usr_def[a:pair_a] .
                     \ repeat("\<C-g>U\<Left>", len(g:pairs_usr_def[a:pair_a]))
 endfunction
 
 function! s:ipairs_close(pair_b)
-    return g:pairs_context.get('n') ==# a:pair_b ?
+    return s:ipairs_context.get('n') ==# a:pair_b ?
                 \ "\<C-g>U\<Right>" :
                 \ a:pair_b
 endfunction
 
 function! s:ipairs_quote(quote)
-    let last_char = g:pairs_context.get('l')
-    let next_char = g:pairs_context.get('n')
+    let last_char = s:ipairs_context.get('l')
+    let next_char = s:ipairs_context.get('n')
     if next_char ==# a:quote &&
        \ (last_char ==# a:quote || last_char =~ s:ipairs_reg(g:pairs_is_word))
         return "\<C-g>U\<Right>"
     elseif last_char =~ s:ipairs_reg(g:pairs_is_word . g:last_spec) ||
-         \ next_char =~ s:ipairs_reg(g:pairs_is_word . g:next_spec)
+         \ next_char =~ s:ipairs_reg(g:pairs_is_word . g:next_spec) ||
+         \ s:ipairs_context.get('b') =~ g:back_spec
         return a:quote
     else
         return a:quote . a:quote . "\<C-g>U\<Left>"
