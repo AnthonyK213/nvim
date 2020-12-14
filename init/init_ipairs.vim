@@ -43,30 +43,23 @@ let g:pairs_md_map = {
   \ }
 
 "" Pair special quotes.
+let g:pairs_is_word = 'a-z_\u4e00-\u9fa5'
 augroup pairs_special
     autocmd!
-    au BufEnter *      let g:last_spec = []         | let g:next_spec = []
-    au BufEnter *.rs   let g:last_spec = ["<", "&"] | let g:next_spec = []
-    au BufEnter *.vim  let g:last_spec = [""]       | let g:next_spec = []
+    au BufEnter *      let g:last_spec = '"''\\'   | let g:next_spec = '"'''
+    au BufEnter *.rs   let g:last_spec = '"''\\&<' | let g:next_spec = '"'''
+    au BufEnter *.vim  let g:last_spec = '"''\\\s' | let g:next_spec = '"'''
 augroup end
-
-"" Quotes
-let g:pairs_usr_quote = []
-for [key, value] in items(g:pairs_usr_def)
-    if key ==# value | let g:pairs_usr_quote += [key] | endif
-endfor
 
 
 " Functions
+function! s:ipairs_reg(str) 
+    return '[' . a:str . ']' 
+endfunction
+
 "" Get the character around the cursor.
 function! s:ipairs_get_char(num) abort
     return matchstr(getline('.'), '\%' . (col('.') + a:num - 1) . 'c.')
-endfunction
-
-"" If the character is a letter or a chinese character, 
-"" return 1; else 0.
-function! s:ipairs_is_word(char)
-    return a:char =~ '[a-z_\u4e00-\u9fa5]'
 endfunction
 
 "" Replace chars in a string according to a dictionary.
@@ -103,7 +96,7 @@ function! s:ipairs_backs()
 endfunction
 
 function! s:ipairs_mates(pair_a)
-    return s:ipairs_is_word(s:ipairs_get_char(1)) ?
+    return s:ipairs_get_char(1) =~ s:ipairs_reg(g:pairs_is_word) ?
                 \ a:pair_a :
                 \ a:pair_a . g:pairs_usr_def[a:pair_a] .
                     \ repeat("\<C-g>U\<Left>", len(g:pairs_usr_def[a:pair_a]))
@@ -118,14 +111,11 @@ endfunction
 function! s:ipairs_quote(quote)
     let last_char = s:ipairs_get_char(0)
     let next_char = s:ipairs_get_char(1)
-    let l_is_word = s:ipairs_is_word(last_char)
-    let n_is_word = s:ipairs_is_word(next_char)
-    if next_char ==# a:quote && (last_char ==# a:quote || l_is_word)
+    if next_char ==# a:quote &&
+       \ (last_char ==# a:quote || last_char =~ s:ipairs_reg(g:pairs_is_word))
         return "\<C-g>U\<Right>"
-    elseif l_is_word ||
-         \ n_is_word ||
-         \ index(g:pairs_usr_quote + g:last_spec + ['\'], last_char) >= 0 ||
-         \ index(g:pairs_usr_quote + g:next_spec, next_char) >= 0
+    elseif last_char =~ s:ipairs_reg(g:pairs_is_word . g:last_spec) ||
+         \ next_char =~ s:ipairs_reg(g:pairs_is_word . g:next_spec)
         return a:quote
     else
         return a:quote . a:quote . "\<C-g>U\<Left>"
