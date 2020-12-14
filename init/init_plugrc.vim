@@ -47,6 +47,27 @@ let g:airline#extensions#branch#enabled  = 1
 "" Symbols
 let g:airline_symbols = {}
 let g:airline_symbols.branch = ''
+"" Mode abbr.
+let g:airline_mode_map = {
+    \ '__'     : '-',
+    \ 'c'      : 'C',
+    \ 'i'      : 'I',
+    \ 'ic'     : 'I',
+    \ 'ix'     : 'I',
+    \ 'n'      : 'N',
+    \ 'multi'  : 'M',
+    \ 'ni'     : 'Ĩ',
+    \ 'no'     : 'N',
+    \ 'R'      : 'R',
+    \ 'Rv'     : 'R',
+    \ 's'      : 'S',
+    \ 'S'      : 'S',
+    \ ''     : 'S',
+    \ 't'      : 'T',
+    \ 'v'      : 'v',
+    \ 'V'      : 'V',
+    \ ''     : 'Ṽ',
+    \ }
 "" Separators
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
