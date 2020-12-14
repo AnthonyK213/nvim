@@ -48,7 +48,7 @@ augroup pairs_special
     autocmd!
     au BufEnter *      let g:last_spec = '"''\\'   | let g:next_spec = '"'''
     au BufEnter *.rs   let g:last_spec = '"''\\&<' | let g:next_spec = '"'''
-    au BufEnter *.vim  let g:last_spec = '"''\\\s' | let g:next_spec = '"'''
+    au BufEnter *.vim  let g:last_spec = '"''\\'   | let g:next_spec = '"'''
 augroup end
 
 
@@ -58,8 +58,14 @@ function! s:ipairs_reg(str)
 endfunction
 
 "" Get the character around the cursor.
-function! s:ipairs_get_char(num) abort
-    return matchstr(getline('.'), '\%' . (col('.') + a:num - 1) . 'c.')
+let g:pairs_context = {
+    \ 'l' : ['.\%',   'c'],
+    \ 'n' : ['\%',   'c.'],
+    \ 'b' : ['^.*\%', 'c'],
+    \ 'f' : ['\%', 'c.*$']
+  \ }
+function! g:pairs_context.impl(arg) abort
+    return matchstr(getline('.'), self[a:arg][0] . col('.') . self[a:arg][1])
 endfunction
 
 "" Replace chars in a string according to a dictionary.
@@ -80,7 +86,7 @@ endfunction
 
 "" Pairs
 function! s:ipairs_is_surrounded(pair_dict)
-    return index(items(a:pair_dict), [s:ipairs_get_char(0), s:ipairs_get_char(1)]) >= 0
+    return index(items(a:pair_dict), [g:pairs_context.impl('l'), g:pairs_context.impl('n')]) >= 0
 endfunction
 
 function! s:ipairs_enter()
@@ -96,21 +102,21 @@ function! s:ipairs_backs()
 endfunction
 
 function! s:ipairs_mates(pair_a)
-    return s:ipairs_get_char(1) =~ s:ipairs_reg(g:pairs_is_word) ?
+    return g:pairs_context.impl('n') =~ s:ipairs_reg(g:pairs_is_word) ?
                 \ a:pair_a :
                 \ a:pair_a . g:pairs_usr_def[a:pair_a] .
                     \ repeat("\<C-g>U\<Left>", len(g:pairs_usr_def[a:pair_a]))
 endfunction
 
 function! s:ipairs_close(pair_b)
-    return s:ipairs_get_char(1) ==# a:pair_b ?
+    return g:pairs_context.impl('n') ==# a:pair_b ?
                 \ "\<C-g>U\<Right>" :
                 \ a:pair_b
 endfunction
 
 function! s:ipairs_quote(quote)
-    let last_char = s:ipairs_get_char(0)
-    let next_char = s:ipairs_get_char(1)
+    let last_char = g:pairs_context.impl('l')
+    let next_char = g:pairs_context.impl('n')
     if next_char ==# a:quote &&
        \ (last_char ==# a:quote || last_char =~ s:ipairs_reg(g:pairs_is_word))
         return "\<C-g>U\<Right>"

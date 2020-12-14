@@ -20,7 +20,11 @@ endfunction
 
 " Get the character around the cursor.
 function! Lib_Get_Char(num) abort
-    return matchstr(getline('.'), '\%' . (col('.') + a:num - 1) . 'c.')
+    if a:num == 0
+        return matchstr(getline('.'), '.\%' . col('.') . 'c')
+    else
+        return matchstr(getline('.'), '\%' . col('.') . 'c.')
+    endif
 endfunction
 
 
