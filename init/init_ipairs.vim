@@ -124,7 +124,7 @@ function! s:ipairs_quote(quote)
         return "\<C-g>U\<Right>"
     elseif l_is_word ||
          \ n_is_word ||
-         \ index(g:pairs_usr_quote + g:last_spec, last_char) >= 0 ||
+         \ index(g:pairs_usr_quote + g:last_spec + ['\'], last_char) >= 0 ||
          \ index(g:pairs_usr_quote + g:next_spec, next_char) >= 0
         return a:quote
     else
