@@ -50,8 +50,8 @@
       > - Auto pairs
       > - Pairs Surrounding
     - `init_subsrc.vim`
-      > When don't want to use any plug-ins,
-      > this can be a simple substitute.
+      > When don't want to use any plug-ins,  
+      > this can be a simple substitute.  
       > Include:
       > - Netrw configuration
       > - Build-in completion
