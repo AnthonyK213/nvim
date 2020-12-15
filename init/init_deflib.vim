@@ -28,13 +28,8 @@ function! Lib_Get_Char(num) abort
 endfunction
 
 
-" Determines whether a character is a letter.
-function! Lib_Is_Letter(char)
-    return a:char =~ '[a-z]'
-endfunction
-
-
 " Determines if a character is a Chinese character.
+" Why this is faster than regex?
 function! Lib_Is_Hanzi(char)
     let code = char2nr(a:char)
     return code >= 0x4E00 && code <= 0x9FA5 ? 1 : 0

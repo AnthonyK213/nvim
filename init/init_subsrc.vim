@@ -16,7 +16,7 @@ tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 
 " Completion
 inoremap <silent><expr> <Tab>
-            \ or(Lib_Is_Letter(Lib_Get_Char(0)), Lib_Is_Hanzi(Lib_Get_Char(0))) ?
+            \ Lib_Get_Char(0) =~ '[a-z_\u4e00-\u9fa5]' ?
             \ "\<C-N>" :
             \ "\<Tab>"
 inoremap <silent><expr> <S-TAB>
