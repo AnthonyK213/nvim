@@ -45,14 +45,14 @@ let g:pairs_md_map = {
 "" Pair special quotes.
 let g:last_spec = '"''\\'
 let g:next_spec = '"'''
-let g:back_spec = '^$'
-let g:pairs_is_word = 'a-z_\u4e00-\u9fa5'
+let g:back_spec = '^\b'
+let g:pairs_is_word = '\a-z_\u4e00-\u9fa5'
 augroup pairs_special
     autocmd!
     au BufEnter *.rs let g:last_spec = '"''\\&<'
     au BufLeave *.rs let g:last_spec = '"''\\'
     au BufEnter *.vim let g:back_spec = '^\s*$'
-    au BufLeave *.vim let g:back_spec = '^$'
+    au BufLeave *.vim let g:back_spec = '^\b'
 augroup end
 
 
