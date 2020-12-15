@@ -44,11 +44,6 @@
       > Functions:
       > - Mouse toggle
       > - Chinese character count
-    - `init_ipairs.vim`
-      > Going to make it a decent plug-in.  
-      > Functions:
-      > - Auto pairs
-      > - Pairs Surrounding
     - `init_subsrc.vim`
       > When don't want to use any plug-ins,  
       > this can be a simple substitute.  
@@ -72,7 +67,6 @@ source <sfile>:h/init/init_custom.vim
 source <sfile>:h/init/init_deflib.vim
 source <sfile>:h/init/init_depwin.vim
 source <sfile>:h/init/init_fnutil.vim
-source <sfile>:h/init/init_ipairs.vim
 "source <sfile>:h/init/init_plugrc.vim
 "source <sfile>:h/init/init_rc_coc.vim
 source <sfile>:h/init/init_subsrc.vim
