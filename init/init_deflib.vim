@@ -29,7 +29,7 @@ endfunction
 
 
 " Determines if a character is a Chinese character.
-" Why this is faster than regex?
+" Why is this faster than regex?
 function! Lib_Is_Hanzi(char)
     let code = char2nr(a:char)
     return code >= 0x4E00 && code <= 0x9FA5 ? 1 : 0
