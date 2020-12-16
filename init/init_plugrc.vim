@@ -5,12 +5,12 @@ let g:airline_theme = 'onedark'
 
 " NERDTree
 augroup nerdtree_behave
-    autocmd!
-    " Open NERDTree automatically when vim starts up on opening a directory
-    autocmd StdinReadPre * let s:std_in = 1
-    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-    " Close vim if the only window left open is a NERDTree
-    "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  autocmd!
+  " Open NERDTree automatically when vim starts up on opening a directory
+  autocmd StdinReadPre * let s:std_in = 1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+  " Close vim if the only window left open is a NERDTree
+  "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup end
 let g:NERDTreeDirArrowExpandable  = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
@@ -49,25 +49,25 @@ let g:airline_symbols = {}
 let g:airline_symbols.branch = ''
 "" Mode abbr.
 let g:airline_mode_map = {
-    \ '__'     : '-',
-    \ 'c'      : 'C',
-    \ 'i'      : 'I',
-    \ 'ic'     : 'I',
-    \ 'ix'     : 'I',
-    \ 'n'      : 'N',
-    \ 'multi'  : 'M',
-    \ 'ni'     : 'Ĩ',
-    \ 'no'     : 'N',
-    \ 'R'      : 'R',
-    \ 'Rv'     : 'R',
-    \ 's'      : 'S',
-    \ 'S'      : 'S',
-    \ ''     : 'S',
-    \ 't'      : 'T',
-    \ 'v'      : 'V',
-    \ 'V'      : 'Ṿ',
-    \ ''     : 'Ṽ',
-    \ }
+      \ '__'    : '-',
+      \ 'c'     : 'C',
+      \ 'i'     : 'I',
+      \ 'ic'    : 'I',
+      \ 'ix'    : 'I',
+      \ 'n'     : 'N',
+      \ 'multi' : 'M',
+      \ 'ni'    : 'Ĩ',
+      \ 'no'    : 'N',
+      \ 'R'     : 'R',
+      \ 'Rv'    : 'R',
+      \ 's'     : 'S',
+      \ 'S'     : 'S',
+      \ ''    : 'S',
+      \ 't'     : 'T',
+      \ 'v'     : 'V',
+      \ 'V'     : 'Ṿ',
+      \ ''    : 'Ṽ',
+      \ }
 "" Separators
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -89,24 +89,24 @@ nnoremap <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1,
-    \ 'sequence_diagrams': {},
-    \ 'flowchart_diagrams': {},
-    \ 'content_editable': v:false
-  \ }
+      \ 'mkit': {},
+      \ 'katex': {},
+      \ 'uml': {},
+      \ 'maid': {},
+      \ 'disable_sync_scroll': 0,
+      \ 'sync_scroll_type': 'middle',
+      \ 'hide_yaml_meta': 1,
+      \ 'sequence_diagrams': {},
+      \ 'flowchart_diagrams': {},
+      \ 'content_editable': v:false
+      \ }
 
 
 " vim-table-mode
 augroup vimtable
-    autocmd!
-    au BufEnter *    let g:table_mode_corner = '+'
-    au BufEnter *.md let g:table_mode_corner = '|'
+  autocmd!
+  au BufEnter *    let g:table_mode_corner = '+'
+  au BufEnter *.md let g:table_mode_corner = '|'
 augroup end
 "" <leader> t* -> t(able-mode)
 nnoremap <silent> <leader>ta :TableAddFormula<CR>
@@ -118,7 +118,7 @@ nnoremap <silent> <leader>tc :TableEvalFormulaLine<CR>
 let g:tex_flavor = 'latex'
 let g:vimtex_view_general_viewer = 'SumatraPDF'
 let g:vimtex_view_general_options
-    \ = '-reuse-instance -forward-search @tex @line @pdf'
+      \ = '-reuse-instance -forward-search @tex @line @pdf'
 let g:vimtex_view_general_options_latexmk = '-reuse-instance'
 let g:vimtex_compiler_progname = 'nvr'
 
@@ -134,7 +134,7 @@ command! OrgAgenda :exe ":tabnew " . agenda_path
 let g:indentLine_char = '¦'
 let g:indentLine_setConceal = 1
 augroup indentline
-    autocmd!
-    au BufEnter,BufRead * let g:indentLine_enabled = 1
-    au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
+  autocmd!
+  au BufEnter,BufRead * let g:indentLine_enabled = 1
+  au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
 augroup end

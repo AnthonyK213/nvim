@@ -1,25 +1,25 @@
 " Coc.nvim
 let g:coc_global_extentions = [
-    "\ 'coc-pairs',
-    \ 'coc-python',
-    \ 'coc-rls',
-    \ 'coc-vimtex'
-  \ ]
+      "\ 'coc-pairs',
+      \ 'coc-python',
+      \ 'coc-rls',
+      \ 'coc-vimtex'
+      \ ]
 
 "" Coc functions
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-        call CocActionAsync('doHover')
-    else
-        execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
 endfunction
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -34,7 +34,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -52,8 +52,8 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Highlight symbol under cursor on CursorHold
 augroup hlsymbol
-    autocmd!
-    autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup end
 
 " <leader> j*  -> for no reason?
@@ -66,11 +66,11 @@ xmap <leader>jf  <Plug>(coc-format-selected)
 nmap <leader>jf  <Plug>(coc-format-selected)
 
 augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<localleader>aap` for current paragraph
@@ -111,13 +111,19 @@ nnoremap <silent><nowait> <leader>jlk  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <leader>jlp  :<C-u>CocListResume<CR>
 
 "" Float window scroll
-nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+nnoremap <nowait><expr> <C-f>
+      \ coc#float#has_scroll() ?
+      \ coc#float#scroll(1) :
+      \ "\<C-f>"
+nnoremap <nowait><expr> <C-b>
+      \ coc#float#has_scroll() ?
+      \ coc#float#scroll(0) :
+      \ "\<C-b>"
 inoremap <nowait><expr> <C-f>
-            \ coc#float#has_scroll() ?
-            \ "\<c-r>=coc#float#scroll(1)\<cr>" : 
-            \ col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
+      \ coc#float#has_scroll() ?
+      \ "\<c-r>=coc#float#scroll(1)\<cr>" : 
+      \ col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
 inoremap <nowait><expr> <C-b>
-            \ coc#float#has_scroll() ?
-            \ "\<c-r>=coc#float#scroll(0)\<cr>" :
-            \ col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
+      \ coc#float#has_scroll() ?
+      \ "\<c-r>=coc#float#scroll(0)\<cr>" :
+      \ col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"

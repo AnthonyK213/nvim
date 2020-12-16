@@ -16,22 +16,22 @@ tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 
 " Completion
 inoremap <silent><expr> <Tab>
-            \ Lib_Get_Char(0) =~ '[a-z_\u4e00-\u9fa5]' ?
-            \ "\<C-N>" :
-            \ "\<Tab>"
+      \ Lib_Get_Char(0) =~ '[a-z_\u4e00-\u9fa5]' ?
+      \ "\<C-N>" :
+      \ "\<Tab>"
 inoremap <silent><expr> <S-TAB>
-            \ pumvisible() ?
-            \ "\<C-p>" :
-            \ "\<C-h>"
+      \ pumvisible() ?
+      \ "\<C-p>" :
+      \ "\<C-h>"
 inoremap <silent><expr> <CR>
-            \ pumvisible() ? "\<C-y>" :
-            \ index(["()", "[]", "{}"], Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0 ?
-                \ "\<CR>\<ESC>O" :
-                \ "\<CR>"
+      \ pumvisible() ? "\<C-y>" :
+      \ index(["()", "[]", "{}"], Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0 ?
+      \ "\<CR>\<ESC>O" :
+      \ "\<CR>"
 
 
 " {<space>cursor<space>}
 inoremap <silent><expr> <space>
-            \ [Lib_Get_Char(0), Lib_Get_Char(1)] == ["{", "}"] ?
-            \ "\<space>\<space>\<Left>" :
-            \ "\<space>"
+      \ [Lib_Get_Char(0), Lib_Get_Char(1)] == ["{", "}"] ?
+      \ "\<space>\<space>\<Left>" :
+      \ "\<space>"

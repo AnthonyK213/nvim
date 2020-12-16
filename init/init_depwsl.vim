@@ -12,13 +12,13 @@ set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 
 " Function
 function! Term()
-    call Lib_Belowright_Split(15)
-    terminal bash
+  call Lib_Belowright_Split(15)
+  terminal bash
 endfunction
 
 function! Expl()
-    exe '!explorer.exe .'
-    redraw
+  exe '!explorer.exe .'
+  redraw
 endfunction
 
 

@@ -12,30 +12,34 @@ set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 
 " Function
 function! Term()
-    call Lib_Belowright_Split(15)
-    terminal powershell.exe -nologo
+  call Lib_Belowright_Split(15)
+  terminal powershell.exe -nologo
 endfunction
 
 function! Expl()
-    exe ':!explorer.exe .'
-    redraw
+  exe ':!explorer.exe .'
+  redraw
 endfunction
 
 function! PDFView(...)
-    if a:0 > 0
-        let name = a:1
-    else
-        let name = expand('%:r') . '.pdf'
-    endif
-    exe '!start SumatraPDF.exe -reuse-instance ' . name
-    redraw
+  if a:0 > 0
+    let name = a:1
+  else
+    let name = expand('%:r') . '.pdf'
+  endif
+  exe '!start SumatraPDF.exe -reuse-instance ' . name
+  redraw
 endfunction
 
 function! SearchWeb(mode, site)
-    let mode = a:mode
-    let site = a:site
-    let del_list = [".", ",", "'", "\"", ";", "*", "~", "`", "(", ")", "[", "]", "{", "}"]
-    let esc_url = {
+  let mode = a:mode
+  let site = a:site
+  let del_list = [
+        \ ".", ",", "'", "\"",
+        \ ";", "*", "~", "`", 
+        \ "(", ")", "[", "]", "{", "}"
+        \ ]
+  let esc_url = {
         \ " " : "\\\%20",
         \ "\"": "\\\%22",
         \ "#" : "\\\%23",
@@ -57,27 +61,27 @@ function! SearchWeb(mode, site)
         \ "|" : "\\\%7C",
         \ "\n": "\\\%20",
         \ "\r": "\\\%20"
-      \ }
-    if mode ==? "word"
-        let search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(del_list), esc_url)
-    elseif mode ==? "sele"
-        let search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), esc_url)
-    else
-        echom "Invalid mode argument."
-    endif
-    if site ==? "baidu"
-        let url = "https://www.baidu.com/s?wd=" .      search_obj
-    elseif site ==? "google"
-        let url = "https://www.google.com/search?q=" . search_obj
-    elseif site ==? "github"
-        let url = "https://github.com/search?q=" .     search_obj
-    elseif site ==? "youdao"
-        let url = "https://dict.youdao.com/w/eng/" .   search_obj
-    else
-        echom "Invalid site argument."
-    endif
-    silent exe '!start ' . url
-    redraw
+        \ }
+  if mode ==? "word"
+    let search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(del_list), esc_url)
+  elseif mode ==? "sele"
+    let search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), esc_url)
+  else
+    echom "Invalid mode argument."
+  endif
+  if site ==? "baidu"
+    let url = "https://www.baidu.com/s?wd=" .      search_obj
+  elseif site ==? "google"
+    let url = "https://www.google.com/search?q=" . search_obj
+  elseif site ==? "github"
+    let url = "https://github.com/search?q=" .     search_obj
+  elseif site ==? "youdao"
+    let url = "https://dict.youdao.com/w/eng/" .   search_obj
+  else
+    echom "Invalid site argument."
+  endif
+  silent exe '!start ' . url
+  redraw
 endfunction
 
 
