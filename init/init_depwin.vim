@@ -31,56 +31,51 @@ function! PDFView(...)
   redraw
 endfunction
 
-function! SearchWeb(mode, site)
-  let mode = a:mode
-  let site = a:site
-  let del_list = [
+let s:web_list = {
+      \ "b" : "https://www.baidu.com/s?wd=",
+      \ "g" : "https://www.google.com/search?q=",
+      \ "h" : "https://github.com/search?q=",
+      \ "y" : "https://dict.youdao.com/w/eng/"
+      \ }
+let g:esc_url = {
+      \ " " : "\\\%20",
+      \ "\"": "\\\%22",
+      \ "#" : "\\\%23",
+      \ "%" : "\\\%25",
+      \ "&" : "\\\%26",
+      \ "(" : "\\\%28",
+      \ ")" : "\\\%29",
+      \ "+" : "\\\%2B",
+      \ "," : "\\\%2C",
+      \ "/" : "\\\%2F",
+      \ ":" : "\\\%3A",
+      \ ";" : "\\\%3B",
+      \ "<" : "\\\%3C",
+      \ "=" : "\\\%3D",
+      \ ">" : "\\\%3E",
+      \ "?" : "\\\%3F",
+      \ "@" : "\\\%40",
+      \ "\\": "\\\%5C",
+      \ "|" : "\\\%7C",
+      \ "\n": "\\\%20",
+      \ "\r": "\\\%20",
+      \ "\t": "\\\%20"
+      \ }
+function! s:util_search_web(mode, site)
+  let l:del_list = [
         \ ".", ",", "'", "\"",
         \ ";", "*", "~", "`", 
         \ "(", ")", "[", "]", "{", "}"
         \ ]
-  let esc_url = {
-        \ " " : "\\\%20",
-        \ "\"": "\\\%22",
-        \ "#" : "\\\%23",
-        \ "%" : "\\\%25",
-        \ "&" : "\\\%26",
-        \ "(" : "\\\%28",
-        \ ")" : "\\\%29",
-        \ "+" : "\\\%2B",
-        \ "," : "\\\%2C",
-        \ "/" : "\\\%2F",
-        \ ":" : "\\\%3A",
-        \ ";" : "\\\%3B",
-        \ "<" : "\\\%3C",
-        \ "=" : "\\\%3D",
-        \ ">" : "\\\%3E",
-        \ "?" : "\\\%3F",
-        \ "@" : "\\\%40",
-        \ "\\": "\\\%5C",
-        \ "|" : "\\\%7C",
-        \ "\n": "\\\%20",
-        \ "\r": "\\\%20"
-        \ }
-  if mode ==? "word"
-    let search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(del_list), esc_url)
-  elseif mode ==? "sele"
-    let search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), esc_url)
+  if a:mode ==? "n"
+    let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:esc_url)
+  elseif a:mode ==? "v"
+    let l:search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), g:esc_url)
   else
     echom "Invalid mode argument."
   endif
-  if site ==? "baidu"
-    let url = "https://www.baidu.com/s?wd=" .      search_obj
-  elseif site ==? "google"
-    let url = "https://www.google.com/search?q=" . search_obj
-  elseif site ==? "github"
-    let url = "https://github.com/search?q=" .     search_obj
-  elseif site ==? "youdao"
-    let url = "https://dict.youdao.com/w/eng/" .   search_obj
-  else
-    echom "Invalid site argument."
-  endif
-  silent exe '!start ' . url
+  let l:url = s:web_list[a:site] . l:search_obj
+  silent exe ':!start ' . l:url
   redraw
 endfunction
 
@@ -111,14 +106,10 @@ nnoremap <M-e> :call Expl()<CR>
 inoremap <M-e> <Esc>:call Expl()<CR>
 
 "" Search cword in web browser; <leader> f* -> f(ind)
-nnoremap <silent> <leader>fb :call SearchWeb("word", "baidu")<CR>
-nnoremap <silent> <leader>fg :call SearchWeb("word", "google")<CR>
-nnoremap <silent> <leader>fh :call SearchWeb("word", "github")<CR>
-nnoremap <silent> <leader>fy :call SearchWeb("word", "youdao")<CR>
-vnoremap <silent> <leader>fb :<C-u>call SearchWeb("sele", "baidu")<CR>
-vnoremap <silent> <leader>fg :<C-u>call SearchWeb("sele", "google")<CR>
-vnoremap <silent> <leader>fh :<C-u>call SearchWeb("sele", "github")<CR>
-vnoremap <silent> <leader>fy :<C-u>call SearchWeb("sele", "youdao")<CR>
+for key in keys(s:web_list)
+  exe 'nnoremap <silent> <leader>f' . key . ' :call <SID>util_search_web("n", "' . key . '")<CR>'
+  exe 'vnoremap <silent> <leader>f' . key . ' :<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
+endfor
 
 
 " Command
