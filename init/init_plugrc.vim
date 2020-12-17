@@ -141,6 +141,7 @@ augroup end
 
 
 " vim-ipairs
+let g:pairs_map_ret = 0
 let g:pairs_usr_def = {
       \ "("  : ")",
       \ "["  : "]",
