@@ -14,24 +14,53 @@ inoremap <silent> <F3> <ESC>:15Lexplore<CR>
 tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 
 
+" Pairs
+function! s:subrc_is_surrounded()
+  return index(["()", "[]", "{}", "''", '""'],
+        \ Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0
+endfunction
+
+inoremap ( ()<C-g>U<Left>
+inoremap [ []<C-g>U<Left>
+inoremap { {}<C-g>U<Left>
+inoremap <expr> )
+      \ Lib_Get_Char(1) ==# ")" ?
+      \ "\<C-g>U\<Right>" : ")"
+inoremap <expr> ]
+      \ Lib_Get_Char(1) ==# "]" ?
+      \ "\<C-g>U\<Right>" : "]"
+inoremap <expr> }
+      \ Lib_Get_Char(1) ==# "}" ?
+      \ "\<C-g>U\<Right>" : "}"
+inoremap <expr> "
+      \ <SID>subrc_is_surrounded() ?
+      \ "\<C-g>U\<Right>" :
+      \ "\"\"\<Left>"
+inoremap <expr> '
+      \ <SID>subrc_is_surrounded() ?
+      \ "\<C-g>U\<Right>" :
+      \ "''\<Left>"
+inoremap <expr> <space>
+      \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
+      \ "\<space>\<space>\<Left>" :
+      \ "\<space>"
+inoremap <expr> <BS>
+      \ <SID>subrc_is_surrounded() ?
+      \ "\<C-g>U\<Right>\<BS>\<BS>" :
+      \ "\<BS>"
+
+
 " Completion
-inoremap <silent><expr> <Tab>
+inoremap <expr> <Tab>
       \ Lib_Get_Char(0) =~ '[a-z_\u4e00-\u9fa5]' ?
       \ "\<C-N>" :
       \ "\<Tab>"
-inoremap <silent><expr> <S-TAB>
+inoremap <expr> <S-TAB>
       \ pumvisible() ?
       \ "\<C-p>" :
       \ "\<C-h>"
-inoremap <silent><expr> <CR>
+inoremap <expr> <CR>
       \ pumvisible() ? "\<C-y>" :
-      \ index(["()", "[]", "{}"], Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0 ?
+      \ <SID>subrc_is_surrounded() ?
       \ "\<CR>\<ESC>O" :
       \ "\<CR>"
-
-
-" {<space>cursor<space>}
-inoremap <silent><expr> <space>
-      \ [Lib_Get_Char(0), Lib_Get_Char(1)] == ["{", "}"] ?
-      \ "\<space>\<space>\<Left>" :
-      \ "\<space>"

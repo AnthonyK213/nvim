@@ -138,3 +138,17 @@ augroup indentline
   au BufEnter,BufRead * let g:indentLine_enabled = 1
   au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
 augroup end
+
+
+" vim-ipairs
+let g:pairs_usr_def = {
+      \ "("  : ")",
+      \ "["  : "]",
+      \ "{"  : "}",
+      \ "'"  : "'",
+      \ "\"" : "\"",
+      \ "<"  : ">",
+      \ "$"  : "$",
+      \ "`"  : "`",
+      \ "*"  : "*"
+      \ }
