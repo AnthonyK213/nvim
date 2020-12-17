@@ -208,6 +208,9 @@ function! s:md_insert_num_bullet()
       elseif l:linf_f[3] <= l:indent
         call add(l:move_record, l:move_d)
         break
+      elseif l:lnum_f == line('$')
+        call add(l:move_record, l:move_d + 1)
+        break
       endif
       let l:lnum_f += 1
       let l:move_d += 1
@@ -220,8 +223,8 @@ endfunction
 
 augroup md_auto_num
   autocmd!
-  au BufEnter *.md exe 'inoremap <silent> <M-CR> <C-o>:call <SID>md_insert_num_bullet()<CR>'
-  au BufLeave *.md exe 'inoremap <M-CR> <M-CR>'
+  au BufEnter *.md,*.txt exe 'inoremap <silent> <M-CR> <C-o>:call <SID>md_insert_num_bullet()<CR>'
+  au BufLeave *.md,*.txt exe 'inoremap <M-CR> <M-CR>'
 augroup end
 
 
