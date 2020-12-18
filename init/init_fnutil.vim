@@ -24,7 +24,7 @@ function! s:sur_impl(quote_a, quote_b)
   exe "normal! i" . a:quote_a
 endfunction
 
-function! SurDefMap(kbd, quote_a, quote_b)
+function! s:sur_def_map(kbd, quote_a, quote_b)
   let l:esc_dict = {"\"":"\\\""}
   let l:key = "\"" . Lib_Str_Escape(a:quote_a, l:esc_dict) . "\", "
   let l:val = "\"" . Lib_Str_Escape(a:quote_b, l:esc_dict) . "\""
@@ -263,12 +263,7 @@ augroup end
 " Key maps
 "" Surround
 for [key, val] in items(g:sur_map)
-  call SurDefMap(key, val[0], val[1])
-endfor
-for key in ["<M-p>", "<M-i>", "<M-b>", "<M-m>", "<M-u>"]
-  let val = g:sur_map[key]
-  exe "inoremap " . key . " " . val[0] . val[1] .
-        \ repeat("<C-g>U<Left>", len(val[1]))
+  call s:sur_def_map(key, val[0], val[1])
 endfor
 "" Echo git status: <leader> v* -> v(ersion control)
 nnoremap <silent> <leader>vs :!git status<CR>
