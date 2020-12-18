@@ -40,7 +40,7 @@ inoremap <expr> '
       \ <SID>subrc_is_surrounded() ?
       \ "\<C-g>U\<Right>" :
       \ "''\<Left>"
-inoremap <expr> <space>
+inoremap <expr> <SPACE>
       \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
       \ "\<space>\<space>\<Left>" :
       \ "\<space>"
@@ -51,7 +51,7 @@ inoremap <expr> <BS>
 
 
 " Completion
-inoremap <expr> <Tab>
+inoremap <expr> <TAB>
       \ Lib_Get_Char(0) =~ '[a-z_\u4e00-\u9fa5]' ?
       \ "\<C-N>" :
       \ "\<Tab>"
