@@ -52,7 +52,7 @@ inoremap <expr> <BS>
 
 " Completion
 inoremap <expr> <TAB>
-      \ Lib_Get_Char(0) =~ '[a-z_\u4e00-\u9fa5]' ?
+      \ Lib_Get_Char(0) =~ '\v[a-z_\u4e00-\u9fa5]' ?
       \ "\<C-N>" :
       \ "\<Tab>"
 inoremap <expr> <S-TAB>
