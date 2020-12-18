@@ -4,6 +4,8 @@ Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 
+exe 'so ' . stdpath('data') . '/nvim-test/vim-ipairs/after/plugin/ipairs.vim'
+
 
 " One
 colorscheme one
