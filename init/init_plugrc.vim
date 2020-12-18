@@ -142,14 +142,10 @@ augroup end
 
 " vim-ipairs
 let g:pairs_map_ret = 0
-let g:pairs_usr_def = {
-      \ "("  : ")",
-      \ "["  : "]",
-      \ "{"  : "}",
-      \ "'"  : "'",
-      \ "\"" : "\"",
-      \ "<"  : ">",
-      \ "$"  : "$",
-      \ "`"  : "`",
-      \ "*"  : "*"
+let g:pairs_map_bak = 1
+let g:pairs_usr_extd = {
+      \ "$" : "$",
+      \ "`" : "`",
+      \ "*" : "*",
+      \ "abc" : "deff"
       \ }
