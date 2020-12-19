@@ -9,4 +9,4 @@ set mouse=a
 :GuiTabline   0
 :GuiPopupmenu 0
 :GuiLinespace 0
-:GuiFont! Cascadia\ Code\ PL:h10
+:GuiFont! Cascadia\ Code\ PL:h9

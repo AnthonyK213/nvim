@@ -60,7 +60,8 @@ hi! link Macro            PreProc
 hi! link PreCondit        PreProc
 
 " __Operator__
-call s:h("Noise",         {"fg": s:nano_color_subtle, "gui": "NONE"})
+call s:h("Noise",         {"fg": s:nano_color_faded, "gui": "NONE"})
+hi! link Operator         Noise
 hi! link LineNr           Noise
 hi! link CursorLineNr     LineNr
 hi! link FoldColumn       LineNr
@@ -75,13 +76,11 @@ hi! link Character        Constant
 hi! link Number           Constant
 hi! link Boolean          Constant
 hi! link Float            Constant
-hi! link String           Constant
 hi! link Directory        Constant
 hi! link Title            Constant
 
 " __Statement__
 call s:h("Statement",     {"fg": s:nano_color_salient, "gui": "NONE"})
-hi! link Operator         Statement
 hi! link Include          Statement
 hi! link Conditonal       Statement
 hi! link Repeat           Statement
@@ -91,12 +90,13 @@ hi! link Exception        Statement
 
 " __ErrorMsg__
 call s:h("ErrorMsg",      {"fg": s:nano_color_popout})
+hi! link String           ErrorMsg
 hi! link Error            ErrorMsg
 hi! link Question         ErrorMsg
 " __WarningMsg__
 call s:h("WarningMsg",    {"fg": s:nano_color_critical})
 " __MoreMsg__
-call s:h("MoreMsg",       {"fg": s:nano_color_faded, "cterm": "bold", "gui": "bold"})
+call s:h("MoreMsg",       {"fg": s:nano_color_faded, "cterm": "NONE", "gui": "NONE"})
 hi! link ModeMsg          MoreMsg
 
 " __NonText__
@@ -155,7 +155,7 @@ call s:h("Pmenu",         {"fg": s:nano_color_foreground, "bg": s:nano_color_hig
 hi! link PmenuSbar        Pmenu
 hi! link PmenuThumb       Pmenu
 " __PmenuSel__
-call s:h("PmenuSel",      {"fg": s:nano_color_foreground, "bg": s:nano_color_highlight, "gui": "bold"})
+call s:h("PmenuSel",      {"fg": s:nano_color_foreground, "bg": s:nano_color_subtle, "gui": "bold"})
 
 hi! link TabLine          Normal
 hi! link TabLineSel       Keyword
