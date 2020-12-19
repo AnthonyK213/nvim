@@ -1,16 +1,15 @@
 " Name:    nanovim.vim
 " Licence: MIT
 
-set background=light
+
 hi clear
-
-if exists('syntax on')
-  syntax reset
-endif
-
+set background=light
+if exists('syntax on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
-let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
+
+" Colors
+let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "255" } "White
 let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
 let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "1"   } "Amber
 let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "1"   } "Deep Orange
@@ -21,7 +20,8 @@ let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" } "Blue Grey / 
 let s:nano_color_foreground = { "gui": "#37474F", "cterm": "8"   } "Blue Grey / L800
 
 
-function! s:h(group, style)
+" Define highlight groups
+function! s:def_face(group, style)
   execute "highlight" a:group
         \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
         \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
@@ -33,196 +33,315 @@ function! s:h(group, style)
 endfunction
 
 
-" __Normal__
-if has("gui")
-  call s:h("Normal", {"fg": s:nano_color_foreground, "bg": s:nano_color_background})
-  call s:h("Cursor", {"fg": s:nano_color_subtle,     "bg": s:nano_color_foreground})
-else
-  call s:h("Normal", {"fg": s:nano_color_foreground})
-  hi! link Cursor    Identifier
-endif
-hi! link Identifier       Normal
-hi! link Function         Identifier
-hi! link Type             Normal
-hi! link StorageClass     Type
-hi! link Structure        Type
-hi! link Typedef          Type
-hi! link Special          Normal
-hi! link SpecialChar      Special
-hi! link Tag              Special
-hi! link Delimiter        Special
-hi! link SpecialComment   Special
-hi! link Debug            Special
-hi! link VertSplit        Normal
-hi! link PreProc          Normal
-hi! link Define           PreProc
-hi! link Macro            PreProc
-hi! link PreCondit        PreProc
+" Default face is used for regular information.
+call s:def_face("Nano_Face_Default", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_background
+      \ })
+" Critical face is for information that requires immediate action.
+" It should be of high contrast when compared to other faces. This
+" can be realized (for example) by setting an intense background
+" color, typically a shade of red. It must be used scarcely.
+call s:def_face("Nano_Face_Critical", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_critical
+      \ })
+" Popout face is used for information that needs attention.
+" To achieve such effect, the hue of the face has to be
+" sufficiently different from other faces such that it attracts
+" attention through the popout effect.
+call s:def_face("Nano_Face_Popout", {
+      \ "fg": s:nano_color_popout
+      \ })
+" Strong face is used for information of a structural nature.
+" It has to be the same color as the default color and only the
+" weight differs by one level (e.g., light/regular or
+" regular/bold). IT is generally used for titles, keywords,
+" directory, etc.
+call s:def_face("Nano_Face_Strong", {
+      \ "fg": s:nano_color_strong
+      \ })
+" Salient face is used for information that are important.
+" To suggest the information is of the same nature but important,
+" the face uses a different hue with approximately the same
+" intensity as the default face. This is typically used for links.
+call s:def_face("Nano_Face_Salient", {
+      \ "fg": s:nano_color_salient
+      \ })
+" Faded face is for information that are less important.
+" It is made by using the same hue as the default but with a lesser
+" intensity than the default. It can be used for comments,
+" secondary information and also replace italic (which is generally
+" abused anyway).
+call s:def_face("Nano_Face_Faded", {
+      \ "fg": s:nano_color_faded
+      \ })
+" Subtle face is used to suggest a physical area on the screen.
+" It is important to not disturb too strongly the reading of
+" information and this can be made by setting a very light
+" background color that is barely perceptible.
+call s:def_face("Nano_Face_Subtle", {
+      \ "fg": s:nano_color_subtle
+      \ })
+" Default face for the header line.
+call s:def_face("Nano_Face_Header_Default", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle
+      \ })
+" Critical face for the header line.
+call s:def_face("Nano_Face_Header_Critical", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_critical
+      \ })
+" Popout face for the header line.
+call s:def_face("Nano_Face_Header_Popout", {
+      \ "fg": s:nano_color_background,
+      \ "bg": s:nano_color_popout
+      \ })
+" Strong face for the header line.
+call s:def_face("Nano_Face_Header_Strong", {
+      \ "fg": s:nano_color_strong,
+      \ "bg": s:nano_color_subtle
+      \ })
+" Salient face for the header line.
+call s:def_face("Nano_Face_Header_Salient", {
+      \ "fg": s:nano_color_background,
+      \ "bg": s:nano_color_salient
+      \ })
+" Faded face for the header line.
+call s:def_face("Nano_Face_Header_Faded", {
+      \ "fg": s:nano_color_background,
+      \ "bg": s:nano_color_faded
+      \ })
 
-" __Operator__
-call s:h("Noise",         {"fg": s:nano_color_faded, "gui": "NONE"})
-hi! link Operator         Noise
-hi! link LineNr           Noise
-hi! link CursorLineNr     LineNr
-hi! link FoldColumn       LineNr
-hi! link SignColumn       LineNr
 
-" __Comment__
-call s:h("Comment",       {"fg": s:nano_color_faded, "gui": "NONE"})
-
-" __Constant__
-call s:h("Constant",      {"fg": s:nano_color_faded})
-hi! link Character        Constant
-hi! link Number           Constant
-hi! link Boolean          Constant
-hi! link Float            Constant
-hi! link Directory        Constant
-hi! link Title            Constant
-
-" __Statement__
-call s:h("Statement",     {"fg": s:nano_color_salient, "gui": "NONE"})
-hi! link Include          Statement
-hi! link Conditonal       Statement
-hi! link Repeat           Statement
-hi! link Label            Statement
-hi! link Keyword          Statement
-hi! link Exception        Statement
-
-" __ErrorMsg__
-call s:h("ErrorMsg",      {"fg": s:nano_color_popout})
-hi! link String           ErrorMsg
-hi! link Error            ErrorMsg
-hi! link Question         ErrorMsg
-" __WarningMsg__
-call s:h("WarningMsg",    {"fg": s:nano_color_critical})
-" __MoreMsg__
-call s:h("MoreMsg",       {"fg": s:nano_color_faded, "cterm": "NONE", "gui": "NONE"})
-hi! link ModeMsg          MoreMsg
-
-" __NonText__
-call s:h("NonText",       {"fg": s:nano_color_subtle})
-hi! link Folded           NonText
-hi! link qfLineNr         NonText
-
+" __Cursor__
+"call s:def_face("Cursor", {
+"      \ "fg": s:nano_color_subtle,
+"      \ "bg": s:nano_color_foreground
+"      \ })
 " __Search__
-call s:h("Search",        {"bg": s:nano_color_subtle, "fg": s:nano_color_foreground})
-call s:h("IncSearch",     {"bg": s:nano_color_subtle, "fg": s:nano_color_foreground, "gui": "bold"})
-
+call s:def_face("IncSearch", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "bold"
+      \ })
 " __Visual__
-call s:h("Visual",        {"bg": s:nano_color_subtle})
+call s:def_face("Visual", {
+      \ "bg": s:nano_color_subtle
+      \ })
 " __VisualNOS__
-call s:h("VisualNOS",     {"bg": s:nano_color_subtle})
-
-call s:h("Ignore",        {"fg": s:nano_color_subtle})
-
+call s:def_face("VisualNOS", {
+      \ "bg": s:nano_color_subtle
+      \ })
+" __Ignore__
+call s:def_face("Ignore", {
+      \ "fg": s:nano_color_subtle
+      \ })
 " __DiffAdd__
-call s:h("DiffAdd",       {"fg": s:nano_color_strong})
+call s:def_face("DiffAdd", {
+      \ "fg": s:nano_color_strong
+      \ })
 " __DiffDelete__
-call s:h("DiffDelete",    {"fg": s:nano_color_popout})
+call s:def_face("DiffDelete", {
+      \ "fg": s:nano_color_popout
+      \ })
 " __DiffChange__
-call s:h("DiffChange",    {"fg": s:nano_color_critical})
+call s:def_face("DiffChange", {
+      \ "fg": s:nano_color_critical
+      \ })
 " __DiffText__
-call s:h("DiffText",      {"fg": s:nano_color_faded})
-
-if has("gui_running")
-  call s:h("SpellBad",    {"gui": "underline", "sp": s:nano_color_popout})
-  call s:h("SpellCap",    {"gui": "underline", "sp": s:nano_color_popout})
-  call s:h("SpellRare",   {"gui": "underline", "sp": s:nano_color_popout})
-  call s:h("SpellLocal",  {"gui": "underline", "sp": s:nano_color_popout})
-else
-  call s:h("SpellBad",    {"cterm": "underline", "fg": s:nano_color_popout})
-  call s:h("SpellCap",    {"cterm": "underline", "fg": s:nano_color_popout})
-  call s:h("SpellRare",   {"cterm": "underline", "fg": s:nano_color_popout})
-  call s:h("SpellLocal",  {"cterm": "underline", "fg": s:nano_color_popout})
-endif
-
-hi! link helpHyperTextEntry Title
-hi! link helpHyperTextJump  String
-
+call s:def_face("DiffText", {
+      \ "fg": s:nano_color_faded
+      \ })
 " __StatusLine__
-call s:h("StatusLine",        {"gui": "NONE", "bg": s:nano_color_subtle, "fg": s:nano_color_foreground})
+call s:def_face("StatusLine", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle
+      \ })
 " __StatusLineNC__
-call s:h("StatusLineNC",      {"gui": "NONE", "bg": s:nano_color_subtle, "fg": s:nano_color_background})
+call s:def_face("StatusLineNC", {
+      \ "fg": s:nano_color_background,
+      \ "bg": s:nano_color_subtle
+      \ })
 " __WildMenu__
-call s:h("WildMenu",          {"gui": "underline,bold", "bg": s:nano_color_subtle, "fg": s:nano_color_foreground})
-
-call s:h("StatusLineOk",      {"gui": "underline", "bg": s:nano_color_subtle, "fg": s:nano_color_foreground})
-call s:h("StatusLineError",   {"gui": "underline", "bg": s:nano_color_subtle, "fg": s:nano_color_popout})
-call s:h("StatusLineWarning", {"gui": "underline", "bg": s:nano_color_subtle, "fg": s:nano_color_critical})
-
+call s:def_face("WildMenu", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "underline,bold"
+      \ })
+call s:def_face("StatusLineOk", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "underline"
+      \ })
+call s:def_face("StatusLineError", {
+      \ "fg": s:nano_color_popout,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "underline"
+      \ })
+call s:def_face("StatusLineWarning", {
+      \ "fg": s:nano_color_critical,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "underline"
+      \ })
 " __Pmenu__
-call s:h("Pmenu",         {"fg": s:nano_color_foreground, "bg": s:nano_color_highlight})
-hi! link PmenuSbar        Pmenu
-hi! link PmenuThumb       Pmenu
+call s:def_face("Pmenu", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_highlight
+      \ })
 " __PmenuSel__
-call s:h("PmenuSel",      {"fg": s:nano_color_foreground, "bg": s:nano_color_subtle, "gui": "bold"})
-
-hi! link TabLine          Normal
-hi! link TabLineSel       Keyword
-hi! link TabLineFill      Normal
-
+call s:def_face("PmenuSel", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "bold"
+      \ })
 " __CursorLine__
-call s:h("CursorLine",    {"bg": s:nano_color_highlight})
+call s:def_face("CursorLine", {
+      \ "bg": s:nano_color_highlight
+      \ })
 " __CursorColumn__
-call s:h("ColorColumn",   {"bg": s:nano_color_highlight})
-
+call s:def_face("ColorColumn", {
+      \ "bg": s:nano_color_highlight
+      \ })
 " __MatchParen__
-call s:h("MatchParen",    {"bg": s:nano_color_subtle, "fg": s:nano_color_foreground})
+call s:def_face("MatchParen", {
+      \ "fg": s:nano_color_popout,
+      \ "bg": s:nano_color_background,
+      \ "gui": "underline"
+      \ })
+" __Spell__
+call s:def_face("SpellBad", {
+      \ "fg": s:nano_color_popout,
+      \ "gui": "underline"
+      \ })
+call s:def_face("SpellCap", {
+      \ "fg": s:nano_color_popout
+      \ })
+call s:def_face("SpellRare", {
+      \ "fg": s:nano_color_popout
+      \ })
+call s:def_face("SpellLocal", {
+      \ "fg": s:nano_color_popout
+      \ })
 
 
-hi! link htmlH1 Normal
-hi! link htmlH2 Normal
-hi! link htmlH3 Normal
-hi! link htmlH4 Normal
-hi! link htmlH5 Normal
-hi! link htmlH6 Normal
+hi! link Normal                  Nano_Face_Default
+hi! link Cursor                  Nano_Face_Default
+hi! link Identifier              Nano_Face_Default
+hi! link Function                Nano_Face_Strong
+hi! link Type                    Nano_Face_Salient
+hi! link Comment                 Nano_Face_Faded
+hi! link String                  Nano_Face_Popout
+hi! link Constant                Nano_Face_Salient
+hi! link WarningMsg              Nano_Face_Popout
+hi! link Typedef                 Nano_Face_Salient
+hi! link Keyword                 Nano_Face_Salient
+hi! link ErrorMsg                Nano_Face_Popout
+hi! link NonText                 Nano_Face_Subtle
+hi! link MoreMsg                 Nano_Face_Faded
+hi! link Statement               Nano_Face_Salient
+hi! link Search                  Nano_Face_Header_Default
 
-hi link diffRemoved              DiffDelete
-hi link diffAdded                DiffAdd
+hi! link Special                 Nano_Face_Default
+hi! link VertSplit               Nano_Face_Default
+hi! link PreProc                 Nano_Face_Default
+hi! link StorageClass            Nano_Face_Default
+hi! link Structure               Nano_Face_Default
+hi! link SpecialChar             Nano_Face_Default
+hi! link Tag                     Nano_Face_Default
+hi! link Delimiter               Nano_Face_Default
+hi! link SpecialComment          Nano_Face_Default
+hi! link Debug                   Nano_Face_Default
+hi! link Define                  Nano_Face_Default
+hi! link Macro                   Nano_Face_Default
+hi! link PreCondit               Nano_Face_Default
+
+hi! link LineNr                  Nano_Face_Faded
+hi! link CursorLineNr            Nano_Face_Faded
+hi! link FoldColumn              Nano_Face_Faded
+hi! link SignColumn              Nano_Face_Faded
+hi! link Character               Nano_Face_Faded
+hi! link Number                  Nano_Face_Faded
+hi! link Boolean                 Nano_Face_Faded
+hi! link Float                   Nano_Face_Faded
+hi! link Directory               Nano_Face_Faded
+hi! link Title                   Nano_Face_Faded
+
+hi! link Operator                Nano_Face_Salient
+hi! link Include                 Nano_Face_Salient
+hi! link Conditonal              Nano_Face_Salient
+hi! link Repeat                  Nano_Face_Salient
+hi! link Label                   Nano_Face_Salient
+hi! link Exception               Nano_Face_Salient
+
+hi! link Error                   Nano_Face_Popout
+hi! link Question                Nano_Face_Popout
+hi! link Folded                  Nano_Face_Subtle
+hi! link qfLineNr                Nano_Face_Subtle
+hi! link ModeMsg                 Nano_Face_Faded
+
+hi! link helpHyperTextEntry      Nano_Face_Salient
+hi! link helpHyperTextJump       Nano_Face_Popout
+hi! link PmenuSbar               Pmenu
+hi! link PmenuThumb              Pmenu
+hi! link TabLine                 Nano_Face_Default
+hi! link TabLineSel              Nano_Face_Salient
+hi! link TabLineFill             Nano_Face_Default
+
+hi! link htmlH1                  Nano_Face_Strong
+hi! link htmlH2                  Nano_Face_Strong
+hi! link htmlH3                  Nano_Face_Strong
+hi! link htmlH4                  Nano_Face_Strong
+hi! link htmlH5                  Nano_Face_Strong
+hi! link htmlH6                  Nano_Face_Strong
+
+hi link diffRemoved              Nano_Face_Popout
+hi link diffAdded                Nano_Face_Popout
 
 " Signify, git-gutter
-hi link SignifySignAdd           LineNr
-hi link SignifySignDelete        LineNr
-hi link SignifySignChange        LineNr
-hi link GitGutterAdd             LineNr
-hi link GitGutterDelete          LineNr
-hi link GitGutterChange          LineNr
-hi link GitGutterChangeDelete    LineNr
+hi link SignifySignAdd           Nano_Face_Faded
+hi link SignifySignDelete        Nano_Face_Faded
+hi link SignifySignChange        Nano_Face_Faded
+hi link GitGutterAdd             Nano_Face_Faded
+hi link GitGutterDelete          Nano_Face_Faded
+hi link GitGutterChange          Nano_Face_Faded
+hi link GitGutterChangeDelete    Nano_Face_Faded
 
-hi link jsFlowTypeKeyword        Statement
-hi link jsFlowImportType         Statement
-hi link jsFunction               Statement
-hi link jsGlobalObjects          Normal
-hi link jsGlobalNodeObjects      Normal
-hi link jsArrowFunction          Noise
-hi link StorageClass             Statement
+hi link jsFlowTypeKeyword        Nano_Face_Salient
+hi link jsFlowImportType         Nano_Face_Salient
+hi link jsFunction               Nano_Face_Salient
+hi link jsGlobalObjects          Nano_Face_Default
+hi link jsGlobalNodeObjects      Nano_Face_Default
+hi link jsArrowFunction          Nano_Face_Faded
+hi link StorageClass             Nano_Face_Salient
 
-hi link xmlTag                   Constant
-hi link xmlTagName               xmlTag
-hi link xmlEndTag                xmlTag
-hi link xmlAttrib                xmlTag
+hi link xmlTag                   Nano_Face_Salient
+hi link xmlTagName               Nano_Face_Salient
+hi link xmlEndTag                Nano_Face_Salient
+hi link xmlAttrib                Nano_Face_Salient
 
-hi link markdownH1               Statement
-hi link markdownH2               Statement
-hi link markdownH3               Statement
-hi link markdownH4               Statement
-hi link markdownH5               Statement
-hi link markdownH6               Statement
-hi link markdownListMarker       Normal
-hi link markdownCode             Constant
-hi link markdownCodeBlock        Constant
-hi link markdownCodeDelimiter    Constant
-hi link markdownHeadingDelimiter Constant
+hi link markdownH1               Nano_Face_Salient
+hi link markdownH2               Nano_Face_Salient
+hi link markdownH3               Nano_Face_Salient
+hi link markdownH4               Nano_Face_Salient
+hi link markdownH5               Nano_Face_Salient
+hi link markdownH6               Nano_Face_Salient
+hi link markdownListMarker       Nano_Face_Default
+hi link markdownCode             Nano_Face_Salient
+hi link markdownCodeBlock        Nano_Face_Salient
+hi link markdownCodeDelimiter    Nano_Face_Salient
+hi link markdownHeadingDelimiter Nano_Face_Salient
 
-hi link yamlBlockMappingKey      Statement
-hi link pythonOperator           Statement
+hi link yamlBlockMappingKey      Nano_Face_Salient
+hi link pythonOperator           Nano_Face_Salient
 
-hi link ALEWarning               WarningMsg
-hi link ALEWarningSign           WarningMsg
-hi link ALEError                 ErrorMsg
-hi link ALEErrorSign             ErrorMsg
-hi link ALEInfo                  InfoMsg
-hi link ALEInfoSign              InfoMsg
+hi link ALEWarning               Nano_Face_Critical
+hi link ALEWarningSign           Nano_Face_Critical
+hi link ALEError                 Nano_Face_Critical
+hi link ALEErrorSign             Nano_Face_Critical
+hi link ALEInfo                  Nano_Face_Subtle
+hi link ALEInfoSign              Nano_Face_Subtle
 
-hi link sqlStatement             Statement
-hi link sqlKeyword               Keyword
+hi link sqlStatement             Nano_Face_Salient
+hi link sqlKeyword               Nano_Face_Salient
