@@ -115,11 +115,16 @@ call s:def_face("Nano_Face_Header_Faded", {
       \ })
 
 
+" __Normal__
+call s:def_face("Normal", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_background
+      \ })
 " __Cursor__
-"call s:def_face("Cursor", {
-"      \ "fg": s:nano_color_subtle,
-"      \ "bg": s:nano_color_foreground
-"      \ })
+call s:def_face("Cursor", {
+      \ "fg": s:nano_color_subtle,
+      \ "bg": s:nano_color_foreground
+      \ })
 " __Search__
 call s:def_face("IncSearch", {
       \ "fg": s:nano_color_foreground,
@@ -137,22 +142,6 @@ call s:def_face("VisualNOS", {
 " __Ignore__
 call s:def_face("Ignore", {
       \ "fg": s:nano_color_subtle
-      \ })
-" __DiffAdd__
-call s:def_face("DiffAdd", {
-      \ "fg": s:nano_color_strong
-      \ })
-" __DiffDelete__
-call s:def_face("DiffDelete", {
-      \ "fg": s:nano_color_popout
-      \ })
-" __DiffChange__
-call s:def_face("DiffChange", {
-      \ "fg": s:nano_color_critical
-      \ })
-" __DiffText__
-call s:def_face("DiffText", {
-      \ "fg": s:nano_color_faded
       \ })
 " __StatusLine__
 call s:def_face("StatusLine", {
@@ -215,19 +204,8 @@ call s:def_face("SpellBad", {
       \ "fg": s:nano_color_popout,
       \ "gui": "underline"
       \ })
-call s:def_face("SpellCap", {
-      \ "fg": s:nano_color_popout
-      \ })
-call s:def_face("SpellRare", {
-      \ "fg": s:nano_color_popout
-      \ })
-call s:def_face("SpellLocal", {
-      \ "fg": s:nano_color_popout
-      \ })
 
 
-hi! link Normal                  Nano_Face_Default
-hi! link Cursor                  Nano_Face_Default
 hi! link Identifier              Nano_Face_Default
 hi! link Function                Nano_Face_Strong
 hi! link Type                    Nano_Face_Salient
@@ -242,7 +220,7 @@ hi! link NonText                 Nano_Face_Subtle
 hi! link MoreMsg                 Nano_Face_Faded
 hi! link Statement               Nano_Face_Salient
 hi! link Search                  Nano_Face_Header_Default
-
+hi! link Todo                    Nano_Face_Header_Popout
 hi! link Special                 Nano_Face_Default
 hi! link VertSplit               Nano_Face_Default
 hi! link PreProc                 Nano_Face_Default
@@ -256,7 +234,6 @@ hi! link Debug                   Nano_Face_Default
 hi! link Define                  Nano_Face_Default
 hi! link Macro                   Nano_Face_Default
 hi! link PreCondit               Nano_Face_Default
-
 hi! link LineNr                  Nano_Face_Faded
 hi! link CursorLineNr            Nano_Face_Faded
 hi! link FoldColumn              Nano_Face_Faded
@@ -267,28 +244,22 @@ hi! link Boolean                 Nano_Face_Faded
 hi! link Float                   Nano_Face_Faded
 hi! link Directory               Nano_Face_Faded
 hi! link Title                   Nano_Face_Faded
-
 hi! link Operator                Nano_Face_Salient
 hi! link Include                 Nano_Face_Salient
 hi! link Conditonal              Nano_Face_Salient
 hi! link Repeat                  Nano_Face_Salient
 hi! link Label                   Nano_Face_Salient
 hi! link Exception               Nano_Face_Salient
-
 hi! link Error                   Nano_Face_Popout
 hi! link Question                Nano_Face_Popout
 hi! link Folded                  Nano_Face_Subtle
 hi! link qfLineNr                Nano_Face_Subtle
 hi! link ModeMsg                 Nano_Face_Faded
-
 hi! link helpHyperTextEntry      Nano_Face_Salient
 hi! link helpHyperTextJump       Nano_Face_Popout
-hi! link PmenuSbar               Pmenu
-hi! link PmenuThumb              Pmenu
 hi! link TabLine                 Nano_Face_Default
 hi! link TabLineSel              Nano_Face_Salient
 hi! link TabLineFill             Nano_Face_Default
-
 hi! link htmlH1                  Nano_Face_Strong
 hi! link htmlH2                  Nano_Face_Strong
 hi! link htmlH3                  Nano_Face_Strong
@@ -296,6 +267,16 @@ hi! link htmlH4                  Nano_Face_Strong
 hi! link htmlH5                  Nano_Face_Strong
 hi! link htmlH6                  Nano_Face_Strong
 
+hi! link PmenuSbar               Pmenu
+hi! link PmenuThumb              Pmenu
+hi! link SpellCap                SpellBad
+hi! link SpellRare               SpellBad
+hi! link SpellLocal              SpellBad
+
+hi link DiffAdd                  Nano_Face_Strong
+hi link DiffDelete               Nano_Face_Popout
+hi link DiffChange               Nano_Face_Critical
+hi link DiffText                 Nano_Face_Faded
 hi link diffRemoved              Nano_Face_Popout
 hi link diffAdded                Nano_Face_Popout
 
