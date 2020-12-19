@@ -119,7 +119,7 @@ function! GitPushAll(...)
 endfunction
 
 "" Run code
-function! RunOrCompile(option)
+function! s:util_run_or_compile(option)
   let optn = a:option
   let size = 30
   let cmdh = 'term '
@@ -191,10 +191,12 @@ function! s:md_check_line(lnum)
   let l:indent = strlen(matchstr(l:lstr, '\v^(\s*)')) 
   if l:lstr =~ '\v^\s*(\+|-|*|#+)\s+.*$'
     let l:detect = 1
-    let l:bullet = substitute(l:lstr, '\v^\s*(.+)\s+.*$', '\=submatch(1)', '')
+    let l:bullet = substitute(l:lstr,
+          \ '\v^\s*(.+)\s+.*$', '\=submatch(1)', '')
   elseif l:lstr =~ '\v^\s*(\d+)\.\s+.*$'
     let l:detect = 2
-    let l:bullet = substitute(l:lstr, '\v^\s*(\d+)\.\s+.*$', '\=submatch(1)', '')
+    let l:bullet = substitute(l:lstr,
+          \ '\v^\s*(\d+)\.\s+.*$', '\=submatch(1)', '')
   endif
   return [l:detect, l:lstr, l:bullet, l:indent]
 endfunction
@@ -236,7 +238,8 @@ function! s:md_insert_num_bullet()
       let l:linf_f = s:md_check_line(l:lnum_f)
       if l:linf_f[0] == 2 && l:linf_f[3] == l:indent
         call add(l:move_record, l:move_d)
-        call setline(l:lnum_f, substitute(l:linf_f[1], '\v(\d+)', '\=submatch(1) + 1', ''))
+        call setline(l:lnum_f, substitute(l:linf_f[1],
+              \ '\v(\d+)', '\=submatch(1) + 1', ''))
       elseif l:linf_f[3] <= l:indent
         call add(l:move_record, l:move_d)
         break
@@ -248,7 +251,8 @@ function! s:md_insert_num_bullet()
       let l:move_d += 1
     endwhile
     let l:count_d = len(l:move_record) == 0 ? 0 : l:move_record[0]
-    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-o>o\<C-o>0" . repeat("\<space>", l:indent) . (bullet + 1) . '. ')
+    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-o>o\<C-o>0" .
+          \ repeat("\<space>", l:indent) . (bullet + 1) . '. ')
   endif
 endfunction
 
@@ -289,6 +293,6 @@ command! Bib call Biber()
 "" Git
 command! -nargs=* PushAll :call GitPushAll(<f-args>)
 "" Run code
-command! -nargs=? CodeRun :call RunOrCompile(<q-args>)
+command! -nargs=? CodeRun :call <SID>util_run_or_compile(<q-args>)
 "" Echo time(May be useful in full screen?)
 command! Time :echo strftime('%Y-%m-%d %a %T')

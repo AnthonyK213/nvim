@@ -44,6 +44,8 @@
       > Functions:
       > - Mouse toggle
       > - Chinese character count
+      > - Numerical bullets insert on <M-CR>
+      > - Surroundings
     - `init_subsrc.vim`
       > When don't want to use any plug-ins,  
       > this can be a simple substitute.  
@@ -57,7 +59,7 @@
       > Configurations of plug-ins.(source init_plugin at first)
   - Color schemes
     - `onedark.vim`
-    - `monokai.vim`
+    - `plain.vim`
 
 ## init.vim
 ``` vim
@@ -71,5 +73,5 @@ source <sfile>:h/init/init_fnutil.vim
 "source <sfile>:h/init/init_rc_coc.vim
 source <sfile>:h/init/init_subsrc.vim
 source <sfile>:h/scheme/onedark.vim
-"source <sfile>:h/scheme/monokai.vim
+"source <sfile>:h/scheme/plain.vim
 ```

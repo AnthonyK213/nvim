@@ -5,16 +5,15 @@ syntax enable
 
 
 " Appearance
+set ruler
+set number
 set hidden
-set noshowmode showcmd
+set cursorline
 set cmdheight=1
 set laststatus=2
 set shortmess=atI
-set background=dark
 set termguicolors
-set number
-set ruler
-set cursorline
+set noshowmode showcmd
 set list listchars=tab:>-,trail:·
 
 
