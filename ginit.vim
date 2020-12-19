@@ -1,6 +1,9 @@
 """ Configuration just for nvim-qt
 " Set behaviors
-exe 'cd ' . g:usr_desktop
+try
+  exe 'cd ' . g:usr_desktop
+catch
+endtry
 lcd %:p:h
 set mouse=a
 

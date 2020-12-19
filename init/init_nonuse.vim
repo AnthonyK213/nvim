@@ -6,6 +6,30 @@ Plug 'tpope/vim-surround'
 
 exe 'so ' . stdpath('data') . '/nvim-test/vim-ipairs/after/plugin/ipairs.vim'
 
+let s:source = [
+      \ 'a_plug',
+      \ 'basics',
+      \ 'custom',
+      \ 'deflib',
+      \ 'depwin',
+      \ 'fnutil',
+      \ 'plugrc',
+      \ 'rc_coc',
+      \ 'subsrc',
+      \ 'nanovi'
+      \ ]
+let s:flavor = {
+      \ 'light' : [1, 2, 3, 4, 5, 8, 9],
+      \ 'full'  : [0, 1, 2, 3, 4, 5, 6, 7]
+      \ }
+function! s:flavor.impl(flavor_name)
+  for l:i in self[a:flavor_name]
+    exe 'source \<sfile>:h/init/init_' . s:source[l:i] . '.vim'
+  endfor
+endfunction
+
+call s:flavor.impl('light')
+
 
 " One
 colorscheme one
