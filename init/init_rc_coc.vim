@@ -1,8 +1,7 @@
 " Coc.nvim
 let g:coc_global_extentions = [
-      "\ 'coc-pairs',
-      \ 'coc-python',
       \ 'coc-rls',
+      \ 'coc-python',
       \ 'coc-vimtex'
       \ ]
 
