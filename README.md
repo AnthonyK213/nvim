@@ -73,5 +73,5 @@ source <sfile>:h/init/init_fnutil.vim
 "source <sfile>:h/init/init_rc_coc.vim
 source <sfile>:h/init/init_subsrc.vim
 source <sfile>:h/scheme/onedark.vim
-"source <sfile>:h/scheme/plain.vim
+"source <sfile>:h/scheme/nanovim.vim
 ```

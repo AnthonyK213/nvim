@@ -22,18 +22,18 @@ endif
 
 let g:colors_name='plain'
 
-let s:black           = { "gui": "#222222", "cterm": "0"   }
-let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
-let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
-let s:light_black     = { "gui": "#424242", "cterm": "8"   }
+let s:black           = { "gui": "#000000", "cterm": "0"   } "Black"
+let s:medium_gray     = { "gui": "#ECEFF1", "cterm": "243" } "Blue Grey / L50"
+let s:white           = { "gui": "#F1F1F1", "cterm": "15"  } "White"
+let s:light_black     = { "gui": "#37474F", "cterm": "8"   } "Blue Grey / L800"
 let s:lighter_black   = { "gui": "#545454", "cterm": "240" }
 let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
-let s:light_gray      = { "gui": "#999999", "cterm": "249" }
 let s:lighter_gray    = { "gui": "#CCCCCC", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#E5E5E5", "cterm": "251" }
-let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
-let s:light_red       = { "gui": "#E32791", "cterm": "1"   }
-let s:dark_blue       = { "gui": "#008EC4", "cterm": "4"   }
+let s:dark_red        = { "gui": "#FFAB91", "cterm": "1"   } "deep orange"
+let s:light_red       = { "gui": "#FF6F00", "cterm": "1"   } "amber"
+let s:light_gray      = { "gui": "#B0BEC5", "cterm": "249" } "Blue Grey / L200"
+let s:dark_blue       = { "gui": "#B0BEC5", "cterm": "4"   } "Blue Grey / L200"
 let s:light_blue      = { "gui": "#B6D6FD", "cterm": "153" }
 let s:dark_cyan       = { "gui": "#20A5BA", "cterm": "6"   }
 let s:light_cyan      = { "gui": "#4FB8CC", "cterm": "14"  }
@@ -149,8 +149,8 @@ hi! link Macro            PreProc
 hi! link PreCondit        PreProc
 
 " __Operator__
-call s:h("Noise",         {"fg": s:norm_subtle, "gui": "NONE"})
-hi! link Operator         Noise
+call s:h("Noise",         {"fg": s:norm_very_subtle, "gui": "NONE"})
+"hi! link Operator         Noise
 hi! link LineNr           Noise
 hi! link CursorLineNr     LineNr
 hi! link FoldColumn       LineNr
@@ -170,7 +170,8 @@ hi! link Directory        Constant
 hi! link Title            Constant
 
 " __Statement__
-call s:h("Statement",     {"fg": s:norm, "gui": "bold"})
+call s:h("Statement",     {"fg": s:purple, "gui": "NONE"})
+"hi! link Operator         Statement
 hi! link Include          Statement
 hi! link Conditonal       Statement
 hi! link Repeat           Statement
@@ -296,7 +297,7 @@ hi link markdownH3 Statement
 hi link markdownH4 Statement
 hi link markdownH5 Statement
 hi link markdownH6 Statement
-hi link markdownListMarker Constant
+hi link markdownListMarker Normal
 hi link markdownCode Constant
 hi link markdownCodeBlock Constant
 hi link markdownCodeDelimiter Constant
