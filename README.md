@@ -68,6 +68,8 @@ if !exists('g:init_src')
 endif
 
 if g:init_src ==? 'clean'
+  source <sfile>:h/init/init_basics.vim
+  source <sfile>:h/init/init_custom.vim
 elseif g:init_src ==? 'light'
   source <sfile>:h/init/init_basics.vim
   source <sfile>:h/init/init_custom.vim
@@ -85,8 +87,5 @@ elseif g:init_src == 'full'
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_plugrc.vim
   source <sfile>:h/init/init_rc_coc.vim
-else
-  source <sfile>:h/init/init_basics.vim
-  source <sfile>:h/init/init_custom.vim
 endif
 ```
