@@ -15,9 +15,8 @@ tnoremap <silent> <F3> <C-\><C-N>:15Lexplore<CR>
 
 
 " Pairs
-function! s:subrc_is_surrounded()
-  return index(["()", "[]", "{}", "''", '""'],
-        \ Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0
+function! s:subrc_is_surrounded(match_list)
+  return index(a:match_list, Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0
 endfunction
 
 inoremap ( ()<C-g>U<Left>
@@ -33,11 +32,11 @@ inoremap <expr> }
       \ Lib_Get_Char(1) ==# "}" ?
       \ "\<C-g>U\<Right>" : "}"
 inoremap <expr> "
-      \ <SID>subrc_is_surrounded() ?
+      \ <SID>subrc_is_surrounded(["\"\""]) ?
       \ "\<C-g>U\<Right>" :
       \ "\"\"\<Left>"
 inoremap <expr> '
-      \ <SID>subrc_is_surrounded() ?
+      \ <SID>subrc_is_surrounded(["''"]) ?
       \ "\<C-g>U\<Right>" :
       \ "''\<Left>"
 inoremap <expr> <SPACE>
@@ -45,7 +44,7 @@ inoremap <expr> <SPACE>
       \ "\<space>\<space>\<Left>" :
       \ "\<space>"
 inoremap <expr> <BS>
-      \ <SID>subrc_is_surrounded() ?
+      \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""']) ?
       \ "\<C-g>U\<Right>\<BS>\<BS>" :
       \ "\<BS>"
 
@@ -61,6 +60,6 @@ inoremap <expr> <S-TAB>
       \ "\<C-h>"
 inoremap <expr> <CR>
       \ pumvisible() ? "\<C-y>" :
-      \ <SID>subrc_is_surrounded() ?
+      \ <SID>subrc_is_surrounded(["()", "[]", "{}"]) ?
       \ "\<CR>\<ESC>O" :
       \ "\<CR>"
