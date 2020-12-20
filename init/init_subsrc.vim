@@ -2,6 +2,11 @@
 set showmode
 set completeopt=longest,menuone
 
+augroup subsrc_markdown_bullet
+  autocmd!
+  au BufEnter *.md setlocal fo+=r fo-=c com+=b:*,b:+,b:-,b:>
+augroup end
+
 
 " netrw
 let g:netrw_altv = 1
