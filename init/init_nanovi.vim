@@ -349,9 +349,13 @@ hi link markdownH3               Nano_Face_Salient
 hi link markdownH4               Nano_Face_Default
 hi link markdownH5               Nano_Face_Default
 hi link markdownH6               Nano_Face_Default
-hi link markdownListMarker       Nano_Face_Salient
+hi link markdownBold             Nano_Face_Strong
+hi link markdownRule             Nano_Face_Faded
 hi link markdownCode             Nano_Face_Faded
 hi link markdownCodeBlock        Nano_Face_Faded
+hi link markdownBlockquote       Nano_Face_Faded
+hi link markdownHeadingRule      Nano_Face_Faded
+hi link markdownListMarker       Nano_Face_Salient
 hi link markdownCodeDelimiter    Nano_Face_Salient
 hi link markdownHeadingDelimiter Nano_Face_Salient
 

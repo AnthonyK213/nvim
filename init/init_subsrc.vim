@@ -2,9 +2,11 @@
 set showmode
 set completeopt=longest,menuone
 
-augroup subsrc_markdown_bullet
+
+" Comments leader
+augroup subsrc_comments
   autocmd!
-  au BufEnter *.md setlocal fo+=r fo-=c com+=b:*,b:+,b:-,b:>
+  au BufEnter *.md setlocal fo=ctnqro com=b:*,b:+,b:-,b:>
 augroup end
 
 
