@@ -283,6 +283,8 @@ vnoremap <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nnoremap <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
+"" Search visual seletion
+vnoremap <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 
 
 " Commands
