@@ -227,6 +227,7 @@ hi! link PreProc                 Nano_Face_Default
 hi! link StorageClass            Nano_Face_Default
 hi! link Structure               Nano_Face_Default
 hi! link SpecialChar             Nano_Face_Default
+hi! link SpecialKey              Nano_Face_Faded
 hi! link Tag                     Nano_Face_Default
 hi! link Delimiter               Nano_Face_Default
 hi! link SpecialComment          Nano_Face_Default
