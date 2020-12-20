@@ -58,8 +58,8 @@
     - `init_plugrc.vim`; `init_rc_coc.vim`
       > Configurations of plug-ins.(source init_plugin at first)
   - Color schemes
-    - `onedark.vim`
-    - `plain.vim`
+    - `nanovi.vim`
+      > Based on [nano-emacs](https://github.com/rougier/nano-emacs) light
 
 ## init.vim
 ``` vim
