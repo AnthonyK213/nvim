@@ -32,13 +32,17 @@ inoremap <expr> }
       \ Lib_Get_Char(1) ==# "}" ?
       \ "\<C-g>U\<Right>" : "}"
 inoremap <expr> "
-      \ <SID>subrc_is_surrounded(["\"\""]) ?
+      \ Lib_Get_Char(1) ==# "\"" ?
       \ "\<C-g>U\<Right>" :
-      \ "\"\"\<Left>"
+        \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
+        \ "\"" :
+        \ "\"\"\<C-g>U\<Left>"
 inoremap <expr> '
-      \ <SID>subrc_is_surrounded(["''"]) ?
+      \ Lib_Get_Char(1) ==# "'" ?
       \ "\<C-g>U\<Right>" :
-      \ "''\<Left>"
+        \ Lib_Get_Char(0) =~ '\v[''"]' ?
+        \ "'" :
+        \ "''\<C-g>U\<Left>"
 inoremap <expr> <SPACE>
       \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
       \ "\<space>\<space>\<Left>" :
