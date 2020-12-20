@@ -222,7 +222,7 @@ hi! link Statement               Nano_Face_Salient
 hi! link Search                  Nano_Face_Header_Default
 hi! link Todo                    Nano_Face_Header_Popout
 hi! link Special                 Nano_Face_Default
-hi! link VertSplit               Nano_Face_Default
+hi! link VertSplit               Nano_Face_Subtle
 hi! link PreProc                 Nano_Face_Default
 hi! link StorageClass            Nano_Face_Default
 hi! link Structure               Nano_Face_Default
@@ -305,12 +305,12 @@ hi link xmlAttrib                Nano_Face_Salient
 hi link markdownH1               Nano_Face_Salient
 hi link markdownH2               Nano_Face_Salient
 hi link markdownH3               Nano_Face_Salient
-hi link markdownH4               Nano_Face_Salient
-hi link markdownH5               Nano_Face_Salient
-hi link markdownH6               Nano_Face_Salient
-hi link markdownListMarker       Nano_Face_Default
-hi link markdownCode             Nano_Face_Salient
-hi link markdownCodeBlock        Nano_Face_Salient
+hi link markdownH4               Nano_Face_Default
+hi link markdownH5               Nano_Face_Default
+hi link markdownH6               Nano_Face_Default
+hi link markdownListMarker       Nano_Face_Salient
+hi link markdownCode             Nano_Face_Faded
+hi link markdownCodeBlock        Nano_Face_Faded
 hi link markdownCodeDelimiter    Nano_Face_Salient
 hi link markdownHeadingDelimiter Nano_Face_Salient
 
