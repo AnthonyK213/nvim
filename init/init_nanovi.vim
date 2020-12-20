@@ -2,7 +2,30 @@
 " Licence: MIT
 
 
+let g:nanovi_mode={
+      \ '__'    : ' - ',
+      \ 'c'     : ' C ',
+      \ 'i'     : ' I ',
+      \ 'ic'    : ' I ',
+      \ 'ix'    : ' I ',
+      \ 'n'     : ' N ',
+      \ 'multi' : ' M ',
+      \ 'ni'    : ' Ĩ ',
+      \ 'no'    : ' N ',
+      \ 'R'     : ' R ',
+      \ 'Rv'    : ' R ',
+      \ 's'     : ' S ',
+      \ 'S'     : ' S ',
+      \ ''    : ' S ',
+      \ 't'     : ' T ',
+      \ 'v'     : ' V ',
+      \ 'V'     : ' Ṿ ',
+      \ ''    : ' Ṽ ',
+      \ }
+
 hi clear
+set statusline=
+set noshowmode
 set background=light
 if exists('syntax on') | syntax reset | endif
 let g:colors_name = 'nanovim'
@@ -31,6 +54,26 @@ function! s:def_face(group, style)
         \ "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
         \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
 endfunction
+
+" Get the branck name without git
+function! s:nanovi_get_branch()
+  let l:git_root = Lib_Get_Git_Root()
+  if l:git_root[0] == 0
+    let b:nanovi_branch = ''
+  else
+    try
+      let l:content = readfile(l:git_root[1] . '/.git/HEAD')
+      let b:nanovi_branch = '#' . split(l:content[0], '/')[-1]
+    catch
+      let b:nanovi_branch = ''
+    endtry
+  endif
+endfunction
+
+augroup nanovi_get_git_branch
+  autocmd!
+  autocmd VimEnter,WinEnter,BufEnter * call <SID>nanovi_get_branch()
+augroup END
 
 
 " Default face is used for regular information.
@@ -112,6 +155,11 @@ call s:def_face("Nano_Face_Header_Salient", {
 call s:def_face("Nano_Face_Header_Faded", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_faded
+      \ })
+" Subtle face for the header line.
+call s:def_face("Nano_Face_Header_Subtle", {
+      \ "fg": s:nano_color_background,
+      \ "bg": s:nano_color_subtle
       \ })
 
 
@@ -327,3 +375,12 @@ hi link ALEInfoSign              Nano_Face_Subtle
 
 hi link sqlStatement             Nano_Face_Salient
 hi link sqlKeyword               Nano_Face_Salient
+
+" StatusLine
+set laststatus=2
+set statusline+=%#Normal#\ 
+set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':toupper(g:nanovi_mode[mode()])}
+set statusline+=%#Nano_Face_Header_Popout#%{&modified?toupper(g:nanovi_mode[mode()]):''}
+set statusline+=%#Nano_Face_Header_Subtle#▎
+set statusline+=%#Statusline#%f\ %{b:nanovi_branch}%=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
+set statusline+=%#Normal#\ 

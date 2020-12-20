@@ -34,15 +34,15 @@ inoremap <expr> }
 inoremap <expr> "
       \ Lib_Get_Char(1) ==# "\"" ?
       \ "\<C-g>U\<Right>" :
-        \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
-        \ "\"" :
-        \ "\"\"\<C-g>U\<Left>"
+      \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
+      \ "\"" :
+      \ "\"\"\<C-g>U\<Left>"
 inoremap <expr> '
       \ Lib_Get_Char(1) ==# "'" ?
       \ "\<C-g>U\<Right>" :
-        \ Lib_Get_Char(0) =~ '\v[''"]' ?
-        \ "'" :
-        \ "''\<C-g>U\<Left>"
+      \ Lib_Get_Char(0) =~ '\v[''"]' ?
+      \ "'" :
+      \ "''\<C-g>U\<Left>"
 inoremap <expr> <SPACE>
       \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
       \ "\<space>\<space>\<Left>" :
