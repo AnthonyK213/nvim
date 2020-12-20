@@ -16,6 +16,7 @@ let g:nanovi_mode={
 
 hi clear
 set statusline=
+set fillchars=vert:\ 
 set noshowmode
 set background=light
 if exists('syntax on') | syntax reset | endif
@@ -261,7 +262,7 @@ hi! link Statement               Nano_Face_Salient
 hi! link Search                  Nano_Face_Header_Default
 hi! link Todo                    Nano_Face_Header_Popout
 hi! link Special                 Nano_Face_Default
-hi! link VertSplit               Nano_Face_Subtle
+hi! link VertSplit               Nano_Face_Header_Subtle
 hi! link PreProc                 Nano_Face_Default
 hi! link StorageClass            Nano_Face_Default
 hi! link Structure               Nano_Face_Default
