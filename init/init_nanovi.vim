@@ -351,7 +351,7 @@ hi link markdownH5               Nano_Face_Default
 hi link markdownH6               Nano_Face_Default
 hi link markdownBold             Nano_Face_Strong
 hi link markdownRule             Nano_Face_Faded
-hi link markdownCode             Nano_Face_Faded
+hi link markdownCode             Nano_Face_Popout
 hi link markdownCodeBlock        Nano_Face_Faded
 hi link markdownBlockquote       Nano_Face_Faded
 hi link markdownHeadingRule      Nano_Face_Faded
