@@ -55,6 +55,5 @@ nnoremap <silent> <leader>bd :bd<CR>
 nnoremap <silent> <leader>cd :lcd %:p:h<CR>
 """ Highlight off
 nnoremap <silent> <leader>nh :noh<CR>
-""" Spell check; <leader> s* -> s(pell)
-nnoremap <silent> <leader>se :set nospell<CR>
-nnoremap <silent> <leader>ss :set spell spelllang=en_us<CR>
+""" Toggle spell check; <leader>sc -> s(pell)c(heck)
+nnoremap <silent> <Leader>sc :setlocal spell! spelllang=en_us<CR>
