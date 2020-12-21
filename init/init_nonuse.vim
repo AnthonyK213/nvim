@@ -30,6 +30,8 @@ endfunction
 
 call s:flavor.impl('light')
 
+:GuiFont! Cascadia\ Code\ PL:h9
+:GuiFont! 等距更纱黑体\ SC:h9
 
 " One
 colorscheme one
