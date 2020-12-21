@@ -372,6 +372,14 @@ hi link ALEInfoSign              Nano_Face_Subtle
 hi link sqlStatement             Nano_Face_Salient
 hi link sqlKeyword               Nano_Face_Salient
 
+syn region nanoviMdBlockquote start=/^\s*>/ end=/$/
+"hi! link nanoviMdBlockquote Nano_Face_Faded
+call s:def_face("nanoviMdBlockquote", {
+      \ "fg": s:nano_color_subtle
+      \ })
+" contains=mkdLink,mkdInlineURL,mkdLineBreak,@Spell
+
+
 " StatusLine
 set laststatus=2
 set statusline+=%#Normal#\ 
