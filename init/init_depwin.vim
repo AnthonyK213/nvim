@@ -82,28 +82,28 @@ endfunction
 
 " Key maps
 "" Terminal
-nnoremap <M-`> :call Term()<CR>i
-inoremap <M-`> <Esc>:call Term()<CR>i
+nn  <M-`> :call Term()<CR>i
+ino <M-`> <Esc>:call Term()<CR>i
 
 "" Windows-like behaviors
 """ Save
-nnoremap <silent> <C-s> :w<CR>
-inoremap <silent> <C-s> <C-o>:w<CR>
+nn  <silent> <C-s> :w<CR>
+ino <silent> <C-s> <C-o>:w<CR>
 """ Undo
-nnoremap <silent> <C-z> u
-inoremap <silent> <C-z> <C-o>u
+nn  <silent> <C-z> u
+ino <silent> <C-z> <C-o>u
 """ Copy/Paste
-vnoremap <silent> <M-c> "+y
-vnoremap <silent> <M-x> "+x
-nnoremap <silent> <M-v> "+p
-vnoremap <silent> <M-v> "+p
-inoremap <silent> <M-v> <C-R>=@+<CR>
+vn  <silent> <M-c> "+y
+vn  <silent> <M-x> "+x
+nn  <silent> <M-v> "+p
+vn  <silent> <M-v> "+p
+ino <silent> <M-v> <C-R>=@+<CR>
 """ Select
-nnoremap <silent> <M-a> ggVG
-inoremap <silent> <M-a> <Esc>ggVG
+nn <silent> <M-a> ggVG
+ino <silent> <M-a> <Esc>ggVG
 """ Explorer
-nnoremap <M-e> :call Expl()<CR>
-inoremap <M-e> <Esc>:call Expl()<CR>
+nn  <M-e> :call Expl()<CR>
+ino <M-e> <Esc>:call Expl()<CR>
 
 "" Search cword in web browser; <leader> f* -> f(ind)
 for key in keys(s:web_list)

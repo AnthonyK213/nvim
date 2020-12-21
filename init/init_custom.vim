@@ -28,19 +28,20 @@ for [key, val] in items({"n":"j", "p":"k"})
   exe 'vnoremap <C-' . key . '> g' . val
   exe 'inoremap <silent> <C-' . key . '> <C-o>g' . val
 endfor
-inoremap <silent> <C-a> <C-o>g0
-inoremap <silent> <C-e> <C-o>g$
-inoremap <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
-inoremap <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
+ino <silent> <C-a> <C-o>g0
+ino <silent> <C-e> <C-o>g$
+ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
+ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
+ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
 "" Meta
 """ Emacs command line
-inoremap <M-x> <C-o>:
-nnoremap <M-x> :
+ino <M-x> <C-o>:
+nn <M-x> :
 """ Open .vimrc(init.vim)
-nnoremap <M-,> :tabnew $MYVIMRC<CR>
+nn <M-,> :tabnew $MYVIMRC<CR>
 """ Terminal
-tnoremap <Esc> <C-\><C-n>
-tnoremap <silent> <M-d> <C-\><C-N>:q<CR>
+tno <Esc> <C-\><C-n>
+tno <silent> <M-d> <C-\><C-N>:q<CR>
 """ Navigate
 for direct in ['h', 'j', 'k', 'l', 'w']
   exe 'nnoremap <M-' . direct . '> <C-w>'            . direct
@@ -49,11 +50,11 @@ for direct in ['h', 'j', 'k', 'l', 'w']
 endfor
 "" Leader
 """ Buffer
-nnoremap <silent> <leader>bn :bn<CR>
-nnoremap <silent> <leader>bp :bp<CR>
-nnoremap <silent> <leader>bd :bd<CR>
-nnoremap <silent> <leader>cd :lcd %:p:h<CR>
+nn <silent> <leader>bn :bn<CR>
+nn <silent> <leader>bp :bp<CR>
+nn <silent> <leader>bd :bd<CR>
+nn <silent> <leader>cd :lcd %:p:h<CR>
 """ Highlight off
-nnoremap <silent> <leader>nh :noh<CR>
+nn <silent> <leader>nh :noh<CR>
 """ Toggle spell check; <leader>sc -> s(pell)c(heck)
-nnoremap <silent> <Leader>sc :setlocal spell! spelllang=en_us<CR>
+nn <silent> <Leader>sc :setlocal spell! spelllang=en_us<CR>

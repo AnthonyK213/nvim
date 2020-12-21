@@ -24,26 +24,26 @@ endfunction
 
 " Key maps
 "" Terminal
-nnoremap <M-`> :call Term()<CR>i
-inoremap <M-`> <Esc>:call Term()<CR>i
+nn  <M-`> :call Term()<CR>i
+ino <M-`> <Esc>:call Term()<CR>i
 
 "" Windows-like behaviors
 """ Save
-nnoremap <silent> <C-s> :w<CR>
-inoremap <silent> <C-s> <Esc>:w<CR>a
+nn  <silent> <C-s> :w<CR>
+ino <silent> <C-s> <Esc>:w<CR>a
 """ Undo
-nnoremap <silent> <C-z> u
-inoremap <silent> <C-z> <Esc>ua
+nn <silent> <C-z> u
+ino <silent> <C-z> <Esc>ua
 """ Copy/Paste
-vnoremap <silent> <M-c> "+y
-vnoremap <silent> <M-x> "+x
-nnoremap <silent> <M-v> "+p
-vnoremap <silent> <M-v> "+p
-inoremap <silent> <M-v> <Esc>"+pa
+vn  <silent> <M-c> "+y
+vn  <silent> <M-x> "+x
+nn  <silent> <M-v> "+p
+vn  <silent> <M-v> "+p
+ino <silent> <M-v> <Esc>"+pa
 """ Select
-nnoremap <silent> <M-a> ggVG
-inoremap <silent> <M-a> <Esc>ggVG
+nn  <silent> <M-a> ggVG
+ino <silent> <M-a> <Esc>ggVG
 
 "" File Manager
-nnoremap <M-e> :call Expl()<CR>
-inoremap <M-e> <Esc>:call Expl()<CR>
+nn  <M-e> :call Expl()<CR>
+ino <M-e> <Esc>:call Expl()<CR>

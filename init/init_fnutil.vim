@@ -270,21 +270,21 @@ for [key, val] in items(g:sur_map)
   call s:sur_def_map(key, val[0], val[1])
 endfor
 "" Echo git status: <leader> v* -> v(ersion control)
-nnoremap <silent> <leader>vs :!git status<CR>
+nn <silent> <leader>vs :!git status<CR>
 "" Mouse toggle
-nnoremap <silent> <F2> :call MouseToggle()<CR>
-vnoremap <silent> <F2> :<C-u>call MouseToggle()<CR>
-inoremap <silent> <F2> <C-o>:call MouseToggle()<CR>
-tnoremap <silent> <F2> <C-\><C-n>:call MouseToggle()<CR>a
+nn  <silent> <F2> :call MouseToggle()<CR>
+vn  <silent> <F2> :<C-u>call MouseToggle()<CR>
+ino <silent> <F2> <C-o>:call MouseToggle()<CR>
+tno <silent> <F2> <C-\><C-n>:call MouseToggle()<CR>a
 "" Hanzi count; <leader> wc -> w(ord)c(ount)
-nnoremap <silent> <leader>wc
+nn <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . HanziCount("n")<CR>
-vnoremap <silent> <leader>wc
+vn <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
 "" Insert an orgmode-style timestamp at the end of the line
-nnoremap <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
+nn <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Search visual seletion
-vnoremap <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
+vn <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 
 
 " Commands

@@ -17,12 +17,12 @@ let g:NERDTreeDirArrowExpandable  = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-nnoremap <silent> <F3> :NERDTreeToggle<CR>
-inoremap <silent> <F3> <Esc>:NERDTreeToggle<CR>
-tnoremap <silent> <F3> <C-\><C-N>:NERDTreeToggle<CR>
-nnoremap <silent> <M-n> :NERDTreeFocus<CR>
-inoremap <silent> <M-n> <Esc>:NERDTreeFocus<CR>
-tnoremap <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
+nn  <silent> <F3> :NERDTreeToggle<CR>
+ino <silent> <F3> <Esc>:NERDTreeToggle<CR>
+tno <silent> <F3> <C-\><C-N>:NERDTreeToggle<CR>
+nn  <silent> <M-n> :NERDTreeFocus<CR>
+ino <silent> <M-n> <Esc>:NERDTreeFocus<CR>
+tno <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
 
 
 " signify
@@ -39,7 +39,7 @@ nmap <leader>hj <plug>(signify-next-hunk)
 nmap <leader>hk <plug>(signify-prev-hunk)
 nmap <leader>hJ 9999<plug>(signify-next-hunk)
 nmap <leader>hK 9999<plug>(signify-prev-hunk)
-nnoremap <silent> <leader>ht :SignifyToggle<CR>
+nn   <silent> <leader>ht :SignifyToggle<CR>
 
 
 " vim-airline
@@ -82,8 +82,8 @@ let g:vim_markdown_autowrite = 1
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 2
 "" <leader> m* -> m(arkdown)
-nnoremap <silent> <leader>mh :Toch<CR>:resize 15<CR>
-nnoremap <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
+nn <silent> <leader>mh :Toch<CR>:resize 15<CR>
+nn <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
 
 
 " markdown preview
@@ -110,9 +110,9 @@ augroup vimtable
   au BufEnter *.md let g:table_mode_corner = '|'
 augroup end
 "" <leader> t* -> t(able-mode)
-nnoremap <silent> <leader>ta :TableAddFormula<CR>
-nnoremap <silent> <leader>tf :TableModeRealign<CR>
-nnoremap <silent> <leader>tc :TableEvalFormulaLine<CR>
+nn <silent> <leader>ta :TableAddFormula<CR>
+nn <silent> <leader>tf :TableModeRealign<CR>
+nn <silent> <leader>tc :TableEvalFormulaLine<CR>
 
 
 " vimtex

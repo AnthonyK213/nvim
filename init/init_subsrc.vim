@@ -17,9 +17,9 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 80
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
-nnoremap <silent> <F3> :20Lexplore<CR>
-inoremap <silent> <F3> <ESC>:20Lexplore<CR>
-tnoremap <silent> <F3> <C-\><C-N>:20Lexplore<CR>
+nn  <silent> <F3> :20Lexplore<CR>
+ino <silent> <F3> <ESC>:20Lexplore<CR>
+tno <silent> <F3> <C-\><C-N>:20Lexplore<CR>
 
 
 " Pairs
@@ -30,55 +30,55 @@ endfunction
 let g:subsrc_left  = "\<C-g>U\<Left>"
 let g:subsrc_right = "\<C-g>U\<Right>"
 
-inoremap ( ()<C-g>U<Left>
-inoremap [ []<C-g>U<Left>
-inoremap { {}<C-g>U<Left>
-inoremap <expr> )
+ino ( ()<C-g>U<Left>
+ino [ []<C-g>U<Left>
+ino { {}<C-g>U<Left>
+ino <expr> )
       \ Lib_Get_Char(1) ==# ")" ?
       \ g:subsrc_right : ")"
-inoremap <expr> ]
+ino <expr> ]
       \ Lib_Get_Char(1) ==# "]" ?
       \ g:subsrc_right : "]"
-inoremap <expr> }
+ino <expr> }
       \ Lib_Get_Char(1) ==# "}" ?
       \ g:subsrc_right : "}"
-inoremap <expr> "
+ino <expr> "
       \ Lib_Get_Char(1) ==# "\"" ?
       \ g:subsrc_right :
       \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
       \ "\"" :
       \ "\"\"" . g:subsrc_left
-inoremap <expr> '
+ino <expr> '
       \ Lib_Get_Char(1) ==# "'" ?
       \ g:subsrc_right :
       \ Lib_Get_Char(0) =~ '\v[''"]' ?
       \ "'" :
       \ "''" . g:subsrc_left
-inoremap <expr> <SPACE>
+ino <expr> <SPACE>
       \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
       \ "\<SPACE>\<SPACE>" . g:subsrc_left :
       \ "\<SPACE>"
-inoremap <expr> <BS>
+ino <expr> <BS>
       \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""', '**', '``']) ?
       \ g:subsrc_right . "\<BS>\<BS>" :
       \ "\<BS>"
-inoremap <expr> <M-p> "``" . g:subsrc_left
-inoremap <expr> <M-i> "**" . g:subsrc_left
-inoremap <expr> <M-b> "****" . repeat(g:subsrc_left, 2)
-inoremap <expr> <M-m> "******" . repeat(g:subsrc_left, 3)
-inoremap <expr> <M-u> "<u></u>" . repeat(g:subsrc_left, 4)
+ino <expr> <M-p> "``" . g:subsrc_left
+ino <expr> <M-i> "**" . g:subsrc_left
+ino <expr> <M-b> "****" . repeat(g:subsrc_left, 2)
+ino <expr> <M-m> "******" . repeat(g:subsrc_left, 3)
+ino <expr> <M-u> "<u></u>" . repeat(g:subsrc_left, 4)
 
 
 " Completion
-inoremap <expr> <TAB>
+ino <expr> <TAB>
       \ Lib_Get_Char(0) =~ '\v[a-z_\u4e00-\u9fa5]' ?
       \ "\<C-N>" :
       \ "\<Tab>"
-inoremap <expr> <S-TAB>
+ino <expr> <S-TAB>
       \ pumvisible() ?
       \ "\<C-p>" :
       \ "\<C-h>"
-inoremap <expr> <CR>
+ino <expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(["()", "[]", "{}"]) ?
       \ "\<CR>\<ESC>O" :
