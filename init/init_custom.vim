@@ -36,7 +36,7 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
 "" Meta
 """ Emacs command line
 ino <M-x> <C-o>:
-nn <M-x> :
+nn  <M-x> :
 """ Open .vimrc(init.vim)
 nn <M-,> :tabnew $MYVIMRC<CR>
 """ Terminal
