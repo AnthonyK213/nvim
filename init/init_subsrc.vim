@@ -7,6 +7,7 @@ set completeopt=longest,menuone
 augroup subsrc_comments
   autocmd!
   au BufEnter *.md setlocal fo=ctnqro com=b:*,b:+,b:-,b:>
+  au BufEnter *.md exe 'syntax region markdownBlockquote start=/^\s*>/ end=/$/ contains=@Spell'
 augroup end
 
 
@@ -26,38 +27,46 @@ function! s:subrc_is_surrounded(match_list)
   return index(a:match_list, Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0
 endfunction
 
+let g:subsrc_left  = "\<C-g>U\<Left>"
+let g:subsrc_right = "\<C-g>U\<Right>"
+
 inoremap ( ()<C-g>U<Left>
 inoremap [ []<C-g>U<Left>
 inoremap { {}<C-g>U<Left>
 inoremap <expr> )
       \ Lib_Get_Char(1) ==# ")" ?
-      \ "\<C-g>U\<Right>" : ")"
+      \ g:subsrc_right : ")"
 inoremap <expr> ]
       \ Lib_Get_Char(1) ==# "]" ?
-      \ "\<C-g>U\<Right>" : "]"
+      \ g:subsrc_right : "]"
 inoremap <expr> }
       \ Lib_Get_Char(1) ==# "}" ?
-      \ "\<C-g>U\<Right>" : "}"
+      \ g:subsrc_right : "}"
 inoremap <expr> "
       \ Lib_Get_Char(1) ==# "\"" ?
-      \ "\<C-g>U\<Right>" :
+      \ g:subsrc_right :
       \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
       \ "\"" :
-      \ "\"\"\<C-g>U\<Left>"
+      \ "\"\"" . g:subsrc_left
 inoremap <expr> '
       \ Lib_Get_Char(1) ==# "'" ?
-      \ "\<C-g>U\<Right>" :
+      \ g:subsrc_right :
       \ Lib_Get_Char(0) =~ '\v[''"]' ?
       \ "'" :
-      \ "''\<C-g>U\<Left>"
+      \ "''" . g:subsrc_left
 inoremap <expr> <SPACE>
       \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
-      \ "\<space>\<space>\<Left>" :
-      \ "\<space>"
+      \ "\<SPACE>\<SPACE>" . g:subsrc_left :
+      \ "\<SPACE>"
 inoremap <expr> <BS>
-      \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""']) ?
-      \ "\<C-g>U\<Right>\<BS>\<BS>" :
+      \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""', '**', '``']) ?
+      \ g:subsrc_right . "\<BS>\<BS>" :
       \ "\<BS>"
+inoremap <expr> <M-p> "``" . g:subsrc_left
+inoremap <expr> <M-i> "**" . g:subsrc_left
+inoremap <expr> <M-b> "****" . repeat(g:subsrc_left, 2)
+inoremap <expr> <M-m> "******" . repeat(g:subsrc_left, 3)
+inoremap <expr> <M-u> "<u></u>" . repeat(g:subsrc_left, 4)
 
 
 " Completion
