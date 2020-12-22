@@ -32,7 +32,7 @@ ino <M-`> <Esc>:call Term()<CR>i
 nn  <silent> <C-s> :w<CR>
 ino <silent> <C-s> <Esc>:w<CR>a
 """ Undo
-nn <silent> <C-z> u
+nn  <silent> <C-z> u
 ino <silent> <C-z> <Esc>ua
 """ Copy/Paste
 vn  <silent> <M-c> "+y
