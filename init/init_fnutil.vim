@@ -269,14 +269,14 @@ augroup end
 for [key, val] in items(g:sur_map)
   call s:sur_def_map(key, val[0], val[1])
 endfor
-"" Echo git status: <leader> v* -> v(ersion control)
+"" Echo git status: <leader>v* -> v(ersion control)
 nn <silent> <leader>vs :!git status<CR>
 "" Mouse toggle
 nn  <silent> <F2> :call MouseToggle()<CR>
 vn  <silent> <F2> :<C-u>call MouseToggle()<CR>
 ino <silent> <F2> <C-o>:call MouseToggle()<CR>
 tno <silent> <F2> <C-\><C-n>:call MouseToggle()<CR>a
-"" Hanzi count; <leader> wc -> w(ord)c(ount)
+"" Hanzi count; <leader>wc -> w(ord)c(ount)
 nn <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . HanziCount("n")<CR>
 vn <silent> <leader>wc

@@ -27,46 +27,44 @@ function! s:subrc_is_surrounded(match_list)
   return index(a:match_list, Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0
 endfunction
 
-let g:subsrc_left  = "\<C-g>U\<Left>"
-let g:subsrc_right = "\<C-g>U\<Right>"
-
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
 ino <expr> )
       \ Lib_Get_Char(1) ==# ")" ?
-      \ g:subsrc_right : ")"
+      \ g:custom_r : ")"
 ino <expr> ]
       \ Lib_Get_Char(1) ==# "]" ?
-      \ g:subsrc_right : "]"
+      \ g:custom_r : "]"
 ino <expr> }
       \ Lib_Get_Char(1) ==# "}" ?
-      \ g:subsrc_right : "}"
+      \ g:custom_r : "}"
 ino <expr> "
       \ Lib_Get_Char(1) ==# "\"" ?
-      \ g:subsrc_right :
+      \ g:custom_r :
       \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
       \ "\"" :
-      \ "\"\"" . g:subsrc_left
+      \ "\"\"" . g:custom_l
 ino <expr> '
       \ Lib_Get_Char(1) ==# "'" ?
-      \ g:subsrc_right :
+      \ g:custom_r :
       \ Lib_Get_Char(0) =~ '\v[''"]' ?
       \ "'" :
-      \ "''" . g:subsrc_left
+      \ "''" . g:custom_l
 ino <expr> <SPACE>
       \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
-      \ "\<SPACE>\<SPACE>" . g:subsrc_left :
+      \ "\<SPACE>\<SPACE>" . g:custom_l :
       \ "\<SPACE>"
 ino <expr> <BS>
-      \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""', '**', '``']) ?
-      \ g:subsrc_right . "\<BS>\<BS>" :
+      \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""', '**', '``', "<>", "$$"]) ?
+      \ g:custom_r . "\<BS>\<BS>" :
       \ "\<BS>"
-ino <expr> <M-p> "``" . g:subsrc_left
-ino <expr> <M-i> "**" . g:subsrc_left
-ino <expr> <M-b> "****" . repeat(g:subsrc_left, 2)
-ino <expr> <M-m> "******" . repeat(g:subsrc_left, 3)
-ino <expr> <M-u> "<u></u>" . repeat(g:subsrc_left, 4)
+"" Markdown
+ino <expr> <M-p> "``" . g:custom_l
+ino <expr> <M-i> "**" . g:custom_l
+ino <expr> <M-b> "****" . repeat(g:custom_l, 2)
+ino <expr> <M-m> "******" . repeat(g:custom_l, 3)
+ino <expr> <M-u> "<u></u>" . repeat(g:custom_l, 4)
 
 
 " Completion

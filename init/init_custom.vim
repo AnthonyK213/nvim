@@ -9,6 +9,11 @@ else
   let g:onedrive_path = expand('$HOME')
   let g:usr_desktop = expand('$HOME/Desktop')
 endif
+"" Directional operation which won't mess up the history.
+let g:custom_l = "\<C-g>U\<Left>"
+let g:custom_d = "\<C-g>U\<Down>"
+let g:custom_u = "\<C-g>U\<Up>"
+let g:custom_r = "\<C-g>U\<Right>"
 
 
 " Filetype behave
@@ -22,7 +27,7 @@ augroup end
 
 " Key maps
 "" Ctrl
-""" Moving cursor like emacs
+""" Emacs flavor in insert mode.
 for [key, val] in items({"n":"j", "p":"k"})
   exe 'nnoremap <C-' . key . '> g' . val
   exe 'vnoremap <C-' . key . '> g' . val
@@ -31,17 +36,18 @@ endfor
 ino <silent> <C-a> <C-o>g0
 ino <silent> <C-e> <C-o>g$
 ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
-ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : "\<Right>"
-ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : "\<Left>"
+ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:custom_r
+ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 "" Meta
 """ Emacs command line
-ino <M-x> <C-o>:
 nn  <M-x> :
+ino <M-x> <C-o>:
+ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
 """ Open .vimrc(init.vim)
-nn <M-,> :tabnew $MYVIMRC<CR>
+nn  <M-,> :tabnew $MYVIMRC<CR>
 """ Terminal
 tno <Esc> <C-\><C-n>
-tno <silent> <M-d> <C-\><C-N>:q<CR>
+tno <silent> <M-d> <C-\><C-N>:bd!<CR>
 """ Navigate
 for direct in ['h', 'j', 'k', 'l', 'w']
   exe 'nnoremap <M-' . direct . '> <C-w>'            . direct

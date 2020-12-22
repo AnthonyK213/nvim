@@ -24,15 +24,15 @@ let g:colors_name = 'nanovim'
 
 
 " Colors
-let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "255" } "White
+let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
 let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
-let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "1"   } "Amber
-let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "1"   } "Deep Orange
-let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "5"   } "Deep Purple
-let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "251" } "Very Light Grey
-let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "243" } "Blue Grey / L50
+let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" } "Amber
+let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" } "Deep Orange
+let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "98"  } "Deep Purple
+let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "255" } "Very Light Grey
+let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "254" } "Blue Grey / L50
 let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" } "Blue Grey / L200
-let s:nano_color_foreground = { "gui": "#37474F", "cterm": "8"   } "Blue Grey / L800
+let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" } "Blue Grey / L800
 
 
 " Define highlight groups
@@ -70,8 +70,7 @@ augroup END
 
 " Default face is used for regular information.
 call s:def_face("Nano_Face_Default", {
-      \ "fg": s:nano_color_foreground,
-      \ "bg": s:nano_color_background
+      \ "fg": s:nano_color_foreground
       \ })
 " Critical face is for information that requires immediate action.
 " It should be of high contrast when compared to other faces. This
@@ -374,6 +373,7 @@ hi link sqlKeyword               Nano_Face_Salient
 
 
 " StatusLine
+" | MODE || short_file_name git_branch        file_type file_encoding line:col |
 set laststatus=2
 set statusline+=%#Normal#\ 
 set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':toupper(g:nanovi_mode[mode()])}
