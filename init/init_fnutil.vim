@@ -192,7 +192,7 @@ function! s:md_check_line(lnum)
   if l:lstr =~ '\v^\s*(\+|-|*)\s+.*$'
     let l:detect = 1
     let l:bullet = substitute(l:lstr,
-          \ '\v^\s*(.+)\s+.*$', '\=submatch(1)', '')
+          \ '\v^\s*(.)\s+.*$', '\=submatch(1)', '')
   elseif l:lstr =~ '\v^\s*(\d+)\.\s+.*$'
     let l:detect = 2
     let l:bullet = substitute(l:lstr,
