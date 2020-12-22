@@ -99,7 +99,7 @@ nn  <silent> <M-v> "+p
 vn  <silent> <M-v> "+p
 ino <silent> <M-v> <C-R>=@+<CR>
 """ Select
-nn <silent> <M-a> ggVG
+nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 """ Explorer
 nn  <M-e> :call Expl()<CR>
