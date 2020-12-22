@@ -36,7 +36,7 @@ let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" } "Blue Grey / 
 
 
 " Define highlight groups
-function! s:def_face(group, style)
+function! s:h(group, style)
   execute "highlight" a:group
         \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
         \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
@@ -69,14 +69,14 @@ augroup END
 
 
 " Default face is used for regular information.
-call s:def_face("Nano_Face_Default", {
+call s:h("Nano_Face_Default", {
       \ "fg": s:nano_color_foreground
       \ })
 " Critical face is for information that requires immediate action.
 " It should be of high contrast when compared to other faces. This
 " can be realized (for example) by setting an intense background
 " color, typically a shade of red. It must be used scarcely.
-call s:def_face("Nano_Face_Critical", {
+call s:h("Nano_Face_Critical", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_critical
       \ })
@@ -84,7 +84,7 @@ call s:def_face("Nano_Face_Critical", {
 " To achieve such effect, the hue of the face has to be
 " sufficiently different from other faces such that it attracts
 " attention through the popout effect.
-call s:def_face("Nano_Face_Popout", {
+call s:h("Nano_Face_Popout", {
       \ "fg": s:nano_color_popout
       \ })
 " Strong face is used for information of a structural nature.
@@ -92,14 +92,14 @@ call s:def_face("Nano_Face_Popout", {
 " weight differs by one level (e.g., light/regular or
 " regular/bold). IT is generally used for titles, keywords,
 " directory, etc.
-call s:def_face("Nano_Face_Strong", {
+call s:h("Nano_Face_Strong", {
       \ "fg": s:nano_color_strong
       \ })
 " Salient face is used for information that are important.
 " To suggest the information is of the same nature but important,
 " the face uses a different hue with approximately the same
 " intensity as the default face. This is typically used for links.
-call s:def_face("Nano_Face_Salient", {
+call s:h("Nano_Face_Salient", {
       \ "fg": s:nano_color_salient
       \ })
 " Faded face is for information that are less important.
@@ -107,139 +107,139 @@ call s:def_face("Nano_Face_Salient", {
 " intensity than the default. It can be used for comments,
 " secondary information and also replace italic (which is generally
 " abused anyway).
-call s:def_face("Nano_Face_Faded", {
+call s:h("Nano_Face_Faded", {
       \ "fg": s:nano_color_faded
       \ })
 " Subtle face is used to suggest a physical area on the screen.
 " It is important to not disturb too strongly the reading of
 " information and this can be made by setting a very light
 " background color that is barely perceptible.
-call s:def_face("Nano_Face_Subtle", {
+call s:h("Nano_Face_Subtle", {
       \ "fg": s:nano_color_subtle
       \ })
 " Default face for the header line.
-call s:def_face("Nano_Face_Header_Default", {
+call s:h("Nano_Face_Header_Default", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle
       \ })
 " Critical face for the header line.
-call s:def_face("Nano_Face_Header_Critical", {
+call s:h("Nano_Face_Header_Critical", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_critical
       \ })
 " Popout face for the header line.
-call s:def_face("Nano_Face_Header_Popout", {
+call s:h("Nano_Face_Header_Popout", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_popout
       \ })
 " Strong face for the header line.
-call s:def_face("Nano_Face_Header_Strong", {
+call s:h("Nano_Face_Header_Strong", {
       \ "fg": s:nano_color_strong,
       \ "bg": s:nano_color_subtle
       \ })
 " Salient face for the header line.
-call s:def_face("Nano_Face_Header_Salient", {
+call s:h("Nano_Face_Header_Salient", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_salient
       \ })
 " Faded face for the header line.
-call s:def_face("Nano_Face_Header_Faded", {
+call s:h("Nano_Face_Header_Faded", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_faded
       \ })
 " Subtle face for the header line.
-call s:def_face("Nano_Face_Header_Subtle", {
+call s:h("Nano_Face_Header_Subtle", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_subtle
       \ })
 
 
 " __Normal__
-call s:def_face("Normal", {
+call s:h("Normal", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_background
       \ })
 " __Cursor__
-call s:def_face("Cursor", {
+call s:h("Cursor", {
       \ "fg": s:nano_color_subtle,
       \ "bg": s:nano_color_foreground
       \ })
 " __Search__
-call s:def_face("IncSearch", {
+call s:h("IncSearch", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle,
       \ "gui": "bold"
       \ })
 " __Visual__
-call s:def_face("Visual", {
+call s:h("Visual", {
       \ "bg": s:nano_color_subtle
       \ })
 " __VisualNOS__
-call s:def_face("VisualNOS", {
+call s:h("VisualNOS", {
       \ "bg": s:nano_color_subtle
       \ })
 " __Ignore__
-call s:def_face("Ignore", {
+call s:h("Ignore", {
       \ "fg": s:nano_color_subtle
       \ })
 " __StatusLine__
-call s:def_face("StatusLine", {
+call s:h("StatusLine", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle
       \ })
 " __StatusLineNC__
-call s:def_face("StatusLineNC", {
+call s:h("StatusLineNC", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_subtle
       \ })
 " __WildMenu__
-call s:def_face("WildMenu", {
+call s:h("WildMenu", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle,
       \ "gui": "underline,bold"
       \ })
-call s:def_face("StatusLineOk", {
+call s:h("StatusLineOk", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle,
       \ "gui": "underline"
       \ })
-call s:def_face("StatusLineError", {
+call s:h("StatusLineError", {
       \ "fg": s:nano_color_popout,
       \ "bg": s:nano_color_subtle,
       \ "gui": "underline"
       \ })
-call s:def_face("StatusLineWarning", {
+call s:h("StatusLineWarning", {
       \ "fg": s:nano_color_critical,
       \ "bg": s:nano_color_subtle,
       \ "gui": "underline"
       \ })
 " __Pmenu__
-call s:def_face("Pmenu", {
+call s:h("Pmenu", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_highlight
       \ })
 " __PmenuSel__
-call s:def_face("PmenuSel", {
+call s:h("PmenuSel", {
       \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle,
       \ "gui": "bold"
       \ })
 " __CursorLine__
-call s:def_face("CursorLine", {
+call s:h("CursorLine", {
       \ "bg": s:nano_color_highlight
       \ })
 " __CursorColumn__
-call s:def_face("ColorColumn", {
+call s:h("ColorColumn", {
       \ "bg": s:nano_color_highlight
       \ })
 " __MatchParen__
-call s:def_face("MatchParen", {
+call s:h("MatchParen", {
       \ "fg": s:nano_color_popout,
       \ "bg": s:nano_color_background,
       \ "gui": "underline"
       \ })
 " __Spell__
-call s:def_face("SpellBad", {
+call s:h("SpellBad", {
       \ "fg": s:nano_color_popout,
       \ "gui": "underline"
       \ })
