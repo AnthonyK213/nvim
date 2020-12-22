@@ -4,6 +4,21 @@ function! s:nvimqt_set_font(family, size)
   exe ':GuiFont! ' . a:family . ':h' . a:size
 endfunction
 
+function! s:nvimqt_upstep_font()
+  let g:gui_font_size += s:gui_font_step
+  call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
+endfunction
+
+function! s:nvimqt_shrink_font()
+  let g:gui_font_size = max([g:gui_font_size - s:gui_font_step, 3])
+  call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
+endfunction
+
+function! s:nvimqt_origin_font()
+  let g:gui_font_size = g:gui_font_size_origin
+  call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
+endfunction
+
 "" Set behaviors
 try
   exe 'cd ' . g:usr_desktop
@@ -18,11 +33,12 @@ set mouse=a
 :GuiLinespace 0
 
 "" Font
-"call s:nvimqt_set_font('Cascadia Code PL', 9)
-call s:nvimqt_set_font('等距更纱黑体 SC', 9)
+let g:gui_font_size = 10
+let s:gui_font_step = 2
+let g:gui_font_size_origin = g:gui_font_size
+let g:gui_font_family = '等距更纱黑体 SC'
+call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
 
-"augroup gui_switch_font
-"  autocmd!
-"  au BufEnter * call s:nvimqt_set_font('Cascadia Code PL', 9)
-"  au BufEnter *.md,*.org,*.txt call s:nvimqt_set_font('等距更纱黑体 SC', 9)
-"augroup end
+nn <silent> <C-=> :call <SID>nvimqt_upstep_font()<CR>
+nn <silent> <C--> :call <SID>nvimqt_shrink_font()<CR>
+nn <silent> <C-0> :call <SID>nvimqt_origin_font()<CR>

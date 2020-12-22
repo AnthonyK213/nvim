@@ -33,6 +33,12 @@ call s:flavor.impl('light')
 :GuiFont! Cascadia\ Code\ PL:h9
 :GuiFont! 等距更纱黑体\ SC:h9
 
+augroup gui_switch_font
+  autocmd!
+  au BufEnter * call s:nvimqt_set_font('Cascadia Code PL', 9)
+  au BufEnter *.md,*.org,*.txt call s:nvimqt_set_font('等距更纱黑体 SC', 9)
+augroup end
+
 
 " One
 colorscheme one
