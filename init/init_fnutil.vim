@@ -189,7 +189,7 @@ function! s:md_check_line(lnum)
   let l:detect = 0
   let l:bullet = 0
   let l:indent = strlen(matchstr(l:lstr, '\v^(\s*)')) 
-  if l:lstr =~ '\v^\s*(\+|-|*|#+)\s+.*$'
+  if l:lstr =~ '\v^\s*(\+|-|*)\s+.*$'
     let l:detect = 1
     let l:bullet = substitute(l:lstr,
           \ '\v^\s*(.+)\s+.*$', '\=submatch(1)', '')
@@ -201,45 +201,48 @@ function! s:md_check_line(lnum)
   return [l:detect, l:lstr, l:bullet, l:indent]
 endfunction
 
-function! s:md_insert_num_bullet()
+function! s:md_insert_bullet()
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
 
+  let l:detect = 0
   let l:bullet = 0
   let l:indent = 0
 
-  if l:linf_c[0] == 2
-    let l:bullet = l:linf_c[2]
-    let l:indent = l:linf_c[3]
-  else
+  if l:linf_c[0] == 0
     let l:lnum_b = l:lnum - 1
     while l:lnum_b > 0
       let l:linf_b = s:md_check_line(l:lnum_b)
-      if l:linf_b[3] < l:linf_c[3]
-        if l:linf_b[0] == 2
-          let l:bullet = l:linf_b[2]
-          let l:indent = l:linf_b[3]
-          break
-        elseif l:linf_b[0] == 1
-          break
-        endif
+      if l:linf_b[3] < l:linf_c[3] && l:linf_b[0] != 0
+        let l:detect = l:linf_b[0]
+        let l:bullet = l:linf_b[2]
+        let l:indent = l:linf_b[3]
+        break
       endif
       let l:lnum_b -= 1
     endwhile
+  else
+    let l:detect = l:linf_c[0]
+    let l:bullet = l:linf_c[2]
+    let l:indent = l:linf_c[3]
   endif
 
-  if l:bullet == 0
-    call feedkeys("\<CR>")
+  if l:detect == 0
+    call feedkeys("\<C-o>o")
   else
     let l:lnum_f = l:lnum + 1
     let l:move_d = 0
     let l:move_record = []
     while l:lnum_f <= line('$')
       let l:linf_f = s:md_check_line(l:lnum_f)
-      if l:linf_f[0] == 2 && l:linf_f[3] == l:indent
+      if l:linf_f[0] == l:detect && l:linf_f[3] == l:indent
         call add(l:move_record, l:move_d)
-        call setline(l:lnum_f, substitute(l:linf_f[1],
-              \ '\v(\d+)', '\=submatch(1) + 1', ''))
+        if l:detect == 1
+          break
+        elseif l:detect == 2 && l:linf_f[0] == 2
+          call setline(l:lnum_f, substitute(l:linf_f[1],
+                \ '\v(\d+)', '\=submatch(1) + 1', ''))
+        endif
       elseif l:linf_f[3] <= l:indent
         call add(l:move_record, l:move_d)
         break
@@ -251,15 +254,16 @@ function! s:md_insert_num_bullet()
       let l:move_d += 1
     endwhile
     let l:count_d = len(l:move_record) == 0 ? 0 : l:move_record[0]
+    let l:nbullet = l:detect == 2 ? (l:bullet + 1) . '. ' : l:bullet . ' '
     call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-o>o\<C-o>0" .
-          \ repeat("\<space>", l:indent) . (bullet + 1) . '. ')
+          \ repeat("\<space>", l:indent) . l:nbullet)
   endif
 endfunction
 
 
 augroup md_auto_num
   autocmd!
-  au BufEnter *.md,*.txt exe 'inoremap <silent> <M-CR> <C-o>:call <SID>md_insert_num_bullet()<CR>'
+  au BufEnter *.md,*.txt exe 'inoremap <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>'
   au BufLeave *.md,*.txt exe 'inoremap <M-CR> <M-CR>'
 augroup end
 

@@ -33,6 +33,8 @@ call s:flavor.impl('light')
 :GuiFont! Cascadia\ Code\ PL:h9
 :GuiFont! 等距更纱黑体\ SC:h9
 
+au BufEnter *.md setlocal fo=ctnqro com=b:*,b:+,b:-,b:>
+
 " One
 colorscheme one
 let g:airline_theme='one'
@@ -52,7 +54,6 @@ let g:airline#extensions#tabline#right_alt_sep = ''
 let g:vim_markdown_override_foldtext = 0
 let g:vim_markdown_folding_level = 6
 let g:vim_markdown_no_default_key_mappings = 1
-let g:vim_markdown_auto_insert_bullets = 0
 
 
 " deoplete
@@ -130,4 +131,60 @@ function! TreeSitterSetting()
   parser = vim.treesitter.get_parser(0, "c")
   tstree = parser:parse()
   EOF
+endfunction
+
+
+function! s:md_insert_num_bullet()
+  let l:lnum = line('.')
+  let l:linf_c = s:md_check_line('.')
+
+  let l:bullet = 0
+  let l:indent = 0
+
+  if l:linf_c[0] == 2
+    let l:bullet = l:linf_c[2]
+    let l:indent = l:linf_c[3]
+  else
+    let l:lnum_b = l:lnum - 1
+    while l:lnum_b > 0
+      let l:linf_b = s:md_check_line(l:lnum_b)
+      if l:linf_b[3] < l:linf_c[3]
+        if l:linf_b[0] == 2
+          let l:bullet = l:linf_b[2]
+          let l:indent = l:linf_b[3]
+          break
+        elseif l:linf_b[0] == 1
+          break
+        endif
+      endif
+      let l:lnum_b -= 1
+    endwhile
+  endif
+
+  if l:bullet == 0
+    call feedkeys("\<CR>")
+  else
+    let l:lnum_f = l:lnum + 1
+    let l:move_d = 0
+    let l:move_record = []
+    while l:lnum_f <= line('$')
+      let l:linf_f = s:md_check_line(l:lnum_f)
+      if l:linf_f[0] == 2 && l:linf_f[3] == l:indent
+        call add(l:move_record, l:move_d)
+        call setline(l:lnum_f, substitute(l:linf_f[1],
+              \ '\v(\d+)', '\=submatch(1) + 1', ''))
+      elseif l:linf_f[3] <= l:indent
+        call add(l:move_record, l:move_d)
+        break
+      elseif l:lnum_f == line('$')
+        call add(l:move_record, l:move_d + 1)
+        break
+      endif
+      let l:lnum_f += 1
+      let l:move_d += 1
+    endwhile
+    let l:count_d = len(l:move_record) == 0 ? 0 : l:move_record[0]
+    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-o>o\<C-o>0" .
+          \ repeat("\<space>", l:indent) . (bullet + 1) . '. ')
+  endif
 endfunction
