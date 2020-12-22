@@ -6,6 +6,7 @@ set completeopt=longest,menuone
 " Comments leader
 augroup subsrc_comments
   autocmd!
+  au BufEnter *.md setlocal fo=ctnqro com=b:>
   au BufEnter *.md exe 'syntax region markdownBlockquote start=/^\s*>/ end=/$/ contains=@Spell'
 augroup end
 
