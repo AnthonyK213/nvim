@@ -16,7 +16,6 @@ let g:nanovi_mode={
 
 hi clear
 set statusline=
-set fillchars=vert:\ 
 set noshowmode
 set background=light
 if exists('syntax on') | syntax reset | endif
@@ -117,6 +116,11 @@ call s:h("Nano_Face_Faded", {
 call s:h("Nano_Face_Subtle", {
       \ "fg": s:nano_color_subtle
       \ })
+" Subtle face for the statusline.
+call s:h("Nano_Face_Status_Subtle", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle
+      \ })
 " Default face for the header line.
 call s:h("Nano_Face_Header_Default", {
       \ "fg": s:nano_color_foreground,
@@ -185,18 +189,9 @@ call s:h("Ignore", {
 " __StatusLine__
 call s:h("StatusLine", {
       \ "fg": s:nano_color_foreground,
-      \ "bg": s:nano_color_subtle
       \ })
-" __StatusLineNC__
 call s:h("StatusLineNC", {
       \ "fg": s:nano_color_background,
-      \ "bg": s:nano_color_subtle
-      \ })
-" __WildMenu__
-call s:h("WildMenu", {
-      \ "fg": s:nano_color_foreground,
-      \ "bg": s:nano_color_subtle,
-      \ "gui": "underline,bold"
       \ })
 call s:h("StatusLineOk", {
       \ "fg": s:nano_color_foreground,
@@ -212,6 +207,12 @@ call s:h("StatusLineWarning", {
       \ "fg": s:nano_color_critical,
       \ "bg": s:nano_color_subtle,
       \ "gui": "underline"
+      \ })
+" __WildMenu__
+call s:h("WildMenu", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_subtle,
+      \ "gui": "underline,bold"
       \ })
 " __Pmenu__
 call s:h("Pmenu", {
@@ -261,7 +262,7 @@ hi! link Statement               Nano_Face_Salient
 hi! link Search                  Nano_Face_Header_Default
 hi! link Todo                    Nano_Face_Header_Popout
 hi! link Special                 Nano_Face_Default
-hi! link VertSplit               Nano_Face_Header_Subtle
+hi! link VertSplit               Nano_Face_Subtle
 hi! link PreProc                 Nano_Face_Default
 hi! link StorageClass            Nano_Face_Default
 hi! link Structure               Nano_Face_Default
@@ -375,9 +376,9 @@ hi link sqlKeyword               Nano_Face_Salient
 " StatusLine
 " | MODE || short_file_name git_branch        file_type file_encoding line:col |
 set laststatus=2
-set statusline+=%#Normal#\ 
+set statusline+=%#Nano_Face_Default#\ 
 set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':toupper(g:nanovi_mode[mode()])}
 set statusline+=%#Nano_Face_Header_Popout#%{&modified?toupper(g:nanovi_mode[mode()]):''}
 set statusline+=%#Nano_Face_Header_Subtle#▎
-set statusline+=%#Statusline#%f\ %{b:nanovi_branch}%=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
-set statusline+=%#Normal#\ 
+set statusline+=%#Nano_Face_Status_Subtle#%f\ %{b:nanovi_branch}%=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
+set statusline+=%#Nano_Face_Default#\ 
