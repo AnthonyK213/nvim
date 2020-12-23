@@ -11,17 +11,17 @@ set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 
 
 " Function
-function! Term()
+function! s:dep_terminal()
   call Lib_Belowright_Split(15)
   terminal powershell.exe -nologo
 endfunction
 
-function! Expl()
+function! s:dep_explorer()
   exe ':!explorer.exe .'
   redraw
 endfunction
 
-function! PDFView(...)
+function! s:dep_pdf_view(...)
   if a:0 > 0
     let name = a:1
   else
@@ -61,7 +61,7 @@ let g:esc_url = {
       \ "\r": "\\\%20",
       \ "\t": "\\\%20"
       \ }
-function! s:util_search_web(mode, site)
+function! s:dep_search_web(mode, site)
   let l:del_list = [
         \ ".", ",", "'", "\"",
         \ ";", "*", "~", "`", 
@@ -82,8 +82,8 @@ endfunction
 
 " Key maps
 "" Terminal
-nn  <M-`> :call Term()<CR>i
-ino <M-`> <Esc>:call Term()<CR>i
+nn  <M-`>      :call <SID>dep_terminal()<CR>i
+ino <M-`> <Esc>:call <SID>dep_terminal()<CR>i
 
 "" Windows-like behaviors
 """ Save
@@ -102,15 +102,15 @@ ino <silent> <M-v> <C-R>=@+<CR>
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 """ Explorer
-nn  <M-e> :call Expl()<CR>
-ino <M-e> <Esc>:call Expl()<CR>
+nn  <M-e>      :call <SID>dep_explorer()<CR>
+ino <M-e> <Esc>:call <SID>dep_explorer()<CR>
 
 "" Search cword in web browser; <leader> f* -> f(ind)
 for key in keys(s:web_list)
-  exe 'nnoremap <silent> <leader>f' . key . ' :call <SID>util_search_web("n", "' . key . '")<CR>'
-  exe 'vnoremap <silent> <leader>f' . key . ' :<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
+  exe 'nn <silent> <leader>f' . key . ' :call <SID>dep_search_web("n", "' . key . '")<CR>'
+  exe 'vn <silent> <leader>f' . key . ' :<C-u>call <SID>dep_search_web("v", "' . key . '")<CR>'
 endfor
 
 
 " Command
-command! -nargs=? -complete=file PDF :call PDFView(<f-args>)
+command! -nargs=? -complete=file PDF :call <SID>dep_pdf_view(<f-args>)

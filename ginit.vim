@@ -4,7 +4,7 @@ function! s:nvimqt_set_font(family, size)
   exe ':GuiFont! ' . a:family . ':h' . a:size
 endfunction
 
-function! s:nvimqt_upstep_font()
+function! s:nvimqt_expand_font()
   let g:gui_font_size += s:gui_font_step
   call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
 endfunction
@@ -39,6 +39,6 @@ let g:gui_font_size_origin = g:gui_font_size
 let g:gui_font_family = '等距更纱黑体 SC'
 call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
 
-nn <silent> <C-=> :call <SID>nvimqt_upstep_font()<CR>
+nn <silent> <C-=> :call <SID>nvimqt_expand_font()<CR>
 nn <silent> <C--> :call <SID>nvimqt_shrink_font()<CR>
 nn <silent> <C-0> :call <SID>nvimqt_origin_font()<CR>

@@ -32,7 +32,7 @@ function! s:sur_def_map(kbd, quote_a, quote_b)
 endfunction
 
 "" Mouse toggle
-function! MouseToggle()
+function! s:mouse_toggle()
   if &mouse == 'a'
     set mouse=
     echom "Mouse disabled"
@@ -43,7 +43,7 @@ function! MouseToggle()
 endfunction
 
 "" Hanzi count.
-function! HanziCount(mode)
+function! s:hanzi_count(mode)
   if a:mode ==? "n"
     let content = readfile(expand('%:p'))
     let h_count = 0
@@ -66,26 +66,26 @@ function! HanziCount(mode)
 endfunction
 
 "" Latex recipes (alternative)
-function! Xelatex()
+function! s:xelatex()
   let name = expand('%:r')
   exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error ' . name . '.tex'
 endfunction
 
-function! Xelatex2()
-  call Xelatex()
-  call Xelatex()
+function! s:xelatex2()
+  call s:xelatex()
+  call s:xelatex()
 endfunction
 
-function! Biber()
+function! s:biber()
   let name = expand('%:r')
-  call Xelatex()
+  call s:xelatex()
   exe '!biber ' . name . '.bcf'
-  call Xelatex()
-  call Xelatex()
+  call s:xelatex()
+  call s:xelatex()
 endfunction
 
 "" Git push all
-function! GitPushAll(...)
+function! s:git_push_all(...)
   let arg_list = a:000
   let git_root = Lib_Get_Git_Root()
   if git_root[0] == 0
@@ -119,7 +119,7 @@ function! GitPushAll(...)
 endfunction
 
 "" Run code
-function! s:util_run_or_compile(option)
+function! s:run_or_compile(option)
   let optn = a:option
   let size = 30
   let cmdh = 'term '
@@ -261,10 +261,10 @@ function! s:md_insert_bullet()
 endfunction
 
 
-augroup md_auto_num
+augroup md_auto_bullet
   autocmd!
-  au BufEnter *.md,*.txt exe 'inoremap <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>'
-  au BufLeave *.md,*.txt exe 'inoremap <M-CR> <M-CR>'
+  au BufEnter * exe 'ino <M-CR> <C-o>o'
+  au BufEnter *.md,*.txt,*.org exe 'ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>'
 augroup end
 
 
@@ -276,15 +276,15 @@ endfor
 "" Echo git status: <leader>v* -> v(ersion control)
 nn <silent> <leader>vs :!git status<CR>
 "" Mouse toggle
-nn  <silent> <F2> :call MouseToggle()<CR>
-vn  <silent> <F2> :<C-u>call MouseToggle()<CR>
-ino <silent> <F2> <C-o>:call MouseToggle()<CR>
-tno <silent> <F2> <C-\><C-n>:call MouseToggle()<CR>a
+nn  <silent> <F2> :call           <SID>mouse_toggle()<CR>
+vn  <silent> <F2> :<C-u>call      <SID>mouse_toggle()<CR>
+ino <silent> <F2> <C-o>:call      <SID>mouse_toggle()<CR>
+tno <silent> <F2> <C-\><C-n>:call <SID>mouse_toggle()<CR>a
 "" Hanzi count; <leader>wc -> w(ord)c(ount)
 nn <silent> <leader>wc
-      \ :echo 'Chinese characters count: ' . HanziCount("n")<CR>
+      \ :echo 'Chinese characters count: ' . <SID>hanzi_count("n")<CR>
 vn <silent> <leader>wc
-      \ :<C-u>echo 'Chinese characters count: ' . HanziCount("v")<CR>
+      \ :<C-u>echo 'Chinese characters count: ' . <SID>hanzi_count("v")<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nn <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Search visual seletion
@@ -293,12 +293,12 @@ vn <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 
 " Commands
 "" Latex
-command! Xe1 call Xelatex()
-command! Xe2 call Xelatex2()
-command! Bib call Biber()
+command! Xe1 call <SID>xelatex()
+command! Xe2 call <SID>xelatex2()
+command! Bib call <SID>biber()
 "" Git
-command! -nargs=* PushAll :call GitPushAll(<f-args>)
+command! -nargs=* PushAll :call <SID>git_push_all(<f-args>)
 "" Run code
-command! -nargs=? CodeRun :call <SID>util_run_or_compile(<q-args>)
+command! -nargs=? CodeRun :call <SID>run_or_compile(<q-args>)
 "" Echo time(May be useful in full screen?)
 command! Time :echo strftime('%Y-%m-%d %a %T')

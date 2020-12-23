@@ -35,23 +35,26 @@
       > Public function library.
   - Platforms
     - `init_depwin.vim`
-      > External dependencies(Microsoft Windows).
-    - `init_depwsl.vim`
-      > External dependencies(Windows Subsystem for Linux).
+      > External dependencies(MS Windows).
+    - `init_deplnx.vim` (Empty so far)
+      > External dependencies(GNU/Linux).
+    - `init_depmac.vim` (Empty so far)
+      > External dependencies(macOS).
   - Utilities
     - `init_fnutil.vim`
       > External cross-platform dependencies(Git, LaTex, etc.);  
       > Functions:
       > - Mouse toggle
-      > - Chinese character count
-      > - Numerical bullets insert on <M-CR>
-      > - Surroundings
+      > - Chinese characters count
+      > - Bullets auto-insertion
+      > - Surrounding pairs
     - `init_subsrc.vim`
       > When don't want to use any plug-ins,  
       > this can be a simple substitute.  
       > Include:
       > - Netrw configuration
       > - Build-in completion
+      > - Simple auto-pairing
   - Plug-ins
     - `init_a_plug.vim`
       > Vim-plug load plug-ins.
