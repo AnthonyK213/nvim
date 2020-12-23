@@ -35,11 +35,15 @@ set mouse=a
 
 "" Font
 let g:gui_font_size = 10
-let s:gui_font_step = 2
-let g:gui_font_size_origin = g:gui_font_size
 let g:gui_font_family = '等距更纱黑体 SC'
 call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
 
-nn <silent> <C-=> :call <SID>nvimqt_expand_font()<CR>
-nn <silent> <C--> :call <SID>nvimqt_shrink_font()<CR>
-nn <silent> <C-0> :call <SID>nvimqt_origin_font()<CR>
+let s:gui_font_step = 2
+let g:gui_font_size_origin = g:gui_font_size
+
+nn  <silent> <C-=> :call <SID>nvimqt_expand_font()<CR>
+nn  <silent> <C--> :call <SID>nvimqt_shrink_font()<CR>
+nn  <silent> <C-0> :call <SID>nvimqt_origin_font()<CR>
+ino <silent> <C-=> <C-o>:call <SID>nvimqt_expand_font()<CR>
+ino <silent> <C--> <C-o>:call <SID>nvimqt_shrink_font()<CR>
+ino <silent> <C-0> <C-o>:call <SID>nvimqt_origin_font()<CR>
