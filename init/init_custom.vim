@@ -43,6 +43,14 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 nn  <M-x> :
 ino <M-x> <C-o>:
 ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
+""" Switch tab
+let tab_num = 1
+while tab_num <= 10
+  let tab_key = tab_num == 10 ? 0 : tab_num
+  exe 'nn  <silent> <M-' . tab_key . '>      :tabn ' . tab_num . '<CR>'
+  exe 'ino <silent> <M-' . tab_key . '> <C-o>:tabn ' . tab_num . '<CR>'
+  let tab_num += 1
+endwhile
 """ Open .vimrc(init.vim)
 nn  <M-,> :tabnew $MYVIMRC<CR>
 """ Terminal
