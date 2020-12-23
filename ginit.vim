@@ -23,6 +23,7 @@ endfunction
 try
   exe 'cd ' . g:usr_desktop
 catch
+  cd $HOME
 endtry
 lcd %:p:h
 set mouse=a
