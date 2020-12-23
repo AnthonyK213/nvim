@@ -236,7 +236,6 @@ call s:h("ColorColumn", {
 " __MatchParen__
 call s:h("MatchParen", {
       \ "fg": s:nano_color_popout,
-      \ "bg": s:nano_color_background,
       \ "gui": "underline"
       \ })
 " __Spell__
