@@ -260,12 +260,49 @@ function! s:md_insert_bullet()
   endif
 endfunction
 
+function s:md_sort_num_bullet()
+  let l:lnum = line('.')
+  let l:linf_c = s:md_check_line('.')
 
-augroup md_auto_bullet
-  autocmd!
-  au BufEnter * exe 'ino <M-CR> <C-o>o'
-  au BufEnter *.md,*.txt,*.org exe 'ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>'
-augroup end
+  if l:linf_c[0] == 2
+    let l:num_lb = [l:lnum]
+    let l:num_lf = []
+
+    let l:lnum_b = l:lnum - 1
+    while l:lnum_b > 0
+      let l:linf_b = s:md_check_line(l:lnum_b)
+      if l:linf_b[0] == 2 && l:linf_b[3] == l:linf_c[3]
+        call add(l:num_lb, l:lnum_b)
+      elseif l:linf_b[0] != 2 && l:linf_b[3] <= l:linf_c[3]
+        break
+      endif
+      let l:lnum_b -= 1
+    endwhile
+
+    let l:lnum_f = l:lnum + 1
+    while l:lnum_f <= line('$')
+      let l:linf_f = s:md_check_line(l:lnum_f)
+      if l:linf_f[0] == 2 && l:linf_f[3] == l:linf_c[3]
+        call add(l:num_lf, l:lnum_f)
+      elseif l:linf_f[0] != 2 && l:linf_f[3] <= l:linf_c[3]
+        break
+      endif
+      let l:lnum_f += 1
+    endwhile
+
+    let l:num_la = reverse(l:num_lb) + l:num_lf
+
+    let l:i = 1
+    for item in l:num_la
+      call setline(item, substitute(getline(item),
+            \ '\v(\d+)', '\=' . l:i, ''))
+      let l:i += 1
+    endfor
+  else
+    echo "Not in a line of any numbered lists."
+    return
+  endif
+endfunction
 
 
 " Key maps
@@ -289,6 +326,9 @@ vn <silent> <leader>wc
 nn <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Search visual seletion
 vn <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
+"" List bullets
+ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>
+nn <silent> <leader>sl :call <SID>md_sort_num_bullet()<CR>
 
 
 " Commands
