@@ -27,7 +27,7 @@ augroup end
 
 " Key maps
 "" Ctrl
-""" Emacs flavor in insert mode.
+""" Emacs mode in insert mode.
 for [key, val] in items({"n":"j", "p":"k"})
   exe 'nnoremap <C-' . key . '> g' . val
   exe 'vnoremap <C-' . key . '> g' . val
@@ -39,7 +39,7 @@ ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
 ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:custom_r
 ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 "" Meta
-""" Emacs command line
+""" Emacs mode.
 nn  <M-x> :
 ino <M-x> <C-o>:
 ino <M-b> <C-o>b

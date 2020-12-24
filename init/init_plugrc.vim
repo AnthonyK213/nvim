@@ -161,3 +161,7 @@ let g:pairs_usr_extd_map = {
       \ "<M-M>" : "***",
       \ "<M-U>" : "<u>"
       \ }
+
+
+" nvim-colorizer
+lua require'colorizer'.setup()
