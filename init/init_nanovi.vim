@@ -63,7 +63,7 @@ endfunction
 
 augroup nanovi_get_git_branch
   autocmd!
-  autocmd BufEnter,FocusGained,BufWritePost * call <SID>nanovi_get_branch() | checktime
+  autocmd BufEnter,FocusGained,BufWritePost * call <SID>nanovi_get_branch()
 augroup END
 
 
