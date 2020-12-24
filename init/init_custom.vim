@@ -42,6 +42,8 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 """ Emacs command line
 nn  <M-x> :
 ino <M-x> <C-o>:
+ino <M-b> <C-o>b
+ino <M-f> <C-o>e<Right>
 ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
 """ Switch tab
 let tab_num = 1

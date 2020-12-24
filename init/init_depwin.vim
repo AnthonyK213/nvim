@@ -106,8 +106,8 @@ ino <silent> <M-v> <C-R>=@+<CR>
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 """ Explorer
-nn  <M-e>      :call <SID>dep_explorer()<CR>
-ino <M-e> <Esc>:call <SID>dep_explorer()<CR>
+nn  <F4>      :call <SID>dep_explorer()<CR>
+ino <F4> <Esc>:call <SID>dep_explorer()<CR>
 
 "" Search cword in web browser; <leader> f* -> f(ind)
 for key in keys(s:web_list)

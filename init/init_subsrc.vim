@@ -60,11 +60,11 @@ ino <expr> <BS>
       \ g:custom_r . "\<BS>\<BS>" :
       \ "\<BS>"
 "" Markdown
-ino <expr> <M-p> "``" . g:custom_l
-ino <expr> <M-i> "**" . g:custom_l
-ino <expr> <M-b> "****" . repeat(g:custom_l, 2)
-ino <expr> <M-m> "******" . repeat(g:custom_l, 3)
-ino <expr> <M-u> "<u></u>" . repeat(g:custom_l, 4)
+ino <expr> <M-P> "``" . g:custom_l
+ino <expr> <M-I> "**" . g:custom_l
+ino <expr> <M-B> "****" . repeat(g:custom_l, 2)
+ino <expr> <M-M> "******" . repeat(g:custom_l, 3)
+ino <expr> <M-U> "<u></u>" . repeat(g:custom_l, 4)
 
 
 " Completion
