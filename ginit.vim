@@ -19,12 +19,14 @@ function! s:nvimqt_origin_font()
   call s:nvimqt_set_font(g:gui_font_family, g:gui_font_size)
 endfunction
 
+function! s:lazy_save_memo()
+  silent exe 'w ' . g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md'
+  silent exe 'e!'
+endfunction
+
+
 "" Set behaviors
-try
-  exe 'cd ' . g:usr_desktop
-catch
-  cd $HOME
-endtry
+exe 'cd ' . g:usr_desktop
 lcd %:p:h
 set mouse=a
 
@@ -47,3 +49,6 @@ nn  <silent> <C-0> :call <SID>nvimqt_origin_font()<CR>
 ino <silent> <C-=> <C-o>:call <SID>nvimqt_expand_font()<CR>
 ino <silent> <C--> <C-o>:call <SID>nvimqt_shrink_font()<CR>
 ino <silent> <C-0> <C-o>:call <SID>nvimqt_origin_font()<CR>
+
+" Lazy save the memo.
+nn <silent> <M-s> :call <SID>lazy_save_memo()<CR><CR>
