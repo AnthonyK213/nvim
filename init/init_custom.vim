@@ -27,6 +27,11 @@ augroup end
 
 " Key maps
 "" Ctrl
+""" Adjust window size.
+nn <C-UP>    <C-W>-
+nn <C-DOWN>  <C-W>+
+nn <C-LEFT>  <C-W>>
+nn <C-RIGHT> <C-w><
 """ Emacs mode in insert mode.
 for [key, val] in items({"n":"j", "p":"k"})
   exe 'nnoremap <C-' . key . '> g' . val
@@ -64,10 +69,9 @@ for direct in ['h', 'j', 'k', 'l', 'w']
   exe 'inoremap <M-' . direct . '> <ESC><C-w>'       . direct
   exe 'tnoremap <M-' . direct . '> <C-\><C-n><C-w>'  . direct
 endfor
-nn <C-UP>    <C-W>-
-nn <C-DOWN>  <C-W>+
-nn <C-LEFT>  <C-W>>
-nn <C-RIGHT> <C-w><
+""" Find and replace
+nn <M-f> :%s/
+vn <M-f> :s/
 "" Leader
 """ Buffer
 nn <silent> <leader>bn :bn<CR>
