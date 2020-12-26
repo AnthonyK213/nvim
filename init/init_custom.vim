@@ -32,24 +32,7 @@ nn <C-UP>    <C-W>-
 nn <C-DOWN>  <C-W>+
 nn <C-LEFT>  <C-W>>
 nn <C-RIGHT> <C-w><
-""" Emacs mode in insert mode.
-for [key, val] in items({"n":"j", "p":"k"})
-  exe 'nnoremap <C-' . key . '> g' . val
-  exe 'vnoremap <C-' . key . '> g' . val
-  exe 'inoremap <silent> <C-' . key . '> <C-o>g' . val
-endfor
-ino <silent> <C-a> <C-o>g0
-ino <silent> <C-e> <C-o>g$
-ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
-ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:custom_r
-ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 "" Meta
-""" Emacs mode.
-nn  <M-x> :
-ino <M-x> <C-o>:
-ino <M-b> <C-o>b
-ino <M-f> <C-o>e<Right>
-ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
 """ Switch tab
 let tab_num = 1
 while tab_num <= 10

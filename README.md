@@ -92,3 +92,12 @@ elseif g:init_src == 'full'
   source <sfile>:h/init/init_rc_coc.vim
 endif
 ```
+
+## Key bindings
+* Customized
+* Emacs shit
+* Windows shit
+* Functional utilities
+* Plug-in
+
+## Commands
