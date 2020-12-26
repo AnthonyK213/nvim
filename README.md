@@ -81,6 +81,7 @@ elseif g:init_src ==? 'light'
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_subsrc.vim
   source <sfile>:h/init/init_nanovi.vim
+  source <sfile>:h/init/init_vemacs.vim
 elseif g:init_src == 'full'
   source <sfile>:h/init/init_a_plug.vim
   source <sfile>:h/init/init_basics.vim
@@ -90,6 +91,7 @@ elseif g:init_src == 'full'
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_plugrc.vim
   source <sfile>:h/init/init_rc_coc.vim
+  source <sfile>:h/init/init_vemacs.vim
 endif
 ```
 
