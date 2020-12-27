@@ -115,33 +115,6 @@ endif
   - n:   `<leader>cd` -> Set directory to the current buffer.
   - n:   `<leader>nh` -> Turn off highlights.
   - n:   `<leader>sc` -> Toggle spell check status.
-* Emacs shit
-  - inv: `<C-n>`      -> Emacs next.
-  - inv: `<C-p>`      -> Emacs previous.
-  - i:   `<C-f>`      -> Emacs forward.
-  - i:   `<C-b>`      -> Emacs backward.
-  - i:   `<C-a>`      -> Emacs line start.
-  - i:   `<C-e>`      -> Emacs line end.
-  - i:   `<C-k>`      -> Emacs kill test on the right.
-  - i:   `<C-SPACE>`  -> Emacs set mark.
-  - i:   `<M-f>`      -> Emacs next word.
-  - i:   `<M-b>`      -> Emacs last word.
-  - in:  `<M-x>`      -> Command line.
-  - i:   `<M-d>`      -> Emacs delete word.
-* Windows shit
-  - in:  ``<M-`>``    -> Open system terminal(powershell).
-  - in:  `<C-s>`      -> Save.
-  - in:  `<C-z>`      -> Undo.
-  - v:   `<M-c>`      -> Copy to system clipboard.
-  - v:   `<M-x>`      -> Cut to system clipboard.
-  - inv: `<M-v>`      -> Paste from system clipboard.
-  - in:  `<M-a>`      -> Select all.
-  - in:  `<F4>`       -> Open system file manager(explorer).
-  - nv:  `<leader>f`+ -> Search text in web browser.
-    - b: Baidu
-    - g: Google
-    - h: Github
-    - y: Youdao
 * Functional utilities
   - iv:  `<M-p>`      -> backquote surround.
   - iv:  `<M-i>`      -> single asterisk surround.
@@ -162,6 +135,33 @@ endif
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.
   - n:   `<leader>sl` -> Sort number list.
+* Windows shit
+  - in:  ``<M-`>``    -> Open system terminal(powershell).
+  - in:  `<C-s>`      -> Save.
+  - in:  `<C-z>`      -> Undo.
+  - v:   `<M-c>`      -> Copy to system clipboard.
+  - v:   `<M-x>`      -> Cut to system clipboard.
+  - inv: `<M-v>`      -> Paste from system clipboard.
+  - in:  `<M-a>`      -> Select all.
+  - in:  `<F4>`       -> Open system file manager(explorer).
+  - nv:  `<leader>f`+ -> Search text in web browser.
+    - b: Baidu
+    - g: Google
+    - h: Github
+    - y: Youdao
+* Emacs shit
+  - inv: `<C-n>`      -> Emacs next.
+  - inv: `<C-p>`      -> Emacs previous.
+  - i:   `<C-f>`      -> Emacs forward.
+  - i:   `<C-b>`      -> Emacs backward.
+  - i:   `<C-a>`      -> Emacs line start.
+  - i:   `<C-e>`      -> Emacs line end.
+  - i:   `<C-k>`      -> Emacs kill test on the right.
+  - i:   `<C-SPACE>`  -> Emacs set mark.
+  - i:   `<M-f>`      -> Emacs next word.
+  - i:   `<M-b>`      -> Emacs last word.
+  - in:  `<M-x>`      -> Command line.
+  - i:   `<M-d>`      -> Emacs delete word.
 * Plug-in
   - int: `<F3>`       -> NERDTree toggle.
   - int: `<M-n>`      -> NERDTree focus.
@@ -181,3 +181,18 @@ endif
   - coc.nvim
 
 ## Commands
+- Functional utilities
+  - `Xe1`: Compile with XeLaTeX for one time.
+  - `Xe2`: Compile with XeLaTeX for two times.
+  - `Bib`: Compile with biber.
+  - `PushAll`: Just push all to the remote origin.
+    - -b: branch.
+    - -m: comment, default value is the date.
+  - `CodeRun`: Run code of current buffer.
+  - `Time`: Echo date and time.
+- Windows shit
+  - `PDF`: Open pdf with the given name in the system viewer.
+           Without name given, the name will adopt the name of the file of the current buffer.
+- Plug-in
+  - `OrgAgenda`: Open org agenda.
+  - coc.nvim

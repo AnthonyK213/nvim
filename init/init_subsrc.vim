@@ -24,35 +24,35 @@ tno <silent> <F3> <C-\><C-N>:20Lexplore<CR>
 
 " Pairs
 function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, Lib_Get_Char(0) . Lib_Get_Char(1)) >= 0
+  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
 endfunction
 
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
 ino <expr> )
-      \ Lib_Get_Char(1) ==# ")" ?
+      \ Lib_Get_Char('n') ==# ")" ?
       \ g:custom_r : ")"
 ino <expr> ]
-      \ Lib_Get_Char(1) ==# "]" ?
+      \ Lib_Get_Char('n') ==# "]" ?
       \ g:custom_r : "]"
 ino <expr> }
-      \ Lib_Get_Char(1) ==# "}" ?
+      \ Lib_Get_Char('n') ==# "}" ?
       \ g:custom_r : "}"
 ino <expr> "
-      \ Lib_Get_Char(1) ==# "\"" ?
+      \ Lib_Get_Char('n') ==# "\"" ?
       \ g:custom_r :
-      \ or(Lib_Get_Char(0) =~ '\v[\\''"]', col('.') == 1) ?
+      \ or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
       \ "\"" :
       \ "\"\"" . g:custom_l
 ino <expr> '
-      \ Lib_Get_Char(1) ==# "'" ?
+      \ Lib_Get_Char('n') ==# "'" ?
       \ g:custom_r :
-      \ Lib_Get_Char(0) =~ '\v[''"]' ?
+      \ Lib_Get_Char('l') =~ '\v[''"]' ?
       \ "'" :
       \ "''" . g:custom_l
 ino <expr> <SPACE>
-      \ Lib_Get_Char(0) . Lib_Get_Char(1) == "{}" ?
+      \ Lib_Get_Char('l') . Lib_Get_Char('n') == "{}" ?
       \ "\<SPACE>\<SPACE>" . g:custom_l :
       \ "\<SPACE>"
 ino <expr> <BS>
@@ -68,15 +68,18 @@ ino <expr> <M-U> "<u></u>" . repeat(g:custom_l, 4)
 
 
 " Completion
-ino <expr> <TAB>
-      \ Lib_Get_Char(0) =~ '\v[a-z_\u4e00-\u9fa5]' ?
-      \ "\<C-N>" :
+function! s:check_back_bullet()
+  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*)\s$'
+endfunction
+ino <silent><expr> <TAB>
+      \ Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
+      \ <SID>check_back_bullet() ? repeat(g:custom_l, 2) . "\<Tab>" . repeat(g:custom_r, 2) :
       \ "\<Tab>"
-ino <expr> <S-TAB>
+ino <silent><expr> <S-TAB>
       \ pumvisible() ?
       \ "\<C-p>" :
       \ "\<C-h>"
-ino <expr> <CR>
+ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(["()", "[]", "{}"]) ?
       \ "\<CR>\<ESC>O" :

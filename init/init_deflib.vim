@@ -20,10 +20,16 @@ endfunction
 
 " Get the character around the cursor.
 function! Lib_Get_Char(num) abort
-  if a:num == 0
+  if a:num ==# 'l'
     return matchstr(getline('.'), '.\%' . col('.') . 'c')
-  else
+  elseif a:num ==# 'n'
     return matchstr(getline('.'), '\%' . col('.') . 'c.')
+  elseif a:num ==# 'b'
+    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
+  elseif a:num ==# 'f'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
+  else
+    echo 'Invalid argument.'
   endif
 endfunction
 

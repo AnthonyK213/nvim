@@ -6,9 +6,12 @@ let g:coc_global_extentions = [
       \ ]
 
 "" Coc functions
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+function! s:check_back_char() abort
+  return Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]'
+endfunction
+
+function! s:check_back_bullet()
+  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*)\s$'
 endfunction
 
 function! s:show_documentation()
@@ -25,11 +28,10 @@ endfunction
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 ino <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+      \ <SID>check_back_char() ? coc#refresh() :
+      \ <SID>check_back_bullet() ? repeat(g:custom_l, 2) . "\<Tab>" . repeat(g:custom_r, 2) :
+      \ "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" Use <c-space> to trigger completion.
-ino <silent><expr> <c-space> coc#refresh()
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 ino <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
