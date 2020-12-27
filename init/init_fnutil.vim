@@ -324,7 +324,7 @@ vn <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>hanzi_count("v")<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nn <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
-"" Search visual seletion
+"" Search visual selection
 vn <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" List bullets
 ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>

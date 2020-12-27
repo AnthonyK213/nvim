@@ -97,9 +97,87 @@ endif
 
 ## Key bindings
 * Customized
+  - `<leader>` is mapped to `<space>`.
+  - n:   `<C-Direct>` -> Adjust window size.
+  - n:   `<M-,>`      -> Open init.vim.
+  - t:   `<M-d>`      -> Close the terminal.
+  - nv:  `<M-f>`      -> Find and replace.
+  - inv: `<M-h>`      -> Jump to the window left.
+  - inv: `<M-j>`      -> Jump to the window below.
+  - inv: `<M-k>`      -> Jump to the window above.
+  - inv: `<M-l>`      -> Jump to the window right.
+  - inv: `<M-w>`      -> Jump to the window in turn.
+  - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - n:   `<leader>b`+ -> Buffer.
+    - n: Next buffer.
+    - p: Previous buffer.
+    - d: Delete buffer.
+  - n:   `<leader>cd` -> Set directory to the current buffer.
+  - n:   `<leader>nh` -> Turn off highlights.
+  - n:   `<leader>sc` -> Toggle spell check status.
 * Emacs shit
+  - inv: `<C-n>`      -> Emacs next.
+  - inv: `<C-p>`      -> Emacs previous.
+  - i:   `<C-f>`      -> Emacs forward.
+  - i:   `<C-b>`      -> Emacs backward.
+  - i:   `<C-a>`      -> Emacs line start.
+  - i:   `<C-e>`      -> Emacs line end.
+  - i:   `<C-k>`      -> Emacs kill test on the right.
+  - i:   `<C-SPACE>`  -> Emacs set mark.
+  - i:   `<M-f>`      -> Emacs next word.
+  - i:   `<M-b>`      -> Emacs last word.
+  - in:  `<M-x>`      -> Command line.
+  - i:   `<M-d>`      -> Emacs delete word.
 * Windows shit
+  - in:  ``<M-`>``    -> Open system terminal(powershell).
+  - in:  `<C-s>`      -> Save.
+  - in:  `<C-z>`      -> Undo.
+  - v:   `<M-c>`      -> Copy to system clipboard.
+  - v:   `<M-x>`      -> Cut to system clipboard.
+  - inv: `<M-v>`      -> Paste from system clipboard.
+  - in:  `<M-a>`      -> Select all.
+  - in:  `<F4>`       -> Open system file manager(explorer).
+  - nv:  `<leader>f`+ -> Search text in web browser.
+    - b: Baidu
+    - g: Google
+    - h: Github
+    - y: Youdao
 * Functional utilities
+  - iv:  `<M-p>`      -> backquote surround.
+  - iv:  `<M-i>`      -> single asterisk surround.
+  - iv:  `<M-b>`      -> double asterisk surround.
+  - iv:  `<M-m>`      -> treble asterisk surround.
+  - iv:  `<M-u>`      -> `<u></u>` surround.
+  - v:   `<leader>e`  -> Surrounding.
+    - (: ( )
+    - [: [ ]
+    - {: { }
+    - ': ' '
+    - ": " "
+    - <: < >
+  - v:   `<leader>vs` -> Git status.
+  - invt:`F2`         -> Toggle mouse status.
+  - nv:  `<leader>wc` -> Chinese characters count.
+  - n:   `<C-c><C-c>` -> Insert time stamp at the end of line.
+  - v:   `*`          -> Search visual selection.
+  - i:   `<M-CR>`     -> Auto insert bullet.
+  - n:   `<leader>sl` -> Sort number list.
 * Plug-in
+  - int: `<F3>`       -> NERDTree toggle.
+  - int: `<M-n>`      -> NERDTree focus.
+  - n:   `<leader>h`  -> Signify.
+    - j: Next hunk.
+    - k: Previous hunk.
+    - J: Last hunk.
+    - K: First hunk.
+    - t: Signify toggle.
+  - n:   `<leader>m`  -> vim-markdown
+    - h: Toc horizontal.
+    - v: Toc vertical.
+  - n:   `<leader>t`  -> vim-table-mode
+    - a: Add formula.
+    - f: Re-align.
+    - c: Evaluate formula.
+  - coc.nvim
 
 ## Commands
