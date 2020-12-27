@@ -98,6 +98,8 @@ endif
 ## Key bindings
 * Customized
   - `<leader>` is mapped to `<space>`.
+  - n:   `<C-j>`      -> Indent entire line toward left.
+  - n:   `<C-k>`      -> Indent entire line toward right.
   - n:   `<C-Direct>` -> Adjust window size.
   - n:   `<M-,>`      -> Open init.vim.
   - t:   `<M-d>`      -> Close the terminal.

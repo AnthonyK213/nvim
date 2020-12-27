@@ -11,7 +11,7 @@ function! s:check_back_char() abort
 endfunction
 
 function! s:check_back_bullet()
-  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*)\s$'
+  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
 endfunction
 
 function! s:show_documentation()
@@ -29,7 +29,7 @@ endfunction
 ino <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_char() ? coc#refresh() :
-      \ <SID>check_back_bullet() ? repeat(g:custom_l, 2) . "\<Tab>" . repeat(g:custom_r, 2) :
+      \ <SID>check_back_bullet() ? "\<C-o>V>" . repeat(g:custom_r, &ts) :
       \ "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " Make <CR> auto-select the first completion item and notify coc.nvim to
