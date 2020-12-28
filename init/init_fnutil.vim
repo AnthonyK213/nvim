@@ -271,8 +271,12 @@ function s:md_sort_num_bullet()
     let l:lnum_b = l:lnum - 1
     while l:lnum_b > 0
       let l:linf_b = s:md_check_line(l:lnum_b)
-      if l:linf_b[0] == 2 && l:linf_b[3] == l:linf_c[3]
-        call add(l:num_lb, l:lnum_b)
+      if l:linf_b[0] == 2
+        if l:linf_b[3] == l:linf_c[3]
+          call add(l:num_lb, l:lnum_b)
+        elseif l:linf_b[3] < l:linf_c[3]
+          break
+        endif
       elseif l:linf_b[0] != 2 && l:linf_b[3] <= l:linf_c[3]
         break
       endif
@@ -282,8 +286,12 @@ function s:md_sort_num_bullet()
     let l:lnum_f = l:lnum + 1
     while l:lnum_f <= line('$')
       let l:linf_f = s:md_check_line(l:lnum_f)
-      if l:linf_f[0] == 2 && l:linf_f[3] == l:linf_c[3]
-        call add(l:num_lf, l:lnum_f)
+      if l:linf_f[0] == 2
+        if l:linf_f[3] == l:linf_c[3]
+          call add(l:num_lf, l:lnum_f)
+        elseif l:linf_f[3] < l:linf_c[3]
+          break
+        endif
       elseif l:linf_f[0] != 2 && l:linf_f[3] <= l:linf_c[3]
         break
       endif
