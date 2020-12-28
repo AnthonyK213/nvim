@@ -22,7 +22,6 @@ endfunction
 function! s:lazy_save_memo()
   if expand('%:t') ==? ''
     silent exe 'w ' . g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
-    call feedkeys("\<CR>")
   else
     exe 'w'
   endif
