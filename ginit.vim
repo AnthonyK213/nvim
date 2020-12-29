@@ -21,7 +21,11 @@ endfunction
 
 function! s:lazy_save_memo()
   if expand('%:t') ==? ''
-    silent exe 'w ' . g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+    if exists('g:onedrive_path')
+      silent exe 'w ' . g:onedrive_path . '/Documents/Agenda/memo/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+    else
+      silent exe 'w ' . g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+    end
   else
     exe 'w'
   endif
