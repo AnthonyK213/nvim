@@ -1,5 +1,5 @@
 " Coc.nvim
-let g:coc_global_extentions = [
+let g:coc_global_extensions = [
       \ 'coc-rls',
       \ 'coc-python',
       \ 'coc-vimtex'
