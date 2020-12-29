@@ -31,63 +31,11 @@ function! s:dep_pdf_view(...)
   redraw
 endfunction
 
-let s:web_list = {
-      \ "b" : "https://www.baidu.com/s?wd=",
-      \ "g" : "https://www.google.com/search?q=",
-      \ "h" : "https://github.com/search?q=",
-      \ "y" : "https://dict.youdao.com/w/eng/"
-      \ }
-let g:esc_url = {
-      \ " " : "\\\%20",
-      \ "!" : "\\\%21",
-      \ "\"": "\\\%22",
-      \ "#" : "\\\%23",
-      \ "$" : "\\\%24",
-      \ "%" : "\\\%25",
-      \ "&" : "\\\%26",
-      \ "'" : "\\\%27",
-      \ "(" : "\\\%28",
-      \ ")" : "\\\%29",
-      \ "*" : "\\\%2A",
-      \ "+" : "\\\%2B",
-      \ "," : "\\\%2C",
-      \ "/" : "\\\%2F",
-      \ ":" : "\\\%3A",
-      \ ";" : "\\\%3B",
-      \ "<" : "\\\%3C",
-      \ "=" : "\\\%3D",
-      \ ">" : "\\\%3E",
-      \ "?" : "\\\%3F",
-      \ "@" : "\\\%40",
-      \ "\\": "\\\%5C",
-      \ "|" : "\\\%7C",
-      \ "\n": "\\\%20",
-      \ "\r": "\\\%20",
-      \ "\t": "\\\%20"
-      \ }
-function! s:dep_search_web(mode, site)
-  let l:del_list = [
-        \ ".", ",", "'", "\"",
-        \ ";", "*", "~", "`", 
-        \ "(", ")", "[", "]", "{", "}"
-        \ ]
-  if a:mode ==? "n"
-    let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:esc_url)
-  elseif a:mode ==? "v"
-    let l:search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), g:esc_url)
-  else
-    echom "Invalid mode argument."
-  endif
-  let l:url = s:web_list[a:site] . l:search_obj
-  silent exe ':!start ' . l:url
-  redraw
-endfunction
-
 
 " Key maps
 "" Terminal
-nn  <M-`>      :call <SID>dep_terminal()<CR>i
-ino <M-`> <Esc>:call <SID>dep_terminal()<CR>i
+nn  <M-t>      :call <SID>dep_terminal()<CR>i
+ino <M-t> <Esc>:call <SID>dep_terminal()<CR>i
 
 "" Windows-like behaviors
 """ Save
@@ -108,12 +56,6 @@ ino <silent> <M-a> <Esc>ggVG
 """ Explorer
 nn  <F4>      :call <SID>dep_explorer()<CR>
 ino <F4> <Esc>:call <SID>dep_explorer()<CR>
-
-"" Search cword in web browser; <leader> f* -> f(ind)
-for key in keys(s:web_list)
-  exe 'nn <silent> <leader>f' . key . ' :call <SID>dep_search_web("n", "' . key . '")<CR>'
-  exe 'vn <silent> <leader>f' . key . ' :<C-u>call <SID>dep_search_web("v", "' . key . '")<CR>'
-endfor
 
 
 " Command
