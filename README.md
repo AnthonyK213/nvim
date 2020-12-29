@@ -24,7 +24,7 @@
   - GNU/Linux
     > cd ~/.config/
 * **Git clone**
-  > git clone git@github.com:AnthonyK213/nvim.git
+  > git clone https://github.com/AnthonyK213/nvim.git
 * **Set** [init.vim](#init.vim)
   - Basics
     - `init_basics.vim`
