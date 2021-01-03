@@ -105,6 +105,13 @@ function! s:dep_search_web(mode, site)
         \ ";", "*", "~", "`", 
         \ "(", ")", "[", "]", "{", "}"
         \ ]
+  if has("win32")
+    let l:browser_head = ':!start '
+  elseif has("mac")
+    let l:browser_head = ':!open '
+  else
+    let l:browser_head = ':!xdg-open '
+  endif
   if a:mode ==? "n"
     let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:esc_url)
   elseif a:mode ==? "v"
@@ -113,7 +120,7 @@ function! s:dep_search_web(mode, site)
     echom "Invalid mode argument."
   endif
   let l:url = s:web_list[a:site] . l:search_obj
-  silent exe ':!python -m webbrowser ' . l:url
+  silent exe l:browser_head . l:url
   redraw
 endfunction
 
