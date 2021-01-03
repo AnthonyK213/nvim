@@ -23,11 +23,11 @@ endfunction
 
 function! s:dep_pdf_view(...)
   if a:0 > 0
-    let name = a:1
+    let l:name = a:1
   else
-    let name = expand('%:r') . '.pdf'
+    let l:name = expand('%:r') . '.pdf'
   endif
-  exe '!start SumatraPDF.exe -reuse-instance ' . name
+  exe '!start SumatraPDF.exe -reuse-instance ' . l:name
   redraw
 endfunction
 
