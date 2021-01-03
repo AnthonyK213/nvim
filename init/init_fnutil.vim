@@ -140,33 +140,39 @@ endfunction
 function! s:git_push_all(...)
   let arg_list = a:000
   let git_root = Lib_Get_Git_Root()
-  if git_root[0] == 0
-    echom "Not a git repository."
-  elseif git_root[0] == 1
-    echo "Git root path: " . git_root[1]
-    exe 'cd ' . git_root[1]
-    if len(arg_list) % 2 == 0
-      exe '!git add *'
-      let m_index = index(arg_list, "-m")
-      let b_index = index(arg_list, "-b")
-      let time = strftime('%y%m%d')
-      if (m_index >= 0) && (m_index % 2 == 0)
-        exe '!git commit -m ' . arg_list[m_index + 1]
-      elseif m_index < 0
-        exe '!git commit -m ' . time
+  if git_root[0] == 1
+    let git_branch = Lib_Get_Git_Branch(git_root)
+    if git_branch[0] == 1
+      echo "Git root path : " . git_root[1]
+      echo "Current branch: " . git_branch[1]
+      exe 'cd ' . git_root[1]
+      if len(arg_list) % 2 == 0
+        exe '!git add *'
+        let m_index = index(arg_list, "-m")
+        let b_index = index(arg_list, "-b")
+        let time = strftime('%y%m%d')
+        if (m_index >= 0) && (m_index % 2 == 0)
+          exe '!git commit -m ' . arg_list[m_index + 1]
+        elseif m_index < 0
+          exe '!git commit -m ' . time
+        else
+          echom "Invalid commit argument."
+        endif
+        if (b_index >= 0) && (b_index % 2 == 0)
+          exe '!git push origin ' . arg_list[b_index + 1]
+        elseif b_index < 0
+          exe '!git push origin ' . git_branch[1]
+        else
+          echom "Invalid branch argument."
+        endif
       else
-        echom "Invalid commit argument."
-      endif
-      if (b_index >= 0) && (b_index % 2 == 0)
-        exe '!git push origin ' . arg_list[b_index + 1]
-      elseif b_index < 0
-        exe '!git push'
-      else
-        echom "Invalid branch argument."
+        echom "Wrong number of arguments is given."
       endif
     else
-      echom "Wrong number of arguments is given."
+      echom "Not a valid git repository."
     endif
+  else
+    echom "Not a git repository."
   endif
 endfunction
 
