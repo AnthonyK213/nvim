@@ -237,14 +237,14 @@ function! s:run_or_compile(option)
       echo "Invalid argument."
     endif
     redraw
-  " VIML
   elseif l:exts ==? 'vim'
+    " VIML
     exe 'source %'
-    " LUA
   elseif l:exts ==? 'lua'
+    " LUA
     exe 'luafile %'
-    " ERROR
   else
+    " ERROR
     echo 'Unknown file type: .' . l:exts
   endif
 endfunction
