@@ -184,6 +184,7 @@ function! s:run_or_compile(option)
   let l:file = expand('%:t')
   let l:name = expand('%:r')
   let l:exts = expand('%:e')
+  let l:exec = has("win32") ? '' : './'
   if l:exts ==? 'py'
     " PYTHON
     call Lib_Belowright_Split(l:size)
@@ -193,7 +194,7 @@ function! s:run_or_compile(option)
     " C
     if l:optn ==? ''
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'gcc ' . l:file . ' -o ' . l:name . ' & ' . l:name
+      exe l:cmdh . 'gcc ' . l:file . ' -o ' . l:name . ' & ' . l:exec . l:name
     elseif l:optn ==? 'check'
       call Lib_Belowright_Split(l:size)
       exe l:cmdh . 'gcc ' . l:file . ' -g -o ' . l:name
@@ -216,7 +217,7 @@ function! s:run_or_compile(option)
       exe l:cmdh . 'cargo run'
     elseif l:optn ==? 'rustc'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'rustc ' . l:file . ' & ' . l:name
+      exe l:cmdh . 'rustc ' . l:file . ' & ' . l:exec . l:name
     elseif l:optn ==? 'clean'
       exe '!cargo clean'
     elseif l:optn ==? 'check'
