@@ -46,7 +46,7 @@ function! s:h(group, style)
         \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
 endfunction
 
-" Get the branck name without git
+" Get the branch name without git
 function! s:nanovi_get_branch()
   let l:git_root = Lib_Get_Git_Root()
   if l:git_root[0] == 0
