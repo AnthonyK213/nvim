@@ -45,21 +45,21 @@ endfunction
 "" Hanzi count.
 function! s:hanzi_count(mode)
   if a:mode ==? "n"
-    let content = readfile(expand('%:p'))
-    let h_count = 0
-    for line in content
+    let l:content = readfile(expand('%:p'))
+    let l:h_count = 0
+    for line in l:content
       for char in split(line, '.\zs')
-        if Lib_Is_Hanzi(char) | let h_count += 1 | endif
+        if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
       endfor
     endfor
-    return h_count
+    return l:h_count
   elseif a:mode ==? "v"
-    let select = split(Lib_Get_Visual_Selection(), '.\zs')
-    let h_count = 0
-    for char in select
-      if Lib_Is_Hanzi(char) | let h_count += 1 | endif
+    let l:select = split(Lib_Get_Visual_Selection(), '.\zs')
+    let l:h_count = 0
+    for char in l:select
+      if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
     endfor
-    return h_count
+    return l:h_count
   else
     echom "Invalid mode argument."
   endif
@@ -119,8 +119,8 @@ endfunction
 
 "" Latex recipes (alternative)
 function! s:xelatex()
-  let name = expand('%:r')
-  exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error ' . name . '.tex'
+  let l:name = expand('%:r')
+  exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error ' . l:name . '.tex'
 endfunction
 
 function! s:xelatex2()
@@ -129,9 +129,9 @@ function! s:xelatex2()
 endfunction
 
 function! s:biber()
-  let name = expand('%:r')
+  let l:name = expand('%:r')
   call s:xelatex()
-  exe '!biber ' . name . '.bcf'
+  exe '!biber ' . l:name . '.bcf'
   call s:xelatex()
   call s:xelatex()
 endfunction
@@ -148,19 +148,19 @@ function! s:git_push_all(...)
       exe 'cd ' . l:git_root[1]
       if len(l:arg_list) % 2 == 0
         exe '!git add *'
-        let m_index = index(l:arg_list, "-m")
-        let b_index = index(l:arg_list, "-b")
-        let time = strftime('%y%m%d')
-        if (m_index >= 0) && (m_index % 2 == 0)
-          exe '!git commit -m ' . l:arg_list[m_index + 1]
-        elseif m_index < 0
-          exe '!git commit -m ' . time
+        let l:m_index = index(l:arg_list, "-m")
+        let l:b_index = index(l:arg_list, "-b")
+        let l:time = strftime('%y%m%d')
+        if (l:m_index >= 0) && (l:m_index % 2 == 0)
+          exe '!git commit -m ' . l:arg_list[l:m_index + 1]
+        elseif l:m_index < 0
+          exe '!git commit -m ' . l:time
         else
           echom "Invalid commit argument."
         endif
-        if (b_index >= 0) && (b_index % 2 == 0)
-          exe '!git push origin ' . l:arg_list[b_index + 1]
-        elseif b_index < 0
+        if (l:b_index >= 0) && (l:b_index % 2 == 0)
+          exe '!git push origin ' . l:arg_list[l:b_index + 1]
+        elseif l:b_index < 0
           exe '!git push origin ' . l:git_branch[1]
         else
           echom "Invalid branch argument."
@@ -178,66 +178,66 @@ endfunction
 
 "" Run code
 function! s:run_or_compile(option)
-  let optn = a:option
-  let size = 30
-  let cmdh = 'term '
-  let file = expand('%:t')
-  let name = expand('%:r')
-  let exts = expand('%:e')
-  if exts ==? 'py'
+  let l:optn = a:option
+  let l:size = 30
+  let l:cmdh = 'term '
+  let l:file = expand('%:t')
+  let l:name = expand('%:r')
+  let l:exts = expand('%:e')
+  if l:exts ==? 'py'
     " PYTHON
-    call Lib_Belowright_Split(size)
-    exe cmdh . 'python ' . file
+    call Lib_Belowright_Split(l:size)
+    exe l:cmdh . 'python ' . l:file
     redraw
-  elseif exts ==? 'c'
+  elseif l:exts ==? 'c'
     " C
-    if optn ==? ''
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'gcc ' . file . ' -o ' . name . ' & ' . name
-    elseif optn ==? 'check'
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'gcc ' . file . ' -g -o ' . name
-    elseif optn ==? 'build'
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'gcc ' . file . ' -O2 -o ' . name
+    if l:optn ==? ''
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'gcc ' . l:file . ' -o ' . l:name . ' & ' . l:name
+    elseif l:optn ==? 'check'
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'gcc ' . l:file . ' -g -o ' . l:name
+    elseif l:optn ==? 'build'
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'gcc ' . l:file . ' -O2 -o ' . l:name
     else
       echo "Invalid argument."
     endif
     redraw
-  elseif exts ==? 'cpp'
+  elseif l:exts ==? 'cpp'
     " C++
-    call Lib_Belowright_Split(size)
-    exe cmdh . 'g++ ' . file
+    call Lib_Belowright_Split(l:size)
+    exe l:cmdh . 'g++ ' . l:file
     redraw
-  elseif exts ==? 'rs'
+  elseif l:exts ==? 'rs'
     " RUST
-    if optn ==? ''
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'cargo run'
-    elseif optn ==? 'rustc'
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'rustc ' . file . ' & ' . name
-    elseif optn ==? 'clean'
+    if l:optn ==? ''
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'cargo run'
+    elseif l:optn ==? 'rustc'
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'rustc ' . l:file . ' & ' . l:name
+    elseif l:optn ==? 'clean'
       exe '!cargo clean'
-    elseif optn ==? 'check'
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'cargo check'
-    elseif optn ==? 'build'
-      call Lib_Belowright_Split(size)
-      exe cmdh . 'cargo build --release'
+    elseif l:optn ==? 'check'
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'cargo check'
+    elseif l:optn ==? 'build'
+      call Lib_Belowright_Split(l:size)
+      exe l:cmdh . 'cargo build --release'
     else
       echo "Invalid argument."
     endif
     redraw
   " VIML
-  elseif exts ==? 'vim'
+  elseif l:exts ==? 'vim'
     exe 'source %'
     " LUA
-  elseif exts ==? 'lua'
+  elseif l:exts ==? 'lua'
     exe 'luafile %'
     " ERROR
   else
-    echo 'Unknown file type: .' . exts
+    echo 'Unknown file type: .' . l:exts
   endif
 endfunction
 
