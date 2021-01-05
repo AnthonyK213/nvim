@@ -100,9 +100,9 @@ endif
   - inv: `<M-w>`      -> Jump to the window in turn.
   - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - n:   `<leader>b`+ -> Buffer.
-    - n: Next buffer.
-    - p: Previous buffer.
-    - d: Delete buffer.
+    - `n`: Next buffer.
+    - `p`: Previous buffer.
+    - `d`: Delete buffer.
   - n:   `<leader>cd` -> Set directory to the current buffer.
   - n:   `<leader>nh` -> Turn off highlights.
   - n:   `<leader>sc` -> Toggle spell check status.
@@ -113,12 +113,12 @@ endif
   - iv:  `<M-m>`      -> treble asterisk surround.
   - iv:  `<M-u>`      -> `<u></u>` surround.
   - v:   `<leader>e`  -> Surrounding.
-    - (: ( )
-    - [: [ ]
-    - {: { }
-    - ': ' '
-    - ": " "
-    - <: < >
+    - `(`: ( )
+    - `[`: [ ]
+    - `{`: { }
+    - `'`: ' '
+    - `"`: " "
+    - `<`: < >
   - v:   `<leader>vs` -> Git status.
   - invt:`F2`         -> Toggle mouse status.
   - nv:  `<leader>wc` -> Chinese characters count.
@@ -136,10 +136,10 @@ endif
   - in:  `<M-a>`      -> Select all.
   - in:  `<F4>`       -> Open system file manager(explorer).
   - nv:  `<leader>f`+ -> Search text in web browser.
-    - b: Baidu
-    - g: Google
-    - h: Github
-    - y: Youdao
+    - `b`: Baidu
+    - `g`: Google
+    - `h`: Github
+    - `y`: Youdao
 * Emacs shit
   - inv: `<C-n>`      -> Emacs next.
   - inv: `<C-p>`      -> Emacs previous.
@@ -157,18 +157,18 @@ endif
   - int: `<F3>`       -> NERDTree toggle.
   - int: `<M-n>`      -> NERDTree focus.
   - n:   `<leader>h`  -> Signify.
-    - j: Next hunk.
-    - k: Previous hunk.
-    - J: Last hunk.
-    - K: First hunk.
-    - t: Signify toggle.
+    - `j`: Next hunk.
+    - `k`: Previous hunk.
+    - `J`: Last hunk.
+    - `K`: First hunk.
+    - `t`: Signify toggle.
   - n:   `<leader>m`  -> vim-markdown
-    - h: Toc horizontal.
-    - v: Toc vertical.
+    - `h`: Toc horizontal.
+    - `v`: Toc vertical.
   - n:   `<leader>t`  -> vim-table-mode
-    - a: Add formula.
-    - f: Re-align.
-    - c: Evaluate formula.
+    - `a`: Add formula.
+    - `f`: Re-align.
+    - `c`: Evaluate formula.
   - coc.nvim
 
 ## Commands
@@ -177,8 +177,8 @@ endif
   - `Xe2`: Compile with XeLaTeX for two times.
   - `Bib`: Compile with biber.
   - `PushAll`: Just push all to the remote origin.
-    - -b: branch.
-    - -m: comment, default value is the date.
+    - `-b`: branch.
+    - `-m`: comment, default value is the date.
   - `CodeRun`: Run code of current buffer.
   - `Time`: Echo date and time.
 - Windows shit
