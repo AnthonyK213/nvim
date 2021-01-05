@@ -92,8 +92,7 @@ endfunction
 
 "" Open file manager
 function! s:util_explorer()
-  exe g:util_def_start . ' .'
-  redraw
+  silent exe g:util_def_start . ' .'
 endfunction
 
 "" Open pdf file
@@ -446,8 +445,8 @@ ino <silent> <M-v> <C-R>=@+<CR>
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 """ Explorer
-nn  <F4>      :call <SID>util_explorer()<CR>
-ino <F4> <Esc>:call <SID>util_explorer()<CR>
+nn  <silent> <F4>      :call <SID>util_explorer()<CR>
+ino <silent> <F4> <Esc>:call <SID>util_explorer()<CR>
 "" Hanzi count; <leader>wc -> w(ord)c(ount)
 nn  <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . <SID>hanzi_count("n")<CR>
