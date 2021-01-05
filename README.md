@@ -33,13 +33,6 @@
       > Global variables and key maps.
     - `init_deflib.vim`
       > Public function library.
-  - Platforms
-    - `init_depwin.vim`
-      > External dependencies(MS Windows).
-    - `init_deplnx.vim` (Empty so far)
-      > External dependencies(GNU/Linux).
-    - `init_depmac.vim` (Empty so far)
-      > External dependencies(macOS).
   - Utilities
     - `init_fnutil.vim`
       > External cross-platform dependencies(Git, LaTex, etc.);  
@@ -77,21 +70,17 @@ elseif g:init_src ==? 'light'
   source <sfile>:h/init/init_basics.vim
   source <sfile>:h/init/init_custom.vim
   source <sfile>:h/init/init_deflib.vim
-  source <sfile>:h/init/init_depwin.vim
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_subsrc.vim
   source <sfile>:h/init/init_nanovi.vim
-  source <sfile>:h/init/init_vemacs.vim
 elseif g:init_src == 'full'
   source <sfile>:h/init/init_a_plug.vim
   source <sfile>:h/init/init_basics.vim
   source <sfile>:h/init/init_custom.vim
   source <sfile>:h/init/init_deflib.vim
-  source <sfile>:h/init/init_depwin.vim
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_plugrc.vim
   source <sfile>:h/init/init_rc_coc.vim
-  source <sfile>:h/init/init_vemacs.vim
 endif
 ```
 

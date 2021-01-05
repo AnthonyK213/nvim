@@ -1,6 +1,27 @@
-" Functions
+" Variables
+"" OS
+if has("win32")
+  let g:util_def_start = ':!start '
+  let g:util_def_terminal = 'powershell.exe -nologo'
+  let g:util_def_c_compiler = 'gcc '
+  let g:python3_host_prog = $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE'
+  set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
+  set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
+  set wildignore+=*.pyc
+  set wildignore+=*.DS_Store
+  set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
+elseif has("unix")
+  let g:util_def_start = ':!xdg_open '
+  let g:util_def_terminal = 'bash'
+  let g:util_def_c_compiler = 'gcc '
+  let g:python3_host_prog = '/usr/bin/python3'
+  set wildignore+=*.so
+elseif has("mac")
+  let g:util_def_start = ':!open '
+  let g:util_def_c_compiler = 'clang '
+endif
 "" Surround
-let g:sur_map = {
+let g:util_sur_map = {
       \ "<M-P>"  : ["`",     "`"],
       \ "<M-I>"  : ["*",     "*"],
       \ "<M-B>"  : ["**",   "**"],
@@ -14,58 +35,8 @@ let g:sur_map = {
       \ "<leader>e<" : ["<", ">"],
       \ "<leader>e$" : ["$", "$"]
       \ }
-
-function! s:sur_impl(quote_a, quote_b)
-  let l:stt = [0] + getpos("'<")[1:2]
-  let l:end = [0] + getpos("'>")[1:2]
-  call setpos('.', l:end)
-  exe "normal! a" . a:quote_b
-  call setpos('.', l:stt)
-  exe "normal! i" . a:quote_a
-endfunction
-
-function! s:sur_def_map(kbd, quote_a, quote_b)
-  let l:esc_dict = {"\"":"\\\""}
-  let l:key = "\"" . Lib_Str_Escape(a:quote_a, l:esc_dict) . "\", "
-  let l:val = "\"" . Lib_Str_Escape(a:quote_b, l:esc_dict) . "\""
-  exe 'vnoremap <silent> ' . a:kbd . ' :<C-u>call <SID>sur_impl(' . l:key . l:val . ')<CR>'
-endfunction
-
-"" Mouse toggle
-function! s:mouse_toggle()
-  if &mouse == 'a'
-    set mouse=
-    echom "Mouse disabled"
-  else
-    set mouse=a
-    echom "Mouse enabled"
-  endif
-endfunction
-
-"" Hanzi count.
-function! s:hanzi_count(mode)
-  if a:mode ==? "n"
-    let l:content = readfile(expand('%:p'))
-    let l:h_count = 0
-    for line in l:content
-      for char in split(line, '.\zs')
-        if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
-      endfor
-    endfor
-    return l:h_count
-  elseif a:mode ==? "v"
-    let l:select = split(Lib_Get_Visual_Selection(), '.\zs')
-    let l:h_count = 0
-    for char in l:select
-      if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
-    endfor
-    return l:h_count
-  else
-    echom "Invalid mode argument."
-  endif
-endfunction
-
-let s:web_list = {
+"" Search web
+let s:util_web_list = {
       \ "b" : "https://www.baidu.com/s?wd=",
       \ "g" : "https://www.google.com/search?q=",
       \ "h" : "https://github.com/search?q=",
@@ -99,19 +70,89 @@ let g:esc_url = {
       \ "\r": "\\\%20",
       \ "\t": "\\\%20"
       \ }
-function! s:dep_search_web(mode, site)
+
+
+" Functions
+"" Mouse toggle
+function! s:mouse_toggle()
+  if &mouse == 'a'
+    set mouse=
+    echom "Mouse disabled"
+  else
+    set mouse=a
+    echom "Mouse enabled"
+  endif
+endfunction
+
+"" Open terminal
+function! s:util_terminal()
+  call Lib_Belowright_Split(15)
+  exe ':terminal ' . g:util_def_terminal
+endfunction
+
+"" Open file manager
+function! s:util_explorer()
+  exe g:util_def_start . ' .'
+  redraw
+endfunction
+
+"" Open pdf file
+function! s:util_pdf_view(...)
+  if a:0 > 0
+    let l:name = a:1
+  else
+    let l:name = expand('%:r') . '.pdf'
+  endif
+  exe g:util_def_start . l:name
+endfunction
+
+"" Surround
+function! s:util_sur_impl(quote_a, quote_b)
+  let l:stt = [0] + getpos("'<")[1:2]
+  let l:end = [0] + getpos("'>")[1:2]
+  call setpos('.', l:end)
+  exe "normal! a" . a:quote_b
+  call setpos('.', l:stt)
+  exe "normal! i" . a:quote_a
+endfunction
+
+function! s:util_sur_def_map(kbd, quote_a, quote_b)
+  let l:esc_dict = {"\"":"\\\""}
+  let l:key = "\"" . Lib_Str_Escape(a:quote_a, l:esc_dict) . "\", "
+  let l:val = "\"" . Lib_Str_Escape(a:quote_b, l:esc_dict) . "\""
+  exe 'vnoremap <silent> ' . a:kbd . ' :<C-u>call <SID>util_sur_impl(' . l:key . l:val . ')<CR>'
+endfunction
+
+"" Hanzi count.
+function! s:hanzi_count(mode)
+  if a:mode ==? "n"
+    let l:content = readfile(expand('%:p'))
+    let l:h_count = 0
+    for line in l:content
+      for char in split(line, '.\zs')
+        if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
+      endfor
+    endfor
+    return l:h_count
+  elseif a:mode ==? "v"
+    let l:select = split(Lib_Get_Visual_Selection(), '.\zs')
+    let l:h_count = 0
+    for char in l:select
+      if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
+    endfor
+    return l:h_count
+  else
+    echom "Invalid mode argument."
+  endif
+endfunction
+
+"" Search web
+function! s:util_search_web(mode, site)
   let l:del_list = [
         \ ".", ",", "'", "\"",
         \ ";", "*", "~", "`", 
         \ "(", ")", "[", "]", "{", "}"
         \ ]
-  if has("win32")
-    let l:browser_head = ':!start '
-  elseif has("mac")
-    let l:browser_head = ':!open '
-  else
-    let l:browser_head = ':!xdg-open '
-  endif
   if a:mode ==? "n"
     let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:esc_url)
   elseif a:mode ==? "v"
@@ -119,8 +160,8 @@ function! s:dep_search_web(mode, site)
   else
     echom "Invalid mode argument."
   endif
-  let l:url = s:web_list[a:site] . l:search_obj
-  silent exe l:browser_head . l:url
+  let l:url = s:util_web_list[a:site] . l:search_obj
+  silent exe g:util_def_start . l:url
   redraw
 endfunction
 
@@ -201,13 +242,13 @@ function! s:run_or_compile(option)
     " C
     if l:optn ==? ''
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'gcc ' . l:file . ' -o ' . l:name . ' && ' . l:exec . l:name
+      exe l:cmdh . g:util_def_c_compiler . l:file . ' -o ' . l:name . ' && ' . l:exec . l:name
     elseif l:optn ==? 'check'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'gcc ' . l:file . ' -g -o ' . l:name
+      exe l:cmdh . g:util_def_c_compiler . l:file . ' -g -o ' . l:name
     elseif l:optn ==? 'build'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'gcc ' . l:file . ' -O2 -o ' . l:name
+      exe l:cmdh . g:util_def_c_compiler . l:file . ' -O2 -o ' . l:name
     else
       echo "Invalid argument."
     endif
@@ -380,34 +421,73 @@ endfunction
 
 
 " Key maps
-"" Surround
-for [key, val] in items(g:sur_map)
-  call s:sur_def_map(key, val[0], val[1])
-endfor
-"" Echo git status: <leader>v* -> v(ersion control)
-nn <silent> <leader>vs :!git status<CR>
 "" Mouse toggle
 nn  <silent> <F2> :call           <SID>mouse_toggle()<CR>
 vn  <silent> <F2> :<C-u>call      <SID>mouse_toggle()<CR>
 ino <silent> <F2> <C-o>:call      <SID>mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-n>:call <SID>mouse_toggle()<CR>a
+"" Terminal
+nn  <M-t>      :call <SID>util_terminal()<CR>i
+ino <M-t> <Esc>:call <SID>util_terminal()<CR>i
+"" Windows-like behaviors
+""" Save
+nn  <silent> <C-s> :w<CR>
+ino <silent> <C-s> <C-o>:w<CR>
+""" Undo
+nn  <silent> <C-z> u
+ino <silent> <C-z> <C-o>u
+""" Copy/Paste
+vn  <silent> <M-c> "+y
+vn  <silent> <M-x> "+x
+nn  <silent> <M-v> "+p
+vn  <silent> <M-v> "+p
+ino <silent> <M-v> <C-R>=@+<CR>
+""" Select
+nn  <silent> <M-a> ggVG
+ino <silent> <M-a> <Esc>ggVG
+""" Explorer
+nn  <F4>      :call <SID>util_explorer()<CR>
+ino <F4> <Esc>:call <SID>util_explorer()<CR>
 "" Hanzi count; <leader>wc -> w(ord)c(ount)
-nn <silent> <leader>wc
+nn  <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . <SID>hanzi_count("n")<CR>
-vn <silent> <leader>wc
+vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>hanzi_count("v")<CR>
+"" Surround
+for [key, val] in items(g:util_sur_map)
+  call s:util_sur_def_map(key, val[0], val[1])
+endfor
 "" Insert an orgmode-style timestamp at the end of the line
-nn <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
+nn  <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Search visual selection
-vn <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
+vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
+"" Search cword in web browser; <leader> f* -> f(ind)
+for key in keys(s:util_web_list)
+  exe 'nn <silent> <leader>f' . key . ' :call <SID>util_search_web("n", "' . key . '")<CR>'
+  exe 'vn <silent> <leader>f' . key . ' :<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
+endfor
 "" List bullets
 ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>
-nn <silent> <leader>sl :call <SID>md_sort_num_bullet()<CR>
-"" Search cword in web browser; <leader> f* -> f(ind)
-for key in keys(s:web_list)
-  exe 'nn <silent> <leader>f' . key . ' :call <SID>dep_search_web("n", "' . key . '")<CR>'
-  exe 'vn <silent> <leader>f' . key . ' :<C-u>call <SID>dep_search_web("v", "' . key . '")<CR>'
+nn  <silent> <leader>sl  :call <SID>md_sort_num_bullet()<CR>
+"" Echo git status: <leader>v* -> v(ersion control)
+nn <silent> <leader>vs :!git status<CR>
+"" Some emacs shit.
+for [key, val] in items({"n":"j", "p":"k"})
+  exe 'nnoremap <C-' . key . '> g' . val
+  exe 'vnoremap <C-' . key . '> g' . val
+  exe 'inoremap <silent> <C-' . key . '> <C-o>g' . val
 endfor
+nn  <M-x> :
+ino <M-x> <C-o>:
+ino <M-b> <C-o>b
+ino <M-f> <C-o>e<Right>
+ino <C-SPACE> <C-o>v
+ino <silent> <C-a> <C-o>g0
+ino <silent> <C-e> <C-o>g$
+ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
+ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
+ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:custom_r
+ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 
 
 " Commands
@@ -421,3 +501,5 @@ command! -nargs=* PushAll :call <SID>git_push_all(<f-args>)
 command! -nargs=? CodeRun :call <SID>run_or_compile(<q-args>)
 "" Echo time(May be useful in full screen?)
 command! Time :echo strftime('%Y-%m-%d %a %T')
+"" View PDF
+command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
