@@ -189,7 +189,6 @@ endif
     - `-m`: comment, default value is the date.
   - `CodeRun`: Run code of current buffer.
   - `Time`: Echo date and time.
-- Windows shit
   - `PDF`: Open pdf with the given name in the system viewer.
            Without name given, the name will adopt the name of the file of the current buffer.
 - Plug-in
