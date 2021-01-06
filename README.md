@@ -190,7 +190,7 @@ endif
   - `CodeRun`: Run code of current buffer.
   - `Time`: Echo date and time.
   - `PDF`: Open pdf with the given name in the system viewer.
-           Without name given, the name will adopt the name of the file of the current buffer.
+           Without name given, the name will be set ot the file of the current buffer.
 - Plug-in
   - `OrgAgenda`: Open org agenda.
   - coc.nvim
