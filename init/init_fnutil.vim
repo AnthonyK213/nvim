@@ -200,10 +200,10 @@ function! s:git_push_all(...)
         let l:time = strftime('%y%m%d')
         if (l:m_index >= 0) && (l:m_index % 2 == 0)
           silent exe '!git commit -m ' . l:arg_list[l:m_index + 1]
-          echom "Commit message:  " . l:arg_list[l:m_index + 1]
+          echom "Commit message: " . l:arg_list[l:m_index + 1]
         elseif l:m_index < 0
           silent exe '!git commit -m ' . l:time
-          echom "Commit message:  " . l:time
+          echom "Commit message: " . l:time
         else
           echom "Invalid commit argument."
         endif
