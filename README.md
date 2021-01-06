@@ -17,6 +17,7 @@
     - Set plug.vim into
       > ~/.local/share/nvim/site/autoload/
 
+
 ## Install
 * **Configuration Directory**
   - Windows
@@ -35,12 +36,16 @@
       > Public function library.
   - Utilities
     - `init_fnutil.vim`
-      > External cross-platform dependencies(Git, LaTex, etc.);  
+      > External cross-platform dependencies(Git, LaTeX, etc.);  
       > Functions:
-      > - Mouse toggle
-      > - Chinese characters count
-      > - Bullets auto-insertion
+      > - View pdf in system default viewer
       > - Surrounding pairs
+      > - Chinese characters count
+      > - Search cword or selection in system default browser
+      > - Bullets auto-insertion and auto-arrangement
+      > - LaTeX compile recipes
+      > - Git lazy push(commit all and push all)
+      > - Compile and run code of current buffer
     - `init_subsrc.vim`
       > When don't want to use any plug-ins,  
       > this can be a simple substitute.  
@@ -57,7 +62,9 @@
     - `nanovi.vim`
       > Based on [nano-emacs](https://github.com/rougier/nano-emacs) light
 
+
 ## init.vim
+* Example
 ``` vim
 if !exists('g:init_src')
   let g:init_src = 'full'
@@ -83,6 +90,7 @@ elseif g:init_src == 'full'
   source <sfile>:h/init/init_rc_coc.vim
 endif
 ```
+
 
 ## Key bindings
 * Customized
@@ -177,7 +185,7 @@ endif
   - `Xe2`: Compile with XeLaTeX for two times.
   - `Bib`: Compile with biber.
   - `PushAll`: Just push all to the remote origin.
-    - `-b`: branch.
+    - `-b`: branch, default value is current branch.
     - `-m`: comment, default value is the date.
   - `CodeRun`: Run code of current buffer.
   - `Time`: Echo date and time.

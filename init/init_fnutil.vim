@@ -164,7 +164,7 @@ function! s:util_search_web(mode, site)
   redraw
 endfunction
 
-"" Latex recipes (alternative)
+"" LaTeX recipes
 function! s:xelatex()
   let l:name = expand('%:r')
   exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error ' . l:name . '.tex'
