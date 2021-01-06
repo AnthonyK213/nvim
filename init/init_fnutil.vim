@@ -192,7 +192,7 @@ function! s:git_push_all(...)
     if l:git_branch[0] == 1
       echo "Git root path : " . l:git_root[1]
       echo "Current branch: " . l:git_branch[1]
-      echo " "
+      echo "\n"
       exe 'cd ' . l:git_root[1]
       if len(l:arg_list) % 2 == 0
         exe '!git add *'
