@@ -190,7 +190,7 @@ function! s:git_push_all(...)
   if l:git_root[0] == 1
     let l:git_branch = Lib_Get_Git_Branch(l:git_root)
     if l:git_branch[0] == 1
-      echo "Root directory:  " . l:git_root[1]
+      echo "Root directory: " . l:git_root[1]
       echo "Current branch: " . l:git_branch[1]
       exe 'cd ' . l:git_root[1]
       if len(l:arg_list) % 2 == 0
