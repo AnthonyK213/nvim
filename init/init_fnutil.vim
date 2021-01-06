@@ -190,7 +190,7 @@ function! s:git_push_all(...)
   if l:git_root[0] == 1
     let l:git_branch = Lib_Get_Git_Branch(l:git_root)
     if l:git_branch[0] == 1
-      echo "Git root path: " . l:git_root[1]
+      echo "Git root path:  " . l:git_root[1]
       echo "Current branch: " . l:git_branch[1]
       exe 'cd ' . l:git_root[1]
       if len(l:arg_list) % 2 == 0
@@ -200,17 +200,17 @@ function! s:git_push_all(...)
         let l:time = strftime('%y%m%d')
         if (l:m_index >= 0) && (l:m_index % 2 == 0)
           silent exe '!git commit -m ' . l:arg_list[l:m_index + 1]
-          echom "Commit: " . l:arg_list[l:m_index + 1]
+          echom "Commit message:  " . l:arg_list[l:m_index + 1]
         elseif l:m_index < 0
           silent exe '!git commit -m ' . l:time
-          echom "Commit: " . l:time
+          echom "Commit message:  " . l:time
         else
           echom "Invalid commit argument."
         endif
         if (l:b_index >= 0) && (l:b_index % 2 == 0)
-          silent exe '!git push origin ' . l:arg_list[l:b_index + 1]
+          exe '!git push origin ' . l:arg_list[l:b_index + 1]
         elseif l:b_index < 0
-          silent exe '!git push origin ' . l:git_branch[1]
+          exe '!git push origin ' . l:git_branch[1]
         else
           echom "Invalid branch argument."
         endif
