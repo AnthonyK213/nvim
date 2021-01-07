@@ -78,7 +78,11 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 
 " vim-markdown
-let g:vim_markdown_math = 1
+function! s:vim_markdown_math_toggle()
+  let g:vim_markdown_math = 1 - g:vim_markdown_math
+  syn off | syn on
+endfunction
+let g:vim_markdown_math = 0
 let g:vim_markdown_autowrite = 1
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_auto_insert_bullets = 0
@@ -86,6 +90,7 @@ let g:vim_markdown_new_list_item_indent = 2
 "" <leader>m* -> m(arkdown)
 nn <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nn <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
+nn <silent> <leader>mm :call <SID>vim_markdown_math_toggle()<CR>
 
 
 " markdown preview
