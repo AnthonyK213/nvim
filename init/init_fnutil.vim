@@ -536,8 +536,6 @@ vn  <silent> <leader>wc
 for [key, val] in items(g:util_sur_map)
   call s:util_sur_def_map(key, val[0], val[1])
 endfor
-"" Insert an orgmode-style timestamp at the end of the line
-nn  <silent> <C-c><C-c> A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader> f* -> f(ind)
@@ -552,6 +550,8 @@ nn  <silent> <leader>sl  :call <SID>md_sort_num_bullet()<CR>
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
 nn <silent> <leader>d :call <SID>util_append_day_from_date()<CR>
+"" Insert an orgmode-style timestamp at the end of the line
+nn  <silent> <C-c><C-c> A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
 for [key, val] in items({"n":"j", "p":"k"})
   exe 'nnoremap <C-' . key . '> g' . val
