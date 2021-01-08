@@ -420,7 +420,7 @@ function s:md_sort_num_bullet()
   endif
 endfunction
 
-" Calculate the day of week from a date(yyyy-mm-dd).
+"" Calculate the day of week from a date(yyyy-mm-dd).
 function! s:util_zeller(str)
   if a:str =~ '\v^.*\d{4}-\d{2}-\d{2}.*$' 
     let l:str_date = substitute(a:str,
