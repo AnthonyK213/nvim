@@ -422,48 +422,41 @@ endfunction
 
 " Calculate the day of week from a date(yyyy-mm-dd).
 function! s:util_zeller(str)
-  if a:str =~ '\v^\d{4}\-\d{2}\-\d{2}$' 
-    let l:str_to_list = split(a:str, '-')
-    let l:a = str2nr(l:str_to_list[0])
-    let l:m = str2nr(l:str_to_list[1])
-    let l:d = str2nr(l:str_to_list[2])
+  if a:str =~ '\v^.*\d{4}-\d{2}-\d{2}.*$' 
+    let l:str_date = substitute(a:str,
+          \ '\v^.*(\d{4}-\d{2}-\d{2}).*$',
+          \ '\=submatch(1)', '')
+    let l:str_to_list = split(l:str_date, '-')
+    let l:a = l:str_to_list[0]
+    let l:m = l:str_to_list[1]
+    let l:d = l:str_to_list[2]
   else
     echom 'Not a valid date expression.'
-    return ''
+    return ['']
   endif
 
   if l:m < 1 || l:m > 12
-    return ''
     echom 'Not a valid month.'
+    return ['']
   endif
 
   if l:m == 2
     let l:month_days_count = 28
-    if l:a % 100 == 0
-      if l:a % 400 == 0
-        let l:month_days_count += 1
-      endif
-    else
-      if l:a % 4 == 0
-        let l:month_days_count += 1
-      endif
+    if (l:a % 100 != 0 && l:a % 4 == 0) ||
+     \ (l:a % 100 == 0 && l:a % 400 == 0)
+      let l:month_days_count += 1
     endif
   else
     let l:month_days_count = 30
-    if l:m <= 7
-      if l:m % 2 == 1
-        let l:month_days_count += 1
-      endif
-    elseif
-      if l:m % 2 == 0
-        let l:month_days_count += 1
-      endif
+    if (l:m <= 7 && l:m % 2 == 1) ||
+     \ (l:m >= 8 && l:m % 2 == 0)
+      let l:month_days_count += 1
     endif
   endif
 
   if l:d < 1 || l:d > l:month_days_count
     echom 'Not a valid date.'
-    return ''
+    return ['']
   endif
 
   if m == 1 || m == 2
@@ -477,28 +470,31 @@ function! s:util_zeller(str)
   let l:z = l:x % 7
   if l:z < 0 | let l:z += 7 | end
   let l:util_days = { 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6 :'Sat' }
-  return l:util_days[l:z]
+  return [l:util_days[l:z], l:str_date]
 endfunction
 
-function! s:util_append_day_from_date(mode)
-  if a:mode ==# 'n'
-    let l:del_list = [
-          \ ".", ",", "'", "\"",
-          \ ";", "*", "~", "`", 
-          \ "(", ")", "[", "]", "{", "}"
-          \ ]
-    let l:cmd = "normal! Ea "
-    let l:str = Lib_Get_Clean_CWORD(l:del_list)
-  elseif a:mode ==# 'v'
-    let l:cmd = "normal! a "
-    let l:str = Lib_Get_Visual_Selection()
-    let l:end = [0] + getpos("'>")[1:2]
-    call setpos('.', l:end)
-  endif
+function! s:util_append_day_from_date()
+  let l:line = getline('.')
+
+  let l:str = expand("<cWORD>")
+  let l:cursor_pos = col('.')
+  let l:match_start = 0
+  while 1
+    let l:match_cword = matchstrpos(l:line, l:str, l:match_start)[1:]
+    if l:match_cword[0] <= l:cursor_pos &&
+     \ l:match_cword[1] >= l:cursor_pos
+      break
+    endif
+    let l:match_start = l:match_cword[1]
+  endwhile
+  let l:stt = l:match_cword[0]
 
   let l:day = s:util_zeller(l:str)
-  if l:day !=? ''
-    silent exe l:cmd . l:day
+  if l:day[0] !=? ''
+    let l:end = matchstrpos(l:line, l:day[1], l:stt)[2]
+    echo [l:stt, l:end]
+    call setpos('.', [0, line('.'), l:end])
+    silent exe "normal! a " . l:day[0]
   endif
 endfunction
 
@@ -541,7 +537,7 @@ for [key, val] in items(g:util_sur_map)
   call s:util_sur_def_map(key, val[0], val[1])
 endfor
 "" Insert an orgmode-style timestamp at the end of the line
-nn  <silent> <C-c><C-c> m'A<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
+nn  <silent> <C-c><C-c> A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader> f* -> f(ind)
@@ -555,8 +551,7 @@ nn  <silent> <leader>sl  :call <SID>md_sort_num_bullet()<CR>
 "" Echo git status: <leader>v* -> v(ersion control)
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
-nn <silent> <leader>d :call <SID>util_append_day_from_date('n')<CR>
-vn <silent> <leader>d :call <SID>util_append_day_from_date('v')<CR>
+nn <silent> <leader>d :call <SID>util_append_day_from_date()<CR>
 "" Some emacs shit.
 for [key, val] in items({"n":"j", "p":"k"})
   exe 'nnoremap <C-' . key . '> g' . val
