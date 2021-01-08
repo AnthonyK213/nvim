@@ -420,6 +420,88 @@ function s:md_sort_num_bullet()
   endif
 endfunction
 
+" Calculate the day of week from a date(yyyy-mm-dd).
+function! s:util_zeller(str)
+  if a:str =~ '\v^\d{4}\-\d{2}\-\d{2}$' 
+    let l:str_to_list = split(a:str, '-')
+    let l:a = str2nr(l:str_to_list[0])
+    let l:m = str2nr(l:str_to_list[1])
+    let l:d = str2nr(l:str_to_list[2])
+  else
+    echom 'Not a valid date expression.'
+    return ''
+  endif
+
+  if l:m < 1 || l:m > 12
+    return ''
+    echom 'Not a valid month.'
+  endif
+
+  if l:m == 2
+    let l:month_days_count = 28
+    if l:a % 100 == 0
+      if l:a % 400 == 0
+        let l:month_days_count += 1
+      endif
+    else
+      if l:a % 4 == 0
+        let l:month_days_count += 1
+      endif
+    endif
+  else
+    let l:month_days_count = 30
+    if l:m <= 7
+      if l:m % 2 == 1
+        let l:month_days_count += 1
+      endif
+    elseif
+      if l:m % 2 == 0
+        let l:month_days_count += 1
+      endif
+    endif
+  endif
+
+  if l:d < 1 || l:d > l:month_days_count
+    echom 'Not a valid date.'
+    return ''
+  endif
+
+  if m == 1 || m == 2
+    let l:a -= 1
+    let l:m += 12
+  endif
+
+  let l:c = l:a / 100
+  let l:y = l:a - l:c * 100
+  let l:x = (c / 4) + y + (y / 4) + 26 * (m + 1) / 10 + d - 2 * c - 1
+  let l:z = l:x % 7
+  if l:z < 0 | let l:z += 7 | end
+  let l:util_days = { 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6 :'Sat' }
+  return l:util_days[l:z]
+endfunction
+
+function! s:util_append_day_from_date(mode)
+  if a:mode ==# 'n'
+    let l:del_list = [
+          \ ".", ",", "'", "\"",
+          \ ";", "*", "~", "`", 
+          \ "(", ")", "[", "]", "{", "}"
+          \ ]
+    let l:cmd = "normal! Ea "
+    let l:str = Lib_Get_Clean_CWORD(l:del_list)
+  elseif a:mode ==# 'v'
+    let l:cmd = "normal! a "
+    let l:str = Lib_Get_Visual_Selection()
+    let l:end = [0] + getpos("'>")[1:2]
+    call setpos('.', l:end)
+  endif
+
+  let l:day = s:util_zeller(l:str)
+  if l:day !=? ''
+    silent exe l:cmd . l:day
+  endif
+endfunction
+
 
 " Key maps
 "" Mouse toggle
@@ -472,6 +554,9 @@ ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>
 nn  <silent> <leader>sl  :call <SID>md_sort_num_bullet()<CR>
 "" Echo git status: <leader>v* -> v(ersion control)
 nn <silent> <leader>vs :!git status<CR>
+"" Append day of week after the date
+nn <silent> <leader>d :call <SID>util_append_day_from_date('n')<CR>
+vn <silent> <leader>d :call <SID>util_append_day_from_date('v')<CR>
 "" Some emacs shit.
 for [key, val] in items({"n":"j", "p":"k"})
   exe 'nnoremap <C-' . key . '> g' . val
