@@ -130,10 +130,11 @@ endif
   - v:   `<leader>vs` -> Git status.
   - invt:`F2`         -> Toggle mouse status.
   - nv:  `<leader>wc` -> Chinese characters count.
-  - n:   `<C-c><C-c>` -> Insert time stamp at the end of line.
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.
   - n:   `<leader>sl` -> Sort number list.
+  - n:   `<C-c><C-c>` -> Insert time stamp at the end of line.
+  - n:   `<C-c><C-d>` -> Append day of week to the end of the date(yyyy-mm-dd) under the cursor.
 * Windows shit
   - in:  ``<M-`>``    -> Open system terminal(powershell).
   - in:  `<C-s>`      -> Save.
