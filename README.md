@@ -127,6 +127,7 @@ endif
     - `'`: ' '
     - `"`: " "
     - `<`: < >
+    - `$`: $ $
   - v:   `<leader>vs` -> Git status.
   - invt:`F2`         -> Toggle mouse status.
   - nv:  `<leader>wc` -> Chinese characters count.
