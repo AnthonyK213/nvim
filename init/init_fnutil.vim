@@ -492,7 +492,6 @@ function! s:util_append_day_from_date()
   let l:day = s:util_zeller(l:str)
   if l:day[0] !=? ''
     let l:end = matchstrpos(l:line, l:day[1], l:stt)[2]
-    echo [l:stt, l:end]
     call setpos('.', [0, line('.'), l:end])
     silent exe "normal! a " . l:day[0]
   endif
