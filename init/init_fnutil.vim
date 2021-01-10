@@ -475,8 +475,8 @@ endfunction
 
 function! s:util_append_day_from_date()
   let l:line = getline('.')
-
   let l:str = expand("<cWORD>")
+  if l:str =~ '^$' | return | endif
   let l:cursor_pos = col('.')
   let l:match_start = 0
   while 1
