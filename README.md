@@ -46,6 +46,8 @@
       > - LaTeX compile recipes
       > - Git lazy push(commit all and push all)
       > - Compile and run code of current buffer
+      > - Append orgmode style time stamp to the end of current line
+      > - Append day of week after a date string(yyyy-mm-dd)
     - `init_subsrc.vim`
       > When don't want to use any plug-ins,  
       > this can be a simple substitute.  
