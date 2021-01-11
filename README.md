@@ -38,7 +38,6 @@
     - `init_fnutil.vim`
       > External cross-platform dependencies(Git, LaTeX, etc.);  
       > Functions:
-      > - View pdf in system default viewer
       > - Surrounding pairs
       > - Chinese characters count
       > - Search cword or selection in system default browser
@@ -46,6 +45,7 @@
       > - LaTeX compile recipes
       > - Git lazy push(commit all and push all)
       > - Compile and run code of current buffer
+      > - View pdf in system default viewer
       > - Append orgmode style time stamp to the end of current line
       > - Append day of week after a date string(yyyy-mm-dd)
     - `init_subsrc.vim`
@@ -58,11 +58,11 @@
   - Plug-ins
     - `init_a_plug.vim`
       > Vim-plug load plug-ins.
-    - `init_plugrc.vim`; `init_rc_coc.vim`
+    - `init_plugrc.vim`
       > Configurations of plug-ins.(source init_plugin at first)
   - Color schemes
-    - `nanovi.vim`
-      > Based on [nano-emacs](https://github.com/rougier/nano-emacs) light
+    - `nanovim.vim`
+      > Based on [nano-emacs](https://github.com/rougier/nano-emacs)
 
 
 ## init.vim
@@ -75,13 +75,14 @@ endif
 if g:init_src ==? 'clean'
   source <sfile>:h/init/init_basics.vim
   source <sfile>:h/init/init_custom.vim
-elseif g:init_src ==? 'light'
+elseif g:init_src ==? 'nano'
+  set background=light
+  colorscheme nanovim
   source <sfile>:h/init/init_basics.vim
   source <sfile>:h/init/init_custom.vim
   source <sfile>:h/init/init_deflib.vim
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_subsrc.vim
-  source <sfile>:h/init/init_nanovi.vim
 elseif g:init_src == 'full'
   source <sfile>:h/init/init_a_plug.vim
   source <sfile>:h/init/init_basics.vim
@@ -89,7 +90,6 @@ elseif g:init_src == 'full'
   source <sfile>:h/init/init_deflib.vim
   source <sfile>:h/init/init_fnutil.vim
   source <sfile>:h/init/init_plugrc.vim
-  source <sfile>:h/init/init_rc_coc.vim
 endif
 ```
 
@@ -132,6 +132,7 @@ endif
     - `$`: $ $
   - v:   `<leader>vs` -> Git status.
   - invt:`<F2>`       -> Toggle mouse status.
+  - in:  `<F5>`       -> Toggle background.
   - nv:  `<leader>wc` -> Chinese characters count.
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.

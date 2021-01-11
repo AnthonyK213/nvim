@@ -74,13 +74,21 @@ let g:esc_url = {
 
 " Functions
 "" Mouse toggle
-function! s:mouse_toggle()
+function! s:util_mouse_toggle()
   if &mouse == 'a'
     set mouse=
     echom "Mouse disabled"
   else
     set mouse=a
     echom "Mouse enabled"
+  endif
+endfunction
+
+"" Background toggle
+function! s:util_bg_toggle()
+  let &background = (&background == 'dark' ? 'light' : 'dark')
+  if exists("g:colors_name")
+    exe 'colorscheme ' . g:colors_name
   endif
 endfunction
 
@@ -123,7 +131,7 @@ function! s:util_sur_def_map(kbd, quote_a, quote_b)
 endfunction
 
 "" Hanzi count.
-function! s:hanzi_count(mode)
+function! s:util_hanzi_count(mode)
   if a:mode ==? "n"
     let l:content = readfile(expand('%:p'))
     let l:h_count = 0
@@ -500,10 +508,13 @@ endfunction
 
 " Key maps
 "" Mouse toggle
-nn  <silent> <F2> :call           <SID>mouse_toggle()<CR>
-vn  <silent> <F2> :<C-u>call      <SID>mouse_toggle()<CR>
-ino <silent> <F2> <C-o>:call      <SID>mouse_toggle()<CR>
-tno <silent> <F2> <C-\><C-n>:call <SID>mouse_toggle()<CR>a
+nn  <silent> <F2> :call           <SID>util_mouse_toggle()<CR>
+vn  <silent> <F2> :<C-u>call      <SID>util_mouse_toggle()<CR>
+ino <silent> <F2> <C-o>:call      <SID>util_mouse_toggle()<CR>
+tno <silent> <F2> <C-\><C-n>:call <SID>util_mouse_toggle()<CR>a
+"" Background toggle
+nn  <silent> <F5> :call           <SID>util_bg_toggle()<CR>
+ino <silent> <F5> <C-o>:call      <SID>util_bg_toggle()<CR>
 "" Terminal
 nn  <M-t>      :call <SID>util_terminal()<CR>i
 ino <M-t> <Esc>:call <SID>util_terminal()<CR>i
@@ -528,9 +539,9 @@ nn  <silent> <F4>      :call <SID>util_explorer()<CR>
 ino <silent> <F4> <Esc>:call <SID>util_explorer()<CR>
 "" Hanzi count; <leader>wc -> w(ord)c(ount)
 nn  <silent> <leader>wc
-      \ :echo 'Chinese characters count: ' . <SID>hanzi_count("n")<CR>
+      \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
 vn  <silent> <leader>wc
-      \ :<C-u>echo 'Chinese characters count: ' . <SID>hanzi_count("v")<CR>
+      \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
 for [key, val] in items(g:util_sur_map)
   call s:util_sur_def_map(key, val[0], val[1])

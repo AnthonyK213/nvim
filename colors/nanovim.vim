@@ -2,8 +2,6 @@
 " Licence: MIT
 
 
-let g:colors_name = 'nanovim'
-
 let g:nanovi_mode={
       \ 'n'  : ' N ',
       \ 'v'  : ' V ',
@@ -20,6 +18,7 @@ hi clear
 set statusline=
 set noshowmode
 if exists('syntax on') | syntax reset | endif
+let g:colors_name = 'nanovim'
 
 
 " Colors
