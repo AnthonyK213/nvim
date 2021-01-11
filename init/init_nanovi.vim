@@ -2,6 +2,8 @@
 " Licence: MIT
 
 
+let g:colors_name = 'nanovim'
+
 let g:nanovi_mode={
       \ 'n'  : ' N ',
       \ 'v'  : ' V ',
@@ -17,21 +19,31 @@ let g:nanovi_mode={
 hi clear
 set statusline=
 set noshowmode
-set background=light
 if exists('syntax on') | syntax reset | endif
-let g:colors_name = 'nanovim'
 
 
 " Colors
-let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
-let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
-let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" } "Amber
-let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" } "Deep Orange
-let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "98"  } "Deep Purple
-let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "255" } "Very Light Grey
-let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "254" } "Blue Grey / L50
-let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" } "Blue Grey / L200
-let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" } "Blue Grey / L800
+if &background ==# 'light'
+  let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
+  let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
+  let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" } "Amber
+  let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" } "Deep Orange
+  let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "98"  } "Deep Purple
+  let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "255" } "Very Light Grey
+  let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "254" } "Blue Grey / L50
+  let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" } "Blue Grey / L200
+  let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" } "Blue Grey / L800
+elseif &background ==# 'dark'
+  let s:nano_color_background = { "gui": "#2E3440", "cterm": "235" } "Polar Night 0 / nord 0
+  let s:nano_color_strong     = { "gui": "#ECEFF4", "cterm": "15"  } "Snow Storm 3  / nord 6
+  let s:nano_color_critical   = { "gui": "#EBCB8B", "cterm": "222" } "Aurora        / nord 11
+  let s:nano_color_popout     = { "gui": "#D08770", "cterm": "209" } "Aurora        / nord 12
+  let s:nano_color_salient    = { "gui": "#81A1C1", "cterm": "110" } "Frost         / nord 9
+  let s:nano_color_highlight  = { "gui": "#3B4252", "cterm": "238" } "Polar Night 1 / nord 1
+  let s:nano_color_subtle     = { "gui": "#434C5E", "cterm": "240" } "Polar Night 2 / nord 2
+  let s:nano_color_faded      = { "gui": "#616E87", "cterm": "244" }
+  let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  } "Snow Storm 3  / nord 6
+endif
 
 
 " Define highlight groups
