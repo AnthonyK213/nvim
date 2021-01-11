@@ -131,7 +131,7 @@ endif
     - `<`: < >
     - `$`: $ $
   - v:   `<leader>vs` -> Git status.
-  - invt:`F2`         -> Toggle mouse status.
+  - invt:`<F2>`       -> Toggle mouse status.
   - nv:  `<leader>wc` -> Chinese characters count.
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.
