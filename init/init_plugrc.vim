@@ -71,6 +71,7 @@ let g:airline_mode_map = {
       \ ''    : 'Ṽ',
       \ }
 "" Separators
+""     ;     ;    
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 "" Tab

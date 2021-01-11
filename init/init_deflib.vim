@@ -20,12 +20,11 @@ endfunction
 
 " Get the branch name without git
 function! Lib_Get_Git_Branch(git_root)
-  let l:git_root = a:git_root
-  if l:git_root[0] == 0
+  if a:git_root[0] == 0
     return [0, '']
   else
     try
-      let l:content = readfile(l:git_root[1] . '/.git/HEAD')
+      let l:content = readfile(a:git_root[1] . '/.git/HEAD')
       return [1, split(l:content[0], '/')[-1]]
     catch
       return [0, '']
