@@ -134,22 +134,22 @@ endif
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.
   - n:   `<leader>sl` -> Sort number list.
+  - nv:  `<leader>f`  -> Search text in web browser.
+    - `b`: Baidu
+    - `g`: Google
+    - `h`: Github
+    - `y`: Youdao
   - n:   `<C-c><C-c>` -> Insert time stamp at the end of line.
-  - n:   `<C-c><C-d>` -> Append day of week to the end of the date(yyyy-mm-dd) under the cursor.
-* Windows shit
-  - in:  ``<M-`>``    -> Open system terminal(powershell).
+  - n:   `<C-c><C-d>` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+* System
+  - in:  `<M-t>`      -> Open system terminal.
   - in:  `<C-s>`      -> Save.
   - in:  `<C-z>`      -> Undo.
   - v:   `<M-c>`      -> Copy to system clipboard.
   - v:   `<M-x>`      -> Cut to system clipboard.
   - inv: `<M-v>`      -> Paste from system clipboard.
   - in:  `<M-a>`      -> Select all.
-  - in:  `<F4>`       -> Open system file manager(explorer).
-  - nv:  `<leader>f`+ -> Search text in web browser.
-    - `b`: Baidu
-    - `g`: Google
-    - `h`: Github
-    - `y`: Youdao
+  - in:  `<F4>`       -> Open system file manager.
 * Emacs shit
   - inv: `<C-n>`      -> Emacs next.
   - inv: `<C-p>`      -> Emacs previous.
@@ -175,6 +175,7 @@ endif
   - n:   `<leader>m`  -> vim-markdown
     - `h`: Toc horizontal.
     - `v`: Toc vertical.
+    - `m`: Toggle math syntax.
   - n:   `<leader>t`  -> vim-table-mode
     - `a`: Add formula.
     - `f`: Re-align.
