@@ -109,7 +109,7 @@ endif
   - inv: `<M-l>`      -> Jump to the window right.
   - inv: `<M-w>`      -> Jump to the window in turn.
   - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
-  - n:   `<leader>b`+ -> Buffer.
+  - n:   `<leader>b`  -> Buffer.
     - `n`: Next buffer.
     - `p`: Previous buffer.
     - `d`: Delete buffer.
