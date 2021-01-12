@@ -82,5 +82,5 @@ ino <silent><expr> <S-TAB>
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(["()", "[]", "{}"]) ?
-      \ "\<CR>\<ESC>O" :
+      \ "\<CR>\<C-o>O" :
       \ "\<CR>"
