@@ -11,7 +11,7 @@ if has("win32")
   set wildignore+=*.DS_Store
   set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 elseif has("unix")
-  let g:util_def_start = ':!xdg_open '
+  let g:util_def_start = ':!xdg-open '
   let g:util_def_terminal = 'bash'
   let g:util_def_c_compiler = 'gcc '
   let g:python3_host_prog = '/usr/bin/python3'
