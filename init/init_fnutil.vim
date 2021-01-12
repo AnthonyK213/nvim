@@ -477,7 +477,7 @@ function! s:util_zeller(str)
   let l:x = (c / 4) + y + (y / 4) + 26 * (m + 1) / 10 + d - 2 * c - 1
   let l:z = l:x % 7
   if l:z < 0 | let l:z += 7 | end
-  let l:util_days = { 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6 :'Sat' }
+  let l:util_days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   return [l:util_days[l:z], l:str_date]
 endfunction
 
