@@ -250,7 +250,13 @@ function! s:util_run_or_compile(option)
   let l:file = expand('%:t')
   let l:name = expand('%:r')
   let l:exts = expand('%:e')
-  let l:exec = has("win32") ? '' : './'
+  if has("win32")
+    let l:exec = ''
+    let l:oute = '.exe'
+  else
+    let l:exec = './'
+    let l:oute = ''
+  end
 
   if l:exts ==? 'py'
     " PYTHON
@@ -265,11 +271,11 @@ function! s:util_run_or_compile(option)
     endif
     call Lib_Belowright_Split(l:size)
     if l:optn ==? ''
-      exe l:cmdh g:util_def_cc l:file '-o' l:name '&&' l:exec . l:name
+      exe l:cmdh g:util_def_cc l:file '-o' l:name . l:oute '&&' l:exec . l:name
     elseif l:optn ==? 'check'
-      exe l:cmdh g:util_def_cc l:file '-g -o' l:name
+      exe l:cmdh g:util_def_cc l:file '-g -o' l:name . l:oute
     elseif l:optn ==? 'build'
-      exe l:cmdh g:util_def_cc l:file '-O2 -o' l:name
+      exe l:cmdh g:util_def_cc l:file '-O2 -o' l:name . l:oute
     endif
   elseif l:exts ==? 'cpp'
     " C++
