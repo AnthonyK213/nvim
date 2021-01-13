@@ -1,9 +1,9 @@
 " Variables
 "" OS
 if has("win32")
-  let g:util_def_start = ':!start '
+  let g:util_def_start = 'start'
   let g:util_def_terminal = 'powershell.exe -nologo'
-  let g:util_def_c_compiler = 'gcc '
+  let g:util_def_c_compiler = 'gcc'
   let g:python3_host_prog = $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE'
   set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
   set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
@@ -11,14 +11,14 @@ if has("win32")
   set wildignore+=*.DS_Store
   set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 elseif has("unix")
-  let g:util_def_start = ':!xdg-open '
+  let g:util_def_start = 'xdg-open'
   let g:util_def_terminal = 'bash'
-  let g:util_def_c_compiler = 'gcc '
+  let g:util_def_c_compiler = 'gcc'
   let g:python3_host_prog = '/usr/bin/python3'
   set wildignore+=*.so
 elseif has("mac")
-  let g:util_def_start = ':!open '
-  let g:util_def_c_compiler = 'clang '
+  let g:util_def_start = 'open'
+  let g:util_def_c_compiler = 'clang'
 endif
 "" Surround
 let g:util_sur_map = {
@@ -88,19 +88,19 @@ endfunction
 function! s:util_bg_toggle()
   let &background = (&background == 'dark' ? 'light' : 'dark')
   if exists("g:colors_name")
-    exe 'colorscheme ' . g:colors_name
+    exe 'colorscheme' g:colors_name
   endif
 endfunction
 
 "" Open terminal
 function! s:util_terminal()
   call Lib_Belowright_Split(15)
-  exe ':terminal ' . g:util_def_terminal
+  exe ':terminal' g:util_def_terminal
 endfunction
 
 "" Open file manager
 function! s:util_explorer()
-  silent exe g:util_def_start . ' .'
+  silent exe '!' g:util_def_start '.'
 endfunction
 
 "" Open pdf file
@@ -110,7 +110,7 @@ function! s:util_pdf_view(...)
   else
     let l:name = expand('%:r') . '.pdf'
   endif
-  exe g:util_def_start . l:name
+  silent exe '!' g:util_def_start l:name
 endfunction
 
 "" Surround
@@ -127,7 +127,7 @@ function! s:util_sur_def_map(kbd, quote_a, quote_b)
   let l:esc_dict = {"\"":"\\\""}
   let l:key = "\"" . Lib_Str_Escape(a:quote_a, l:esc_dict) . "\", "
   let l:val = "\"" . Lib_Str_Escape(a:quote_b, l:esc_dict) . "\""
-  exe 'vnoremap <silent> ' . a:kbd . ' :<C-u>call <SID>util_sur_impl(' . l:key . l:val . ')<CR>'
+  exe 'vnoremap <silent>' a:kbd ':<C-u>call <SID>util_sur_impl(' . l:key . l:val . ')<CR>'
 endfunction
 
 "" Hanzi count.
@@ -168,14 +168,14 @@ function! s:util_search_web(mode, site)
     echom "Invalid mode argument."
   endif
   let l:url = s:util_web_list[a:site] . l:search_obj
-  silent exe g:util_def_start . l:url
+  silent exe '!' g:util_def_start l:url
   redraw
 endfunction
 
 "" LaTeX recipes
 function! s:xelatex()
   let l:name = expand('%:r')
-  exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error ' . l:name . '.tex'
+  exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
 endfunction
 
 function! s:xelatex2()
@@ -186,7 +186,7 @@ endfunction
 function! s:biber()
   let l:name = expand('%:r')
   call s:xelatex()
-  exe '!biber ' . l:name . '.bcf'
+  exe '!biber' l:name . '.bcf'
   call s:xelatex()
   call s:xelatex()
 endfunction
@@ -198,27 +198,27 @@ function! s:git_push_all(...)
   if l:git_root[0] == 1
     let l:git_branch = Lib_Get_Git_Branch(l:git_root)
     if l:git_branch[0] == 1
-      echo "Root directory: " . l:git_root[1]
-      echo "Current branch: " . l:git_branch[1]
-      exe 'cd ' . l:git_root[1]
+      echo "Root directory:" l:git_root[1]
+      echo "Current branch:" l:git_branch[1]
+      exe 'cd' l:git_root[1]
       if len(l:arg_list) % 2 == 0
         silent exe '!git add *'
         let l:m_index = index(l:arg_list, "-m")
         let l:b_index = index(l:arg_list, "-b")
         let l:time = strftime('%y%m%d')
         if (l:m_index >= 0) && (l:m_index % 2 == 0)
-          silent exe '!git commit -m ' . l:arg_list[l:m_index + 1]
-          echom "Commit message: " . l:arg_list[l:m_index + 1]
+          silent exe '!git commit -m' l:arg_list[l:m_index + 1]
+          echom "Commit message:" l:arg_list[l:m_index + 1]
         elseif l:m_index < 0
-          silent exe '!git commit -m ' . l:time
-          echom "Commit message: " . l:time
+          silent exe '!git commit -m' l:time
+          echom "Commit message:" l:time
         else
           echom "Invalid commit argument."
         endif
         if (l:b_index >= 0) && (l:b_index % 2 == 0)
-          exe '!git push origin ' . l:arg_list[l:b_index + 1]
+          exe '!git push origin' l:arg_list[l:b_index + 1]
         elseif l:b_index < 0
-          exe '!git push origin ' . l:git_branch[1]
+          exe '!git push origin' l:git_branch[1]
         else
           echom "Invalid branch argument."
         endif
@@ -237,7 +237,7 @@ endfunction
 function! s:run_or_compile(option)
   let l:optn = a:option
   let l:size = 30
-  let l:cmdh = 'term '
+  let l:cmdh = 'term'
   let l:file = expand('%:t')
   let l:name = expand('%:r')
   let l:exts = expand('%:e')
@@ -245,19 +245,19 @@ function! s:run_or_compile(option)
   if l:exts ==? 'py'
     " PYTHON
     call Lib_Belowright_Split(l:size)
-    exe l:cmdh . 'python ' . l:file
+    exe l:cmdh 'python' l:file
     redraw
   elseif l:exts ==? 'c'
     " C
     if l:optn ==? ''
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . g:util_def_c_compiler . l:file . ' -o ' . l:name . ' && ' . l:exec . l:name
+      exe l:cmdh g:util_def_c_compiler l:file '-o' l:name '&&' l:exec . l:name
     elseif l:optn ==? 'check'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . g:util_def_c_compiler . l:file . ' -g -o ' . l:name
+      exe l:cmdh g:util_def_c_compiler l:file '-g -o' l:name
     elseif l:optn ==? 'build'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . g:util_def_c_compiler . l:file . ' -O2 -o ' . l:name
+      exe l:cmdh g:util_def_c_compiler l:file '-O2 -o' l:name
     else
       echo "Invalid argument."
     endif
@@ -265,24 +265,24 @@ function! s:run_or_compile(option)
   elseif l:exts ==? 'cpp'
     " C++
     call Lib_Belowright_Split(l:size)
-    exe l:cmdh . 'g++ ' . l:file
+    exe l:cmdh 'g++' l:file
     redraw
   elseif l:exts ==? 'rs'
     " RUST
     if l:optn ==? ''
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'cargo run'
+      exe l:cmdh 'cargo run'
     elseif l:optn ==? 'rustc'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'rustc ' . l:file . ' && ' . l:exec . l:name
+      exe l:cmdh 'rustc' l:file '&&' l:exec . l:name
     elseif l:optn ==? 'clean'
       exe '!cargo clean'
     elseif l:optn ==? 'check'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'cargo check'
+      exe l:cmdh 'cargo check'
     elseif l:optn ==? 'build'
       call Lib_Belowright_Split(l:size)
-      exe l:cmdh . 'cargo build --release'
+      exe l:cmdh 'cargo build --release'
     else
       echo "Invalid argument."
     endif
@@ -539,9 +539,9 @@ nn  <silent> <F4>      :call <SID>util_explorer()<CR>
 ino <silent> <F4> <Esc>:call <SID>util_explorer()<CR>
 "" Hanzi count; <leader>wc -> w(ord)c(ount)
 nn  <silent> <leader>wc
-      \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
+      \ :echo 'Chinese characters count:' <SID>util_hanzi_count("n")<CR>
 vn  <silent> <leader>wc
-      \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
+      \ :<C-u>echo 'Chinese characters count:' <SID>util_hanzi_count("v")<CR>
 "" Surround
 for [key, val] in items(g:util_sur_map)
   call s:util_sur_def_map(key, val[0], val[1])
@@ -550,8 +550,8 @@ endfor
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader> f* -> f(ind)
 for key in keys(s:util_web_list)
-  exe 'nn <silent> <leader>f' . key . ' :call <SID>util_search_web("n", "' . key . '")<CR>'
-  exe 'vn <silent> <leader>f' . key . ' :<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
+  exe 'nn <silent> <leader>f' . key ':call <SID>util_search_web("n", "' . key . '")<CR>'
+  exe 'vn <silent> <leader>f' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
 endfor
 "" List bullets
 ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>
@@ -563,7 +563,7 @@ nn <silent> <C-c><C-d> :call <SID>util_append_day_from_date()<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nn <silent> <C-c><C-c> A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
-for [key, val] in items({"n":"j", "p":"k"})
+for [key, val] in items({"n": "j", "p": "k"})
   exe 'nnoremap <C-' . key . '> g' . val
   exe 'vnoremap <C-' . key . '> g' . val
   exe 'inoremap <silent> <C-' . key . '> <C-o>g' . val

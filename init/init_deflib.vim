@@ -2,7 +2,7 @@
 function! Lib_Belowright_Split(height)
   let l:height = min([a:height, nvim_win_get_height(0) / 2])
   belowright split
-  exe 'resize ' . l:height
+  exe 'resize' l:height
 endfunction
 
 

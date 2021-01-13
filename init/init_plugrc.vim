@@ -136,7 +136,7 @@ let g:vimtex_compiler_progname = 'nvr'
 "let g:org_indent=2
 let agenda_path = expand(g:onedrive_path . "/Documents/Agenda/Agenda.org")
 let g:org_agenda_files = [agenda_path]
-command! OrgAgenda :exe ":tabnew " . agenda_path
+command! OrgAgenda :exe ":tabnew" agenda_path
 
 
 " IndentLine

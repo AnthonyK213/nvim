@@ -1,7 +1,7 @@
 " Configuration just for nvim-qt
 "" Functions
 function! s:nvimqt_set_font(family, size)
-  exe ':GuiFont! ' . a:family . ':h' . a:size
+  exe ':GuiFont!' a:family . ':h' . a:size
 endfunction
 
 function! s:nvimqt_expand_font()
@@ -22,9 +22,9 @@ endfunction
 function! s:lazy_save_memo()
   if expand('%:t') ==? ''
     if exists('g:onedrive_path')
-      silent exe 'w ' . g:onedrive_path . '/Documents/Agenda/memo/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+      silent exe 'w' g:onedrive_path . '/Documents/Agenda/memo/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
     else
-      silent exe 'w ' . g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+      silent exe 'w' g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
     end
   else
     exe 'w'
@@ -33,7 +33,7 @@ endfunction
 
 
 "" Set behaviors
-exe 'cd ' . g:usr_desktop
+exe 'cd' g:usr_desktop
 lcd %:p:h
 set mouse=a
 
