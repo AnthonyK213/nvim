@@ -548,9 +548,9 @@ nn  <silent> <F4>      :call <SID>util_explorer()<CR>
 ino <silent> <F4> <Esc>:call <SID>util_explorer()<CR>
 "" Hanzi count; <leader>wc -> w(ord)c(ount)
 nn  <silent> <leader>wc
-      \ :echo 'Chinese characters count:' <SID>util_hanzi_count("n")<CR>
+      \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
 vn  <silent> <leader>wc
-      \ :<C-u>echo 'Chinese characters count:' <SID>util_hanzi_count("v")<CR>
+      \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
 for [key, val] in items(g:util_sur_map)
   call s:util_sur_def_map(key, val[0], val[1])
