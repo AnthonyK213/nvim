@@ -192,44 +192,93 @@ function! s:util_latex_biber()
 endfunction
 
 "" Git push all
+"function! s:util_git_push_all(...)
+"  let l:arg_list = a:000
+"  let l:git_root = Lib_Get_Git_Root()
+"  if l:git_root[0] == 1
+"    let l:git_branch = Lib_Get_Git_Branch(l:git_root)
+"    if l:git_branch[0] == 1
+"      echo "Root directory:" l:git_root[1]
+"      echo "Current branch:" l:git_branch[1]
+"      exe 'cd' l:git_root[1]
+"      if len(l:arg_list) % 2 == 0
+"        silent exe '!git add *'
+"        let l:m_index = index(l:arg_list, "-m")
+"        let l:b_index = index(l:arg_list, "-b")
+"        let l:time = strftime('%y%m%d')
+"        if (l:m_index >= 0) && (l:m_index % 2 == 0)
+"          silent exe '!git commit -m' l:arg_list[l:m_index + 1]
+"          echom "Commit message:" l:arg_list[l:m_index + 1]
+"        elseif l:m_index < 0
+"          silent exe '!git commit -m' l:time
+"          echom "Commit message:" l:time
+"        else
+"          echom "Invalid commit argument."
+"          return
+"        endif
+"        if (l:b_index >= 0) && (l:b_index % 2 == 0)
+"          exe '!git push origin' l:arg_list[l:b_index + 1]
+"        elseif l:b_index < 0
+"          exe '!git push origin' l:git_branch[1]
+"        else
+"          echom "Invalid branch argument."
+"        endif
+"      else
+"        echom "Wrong number of arguments is given."
+"      endif
+"    else
+"      echom "Not a valid git repository."
+"    endif
+"  else
+"    echom "Not a git repository."
+"  endif
+"endfunction
+
+"" Git push all
 function! s:util_git_push_all(...)
   let l:arg_list = a:000
   let l:git_root = Lib_Get_Git_Root()
+
   if l:git_root[0] == 1
     let l:git_branch = Lib_Get_Git_Branch(l:git_root)
-    if l:git_branch[0] == 1
-      echo "Root directory:" l:git_root[1]
-      echo "Current branch:" l:git_branch[1]
-      exe 'cd' l:git_root[1]
-      if len(l:arg_list) % 2 == 0
-        silent exe '!git add *'
-        let l:m_index = index(l:arg_list, "-m")
-        let l:b_index = index(l:arg_list, "-b")
-        let l:time = strftime('%y%m%d')
-        if (l:m_index >= 0) && (l:m_index % 2 == 0)
-          silent exe '!git commit -m' l:arg_list[l:m_index + 1]
-          echom "Commit message:" l:arg_list[l:m_index + 1]
-        elseif l:m_index < 0
-          silent exe '!git commit -m' l:time
-          echom "Commit message:" l:time
-        else
-          echom "Invalid commit argument."
-        endif
-        if (l:b_index >= 0) && (l:b_index % 2 == 0)
-          exe '!git push origin' l:arg_list[l:b_index + 1]
-        elseif l:b_index < 0
-          exe '!git push origin' l:git_branch[1]
-        else
-          echom "Invalid branch argument."
-        endif
-      else
-        echom "Wrong number of arguments is given."
-      endif
-    else
-      echom "Not a valid git repository."
-    endif
   else
     echom "Not a git repository."
+    return
+  endif
+
+  if l:git_branch[0] == 1
+    echo "Root directory:" l:git_root[1]
+    echo "Current branch:" l:git_branch[1]
+    exe 'cd' l:git_root[1]
+  else
+    echom "Not a valid git repository."
+    return
+  endif
+
+  if len(l:arg_list) % 2 == 0
+    silent exe '!git add *'
+    let l:m_index = index(l:arg_list, "-m")
+    let l:b_index = index(l:arg_list, "-b")
+    let l:time = strftime('%y%m%d')
+    if (l:m_index >= 0) && (l:m_index % 2 == 0)
+      silent exe '!git commit -m' l:arg_list[l:m_index + 1]
+      echom "Commit message:" l:arg_list[l:m_index + 1]
+    elseif l:m_index < 0
+      silent exe '!git commit -m' l:time
+      echom "Commit message:" l:time
+    else
+      echom "Invalid commit argument."
+      return
+    endif
+    if (l:b_index >= 0) && (l:b_index % 2 == 0)
+      exe '!git push origin' l:arg_list[l:b_index + 1]
+    elseif l:b_index < 0
+      exe '!git push origin' l:git_branch[1]
+    else
+      echom "Invalid branch argument."
+    endif
+  else
+    echom "Wrong number of arguments is given."
   endif
 endfunction
 
