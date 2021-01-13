@@ -21,9 +21,9 @@ let NERDTreeDirArrows = 1
 nn  <silent> <F3> :NERDTreeToggle<CR>
 ino <silent> <F3> <Esc>:NERDTreeToggle<CR>
 tno <silent> <F3> <C-\><C-N>:NERDTreeToggle<CR>
-nn  <silent> <M-n> :NERDTreeFocus<CR>
-ino <silent> <M-n> <Esc>:NERDTreeFocus<CR>
-tno <silent> <M-n> <C-\><C-N>:NERDTreeFocus<CR>
+nn  <silent> <M-e> :NERDTreeFocus<CR>
+ino <silent> <M-e> <Esc>:NERDTreeFocus<CR>
+tno <silent> <M-e> <C-\><C-N>:NERDTreeFocus<CR>
 
 
 " signify

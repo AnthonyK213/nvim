@@ -58,6 +58,9 @@ endfor
 """ Find and replace
 nn <M-f> :%s/
 vn <M-f> :s/
+""" Normal command
+nn <M-n> :%normal 
+vn <M-n> :normal 
 "" Leader
 """ Buffer
 nn <silent> <leader>bn :bn<CR>

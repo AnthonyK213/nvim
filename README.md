@@ -103,6 +103,7 @@ endif
   - n:   `<M-,>`      -> Open init.vim.
   - t:   `<M-d>`      -> Close the terminal.
   - nv:  `<M-f>`      -> Find and replace.
+  - nv:  `<M-n>`      -> Normal command.
   - inv: `<M-h>`      -> Jump to the window left.
   - inv: `<M-j>`      -> Jump to the window below.
   - inv: `<M-k>`      -> Jump to the window above.
@@ -168,7 +169,7 @@ endif
   - i:   `<M-d>`      -> Emacs delete word.
 * Plug-in
   - int: `<F3>`       -> NERDTree toggle.
-  - int: `<M-n>`      -> NERDTree focus.
+  - int: `<M-e>`      -> NERDTree focus.
   - n:   `<leader>h`  -> Signify.
     - `j`: Next hunk.
     - `k`: Previous hunk.
