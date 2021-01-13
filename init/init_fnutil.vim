@@ -173,26 +173,26 @@ function! s:util_search_web(mode, site)
 endfunction
 
 "" LaTeX recipes
-function! s:xelatex()
+function! s:util_latex_xelatex()
   let l:name = expand('%:r')
   exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
 endfunction
 
-function! s:xelatex2()
-  call s:xelatex()
-  call s:xelatex()
+function! s:util_latex_xelatex2()
+  call s:util_latex_xelatex()
+  call s:util_latex_xelatex()
 endfunction
 
-function! s:biber()
+function! s:util_latex_biber()
   let l:name = expand('%:r')
-  call s:xelatex()
+  call s:util_latex_xelatex()
   exe '!biber' l:name . '.bcf'
-  call s:xelatex()
-  call s:xelatex()
+  call s:util_latex_xelatex()
+  call s:util_latex_xelatex()
 endfunction
 
 "" Git push all
-function! s:git_push_all(...)
+function! s:util_git_push_all(...)
   let l:arg_list = a:000
   let l:git_root = Lib_Get_Git_Root()
   if l:git_root[0] == 1
@@ -234,7 +234,7 @@ function! s:git_push_all(...)
 endfunction
 
 "" Run code
-function! s:run_or_compile(option)
+function! s:util_run_or_compile(option)
   let l:optn = a:option
   let l:size = 30
   let l:cmdh = 'term'
@@ -300,7 +300,7 @@ function! s:run_or_compile(option)
 endfunction
 
 "" Markdown number bullet
-function! s:md_check_line(lnum)
+function! s:util_md_check_line(lnum)
   let l:lstr = getline(a:lnum)
   let l:detect = 0
   let l:bullet = 0
@@ -317,9 +317,9 @@ function! s:md_check_line(lnum)
   return [l:detect, l:lstr, l:bullet, l:indent]
 endfunction
 
-function! s:md_insert_bullet()
+function! s:util_md_insert_bullet()
   let l:lnum = line('.')
-  let l:linf_c = s:md_check_line('.')
+  let l:linf_c = s:util_md_check_line('.')
 
   let l:detect = 0
   let l:bullet = 0
@@ -328,7 +328,7 @@ function! s:md_insert_bullet()
   if l:linf_c[0] == 0
     let l:lnum_b = l:lnum - 1
     while l:lnum_b > 0
-      let l:linf_b = s:md_check_line(l:lnum_b)
+      let l:linf_b = s:util_md_check_line(l:lnum_b)
       if l:linf_b[3] < l:linf_c[3] && l:linf_b[0] != 0
         let l:detect = l:linf_b[0]
         let l:bullet = l:linf_b[2]
@@ -350,7 +350,7 @@ function! s:md_insert_bullet()
     let l:move_d = 0
     let l:move_record = []
     while l:lnum_f <= line('$')
-      let l:linf_f = s:md_check_line(l:lnum_f)
+      let l:linf_f = s:util_md_check_line(l:lnum_f)
       if l:linf_f[0] == l:detect && l:linf_f[3] == l:indent
         call add(l:move_record, l:move_d)
         if l:detect == 1
@@ -376,9 +376,9 @@ function! s:md_insert_bullet()
   endif
 endfunction
 
-function s:md_sort_num_bullet()
+function s:util_md_sort_num_bullet()
   let l:lnum = line('.')
-  let l:linf_c = s:md_check_line('.')
+  let l:linf_c = s:util_md_check_line('.')
 
   if l:linf_c[0] == 2
     let l:num_lb = [l:lnum]
@@ -386,7 +386,7 @@ function s:md_sort_num_bullet()
 
     let l:lnum_b = l:lnum - 1
     while l:lnum_b > 0
-      let l:linf_b = s:md_check_line(l:lnum_b)
+      let l:linf_b = s:util_md_check_line(l:lnum_b)
       if l:linf_b[0] == 2
         if l:linf_b[3] == l:linf_c[3]
           call add(l:num_lb, l:lnum_b)
@@ -401,7 +401,7 @@ function s:md_sort_num_bullet()
 
     let l:lnum_f = l:lnum + 1
     while l:lnum_f <= line('$')
-      let l:linf_f = s:md_check_line(l:lnum_f)
+      let l:linf_f = s:util_md_check_line(l:lnum_f)
       if l:linf_f[0] == 2
         if l:linf_f[3] == l:linf_c[3]
           call add(l:num_lf, l:lnum_f)
@@ -554,8 +554,8 @@ for key in keys(s:util_web_list)
   exe 'vn <silent> <leader>f' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
 endfor
 "" List bullets
-ino <silent> <M-CR> <C-o>:call <SID>md_insert_bullet()<CR>
-nn  <silent> <leader>sl  :call <SID>md_sort_num_bullet()<CR>
+ino <silent> <M-CR> <C-o>:call <SID>util_md_insert_bullet()<CR>
+nn  <silent> <leader>sl  :call <SID>util_md_sort_num_bullet()<CR>
 "" Echo git status: <leader>v* -> v(ersion control)
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
@@ -583,13 +583,13 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
 
 " Commands
 "" Latex
-command! Xe1 call <SID>xelatex()
-command! Xe2 call <SID>xelatex2()
-command! Bib call <SID>biber()
+command! Xe1 call <SID>util_latex_xelatex()
+command! Xe2 call <SID>util_latex_xelatex2()
+command! Bib call <SID>util_latex_biber()
 "" Git
-command! -nargs=* PushAll :call <SID>git_push_all(<f-args>)
+command! -nargs=* PushAll :call <SID>util_git_push_all(<f-args>)
 "" Run code
-command! -nargs=? CodeRun :call <SID>run_or_compile(<q-args>)
+command! -nargs=? CodeRun :call <SID>util_run_or_compile(<q-args>)
 "" Echo time(May be useful in full screen?)
 command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
