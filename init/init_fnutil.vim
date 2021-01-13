@@ -3,7 +3,7 @@
 if has("win32")
   let g:util_def_start = 'start'
   let g:util_def_terminal = 'powershell.exe -nologo'
-  let g:util_def_c_compiler = 'gcc'
+  let g:util_def_cc = 'gcc'
   let g:python3_host_prog = $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE'
   set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
   set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
@@ -13,12 +13,12 @@ if has("win32")
 elseif has("unix")
   let g:util_def_start = 'xdg-open'
   let g:util_def_terminal = 'bash'
-  let g:util_def_c_compiler = 'gcc'
+  let g:util_def_cc = 'gcc'
   let g:python3_host_prog = '/usr/bin/python3'
   set wildignore+=*.so
 elseif has("mac")
   let g:util_def_start = 'open'
-  let g:util_def_c_compiler = 'clang'
+  let g:util_def_cc = 'clang'
 endif
 "" Surround
 let g:util_sur_map = {
@@ -251,51 +251,51 @@ function! s:util_run_or_compile(option)
   let l:name = expand('%:r')
   let l:exts = expand('%:e')
   let l:exec = has("win32") ? '' : './'
+
   if l:exts ==? 'py'
     " PYTHON
     call Lib_Belowright_Split(l:size)
     exe l:cmdh 'python' l:file
-    redraw
   elseif l:exts ==? 'c'
     " C
-    if l:optn ==? ''
-      call Lib_Belowright_Split(l:size)
-      exe l:cmdh g:util_def_c_compiler l:file '-o' l:name '&&' l:exec . l:name
-    elseif l:optn ==? 'check'
-      call Lib_Belowright_Split(l:size)
-      exe l:cmdh g:util_def_c_compiler l:file '-g -o' l:name
-    elseif l:optn ==? 'build'
-      call Lib_Belowright_Split(l:size)
-      exe l:cmdh g:util_def_c_compiler l:file '-O2 -o' l:name
-    else
+    let l:cmd_arg = ['', 'check', 'build']
+    if index(l:cmd_arg, l:optn) < 0
       echo "Invalid argument."
+      return
     endif
-    redraw
+    call Lib_Belowright_Split(l:size)
+    if l:optn ==? ''
+      exe l:cmdh g:util_def_cc l:file '-o' l:name '&&' l:exec . l:name
+    elseif l:optn ==? 'check'
+      exe l:cmdh g:util_def_cc l:file '-g -o' l:name
+    elseif l:optn ==? 'build'
+      exe l:cmdh g:util_def_cc l:file '-O2 -o' l:name
+    endif
   elseif l:exts ==? 'cpp'
     " C++
     call Lib_Belowright_Split(l:size)
     exe l:cmdh 'g++' l:file
-    redraw
   elseif l:exts ==? 'rs'
     " RUST
+    let l:cmd_arg = ['', 'rustc', 'clean', 'check', 'build']
+    if index(l:cmd_arg, l:optn) < 0
+      echo "Invalid argument."
+      return
+    endif
+    if l:optn ==? 'clean'
+      exe '!cargo clean'
+      return
+    endif
+    call Lib_Belowright_Split(l:size)
     if l:optn ==? ''
-      call Lib_Belowright_Split(l:size)
       exe l:cmdh 'cargo run'
     elseif l:optn ==? 'rustc'
-      call Lib_Belowright_Split(l:size)
       exe l:cmdh 'rustc' l:file '&&' l:exec . l:name
-    elseif l:optn ==? 'clean'
-      exe '!cargo clean'
     elseif l:optn ==? 'check'
-      call Lib_Belowright_Split(l:size)
       exe l:cmdh 'cargo check'
     elseif l:optn ==? 'build'
-      call Lib_Belowright_Split(l:size)
       exe l:cmdh 'cargo build --release'
-    else
-      echo "Invalid argument."
     endif
-    redraw
   elseif l:exts ==? 'vim'
     " VIML
     exe 'source %'
