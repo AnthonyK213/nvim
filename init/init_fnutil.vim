@@ -164,11 +164,10 @@ function! s:util_search_web(mode, site)
     let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:esc_url)
   elseif a:mode ==? "v"
     let l:search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), g:esc_url)
-  else
-    echom "Invalid mode argument."
   endif
-  let l:url = s:util_web_list[a:site] . l:search_obj
-  silent exe '!' . g:util_def_start "'" . l:url . "'"
+  let l:url_raw = s:util_web_list[a:site] . l:search_obj
+  let l:url_arg = has("win32") ? l:url_raw : '"' . l:url_raw . '"'
+  silent exe '!' . g:util_def_start l:url_arg
   redraw
 endfunction
 
