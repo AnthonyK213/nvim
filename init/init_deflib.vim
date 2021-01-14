@@ -1,4 +1,5 @@
 " CONST
+"" Escape string for URL.
 let g:lib_const_esc_url = {
       \ " " : "\\\%20",
       \ "!" : "\\\%21",
@@ -28,6 +29,20 @@ let g:lib_const_esc_url = {
       \ "\t": "\\\%20"
       \ }
 
+"" Escape string for regex.
+"" Make sure *Magic* is on.
+let g:lib_const_esc_reg = {
+      \ "(" : "\\(",
+      \ "[" : "\\[",
+      \ "{" : "\\{",
+      \ ")" : "\\)",
+      \ "]" : "\\]",
+      \ "}" : "\\}",
+      \ "*" : "\\*",
+      \ " " : "\\s",
+      \ "<" : "\\<",
+      \ ">" : "\\>",
+      \ }
 
 
 " Functions
@@ -37,7 +52,6 @@ function! Lib_Belowright_Split(height)
   belowright split
   exe 'resize' l:height
 endfunction
-
 
 "" Find the root directory of .git
 function! Lib_Get_Git_Root()
@@ -49,7 +63,6 @@ function! Lib_Get_Git_Root()
   endwhile
   return [0, '']
 endfunction
-
 
 "" Get the branch name without git
 function! Lib_Get_Git_Branch(git_root)
@@ -64,7 +77,6 @@ function! Lib_Get_Git_Branch(git_root)
     endtry
   endif
 endfunction
-
 
 "" Get the character around the cursor.
 function! Lib_Get_Char(num) abort
@@ -81,14 +93,12 @@ function! Lib_Get_Char(num) abort
   endif
 endfunction
 
-
 "" Determines if a character is a Chinese character.
 "" Why is this faster than regex?
 function! Lib_Is_Hanzi(char)
   let l:code = char2nr(a:char)
   return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
-
 
 "" Return the <cWORD> without the noisy characters.
 function! Lib_Get_Clean_CWORD(del_list)
@@ -102,7 +112,6 @@ function! Lib_Get_Clean_CWORD(del_list)
   return l:c_word
 endfunction
 
-
 "" Return the selections as string.
 function! Lib_Get_Visual_Selection()
   try
@@ -113,7 +122,6 @@ function! Lib_Get_Visual_Selection()
     let @a = l:a_save
   endtry
 endfunction
-
 
 "" Replace chars in a string according to a dictionary.
 function! Lib_Str_Escape(str, esc_dict)

@@ -23,14 +23,41 @@ tno <silent> <F3> <C-\><C-N>:20Lexplore<CR>
 
 
 " Pairs
+let g:subrc_pairs_dict = {
+      \ "("  : ")",
+      \ "["  : "]",
+      \ "{"  : "}",
+      \ "( " : " )",
+      \ "[ " : " ]",
+      \ "{ " : " }",
+      \ "'"  : "'",
+      \ '"'  : '"',
+      \ "`"  : "`",
+      \ "*"  : "*",
+      \ "**" : "**",
+      \ "***": "***",
+      \ "<u>": "</u>"
+      \ }
+
 function! s:subrc_is_surrounded(match_dict)
-  let back = Lib_Get_Char('b')
-  let fore = Lib_Get_Char('f')
+  let l:back = Lib_Get_Char('b')
+  let l:fore = Lib_Get_Char('f')
+  let l:res = [0, 0, 0]
   for [key, val] in items(a:match_dict)
-    if back =~ key && fore =~ val
-    return 1
+    let l:key_esc = "\\v" . Lib_Str_Escape(key, g:lib_const_esc_reg) . '$'
+    let l:val_esc = "\\v^" . Lib_Str_Escape(val, g:lib_const_esc_reg)
+    if l:back =~ l:key_esc && l:fore =~ l:val_esc && len(key) + len(val) > l:res[1] + l:res[2]
+      let l:res = [1, len(key), len(val)]
+    endif
   endfor
-  return 0
+  return l:res
+endfunction
+
+function! s:subrc_pairs_back()
+  let l:check = s:subrc_is_surrounded(g:subrc_pairs_dict)
+  return l:check[0] ? 
+        \ repeat(g:custom_r, l:check[2]) . repeat("\<BS>", l:check[1] + l:check[2]) : 
+        \ "\<BS>"
 endfunction
 
 ino ( ()<C-g>U<Left>
@@ -58,13 +85,10 @@ ino <expr> '
       \ "'" :
       \ "''" . g:custom_l
 ino <expr> <SPACE>
-      \ Lib_Get_Char('l') . Lib_Get_Char('n') == "{}" ?
+      \ <SID>subrc_is_surrounded({"(":")", "[":"]", "{":"}"})[0] ?
       \ "\<SPACE>\<SPACE>" . g:custom_l :
       \ "\<SPACE>"
-ino <expr> <BS>
-      \ <SID>subrc_is_surrounded(["()", "[]", "{}", "''", '""', '**', '``', "<>", "$$"]) ?
-      \ g:custom_r . "\<BS>\<BS>" :
-      \ "\<BS>"
+ino <expr> <BS> <SID>subrc_pairs_back()
 "" Markdown
 ino <expr> <M-P> "``" . g:custom_l
 ino <expr> <M-I> "**" . g:custom_l
@@ -87,6 +111,6 @@ ino <silent><expr> <S-TAB>
       \ "\<C-h>"
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
-      \ <SID>subrc_is_surrounded(["()", "[]", "{}"]) ?
+      \ <SID>subrc_is_surrounded({"(":")", "[":"]", "{":"}"})[0] ?
       \ "\<CR>\<C-o>O" :
       \ "\<CR>"
