@@ -100,7 +100,7 @@ endfunction
 
 "" Open file manager
 function! s:util_explorer()
-  silent exe '!' g:util_def_start '.'
+  silent exe '!' . g:util_def_start '.'
 endfunction
 
 "" Open pdf file
@@ -110,7 +110,7 @@ function! s:util_pdf_view(...)
   else
     let l:name = expand('%:r') . '.pdf'
   endif
-  silent exe '!' g:util_def_start l:name
+  silent exe '!' . g:util_def_start l:name
 endfunction
 
 "" Surround
@@ -168,7 +168,7 @@ function! s:util_search_web(mode, site)
     echom "Invalid mode argument."
   endif
   let l:url = s:util_web_list[a:site] . l:search_obj
-  silent exe '!' g:util_def_start l:url
+  silent exe '!' . g:util_def_start l:url
   redraw
 endfunction
 
