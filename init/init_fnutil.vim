@@ -42,34 +42,6 @@ let s:util_web_list = {
       \ "h" : "https://github.com/search?q=",
       \ "y" : "https://dict.youdao.com/w/eng/"
       \ }
-let g:esc_url = {
-      \ " " : "\\\%20",
-      \ "!" : "\\\%21",
-      \ "\"": "\\\%22",
-      \ "#" : "\\\%23",
-      \ "$" : "\\\%24",
-      \ "%" : "\\\%25",
-      \ "&" : "\\\%26",
-      \ "'" : "\\\%27",
-      \ "(" : "\\\%28",
-      \ ")" : "\\\%29",
-      \ "*" : "\\\%2A",
-      \ "+" : "\\\%2B",
-      \ "," : "\\\%2C",
-      \ "/" : "\\\%2F",
-      \ ":" : "\\\%3A",
-      \ ";" : "\\\%3B",
-      \ "<" : "\\\%3C",
-      \ "=" : "\\\%3D",
-      \ ">" : "\\\%3E",
-      \ "?" : "\\\%3F",
-      \ "@" : "\\\%40",
-      \ "\\": "\\\%5C",
-      \ "|" : "\\\%7C",
-      \ "\n": "\\\%20",
-      \ "\r": "\\\%20",
-      \ "\t": "\\\%20"
-      \ }
 
 
 " Functions
@@ -161,9 +133,9 @@ function! s:util_search_web(mode, site)
         \ "(", ")", "[", "]", "{", "}"
         \ ]
   if a:mode ==? "n"
-    let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:esc_url)
+    let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:lib_const_esc_url)
   elseif a:mode ==? "v"
-    let l:search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), g:esc_url)
+    let l:search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), g:lib_const_esc_url)
   endif
   let l:url_raw = s:util_web_list[a:site] . l:search_obj
   let l:url_arg = has("win32") ? l:url_raw : '"' . l:url_raw . '"'
@@ -562,7 +534,7 @@ for [key, val] in items(g:util_sur_map)
 endfor
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
-"" Search cword in web browser; <leader> f* -> f(ind)
+"" Search cword in web browser; <leader>f* -> f(ind)
 for key in keys(s:util_web_list)
   exe 'nn <silent> <leader>f' . key ':call <SID>util_search_web("n", "' . key . '")<CR>'
   exe 'vn <silent> <leader>f' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
