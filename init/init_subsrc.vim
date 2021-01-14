@@ -46,7 +46,8 @@ function! s:subrc_is_surrounded(match_dict)
   for [key, val] in items(a:match_dict)
     let l:key_esc = "\\v" . Lib_Str_Escape(key, g:lib_const_esc_reg) . '$'
     let l:val_esc = "\\v^" . Lib_Str_Escape(val, g:lib_const_esc_reg)
-    if l:back =~ l:key_esc && l:fore =~ l:val_esc && len(key) + len(val) > l:res[1] + l:res[2]
+    if l:back =~ l:key_esc && l:fore =~ l:val_esc && 
+     \ len(key) + len(val) > l:res[1] + l:res[2]
       let l:res = [1, len(key), len(val)]
     endif
   endfor
@@ -56,7 +57,8 @@ endfunction
 function! s:subrc_pairs_back()
   let l:check = s:subrc_is_surrounded(g:subrc_pairs_dict)
   return l:check[0] ? 
-        \ repeat(g:custom_r, l:check[2]) . repeat("\<BS>", l:check[1] + l:check[2]) : 
+        \ repeat(g:custom_r, l:check[2]) .
+        \ repeat("\<BS>", l:check[1] + l:check[2]) : 
         \ "\<BS>"
 endfunction
 
