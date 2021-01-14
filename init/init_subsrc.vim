@@ -23,8 +23,14 @@ tno <silent> <F3> <C-\><C-N>:20Lexplore<CR>
 
 
 " Pairs
-function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
+function! s:subrc_is_surrounded(match_dict)
+  let back = Lib_Get_Char('b')
+  let fore = Lib_Get_Char('f')
+  for [key, val] in items(a:match_dict)
+    if back =~ key && fore =~ val
+    return 1
+  endfor
+  return 0
 endfunction
 
 ino ( ()<C-g>U<Left>
