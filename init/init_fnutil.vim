@@ -168,7 +168,7 @@ function! s:util_search_web(mode, site)
     echom "Invalid mode argument."
   endif
   let l:url = s:util_web_list[a:site] . l:search_obj
-  silent exe '!' . g:util_def_start l:url
+  silent exe '!' . g:util_def_start "'" . l:url . "'"
   redraw
 endfunction
 
