@@ -579,9 +579,9 @@ nn <silent> <C-c><C-d> :call <SID>util_append_day_from_date()<CR>
 nn <silent> <C-c><C-c> A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
 for [key, val] in items({"n": "j", "p": "k"})
-  exe 'nnoremap <C-' . key . '> g' . val
-  exe 'vnoremap <C-' . key . '> g' . val
-  exe 'inoremap <silent> <C-' . key . '> <C-o>g' . val
+  exe 'nn  <C-' . key . '> g' . val
+  exe 'vn  <C-' . key . '> g' . val
+  exe 'ino <silent> <C-' . key . '> <C-o>g' . val
 endfor
 nn  <M-x> :
 ino <M-x> <C-o>:
