@@ -156,6 +156,7 @@ augroup end
 " vim-ipairs
 let g:pairs_map_ret = 0
 let g:pairs_map_bak = 1
+let g:pairs_map_spc = 1
 let g:pairs_usr_extd = {
       \ "$"  : "$",
       \ "`"  : "`",
@@ -214,7 +215,7 @@ ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 "" Make <CR> auto-select the first completion item and notify coc.nvim to
 "" format on enter, <cr> could be remapped by other vim plugin
 ino <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \: "\<C-g>U\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 "" Use `[g` and `]g` to navigate diagnostics
 "" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
