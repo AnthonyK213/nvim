@@ -57,8 +57,8 @@ endfunction
 function! s:subrc_pairs_back()
   let l:check = s:subrc_is_surrounded(g:subrc_pairs_dict)
   return l:check[0] ? 
-        \ repeat(g:custom_r, l:check[2]) .
-        \ repeat("\<BS>", l:check[1] + l:check[2]) : 
+        \ repeat("\<C-\>\<C-o>x", l:check[2]) .
+        \ repeat("\<BS>", l:check[1]) : 
         \ "\<BS>"
 endfunction
 
