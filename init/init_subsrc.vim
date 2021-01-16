@@ -71,8 +71,8 @@ ino <expr> "
       \ Lib_Get_Char('n') ==# "\"" ?
       \ g:custom_r :
       \ or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
-      \ "\"" :
-      \ "\"\"" . g:custom_l
+      \ '"' :
+      \ '""' . g:custom_l
 ino <expr> '
       \ Lib_Get_Char('n') ==# "'" ?
       \ g:custom_r :
