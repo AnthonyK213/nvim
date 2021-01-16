@@ -27,8 +27,6 @@ let g:subrc_pairs_dict = {
       \ "("  : ")",
       \ "["  : "]",
       \ "{"  : "}",
-      \ "( " : " )",
-      \ "[ " : " ]",
       \ "{ " : " }",
       \ "'"  : "'",
       \ '"'  : '"',
@@ -44,8 +42,8 @@ function! s:subrc_is_surrounded(match_dict)
   let l:fore = Lib_Get_Char('f')
   let l:res = [0, 0, 0]
   for [key, val] in items(a:match_dict)
-    let l:key_esc = "\\v" . Lib_Str_Escape(key, g:lib_const_esc_reg) . '$'
-    let l:val_esc = "\\v^" . Lib_Str_Escape(val, g:lib_const_esc_reg)
+    let l:key_esc = "\\v" . escape(key, ' ()[]{}<>*') . '$'
+    let l:val_esc = "\\v^" . escape(val, ' ()[]{}<>*')
     if l:back =~ l:key_esc && l:fore =~ l:val_esc && 
      \ len(key) + len(val) > l:res[1] + l:res[2]
       let l:res = [1, len(key), len(val)]
@@ -87,7 +85,7 @@ ino <expr> '
       \ "'" :
       \ "''" . g:custom_l
 ino <expr> <SPACE>
-      \ <SID>subrc_is_surrounded({"(":")", "[":"]", "{":"}"})[0] ?
+      \ <SID>subrc_is_surrounded({"{":"}"})[0] ?
       \ "\<SPACE>\<SPACE>" . g:custom_l :
       \ "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()

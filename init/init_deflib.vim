@@ -29,21 +29,6 @@ let g:lib_const_esc_url = {
       \ "\t": "\\\%20"
       \ }
 
-"" Escape string for regex.
-"" Make sure *Magic* is on.
-let g:lib_const_esc_reg = {
-      \ "(" : "\\(",
-      \ "[" : "\\[",
-      \ "{" : "\\{",
-      \ ")" : "\\)",
-      \ "]" : "\\]",
-      \ "}" : "\\}",
-      \ "*" : "\\*",
-      \ " " : "\\s",
-      \ "<" : "\\<",
-      \ ">" : "\\>"
-      \ }
-
 
 " Functions
 "" Create a below right split window.
@@ -124,6 +109,7 @@ function! Lib_Get_Visual_Selection()
 endfunction
 
 "" Replace chars in a string according to a dictionary.
+"" Probably function escape() is more useful in most situations.
 function! Lib_Str_Escape(str, esc_dict)
   let l:str_lst = split(a:str, '.\zs')
   let l:i = 0

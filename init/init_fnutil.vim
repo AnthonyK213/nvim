@@ -96,9 +96,8 @@ function! s:util_sur_impl(quote_a, quote_b)
 endfunction
 
 function! s:util_sur_def_map(kbd, quote_a, quote_b)
-  let l:esc_dict = {"\"":"\\\""}
-  let l:key = "\"" . Lib_Str_Escape(a:quote_a, l:esc_dict) . "\", "
-  let l:val = "\"" . Lib_Str_Escape(a:quote_b, l:esc_dict) . "\""
+  let l:key = '"' . escape(a:quote_a, '"') . '", '
+  let l:val = '"' . escape(a:quote_b, '"') . '"'
   exe 'vnoremap <silent>' a:kbd ':<C-u>call <SID>util_sur_impl(' . l:key . l:val . ')<CR>'
 endfunction
 
