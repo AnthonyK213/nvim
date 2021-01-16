@@ -27,7 +27,6 @@ let g:subrc_pairs_dict = {
       \ "("  : ")",
       \ "["  : "]",
       \ "{"  : "}",
-      \ "{ " : " }",
       \ "'"  : "'",
       \ '"'  : '"',
       \ "`"  : "`",
@@ -37,41 +36,37 @@ let g:subrc_pairs_dict = {
       \ "<u>": "</u>"
       \ }
 
-function! s:subrc_is_surrounded(match_dict)
+function! s:subrc_is_surrounded(match_list)
+  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
+endfunction
+
+function! s:subrc_pairs_back()
   let l:back = Lib_Get_Char('b')
   let l:fore = Lib_Get_Char('f')
+  if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
+    return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
+  endif
   let l:res = [0, 0, 0]
-  for [key, val] in items(a:match_dict)
-    let l:key_esc = "\\v" . escape(key, ' ()[]{}<>*') . '$'
-    let l:val_esc = "\\v^" . escape(val, ' ()[]{}<>*')
+  for [key, val] in items(g:subrc_pairs_dict)
+    let l:key_esc = '\v' . escape(key, ' ()[]{}<>*') . '$'
+    let l:val_esc = '\v^' . escape(val, ' ()[]{}<>*')
     if l:back =~ l:key_esc && l:fore =~ l:val_esc && 
      \ len(key) + len(val) > l:res[1] + l:res[2]
       let l:res = [1, len(key), len(val)]
     endif
   endfor
-  return l:res
-endfunction
-
-function! s:subrc_pairs_back()
-  let l:check = s:subrc_is_surrounded(g:subrc_pairs_dict)
-  return l:check[0] ? 
-        \ repeat("\<C-\>\<C-o>x", l:check[2]) .
-        \ repeat("\<BS>", l:check[1]) : 
+  return l:res[0] ?
+        \ repeat("\<C-g>U\<Left>", l:res[1]) .
+        \ "\<C-\>\<C-o>" . (l:res[1] + l:res[2]) . "x" :
         \ "\<BS>"
 endfunction
 
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> )
-      \ Lib_Get_Char('n') ==# ")" ?
-      \ g:custom_r : ")"
-ino <expr> ]
-      \ Lib_Get_Char('n') ==# "]" ?
-      \ g:custom_r : "]"
-ino <expr> }
-      \ Lib_Get_Char('n') ==# "}" ?
-      \ g:custom_r : "}"
+ino <expr> ) Lib_Get_Char('n') ==# ")" ? g:custom_r : ")"
+ino <expr> ] Lib_Get_Char('n') ==# "]" ? g:custom_r : "]"
+ino <expr> } Lib_Get_Char('n') ==# "}" ? g:custom_r : "}"
 ino <expr> "
       \ Lib_Get_Char('n') ==# "\"" ?
       \ g:custom_r :
@@ -85,7 +80,7 @@ ino <expr> '
       \ "'" :
       \ "''" . g:custom_l
 ino <expr> <SPACE>
-      \ <SID>subrc_is_surrounded({"{":"}"})[0] ?
+      \ <SID>subrc_is_surrounded(['{}']) ?
       \ "\<SPACE>\<SPACE>" . g:custom_l :
       \ "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()
@@ -111,6 +106,6 @@ ino <silent><expr> <S-TAB>
       \ "\<C-h>"
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
-      \ <SID>subrc_is_surrounded({"(":")", "[":"]", "{":"}"})[0] ?
+      \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
       \ "\<CR>\<C-o>O" :
       \ "\<CR>"
