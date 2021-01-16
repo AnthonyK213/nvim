@@ -15,7 +15,7 @@ let g:nanovi_mode={
       \ }
 
 hi clear
-set statusline=
+set laststatus=2
 set noshowmode
 if exists('syntax on') | syntax reset | endif
 let g:colors_name = 'nanovim'
@@ -56,26 +56,6 @@ function! s:h(group, style)
         \ "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
         \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
 endfunction
-
-" Get the branch name without git
-function! s:nanovi_get_branch()
-  let l:git_root = Lib_Get_Git_Root()
-  if l:git_root[0] == 0
-    let b:nanovi_branch = ''
-  else
-    try
-      let l:content = readfile(l:git_root[1] . '/.git/HEAD')
-      let b:nanovi_branch = '#' . split(l:content[0], '/')[-1]
-    catch
-      let b:nanovi_branch = ''
-    endtry
-  endif
-endfunction
-
-augroup nanovi_get_git_branch
-  autocmd!
-  autocmd BufEnter,FocusGained,BufWritePost * call <SID>nanovi_get_branch()
-augroup END
 
 
 " Default face is used for regular information.
@@ -383,12 +363,23 @@ hi link sqlStatement             Nano_Face_Salient
 hi link sqlKeyword               Nano_Face_Salient
 
 
-" StatusLine
-" | MODE || short_file_name git_branch        file_type file_encoding line:col |
-set laststatus=2
-set statusline+=%#Nano_Face_Default#\ 
-set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':toupper(g:nanovi_mode[mode()])}
-set statusline+=%#Nano_Face_Header_Popout#%{&modified?toupper(g:nanovi_mode[mode()]):''}
-set statusline+=%#Nano_Face_Header_Subtle#▎
-set statusline+=%#Nano_Face_Status_Subtle#%f\ %{b:nanovi_branch}%=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
-set statusline+=%#Nano_Face_Default#\ 
+" Get the branch name without git
+function! s:nanovi_set_buf()
+  let l:git_branch = Lib_Get_Git_Branch(Lib_Get_Git_Root())
+  let b:nanovi_branch = l:git_branch[0] ? '#' . l:git_branch[1] : ''
+  " StatusLine
+  " | MODE || short_file_name git_branch        file_type file_encoding line:col |
+  set statusline=
+  set statusline+=%#Nano_Face_Default#\ 
+  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':toupper(g:nanovi_mode[mode()])}
+  set statusline+=%#Nano_Face_Header_Popout#%{&modified?toupper(g:nanovi_mode[mode()]):''}
+  set statusline+=%#Nano_Face_Header_Subtle#▎
+  set statusline+=%#Nano_Face_Status_Subtle#%f\ %{b:nanovi_branch}%=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
+  set statusline+=%#Nano_Face_Default#\ 
+endfunction
+
+
+augroup nanovi_get_git_branch
+  autocmd!
+  autocmd BufEnter,WinEnter,BufWinEnter,BufReadPost,BufWritePost,FileType,FileChangedShellPost * call <SID>nanovi_set_buf()
+augroup END
