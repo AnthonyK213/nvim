@@ -1,4 +1,4 @@
-" Configuration just for nvim-qt
+" Configuration for nvim-qt
 "" Functions
 function! s:nvimqt_font_set(family, size)
   exe 'GuiFont!' a:family . ':h' . a:size
