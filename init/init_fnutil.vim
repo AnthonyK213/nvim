@@ -594,6 +594,6 @@ command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
 "" Surround
-command! -nargs=1 SurAddN :call <SID>util_sur_add('n', <f-args>)
-command! -nargs=1 SurAddV :call <SID>util_sur_add('v', <f-args>)
-command! -nargs=1 SurDel  :call <SID>util_sur_del(<f-args>)
+command! -nargs=1 N_Surround_Add  :call <SID>util_sur_add('n', <f-args>)
+command! -nargs=1 V_Surround_Add  :call <SID>util_sur_add('v', <f-args>)
+command! -nargs=1 Surround_Delete :call <SID>util_sur_del(<f-args>)
