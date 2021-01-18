@@ -541,7 +541,7 @@ nn  <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
-  "" Surround
+"" Surround
 nn <leader>ea :SurAddN<SPACE>
 vn <leader>ea :<C-u>SurAddV<SPACE>
 nn <leader>ed :SurDel<SPACE>
