@@ -87,7 +87,11 @@ function! s:util_sur_add(mode, pair_a)
   let l:pair_b = s:util_sur_pair(l:pair_a)
 
   if a:mode ==# 'n'
-    exe "normal! Ea" . l:pair_b
+    if Lib_Get_Char('n') =~ '\s'
+      exe "normal! a" . l:pair_b
+    else
+      exe "normal! Ea" . l:pair_b
+    endif
     exe "normal! Bi" . l:pair_a
   elseif a:mode ==# 'v'
     let l:stt = [0] + getpos("'<")[1:2]
@@ -542,9 +546,17 @@ nn  <silent> <leader>wc
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
+""" Common
 nn <leader>ea :NSurroundAdd<SPACE>
 vn <leader>ea :<C-u>VSurroundAdd<SPACE>
 nn <leader>ed :SurroundDelete<SPACE>
+""" Markdown
+for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
+  for mod_item in ['n', 'v']
+    exe mod_item . 'n' '<silent> <M-' . key . '>'
+          \ ':call <SID>util_sur_add("' . mod_item . '","' . val . '")<CR>'
+  endfor
+endfor
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader>f* -> f(ind)
