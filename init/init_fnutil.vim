@@ -87,12 +87,18 @@ function! s:util_sur_add(mode, pair_a)
   let l:pair_b = s:util_sur_pair(l:pair_a)
 
   if a:mode ==# 'n'
-    if Lib_Get_Char('n') =~ '\s'
+    if Lib_Get_Char('f') =~ '\v^.\s' ||
+     \ Lib_Get_Char('f') =~ '\v^.$'
       exe "normal! a" . l:pair_b
     else
       exe "normal! Ea" . l:pair_b
     endif
-    exe "normal! Bi" . l:pair_a
+    if Lib_Get_Char('l') =~ '\v\s' ||
+     \ Lib_Get_Char('b') =~ '\v^$'
+      exe "normal! i" . l:pair_a
+    else
+      exe "normal! Bi" . l:pair_a
+    endif
   elseif a:mode ==# 'v'
     let l:stt = [0] + getpos("'<")[1:2]
     let l:end = [0] + getpos("'>")[1:2]
