@@ -542,9 +542,9 @@ nn  <silent> <leader>wc
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
-nn <leader>ea :SurAddN<SPACE>
-vn <leader>ea :<C-u>SurAddV<SPACE>
-nn <leader>ed :SurDel<SPACE>
+nn <leader>ea :N_Surround_Add<SPACE>
+vn <leader>ea :<C-u>V_Surround_Add<SPACE>
+nn <leader>ed :Surround_Delete<SPACE>
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader>f* -> f(ind)
