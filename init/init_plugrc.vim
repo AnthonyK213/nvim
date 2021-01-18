@@ -84,6 +84,7 @@ function! s:vim_markdown_math_toggle()
   syn off | syn on
 endfunction
 let g:vim_markdown_math = 0
+let g:vim_markdown_conceal = 0
 let g:vim_markdown_autowrite = 1
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_auto_insert_bullets = 0
