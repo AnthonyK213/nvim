@@ -118,22 +118,11 @@ endif
   - n:   `<leader>nh` -> Turn off highlights.
   - n:   `<leader>sc` -> Toggle spell check status.
 * Functional utilities
-  - iv:  `<M-p>`      -> backquote surround.
-  - iv:  `<M-i>`      -> single asterisk surround.
-  - iv:  `<M-b>`      -> double asterisk surround.
-  - iv:  `<M-m>`      -> treble asterisk surround.
-  - iv:  `<M-u>`      -> `<u></u>` surround.
-  - v:   `<leader>e`  -> Surrounding.
-    - `(`: ( )
-    - `[`: [ ]
-    - `{`: { }
-    - `'`: ' '
-    - `"`: " "
-    - `<`: < >
-    - `$`: $ $
-  - v:   `<leader>vs` -> Git status.
   - invt:`<F2>`       -> Toggle mouse status.
   - in:  `<F5>`       -> Toggle background.
+  - nv:  `<leader>ea` -> Surrounding add.
+  - n:   `<leader>ed` -> Surrounding delete.
+  - v:   `<leader>vs` -> Git status.
   - nv:  `<leader>wc` -> Chinese characters count.
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.
