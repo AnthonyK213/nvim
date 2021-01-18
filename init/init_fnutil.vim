@@ -20,21 +20,6 @@ elseif has("mac")
   let g:util_def_start = 'open'
   let g:util_def_cc = 'clang'
 endif
-"" Surround
-let g:util_sur_map = {
-      \ "<M-P>"  : ["`",     "`"],
-      \ "<M-I>"  : ["*",     "*"],
-      \ "<M-B>"  : ["**",   "**"],
-      \ "<M-M>"  : ["***", "***"],
-      \ "<M-U>"  :["<u>", "</u>"],
-      \ "<leader>e(" : ["(", ")"],
-      \ "<leader>e[" : ["[", "]"],
-      \ "<leader>e{" : ["{", "}"],
-      \ "<leader>e'" : ["'", "'"],
-      \ '<leader>e"' : ['"', '"'],
-      \ "<leader>e<" : ["<", ">"],
-      \ "<leader>e$" : ["$", "$"]
-      \ }
 "" Search web
 let s:util_web_list = {
       \ "b" : "https://www.baidu.com/s?wd=",
@@ -86,19 +71,48 @@ function! s:util_pdf_view(...)
 endfunction
 
 "" Surround
-function! s:util_sur_impl(quote_a, quote_b)
-  let l:stt = [0] + getpos("'<")[1:2]
-  let l:end = [0] + getpos("'>")[1:2]
-  call setpos('.', l:end)
-  exe "normal! a" . a:quote_b
-  call setpos('.', l:stt)
-  exe "normal! i" . a:quote_a
+function! s:util_sur_pair(pair_a)
+  let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">" }
+  if has_key(l:pairs, a:pair_a)
+    return l:pairs[a:pair_a]
+  elseif a:pair_a =~ '\v^\<\w+\>$'
+    return substitute(a:pair_a, '\v^(\<)', '</', '')
+  else
+    return a:pair_a
+  endif
 endfunction
 
-function! s:util_sur_def_map(kbd, quote_a, quote_b)
-  let l:key = '"' . escape(a:quote_a, '"') . '", '
-  let l:val = '"' . escape(a:quote_b, '"') . '"'
-  exe 'vnoremap <silent>' a:kbd ':<C-u>call <SID>util_sur_impl(' . l:key . l:val . ')<CR>'
+function! s:util_sur_add(mode, pair_a)
+  let l:pair_a = a:pair_a
+  let l:pair_b = s:util_sur_pair(l:pair_a)
+
+  if a:mode ==# 'n'
+    exe "normal! Ea" . l:pair_b
+    exe "normal! Bi" . l:pair_a
+  elseif a:mode ==# 'v'
+    let l:stt = [0] + getpos("'<")[1:2]
+    let l:end = [0] + getpos("'>")[1:2]
+    call setpos('.', l:end)
+    exe "normal! a" . l:pair_b
+    call setpos('.', l:stt)
+    exe "normal! i" . l:pair_a
+  endif
+endfunction
+
+function! s:util_sur_del(pair_a)
+  let l:back = Lib_Get_Char('b')
+  let l:fore = Lib_Get_Char('f')
+  let l:pair_a = a:pair_a
+  let l:pair_b = s:util_sur_pair(l:pair_a)
+  let l:search_back = '\v.*\zs' . escape(l:pair_a, ' ()[]{}<>.+*')
+  let l:search_fore = '\v' . escape(l:pair_b, ' ()[]{}<>.+*')
+
+  if l:back =~ l:search_back && l:fore =~ l:search_fore
+    let l:back_new = substitute(l:back, l:search_back, '', '')
+    let l:fore_new = substitute(l:fore, l:search_fore, '', '')
+    let l:line_new = l:back_new . l:fore_new
+    call setline(line('.'), l:line_new)
+  endif
 endfunction
 
 "" Hanzi count.
@@ -527,10 +541,10 @@ nn  <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
-"" Surround
-for [key, val] in items(g:util_sur_map)
-  call s:util_sur_def_map(key, val[0], val[1])
-endfor
+  "" Surround
+nn <leader>ea :SurAddN<SPACE>
+vn <leader>ea :<C-u>SurAddV<SPACE>
+nn <leader>ed :SurDel<SPACE>
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader>f* -> f(ind)
@@ -579,3 +593,7 @@ command! -nargs=? CodeRun :call <SID>util_run_or_compile(<q-args>)
 command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
+"" Surround
+command! -nargs=1 SurAddN :call <SID>util_sur_add('n', <f-args>)
+command! -nargs=1 SurAddV :call <SID>util_sur_add('v', <f-args>)
+command! -nargs=1 SurDel  :call <SID>util_sur_del(<f-args>)
