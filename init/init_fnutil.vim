@@ -542,9 +542,9 @@ nn  <silent> <leader>wc
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
-nn <leader>ea :N_Surround_Add<SPACE>
-vn <leader>ea :<C-u>V_Surround_Add<SPACE>
-nn <leader>ed :Surround_Delete<SPACE>
+nn <leader>ea :NSurroundAdd<SPACE>
+vn <leader>ea :<C-u>VSurroundAdd<SPACE>
+nn <leader>ed :SurroundDelete<SPACE>
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
 "" Search cword in web browser; <leader>f* -> f(ind)
@@ -594,6 +594,6 @@ command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
 "" Surround
-command! -nargs=1 N_Surround_Add  :call <SID>util_sur_add('n', <f-args>)
-command! -nargs=1 V_Surround_Add  :call <SID>util_sur_add('v', <f-args>)
-command! -nargs=1 Surround_Delete :call <SID>util_sur_del(<f-args>)
+command! -nargs=1 NSurroundAdd  :call <SID>util_sur_add('n', <f-args>)
+command! -nargs=1 VSurroundAdd  :call <SID>util_sur_add('v', <f-args>)
+command! -nargs=1 SurroundDelete :call <SID>util_sur_del(<f-args>)
