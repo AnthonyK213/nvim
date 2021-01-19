@@ -72,8 +72,8 @@ endfunction
 
 "" Surround
 function! s:util_sur_pair(pair_a)
-  let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">" }
-  if a:pair_a =~ '\v^(\(|\[|\{|\<)+$'
+  let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">", " ": " " }
+  if a:pair_a =~ '\v^(\(|\[|\{|\<|\s)+$'
     return join(reverse(map(split(a:pair_a, '.\zs'), {idx, val -> l:pairs[val]})), '')
   elseif a:pair_a =~ '\v^(\<\w+\>)+$'
     return '</' . join(reverse(split(a:pair_a, '<')), '</')
@@ -87,12 +87,14 @@ function! s:util_sur_add(mode, pair_a)
   let l:pair_b = s:util_sur_pair(l:pair_a)
 
   if a:mode ==# 'n'
+    let l:org = getpos('.')
     if Lib_Get_Char('f') =~ '\v^.\s' ||
      \ Lib_Get_Char('f') =~ '\v^.$'
       exe "normal! a" . l:pair_b
     else
       exe "normal! Ea" . l:pair_b
     endif
+    call setpos('.', l:org)
     if Lib_Get_Char('l') =~ '\v\s' ||
      \ Lib_Get_Char('b') =~ '\v^$'
       exe "normal! i" . l:pair_a
@@ -612,6 +614,6 @@ command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
 "" Surround
-command! -nargs=1 NSurroundAdd  :call <SID>util_sur_add('n', <f-args>)
-command! -nargs=1 VSurroundAdd  :call <SID>util_sur_add('v', <f-args>)
-command! -nargs=1 SurroundDelete :call <SID>util_sur_del(<f-args>)
+command! -nargs=1 NSurroundAdd  :call <SID>util_sur_add('n', <q-args>)
+command! -nargs=1 VSurroundAdd  :call <SID>util_sur_add('v', <q-args>)
+command! -nargs=1 SurroundDelete :call <SID>util_sur_del(<q-args>)
