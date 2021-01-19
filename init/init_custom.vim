@@ -20,7 +20,7 @@ let g:custom_r = "\<C-g>U\<Right>"
 augroup filetype_behave
   autocmd!
   au BufEnter * setlocal so=5
-  au BufEnter *.md,*.org,*.yml setlocal ts=2 sw=2 sts=2 so=999 nowrap nolinebreak
+  au BufEnter *.md,*.org,*.yml setlocal ts=2 sw=2 sts=2 so=999 tw=0 nowrap nolinebreak
   au BufEnter *.cs,*.pde,*.tex,*.java,*.lisp,*.vim setlocal ts=2 sw=2 sts=2
 augroup end
 
