@@ -73,8 +73,8 @@ endfunction
 "" Surround
 function! s:util_sur_pair(pair_a)
   let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">" }
-  if has_key(l:pairs, a:pair_a)
-    return l:pairs[a:pair_a]
+  if a:pair_a =~ '\v^(\(|\[|\{|\<)+$'
+    return join(reverse(map(split(a:pair_a, '.\zs'), {idx, val -> l:pairs[val]})), '')
   elseif a:pair_a =~ '\v^(\<\w+\>)+$'
     return '</' . join(reverse(split(a:pair_a, '<')), '</')
   else
