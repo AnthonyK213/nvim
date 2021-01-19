@@ -116,17 +116,17 @@ endif
     - `d`: Delete buffer.
   - n:   `<leader>cd` -> Set directory to the current buffer.
   - n:   `<leader>nh` -> Turn off highlights.
-  - n:   `<leader>sc` -> Toggle spell check status.
+  - n:   `<leader>ct` -> Toggle spell check status.
 * Functional utilities
   - invt:`<F2>`       -> Toggle mouse status.
   - in:  `<F5>`       -> Toggle background.
-  - nv:  `<leader>ea` -> Surrounding add.
-  - n:   `<leader>ed` -> Surrounding delete.
+  - nv:  `<leader>sa` -> Surrounding add.
+  - n:   `<leader>sd` -> Surrounding delete.
   - v:   `<leader>vs` -> Git status.
   - nv:  `<leader>wc` -> Chinese characters count.
   - v:   `*`          -> Search visual selection.
   - i:   `<M-CR>`     -> Auto insert bullet.
-  - n:   `<leader>sl` -> Sort number list.
+  - n:   `<leader>ml` -> Sort number list.
   - nv:  `<leader>f`  -> Search text in web browser.
     - `b`: Baidu
     - `g`: Google

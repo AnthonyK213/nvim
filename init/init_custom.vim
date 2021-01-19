@@ -69,5 +69,5 @@ nn <silent> <leader>bd :bd<CR>
 nn <silent> <leader>cd :lcd %:p:h<CR>
 """ Highlight off
 nn <silent> <leader>nh :noh<CR>
-""" Toggle spell check; <leader>sc -> s(pell)c(heck)
-nn <silent> <Leader>sc :setlocal spell! spelllang=en_us<CR>
+""" Toggle spell check; <leader>ct -> c(heck)t(toggle)
+nn <silent> <Leader>ct :setlocal spell! spelllang=en_us<CR>

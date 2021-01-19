@@ -552,10 +552,10 @@ nn  <silent> <leader>wc
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
-""" Common
-nn <leader>ea :NSurroundAdd<SPACE>
-vn <leader>ea :<C-u>VSurroundAdd<SPACE>
-nn <leader>ed :SurroundDelete<SPACE>
+""" Common maps: <leader>s -> s(urround)
+nn <leader>sa :NSurroundAdd<SPACE>
+vn <leader>sa :<C-u>VSurroundAdd<SPACE>
+nn <leader>sd :SurroundDelete<SPACE>
 """ Markdown
 for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
   for mod_item in ['n', 'v']
@@ -572,8 +572,8 @@ for key in keys(s:util_web_list)
 endfor
 "" List bullets
 ino <silent> <M-CR> <C-o>:call <SID>util_md_insert_bullet()<CR>
-nn  <silent> <leader>sl  :call <SID>util_md_sort_num_bullet()<CR>
-"" Echo git status: <leader>v* -> v(ersion control)
+nn  <silent> <leader>ml  :call <SID>util_md_sort_num_bullet()<CR>
+"" Echo git status: <leader>v -> v(ersion control)
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
 nn <silent> <C-c><C-d> :call <SID>util_append_day_from_date()<CR>
