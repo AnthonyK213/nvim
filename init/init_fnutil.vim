@@ -75,8 +75,8 @@ function! s:util_sur_pair(pair_a)
   let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">" }
   if has_key(l:pairs, a:pair_a)
     return l:pairs[a:pair_a]
-  elseif a:pair_a =~ '\v^\<\w+\>$'
-    return substitute(a:pair_a, '\v^(\<)', '</', '')
+  elseif a:pair_a =~ '\v^(\<\w+\>)+$'
+    return '</' . join(reverse(split(a:pair_a, '<')), '</')
   else
     return a:pair_a
   endif
