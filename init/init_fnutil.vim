@@ -111,17 +111,26 @@ function! s:util_sur_add(mode, pair_a)
   endif
 endfunction
 
-function! s:util_sur_del(pair_a)
+function! s:util_sur_sub(pair_a, ...)
   let l:back = Lib_Get_Char('b')
   let l:fore = Lib_Get_Char('f')
   let l:pair_a = a:pair_a
   let l:pair_b = s:util_sur_pair(l:pair_a)
+
+  try
+    let l:pair_a_new = a:1
+    let l:pair_b_new = s:util_sur_pair(l:pair_a_new)
+  catch
+    echo 'Invalid arguments.'
+    return
+  endtry
+
   let l:search_back = '\v.*\zs' . escape(l:pair_a, ' ()[]{}<>.+*')
   let l:search_fore = '\v' . escape(l:pair_b, ' ()[]{}<>.+*')
 
   if l:back =~ l:search_back && l:fore =~ l:search_fore
-    let l:back_new = substitute(l:back, l:search_back, '', '')
-    let l:fore_new = substitute(l:fore, l:search_fore, '', '')
+    let l:back_new = substitute(l:back, l:search_back, l:pair_a_new, '')
+    let l:fore_new = substitute(l:fore, l:search_fore, l:pair_b_new, '')
     let l:line_new = l:back_new . l:fore_new
     call setline(line('.'), l:line_new)
   endif
@@ -558,6 +567,7 @@ vn  <silent> <leader>wc
 nn <leader>sa :NSurroundAdd<SPACE>
 vn <leader>sa :<C-u>VSurroundAdd<SPACE>
 nn <leader>sd :SurroundDelete<SPACE>
+nn <leader>sc :SurroundChange<SPACE>
 """ Markdown
 for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
   for mod_item in ['n', 'v']
@@ -614,6 +624,7 @@ command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
 "" Surround
-command! -nargs=1 NSurroundAdd  :call <SID>util_sur_add('n', <q-args>)
-command! -nargs=1 VSurroundAdd  :call <SID>util_sur_add('v', <q-args>)
-command! -nargs=1 SurroundDelete :call <SID>util_sur_del(<q-args>)
+command! -nargs=1 NSurroundAdd   :call <SID>util_sur_add('n', <q-args>)
+command! -nargs=1 VSurroundAdd   :call <SID>util_sur_add('v', <q-args>)
+command! -nargs=1 SurroundDelete :call <SID>util_sur_sub(<q-args>, '')
+command! -nargs=+ SurroundChange :call <SID>util_sur_sub(<f-args>)

@@ -121,6 +121,7 @@ endif
   - invt:`<F2>`       -> Toggle mouse status.
   - in:  `<F5>`       -> Toggle background.
   - nv:  `<leader>sa` -> Surrounding add.
+  - n:   `<leader>sc` -> Surrounding change.
   - n:   `<leader>sd` -> Surrounding delete.
   - v:   `<leader>vs` -> Git status.
   - nv:  `<leader>wc` -> Chinese characters count.
