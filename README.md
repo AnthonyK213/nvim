@@ -157,6 +157,7 @@ endif
     - n:    `h` -> Toc horizontal.
     - n:    `v` -> Toc vertical.
   - `<leader>o` -> **Open**.
+    - n:    `b` -> Open file of buffer with system default browser.
     - n:    `e` -> Open system file manager.
     - nt:   `p` -> NERDTree toggle.
     - n:    `t` -> Open terminal.

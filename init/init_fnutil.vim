@@ -55,6 +55,13 @@ function! s:util_terminal()
   exe ':terminal' g:util_def_terminal
 endfunction
 
+"" Open file of buffer with system default browser.
+function! s:util_open()
+  let l:file_path = '"' . expand('%:p') . '"'
+  let l:cmd = has("win32") ? '' : g:util_def_start
+  silent exe '!' . l:cmd l:file_path
+endfunction
+
 "" Open file manager
 function! s:util_explorer()
   silent exe '!' . g:util_def_start '.'
@@ -538,6 +545,8 @@ nn  <silent> <leader>bg :call <SID>util_bg_toggle()<CR>
 nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
 "" Terminal
 nn  <leader>ot :call <SID>util_terminal()<CR>i
+"" Open with system default browser
+nn  <silent> <leader>ob :call <SID>util_open()<CR>
 "" Windows-like behaviors
 """ Save
 nn  <silent> <C-s> :w<CR>
