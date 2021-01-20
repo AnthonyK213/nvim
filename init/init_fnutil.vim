@@ -72,7 +72,7 @@ function! s:util_pdf_view(...)
   if a:0 > 0
     let l:name = a:1
   else
-    let l:name = expand('%:r') . '.pdf'
+    let l:name = escape(expand('%:r'), '%#') . '.pdf'
   endif
   silent exe '!' . g:util_def_start l:name
 endfunction
