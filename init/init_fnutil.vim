@@ -145,25 +145,22 @@ endfunction
 
 "" Hanzi count.
 function! s:util_hanzi_count(mode)
-  if a:mode ==? "n"
-    let l:content = readfile(expand('%:p'))
-    let l:h_count = 0
-    for line in l:content
-      for char in split(line, '.\zs')
-        if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
-      endfor
-    endfor
-    return l:h_count
-  elseif a:mode ==? "v"
-    let l:select = split(Lib_Get_Visual_Selection(), '.\zs')
-    let l:h_count = 0
-    for char in l:select
+  if a:mode ==# 'n'
+    let l:content = getline(1, '$')
+  elseif a:mode ==# 'v'
+    let l:content = split(Lib_Get_Visual_Selection(), "\n")
+  else
+    return
+  endif
+
+  let l:h_count = 0
+  for line in l:content
+    for char in split(line, '.\zs')
       if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
     endfor
-    return l:h_count
-  else
-    echom "Invalid mode argument."
-  endif
+  endfor
+
+  return l:h_count
 endfunction
 
 "" Search web
