@@ -446,7 +446,7 @@ function s:util_md_sort_num_bullet()
 endfunction
 
 "" Calculate the day of week from a date(yyyy-mm-dd).
-function! s:util_zeller(str)
+function! s:util_date2dow(str)
   if a:str =~ '\v^.*\d{4}-\d{2}-\d{2}.*$' 
     let l:str_date = substitute(a:str,
           \ '\v^.*(\d{4}-\d{2}-\d{2}).*$',
@@ -484,7 +484,7 @@ function! s:util_append_day_from_date()
   endwhile
   let l:stt = l:match_cword[0]
 
-  let l:day = s:util_zeller(l:str)
+  let l:day = s:util_date2dow(l:str)
   if l:day[0] !=? ''
     let l:end = matchstrpos(l:line, l:day[1], l:stt)[2]
     call setpos('.', [0, line('.'), l:end])
