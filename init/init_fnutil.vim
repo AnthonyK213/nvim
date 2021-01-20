@@ -555,9 +555,9 @@ ino <silent> <M-v> <C-R>=@+<CR>
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 "" Hanzi count
-nn  <silent> <leader>wc
+nn  <silent> <leader>cc
       \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
-vn  <silent> <leader>wc
+vn  <silent> <leader>cc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
 """ Common maps

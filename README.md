@@ -140,17 +140,12 @@ endif
     - n:    `h` -> Turn off highlights.
     - n:    `n` -> Next buffer.
     - n:    `p` -> Previous buffer.
-  - `<leader>c` -> **Spell check**.
+  - `<leader>c` -> **Check**.
+    - nv:   `c` -> Chinese characters count.
     - n:    `t` -> Toggle spell check status.
   - `<leader>d` -> **Date**
     - n:    `s` -> Insert time stamp at the end of line.
     - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
-  - `<leader>h` -> **Signify**.
-    - n:    `j` -> Next hunk.
-    - n:    `k` -> Previous hunk.
-    - n:    `J` -> Last hunk.
-    - n:    `K` -> First hunk.
-    - n:    `t` -> Signify toggle.
   - `<leader>k` -> **Search text in web browser**.
     - nv:   `b` -> Baidu
     - nv:   `g` -> Google
@@ -174,9 +169,12 @@ endif
     - n:    `c` -> Evaluate formula.
     - n:    `f` -> Re-align.
   - `<leader>v` -> **VCS**.
+    - n:    `j` -> Next hunk.
+    - n:    `k` -> Previous hunk.
+    - n:    `J` -> Last hunk.
+    - n:    `K` -> First hunk.
     - n:    `s` -> Git status.
-  - `<leader>w` -> **Chinese characters count**.
-    - nv:   `w` -> Chinese characters count.
+    - n:    `t` -> Signify toggle.
   - `<leader>C` -> **Coc.nvim**
     - n:    `a` -> Do codeAction of current line.
     - n:    `c` -> Fix autofix problem of current line.
@@ -202,8 +200,8 @@ endif
   - `Xe2`: Compile with XeLaTeX for two times.
   - `Bib`: Compile with biber.
   - `PushAll`: Just push all to the remote origin.
-    - `-b`: branch, default value is current branch.
-    - `-m`: comment, default value is the date.
+    - `-b`: branch, current branch default.
+    - `-m`: comment, the date default.
   - `CodeRun`: Run code of current buffer.
   - `Time`: Echo date and time.
   - `PDF`: Open pdf with the given name in the system viewer.
