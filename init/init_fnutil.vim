@@ -533,11 +533,11 @@ vn  <silent> <F2> :<C-u>call      <SID>util_mouse_toggle()<CR>
 ino <silent> <F2> <C-o>:call      <SID>util_mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-n>:call <SID>util_mouse_toggle()<CR>a
 "" Background toggle
-nn  <silent> <F5> :call           <SID>util_bg_toggle()<CR>
-ino <silent> <F5> <C-o>:call      <SID>util_bg_toggle()<CR>
+nn  <silent> <leader>bg :call <SID>util_bg_toggle()<CR>
+""" Explorer
+nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
 "" Terminal
-nn  <M-t>      :call <SID>util_terminal()<CR>i
-ino <M-t> <Esc>:call <SID>util_terminal()<CR>i
+nn  <leader>ot :call <SID>util_terminal()<CR>i
 "" Windows-like behaviors
 """ Save
 nn  <silent> <C-s> :w<CR>
@@ -554,16 +554,13 @@ ino <silent> <M-v> <C-R>=@+<CR>
 """ Select
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
-""" Explorer
-nn  <silent> <F4>      :call <SID>util_explorer()<CR>
-ino <silent> <F4> <Esc>:call <SID>util_explorer()<CR>
-"" Hanzi count; <leader>wc -> w(ord)c(ount)
+"" Hanzi count
 nn  <silent> <leader>wc
       \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
 vn  <silent> <leader>wc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
-""" Common maps: <leader>s -> s(urround)
+""" Common maps
 nn <leader>sa :NSurroundAdd<SPACE>
 vn <leader>sa :<C-u>VSurroundAdd<SPACE>
 nn <leader>sd :SurroundDelete<SPACE>
@@ -577,20 +574,20 @@ for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
 endfor
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
-"" Search cword in web browser; <leader>f* -> f(ind)
+"" Search cword in web browser
 for key in keys(s:util_web_list)
-  exe 'nn <silent> <leader>f' . key ':call <SID>util_search_web("n", "' . key . '")<CR>'
-  exe 'vn <silent> <leader>f' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
+  exe 'nn <silent> <leader>k' . key ':call <SID>util_search_web("n", "' . key . '")<CR>'
+  exe 'vn <silent> <leader>k' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
 endfor
 "" List bullets
 ino <silent> <M-CR> <C-o>:call <SID>util_md_insert_bullet()<CR>
 nn  <silent> <leader>ml  :call <SID>util_md_sort_num_bullet()<CR>
-"" Echo git status: <leader>v -> v(ersion control)
+"" Echo git status
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
-nn <silent> <C-c><C-d> :call <SID>util_append_day_from_date()<CR>
+nn <silent> <leader>dd :call <SID>util_append_day_from_date()<CR>
 "" Insert an orgmode-style timestamp at the end of the line
-nn <silent> <C-c><C-c> A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
+nn <silent> <leader>ds A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
 for [key, val] in items({"n": "j", "p": "k"})
   exe 'nn  <C-' . key . '> g' . val

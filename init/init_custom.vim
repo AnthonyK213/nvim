@@ -20,7 +20,8 @@ let g:custom_r = "\<C-g>U\<Right>"
 augroup filetype_behave
   autocmd!
   au BufEnter * setlocal so=5
-  au BufEnter *.md,*.org,*.yml setlocal ts=2 sw=2 sts=2 so=999 tw=0 nowrap nolinebreak
+  au BufEnter *.md setlocal ts=2 sw=2 sts=2 so=999 tw=0 nowrap nolinebreak
+  au BufEnter *.org,*.yml setlocal ts=2 sw=2 sts=2 tw=0 nowrap nolinebreak
   au BufEnter *.cs,*.pde,*.tex,*.java,*.lisp,*.vim setlocal ts=2 sw=2 sts=2
 augroup end
 
@@ -51,9 +52,9 @@ tno <Esc> <C-\><C-n>
 tno <silent> <M-d> <C-\><C-N>:bd!<CR>
 """ Navigate
 for direct in ['h', 'j', 'k', 'l', 'w']
-  exe 'nnoremap <M-' . direct . '> <C-w>'            . direct
-  exe 'inoremap <M-' . direct . '> <ESC><C-w>'       . direct
-  exe 'tnoremap <M-' . direct . '> <C-\><C-n><C-w>'  . direct
+  exe 'nn  <M-' . direct . '> <C-w>'            . direct
+  exe 'ino <M-' . direct . '> <ESC><C-w>'       . direct
+  exe 'tno <M-' . direct . '> <C-\><C-n><C-w>'  . direct
 endfor
 """ Find and replace
 nn <M-f> :%s/
@@ -63,11 +64,10 @@ nn <M-n> :%normal
 vn <M-n> :normal 
 "" Leader
 """ Buffer
+nn <silent> <leader>bc :lcd %:p:h<CR>
+nn <silent> <leader>bd :bd<CR>
+nn <silent> <leader>bh :noh<CR>
 nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
-nn <silent> <leader>bd :bd<CR>
-nn <silent> <leader>cd :lcd %:p:h<CR>
-""" Highlight off
-nn <silent> <leader>nh :noh<CR>
-""" Toggle spell check; <leader>ct -> c(heck)t(toggle)
+""" Toggle spell check
 nn <silent> <Leader>ct :setlocal spell! spelllang=en_us<CR>

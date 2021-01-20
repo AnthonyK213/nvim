@@ -18,9 +18,8 @@ let g:NERDTreeDirArrowExpandable  = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-nn  <silent> <F3> :NERDTreeToggle<CR>
-ino <silent> <F3> <Esc>:NERDTreeToggle<CR>
-tno <silent> <F3> <C-\><C-N>:NERDTreeToggle<CR>
+nn  <silent> <leader>op :NERDTreeToggle<CR>
+tno <silent> <leader>op <C-\><C-N>:NERDTreeToggle<CR>
 nn  <silent> <M-e> :NERDTreeFocus<CR>
 ino <silent> <M-e> <Esc>:NERDTreeFocus<CR>
 tno <silent> <M-e> <C-\><C-N>:NERDTreeFocus<CR>
@@ -35,7 +34,6 @@ let g:signify_sign_change            = '~'
 "" Disable the numbers disctracting
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
-"" <leader>h* -> h(unk)
 nmap <leader>hj <plug>(signify-next-hunk)
 nmap <leader>hk <plug>(signify-prev-hunk)
 nmap <leader>hJ 9999<plug>(signify-next-hunk)
@@ -89,7 +87,6 @@ let g:vim_markdown_autowrite = 1
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 2
-"" <leader>m* -> m(arkdown)
 nn <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nn <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
 nn <silent> <leader>mm :call <SID>vim_markdown_math_toggle()<CR>
@@ -118,7 +115,6 @@ augroup vimtable
   au BufEnter *    let g:table_mode_corner = '+'
   au BufEnter *.md let g:table_mode_corner = '|'
 augroup end
-"" <leader>t* -> t(able-mode)
 nn <silent> <leader>ta :TableAddFormula<CR>
 nn <silent> <leader>tf :TableModeRealign<CR>
 nn <silent> <leader>tc :TableEvalFormulaLine<CR>
@@ -238,14 +234,12 @@ augroup hlsymbol
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup end
 
-"" <leader> j*  -> for no reason?
-"" <leader> jl* -> l(ist)
 "" Remap for rename current word
-nmap <leader>jr <Plug>(coc-rename)
+nmap <leader>Cr <Plug>(coc-rename)
 
 "" Remap for format selected region
-xmap <leader>jf  <Plug>(coc-format-selected)
-nmap <leader>jf  <Plug>(coc-format-selected)
+xmap <leader>Cf  <Plug>(coc-format-selected)
+nmap <leader>Cf  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -256,13 +250,13 @@ augroup mygroup
 augroup end
 
 "" Remap for do codeAction of selected region, ex: `<localleader>aap` for current paragraph
-xmap <leader>js  <Plug>(coc-codeaction-selected)
-nmap <leader>js  <Plug>(coc-codeaction-selected)
+xmap <leader>Cs  <Plug>(coc-codeaction-selected)
+nmap <leader>Cs  <Plug>(coc-codeaction-selected)
 
 "" Remap for do codeAction of current line
-nmap <leader>ja  <Plug>(coc-codeaction)
+nmap <leader>Ca  <Plug>(coc-codeaction)
 "" Fix autofix problem of current line
-nmap <leader>jc  <Plug>(coc-fix-current)
+nmap <leader>Cc  <Plug>(coc-fix-current)
 
 "" Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -276,21 +270,21 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 "" Using CocList
 """ Show all diagnostics
-nn <silent><nowait> <leader>jla  :<C-u>CocList diagnostics<cr>
+nn <silent><nowait> <leader>Cla  :<C-u>CocList diagnostics<cr>
 """ Manage extensions
-nn <silent><nowait> <leader>jle  :<C-u>CocList extensions<cr>
+nn <silent><nowait> <leader>Cle  :<C-u>CocList extensions<cr>
 """ Show commands
-nn <silent><nowait> <leader>jlc  :<C-u>CocList commands<cr>
+nn <silent><nowait> <leader>Clc  :<C-u>CocList commands<cr>
 """ Find symbol of current document
-nn <silent><nowait> <leader>jlo  :<C-u>CocList outline<cr>
+nn <silent><nowait> <leader>Clo  :<C-u>CocList outline<cr>
 """ Search workspace symbols
-nn <silent><nowait> <leader>jls  :<C-u>CocList -I symbols<cr>
+nn <silent><nowait> <leader>Cls  :<C-u>CocList -I symbols<cr>
 """ Do default action for next item.
-nn <silent><nowait> <leader>jlj  :<C-u>CocNext<CR>
+nn <silent><nowait> <leader>Clj  :<C-u>CocNext<CR>
 """ Do default action for previous item.
-nn <silent><nowait> <leader>jlk  :<C-u>CocPrev<CR>
+nn <silent><nowait> <leader>Clk  :<C-u>CocPrev<CR>
 """ Resume latest coc list
-nn <silent><nowait> <leader>jlp  :<C-u>CocListResume<CR>
+nn <silent><nowait> <leader>Clp  :<C-u>CocListResume<CR>
 
 "" Float window scroll
 nn <nowait><expr> <C-f>

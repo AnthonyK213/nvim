@@ -95,56 +95,30 @@ endif
 
 
 ## Key bindings
-* Customized
-  - `<leader>` is mapped to `<space>`.
-  - n:   `<C-j>`      -> Indent entire line toward left.
-  - n:   `<C-k>`      -> Indent entire line toward right.
+* **Ctrl**
+  - n:   `<C-j>`      -> Indent left.
+  - n:   `<C-k>`      -> Indent right.
+  - in:  `<C-s>`      -> Save.
+  - in:  `<C-z>`      -> Undo.
   - n:   `<C-Direct>` -> Adjust window size.
-  - n:   `<M-,>`      -> Open init.vim.
+* **Meta**
+  - in:  `<M-a>`      -> Select all.
+  - v:   `<M-c>`      -> Copy to system clipboard.
   - t:   `<M-d>`      -> Close the terminal.
+  - int: `<M-e>`      -> NERDTree focus.
   - nv:  `<M-f>`      -> Find and replace.
-  - nv:  `<M-n>`      -> Normal command.
   - inv: `<M-h>`      -> Jump to the window left.
   - inv: `<M-j>`      -> Jump to the window below.
   - inv: `<M-k>`      -> Jump to the window above.
   - inv: `<M-l>`      -> Jump to the window right.
-  - inv: `<M-w>`      -> Jump to the window in turn.
-  - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
-  - n:   `<leader>b`  -> Buffer.
-    - `n`: Next buffer.
-    - `p`: Previous buffer.
-    - `d`: Delete buffer.
-  - n:   `<leader>cd` -> Set directory to the current buffer.
-  - n:   `<leader>nh` -> Turn off highlights.
-  - n:   `<leader>ct` -> Toggle spell check status.
-* Functional utilities
-  - invt:`<F2>`       -> Toggle mouse status.
-  - in:  `<F5>`       -> Toggle background.
-  - nv:  `<leader>sa` -> Surrounding add.
-  - n:   `<leader>sc` -> Surrounding change.
-  - n:   `<leader>sd` -> Surrounding delete.
-  - v:   `<leader>vs` -> Git status.
-  - nv:  `<leader>wc` -> Chinese characters count.
-  - v:   `*`          -> Search visual selection.
-  - i:   `<M-CR>`     -> Auto insert bullet.
-  - n:   `<leader>ml` -> Sort number list.
-  - nv:  `<leader>f`  -> Search text in web browser.
-    - `b`: Baidu
-    - `g`: Google
-    - `h`: Github
-    - `y`: Youdao
-  - n:   `<C-c><C-c>` -> Insert time stamp at the end of line.
-  - n:   `<C-c><C-d>` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
-* System
-  - in:  `<M-t>`      -> Open system terminal.
-  - in:  `<C-s>`      -> Save.
-  - in:  `<C-z>`      -> Undo.
-  - v:   `<M-c>`      -> Copy to system clipboard.
-  - v:   `<M-x>`      -> Cut to system clipboard.
+  - nv:  `<M-n>`      -> Normal command.
   - inv: `<M-v>`      -> Paste from system clipboard.
-  - in:  `<M-a>`      -> Select all.
-  - in:  `<F4>`       -> Open system file manager.
-* Emacs shit
+  - inv: `<M-w>`      -> Jump to the window in turn.
+  - v:   `<M-x>`      -> Cut to system clipboard.
+  - n:   `<M-,>`      -> Open init.vim.
+  - i:   `<M-CR>`     -> Auto insert bullet.
+  - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+* **Emacs shit**
   - inv: `<C-n>`      -> Emacs next.
   - inv: `<C-p>`      -> Emacs previous.
   - i:   `<C-f>`      -> Emacs forward.
@@ -157,24 +131,70 @@ endif
   - i:   `<M-b>`      -> Emacs last word.
   - in:  `<M-x>`      -> Command line.
   - i:   `<M-d>`      -> Emacs delete word.
-* Plug-in
-  - int: `<F3>`       -> NERDTree toggle.
-  - int: `<M-e>`      -> NERDTree focus.
-  - n:   `<leader>h`  -> Signify.
-    - `j`: Next hunk.
-    - `k`: Previous hunk.
-    - `J`: Last hunk.
-    - `K`: First hunk.
-    - `t`: Signify toggle.
-  - n:   `<leader>m`  -> vim-markdown
-    - `h`: Toc horizontal.
-    - `v`: Toc vertical.
-    - `m`: Toggle math syntax.
-  - n:   `<leader>t`  -> vim-table-mode
-    - `a`: Add formula.
-    - `f`: Re-align.
-    - `c`: Evaluate formula.
-  - coc.nvim
+* **Leader**
+  > `<leader>` is mapped to `<SPACE>`.
+  - `<leader>b` -> **Buffer**.
+    - n:    `c` -> Set directory to the current buffer.
+    - n:    `d` -> Delete buffer.
+    - n:    `g` -> Toggle background.
+    - n:    `h` -> Turn off highlights.
+    - n:    `n` -> Next buffer.
+    - n:    `p` -> Previous buffer.
+  - `<leader>c` -> **Spell check**.
+    - n:    `t` -> Toggle spell check status.
+  - `<leader>d` -> **Date**
+    - n:    `s` -> Insert time stamp at the end of line.
+    - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+  - `<leader>h` -> **Signify**.
+    - n:    `j` -> Next hunk.
+    - n:    `k` -> Previous hunk.
+    - n:    `J` -> Last hunk.
+    - n:    `K` -> First hunk.
+    - n:    `t` -> Signify toggle.
+  - `<leader>k` -> **Search text in web browser**.
+    - nv:   `b` -> Baidu
+    - nv:   `g` -> Google
+    - nv:   `h` -> Github
+    - nv:   `y` -> Youdao
+  - `<leader>m` -> **vim-markdown**
+    - n:    `l` -> Sort number list.
+    - n:    `m` -> Toggle math syntax.
+    - n:    `h` -> Toc horizontal.
+    - n:    `v` -> Toc vertical.
+  - `<leader>o` -> **Open**.
+    - n:    `e` -> Open system file manager.
+    - nt:   `p` -> NERDTree toggle.
+    - n:    `t` -> Open terminal.
+  - `<leader>s` -> **Surrounding**.
+    - nv:   `a` -> Surrounding add.
+    - n:    `c` -> Surrounding change.
+    - n:    `d` -> Surrounding delete.
+  - `<leader>t` -> **vim-table-mode**
+    - n:    `a` -> Add formula.
+    - n:    `c` -> Evaluate formula.
+    - n:    `f` -> Re-align.
+  - `<leader>v` -> **VCS**.
+    - n:    `s` -> Git status.
+  - `<leader>w` -> **Chinese characters count**.
+    - nv:   `w` -> Chinese characters count.
+  - `<leader>C` -> **Coc.nvim**
+    - n:    `a` -> Do codeAction of current line.
+    - n:    `c` -> Fix autofix problem of current line.
+    - n:    `f` -> Format selected region.
+    - n:    `s` -> Do codeAction of selected region.
+    - n:    `r` -> Rename current word.
+    - n:    `l` -> *CocList*
+      - n:  `a` -> Show all diagnostics.
+      - n:  `e` -> Manage extensions.
+      - n:  `c` -> Show commands.
+      - n:  `o` -> Find symbol of current document.
+      - n:  `s` -> Search workspace symbols.
+      - n:  `j` -> Do default action for next item.
+      - n:  `k` -> Do default action for previous item.
+      - n:  `p` -> Resume latest coc list.
+* **Misc**
+  - v:   `*`    -> Search visual selection.
+  - invt:`<F2>` -> Toggle mouse status.
 
 ## Commands
 - Functional utilities
@@ -190,4 +210,3 @@ endif
            Without name given, the name will be set at the file of the current buffer.
 - Plug-in
   - `OrgAgenda`: Open org agenda.
-  - coc.nvim
