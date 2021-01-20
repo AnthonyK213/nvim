@@ -125,7 +125,6 @@ function! s:util_sur_sub(...)
   let l:pair_b = s:util_sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
   let l:pair_b_new = s:util_sur_pair(l:pair_a_new)
-
   let l:search_back = '\v.*\zs' . escape(l:pair_a, ' ()[]{}<>.+*')
   let l:search_fore = '\v' . escape(l:pair_b, ' ()[]{}<>.+*')
 
