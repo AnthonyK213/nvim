@@ -29,40 +29,39 @@
 * **Set** [init.vim](#init.vim)
   - Basics
     - `init_basics.vim`
-      > Basic configuration without any dependencies.
+      - Basic configuration without any dependencies.
     - `init_custom.vim`
-      > Global variables and key maps.
+      - Global variables and key maps.
     - `init_deflib.vim`
-      > Public function library.
+      - Public function library.
   - Utilities
     - `init_fnutil.vim`
-      > External cross-platform dependencies(Git, LaTeX, etc.);  
-      > Functions:
-      > - Surrounding pairs
-      > - Chinese characters count
-      > - Search cword or selection in system default browser
-      > - Bullets auto-insertion and auto-arrangement
-      > - LaTeX compile recipes
-      > - Git lazy push(commit all and push all)
-      > - Compile and run code of current buffer
-      > - View pdf in system default viewer
-      > - Append orgmode style time stamp to the end of current line
-      > - Append day of week after a date string(yyyy-mm-dd)
+      - External cross-platform dependencies(Git, LaTeX, etc.)
+      - Functions:
+        - Surrounding pairs
+        - Chinese characters count
+        - Search cword or selection in system default browser
+        - Bullets auto-insertion and auto-arrangement
+        - LaTeX compile recipes
+        - Git lazy push(commit all and push all)
+        - Compile and run code of current buffer
+        - View pdf in system default viewer
+        - Append orgmode style time stamp to the end of current line
+        - Append day of week after a date string(yyyy-mm-dd)
     - `init_subsrc.vim`
-      > When don't want to use any plug-ins,  
-      > this can be a simple substitute.  
-      > Include:
-      > - Netrw configuration
-      > - Build-in completion
-      > - Simple auto-pairing
+      - When don't want to use any plug-ins, this can be a simple substitute.
+      - Include:
+        - Netrw configuration
+        - Build-in completion
+        - Simple auto-pairing
   - Plug-ins
     - `init_a_plug.vim`
-      > Vim-plug load plug-ins.
+      - Vim-plug load plug-ins.
     - `init_plugrc.vim`
-      > Configurations of plug-ins.(source init_plugin at first)
+      - Configurations of plug-ins.(source init_plugin at first)
   - Color schemes
     - `nanovim.vim`
-      > Based on [nano-emacs](https://github.com/rougier/nano-emacs)
+      - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
 
 
 ## init.vim
