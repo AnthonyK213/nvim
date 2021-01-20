@@ -57,7 +57,7 @@ endfunction
 
 "" Open file of buffer with system default browser.
 function! s:util_open()
-  let l:file_path = '"' . expand('%:p') . '"'
+  let l:file_path = '"' . escape(expand('%:p'), '%#') . '"'
   let l:cmd = has("win32") ? '' : g:util_def_start
   silent exe '!' . l:cmd l:file_path
 endfunction
