@@ -121,7 +121,7 @@ endfunction
 function! s:util_sur_sub(...)
   let l:back = Lib_Get_Char('b')
   let l:fore = Lib_Get_Char('f')
-  let l:pair_a = input("Surrounding to delete: ")
+  let l:pair_a = input("Surrounding delete: ")
   let l:pair_b = s:util_sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
   let l:pair_b_new = s:util_sur_pair(l:pair_a_new)
