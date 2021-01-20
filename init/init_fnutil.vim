@@ -89,8 +89,8 @@ function! s:util_sur_pair(pair_a)
   endif
 endfunction
 
-function! s:util_sur_add(mode, pair_a)
-  let l:pair_a = a:pair_a
+function! s:util_sur_add(mode, ...)
+  let l:pair_a = a:0 ? a:1 : input("Surrounding add: ")
   let l:pair_b = s:util_sur_pair(l:pair_a)
 
   if a:mode ==# 'n'
@@ -118,19 +118,13 @@ function! s:util_sur_add(mode, pair_a)
   endif
 endfunction
 
-function! s:util_sur_sub(pair_a, ...)
+function! s:util_sur_sub(...)
   let l:back = Lib_Get_Char('b')
   let l:fore = Lib_Get_Char('f')
-  let l:pair_a = a:pair_a
+  let l:pair_a = input("Surrounding to delete: ")
   let l:pair_b = s:util_sur_pair(l:pair_a)
-
-  try
-    let l:pair_a_new = a:1
-    let l:pair_b_new = s:util_sur_pair(l:pair_a_new)
-  catch
-    echo 'Invalid arguments.'
-    return
-  endtry
+  let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
+  let l:pair_b_new = s:util_sur_pair(l:pair_a_new)
 
   let l:search_back = '\v.*\zs' . escape(l:pair_a, ' ()[]{}<>.+*')
   let l:search_fore = '\v' . escape(l:pair_b, ' ()[]{}<>.+*')
@@ -567,10 +561,10 @@ vn  <silent> <leader>cc
       \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
 "" Surround
 """ Common maps
-nn <leader>sa :NSurroundAdd<SPACE>
-vn <leader>sa :<C-u>VSurroundAdd<SPACE>
-nn <leader>sd :SurroundDelete<SPACE>
-nn <leader>sc :SurroundChange<SPACE>
+nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
+vn <silent> <leader>sa :<C-u>call <SID>util_sur_add('v')<CR>
+nn <silent> <leader>sd :call <SID>util_sur_sub('')<CR>
+nn <silent> <leader>sc :call <SID>util_sur_sub()<CR>
 """ Markdown
 for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
   for mod_item in ['n', 'v']
@@ -626,8 +620,3 @@ command! -nargs=? CodeRun :call <SID>util_run_or_compile(<q-args>)
 command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
-"" Surround
-command! -nargs=1 NSurroundAdd   :call <SID>util_sur_add('n', <q-args>)
-command! -nargs=1 VSurroundAdd   :call <SID>util_sur_add('v', <q-args>)
-command! -nargs=1 SurroundDelete :call <SID>util_sur_sub(<q-args>, '')
-command! -nargs=+ SurroundChange :call <SID>util_sur_sub(<f-args>)
