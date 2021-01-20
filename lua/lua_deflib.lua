@@ -34,8 +34,8 @@ function lib_lua_zeller(year, month, date)
     local x = math.floor(c / 4) + y + math.floor(y / 4) +
               math.floor(26 * (month + 1) / 10) + date - 2 * c - 1
     local z = x % 7
-    if z < 0 then z = z + 7 end
-    local days_list = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}
+    if z <= 0 then z = z + 7 end
+    local days_list = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 
-    return days_list[z + 1]
+    return days_list[z]
 end
