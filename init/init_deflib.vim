@@ -1,3 +1,6 @@
+" My Lua library
+lua require('lib_lua')
+
 " CONST
 "" Escape string for URL.
 let g:lib_const_esc_url = {

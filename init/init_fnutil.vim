@@ -453,50 +453,20 @@ function! s:util_zeller(str)
           \ '\v^.*(\d{4}-\d{2}-\d{2}).*$',
           \ '\=submatch(1)', '')
     let l:str_to_list = split(l:str_date, '-')
-    let l:a = l:str_to_list[0]
-    let l:m = l:str_to_list[1]
-    let l:d = l:str_to_list[2]
+    let l:a = str2nr(l:str_to_list[0])
+    let l:m = str2nr(l:str_to_list[1])
+    let l:d = str2nr(l:str_to_list[2])
   else
     echom 'Not a valid date expression.'
     return ['']
   endif
 
-  if l:m < 1 || l:m > 12
-    echom 'Not a valid month.'
+  let l:day_of_week = v:lua.lib_lua_zeller(l:a, l:m, l:d)
+  if l:day_of_week ==# 'null'
     return ['']
-  endif
-
-  if l:m == 2
-    let l:month_days_count = 28
-    if (l:a % 100 != 0 && l:a % 4 == 0) ||
-     \ (l:a % 100 == 0 && l:a % 400 == 0)
-      let l:month_days_count += 1
-    endif
   else
-    let l:month_days_count = 30
-    if (l:m <= 7 && l:m % 2 == 1) ||
-     \ (l:m >= 8 && l:m % 2 == 0)
-      let l:month_days_count += 1
-    endif
+    return [l:day_of_week, l:str_date]
   endif
-
-  if l:d < 1 || l:d > l:month_days_count
-    echom 'Not a valid date.'
-    return ['']
-  endif
-
-  if m == 1 || m == 2
-    let l:a -= 1
-    let l:m += 12
-  endif
-
-  let l:c = l:a / 100
-  let l:y = l:a - l:c * 100
-  let l:x = (c / 4) + y + (y / 4) + 26 * (m + 1) / 10 + d - 2 * c - 1
-  let l:z = l:x % 7
-  if l:z < 0 | let l:z += 7 | end
-  let l:util_days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  return [l:util_days[l:z], l:str_date]
 endfunction
 
 function! s:util_append_day_from_date()
