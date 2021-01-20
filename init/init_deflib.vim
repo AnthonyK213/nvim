@@ -1,5 +1,5 @@
 " My Lua library
-lua require('lib_lua')
+lua require('lua_deflib')
 
 " CONST
 "" Escape string for URL.

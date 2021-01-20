@@ -63,7 +63,7 @@
     - `nanovim.vim`
       - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
   - Lua
-    - `lib_lua.lua`
+    - `lua_deflib.lua`
       - Function library written in lua, may be faster?
 
 
