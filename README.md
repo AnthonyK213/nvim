@@ -1,5 +1,9 @@
 # Neovim Configuration
 
+## VIML
+* This branch is purely written in viml.
+
+
 ## Dependencies
 * **Node.js**(to use coc.nvim & markdown-preview)
   > npm install yarn -g  
@@ -38,12 +42,12 @@
     - `init_fnutil.vim`
       - External cross-platform dependencies(Git, LaTeX, etc.)
       - Functions:
-        - Surrounding pairs
+        - Surrounding(Add, delete & change)
         - Chinese characters count
         - Search cword or selection in system default browser
         - Bullets auto-insertion and auto-arrangement
         - LaTeX compile recipes
-        - Git lazy push(commit all and push all)
+        - Git lazy push(Commit all and push all)
         - Compile and run code of current buffer
         - View pdf in system default viewer
         - Append orgmode style time stamp to the end of current line
@@ -141,7 +145,7 @@ endif
     - n:    `p` -> Previous buffer.
   - `<leader>c` -> **Check**.
     - nv:   `c` -> Chinese characters count.
-    - n:    `t` -> Toggle spell check status.
+    - n:    `s` -> Toggle spell check status.
   - `<leader>d` -> **Date**
     - n:    `s` -> Insert time stamp at the end of line.
     - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.

@@ -171,10 +171,6 @@ let g:pairs_usr_extd_map = {
       \ }
 
 
-" nvim-colorizer
-lua require'colorizer'.setup()
-
-
 " Coc.nvim
 let g:coc_global_extensions = [
       \ 'coc-rls',

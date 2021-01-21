@@ -8,7 +8,6 @@ call plug#begin(stdpath('data') . '/plugged')
   " Git utilities
   Plug 'tpope/vim-fugitive'
   Plug 'mhinz/vim-signify'
-  Plug 'norcalli/nvim-colorizer.lua'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   " Utilities
   Plug 'Yggdroot/indentLine'

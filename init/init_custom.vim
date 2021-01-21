@@ -70,4 +70,4 @@ nn <silent> <leader>bh :noh<CR>
 nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
 """ Toggle spell check
-nn <silent> <Leader>ct :setlocal spell! spelllang=en_us<CR>
+nn <silent> <Leader>cs :setlocal spell! spelllang=en_us<CR>
