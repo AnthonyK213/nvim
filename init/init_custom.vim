@@ -1,6 +1,6 @@
 " Global variables.
 "" Leader key
-let g:mapleader = "\<Space>"
+let g:mapleader = "\<SPACE>"
 "" Directories
 if !empty(glob(expand('$ONEDRIVE')))
   let g:onedrive_path = expand('$ONEDRIVE')
