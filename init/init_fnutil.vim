@@ -2,9 +2,9 @@
 "" OS
 if has("win32")
   let g:util_def_start = 'start'
-  let g:util_def_terminal = 'powershell.exe -nologo'
-  let g:util_def_cc = 'gcc'
-  let g:python3_host_prog = $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE'
+  let g:util_def_terminal = get(g:, 'default_terminal', 'powershell.exe -nologo')
+  let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
+  let g:python3_host_prog = get(g:, 'python3_exec_path', $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE')
   set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
   set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
   set wildignore+=*.pyc
@@ -12,13 +12,13 @@ if has("win32")
   set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 elseif has("unix")
   let g:util_def_start = 'xdg-open'
-  let g:util_def_terminal = 'bash'
-  let g:util_def_cc = 'gcc'
-  let g:python3_host_prog = '/usr/bin/python3'
+  let g:util_def_terminal = get(g:, 'default_c_compiler', 'bash')
+  let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
+  let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
   set wildignore+=*.so
 elseif has("mac")
   let g:util_def_start = 'open'
-  let g:util_def_cc = 'clang'
+  let g:util_def_cc = get(g:, 'default_c_compiler', 'clang')
 endif
 "" Search web
 let s:util_web_list = {
