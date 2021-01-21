@@ -1,6 +1,6 @@
-" let g:default_terminal = 
-" let g:default_c_compiler = 
-" let g:python3_exec_path = 
+" let g:default_terminal = 'zsh'
+" let g:default_c_compiler = 'clang'
+" let g:python3_exec_path = '/usr/bin/python3'
 
 
 if !exists('g:init_src')
