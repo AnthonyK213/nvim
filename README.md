@@ -144,7 +144,7 @@ endif
     - n:    `p` -> Previous buffer.
   - `<leader>c` -> **Check**.
     - nv:   `c` -> Chinese characters count.
-    - n:    `t` -> Toggle spell check status.
+    - n:    `s` -> Toggle spell check status.
   - `<leader>d` -> **Date**
     - n:    `s` -> Insert time stamp at the end of line.
     - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
