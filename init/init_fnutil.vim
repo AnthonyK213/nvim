@@ -429,46 +429,6 @@ function s:util_md_sort_num_bullet()
   endif
 endfunction
 
-"" Calculate the day of week from a date(yyyy-mm-dd).
-function! s:util_append_day_from_date()
-  let l:str = expand("<cWORD>")
-  if l:str =~ '^$'
-    return
-  elseif l:str =~ '\v^.*\d{4}-\d{2}-\d{2}.*$' 
-    let l:str_date = substitute(l:str,
-          \ '\v^.*(\d{4}-\d{2}-\d{2}).*$',
-          \ '\=submatch(1)', '')
-    let l:str_to_list = split(l:str_date, '-')
-    let l:a = str2nr(l:str_to_list[0])
-    let l:m = str2nr(l:str_to_list[1])
-    let l:d = str2nr(l:str_to_list[2])
-  else
-    echom 'Not a valid date expression.'
-    return
-  endif
-
-  let l:day_of_week = v:lua.lib_lua_zeller(l:a, l:m, l:d)
-  if empty(l:day_of_week)
-    return
-  else
-    let l:line = getline('.')
-    let l:cursor_pos = col('.')
-    let l:match_start = 0
-    while 1
-      let l:match_cword = matchstrpos(l:line, l:str, l:match_start)[1:]
-      if l:match_cword[0] <= l:cursor_pos &&
-       \ l:match_cword[1] >= l:cursor_pos
-        break
-      endif
-      let l:match_start = l:match_cword[1]
-    endwhile
-    let l:stt = l:match_cword[0]
-    let l:end = matchstrpos(l:line, l:str_date, l:stt)[2]
-    call setpos('.', [0, line('.'), l:end])
-    silent exe "normal! a " . l:day_of_week
-  endif
-endfunction
-
 
 " Key maps
 "" Mouse toggle
@@ -500,11 +460,6 @@ ino <silent> <M-v> <C-R>=@+<CR>
 """ Select
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
-"" Hanzi count
-nn  <silent> <leader>cc
-      \ :echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count("n")<CR>
-vn  <silent> <leader>cc
-      \ :<C-u>echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count("v")<CR>
 "" Surround
 """ Common maps
 nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
@@ -531,7 +486,7 @@ nn  <silent> <leader>ml  :call <SID>util_md_sort_num_bullet()<CR>
 "" Echo git status
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
-nn <silent> <leader>dd :call <SID>util_append_day_from_date()<CR>
+"nn <silent> <leader>dd :call <SID>util_append_day_from_date()<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nn <silent> <leader>ds A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
