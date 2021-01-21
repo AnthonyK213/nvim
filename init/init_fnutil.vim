@@ -300,135 +300,6 @@ function! s:util_run_or_compile(option)
   endif
 endfunction
 
-"" Markdown number bullet
-function! s:util_md_check_line(lnum)
-  let l:lstr = getline(a:lnum)
-  let l:detect = 0
-  let l:bullet = 0
-  let l:indent = strlen(matchstr(l:lstr, '\v^(\s*)')) 
-  if l:lstr =~ '\v^\s*(\+|-|*)\s+.*$'
-    let l:detect = 1
-    let l:bullet = substitute(l:lstr,
-          \ '\v^\s*(.)\s+.*$', '\=submatch(1)', '')
-  elseif l:lstr =~ '\v^\s*(\d+)\.\s+.*$'
-    let l:detect = 2
-    let l:bullet = substitute(l:lstr,
-          \ '\v^\s*(\d+)\.\s+.*$', '\=submatch(1)', '')
-  endif
-  return [l:detect, l:lstr, l:bullet, l:indent]
-endfunction
-
-function! s:util_md_insert_bullet()
-  let l:lnum = line('.')
-  let l:linf_c = s:util_md_check_line('.')
-
-  let l:detect = 0
-  let l:bullet = 0
-  let l:indent = 0
-
-  if l:linf_c[0] == 0
-    let l:lnum_b = l:lnum - 1
-    while l:lnum_b > 0
-      let l:linf_b = s:util_md_check_line(l:lnum_b)
-      if l:linf_b[3] < l:linf_c[3] && l:linf_b[0] != 0
-        let l:detect = l:linf_b[0]
-        let l:bullet = l:linf_b[2]
-        let l:indent = l:linf_b[3]
-        break
-      endif
-      let l:lnum_b -= 1
-    endwhile
-  else
-    let l:detect = l:linf_c[0]
-    let l:bullet = l:linf_c[2]
-    let l:indent = l:linf_c[3]
-  endif
-
-  if l:detect == 0
-    call feedkeys("\<C-o>o")
-  else
-    let l:lnum_f = l:lnum + 1
-    let l:move_d = 0
-    let l:move_record = []
-    while l:lnum_f <= line('$')
-      let l:linf_f = s:util_md_check_line(l:lnum_f)
-      if l:linf_f[0] == l:detect && l:linf_f[3] == l:indent
-        call add(l:move_record, l:move_d)
-        if l:detect == 1
-          break
-        elseif l:detect == 2 && l:linf_f[0] == 2
-          call setline(l:lnum_f, substitute(l:linf_f[1],
-                \ '\v(\d+)', '\=submatch(1) + 1', ''))
-        endif
-      elseif l:linf_f[3] <= l:indent
-        call add(l:move_record, l:move_d)
-        break
-      elseif l:lnum_f == line('$')
-        call add(l:move_record, l:move_d + 1)
-        break
-      endif
-      let l:lnum_f += 1
-      let l:move_d += 1
-    endwhile
-    let l:count_d = len(l:move_record) == 0 ? 0 : l:move_record[0]
-    let l:nbullet = l:detect == 2 ? (l:bullet + 1) . '. ' : l:bullet . ' '
-    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-o>o\<C-o>0" .
-          \ repeat("\<space>", l:indent) . l:nbullet)
-  endif
-endfunction
-
-function s:util_md_sort_num_bullet()
-  let l:lnum = line('.')
-  let l:linf_c = s:util_md_check_line('.')
-
-  if l:linf_c[0] == 2
-    let l:num_lb = [l:lnum]
-    let l:num_lf = []
-
-    let l:lnum_b = l:lnum - 1
-    while l:lnum_b > 0
-      let l:linf_b = s:util_md_check_line(l:lnum_b)
-      if l:linf_b[0] == 2
-        if l:linf_b[3] == l:linf_c[3]
-          call add(l:num_lb, l:lnum_b)
-        elseif l:linf_b[3] < l:linf_c[3]
-          break
-        endif
-      elseif l:linf_b[0] != 2 && l:linf_b[3] <= l:linf_c[3]
-        break
-      endif
-      let l:lnum_b -= 1
-    endwhile
-
-    let l:lnum_f = l:lnum + 1
-    while l:lnum_f <= line('$')
-      let l:linf_f = s:util_md_check_line(l:lnum_f)
-      if l:linf_f[0] == 2
-        if l:linf_f[3] == l:linf_c[3]
-          call add(l:num_lf, l:lnum_f)
-        elseif l:linf_f[3] < l:linf_c[3]
-          break
-        endif
-      elseif l:linf_f[0] != 2 && l:linf_f[3] <= l:linf_c[3]
-        break
-      endif
-      let l:lnum_f += 1
-    endwhile
-
-    let l:num_la = reverse(l:num_lb) + l:num_lf
-
-    let l:i = 1
-    for item in l:num_la
-      call setline(item, substitute(getline(item),
-            \ '\v(\d+)', '\=' . l:i, ''))
-      let l:i += 1
-    endfor
-  else
-    echo "Not in a line of any numbered lists."
-    return
-  endif
-endfunction
-
 
 " Key maps
 "" Mouse toggle
@@ -441,7 +312,7 @@ nn  <silent> <leader>bg :call <SID>util_bg_toggle()<CR>
 """ Explorer
 nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
 "" Terminal
-nn  <leader>ot :call <SID>util_terminal()<CR>i
+nn  <silent> <leader>ot :call <SID>util_terminal()<CR>i
 "" Open with system default browser
 nn  <silent> <leader>ob :call <SID>util_open()<CR>
 "" Windows-like behaviors
@@ -480,15 +351,8 @@ for key in keys(s:util_web_list)
   exe 'nn <silent> <leader>k' . key ':call <SID>util_search_web("n", "' . key . '")<CR>'
   exe 'vn <silent> <leader>k' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
 endfor
-"" List bullets
-ino <silent> <M-CR> <C-o>:call <SID>util_md_insert_bullet()<CR>
-nn  <silent> <leader>ml  :call <SID>util_md_sort_num_bullet()<CR>
 "" Echo git status
 nn <silent> <leader>vs :!git status<CR>
-"" Append day of week after the date
-"nn <silent> <leader>dd :call <SID>util_append_day_from_date()<CR>
-"" Insert an orgmode-style timestamp at the end of the line
-nn <silent> <leader>ds A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
 for [key, val] in items({"n": "j", "p": "k"})
   exe 'nn  <C-' . key . '> g' . val
