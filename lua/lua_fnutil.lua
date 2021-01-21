@@ -2,7 +2,7 @@
 function util_lua_hanzi_count(mode)
     if mode == "n" then
         content = vim.fn.getline(1, '$')
-    elseif mode == 'v' then
+    elseif mode == "v" then
         content = vim.fn.split(vim.fn.Lib_Get_Visual_Selection(), "\n")
     else
         return
