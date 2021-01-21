@@ -26,7 +26,7 @@
     > cd ~/.config/
 * **Clone source code**
   > git clone https://github.com/AnthonyK213/nvim.git
-* **Set** [init.vim](#init.vim)
+* **Set init.vim**
   - Basics
     - `init_basics.vim`
       - Basic configuration without any dependencies.
@@ -68,35 +68,6 @@
         - Bullets auto-insertion and auto-arrangement
         - Append orgmode style time stamp to the end of current line
         - Append day of week after a date string(yyyy-mm-dd)
-
-
-## init.vim
-* Example
-``` vim
-if !exists('g:init_src')
-  let g:init_src = 'full'
-endif
-
-if g:init_src ==? 'clean'
-  source <sfile>:h/init/init_basics.vim
-  source <sfile>:h/init/init_custom.vim
-elseif g:init_src ==? 'nano'
-  source <sfile>:h/init/init_basics.vim
-  source <sfile>:h/init/init_custom.vim
-  source <sfile>:h/init/init_deflib.vim
-  source <sfile>:h/init/init_fnutil.vim
-  source <sfile>:h/init/init_subsrc.vim
-  set background=light
-  colorscheme nanovim
-elseif g:init_src == 'full'
-  source <sfile>:h/init/init_a_plug.vim
-  source <sfile>:h/init/init_basics.vim
-  source <sfile>:h/init/init_custom.vim
-  source <sfile>:h/init/init_deflib.vim
-  source <sfile>:h/init/init_fnutil.vim
-  source <sfile>:h/init/init_plugrc.vim
-endif
-```
 
 
 ## Key bindings
