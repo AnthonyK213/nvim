@@ -16,7 +16,7 @@ if has("win32")
   set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 elseif has("unix")
   let g:util_def_start = 'xdg-open'
-  let g:util_def_terminal = get(g:, 'default_c_compiler', 'bash')
+  let g:util_def_terminal = get(g:, 'default_terminal', 'bash')
   let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
   let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
   set wildignore+=*.so
