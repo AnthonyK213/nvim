@@ -1,8 +1,5 @@
 # Neovim Configuration
 
-> This branch is purely written in viml.
-
-
 ## Dependencies
 * **Node.js**(to use coc.nvim & markdown-preview)
   > npm install yarn -g  
