@@ -1,6 +1,7 @@
 " My Lua library
 lua require('lua_deflib')
 
+
 " CONST
 "" Escape string for URL.
 let g:lib_const_esc_url = {
@@ -81,13 +82,6 @@ function! Lib_Get_Char(num) abort
   endif
 endfunction
 
-"" Determines if a character is a Chinese character.
-"" Why is this faster than regex?
-function! Lib_Is_Hanzi(char)
-  let l:code = char2nr(a:char)
-  return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
-endfunction
-
 "" Return the <cWORD> without the noisy characters.
 function! Lib_Get_Clean_CWORD(del_list)
   let l:c_word = expand("<cWORD>")
@@ -114,7 +108,7 @@ endfunction
 "" Replace chars in a string according to a dictionary.
 "" Probably function escape() is more useful in most situations.
 function! Lib_Str_Escape(str, esc_dict)
-  let l:str_lst = split(a:str, '.\zs')
+  let l:str_lst = split(a:str, '\zs')
   let l:i = 0
   for char in l:str_lst
     if has_key(a:esc_dict, char)

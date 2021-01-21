@@ -1,3 +1,7 @@
+" Lua utilities
+lua require('lua_fnutil')
+
+
 " Variables
 "" OS
 if has("win32")
@@ -81,7 +85,7 @@ endfunction
 function! s:util_sur_pair(pair_a)
   let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">", " ": " ", "《": "》", "“": "”" }
   if a:pair_a =~ '\v^(\(|\[|\{|\<|\s|《|“)+$'
-    return join(reverse(map(split(a:pair_a, '.\zs'), {idx, val -> l:pairs[val]})), '')
+    return join(reverse(map(split(a:pair_a, '\zs'), {idx, val -> l:pairs[val]})), '')
   elseif a:pair_a =~ '\v^(\<\w+\>)+$'
     return '</' . join(reverse(split(a:pair_a, '<')), '</')
   else
@@ -134,26 +138,6 @@ function! s:util_sur_sub(...)
     let l:line_new = l:back_new . l:fore_new
     call setline(line('.'), l:line_new)
   endif
-endfunction
-
-"" Hanzi count.
-function! s:util_hanzi_count(mode)
-  if a:mode ==# 'n'
-    let l:content = getline(1, '$')
-  elseif a:mode ==# 'v'
-    let l:content = split(Lib_Get_Visual_Selection(), "\n")
-  else
-    return
-  endif
-
-  let l:h_count = 0
-  for line in l:content
-    for char in split(line, '.\zs')
-      if Lib_Is_Hanzi(char) | let l:h_count += 1 | endif
-    endfor
-  endfor
-
-  return l:h_count
 endfunction
 
 "" Search web
@@ -518,9 +502,9 @@ nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 "" Hanzi count
 nn  <silent> <leader>cc
-      \ :echo 'Chinese characters count: ' . <SID>util_hanzi_count("n")<CR>
+      \ :echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count("n")<CR>
 vn  <silent> <leader>cc
-      \ :<C-u>echo 'Chinese characters count: ' . <SID>util_hanzi_count("v")<CR>
+      \ :<C-u>echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count("v")<CR>
 "" Surround
 """ Common maps
 nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
