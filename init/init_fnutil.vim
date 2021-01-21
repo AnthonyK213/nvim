@@ -603,8 +603,8 @@ ino <silent> <C-a> <C-o>g0
 ino <silent> <C-e> <C-o>g$
 ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
 ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
-ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:custom_r
-ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:custom_l
+ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : lib_const_r
+ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : lib_const_l
 
 
 " Commands

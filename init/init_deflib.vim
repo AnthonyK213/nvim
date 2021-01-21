@@ -29,6 +29,12 @@ let g:lib_const_esc_url = {
       \ "\t": "\\\%20"
       \ }
 
+"" Directional operation which won't mess up the history.
+let lib_const_l = "\<C-g>U\<Left>"
+let lib_const_d = "\<C-g>U\<Down>"
+let lib_const_u = "\<C-g>U\<Up>"
+let lib_const_r = "\<C-g>U\<Right>"
+
 
 " Functions
 "" Create a below right split window.
