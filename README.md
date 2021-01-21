@@ -38,16 +38,12 @@
     - `init_fnutil.vim`
       - External cross-platform dependencies(Git, LaTeX, etc.)
       - Functions:
-        - Surrounding pairs
-        - Chinese characters count
+        - Surrounding(Add, delete & change)
         - Search cword or selection in system default browser
-        - Bullets auto-insertion and auto-arrangement
         - LaTeX compile recipes
         - Git lazy push(commit all and push all)
         - Compile and run code of current buffer
         - View pdf in system default viewer
-        - Append orgmode style time stamp to the end of current line
-        - Append day of week after a date string(yyyy-mm-dd)
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:
@@ -67,6 +63,11 @@
       - Function library written in lua, may be faster?
     - `lua_fnutil.lua`
       - Function utilities.
+      - Functions:
+        - Chinese characters count
+        - Bullets auto-insertion and auto-arrangement
+        - Append orgmode style time stamp to the end of current line
+        - Append day of week after a date string(yyyy-mm-dd)
 
 
 ## init.vim
