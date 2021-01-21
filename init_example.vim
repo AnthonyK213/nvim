@@ -1,3 +1,8 @@
+" let g:default_terminal = 
+" let g:default_c_compiler = 
+" let g:python3_exec_path = 
+
+
 if !exists('g:init_src')
   let g:init_src = 'full'
 endif

@@ -9,11 +9,6 @@ else
   let g:onedrive_path = expand('$HOME')
   let g:usr_desktop = expand('$HOME/Desktop')
 endif
-"" Directional operation which won't mess up the history.
-let g:custom_l = "\<C-g>U\<Left>"
-let g:custom_d = "\<C-g>U\<Down>"
-let g:custom_u = "\<C-g>U\<Up>"
-let g:custom_r = "\<C-g>U\<Right>"
 
 
 " Filetype behave
