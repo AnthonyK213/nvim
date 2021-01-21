@@ -2,7 +2,7 @@
 "" OS
 if has("win32")
   let g:util_def_start = 'start'
-  let g:util_def_terminal = get(g:, 'default_terminal', 'powershell.exe -nologo')
+  let g:util_def_shell = get(g:, 'default_shell', 'powershell.exe -nologo')
   let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
   let g:python3_host_prog = get(g:, 'python3_exec_path', $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE')
   set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
@@ -12,7 +12,7 @@ if has("win32")
   set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
 elseif has("unix")
   let g:util_def_start = 'xdg-open'
-  let g:util_def_terminal = get(g:, 'default_terminal', 'bash')
+  let g:util_def_shell = get(g:, 'default_shell', 'bash')
   let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
   let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
   set wildignore+=*.so
@@ -49,10 +49,10 @@ function! s:util_bg_toggle()
   endif
 endfunction
 
-"" Open terminal
+"" Open terminal and launch shell
 function! s:util_terminal()
   call Lib_Belowright_Split(15)
-  exe ':terminal' g:util_def_terminal
+  exe ':terminal' g:util_def_shell
 endfunction
 
 "" Open file of buffer with system default browser.
