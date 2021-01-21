@@ -151,7 +151,7 @@ function util_lua_md_sort_num_bullet()
             local b_det, b_str, b_bul, b_ind = util_lua_md_check_line(b_num)
             if (b_det == 2) then
                 if (b_ind == c_ind) then
-                    table.insert(b_num_list, 1, b_num)
+                    table.insert(b_num_list, b_num)
                 elseif (b_ind < c_ind) then
                     break
                 end
@@ -176,13 +176,15 @@ function util_lua_md_sort_num_bullet()
             f_num = f_num + 1
         end
 
-        for i, u in ipairs(f_num_list) do
-            table.insert(b_num_list, u)
+        local b_len = #b_num_list
+        for i, u in ipairs(b_num_list) do
+            local lb_new = vim.fn.getline(u):gsub('%d+', tostring(b_len - i + 1), 1)
+            vim.fn.setline(u, lb_new)
         end
 
-        for j, v in ipairs(b_num_list) do
-            local l_new = vim.fn.getline(v):gsub('%d+', tostring(j), 1)
-            vim.fn.setline(v, l_new)
+        for j, v in ipairs(f_num_list) do
+            local lf_new = vim.fn.getline(v):gsub('%d+', tostring(j + b_len), 1)
+            vim.fn.setline(v, lf_new)
         end
     else
         print("Not in a line of any numbered lists.")
