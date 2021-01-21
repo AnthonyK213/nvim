@@ -65,6 +65,8 @@
   - Lua
     - `lua_deflib.lua`
       - Function library written in lua, may be faster?
+    - `lua_fnutil.lua`
+      - Function utilities.
 
 
 ## init.vim
