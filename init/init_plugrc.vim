@@ -70,8 +70,8 @@ let g:airline_mode_map = {
       \ }
 "" Separators
 ""     ;     ;    
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
+"let g:airline_left_sep = ''
+"let g:airline_left_alt_sep = ''
 "" Tab
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
