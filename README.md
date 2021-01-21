@@ -1,7 +1,6 @@
 # Neovim Configuration
 
-## VIML
-* This branch is purely written in viml.
+> This branch is purely written in viml.
 
 
 ## Dependencies
