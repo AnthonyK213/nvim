@@ -32,6 +32,7 @@ let g:lib_const_esc_url = {
       \ "\r": "\\\%20",
       \ "\t": "\\\%20"
       \ }
+
 "" Directional operation which won't mess up the history.
 let lib_const_l = "\<C-g>U\<Left>"
 let lib_const_d = "\<C-g>U\<Down>"
