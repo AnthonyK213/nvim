@@ -1,6 +1,7 @@
 -- Functions
 --- Hanzi count.
 function util_lua_hanzi_count(mode)
+    local content
     if (mode == "n") then
         content = vim.fn.getline(1, '$')
     elseif (mode == "v") then
@@ -27,6 +28,7 @@ function util_lua_append_day_from_date()
     local str = vim.fn.expand("<cWORD>")
     if str:match('^$') then return end
     local str_date, m2, m3, m4 = str:match('^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$')
+    local int_a, int_m, int_d
     if (str_date) then
         int_a = tonumber(m2)
         int_m = tonumber(m3)
@@ -41,6 +43,7 @@ function util_lua_append_day_from_date()
         local line = vim.fn.getline('.')
         local cursor_pos = vim.fn.col('.')
         local match_start = 0
+        local match_cword
         while (true) do
             match_cword = vim.fn.matchstrpos(line, str, match_start)
             if (match_cword[2] <= cursor_pos and
@@ -76,8 +79,7 @@ function util_lua_md_insert_bullet()
     local c_num = vim.fn.line('.')
     local c_det, c_str, c_bul, c_ind = util_lua_md_check_line('.')
     local l_det = 0
-    local l_bul
-    local l_ind = 0
+    local l_bul, l_ind
 
     if (c_det == 0) then
         local b_num = c_num - 1
@@ -123,6 +125,7 @@ function util_lua_md_insert_bullet()
             f_num = f_num + 1
             move_stp  = move_stp + 1
         end
+        local count_d, l_bul_new
         if (#move_rec == 0) then
             count_d = 0
         else
