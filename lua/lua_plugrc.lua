@@ -72,6 +72,10 @@ vim.api.nvim_set_keymap(
 
 -- vim-airline
 --- hash: #
+--- Separators
+---     ;     ;    
+vim.g.airline_left_sep     = ''
+vim.g.airline_left_alt_sep = ''
 
 
 -- vim-markdown
