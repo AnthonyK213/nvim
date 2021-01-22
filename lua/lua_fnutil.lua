@@ -57,7 +57,7 @@ function util_lua_append_day_from_date()
         local cword_stt = match_cword[2]
         local cword_end = vim.fn.matchstrpos(line, str_date, cword_stt)[3]
         vim.fn.setpos('.', {0, vim.fn.line('.'), cword_end})
-        vim.cmd(string.format("silent exe 'normal! a ' . %q", day_of_week))
+        vim.fn.execute('normal! a '..day_of_week)
     end
 end
 
@@ -102,7 +102,7 @@ function util_lua_md_insert_bullet()
     end
 
     if (l_det == 0) then
-        vim.cmd("call feedkeys(\"\\<C-o>o\")")
+        vim.fn.execute('normal! o')
     else
         local f_num = c_num + 1
         local move_stp = 0
