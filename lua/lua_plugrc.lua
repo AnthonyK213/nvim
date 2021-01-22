@@ -151,4 +151,4 @@ vim.g.pairs_map_spc = 1
 
 
 -- nvim-colorizer
-require'colorizer'.setup()
+require('colorizer').setup()
