@@ -1,3 +1,5 @@
+init_source('fnutil')
+
 -- Functions
 --- Hanzi count.
 function util_lua_hanzi_count(mode)

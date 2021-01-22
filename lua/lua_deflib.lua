@@ -1,3 +1,5 @@
+init_source('deflib')
+
 -- Calculate the day of week from date.
 function lib_lua_zeller(year, month, date)
     if (month < 1 or month > 12) then
