@@ -535,7 +535,7 @@ nn  <silent> <leader>bg :call <SID>util_bg_toggle()<CR>
 """ Explorer
 nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
 "" Terminal
-nn  <leader>ot :call <SID>util_terminal()<CR>i
+nn  <silent> <leader>ot :call <SID>util_terminal()<CR>i
 "" Open with system default browser
 nn  <silent> <leader>ob :call <SID>util_open()<CR>
 "" Windows-like behaviors
