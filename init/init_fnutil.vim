@@ -1,7 +1,3 @@
-" Lua utilities
-lua require('lua_fnutil')
-
-
 " Variables
 "" OS
 if has("win32")
