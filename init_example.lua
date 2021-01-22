@@ -11,8 +11,8 @@ else
     init_src = vim.g.init_src
 end
 
-local function init_source(file)
-    local init_path = vim.fn.expand("$localappdata")..'/nvim/init/init_'
+function init_source(file)
+    local init_path = vim.fn.expand("$localappdata")..'/nvim/viml/viml_'
     local src_cmd = 'source '..init_path..file..'.vim'
     vim.api.nvim_exec(src_cmd, false)
 end
@@ -24,22 +24,16 @@ elseif (init_src == 'nano') then
     init_source('basics')
     init_source('custom')
     require('lua_deflib')
-    init_source('deflib')
     require('lua_fnutil')
-    init_source('fnutil')
     init_source('subsrc')
-    vim.api.nvim_exec([[
-        set termguicolors
-        set background=dark
-        colorscheme nanovim
-    ]], false)
+    vim.api.nvim_set_option('tgc', true)
+    vim.api.nvim_set_option('bg', 'dark')
+    vim.cmd('colorscheme nanovim')
 elseif (init_src == 'full') then
     require('lua_a_plug')
     init_source('basics')
     init_source('custom')
     require('lua_deflib')
-    init_source('deflib')
     require('lua_fnutil')
-    init_source('fnutil')
     init_source('plugrc')
 end

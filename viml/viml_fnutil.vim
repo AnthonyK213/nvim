@@ -154,25 +154,6 @@ function! s:util_search_web(mode, site)
   redraw
 endfunction
 
-"" LaTeX recipes
-function! s:util_latex_xelatex()
-  let l:name = expand('%:r')
-  exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
-endfunction
-
-function! s:util_latex_xelatex2()
-  call s:util_latex_xelatex()
-  call s:util_latex_xelatex()
-endfunction
-
-function! s:util_latex_biber()
-  let l:name = expand('%:r')
-  call s:util_latex_xelatex()
-  exe '!biber' l:name . '.bcf'
-  call s:util_latex_xelatex()
-  call s:util_latex_xelatex()
-endfunction
-
 "" Git push all
 function! s:util_git_push_all(...)
   let l:arg_list = a:000
@@ -369,10 +350,6 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : lib_const_l
 
 
 " Commands
-"" Latex
-command! Xe1 call <SID>util_latex_xelatex()
-command! Xe2 call <SID>util_latex_xelatex2()
-command! Bib call <SID>util_latex_biber()
 "" Git
 command! -nargs=* PushAll :call <SID>util_git_push_all(<f-args>)
 "" Run code

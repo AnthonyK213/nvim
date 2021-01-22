@@ -196,6 +196,24 @@ function util_lua_md_sort_num_bullet()
     end
 end
 
+--- LaTeX recipes
+function util_lua_latex_xelatex()
+    local name = vim.fn.expand('%:r')
+    vim.fn.execute('!xelatex -synctex=1 -interaction=nonstopmode -file-line-error '..name..'.tex', '')
+end
+
+function util_lua_latex_xelatex2()
+    util_lua_latex_xelatex()
+    util_lua_latex_xelatex()
+end
+
+function util_lua_latex_biber()
+    local name = vim.fn.expand('%:r')
+    util_lua_latex_xelatex()
+    vim.fn.execute('!biber '..name..'.bcf', '')
+    util_lua_latex_xelatex2()
+end
+
 
 -- Key maps
 --- Hanzi count.
@@ -232,3 +250,10 @@ vim.api.nvim_set_keymap(
     '<leader>ml',
     ":call v:lua.util_lua_md_sort_num_bullet()<CR>",
     { noremap = true, silent = true })
+
+
+-- Commands
+--- LaTeX
+vim.cmd('command! Xe1 call v:lua.util_lua_latex_xelatex()')
+vim.cmd('command! Xe2 call v:lua.util_lua_latex_xelatex2()')
+vim.cmd('command! Bib call v:lua.util_lua_latex_biber()')
