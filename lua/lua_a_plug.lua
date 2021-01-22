@@ -24,5 +24,5 @@ paq {'jceb/vim-orgmode'}
 paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
 paq {'iamcco/markdown-preview.nvim', hook='cd app && yarn install'}
---  Completion; LSP
+-- Completion; LSP
 paq {'neoclide/coc.nvim', branch='release'}
