@@ -26,17 +26,29 @@
     > cd ~/.config/
 * **Clone source code**
   > git clone https://github.com/AnthonyK213/nvim.git -b lua
-* **Set init.vim**
-  - Basics
+* **Set init.lua**
+  - Lua
+    - `lua_a_plug.lua`
+      - Paq load plug-ins.
+    - `lua_deflib.lua`
+      - Public function library written in lua.
+    - `lua_fnutil.lua`
+      - External cross-platform dependencies(Git, LaTeX, etc.)
+      - Functions:
+        - Chinese characters count
+        - Bullets auto-insertion and auto-arrangement
+        - Append orgmode style time stamp to the end of current line
+        - Append day of week after a date string(yyyy-mm-dd)
+    - `lua_plugrc.lua`
+      - Configurations of plug-ins.(require lua_a_plug at first)
+  - VimL
     - `init_basics.vim`
       - Basic configuration without any dependencies.
     - `init_custom.vim`
       - Global variables and key maps.
     - `init_deflib.vim`
-      - Public function library.
-  - Utilities
+      - Public function library written in vim script.
     - `init_fnutil.vim`
-      - External cross-platform dependencies(Git, LaTeX, etc.)
       - Functions:
         - Surrounding(Add, delete & change)
         - Search cword or selection in system default browser
@@ -44,29 +56,16 @@
         - Git lazy push(commit all and push all)
         - Compile and run code of current buffer
         - View pdf in system default viewer
+    - `init_plugrc.vim`
+      - Configurations of plug-ins.
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:
         - Netrw configuration
         - Simple auto-pairing
-  - Plug-ins
-    - `init_a_plug.vim`
-      - Vim-plug load plug-ins.
-    - `init_plugrc.vim`
-      - Configurations of plug-ins.(source init_plugin at first)
   - Color schemes
     - `nanovim.vim`
       - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
-  - Lua
-    - `lua_deflib.lua`
-      - Function library written in lua, may be faster?
-    - `lua_fnutil.lua`
-      - Function utilities.
-      - Functions:
-        - Chinese characters count
-        - Bullets auto-insertion and auto-arrangement
-        - Append orgmode style time stamp to the end of current line
-        - Append day of week after a date string(yyyy-mm-dd)
 
 
 ## Key bindings

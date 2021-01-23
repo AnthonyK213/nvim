@@ -8,6 +8,8 @@ function! s:plugrc_mkd()
   call one#highlight('htmlBold',      'd19a66', '', 'bold')
   call one#highlight('htmlItalic',    'c678dd', '', 'italic')
   call one#highlight('htmlBoldItalic','e5c07b', '', 'bold,italic')
+  call one#highlight('SpellBad',      'e06c75', '', 'underline')
+  call one#highlight('SpellCap',      'd19a66', '', 'underline')
 endfunction
 "" When colorscheme changes.
 augroup vim_one_mkd
