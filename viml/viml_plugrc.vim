@@ -94,15 +94,3 @@ let g:pairs_usr_extd_map = {
 
 
 "" completion-nvim
-function! s:check_back_bullet()
-  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
-endfunction
-
-ino <silent><expr> <TAB>
-      \ Lib_Get_Char('l') !~ '\s' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-o>V>" . repeat(lib_const_r, &ts) :
-      \ "\<Tab>"
-ino <silent><expr> <S-TAB>
-      \ pumvisible() ?
-      \ "\<C-p>" :
-      \ "\<C-h>"

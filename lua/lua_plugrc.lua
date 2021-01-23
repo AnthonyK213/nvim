@@ -1,8 +1,8 @@
 init_source('plugrc')
 
 -- onedark.vim
-vim.api.nvim_set_option('tgc', true)
-vim.api.nvim_set_option('bg', 'dark')
+vim.o.tgc = true
+vim.o.bg  = 'dark'
 vim.cmd('colorscheme onedark')
 vim.g.airline_theme = 'onedark'
 

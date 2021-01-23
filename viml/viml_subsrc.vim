@@ -92,17 +92,6 @@ ino <expr> <M-U> "<u></u>" . repeat(lib_const_l, 4)
 
 
 " Completion
-function! s:check_back_bullet()
-  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
-endfunction
-ino <silent><expr> <TAB>
-      \ Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-o>V>" . repeat(lib_const_r, &ts) :
-      \ "\<Tab>"
-ino <silent><expr> <S-TAB>
-      \ pumvisible() ?
-      \ "\<C-p>" :
-      \ "\<C-h>"
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?

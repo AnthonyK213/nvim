@@ -26,8 +26,8 @@ elseif (init_src == 'nano') then
     require('lua_deflib')
     require('lua_fnutil')
     init_source('subsrc')
-    vim.api.nvim_set_option('tgc', true)
-    vim.api.nvim_set_option('bg', 'dark')
+    vim.o.tgc = true
+    vim.o.bg  = 'dark'
     vim.cmd('colorscheme nanovim')
 elseif (init_src == 'full') then
     require('lua_a_plug')
