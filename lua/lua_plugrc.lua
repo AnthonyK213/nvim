@@ -149,7 +149,7 @@ vim.g.indentLine_char = '¦'
 
 
 -- vim-ipairs
-vim.g.pairs_map_ret = 1
+vim.g.pairs_map_ret = 0
 vim.g.pairs_map_bak = 1
 vim.g.pairs_map_spc = 1
 
@@ -159,23 +159,28 @@ require('colorizer').setup()
 
 
 -- nvim-lspconfig && completion-nvim
---- rls
+vim.g.completion_confirm_key = ""
 local lspconfig = require'lspconfig'
-lspconfig.rls.setup {
-    settings = {
-        rust = {
-            unstable_features = true,
-            build_on_save = false,
-            all_features = true,
-        },
-    },
-    on_attach=require'completion'.on_attach
+local on_attach = function(client)
+    require'completion'.on_attach(client)
+end
+--- rls
+lspconfig.rust_analyzer.setup {
+    on_attach=on_attach
 }
 --- jedi_language_server
 lspconfig.jedi_language_server.setup {
-    on_attach=require'completion'.on_attach
+    on_attach=on_attach
 }
 --- texlab
 lspconfig.texlab.setup {
-    on_attach=require'completion'.on_attach
+    on_attach=on_attach
 }
+-- Enable diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,
+  }
+)

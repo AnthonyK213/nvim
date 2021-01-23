@@ -93,4 +93,30 @@ let g:pairs_usr_extd_map = {
       \ }
 
 
-"" completion-nvim
+" completion_nvim
+imap <expr> <CR>
+      \ pumvisible() ? complete_info()["selected"] != "-1" ?
+      \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" :
+      \ "\<Plug>(ipairs_enter)"
+
+
+" LSP
+" Code navigation shortcuts
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> g[    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> g]    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+" Show diagnostic popup on cursor hold
+augroup lsp_diagnositic_on_hold
+  autocmd!
+  au CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+augroup end

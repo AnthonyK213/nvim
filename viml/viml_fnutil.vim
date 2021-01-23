@@ -77,11 +77,6 @@ function! s:util_pdf_view(...)
   silent exe '!' . g:util_def_start l:name
 endfunction
 
-"" Check if current line has a bullet
-function! s:check_back_bullet()
-  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
-endfunction
-
 "" Surround
 function! s:util_sur_pair(pair_a)
   let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">", " ": " ", "《": "》", "“": "”" }
@@ -354,13 +349,10 @@ ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : lib_const_r
 ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : lib_const_l
 "" Completion
 ino <silent><expr> <TAB>
-      \ Lib_Get_Char('l') !~ '\s' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-o>V>" . repeat(lib_const_r, &ts) :
+      \ or(Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ? "\<C-N>" :
+      \ Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ? "\<C-o>V>" . repeat(lib_const_r, &ts) :
       \ "\<Tab>"
-ino <silent><expr> <S-TAB>
-      \ pumvisible() ?
-      \ "\<C-p>" :
-      \ "\<C-h>"
+ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
 " Commands
