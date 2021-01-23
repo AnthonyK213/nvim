@@ -4,7 +4,8 @@ local paq = require('paq-nvim').paq
 
 paq {'savq/paq-nvim', opt=true}
 -- Visual
-paq {'joshdick/onedark.vim'}
+--paq {'joshdick/onedark.vim'}
+paq {'rakr/vim-one'}
 paq {'vim-airline/vim-airline'}
 -- Tree manager
 paq {'preservim/nerdtree'}

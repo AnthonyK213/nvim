@@ -101,21 +101,21 @@ imap <expr> <CR>
 
 
 " LSP
-" Code navigation shortcuts
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
-" Goto previous/next diagnostic warning/error
-nnoremap <silent> g[    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g]    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-" Show diagnostic popup on cursor hold
+"" Code navigation shortcuts
+nn <silent> K          <cmd>lua vim.lsp.buf.hover()<CR>
+nn <silent> <leader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nn <silent> <leader>ga <cmd>lua vim.lsp.buf.code_action()<CR>
+nn <silent> <leader>gd <cmd>lua vim.lsp.buf.declaration()<CR>
+nn <silent> <leader>gf <cmd>lua vim.lsp.buf.definition()<CR>
+nn <silent> <leader>gh <cmd>lua vim.lsp.buf.signature_help()<CR>
+nn <silent> <leader>gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nn <silent> <leader>gr <cmd>lua vim.lsp.buf.references()<CR>
+nn <silent> <leader>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
+nn <silent> <leader>gw <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+"" Goto previous/next diagnostic warning/error
+nn <silent> <leader>g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nn <silent> <leader>g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+"" Show diagnostic popup on cursor hold
 augroup lsp_diagnositic_on_hold
   autocmd!
   au CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
