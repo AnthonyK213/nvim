@@ -25,4 +25,6 @@ paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
 paq {'iamcco/markdown-preview.nvim', hook='cd app && yarn install'}
 -- Completion; LSP
-paq {'neoclide/coc.nvim', branch='release'}
+--paq {'neoclide/coc.nvim', branch='release'}
+paq {'nvim-lua/completion-nvim'}
+paq {'neovim/nvim-lspconfig'}

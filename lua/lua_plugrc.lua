@@ -149,10 +149,33 @@ vim.g.indentLine_char = '¦'
 
 
 -- vim-ipairs
-vim.g.pairs_map_ret = 0
+vim.g.pairs_map_ret = 1
 vim.g.pairs_map_bak = 1
 vim.g.pairs_map_spc = 1
 
 
 -- nvim-colorizer
 require('colorizer').setup()
+
+
+-- nvim-lspconfig && completion-nvim
+--- rls
+local lspconfig = require'lspconfig'
+lspconfig.rls.setup {
+    settings = {
+        rust = {
+            unstable_features = true,
+            build_on_save = false,
+            all_features = true,
+        },
+    },
+    on_attach=require'completion'.on_attach
+}
+--- jedi_language_server
+lspconfig.jedi_language_server.setup {
+    on_attach=require'completion'.on_attach
+}
+--- texlab
+lspconfig.texlab.setup {
+    on_attach=require'completion'.on_attach
+}
