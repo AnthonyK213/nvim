@@ -1,13 +1,6 @@
 init_source('plugrc')
 
 
--- vim-one
-vim.o.tgc = true
-vim.o.bg  = 'dark'
-vim.cmd('colorscheme one')
-vim.g.airline_theme = 'one'
-
-
 -- NERDTree
 vim.g.NERDTreeDirArrowExpandable  = '+'
 vim.g.NERDTreeDirArrowCollapsible = '-'

@@ -1,7 +1,30 @@
+" vim-one
+"" Default markdown theme sucks.
+"" vim-markdown should be installed.
+function! s:plugrc_mkd()
+  call one#highlight('mkdBold',       '4b5263', '', '')
+  call one#highlight('mkdItalic',     '4b5263', '', '')
+  call one#highlight('mkdBoldItalic', '4b5263', '', '')
+  call one#highlight('htmlBold',      'd19a66', '', 'bold')
+  call one#highlight('htmlItalic',    'c678dd', '', 'italic')
+  call one#highlight('htmlBoldItalic','e5c07b', '', 'bold,italic')
+endfunction
+"" When colorscheme changes.
+augroup vim_one_mkd
+  autocmd!
+  au ColorScheme one call s:plugrc_mkd()
+augroup end
+"" Set colorscheme
+set tgc
+set bg=dark
+colorscheme one
+g:airline_theme = 'one'
+
+
 " NERDTree
+"" Open NERDTree automatically when vim starts up on opening a directory
 augroup nerdtree_behave
   autocmd!
-  " Open NERDTree automatically when vim starts up on opening a directory
   autocmd StdinReadPre * let s:std_in = 1
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 augroup end
