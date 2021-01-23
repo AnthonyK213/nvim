@@ -136,7 +136,8 @@ imap <expr> <CR>
 function! s:plugrc_show_documentation()
   if index(['vim','help'], &filetype) >= 0
     execute 'h '.expand('<cword>')
-  else "if luaeval('#vim.lsp.buf_get_clients(0)') > 0
+  else 
+  "elseif luaeval('#vim.lsp.buf_get_clients(0)') > 0
     lua vim.lsp.buf.hover()
   "else
   "  execute '!' . &keywordprg . " " . expand('<cword>')

@@ -10,7 +10,7 @@ end
 --vim.g.python3_exec_path = '/usr/bin/python3'
 
 
-if vim.g.init_src then
+if (vim.g.init_src) then
     init_src = vim.g.init_src
 else
     init_src = 'full'
@@ -34,5 +34,5 @@ elseif (init_src == 'full') then
     init_source('custom')
     require('lua_deflib')
     require('lua_fnutil')
-    init_source('plugrc')
+    require('lua_plugrc')
 end
