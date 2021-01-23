@@ -1,20 +1,19 @@
-vim.api.nvim_exec([[
-    " let g:default_shell = 'zsh'
-    " let g:default_c_compiler = 'clang'
-    " let g:python3_exec_path = '/usr/bin/python3'
-    ]])
-
-
-if not vim.g.init_src then
-    init_src = 'full'
-else
-    init_src = vim.g.init_src
-end
-
 function init_source(file)
     local init_path = vim.fn.expand("$localappdata")..'/nvim/viml/viml_'
     local src_cmd = 'source '..init_path..file..'.vim'
     vim.api.nvim_exec(src_cmd, false)
+end
+
+
+--vim.g.default_shell = 'zsh'
+--vim.g.default_c_compiler = 'clang'
+--vim.g.python3_exec_path = '/usr/bin/python3'
+
+
+if vim.g.init_src then
+    init_src = vim.g.init_src
+else
+    init_src = 'full'
 end
 
 if (init_src == 'clean') then
