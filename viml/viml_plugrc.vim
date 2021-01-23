@@ -17,8 +17,9 @@ augroup end
 "" Set colorscheme
 set tgc
 set bg=dark
+let g:one_allow_italics = 1
 colorscheme one
-g:airline_theme = 'one'
+let g:airline_theme = 'one'
 
 
 " NERDTree
