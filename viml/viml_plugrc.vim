@@ -24,10 +24,18 @@ let g:airline_theme = 'one'
 
 " NERDTree
 "" Open NERDTree automatically when vim starts up on opening a directory
+function! s:plugrc_nerdtree_start()
+  if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in")
+    exe 'NERDTree' argv()[0]
+    wincmd p
+    ene
+    exe 'cd '.argv()[0]
+  endif
+endfunction
 augroup nerdtree_behave
   autocmd!
   autocmd StdinReadPre * let s:std_in = 1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+  autocmd VimEnter * call s:plugrc_nerdtree_start()
 augroup end
 
 
@@ -125,8 +133,17 @@ imap <expr> <CR>
 
 
 " LSP
+function! s:plugrc_show_documentation()
+  if index(['vim','help'], &filetype) >= 0
+    execute 'h '.expand('<cword>')
+  else "if luaeval('#vim.lsp.buf_get_clients(0)') > 0
+    lua vim.lsp.buf.hover()
+  "else
+  "  execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 "" Code navigation shortcuts
-nn <silent> K          <cmd>lua vim.lsp.buf.hover()<CR>
+nn <silent> K          <cmd>call <SID>plugrc_show_documentation()<CR>
 nn <silent> <leader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nn <silent> <leader>ga <cmd>lua vim.lsp.buf.code_action()<CR>
 nn <silent> <leader>gd <cmd>lua vim.lsp.buf.declaration()<CR>
