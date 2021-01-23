@@ -1,7 +1,7 @@
 " vim-one
 "" Default markdown theme sucks.
 "" vim-markdown should be installed.
-function! s:plugrc_mkd()
+function! s:plugrc_one_extend()
   call one#highlight('mkdBold',       '4b5263', '', '')
   call one#highlight('mkdItalic',     '4b5263', '', '')
   call one#highlight('mkdBoldItalic', '4b5263', '', '')
@@ -14,7 +14,7 @@ endfunction
 "" When colorscheme changes.
 augroup vim_one_mkd
   autocmd!
-  au ColorScheme one call s:plugrc_mkd()
+  au ColorScheme one call s:plugrc_one_extend()
 augroup end
 "" Set colorscheme
 set tgc
