@@ -2,15 +2,16 @@
 "" Default markdown theme sucks.
 "" vim-markdown should be installed.
 function! s:plugrc_one_extend()
-  call one#highlight('Constant',      'd19a66', '', '')
-  call one#highlight('SpellBad',      'e06c75', '', 'underline')
-  call one#highlight('SpellCap',      'd19a66', '', 'underline')
-  call one#highlight('mkdBold',       '4b5263', '', '')
-  call one#highlight('mkdItalic',     '4b5263', '', '')
-  call one#highlight('mkdBoldItalic', '4b5263', '', '')
-  call one#highlight('htmlBold',      'd19a66', '', 'bold')
-  call one#highlight('htmlItalic',    'c678dd', '', 'italic')
-  call one#highlight('htmlBoldItalic','e5c07b', '', 'bold,italic')
+  call one#highlight('Constant',         'd19a66', '', '')
+  call one#highlight('SpellBad',         'e06c75', '', 'underline')
+  call one#highlight('SpellCap',         'd19a66', '', 'underline')
+  call one#highlight('mkdBold',          '4b5263', '', '')
+  call one#highlight('mkdItalic',        '4b5263', '', '')
+  call one#highlight('mkdBoldItalic',    '4b5263', '', '')
+  call one#highlight('mkdCodeDelimiter', '4b5263', '', '')
+  call one#highlight('htmlBold',         'd19a66', '', 'bold')
+  call one#highlight('htmlItalic',       'c678dd', '', 'italic')
+  call one#highlight('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
 endfunction
 "" When colorscheme changes.
 augroup vim_one_extend
