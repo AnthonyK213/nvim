@@ -1,6 +1,7 @@
 " vim-one
 "" Default markdown theme sucks.
 "" vim-markdown should be installed.
+packadd vim-one
 function! s:plugrc_one_extend()
   call one#highlight('Constant',         'd19a66', '', '')
   call one#highlight('SpellBad',         'e06c75', '', 'underline')

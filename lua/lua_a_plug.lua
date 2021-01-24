@@ -4,7 +4,7 @@ local paq = require('paq-nvim').paq
 
 paq {'savq/paq-nvim', opt=true}
 -- Visual
-paq {'rakr/vim-one'}
+paq {'rakr/vim-one', opt=true}
 paq {'vim-airline/vim-airline'}
 -- Tree manager
 paq {'preservim/nerdtree'}
@@ -23,7 +23,7 @@ paq {'lervag/vimtex'}
 paq {'jceb/vim-orgmode'}
 paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
-paq {'iamcco/markdown-preview.nvim', hook='cd app && yarn install'}
+paq {'iamcco/markdown-preview.nvim', hook=vim.fn['mkdp#util#install']}
 -- Completion; LSP
 paq {'SirVer/ultisnips'}
 paq {'honza/vim-snippets'}
