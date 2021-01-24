@@ -25,6 +25,8 @@ paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
 paq {'iamcco/markdown-preview.nvim', hook='cd app && yarn install'}
 -- Completion; LSP
+paq {'SirVer/ultisnips'}
+paq {'honza/vim-snippets'}
 paq {'neovim/nvim-lspconfig'}
 paq {'nvim-lua/completion-nvim'}
 paq {'tjdevries/lsp_extensions.nvim'}

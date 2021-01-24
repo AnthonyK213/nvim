@@ -347,12 +347,6 @@ ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
 ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
 ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : lib_const_r
 ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : lib_const_l
-"" Completion
-ino <silent><expr> <TAB>
-      \ or(Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ? "\<C-N>" :
-      \ Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ? "\<C-o>V>" . repeat(lib_const_r, &ts) :
-      \ "\<Tab>"
-ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
 " Commands

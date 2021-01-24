@@ -127,11 +127,52 @@ let g:pairs_usr_extd_map = {
       \ }
 
 
+" UltiSnips
+let g:UltiSnipsExpandTrigger       = "<C-c><C-s>"
+let g:UltiSnipsJumpForwardTrigger  = "<C-c><C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-c><C-k>"
+
+
 " completion_nvim
+augroup completion_nvim_enable_all
+  autocmd!
+  au BufEnter * lua require'completion'.on_attach()
+augroup end
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_auto_change_source = 1
+let g:completion_chain_complete_list = {
+      \ 'vim': [
+      \   {'complete_items': ['UltiSnips']},
+      \   {'mode': '<c-p>'},
+      \   {'mode': '<c-n>'},
+      \],
+      \ 'lua': [
+      \   {'complete_items': ['UltiSnips']},
+      \   {'mode': '<c-p>'},
+      \   {'mode': '<c-n>'},
+      \],
+      \ 'markdown': [
+      \   {'mode': '<c-p>'},
+      \   {'mode': '<c-n>'}
+      \],
+      \ 'default': [
+      \   {'complete_items': ['lsp', 'UltiSnips']},
+      \   {'complete_items': ['path'], 'triggered_only': ['/']},
+      \   {'mode': '<c-p>'},
+      \   {'mode': '<c-n>'}
+      \]
+      \}
 imap <expr> <CR>
       \ pumvisible() ? complete_info()["selected"] != "-1" ?
       \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" :
       \ "\<Plug>(ipairs_enter)"
+imap <silent><expr> <TAB>
+      \ Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-o>V>" . repeat(lib_const_r, &ts) :
+      \ "\<Plug>(completion_smart_tab)"
+imap <S-Tab> <Plug>(completion_smart_s_tab)
+imap <C-J>   <Plug>(completion_next_source)
+imap <C-K>   <Plug>(completion_prev_source)
 
 
 " LSP
@@ -139,10 +180,7 @@ function! s:plugrc_show_documentation()
   if index(['vim','help'], &filetype) >= 0
     execute 'h '.expand('<cword>')
   else 
-  "elseif luaeval('#vim.lsp.buf_get_clients(0)') > 0
     lua vim.lsp.buf.hover()
-  "else
-  "  execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 "" Code navigation shortcuts

@@ -92,8 +92,15 @@ ino <expr> <M-U> "<u></u>" . repeat(lib_const_l, 4)
 
 
 " Completion
+" Key maps
+"" Completion
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
       \ "\<CR>\<C-o>O" :
       \ "\<CR>"
+ino <silent><expr> <TAB>
+      \ or(Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
+      \ "\<C-n>" : Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-o>V>" . repeat(lib_const_r, &ts) : "\<TAB>"
+ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
