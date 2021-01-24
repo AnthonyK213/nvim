@@ -49,7 +49,7 @@ if !exists('g:gui_font_size')
   let g:gui_font_size = 10
 endif
 if !exists('gui_font_family')
-  let g:gui_font_family = 'Consolas'
+  let g:gui_font_family = 'Monospace'
 endif
 call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
 
