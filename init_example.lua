@@ -5,23 +5,20 @@
 --vim.g.gui_font_family = 'Sarasa Mono SC'
 
 
+if (vim.g.init_src) then init_src = vim.g.init_src else init_src = 'full' end
+
 if (vim.fn.has("win32") == 1) then
     init_viml_path = vim.fn.expand("$localappdata")..'/nvim/viml/viml_'
 elseif (vim.fn.has("unix") == 1) then
     init_viml_path = '~/.config/nvim/viml/viml_'
 end
 
+
 function init_source(file)
     local src_cmd = 'source '..init_viml_path..file..'.vim'
     vim.api.nvim_exec(src_cmd, false)
 end
 
-
-if (vim.g.init_src) then
-    init_src = vim.g.init_src
-else
-    init_src = 'full'
-end
 
 if (init_src == 'clean') then
     init_source('basics')
