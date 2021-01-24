@@ -33,7 +33,9 @@ endfunction
 
 
 "" Set behaviors
-exe 'cd' g:usr_desktop
+if exists('g:usr_desktop')
+  exe 'cd' g:usr_desktop
+endif
 lcd %:p:h
 set mouse=a
 
@@ -43,8 +45,12 @@ set mouse=a
 :GuiLinespace 0
 
 "" Font
-let g:gui_font_size = 10
-let g:gui_font_family = '等距更纱黑体 SC'
+if !exists('g:gui_font_size')
+  let g:gui_font_size = 10
+endif
+if !exists('g:gui_font_size')
+  let g:gui_font_family = 'Consolas'
+endif
 call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
 
 let s:gui_font_step = 2
