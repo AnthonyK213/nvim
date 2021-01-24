@@ -30,6 +30,3 @@ paq {'honza/vim-snippets'}
 paq {'neovim/nvim-lspconfig'}
 paq {'nvim-lua/completion-nvim'}
 paq {'tjdevries/lsp_extensions.nvim'}
--- Doesn't support Windows yet.
---paq {'kyazdani42/nvim-web-devicons'}
---paq {'kyazdani42/nvim-tree.lua'}
