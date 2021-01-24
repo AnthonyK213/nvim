@@ -155,24 +155,24 @@ require('colorizer').setup()
 -- nvim-lspconfig && completion-nvim
 vim.g.completion_confirm_key = ""
 local lspconfig = require'lspconfig'
-local on_attach = function(client)
+local custom_attach = function(client)
     require'completion'.on_attach(client)
 end
 --- clangd
 lspconfig.clangd.setup {
-    on_attach=on_attach
+    on_attach=custom_attach
 }
 --- rls
 lspconfig.rust_analyzer.setup {
-    on_attach=on_attach
+    on_attach=custom_attach
 }
 --- jedi_language_server
 lspconfig.jedi_language_server.setup {
-    on_attach=on_attach
+    on_attach=custom_attach
 }
 --- texlab
 lspconfig.texlab.setup {
-    on_attach=on_attach
+    on_attach=custom_attach
 }
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
