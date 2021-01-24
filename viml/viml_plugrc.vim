@@ -12,7 +12,7 @@ function! s:plugrc_one_extend()
   call one#highlight('SpellCap',      'd19a66', '', 'underline')
 endfunction
 "" When colorscheme changes.
-augroup vim_one_mkd
+augroup vim_one_extend
   autocmd!
   au ColorScheme one call s:plugrc_one_extend()
 augroup end
