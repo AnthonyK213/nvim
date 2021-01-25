@@ -102,7 +102,7 @@ vim.g.airline_mode_map = {
     ['V']     = 'Ṿ',
     ['']    = 'Ṽ',
 }
--- Tab
+--- Tab
 vim.api.nvim_set_var('airline#extensions#tabline#formatter', 'unique_tail')
 
 
@@ -113,12 +113,11 @@ vim.g.vim_markdown_autowrite = 1
 vim.g.vim_markdown_folding_disabled = 1
 vim.g.vim_markdown_auto_insert_bullets = 0
 vim.g.vim_markdown_new_list_item_indent = 2
-
+--- Toggle math display.
 function plugrc_lua_vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
     vim.cmd('syn off | syn on')
 end
-
 vim.api.nvim_set_keymap(
     'n',
     '<leader>mh',
@@ -195,10 +194,9 @@ vim.g.indentLine_char = '¦'
 
 
 -- vim-ipairs
-vim.g.pairs_map_ret = 0
-vim.g.pairs_map_bak = 1
-vim.g.pairs_map_spc = 1
--- vim-ipairs
+vim.g.pairs_map_ret  = 0
+vim.g.pairs_map_bak  = 1
+vim.g.pairs_map_spc  = 1
 vim.g.pairs_usr_extd = {
     ["$"]   = "$",
     ["`"]   = "`",
@@ -227,9 +225,9 @@ vim.g.UltiSnipsJumpBackwardTrigger = "<C-c><C-k>"
 
 
 -- completion-nvim
-vim.g.completion_confirm_key        = ""
-vim.g.completion_enable_snippet     = 'UltiSnips'
-vim.g.completion_auto_change_source = 1
+vim.g.completion_confirm_key         = ""
+vim.g.completion_enable_snippet      = 'UltiSnips'
+vim.g.completion_auto_change_source  = 1
 vim.g.completion_chain_complete_list = {
     ['vim'] = {
         { ['complete_items'] = { 'UltiSnips' } },
@@ -252,6 +250,7 @@ vim.g.completion_chain_complete_list = {
         { ['mode']           = '<c-n>' }
     }
 }
+--- completion attach
 local custom_attach = function(client)
     require'completion'.on_attach(client)
 end
@@ -267,7 +266,7 @@ lspconfig.rust_analyzer.setup { on_attach=custom_attach }
 lspconfig.jedi_language_server.setup { on_attach=custom_attach }
 --- texlab
 lspconfig.texlab.setup { on_attach=custom_attach }
--- Enable diagnostics
+--- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.diagnostic.on_publish_diagnostics,
 { virtual_text = true, signs = true, update_in_insert = true })
