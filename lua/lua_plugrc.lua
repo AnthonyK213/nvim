@@ -42,7 +42,7 @@ vim.g.signify_sign_add               = '+'
 vim.g.signify_sign_delete            = '_'
 vim.g.signify_sign_delete_first_line = '‾'
 vim.g.signify_sign_change            = '~'
--- Disable the numbers disctracting
+--- Disable the numbers disctracting
 vim.g.signify_sign_show_count = 0
 vim.g.signify_sign_show_text  = 1
 vim.api.nvim_set_keymap(
@@ -81,7 +81,7 @@ vim.g.airline_symbols = { ['branch'] = '' }
 ---     ;     ;    
 vim.g.airline_left_sep     = ''
 vim.g.airline_left_alt_sep = ''
--- Mode abbr.
+--- Mode abbr.
 vim.g.airline_mode_map = {
     ['__']    = '-',
     ['c']     = 'C',
