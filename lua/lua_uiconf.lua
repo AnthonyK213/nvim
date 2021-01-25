@@ -264,19 +264,19 @@ gls.right[7] = {
 }
 gls.right[8] = {
     PerCent = {
-        provider = {function() return ' ' end ,'LinePercent'},
+        provider = {'LineColumn', function() return ' ' end},
         highlight = {colors.gray2, colors.blue},
+        separator = ' ',
+        separator_highlight = {colors.section_bg, colors.blue},
     }
 }
---- Short status line
---gls.short_line_left[1] = {
---    BufferType = {
---        provider = {'FileTypeName', function() return ' ' end},
---        highlight = {colors.fg, colors.section_bg},
---        separator = ' ',
---        separator_highlight = {colors.section_bg, colors.bg}
---    }
---}
+gls.right[9] = {
+  ScrollBar = {
+    provider = 'ScrollBar',
+    highlight = {colors.yellow,colors.purple},
+  }
+}
+--- Short line
 gls.short_line_left[1] = {
     FileType = {
         provider = {
