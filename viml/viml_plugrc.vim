@@ -37,7 +37,7 @@ augroup end
 
 
 " vim-table-mode
-augroup vimtable
+augroup vim_table_mode_style
   autocmd!
   au BufEnter *    let g:table_mode_corner = '+'
   au BufEnter *.md let g:table_mode_corner = '|'
@@ -45,7 +45,7 @@ augroup end
 
 
 " IndentLine
-augroup indentline
+augroup indentLine
   autocmd!
   au BufEnter,BufRead * let g:indentLine_enabled = 1
   au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
