@@ -242,8 +242,8 @@ vim.g.completion_chain_complete_list = {
         { ['mode']           = '<c-n>' }
     },
     ['markdown'] = {
-        { ['mode'] = '<c-p>'},
-        { ['mode'] = '<c-n>'}
+        { ['mode'] = '<c-p>' },
+        { ['mode'] = '<c-n>' }
     },
     ['default'] = {
         { ['complete_items'] = { 'lsp', 'UltiSnips' } },
