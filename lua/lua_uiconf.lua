@@ -116,7 +116,7 @@ local function get_current_file_name()
     if vim.fn.empty(file) == 1 then return '' end
     if string.len(file_readonly()) ~= 0 then return file .. file_readonly() end
     if vim.bo.modifiable then
-        if vim.bo.modified then return file .. '  MO ' end
+        if vim.bo.modified then return file .. ' MO ' end
     end
     return file..' '
 end
@@ -142,14 +142,14 @@ gls.left[1] = {
                 V      = 'Ṿ',
                 [''] = 'Ṽ',
             }
-            vim.api.nvim_command('hi GalaxyViMode guibg=' .. mode_color())
+            vim.api.nvim_command('hi GalaxyViMode guibg='..mode_color())
             if alias[vim.fn.mode(1)] ~= nil then
                 return '  '..alias[vim.fn.mode(1)]..' '
             else
-                return ' WTF '
+                return '  WTF '
             end
         end,
-        highlight = {colors.bg, colors.bg, 'bold'}
+        highlight = {colors.bg, colors.section_bg},
     }
 }
 gls.left[2] = {
@@ -266,14 +266,31 @@ gls.right[8] = {
     PerCent = {
         provider = {function() return ' ' end ,'LinePercent'},
         highlight = {colors.gray2, colors.blue},
-        --separator = ' ',
-        --separator_highlight = {colors.blue, colors.bg},
     }
 }
 --- Short status line
+--gls.short_line_left[1] = {
+--    BufferType = {
+--        provider = {'FileTypeName', function() return ' ' end},
+--        highlight = {colors.fg, colors.section_bg},
+--        separator = ' ',
+--        separator_highlight = {colors.section_bg, colors.bg}
+--    }
+--}
 gls.short_line_left[1] = {
-    BufferType = {
-        provider = 'FileTypeName',
+    FileType = {
+        provider = {
+            function() return '  ' end,
+            'FileTypeName',
+            function() return ' ' end
+        },
+        condition = buffer_not_empty,
+        highlight = {colors.orange, colors.section_bg},
+    }
+}
+gls.short_line_left[2] = {
+    FileName = {
+        provider = get_current_file_name,
         highlight = {colors.fg, colors.section_bg},
         separator = ' ',
         separator_highlight = {colors.section_bg, colors.bg}
