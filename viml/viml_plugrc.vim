@@ -1,6 +1,4 @@
 " vim-one
-"" Default markdown theme sucks.
-"" vim-markdown should be installed.
 packadd vim-one
 function! s:plugrc_one_extend()
   call one#highlight('Constant',         'd19a66', '', '')
@@ -19,12 +17,6 @@ augroup vim_one_extend
   autocmd!
   au ColorScheme one call s:plugrc_one_extend()
 augroup end
-"" Set colorscheme
-set tgc
-set bg=dark
-let g:one_allow_italics = 1
-colorscheme one
-let g:airline_theme = 'one'
 
 
 " NERDTree
@@ -44,64 +36,12 @@ augroup nerdtree_behave
 augroup end
 
 
-" vim-airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled  = 1
-"" Symbols
-let g:airline_symbols = {}
-let g:airline_symbols.branch = ''
-"" Mode abbr.
-let g:airline_mode_map = {
-      \ '__'    : '-',
-      \ 'c'     : 'C',
-      \ 'i'     : 'I',
-      \ 'ic'    : 'I',
-      \ 'ix'    : 'I',
-      \ 'n'     : 'N',
-      \ 'multi' : 'M',
-      \ 'ni'    : 'Ĩ',
-      \ 'no'    : 'N',
-      \ 'R'     : 'R',
-      \ 'Rv'    : 'R',
-      \ 's'     : 'S',
-      \ 'S'     : 'S',
-      \ ''    : 'S',
-      \ 't'     : 'T',
-      \ 'v'     : 'V',
-      \ 'V'     : 'Ṿ',
-      \ ''    : 'Ṽ',
-      \ }
-"" Tab
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-
-
-" markdown preview
-let g:mkdp_preview_options = {
-      \ 'mkit': {},
-      \ 'katex': {},
-      \ 'uml': {},
-      \ 'maid': {},
-      \ 'disable_sync_scroll': 0,
-      \ 'sync_scroll_type': 'middle',
-      \ 'hide_yaml_meta': 1,
-      \ 'sequence_diagrams': {},
-      \ 'flowchart_diagrams': {},
-      \ 'content_editable': v:false
-      \ }
-
-
 " vim-table-mode
 augroup vimtable
   autocmd!
   au BufEnter *    let g:table_mode_corner = '+'
   au BufEnter *.md let g:table_mode_corner = '|'
 augroup end
-
-
-" vim-orgmode
-let agenda_path = expand(g:onedrive_path . "/Documents/Agenda/Agenda.org")
-let g:org_agenda_files = [agenda_path]
-command! OrgAgenda :exe ":tabnew" agenda_path
 
 
 " IndentLine
@@ -112,59 +52,11 @@ augroup indentline
 augroup end
 
 
-" vim-ipairs
-let g:pairs_usr_extd = {
-      \ "$"  : "$",
-      \ "`"  : "`",
-      \ "*"  : "*",
-      \ "**" : "**",
-      \ "***": "***",
-      \ "<u>": "</u>"
-      \ }
-let g:pairs_usr_extd_map = {
-      \ "<M-P>" : "`",
-      \ "<M-I>" : "*",
-      \ "<M-B>" : "**",
-      \ "<M-M>" : "***",
-      \ "<M-U>" : "<u>"
-      \ }
-
-
-" UltiSnips
-let g:UltiSnipsExpandTrigger       = "<C-c><C-s>"
-let g:UltiSnipsJumpForwardTrigger  = "<C-c><C-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-c><C-k>"
-
-
 " completion_nvim
 augroup completion_nvim_enable_all
   autocmd!
   au BufEnter * lua require'completion'.on_attach()
 augroup end
-let g:completion_enable_snippet = 'UltiSnips'
-let g:completion_auto_change_source = 1
-let g:completion_chain_complete_list = {
-      \ 'vim': [
-      \   {'complete_items': ['UltiSnips']},
-      \   {'mode': '<c-p>'},
-      \   {'mode': '<c-n>'},
-      \],
-      \ 'lua': [
-      \   {'complete_items': ['UltiSnips']},
-      \   {'mode': '<c-p>'},
-      \   {'mode': '<c-n>'},
-      \],
-      \ 'markdown': [
-      \   {'mode': '<c-p>'},
-      \   {'mode': '<c-n>'}
-      \],
-      \ 'default': [
-      \   {'complete_items': ['lsp', 'UltiSnips']},
-      \   {'complete_items': ['path'], 'triggered_only': ['/']},
-      \   {'mode': '<c-p>'},
-      \   {'mode': '<c-n>'}
-      \]
-      \}
 imap <expr> <CR>
       \ pumvisible() ? complete_info()["selected"] != "-1" ?
       \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" :

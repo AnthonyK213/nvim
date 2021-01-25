@@ -1,6 +1,14 @@
 init_source('plugrc')
 
 
+-- vim-one
+vim.o.tgc = true
+vim.o.bg  = 'dark'
+vim.g.one_allow_italics = 1
+vim.cmd('colorscheme one')
+vim.g.airline_theme = 'one'
+
+
 -- NERDTree
 vim.g.NERDTreeDirArrowExpandable  = '+'
 vim.g.NERDTreeDirArrowCollapsible = '-'
@@ -65,11 +73,37 @@ vim.api.nvim_set_keymap(
 
 
 -- vim-airline
---- hash: #
+vim.api.nvim_set_var('airline#extensions#tabline#enabled', 1)
+vim.api.nvim_set_var('airline#extensions#branch#enabled',  1)
+--- Symbols
+vim.g.airline_symbols = { ['branch'] = '' }
 --- Separators
 ---     ;     ;    
 vim.g.airline_left_sep     = ''
 vim.g.airline_left_alt_sep = ''
+-- Mode abbr.
+vim.g.airline_mode_map = {
+    ['__']    = '-',
+    ['c']     = 'C',
+    ['i']     = 'I',
+    ['ic']    = 'I',
+    ['ix']    = 'I',
+    ['n']     = 'N',
+    ['multi'] = 'M',
+    ['ni']    = 'Ĩ',
+    ['no']    = 'N',
+    ['R']     = 'R',
+    ['Rv']    = 'R',
+    ['s']     = 'S',
+    ['S']     = 'S',
+    ['']    = 'S',
+    ['t']     = 'T',
+    ['v']     = 'V',
+    ['V']     = 'Ṿ',
+    ['']    = 'Ṽ',
+}
+-- Tab
+vim.api.nvim_set_var('airline#extensions#tabline#formatter', 'unique_tail')
 
 
 -- vim-markdown
@@ -105,6 +139,18 @@ vim.api.nvim_set_keymap(
 -- markdown-preview
 vim.g.mkdp_auto_start = 0
 vim.g.mkdp_auto_close = 1
+vim.g.mkdp_preview_options = {
+    ['mkit']                = {},
+    ['katex']               = {},
+    ['uml']                 = {},
+    ['maid']                = {},
+    ['disable_sync_scroll'] = 0,
+    ['sync_scroll_type']    = 'middle',
+    ['hide_yaml_meta']      = 1,
+    ['sequence_diagrams']   = {},
+    ['flowchart_diagrams']  = {},
+    ['content_editable']    = false
+}
 
 
 -- vim-table-mode
@@ -123,6 +169,12 @@ vim.api.nvim_set_keymap(
     '<leader>tf',
     ':TableModeRealign<CR>',
     { noremap = true, silent = true })
+
+
+-- vim-orgmode
+vim.g.org_agenda_path = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/Agenda.org")
+vim.g.org_agenda_files = { vim.g.org_agenda_path }
+vim.cmd([[command! OrgAgenda :exe ":tabnew" g:org_agenda_path]])
 
 
 -- vimtex
@@ -146,39 +198,76 @@ vim.g.indentLine_char = '¦'
 vim.g.pairs_map_ret = 0
 vim.g.pairs_map_bak = 1
 vim.g.pairs_map_spc = 1
+-- vim-ipairs
+vim.g.pairs_usr_extd = {
+    ["$"]   = "$",
+    ["`"]   = "`",
+    ["*"]   = "*",
+    ["**"]  = "**",
+    ["***"] = "***",
+    ["<u>"] = "</u>"
+}
+vim.g.pairs_usr_extd_map = {
+    ["<M-P>"] = "`",
+    ["<M-I>"] = "*",
+    ["<M-B>"] = "**",
+    ["<M-M>"] = "***",
+    ["<M-U>"] = "<u>"
+}
 
 
 -- nvim-colorizer
 require('colorizer').setup()
 
 
--- nvim-lspconfig && completion-nvim
-vim.g.completion_confirm_key = ""
-local lspconfig = require'lspconfig'
+-- UltiSnips
+vim.g.UltiSnipsExpandTrigger       = "<C-c><C-s>"
+vim.g.UltiSnipsJumpForwardTrigger  = "<C-c><C-j>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<C-c><C-k>"
+
+
+-- completion-nvim
+vim.g.completion_confirm_key        = ""
+vim.g.completion_enable_snippet     = 'UltiSnips'
+vim.g.completion_auto_change_source = 1
+vim.g.completion_chain_complete_list = {
+    ['vim'] = {
+        { ['complete_items'] = { 'UltiSnips' } },
+        { ['mode']           = '<c-p>' },
+        { ['mode']           = '<c-n>' }
+    },
+    ['lua'] = {
+        { ['complete_items'] = { 'UltiSnips' } },
+        { ['mode']           = '<c-p>' },
+        { ['mode']           = '<c-n>' }
+    },
+    ['markdown'] = {
+        { ['mode'] = '<c-p>'},
+        { ['mode'] = '<c-n>'}
+    },
+    ['default'] = {
+        { ['complete_items'] = { 'lsp', 'UltiSnips' } },
+        { ['complete_items'] = { 'path' }, ['triggered_only'] = { '/' } },
+        { ['mode']           = '<c-p>' },
+        { ['mode']           = '<c-n>' }
+    }
+}
 local custom_attach = function(client)
     require'completion'.on_attach(client)
 end
+
+
+-- nvim-lspconfig
+local lspconfig = require'lspconfig'
 --- clangd
-lspconfig.clangd.setup {
-    on_attach=custom_attach
-}
+lspconfig.clangd.setup { on_attach=custom_attach }
 --- rls
-lspconfig.rust_analyzer.setup {
-    on_attach=custom_attach
-}
+lspconfig.rust_analyzer.setup { on_attach=custom_attach }
 --- jedi_language_server
-lspconfig.jedi_language_server.setup {
-    on_attach=custom_attach
-}
+lspconfig.jedi_language_server.setup { on_attach=custom_attach }
 --- texlab
-lspconfig.texlab.setup {
-    on_attach=custom_attach
-}
+lspconfig.texlab.setup { on_attach=custom_attach }
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-  }
-)
+vim.lsp.diagnostic.on_publish_diagnostics,
+{ virtual_text = true, signs = true, update_in_insert = true })
