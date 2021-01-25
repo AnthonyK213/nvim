@@ -1,25 +1,3 @@
-" vim-one
-set tgc
-packadd vim-one
-function! s:plugrc_one_extend()
-  call one#highlight('Constant',         'd19a66', '', '')
-  call one#highlight('SpellBad',         'e06c75', '', 'underline')
-  call one#highlight('SpellCap',         'd19a66', '', 'underline')
-  call one#highlight('mkdBold',          '4b5263', '', '')
-  call one#highlight('mkdItalic',        '4b5263', '', '')
-  call one#highlight('mkdBoldItalic',    '4b5263', '', '')
-  call one#highlight('mkdCodeDelimiter', '4b5263', '', '')
-  call one#highlight('htmlBold',         'd19a66', '', 'bold')
-  call one#highlight('htmlItalic',       'c678dd', '', 'italic')
-  call one#highlight('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
-endfunction
-"" When colorscheme changes.
-augroup vim_one_extend
-  autocmd!
-  au ColorScheme one call s:plugrc_one_extend()
-augroup end
-
-
 " vim-table-mode
 augroup vim_table_mode_style
   autocmd!
@@ -41,17 +19,6 @@ augroup completion_nvim_enable_all
   autocmd!
   au BufEnter * lua require'completion'.on_attach()
 augroup end
-imap <expr> <CR>
-      \ pumvisible() ? complete_info()["selected"] != "-1" ?
-      \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" :
-      \ "\<Plug>(ipairs_enter)"
-imap <silent><expr> <TAB>
-      \ Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-o>V>" . repeat(lib_const_r, &ts) :
-      \ "\<Plug>(completion_smart_tab)"
-imap <S-Tab> <Plug>(completion_smart_s_tab)
-imap <C-J>   <Plug>(completion_next_source)
-imap <C-K>   <Plug>(completion_prev_source)
 
 
 " LSP

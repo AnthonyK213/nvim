@@ -212,6 +212,35 @@ vim.g.completion_chain_complete_list = {
 local custom_attach = function(client)
     require'completion'.on_attach(client)
 end
+vim.api.nvim_set_keymap(
+    'i',
+    '<CR>',
+    [[pumvisible() ? complete_info()["selected"] != "-1" ? ]]..
+    [["<Plug>(completion_confirm_completion)" : "<C-E><CR>" : ]]..
+    [["<Plug>(ipairs_enter)"]],
+    { noremap = false, silent = true, expr = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<TAB>',
+    [[Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
+    [["<C-O>V>" . repeat(g:lib_const_r, &ts) : ]]..
+    [["<Plug>(completion_smart_tab)"]],
+    { noremap = false, silent = true, expr = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<S-TAB>',
+    '<Plug>(completion_smart_s_tab)',
+    { noremap = false, silent = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<C-J>',
+    '<Plug>(completion_next_source)',
+    { noremap = false, silent = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<C-K>',
+    '<Plug>(completion_prev_source)',
+    { noremap = false, silent = true })
 
 
 -- nvim-lspconfig

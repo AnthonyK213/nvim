@@ -1,5 +1,6 @@
 init_source('deflib')
 
+
 -- Calculate the day of week from date.
 function lib_lua_zeller(year, month, date)
     if (month < 1 or month > 12) then
@@ -40,4 +41,13 @@ function lib_lua_zeller(year, month, date)
     local days_list = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 
     return days_list[z]
+end
+
+
+-- autocmd!!!
+function lib_lua_augroup(group, event, pattern, command)
+    vim.cmd('augroup '..group)
+    vim.cmd('autocmd!')
+    vim.cmd('au '..event..' '..pattern..' '..command)
+    vim.cmd('augroup end')
 end
