@@ -36,4 +36,5 @@ elseif (init_src == 'full') then
     require('lua_deflib')
     require('lua_fnutil')
     require('lua_plugrc')
+    require('lua_uiconf')
 end

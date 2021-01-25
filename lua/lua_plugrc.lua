@@ -1,14 +1,6 @@
 init_source('plugrc')
 
 
--- vim-one
-vim.o.tgc = true
-vim.o.bg  = 'dark'
-vim.g.one_allow_italics = 1
-vim.cmd('colorscheme one')
-vim.g.airline_theme = 'one'
-
-
 -- NERDTree
 vim.g.NERDTreeDirArrowExpandable  = '+'
 vim.g.NERDTreeDirArrowCollapsible = '-'
@@ -70,40 +62,6 @@ vim.api.nvim_set_keymap(
     '<leader>vt',
     ':SignifyToggle<CR>',
     { noremap = true, silent = true })
-
-
--- vim-airline
-vim.api.nvim_set_var('airline#extensions#tabline#enabled', 1)
-vim.api.nvim_set_var('airline#extensions#branch#enabled',  1)
---- Symbols
-vim.g.airline_symbols = { ['branch'] = '' }
---- Separators
----     ;     ;    
-vim.g.airline_left_sep     = ''
-vim.g.airline_left_alt_sep = ''
---- Mode abbr.
-vim.g.airline_mode_map = {
-    ['__']    = '-',
-    ['c']     = 'C',
-    ['i']     = 'I',
-    ['ic']    = 'I',
-    ['ix']    = 'I',
-    ['n']     = 'N',
-    ['multi'] = 'M',
-    ['ni']    = 'Ĩ',
-    ['no']    = 'N',
-    ['R']     = 'R',
-    ['Rv']    = 'R',
-    ['s']     = 'S',
-    ['S']     = 'S',
-    ['']    = 'S',
-    ['t']     = 'T',
-    ['v']     = 'V',
-    ['V']     = 'Ṿ',
-    ['']    = 'Ṽ',
-}
---- Tab
-vim.api.nvim_set_var('airline#extensions#tabline#formatter', 'unique_tail')
 
 
 -- vim-markdown

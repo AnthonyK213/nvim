@@ -1,4 +1,5 @@
 " vim-one
+set tgc
 packadd vim-one
 function! s:plugrc_one_extend()
   call one#highlight('Constant',         'd19a66', '', '')

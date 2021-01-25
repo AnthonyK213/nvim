@@ -1,0 +1,283 @@
+-- vim-one
+vim.o.bg  = 'dark'
+vim.g.one_allow_italics = 1
+vim.cmd('colorscheme one')
+
+
+--[[
+-- vim-airline
+vim.api.nvim_set_var('airline#extensions#tabline#enabled', 1)
+vim.api.nvim_set_var('airline#extensions#branch#enabled',  1)
+--- Symbols
+vim.g.airline_symbols = { ['branch'] = '' }
+--- Separators
+---     ;     ;    
+vim.g.airline_left_sep     = ''
+vim.g.airline_left_alt_sep = ''
+--- Mode abbr.
+vim.g.airline_mode_map = {
+    ['__']    = '-',
+    ['c']     = 'C',
+    ['i']     = 'I',
+    ['ic']    = 'I',
+    ['ix']    = 'I',
+    ['n']     = 'N',
+    ['multi'] = 'M',
+    ['ni']    = 'Ĩ',
+    ['no']    = 'N',
+    ['R']     = 'R',
+    ['Rv']    = 'R',
+    ['s']     = 'S',
+    ['S']     = 'S',
+    ['']    = 'S',
+    ['t']     = 'T',
+    ['v']     = 'V',
+    ['V']     = 'Ṿ',
+    ['']    = 'Ṽ',
+}
+--- Tab
+vim.api.nvim_set_var('airline#extensions#tabline#formatter', 'unique_tail')
+vim.g.airline_theme = 'one'
+--- Load vim-airline
+vim.cmd('packadd vim-airline')
+--]]
+
+
+-- galaxyline
+vim.cmd('packadd galaxyline.nvim')
+
+-- galaxy-airline
+local gl = require('galaxyline')
+--- Variables
+local gls = gl.section
+gl.short_line_list = {'defx', 'packager', 'vista', 'NvimTree'}
+local colors = {
+    bg         = '#282c34',
+    fg         = '#aab2bf',
+    section_bg = '#38393f',
+    blue       = '#61afef',
+    green      = '#98c379',
+    purple     = '#c678dd',
+    orange     = '#d19a66',
+    red1       = '#e06c75',
+    red2       = '#be5046',
+    yellow     = '#e5c07b',
+    gray1      = '#5c6370',
+    gray2      = '#2c323d',
+    gray3      = '#3e4452',
+    darkgrey   = '#5c6370',
+    grey       = '#848586',
+    middlegrey = '#8791A5'
+}
+--- Local helper functions
+--- Check whether the current buffer is empty
+local function is_buffer_empty()
+    return vim.fn.empty(vim.fn.expand('%:t')) == 1
+end
+--- Check if the windows width is greater than a given number of columns
+local function has_width_gt(cols)
+    return vim.fn.winwidth(0) / 2 > cols
+end
+local buffer_not_empty = function() return not is_buffer_empty() end
+local checkwidth = function()
+    return has_width_gt(40) and buffer_not_empty()
+end
+local mode_color = function()
+    local mode_colors = {
+        c      = colors.green,
+        i      = colors.blue,
+        ic     = colors.blue,
+        ix     = colors.blue,
+        n      = colors.green,
+        niI    = colors.blue,
+        no     = colors.green,
+        R      = colors.red1,
+        Rv     = colors.red1,
+        s      = colors.red1,
+        S      = colors.red1,
+        t      = colors.blue,
+        v      = colors.purple,
+        V      = colors.purple,
+        [''] = colors.purple
+    }
+    if mode_colors[vim.fn.mode(1)] ~= nil then
+        return mode_colors[vim.fn.mode(1)]
+    else
+        return colors.darkgrey
+    end
+end
+local function file_readonly()
+    if vim.bo.filetype == 'help' then return '' end
+    if vim.bo.readonly == true then return ' RO ' end
+    return ''
+end
+local function get_current_file_name()
+    local file = vim.fn.expand('%:t')
+    if vim.fn.empty(file) == 1 then return '' end
+    if string.len(file_readonly()) ~= 0 then return file .. file_readonly() end
+    if vim.bo.modifiable then
+        if vim.bo.modified then return file .. '  MO ' end
+    end
+    return file..' '
+end
+--- Left side
+gls.left[1] = {
+    ViMode = {
+        provider = function()
+            local alias = {
+                c      = 'C',
+                i      = 'I',
+                ic     = 'I',
+                ix     = 'I',
+                n      = 'N',
+                multi  = 'M',
+                niI    = 'Ĩ',
+                no     = 'N',
+                R      = 'R',
+                Rv     = 'R',
+                s      = 'S',
+                S      = 'S',
+                t      = 'T',
+                v      = 'V',
+                V      = 'Ṿ',
+                [''] = 'Ṽ',
+            }
+            vim.api.nvim_command('hi GalaxyViMode guibg=' .. mode_color())
+            if alias[vim.fn.mode(1)] ~= nil then
+                return '  '..alias[vim.fn.mode(1)]..' '
+            else
+                return ' WTF '
+            end
+        end,
+        highlight = {colors.bg, colors.bg, 'bold'}
+    }
+}
+gls.left[2] = {
+    FileType = {
+        provider = {
+            function() return '  ' end,
+            'FileTypeName',
+            function() return ' ' end
+        },
+        condition = buffer_not_empty,
+        highlight = {colors.orange, colors.section_bg},
+    }
+}
+gls.left[3] = {
+    FileName = {
+        provider  = get_current_file_name,
+        condition = buffer_not_empty,
+        highlight = {colors.fg, colors.section_bg},
+        separator = "",
+        separator_highlight = {colors.section_bg, colors.bg}
+    }
+}
+gls.left[9] = {
+    DiagnosticError = {
+        provider = 'DiagnosticError',
+        icon = ' E ',
+        highlight = {colors.red1, colors.bg}
+    }
+}
+gls.left[10] = {
+    Space = {
+        provider = function() return ' ' end,
+        highlight = {colors.section_bg, colors.bg}
+    }
+}
+gls.left[11] = {
+    DiagnosticWarn = {
+        provider = 'DiagnosticWarn',
+        icon = ' W ',
+        highlight = {colors.yellow, colors.bg}
+    }
+}
+gls.left[12] = {
+    Space = {
+        provider = function() return ' ' end,
+        highlight = {colors.section_bg, colors.bg}
+    }
+}
+gls.left[13] = {
+    DiagnosticInfo = {
+        provider = 'DiagnosticInfo',
+        icon = ' I ',
+        highlight = {colors.blue, colors.section_bg},
+        separator = ' ',
+        separator_highlight = {colors.section_bg, colors.bg}
+    }
+}
+--- Right side
+gls.right[1] = {
+    DiffAdd = {
+        provider = 'DiffAdd',
+        condition = checkwidth,
+        icon = '+',
+        highlight = {colors.green, colors.bg}
+    }
+}
+gls.right[2] = {
+    DiffModified = {
+        provider = 'DiffModified',
+        condition = checkwidth,
+        icon = '~',
+        highlight = {colors.yellow, colors.bg}
+    }
+}
+gls.right[3] = {
+    DiffRemove = {
+        provider = 'DiffRemove',
+        condition = checkwidth,
+        icon = '-',
+        highlight = {colors.red1, colors.bg}
+    }
+}
+gls.right[4] = {
+    Space = {
+        provider = function() return ' ' end,
+        highlight = {colors.section_bg, colors.bg}
+    }
+}
+gls.right[5] = {
+    GitIcon = {
+        provider = function() return '  ' end,
+        condition = buffer_not_empty and
+        require('galaxyline.provider_vcs').check_git_workspace,
+        highlight = {colors.middlegrey, colors.bg}
+    }
+}
+gls.right[6] = {
+    GitBranch = {
+        provider  = 'GitBranch',
+        condition = buffer_not_empty,
+        highlight = {colors.middlegrey, colors.bg}
+    }
+}
+gls.right[7] = {
+    Format = {
+        provider  = {'FileFormat', function() return ' ' end},
+        highlight = {colors.fg, colors.section_bg},
+        separator = ' ',
+        separator_highlight = {colors.bg, colors.section_bg},
+        condition = buffer_not_empty
+    }
+}
+gls.right[8] = {
+    PerCent = {
+        provider = {function() return ' ' end ,'LinePercent'},
+        highlight = {colors.gray2, colors.blue},
+        --separator = ' ',
+        --separator_highlight = {colors.blue, colors.bg},
+    }
+}
+--- Short status line
+gls.short_line_left[1] = {
+    BufferType = {
+        provider = 'FileTypeName',
+        highlight = {colors.fg, colors.section_bg},
+        separator = ' ',
+        separator_highlight = {colors.section_bg, colors.bg}
+    }
+}
+-- Force manual load so that nvim boots with a status line
+gl.load_galaxyline()
