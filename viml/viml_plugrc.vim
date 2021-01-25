@@ -20,23 +20,6 @@ augroup vim_one_extend
 augroup end
 
 
-" NERDTree
-"" Open NERDTree automatically when vim starts up on opening a directory
-function! s:plugrc_nerdtree_start()
-  if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in")
-    exe 'NERDTree' argv()[0]
-    wincmd p
-    ene
-    exe 'cd '.argv()[0]
-  endif
-endfunction
-augroup nerdtree_behave
-  autocmd!
-  autocmd StdinReadPre * let s:std_in = 1
-  autocmd VimEnter * call s:plugrc_nerdtree_start()
-augroup end
-
-
 " vim-table-mode
 augroup vim_table_mode_style
   autocmd!

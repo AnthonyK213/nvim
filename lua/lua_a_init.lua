@@ -1,7 +1,7 @@
 if (vim.g.init_src) then
     init_src = vim.g.init_src
 else
-    init_src = 'full'
+    init_src = 'one'
 end
 
 if (vim.fn.has("win32") == 1) then
@@ -17,24 +17,17 @@ function init_source(file)
 end
 
 
-if (init_src == 'clean') then
-    init_source('basics')
-    init_source('custom')
-elseif (init_src == 'nano') then
-    init_source('basics')
-    init_source('custom')
-    require('lua_deflib')
-    require('lua_fnutil')
-    init_source('subsrc')
+require('lua_a_plug')
+init_source('basics')
+init_source('custom')
+require('lua_deflib')
+require('lua_fnutil')
+require('lua_plugrc')
+
+if (init_src == 'nano') then
     vim.o.tgc = true
     vim.o.bg  = 'dark'
     vim.cmd('colorscheme nanovim')
-elseif (init_src == 'full') then
-    require('lua_a_plug')
-    init_source('basics')
-    init_source('custom')
-    require('lua_deflib')
-    require('lua_fnutil')
-    require('lua_plugrc')
+elseif (init_src == 'one') then
     require('lua_uiconf')
 end
