@@ -30,25 +30,6 @@ let s:util_web_list = {
 
 
 " Functions
-"" Mouse toggle
-function! s:util_mouse_toggle()
-  if &mouse == 'a'
-    set mouse=
-    echom "Mouse disabled"
-  else
-    set mouse=a
-    echom "Mouse enabled"
-  endif
-endfunction
-
-"" Background toggle
-function! s:util_bg_toggle()
-  let &background = (&background == 'dark' ? 'light' : 'dark')
-  if exists("g:colors_name")
-    exe 'colorscheme' g:colors_name
-  endif
-endfunction
-
 "" Open terminal and launch shell
 function! s:util_terminal()
   call Lib_Belowright_Split(15)
@@ -279,13 +260,6 @@ endfunction
 
 
 " Key maps
-"" Mouse toggle
-nn  <silent> <F2> :call           <SID>util_mouse_toggle()<CR>
-vn  <silent> <F2> :<C-u>call      <SID>util_mouse_toggle()<CR>
-ino <silent> <F2> <C-o>:call      <SID>util_mouse_toggle()<CR>
-tno <silent> <F2> <C-\><C-n>:call <SID>util_mouse_toggle()<CR>a
-"" Background toggle
-nn  <silent> <leader>bg :call <SID>util_bg_toggle()<CR>
 """ Explorer
 nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
 "" Terminal

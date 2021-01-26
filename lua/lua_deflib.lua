@@ -51,3 +51,14 @@ function lib_lua_augroup(group, event, pattern, command)
     vim.cmd('au '..event..' '..pattern..' '..command)
     vim.cmd('augroup end')
 end
+
+
+-- Define key maps
+--- nnoremap
+function lib_lua_nn(map_table)
+    vim.api.nvim_set_keymap(
+    'n',
+    map_table.key,
+    map_table.cmd,
+    { noremap=true, silent=true })
+end

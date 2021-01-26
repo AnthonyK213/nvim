@@ -1,6 +1,29 @@
 init_source('fnutil')
 
 -- Functions
+--- Mouse toggle
+function util_lua_mouse_toggle(args)
+    if (vim.o.mouse == 'a') then
+        vim.o.mouse = ''
+        print("Mouse disabled.")
+    else
+        vim.o.mouse = 'a'
+        print("Mouse enabled.")
+    end
+end
+
+--- Background toggle
+function util_lua_bg_toggle()
+    if (vim.o.background == 'dark') then
+        vim.o.background = 'light'
+    else
+        vim.o.background = 'dark'
+    end
+    if (vim.g.colors_name) then
+        vim.fn.execute('colorscheme '..vim.g.colors_name)
+    end
+end
+
 --- Hanzi count.
 function util_lua_hanzi_count(mode)
     local content
@@ -216,40 +239,61 @@ end
 
 
 -- Key maps
---- Hanzi count.
+--- Mouse toggle
+lib_lua_nn {
+    key = '<F2>',
+    cmd = '<cmd>call v:lua.util_lua_mouse_toggle()<CR>'
+}
 vim.api.nvim_set_keymap(
-    'n',
-    '<leader>cc',
-    ":echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('n')<CR>",
+    'v',
+    '<F2>',
+    '<cmd><C-U>call v:lua.util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<F2>',
+    '<C-O><cmd>call v:lua.util_lua_mouse_toggle()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    't',
+    '<F2>',
+    '<C-\\><C-N><cmd>call v:lua.util_lua_mouse_toggle()<CR>',
+    { noremap = true, silent = true })
+--- Background toggle
+lib_lua_nn {
+    key = '<leader>bg',
+    cmd = '<cmd>call v:lua.util_lua_bg_toggle()<CR>'
+}
+--- Hanzi count.
+lib_lua_nn {
+    key = '<leader>cc',
+    cmd = ":echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('n')<CR>"
+}
 vim.api.nvim_set_keymap(
     'v',
     '<leader>cc',
     ":<C-u>echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('v')<CR>",
     { noremap = true, silent = true })
 --- Append day of week after the date
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>dd',
-    ":call v:lua.util_lua_append_day_from_date()<CR>",
-    { noremap = true, silent = true })
+lib_lua_nn {
+    key = '<leader>dd',
+    cmd = ":call v:lua.util_lua_append_day_from_date()<CR>"
+}
 --- Insert an orgmode-style timestamp at the end of the line
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>ds',
-    "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>",
-    { noremap = true, silent = true })
+lib_lua_nn {
+    key = '<leader>ds',
+    cmd = "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>"
+}
 --- List bullets
 vim.api.nvim_set_keymap(
     'i',
     '<M-CR>',
     "<C-o>:call v:lua.util_lua_md_insert_bullet()<CR>",
     { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>ml',
-    ":call v:lua.util_lua_md_sort_num_bullet()<CR>",
-    { noremap = true, silent = true })
+lib_lua_nn {
+    key = '<leader>ml',
+    cmd = ":call v:lua.util_lua_md_sort_num_bullet()<CR>"
+}
 
 
 -- Commands
