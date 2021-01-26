@@ -1,3 +1,7 @@
+-- Name:    lua_a_init.lua
+-- Licence: MIT
+
+
 if (vim.g.init_src) then
     init_src = vim.g.init_src
 else

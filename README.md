@@ -28,6 +28,8 @@
   > git clone https://github.com/AnthonyK213/nvim.git -b lua
 * **Set init.lua**
   - Lua
+    - `lua_a_init.lua`
+      - Initial file.
     - `lua_a_plug.lua`
       - Paq load plug-ins.
     - `lua_deflib.lua`
@@ -41,6 +43,8 @@
         - Append day of week after a date string(yyyy-mm-dd)
     - `lua_plugrc.lua`
       - Configurations of plug-ins.(require lua_a_plug at first)
+    - `lua_uiconf.lua`
+      - UI configuration.
   - VimL
     - `init_basics.vim`
       - Basic configuration without any dependencies.
@@ -56,8 +60,6 @@
         - Git lazy push(commit all and push all)
         - Compile and run code of current buffer
         - View pdf in system default viewer
-    - `init_plugrc.vim`
-      - Configurations of plug-ins.
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:
