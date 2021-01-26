@@ -41,6 +41,7 @@
         - Bullets auto-insertion and auto-arrangement
         - Append orgmode style time stamp to the end of current line
         - Append day of week after a date string(yyyy-mm-dd)
+        - Compile and run code of current buffer
     - `lua_plugrc.lua`
       - Configurations of plug-ins.(require lua_a_plug at first)
     - `lua_uiconf.lua`
@@ -56,10 +57,9 @@
       - Functions:
         - Surrounding(Add, delete & change)
         - Search cword or selection in system default browser
+        - View pdf in system default viewer
         - LaTeX compile recipes
         - Git lazy push(commit all and push all)
-        - Compile and run code of current buffer
-        - View pdf in system default viewer
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:
