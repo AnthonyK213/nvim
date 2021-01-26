@@ -4,7 +4,6 @@ local function one_hl(...)
     vim.call('one#highlight', ...)
 end
 function uiconf_lua_one_extend()
-  one_hl('Constant',         'd19a66', '', '')
   one_hl('SpellBad',         'e06c75', '', 'underline')
   one_hl('SpellCap',         'd19a66', '', 'underline')
   one_hl('mkdBold',          '4b5263', '', '')

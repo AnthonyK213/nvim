@@ -346,7 +346,5 @@ vim.api.nvim_set_keymap(
 
 -- treesitter
 require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-    },
+    highlight = { enable = true },
 }
