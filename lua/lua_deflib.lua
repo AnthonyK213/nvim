@@ -1,7 +1,40 @@
 init_source('deflib')
 
 
--- Calculate the day of week from date.
+-- CONST
+--- Escape string for URL.
+vim.g.lib_const_esc_url = {
+    [" "]  = "\\%20",
+    ["!"]  = "\\%21",
+    ['"']  = "\\%22",
+    ["#"]  = "\\%23",
+    ["$"]  = "\\%24",
+    ["%"]  = "\\%25",
+    ["&"]  = "\\%26",
+    ["'"]  = "\\%27",
+    ["("]  = "\\%28",
+    [")"]  = "\\%29",
+    ["*"]  = "\\%2A",
+    ["+"]  = "\\%2B",
+    [","]  = "\\%2C",
+    ["/"]  = "\\%2F",
+    [":"]  = "\\%3A",
+    [";"]  = "\\%3B",
+    ["<"]  = "\\%3C",
+    ["="]  = "\\%3D",
+    [">"]  = "\\%3E",
+    ["?"]  = "\\%3F",
+    ["@"]  = "\\%40",
+    ["\\"] = "\\%5C",
+    ["|"]  = "\\%7C",
+    ["\n"] = "\\%20",
+    ["\r"] = "\\%20",
+    ["\t"] = "\\%20"
+}
+
+
+-- Functions
+--- Calculate the day of week from date.
 function lib_lua_zeller(year, month, date)
     if (month < 1 or month > 12) then
         print("Not a valid month.")
@@ -44,7 +77,7 @@ function lib_lua_zeller(year, month, date)
 end
 
 
--- autocmd!!!
+--- autocmd!!!
 function lib_lua_augroup(group, event, pattern, command)
     vim.cmd('augroup '..group)
     vim.cmd('autocmd!')
@@ -53,8 +86,8 @@ function lib_lua_augroup(group, event, pattern, command)
 end
 
 
--- Define key maps
---- nnoremap
+--- Define key maps
+---- nnoremap
 function lib_lua_nn(map_table)
     vim.api.nvim_set_keymap(
     'n',

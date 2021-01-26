@@ -63,32 +63,32 @@ endfunction
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) Lib_Get_Char('n') ==# ")" ? lib_const_r : ")"
-ino <expr> ] Lib_Get_Char('n') ==# "]" ? lib_const_r : "]"
-ino <expr> } Lib_Get_Char('n') ==# "}" ? lib_const_r : "}"
+ino <expr> ) Lib_Get_Char('n') ==# ")" ? g:lib_const_r : ")"
+ino <expr> ] Lib_Get_Char('n') ==# "]" ? g:lib_const_r : "]"
+ino <expr> } Lib_Get_Char('n') ==# "}" ? g:lib_const_r : "}"
 ino <expr> "
       \ Lib_Get_Char('n') ==# "\"" ?
-      \ lib_const_r :
+      \ g:lib_const_r :
       \ or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
       \ '"' :
-      \ '""' . lib_const_l
+      \ '""' . g:lib_const_l
 ino <expr> '
       \ Lib_Get_Char('n') ==# "'" ?
-      \ lib_const_r :
+      \ g:lib_const_r :
       \ Lib_Get_Char('l') =~ '\v[''"]' ?
       \ "'" :
-      \ "''" . lib_const_l
+      \ "''" . g:lib_const_l
 ino <expr> <SPACE>
       \ <SID>subrc_is_surrounded(['{}']) ?
-      \ "\<SPACE>\<SPACE>" . lib_const_l :
+      \ "\<SPACE>\<SPACE>" . g:lib_const_l :
       \ "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()
 "" Markdown
-ino <expr> <M-P> "``" . lib_const_l
-ino <expr> <M-I> "**" . lib_const_l
-ino <expr> <M-B> "****" . repeat(lib_const_l, 2)
-ino <expr> <M-M> "******" . repeat(lib_const_l, 3)
-ino <expr> <M-U> "<u></u>" . repeat(lib_const_l, 4)
+ino <expr> <M-P> "``" . g:lib_const_l
+ino <expr> <M-I> "**" . g:lib_const_l
+ino <expr> <M-B> "****" . repeat(g:lib_const_l, 2)
+ino <expr> <M-M> "******" . repeat(g:lib_const_l, 3)
+ino <expr> <M-U> "<u></u>" . repeat(g:lib_const_l, 4)
 
 
 " Completion
@@ -102,5 +102,5 @@ ino <silent><expr> <CR>
 ino <silent><expr> <TAB>
       \ or(Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
       \ "\<C-n>" : Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-o>V>" . repeat(lib_const_r, &ts) : "\<TAB>"
+      \ "\<C-o>V>" . repeat(g:lib_const_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"

@@ -1,39 +1,9 @@
 " CONST
-"" Escape string for URL.
-let g:lib_const_esc_url = {
-      \ " " : "\\\%20",
-      \ "!" : "\\\%21",
-      \ '"' : "\\\%22",
-      \ "#" : "\\\%23",
-      \ "$" : "\\\%24",
-      \ "%" : "\\\%25",
-      \ "&" : "\\\%26",
-      \ "'" : "\\\%27",
-      \ "(" : "\\\%28",
-      \ ")" : "\\\%29",
-      \ "*" : "\\\%2A",
-      \ "+" : "\\\%2B",
-      \ "," : "\\\%2C",
-      \ "/" : "\\\%2F",
-      \ ":" : "\\\%3A",
-      \ ";" : "\\\%3B",
-      \ "<" : "\\\%3C",
-      \ "=" : "\\\%3D",
-      \ ">" : "\\\%3E",
-      \ "?" : "\\\%3F",
-      \ "@" : "\\\%40",
-      \ "\\": "\\\%5C",
-      \ "|" : "\\\%7C",
-      \ "\n": "\\\%20",
-      \ "\r": "\\\%20",
-      \ "\t": "\\\%20"
-      \ }
-
 "" Directional operation which won't mess up the history.
-let lib_const_l = "\<C-g>U\<Left>"
-let lib_const_d = "\<C-g>U\<Down>"
-let lib_const_u = "\<C-g>U\<Up>"
-let lib_const_r = "\<C-g>U\<Right>"
+let g:lib_const_l = "\<C-g>U\<Left>"
+let g:lib_const_d = "\<C-g>U\<Down>"
+let g:lib_const_u = "\<C-g>U\<Up>"
+let g:lib_const_r = "\<C-g>U\<Right>"
 
 
 " Functions
