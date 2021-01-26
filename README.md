@@ -81,7 +81,7 @@
   - in:  `<M-a>`      -> Select all.
   - v:   `<M-c>`      -> Copy to system clipboard.
   - t:   `<M-d>`      -> Close the terminal.
-  - int: `<M-e>`      -> NERDTree focus.
+  - int: `<M-e>`      -> *vim-markdown*, NERDTree focus.
   - nv:  `<M-f>`      -> Find and replace.
   - inv: `<M-h>`      -> Jump to the window left.
   - inv: `<M-j>`      -> Jump to the window below.
@@ -91,7 +91,7 @@
   - inv: `<M-v>`      -> Paste from system clipboard.
   - inv: `<M-w>`      -> Jump to the window in turn.
   - v:   `<M-x>`      -> Cut to system clipboard.
-  - n:   `<M-,>`      -> Open init.vim.
+  - n:   `<M-,>`      -> Open init.lua.
   - i:   `<M-CR>`     -> Auto insert bullet.
   - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
 * **Emacs shit**
@@ -110,6 +110,7 @@
 * **Leader**
   > `<leader>` is mapped to `<SPACE>`.
   - `<leader>b` -> **Buffer**.
+    - n:    `b` -> *nvim-bufferline.lua*, BufferLinePick
     - n:    `c` -> Set directory to the current buffer.
     - n:    `d` -> Delete buffer.
     - n:    `g` -> Toggle background.
@@ -129,29 +130,29 @@
     - nv:   `y` -> Youdao
   - `<leader>m` -> **vim-markdown**
     - n:    `l` -> Sort number list.
-    - n:    `m` -> Toggle math syntax.
-    - n:    `h` -> Toc horizontal.
-    - n:    `v` -> Toc vertical.
+    - n:    `m` -> *vim-markdown*, Toggle math syntax.
+    - n:    `h` -> *vim-markdown*, Toc horizontal.
+    - n:    `v` -> *vim-markdown*, Toc vertical.
   - `<leader>o` -> **Open**.
     - n:    `b` -> Open file of buffer with system default browser.
     - n:    `e` -> Open system file manager.
-    - nt:   `p` -> NERDTree toggle.
+    - nt:   `p` -> *nerdtree*, NERDTree toggle.
     - n:    `t` -> Open terminal.
   - `<leader>s` -> **Surrounding**.
     - nv:   `a` -> Surrounding add.
     - n:    `c` -> Surrounding change.
     - n:    `d` -> Surrounding delete.
   - `<leader>t` -> **vim-table-mode**
-    - n:    `a` -> Add formula.
-    - n:    `c` -> Evaluate formula.
-    - n:    `f` -> Re-align.
+    - n:    `a` -> *vim-table-mode*, Add formula.
+    - n:    `c` -> *vim-table-mode*, Evaluate formula.
+    - n:    `f` -> *vim-table-mode*, Re-align.
   - `<leader>v` -> **VCS**.
-    - n:    `j` -> Next hunk.
-    - n:    `k` -> Previous hunk.
-    - n:    `J` -> Last hunk.
-    - n:    `K` -> First hunk.
+    - n:    `j` -> *vim-signify*, Next hunk.
+    - n:    `k` -> *vim-signify*, Previous hunk.
+    - n:    `J` -> *vim-signify*, Last hunk.
+    - n:    `K` -> *vim-signify*, First hunk.
     - n:    `s` -> Git status.
-    - n:    `t` -> Signify toggle.
+    - n:    `t` -> *vim-signify*, Signify toggle.
 * **Misc**
   - v:   `*`    -> Search visual selection.
   - invt:`<F2>` -> Toggle mouse status.
