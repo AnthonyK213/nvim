@@ -291,8 +291,8 @@ hi! link qfLineNr                Nano_Face_Subtle
 hi! link ModeMsg                 Nano_Face_Faded
 hi! link helpHyperTextEntry      Nano_Face_Salient
 hi! link helpHyperTextJump       Nano_Face_Popout
-hi! link TabLine                 Nano_Face_Default
-hi! link TabLineSel              Nano_Face_Salient
+hi! link TabLine                 Nano_Face_Faded
+hi! link TabLineSel              Nano_Face_Strong
 hi! link TabLineFill             Nano_Face_Default
 hi! link htmlH1                  Nano_Face_Strong
 hi! link htmlH2                  Nano_Face_Strong
