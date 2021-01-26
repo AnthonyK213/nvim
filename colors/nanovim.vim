@@ -1,6 +1,6 @@
 " Name:    nanovim.vim
 " Licence: MIT
-
+" vim:     set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
 
 let g:nanovim_mode={
       \ 'n'  : ' N ',
@@ -22,8 +22,7 @@ set noshowmode
 if exists('syntax on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
-
-" Colors
+" Colors {{
 if &background ==# 'light'
   let s:nano_color_background = { "gui": "#FAFAFA", "cterm": "15"  } "White
   let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
@@ -45,8 +44,9 @@ elseif &background ==# 'dark'
   let s:nano_color_faded      = { "gui": "#616E87", "cterm": "244" }
   let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  } "Snow Storm 3  / nord 6
 endif
+" }}
 
-
+" Faces {{
 " Define highlight groups
 function! s:h(group, style)
   execute "highlight" a:group
@@ -236,8 +236,9 @@ call s:h("SpellBad", {
       \ "fg": s:nano_color_popout,
       \ "gui": "underline"
       \ })
+" }}
 
-
+" Links {{
 hi! link Identifier              Nano_Face_Default
 hi! link Function                Nano_Face_Strong
 hi! link Type                    Nano_Face_Salient
@@ -363,16 +364,15 @@ hi link ALEInfoSign              Nano_Face_Subtle
 
 hi link sqlStatement             Nano_Face_Salient
 hi link sqlKeyword               Nano_Face_Salient
+" }}
 
-
+" StatusLine {{
 " Get the branch
 function Nanovim_get_git_branch()
   let l:git_branch = Lib_Get_Git_Branch(Lib_Get_Git_Root())
   return l:git_branch[0]? '#' . l:git_branch[1] : ''
 endfunction
 
-
-" StatusLine
 " | MODE || short_file_name git_branch        file_type file_encoding line:col |
 function! s:nanovim_set_buf()
   set statusline=
@@ -386,8 +386,8 @@ function! s:nanovim_set_buf()
   set statusline+=%#Nano_Face_Default#\ 
 endfunction
 
-
 augroup nanovim_set_buffer
   autocmd!
   autocmd BufEnter,FileChangedShellPost * call <SID>nanovim_set_buf()
 augroup end
+" }}
