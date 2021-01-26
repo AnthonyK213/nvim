@@ -1,11 +1,3 @@
-" CONST
-"" Directional operation which won't mess up the history.
-let g:lib_const_l = "\<C-g>U\<Left>"
-let g:lib_const_d = "\<C-g>U\<Down>"
-let g:lib_const_u = "\<C-g>U\<Up>"
-let g:lib_const_r = "\<C-g>U\<Right>"
-
-
 " Functions
 "" Find the root directory of .git
 function! Lib_Get_Git_Root()

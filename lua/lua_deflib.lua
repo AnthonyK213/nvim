@@ -31,6 +31,11 @@ vim.g.lib_const_esc_url = {
     ["\r"] = "\\%20",
     ["\t"] = "\\%20"
 }
+--- Directional operation which won't mess up the history.
+vim.g.lib_const_l = vim.fn.nvim_replace_termcodes("<C-G>U<Left>",  true, false, true)
+vim.g.lib_const_d = vim.fn.nvim_replace_termcodes("<C-G>U<Down>",  true, false, true)
+vim.g.lib_const_u = vim.fn.nvim_replace_termcodes("<C-G>U<Up>",    true, false, true)
+vim.g.lib_const_r = vim.fn.nvim_replace_termcodes("<C-G>U<Right>", true, false, true)
 
 
 -- Functions
@@ -40,16 +45,6 @@ function lib_lua_belowright_split(height)
     vim.cmd('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
 end
-
-
---- autocmd!!!
-function lib_lua_augroup(group, event, pattern, command)
-    vim.cmd('augroup '..group)
-    vim.cmd('autocmd!')
-    vim.cmd('au '..event..' '..pattern..' '..command)
-    vim.cmd('augroup end')
-end
-
 
 --- Calculate the day of week from date.
 function lib_lua_zeller(year, month, date)
@@ -92,5 +87,3 @@ function lib_lua_zeller(year, month, date)
 
     return days_list[z]
 end
-
-

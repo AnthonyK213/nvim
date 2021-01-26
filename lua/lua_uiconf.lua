@@ -18,12 +18,10 @@ function uiconf_lua_one_extend()
   one_hl('htmlH3',           'e06c75', '', '')
 end
 -- When colorscheme set to vim-one.
-lib_lua_augroup(
-'vim_one_extend',
-'ColorScheme',
-'one',
-'call v:lua.uiconf_lua_one_extend()'
-)
+vim.cmd('augroup vim_one_extend')
+vim.cmd('autocmd!')
+vim.cmd('au ColorScheme one call v:lua.uiconf_lua_one_extend()')
+vim.cmd('augroup end')
 vim.o.bg  = 'dark'
 vim.g.one_allow_italics = 1
 vim.cmd('colorscheme one')
@@ -314,3 +312,8 @@ require'bufferline'.setup {
         sort_by = 'extension'
     }
 }
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>bb',
+    '<cmd>BufferLinePick<CR>',
+    { noremap = true, silent = true })
