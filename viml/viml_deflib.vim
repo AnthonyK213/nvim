@@ -7,13 +7,6 @@ let g:lib_const_r = "\<C-g>U\<Right>"
 
 
 " Functions
-"" Create a below right split window.
-function! Lib_Belowright_Split(height)
-  let l:height = min([a:height, nvim_win_get_height(0) / 2])
-  belowright split
-  exe 'resize' l:height
-endfunction
-
 "" Find the root directory of .git
 function! Lib_Get_Git_Root()
   let l:dir = expand('%:p:h')

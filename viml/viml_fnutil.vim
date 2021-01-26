@@ -30,12 +30,6 @@ let s:util_web_list = {
 
 
 " Functions
-"" Open terminal and launch shell
-function! s:util_terminal()
-  call Lib_Belowright_Split(15)
-  exe ':terminal' g:util_def_shell
-endfunction
-
 "" Open file of buffer with system default browser.
 function! s:util_open()
   let l:file_path = '"' . escape(expand('%:p'), '%#') . '"'
@@ -186,84 +180,10 @@ function! s:util_git_push_all(...)
   endif
 endfunction
 
-"" Run code
-function! s:util_run_or_compile(option)
-  let l:optn = a:option
-  let l:size = 30
-  let l:cmdh = 'term'
-  let l:file = expand('%:t')
-  let l:name = expand('%:r')
-  let l:exts = expand('%:e')
-  if has("win32")
-    let l:exec = ''
-    let l:oute = '.exe'
-  else
-    let l:exec = './'
-    let l:oute = ''
-  end
-
-  if l:exts ==? 'py'
-    " PYTHON
-    call Lib_Belowright_Split(l:size)
-    exe l:cmdh 'python' l:file
-  elseif l:exts ==? 'c'
-    " C
-    let l:cmd_arg = ['', 'check', 'build']
-    if index(l:cmd_arg, l:optn) < 0
-      echo "Invalid argument."
-      return
-    endif
-    call Lib_Belowright_Split(l:size)
-    if l:optn ==? ''
-      exe l:cmdh g:util_def_cc l:file '-o' l:name . l:oute '&&' l:exec . l:name
-    elseif l:optn ==? 'check'
-      exe l:cmdh g:util_def_cc l:file '-g -o' l:name . l:oute
-    elseif l:optn ==? 'build'
-      exe l:cmdh g:util_def_cc l:file '-O2 -o' l:name . l:oute
-    endif
-  elseif l:exts ==? 'cpp'
-    " C++
-    call Lib_Belowright_Split(l:size)
-    exe l:cmdh 'g++' l:file
-  elseif l:exts ==? 'rs'
-    " RUST
-    let l:cmd_arg = ['', 'rustc', 'clean', 'check', 'build']
-    if index(l:cmd_arg, l:optn) < 0
-      echo "Invalid argument."
-      return
-    endif
-    if l:optn ==? 'clean'
-      exe '!cargo clean'
-      return
-    endif
-    call Lib_Belowright_Split(l:size)
-    if l:optn ==? ''
-      exe l:cmdh 'cargo run'
-    elseif l:optn ==? 'rustc'
-      exe l:cmdh 'rustc' l:file '&&' l:exec . l:name
-    elseif l:optn ==? 'check'
-      exe l:cmdh 'cargo check'
-    elseif l:optn ==? 'build'
-      exe l:cmdh 'cargo build --release'
-    endif
-  elseif l:exts ==? 'vim'
-    " VIML
-    exe 'source %'
-  elseif l:exts ==? 'lua'
-    " LUA
-    exe 'luafile %'
-  else
-    " ERROR
-    echo 'Unknown file type: .' . l:exts
-  endif
-endfunction
-
 
 " Key maps
 """ Explorer
 nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
-"" Terminal
-nn  <silent> <leader>ot :call <SID>util_terminal()<CR>i
 "" Open with system default browser
 nn  <silent> <leader>ob :call <SID>util_open()<CR>
 "" Windows-like behaviors
@@ -326,9 +246,5 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l
 " Commands
 "" Git
 command! -nargs=* PushAll :call <SID>util_git_push_all(<f-args>)
-"" Run code
-command! -nargs=? CodeRun :call <SID>util_run_or_compile(<q-args>)
-"" Echo time(May be useful in full screen?)
-command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)

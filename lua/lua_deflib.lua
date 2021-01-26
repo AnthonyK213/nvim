@@ -34,6 +34,23 @@ vim.g.lib_const_esc_url = {
 
 
 -- Functions
+--- Create a below right split window.
+function lib_lua_belowright_split(height)
+    local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))
+    vim.cmd('belowright split')
+    vim.fn.execute('resize '..tostring(term_h))
+end
+
+
+--- autocmd!!!
+function lib_lua_augroup(group, event, pattern, command)
+    vim.cmd('augroup '..group)
+    vim.cmd('autocmd!')
+    vim.cmd('au '..event..' '..pattern..' '..command)
+    vim.cmd('augroup end')
+end
+
+
 --- Calculate the day of week from date.
 function lib_lua_zeller(year, month, date)
     if (month < 1 or month > 12) then
@@ -77,21 +94,3 @@ function lib_lua_zeller(year, month, date)
 end
 
 
---- autocmd!!!
-function lib_lua_augroup(group, event, pattern, command)
-    vim.cmd('augroup '..group)
-    vim.cmd('autocmd!')
-    vim.cmd('au '..event..' '..pattern..' '..command)
-    vim.cmd('augroup end')
-end
-
-
---- Define key maps
----- nnoremap
-function lib_lua_nn(map_table)
-    vim.api.nvim_set_keymap(
-    'n',
-    map_table.key,
-    map_table.cmd,
-    { noremap=true, silent=true })
-end

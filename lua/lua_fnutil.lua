@@ -24,6 +24,12 @@ function util_lua_bg_toggle()
     end
 end
 
+--- Open terminal and launch shell
+function util_lua_terminal()
+    lib_lua_belowright_split(15)
+    vim.fn.execute(':terminal '..vim.g.util_def_shell)
+end
+
 --- Hanzi count.
 function util_lua_hanzi_count(mode)
     local content
@@ -80,7 +86,7 @@ function util_lua_append_day_from_date()
         local cword_stt = match_cword[2]
         local cword_end = vim.fn.matchstrpos(line, str_date, cword_stt)[3]
         vim.fn.setpos('.', {0, vim.fn.line('.'), cword_end})
-        vim.fn.execute('normal! a '..day_of_week)
+        vim.fn.nvim_input('a '..day_of_week..'<ESC>')
     end
 end
 
@@ -125,7 +131,7 @@ function util_lua_md_insert_bullet()
     end
 
     if (l_det == 0) then
-        vim.fn.execute('normal! o')
+        vim.fn.nvim_input('<C-O>o')
     else
         local f_num = c_num + 1
         local move_stp = 0
@@ -161,8 +167,9 @@ function util_lua_md_insert_bullet()
         else
             l_bul_new = l_bul.." "
         end
-        vim.cmd("call feedkeys(\""..string.rep("\\<C-g>U\\<Down>", count_d)..
-            "\\<C-o>o\\<C-o>0"..string.rep("\\<SPACE>", l_ind)..l_bul_new.."\")")
+        local feed_string = vim.fn.nvim_replace_termcodes(string.rep('<Down>', count_d)..
+        '<C-O>o<C-O>i'..string.rep('<SPACE>', l_ind)..l_bul_new, true, false, true)
+        vim.fn.nvim_feedkeys(feed_string, 'i', true)
     end
 end
 
@@ -237,13 +244,88 @@ function util_lua_latex_biber()
     util_lua_latex_xelatex2()
 end
 
+--- Run code
+function util_lua_run_or_compile(option)
+    local size = 30
+    local cmdh = 'term'
+    local path = vim.fn.expand('%:p')
+    local file = vim.fn.expand('%:t')
+    local name = vim.fn.expand('%:r')
+    local exts = string.lower(vim.fn.expand('%:e'))
+    local exec, oute
+
+    if vim.fn.has('win32') then
+        exec = ''
+        oute = '.exe'
+    else
+        exec = './'
+        oute = ''
+    end
+
+    local term_cmd
+    local term_use = true
+    if exts == 'py' then
+        term_cmd = cmdh..' python '..file
+    elseif exts == 'c' then
+        if option == '' then
+            term_cmd = cmdh..' '..vim.g.util_def_cc..' '..
+            file..' -o '..name..oute..' && '..exec..name
+        elseif option == 'check' then
+            term_cmd = cmdh..' '..vim.g.util_def_cc..' '..
+            file..' -g -o '..name..oute
+        elseif option == 'build' then
+            term_cmd = cmdh..' '..vim.g.util_def_cc..' '..
+            file..' -O2 -o '..name..oute
+        else
+            print('Invalid argument.')
+            return
+        end
+    elseif exts == 'cpp' then
+        term_cmd = cmdh..' g++ '..file
+    elseif exts == 'rs' then
+        if option == '' then
+            term_cmd = cmdh..' cargo run'
+        elseif option == 'rustc' then
+            term_cmd = cmdh..' rustc '..file..
+            ' && '..exec..name
+        elseif option == 'clean' then
+            term_cmd = '!cargo clean'
+            term_use = false
+        elseif option == 'check' then
+            term_cmd = cmdh..' cargo check'
+        elseif option == 'build' then
+            term_cmd = cmdh..' cargo build --release'
+        else
+            print('Invalid argument.')
+            return
+        end
+    elseif exts == 'vim' then
+        term_cmd = 'source '..path
+        term_use = false
+    elseif exts == 'lua' then
+        term_cmd = 'luafile '..path
+        term_use = false
+    else
+        print('Unknown file type: .'..exts)
+        return
+    end
+
+    if term_use then
+        lib_lua_belowright_split(size)
+        vim.fn.execute(term_cmd)
+    else
+        vim.cmd(term_cmd)
+    end
+end
+
 
 -- Key maps
 --- Mouse toggle
-lib_lua_nn {
-    key = '<F2>',
-    cmd = '<cmd>call v:lua.util_lua_mouse_toggle()<CR>'
-}
+vim.api.nvim_set_keymap(
+    'n',
+    '<F2>',
+    '<cmd>call v:lua.util_lua_mouse_toggle()<CR>',
+    { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'v',
     '<F2>',
@@ -260,40 +342,51 @@ vim.api.nvim_set_keymap(
     '<C-\\><C-N><cmd>call v:lua.util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
 --- Background toggle
-lib_lua_nn {
-    key = '<leader>bg',
-    cmd = '<cmd>call v:lua.util_lua_bg_toggle()<CR>'
-}
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>bg',
+    '<cmd>call v:lua.util_lua_bg_toggle()<CR>',
+    { noremap = true, silent = true })
+--- Terminal
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>ot',
+    '<cmd>call v:lua.util_lua_terminal()<CR>i',
+    { noremap = true, silent = true })
 --- Hanzi count.
-lib_lua_nn {
-    key = '<leader>cc',
-    cmd = ":echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('n')<CR>"
-}
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>cc',
+    ":echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('n')<CR>",
+    { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'v',
     '<leader>cc',
     ":<C-u>echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('v')<CR>",
     { noremap = true, silent = true })
 --- Append day of week after the date
-lib_lua_nn {
-    key = '<leader>dd',
-    cmd = ":call v:lua.util_lua_append_day_from_date()<CR>"
-}
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>dd',
+    ":call v:lua.util_lua_append_day_from_date()<CR>",
+    { noremap = true, silent = true })
 --- Insert an orgmode-style timestamp at the end of the line
-lib_lua_nn {
-    key = '<leader>ds',
-    cmd = "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>"
-}
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>ds',
+    "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>",
+    { noremap = true, silent = true })
 --- List bullets
 vim.api.nvim_set_keymap(
     'i',
     '<M-CR>',
     "<C-o>:call v:lua.util_lua_md_insert_bullet()<CR>",
     { noremap = true, silent = true })
-lib_lua_nn {
-    key = '<leader>ml',
-    cmd = ":call v:lua.util_lua_md_sort_num_bullet()<CR>"
-}
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>ml',
+    ":call v:lua.util_lua_md_sort_num_bullet()<CR>",
+    { noremap = true, silent = true })
 
 
 -- Commands
@@ -301,3 +394,7 @@ lib_lua_nn {
 vim.cmd('command! Xe1 call v:lua.util_lua_latex_xelatex()')
 vim.cmd('command! Xe2 call v:lua.util_lua_latex_xelatex2()')
 vim.cmd('command! Bib call v:lua.util_lua_latex_biber()')
+--- Run or compile
+vim.cmd('command! -nargs=? CodeRun :call v:lua.util_lua_run_or_compile(<q-args>)')
+--- Echo time(May be useful in full screen?)
+vim.cmd([[command! Time :echo strftime('%Y-%m-%d %a %T')]])
