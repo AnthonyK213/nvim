@@ -1,6 +1,3 @@
-init_source('plugrc')
-
-
 -- NERDTree
 vim.g.NERDTreeDirArrowExpandable  = '+'
 vim.g.NERDTreeDirArrowCollapsible = '-'
@@ -111,6 +108,11 @@ vim.g.mkdp_preview_options = {
 
 
 -- vim-table-mode
+vim.cmd('augroup vim_table_mode_style')
+vim.cmd('autocmd!')
+vim.cmd('au BufEnter *    let b:table_mode_corner = "+"')
+vim.cmd('au BufEnter *.md let b:table_mode_corner = "|"')
+vim.cmd('augroup end')
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ta',
@@ -148,7 +150,12 @@ vim.g.vimtex_compiler_progname = 'nvr'
 
 -- indentLine
 vim.g.indentLine_char = '¦'
-vim.g.indentLine_setConceal = 0
+vim.g.indentLine_setConceal = 1
+vim.cmd('augroup indentline_status')
+vim.cmd('autocmd!')
+vim.cmd('au BufEnter,BufRead * let b:indentLine_enabled = 1')
+vim.cmd('au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let b:indentLine_enabled = 0')
+vim.cmd('augroup end')
 
 
 -- vim-ipairs
@@ -212,6 +219,10 @@ vim.g.completion_chain_complete_list = {
 local custom_attach = function(client)
     require'completion'.on_attach(client)
 end
+vim.cmd('augroup completion_nvim_enable_all')
+vim.cmd('autocmd!')
+vim.cmd('au BufEnter * lua require("completion").on_attach()')
+vim.cmd('augroup end')
 vim.api.nvim_set_keymap(
     'i',
     '<CR>',
@@ -245,6 +256,13 @@ vim.api.nvim_set_keymap(
 
 -- nvim-lspconfig
 local lspconfig = require'lspconfig'
+function plugrc_lua_show_doc()
+    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+        vim.fn.execute('h '..vim.fn.expand('<cword>'))
+    else
+        vim.lsp.buf.hover()
+    end
+end
 --- clangd
 lspconfig.clangd.setup { on_attach=custom_attach }
 --- rls
@@ -255,5 +273,80 @@ lspconfig.jedi_language_server.setup { on_attach=custom_attach }
 lspconfig.texlab.setup { on_attach=custom_attach }
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-vim.lsp.diagnostic.on_publish_diagnostics,
-{ virtual_text = true, signs = true, update_in_insert = true })
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    { virtual_text = true, signs = true, update_in_insert = true })
+--- Show diagnostic popup on cursor hold
+vim.cmd('augroup lsp_diagnositic_on_hold')
+vim.cmd('autocmd!')
+vim.cmd('au CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
+vim.cmd('augroup end')
+--- Code navigation shortcuts
+vim.api.nvim_set_keymap(
+    'n',
+    'K',
+    '<cmd>call v:lua.plugrc_lua_show_doc()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>g0',
+    '<cmd>lua vim.lsp.buf.document_symbol()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>ga',
+    '<cmd>lua vim.lsp.buf.code_action()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gd',
+    '<cmd>lua vim.lsp.buf.declaration()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gf',
+    '<cmd>lua vim.lsp.buf.definition()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gh',
+    '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gi',
+    '<cmd>lua vim.lsp.buf.implementation()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gr',
+    '<cmd>lua vim.lsp.buf.references()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gt',
+    '<cmd>lua vim.lsp.buf.type_definition()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>gw',
+    '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>',
+    { noremap = true, silent = true })
+--- Goto previous/next diagnostic warning/error
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>g[',
+    '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>g]',
+    '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',
+    { noremap = true, silent = true })
+
+
+-- treesitter
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+}

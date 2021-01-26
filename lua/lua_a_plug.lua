@@ -32,3 +32,6 @@ paq {'honza/vim-snippets'}
 paq {'neovim/nvim-lspconfig'}
 paq {'nvim-lua/completion-nvim'}
 paq {'tjdevries/lsp_extensions.nvim'}
+
+
+paq {'nvim-treesitter/nvim-treesitter', hook=':TSUpdate'}
