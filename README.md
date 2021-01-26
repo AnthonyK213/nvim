@@ -81,7 +81,7 @@
   - in:  `<M-a>`      -> Select all.
   - v:   `<M-c>`      -> Copy to system clipboard.
   - t:   `<M-d>`      -> Close the terminal.
-  - int: `<M-e>`      -> *vim-markdown*, NERDTree focus.
+  - int: `<M-e>`      -> *nerdtree*, NERDTree focus.
   - nv:  `<M-f>`      -> Find and replace.
   - inv: `<M-h>`      -> Jump to the window left.
   - inv: `<M-j>`      -> Jump to the window below.
