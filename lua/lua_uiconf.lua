@@ -30,45 +30,6 @@ vim.g.one_allow_italics = 1
 vim.cmd('colorscheme one')
 
 
---[[
--- vim-airline
-vim.api.nvim_set_var('airline#extensions#tabline#enabled', 1)
-vim.api.nvim_set_var('airline#extensions#branch#enabled',  1)
---- Symbols
-vim.g.airline_symbols = { ['branch'] = '' }
---- Separators
----     ;     ;    
-vim.g.airline_left_sep     = ''
-vim.g.airline_left_alt_sep = ''
---- Mode abbr.
-vim.g.airline_mode_map = {
-    ['__']    = '-',
-    ['c']     = 'C',
-    ['i']     = 'I',
-    ['ic']    = 'I',
-    ['ix']    = 'I',
-    ['n']     = 'N',
-    ['multi'] = 'M',
-    ['ni']    = 'Ĩ',
-    ['no']    = 'N',
-    ['R']     = 'R',
-    ['Rv']    = 'R',
-    ['s']     = 'S',
-    ['S']     = 'S',
-    ['']    = 'S',
-    ['t']     = 'T',
-    ['v']     = 'V',
-    ['V']     = 'Ṿ',
-    ['']    = 'Ṽ',
-}
---- Tab
-vim.api.nvim_set_var('airline#extensions#tabline#formatter', 'unique_tail')
-vim.g.airline_theme = 'one'
---- Load vim-airline
-vim.cmd('packadd vim-airline')
---]]
-
-
 -- galaxyline
 vim.cmd('packadd galaxyline.nvim')
 
@@ -324,3 +285,33 @@ gls.short_line_left[2] = {
 }
 -- Force manual load so that nvim boots with a status line
 gl.load_galaxyline()
+
+
+-- nvim-bufferline.lua
+vim.cmd('packadd nvim-bufferline.lua')
+require'bufferline'.setup {
+    options = {
+        view = "default",
+        numbers = "none",
+        number_style = "",
+        mappings = false,
+        buffer_close_icon= 'x',
+        modified_icon = '+',
+        close_icon = 'x',
+        left_trunc_marker = '<',
+        right_trunc_marker = '>',
+        max_name_length = 18,
+        max_prefix_length = 15,
+        tab_size = 18,
+        diagnostics = 'nvim_lsp',
+        diagnostics_indicator = function(count, level)
+            return "("..count..")"
+        end,
+        show_buffer_close_icons = true,
+        persist_buffer_sort = true,
+        separator_style = "thin",
+        enforce_regular_tabs = false,
+        always_show_bufferline = true,
+        sort_by = 'extension'
+    }
+}

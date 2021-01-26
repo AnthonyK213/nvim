@@ -5,8 +5,8 @@ local paq = require('paq-nvim').paq
 paq {'savq/paq-nvim', opt=true}
 -- Visual
 paq {'rakr/vim-one', opt=true}
-paq {'vim-airline/vim-airline', opt=true}
 paq {'glepnir/galaxyline.nvim', branch='main', opt=true}
+paq {'akinsho/nvim-bufferline.lua', opt=true}
 --paq {'kyazdani42/nvim-web-devicons'}
 -- Tree manager
 paq {'preservim/nerdtree'}
