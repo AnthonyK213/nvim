@@ -148,7 +148,7 @@ vim.g.vimtex_compiler_progname = 'nvr'
 
 -- indentLine
 vim.g.indentLine_char = '¦'
---vim.g.indentLine_setConceal = 1
+vim.g.indentLine_setConceal = 0
 
 
 -- vim-ipairs
