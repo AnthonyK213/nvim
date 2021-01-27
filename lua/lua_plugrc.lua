@@ -197,30 +197,34 @@ vim.g.completion_matching_smart_case = 1
 vim.g.completion_trigger_keyword_length = 2
 vim.g.completion_matching_strategy_list = { 'exact', 'substring', 'fuzzy' }
 vim.g.completion_chain_complete_list = {
-    ['vim'] = {
-        { ['complete_items'] = { 'UltiSnips' } },
-        { ['mode']           = '<c-p>' },
-        { ['mode']           = '<c-n>' }
+    default = {
+        { complete_items = { 'lsp', 'UltiSnips' } },
+        { complete_items = { 'path' }, triggered_only = { '/' } },
+        { mode           = '<c-p>' },
+        { mode           = '<c-n>' }
     },
-    ['lua'] = {
-        { ['complete_items'] = { 'ts', 'UltiSnips' } },
-        { ['mode']           = '<c-p>' },
-        { ['mode']           = '<c-n>' }
+    vim = {
+        { complete_items = { 'UltiSnips' } },
+        { mode           = '<c-p>' },
+        { mode           = '<c-n>' }
     },
-    ['markdown'] = {
-        { ['mode'] = '<c-p>' },
-        { ['mode'] = '<c-n>' }
+    lua = {
+        { complete_items = { 'ts', 'UltiSnips' } },
+        { mode           = '<c-p>' },
+        { mode           = '<c-n>' }
     },
-    ['default'] = {
-        { ['complete_items'] = { 'lsp', 'UltiSnips' } },
-        { ['complete_items'] = { 'path' }, ['triggered_only'] = { '/' } },
-        { ['mode']           = '<c-p>' },
-        { ['mode']           = '<c-n>' }
-    }
+    markdown = {
+        { mode = '<c-p>' },
+        { mode = '<c-n>' }
+    },
+    string = {
+        { complete_items = { 'path' }, triggered_only = { '/' } },
+    },
+    comment = {}
 }
 --- completion attach
-local custom_attach = function(client)
-    require'completion'.on_attach(client)
+local custom_attach = function()
+    require'completion'.on_attach()
 end
 vim.cmd('augroup completion_nvim_enable_all')
 vim.cmd('autocmd!')
@@ -277,7 +281,7 @@ lspconfig.texlab.setup { on_attach=custom_attach }
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
-    { virtual_text = true, signs = true, update_in_insert = true })
+    { virtual_text = true, signs = true, update_in_insert = false })
 --- Show diagnostic popup on cursor hold
 vim.cmd('augroup lsp_diagnositic_on_hold')
 vim.cmd('autocmd!')
