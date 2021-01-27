@@ -288,7 +288,7 @@ gl.load_galaxyline()
 vim.cmd('packadd nvim-bufferline.lua')
 require'bufferline'.setup {
     options = {
-        view = "multiwindow",
+        view = "default",
         numbers = "none",
         number_style = "",
         mappings = false,

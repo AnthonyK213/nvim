@@ -1,5 +1,16 @@
 init_source('fnutil')
 
+
+-- Variables
+--- Search web
+local util_web_list = {
+    b = "https://www.baidu.com/s?wd=",
+    g = "https://www.google.com/search?q=",
+    h = "https://github.com/search?q=",
+    y = "https://dict.youdao.com/w/eng/"
+}
+
+
 -- Functions
 --- Mouse toggle
 function util_lua_mouse_toggle(args)
@@ -64,6 +75,32 @@ function util_lua_hanzi_count(mode)
     end
 
     return h_count
+end
+
+--- Search web
+function util_lua_search_web(mode, site)
+    local search_obj
+    if mode == 'n' then
+        local del_list = {
+            ".", ",", "'", "\"",
+            ";", "*", "~", "`", 
+            "(", ")", "[", "]", "{", "}"
+        }
+        search_obj = vim.fn.Lib_Str_Escape(
+        lib_lua_get_clean_cWORD(del_list), lib_const_esc_url)
+    elseif mode == 'v' then
+        search_obj = vim.fn.Lib_Str_Escape(
+        vim.fn.Lib_Get_Visual_Selection(), lib_const_esc_url)
+    end
+
+    local url_raw = util_web_list[site]..search_obj
+    local url_arg
+    if vim.fn.has('win32') then
+        url_arg = url_raw
+    else
+        url_arg = "\""..url_raw.."\""
+    end
+    vim.fn.execute('!'..vim.g.util_def_start..' '..url_arg)
 end
 
 --- Calculate the day of week from a date(yyyy-mm-dd).
@@ -411,6 +448,19 @@ vim.api.nvim_set_keymap(
     '<leader>ml',
     ":call v:lua.util_lua_md_sort_num_bullet()<CR>",
     { noremap = true, silent = true })
+--- Search cword in web browser
+for key,_ in pairs(util_web_list) do
+    vim.api.nvim_set_keymap(
+        'n',
+        '<leader>k'..key,
+        '<cmd>call v:lua.util_lua_search_web("n", "'..key..'")<CR>',
+        { noremap = true, silent = true })
+    vim.api.nvim_set_keymap(
+        'v',
+        '<leader>k'..key,
+        ':<C-U>call v:lua.util_lua_search_web("v", "'..key..'")<CR>',
+        { noremap = true, silent = true })
+end
 
 
 -- Commands

@@ -20,13 +20,6 @@ elseif has("mac")
   let g:util_def_start = 'open'
   let g:util_def_cc = get(g:, 'default_c_compiler', 'clang')
 endif
-"" Search web
-let s:util_web_list = {
-      \ "b" : "https://www.baidu.com/s?wd=",
-      \ "g" : "https://www.google.com/search?q=",
-      \ "h" : "https://github.com/search?q=",
-      \ "y" : "https://dict.youdao.com/w/eng/"
-      \ }
 
 
 " Functions
@@ -97,24 +90,6 @@ function! s:util_sur_sub(...)
     let l:line_new = l:back_new . l:fore_new
     call setline(line('.'), l:line_new)
   endif
-endfunction
-
-"" Search web
-function! s:util_search_web(mode, site)
-  let l:del_list = [
-        \ ".", ",", "'", "\"",
-        \ ";", "*", "~", "`", 
-        \ "(", ")", "[", "]", "{", "}"
-        \ ]
-  if a:mode ==? "n"
-    let l:search_obj = Lib_Str_Escape(Lib_Get_Clean_CWORD(l:del_list), g:lib_const_esc_url)
-  elseif a:mode ==? "v"
-    let l:search_obj = Lib_Str_Escape(Lib_Get_Visual_Selection(), g:lib_const_esc_url)
-  endif
-  let l:url_raw = s:util_web_list[a:site] . l:search_obj
-  let l:url_arg = has("win32") ? l:url_raw : '"' . l:url_raw . '"'
-  silent exe '!' . g:util_def_start l:url_arg
-  redraw
 endfunction
 
 "" Git push all
@@ -201,11 +176,6 @@ for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
 endfor
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
-"" Search cword in web browser
-for key in keys(s:util_web_list)
-  exe 'nn <silent> <leader>k' . key ':call <SID>util_search_web("n", "' . key . '")<CR>'
-  exe 'vn <silent> <leader>k' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
-endfor
 "" Echo git status
 nn <silent> <leader>vs :!git status<CR>
 "" Some emacs shit.

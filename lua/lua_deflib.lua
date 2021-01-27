@@ -3,7 +3,7 @@ init_source('deflib')
 
 -- CONST
 --- Escape string for URL.
-vim.g.lib_const_esc_url = {
+lib_const_esc_url = {
     [" "]  = "\\%20",
     ["!"]  = "\\%21",
     ['"']  = "\\%22",
@@ -44,6 +44,18 @@ function lib_lua_belowright_split(height)
     local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))
     vim.cmd('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
+end
+
+--- Return the <cWORD> without the noisy characters.
+function lib_lua_get_clean_cWORD(del_list)
+    local c_word = vim.fn.split(vim.fn.expand("<cWORD>"), "\\zs")
+    while vim.fn.index(del_list, c_word[#c_word]) >= 0 and #c_word >= 2 do
+        table.remove(c_word, #c_word)
+    end
+    while vim.fn.index(del_list, c_word[1]) >= 0 and #c_word >= 2 do
+        table.remove(c_word, 1)
+    end
+    return table.concat(c_word)
 end
 
 --- Calculate the day of week from date.

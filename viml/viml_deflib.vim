@@ -39,18 +39,6 @@ function! Lib_Get_Char(num) abort
   endif
 endfunction
 
-"" Return the <cWORD> without the noisy characters.
-function! Lib_Get_Clean_CWORD(del_list)
-  let l:c_word = expand("<cWORD>")
-  while index(a:del_list, l:c_word[(len(l:c_word) - 1)]) >= 0 && len(l:c_word) >= 2
-    let l:c_word = l:c_word[:(len(l:c_word) - 2)]
-  endwhile
-  while index(a:del_list, l:c_word[0]) >= 0 && len(l:c_word) >= 2
-    let l:c_word = l:c_word[1:]
-  endwhile
-  return l:c_word
-endfunction
-
 "" Return the selections as string.
 function! Lib_Get_Visual_Selection()
   try
