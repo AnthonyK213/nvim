@@ -247,6 +247,13 @@ gls.right[7] = {
     }
 }
 gls.right[8] = {
+    Encode = {
+        provider  = {'FileEncode', function() return ' ' end},
+        highlight = {colors.fg, colors.section_bg},
+        condition = buffer_not_empty
+    }
+}
+gls.right[9] = {
     PerCent = {
         provider = {'LineColumn', function() return ' ' end},
         highlight = {colors.gray2, colors.blue},
@@ -254,7 +261,7 @@ gls.right[8] = {
         separator_highlight = {colors.section_bg, colors.blue},
     }
 }
-gls.right[9] = {
+gls.right[10] = {
   ScrollBar = {
     provider = 'ScrollBar',
     highlight = {colors.yellow,colors.purple},
