@@ -27,7 +27,19 @@ end
 --- Open terminal and launch shell
 function util_lua_terminal()
     lib_lua_belowright_split(15)
-    vim.fn.execute(':terminal '..vim.g.util_def_shell)
+    vim.fn.execute('terminal '..vim.g.util_def_shell)
+end
+
+--- Open file of current buffer with system default browser.
+function util_lua_open()
+    local file_path = "\""..vim.fn.escape(vim.fn.expand('%:p'), '%#').."\""
+    local cmd
+    if vim.fn.has("win32") == 1 then
+        cmd = ''
+    else
+        cmd = vim.g.util_def_start
+    end
+    vim.fn.execute('!'..cmd..' '..file_path)
 end
 
 --- Hanzi count.
@@ -347,11 +359,23 @@ vim.api.nvim_set_keymap(
     '<leader>bg',
     '<cmd>call v:lua.util_lua_bg_toggle()<CR>',
     { noremap = true, silent = true })
+--- Explorer
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>oe',
+    "<cmd>silent exe '!' . g:util_def_start '.'<CR>",
+    { noremap = true, silent = true })
 --- Terminal
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ot',
     '<cmd>call v:lua.util_lua_terminal()<CR>i',
+    { noremap = true, silent = true })
+--- Open with system default browser
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>ob',
+    '<cmd>call v:lua.util_lua_open()<CR>',
     { noremap = true, silent = true })
 --- Hanzi count.
 vim.api.nvim_set_keymap(

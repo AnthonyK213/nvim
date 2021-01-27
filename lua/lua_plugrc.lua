@@ -193,6 +193,9 @@ vim.g.UltiSnipsJumpBackwardTrigger = "<C-c><C-k>"
 vim.g.completion_confirm_key         = ""
 vim.g.completion_enable_snippet      = 'UltiSnips'
 vim.g.completion_auto_change_source  = 1
+vim.g.completion_matching_smart_case = 1
+vim.g.completion_trigger_keyword_length = 2
+vim.g.completion_matching_strategy_list = { 'exact', 'substring', 'fuzzy' }
 vim.g.completion_chain_complete_list = {
     ['vim'] = {
         { ['complete_items'] = { 'UltiSnips' } },
@@ -200,7 +203,7 @@ vim.g.completion_chain_complete_list = {
         { ['mode']           = '<c-n>' }
     },
     ['lua'] = {
-        { ['complete_items'] = { 'UltiSnips' } },
+        { ['complete_items'] = { 'ts', 'UltiSnips' } },
         { ['mode']           = '<c-p>' },
         { ['mode']           = '<c-n>' }
     },

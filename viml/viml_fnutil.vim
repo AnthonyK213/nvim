@@ -30,18 +30,6 @@ let s:util_web_list = {
 
 
 " Functions
-"" Open file of buffer with system default browser.
-function! s:util_open()
-  let l:file_path = '"' . escape(expand('%:p'), '%#') . '"'
-  let l:cmd = has("win32") ? '' : g:util_def_start
-  silent exe '!' . l:cmd l:file_path
-endfunction
-
-"" Open file manager
-function! s:util_explorer()
-  silent exe '!' . g:util_def_start '.'
-endfunction
-
 "" Open pdf file
 function! s:util_pdf_view(...)
   if a:0 > 0
@@ -182,10 +170,6 @@ endfunction
 
 
 " Key maps
-""" Explorer
-nn  <silent> <leader>oe :call <SID>util_explorer()<CR>
-"" Open with system default browser
-nn  <silent> <leader>ob :call <SID>util_open()<CR>
 "" Windows-like behaviors
 """ Save
 nn  <silent> <C-s> :w<CR>
