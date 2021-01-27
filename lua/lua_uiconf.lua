@@ -16,6 +16,7 @@ function uiconf_lua_one_extend()
   one_hl('htmlH1',           'e06c75', '', '')
   one_hl('htmlH2',           'e06c75', '', '')
   one_hl('htmlH3',           'e06c75', '', '')
+  one_hl('mkdHeading',       'e06c75', '', '')
 end
 -- When colorscheme set to vim-one.
 vim.cmd('augroup vim_one_extend')
