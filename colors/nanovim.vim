@@ -2,18 +2,23 @@
 " Licence: MIT
 " vim:     set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
 
-let g:nanovim_mode={
-      \ 'n'  : ' N ',
-      \ 'v'  : ' V ',
-      \ 'V'  : ' Ṿ ',
-      \ '' : ' Ṽ ',
-      \ 'i'  : ' I ',
-      \ 'R'  : ' R ',
-      \ 'Rv' : ' R ',
-      \ 's'  : ' S ',
-      \ 'S'  : ' S ',
-      \ 'c'  : ' C ',
-      \ 't'  : ' T '
+let s:nanovim_mode={
+      \ 'c'     : ' C ',
+      \ 'i'     : ' I ',
+      \ 'ic'    : ' I ',
+      \ 'ix'    : ' I ',
+      \ 'n'     : ' N ',
+      \ 'multi' : ' M ',
+      \ 'niI'   : ' Ĩ ',
+      \ 'no'    : ' N ',
+      \ 'R'     : ' R ',
+      \ 'Rv'    : ' R ',
+      \ 's'     : ' S ',
+      \ 'S'     : ' S ',
+      \ 't'     : ' T ',
+      \ 'v'     : ' V ',
+      \ 'V'     : ' Ṿ ',
+      \ ''    : ' Ṽ ',
       \ }
 
 hi clear
@@ -367,8 +372,14 @@ hi link sqlKeyword               Nano_Face_Salient
 " }}
 
 " StatusLine {{
+" Get mode
+fun Nanovim_Get_Mode()
+  return has_key(s:nanovim_mode, mode(1)) ?
+        \ s:nanovim_mode[mode(1)] : '_'
+endf
+
 " Get the branch
-function Nanovim_get_git_branch()
+function Nanovim_Get_Git_Branch()
   let l:git_branch = Lib_Get_Git_Branch(Lib_Get_Git_Root())
   return l:git_branch[0]? '#' . l:git_branch[1] : ''
 endfunction
@@ -377,10 +388,10 @@ endfunction
 function! s:nanovim_set_buf()
   set statusline=
   set statusline+=%#Nano_Face_Default#\ 
-  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':(g:nanovim_mode[mode()])}
-  set statusline+=%#Nano_Face_Header_Popout#%{&modified?(g:nanovim_mode[mode()]):''}
+  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
+  set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
   set statusline+=%#Nano_Face_Header_Subtle#▎
-  set statusline+=%#Nano_Face_Status_Subtle#%f\ %{Nanovim_get_git_branch()}
+  set statusline+=%#Nano_Face_Status_Subtle#%f\ %{Nanovim_Get_Git_Branch()}
   set statusline+=%=
   set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
   set statusline+=%#Nano_Face_Default#\ 

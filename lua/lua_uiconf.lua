@@ -131,7 +131,7 @@ gls.left[1] = {
             if alias[vim.fn.mode(1)] ~= nil then
                 return '  '..alias[vim.fn.mode(1)]..' '
             else
-                return '  WTF '
+                return '  _ '
             end
         end,
         highlight = {colors.bg, colors.section_bg},
