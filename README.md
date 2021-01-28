@@ -1,6 +1,7 @@
 # Neovim Configuration
 
-## Dependencies
+
+## Requirements
 * **Neovim nightly build**
 * **Python**(for vim-orgmode)
   > pip install pynvim  
@@ -36,7 +37,9 @@
       - External cross-platform dependencies(Git, LaTeX, etc.)
       - Functions:
         - Chinese characters count
+        - LaTeX compile recipes
         - Bullets auto-insertion and auto-arrangement
+        - Search cword or selection in system default browser
         - Append orgmode style time stamp to the end of current line
         - Append day of week after a date string(yyyy-mm-dd)
         - Compile and run code of current buffer
@@ -53,10 +56,8 @@
       - Public function library written in vim script.
     - `init_fnutil.vim`
       - Functions:
+        - View pdf in system default viewer(Mostly for after tex compile)
         - Surrounding(Add, delete & change)
-        - Search cword or selection in system default browser
-        - View pdf in system default viewer
-        - LaTeX compile recipes
         - Git lazy push(commit all and push all)
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
