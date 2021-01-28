@@ -1,21 +1,19 @@
 # Neovim Configuration
 
 ## Dependencies
-* **Node.js**(for markdown-preview)
-  > npm install yarn -g  
-  > npm install neovim -g
+* **Neovim nightly build**
 * **Python**(for vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
-* **vim-plug**
+* **paq-nvim**
   - Windows
-    - Set plug.vim into
-      > ~/AppData/Local/nvim-data/site/autoload/
-    - Plug-in directory
-      > ~/AppData/Local/nvim-data/plugged/
+    - Clone paq-nvim into
+      > %localappdata%/nvim-data/site/pack/paqs/opt/paq-nvim
   - GNU/Linux
-    - Set plug.vim into
-      > ~/.local/share/nvim/site/autoload/
+    ```bash
+    git clone https://github.com/savq/paq-nvim.git \
+        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
+    ```
 
 
 ## Install
