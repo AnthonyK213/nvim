@@ -24,7 +24,9 @@
   - GNU/Linux
     > cd ~/.config/
 * **Clone source code**
-  > git clone https://github.com/AnthonyK213/nvim.git -b lua
+  ```bash
+  git clone https://github.com/AnthonyK213/nvim.git
+  ```
 * **Set init.lua**
   - Lua
     - `lua_a_init.lua`
