@@ -18,6 +18,7 @@ elseif has("unix")
   set wildignore+=*.so
 elseif has("mac")
   let g:util_def_start = 'open'
+  let g:util_def_shell = get(g:, 'default_shell', 'zsh')
   let g:util_def_cc = get(g:, 'default_c_compiler', 'clang')
 endif
 
