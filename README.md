@@ -40,6 +40,7 @@
       - Functions:
         - Chinese characters count
         - LaTeX compile recipes
+        - Git lazy push(commit all and push all)
         - Bullets auto-insertion and auto-arrangement
         - Search cword or selection in system default browser
         - Append orgmode style time stamp to the end of current line
@@ -60,7 +61,6 @@
       - Functions:
         - View pdf in system default viewer(Mostly for after tex compile)
         - Surrounding(Add, delete & change)
-        - Git lazy push(commit all and push all)
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:
