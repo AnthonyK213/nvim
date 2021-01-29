@@ -148,7 +148,5 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l
 
 
 " Commands
-"" Git
-command! -nargs=* PushAll :call <SID>util_git_push_all(<f-args>)
 "" View PDF
 command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)
