@@ -20,9 +20,9 @@
 ## Install
 * **Configuration Directory**
   - Windows
-    > cd ~/AppData/Local/
+    > %localappdata%/nvim
   - GNU/Linux
-    > cd ~/.config/
+    > ~/.config/nvim
 * **Clone source code**
   ```bash
   git clone https://github.com/AnthonyK213/nvim.git
