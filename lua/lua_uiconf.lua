@@ -140,7 +140,7 @@ gls.left[1] = {
 gls.left[2] = {
     FileType = {
         provider = {
-            function() return ' ' end,
+            function() return '  ' end,
             'FileTypeName'
         },
         condition = buffer_not_empty,
@@ -289,11 +289,12 @@ gls.short_line_left[1] = {
     FileType = {
         provider = {
             function() return '  ' end,
-            'FileTypeName',
-            function() return ' ' end
+            'FileTypeName'
         },
         condition = buffer_not_empty,
         highlight = {colors.orange, colors.section_bg},
+        separator = ' ',
+        separator_highlight = {colors.section_bg, colors.section_bg}
     }
 }
 gls.short_line_left[2] = {
