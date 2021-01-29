@@ -233,7 +233,7 @@ gls.right[5] = {
 }
 gls.right[6] = {
     GitBranch = {
-        provider  = {'GitBranch', function() return ' ' end},
+        provider  = 'GitBranch',
         condition = buffer_not_empty,
         highlight = {colors.middlegrey, colors.bg}
     }
