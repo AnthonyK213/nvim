@@ -54,48 +54,66 @@ local colors = {
     grey       = '#848586',
     middlegrey = '#8791A5'
 }
---- Local helper functions
---- Check whether the current buffer is empty
-local function is_buffer_empty()
-    return vim.fn.empty(vim.fn.expand('%:t')) == 1
+local mode_colors = {
+    c      = colors.green,
+    i      = colors.blue,
+    ic     = colors.blue,
+    ix     = colors.blue,
+    n      = colors.green,
+    niI    = colors.blue,
+    no     = colors.green,
+    R      = colors.red1,
+    Rv     = colors.red1,
+    s      = colors.red1,
+    S      = colors.red1,
+    t      = colors.blue,
+    v      = colors.purple,
+    V      = colors.purple,
+    [''] = colors.purple
+}
+local mode_alias = {
+    c      = 'C',
+    i      = 'I',
+    ic     = 'I',
+    ix     = 'I',
+    n      = 'N',
+    multi  = 'M',
+    niI    = 'Ĩ',
+    no     = 'N',
+    R      = 'R',
+    Rv     = 'R',
+    s      = 'S',
+    S      = 'S',
+    t      = 'T',
+    v      = 'V',
+    V      = 'Ṿ',
+    [''] = 'Ṽ',
+}
+--- Functions
+--- Check whether the current buffer is empty.
+local buffer_not_empty = function()
+  if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then return true end
+  return false
 end
---- Check if the windows width is greater than a given number of columns
-local function has_width_gt(cols)
-    return vim.fn.winwidth(0) / 2 > cols
+--- Check if the windows width is greater than a given number of columns.
+local check_width = function()
+    return vim.fn.winwidth(0) / 2 > 40 and buffer_not_empty()
 end
-local buffer_not_empty = function() return not is_buffer_empty() end
-local checkwidth = function()
-    return has_width_gt(40) and buffer_not_empty()
-end
+--- Mode colors.
 local mode_color = function()
-    local mode_colors = {
-        c      = colors.green,
-        i      = colors.blue,
-        ic     = colors.blue,
-        ix     = colors.blue,
-        n      = colors.green,
-        niI    = colors.blue,
-        no     = colors.green,
-        R      = colors.red1,
-        Rv     = colors.red1,
-        s      = colors.red1,
-        S      = colors.red1,
-        t      = colors.blue,
-        v      = colors.purple,
-        V      = colors.purple,
-        [''] = colors.purple
-    }
     if mode_colors[vim.fn.mode(1)] ~= nil then
         return mode_colors[vim.fn.mode(1)]
     else
         return colors.darkgrey
     end
 end
+--- If readonly.
 local function file_readonly()
     if vim.bo.filetype == 'help' then return '' end
     if vim.bo.readonly == true then return ' RO ' end
     return ''
 end
+--- Current file name.
 local function get_current_file_name()
     local file = vim.fn.expand('%:t')
     if vim.fn.empty(file) == 1 then return '' end
@@ -109,27 +127,9 @@ end
 gls.left[1] = {
     ViMode = {
         provider = function()
-            local alias = {
-                c      = 'C',
-                i      = 'I',
-                ic     = 'I',
-                ix     = 'I',
-                n      = 'N',
-                multi  = 'M',
-                niI    = 'Ĩ',
-                no     = 'N',
-                R      = 'R',
-                Rv     = 'R',
-                s      = 'S',
-                S      = 'S',
-                t      = 'T',
-                v      = 'V',
-                V      = 'Ṿ',
-                [''] = 'Ṽ',
-            }
             vim.api.nvim_command('hi GalaxyViMode guibg='..mode_color())
-            if alias[vim.fn.mode(1)] ~= nil then
-                return '  '..alias[vim.fn.mode(1)]..' '
+            if mode_alias[vim.fn.mode(1)] ~= nil then
+                return '  '..mode_alias[vim.fn.mode(1)]..' '
             else
                 return '  _ '
             end
@@ -196,7 +196,7 @@ gls.left[13] = {
 gls.right[1] = {
     DiffAdd = {
         provider = 'DiffAdd',
-        condition = checkwidth,
+        condition = check_width,
         icon = '+',
         highlight = {colors.green, colors.bg}
     }
@@ -204,7 +204,7 @@ gls.right[1] = {
 gls.right[2] = {
     DiffModified = {
         provider = 'DiffModified',
-        condition = checkwidth,
+        condition = check_width,
         icon = '~',
         highlight = {colors.yellow, colors.bg}
     }
@@ -212,7 +212,7 @@ gls.right[2] = {
 gls.right[3] = {
     DiffRemove = {
         provider = 'DiffRemove',
-        condition = checkwidth,
+        condition = check_width,
         icon = '-',
         highlight = {colors.red1, colors.bg}
     }
