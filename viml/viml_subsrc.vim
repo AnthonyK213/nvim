@@ -1,6 +1,5 @@
 " Basics
 set showmode
-set completeopt=longest,menuone
 
 
 " Comments leader
@@ -68,20 +67,15 @@ ino <expr> ] Lib_Get_Char('n') ==# "]" ? g:lib_const_r : "]"
 ino <expr> } Lib_Get_Char('n') ==# "}" ? g:lib_const_r : "}"
 ino <expr> "
       \ Lib_Get_Char('n') ==# "\"" ?
-      \ g:lib_const_r :
-      \ or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
-      \ '"' :
-      \ '""' . g:lib_const_l
+      \ g:lib_const_r : or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
+      \ '"' : '""' . g:lib_const_l
 ino <expr> '
       \ Lib_Get_Char('n') ==# "'" ?
-      \ g:lib_const_r :
-      \ Lib_Get_Char('l') =~ '\v[''"]' ?
-      \ "'" :
-      \ "''" . g:lib_const_l
+      \ g:lib_const_r : Lib_Get_Char('l') =~ '\v[''"]' ?
+      \ "'" : "''" . g:lib_const_l
 ino <expr> <SPACE>
       \ <SID>subrc_is_surrounded(['{}']) ?
-      \ "\<SPACE>\<SPACE>" . g:lib_const_l :
-      \ "\<SPACE>"
+      \ "\<SPACE>\<SPACE>" . g:lib_const_l : "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()
 "" Markdown
 ino <expr> <M-P> "``" . g:lib_const_l
