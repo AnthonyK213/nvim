@@ -368,7 +368,7 @@ function util_lua_run_or_compile(option)
 end
 
 --- Git push all
-function lib_lua_git_push_all(...)
+function util_lua_git_push_all(...)
     local arg_list = {...}
     local git_root = lib_lua_get_git_root()
     local git_branch
@@ -524,5 +524,7 @@ vim.cmd('command! Xe2 call v:lua.util_lua_latex_xelatex2()')
 vim.cmd('command! Bib call v:lua.util_lua_latex_biber()')
 --- Run or compile
 vim.cmd('command! -nargs=? CodeRun :call v:lua.util_lua_run_or_compile(<q-args>)')
+--- Git push all
+vim.cmd('command! -nargs=* PushAll :call v:lua.util_lua_git_push_all(<f-args>)')
 --- Echo time(May be useful in full screen?)
 vim.cmd([[command! Time :echo strftime('%Y-%m-%d %a %T')]])
