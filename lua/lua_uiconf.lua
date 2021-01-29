@@ -4,19 +4,19 @@ local function one_hl(...)
     vim.call('one#highlight', ...)
 end
 function uiconf_lua_one_extend()
-  one_hl('SpellBad',         'e06c75', '', 'underline')
-  one_hl('SpellCap',         'd19a66', '', 'underline')
-  one_hl('mkdBold',          '4b5263', '', '')
-  one_hl('mkdItalic',        '4b5263', '', '')
-  one_hl('mkdBoldItalic',    '4b5263', '', '')
-  one_hl('mkdCodeDelimiter', '4b5263', '', '')
-  one_hl('htmlBold',         'd19a66', '', 'bold')
-  one_hl('htmlItalic',       'c678dd', '', 'italic')
-  one_hl('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
-  one_hl('htmlH1',           'e06c75', '', 'bold')
-  one_hl('htmlH2',           'e06c75', '', 'bold')
-  one_hl('htmlH3',           'e06c75', '', '')
-  one_hl('mkdHeading',       'e06c75', '', '')
+    one_hl('SpellBad',         'e06c75', '', 'underline')
+    one_hl('SpellCap',         'd19a66', '', 'underline')
+    one_hl('mkdBold',          '4b5263', '', '')
+    one_hl('mkdItalic',        '4b5263', '', '')
+    one_hl('mkdBoldItalic',    '4b5263', '', '')
+    one_hl('mkdCodeDelimiter', '4b5263', '', '')
+    one_hl('htmlBold',         'd19a66', '', 'bold')
+    one_hl('htmlItalic',       'c678dd', '', 'italic')
+    one_hl('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
+    one_hl('htmlH1',           'e06c75', '', 'bold')
+    one_hl('htmlH2',           'e06c75', '', 'bold')
+    one_hl('htmlH3',           'e06c75', '', '')
+    one_hl('mkdHeading',       'e06c75', '', '')
 end
 -- When colorscheme set to vim-one.
 vim.cmd('augroup vim_one_extend')
@@ -92,8 +92,8 @@ local mode_alias = {
 --- Functions
 --- Check whether the current buffer is empty.
 local buffer_not_empty = function()
-  if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then return true end
-  return false
+    if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then return true end
+    return false
 end
 --- Check if the windows width is greater than a given number of columns.
 local check_width = function()
@@ -140,12 +140,13 @@ gls.left[1] = {
 gls.left[2] = {
     FileType = {
         provider = {
-            function() return '  ' end,
-            'FileTypeName',
-            function() return ' ' end
+            function() return ' ' end,
+            'FileTypeName'
         },
         condition = buffer_not_empty,
         highlight = {colors.orange, colors.section_bg},
+        separator = ' ',
+        separator_highlight = {colors.section_bg, colors.section_bg}
     }
 }
 gls.left[3] = {
@@ -239,34 +240,49 @@ gls.right[6] = {
     }
 }
 gls.right[7] = {
-    Format = {
-        provider  = {'FileFormat', function() return ' ' end},
-        highlight = {colors.fg, colors.section_bg},
-        separator = ' ',
-        separator_highlight = {colors.bg, colors.section_bg},
-        condition = buffer_not_empty
+    Space = {
+        provider = function() return ' ' end,
+        highlight = {colors.section_bg, colors.bg}
     }
 }
 gls.right[8] = {
-    Encode = {
-        provider  = {'FileEncode', function() return ' ' end},
+    FileFormat = {
+        provider  = {
+            'FileFormat',
+            function() return ' ' end
+        },
+        condition = buffer_not_empty,
         highlight = {colors.fg, colors.section_bg},
-        condition = buffer_not_empty
+        separator = ' ',
+        separator_highlight = {colors.bg, colors.section_bg}
     }
 }
 gls.right[9] = {
-    PerCent = {
-        provider = {'LineColumn', function() return ' ' end},
+    FileEncode = {
+        provider  = {
+            'FileEncode',
+            function() return ' ' end
+        },
+        condition = buffer_not_empty,
+        highlight = {colors.fg, colors.section_bg}
+    }
+}
+gls.right[10] = {
+    LineColumn = {
+        provider = {
+            'LineColumn',
+            function() return ' ' end
+        },
         highlight = {colors.gray2, colors.blue},
         separator = ' ',
         separator_highlight = {colors.section_bg, colors.blue},
     }
 }
-gls.right[10] = {
-  ScrollBar = {
-    provider = 'ScrollBar',
-    highlight = {colors.yellow,colors.purple},
-  }
+gls.right[11] = {
+    ScrollBar = {
+        provider = 'ScrollBar',
+        highlight = {colors.yellow,colors.purple},
+    }
 }
 --- Short line
 gls.short_line_left[1] = {
