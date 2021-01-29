@@ -23,7 +23,7 @@ vim.cmd('augroup vim_one_extend')
 vim.cmd('autocmd!')
 vim.cmd('au ColorScheme one call v:lua.uiconf_lua_one_extend()')
 vim.cmd('augroup end')
-vim.o.bg  = 'dark'
+vim.o.bg = 'dark'
 vim.g.one_allow_italics = 1
 vim.cmd('colorscheme one')
 
