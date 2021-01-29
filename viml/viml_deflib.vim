@@ -1,29 +1,4 @@
 " Functions
-"" Find the root directory of .git
-function! Lib_Get_Git_Root()
-  let l:dir = expand('%:p:h')
-  while 1
-    if !empty(globpath(l:dir, ".git", 1)) | return [1, l:dir] | endif
-    let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
-    if l:current == l:dir | break | endif
-  endwhile
-  return [0, '']
-endfunction
-
-"" Get the branch name without git
-function! Lib_Get_Git_Branch(git_root)
-  if a:git_root[0] == 0
-    return [0, '']
-  else
-    try
-      let l:content = readfile(a:git_root[1] . '/.git/HEAD')
-      return [1, split(l:content[0], '/')[-1]]
-    catch
-      return [0, '']
-    endtry
-  endif
-endfunction
-
 "" Get the character around the cursor.
 function! Lib_Get_Char(num) abort
   if a:num ==# 'l'
