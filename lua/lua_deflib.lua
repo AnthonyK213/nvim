@@ -58,6 +58,39 @@ function lib_lua_get_clean_cWORD(del_list)
     return table.concat(c_word)
 end
 
+--- Find the root directory of .git.
+function lib_lua_get_git_root()
+    local current_dir = vim.fn.expand('%:p:h')
+    while true do
+        if vim.fn.globpath(current_dir, ".git", 1) ~= '' then
+            return current_dir
+        end
+        local temp_dir = current_dir
+        current_dir = vim.fn.fnamemodify(current_dir, ':h')
+        if temp_dir == current_dir then break end
+    end
+    return false
+end
+
+--- Get the branch name.
+function lib_lua_get_git_branch(git_root)
+    if not git_root then return false end
+
+    local content, branch
+    if vim.fn.glob(git_root..'/.git/HEAD', 1) ~= '' then
+        content = vim.fn.readfile(git_root..'/.git/HEAD')
+    else
+        return false
+    end
+
+    if #content > 0 then
+        branch = content[1]:match('^ref:%s.+/(.-)$')
+        if branch ~= '' then return branch else return false end
+    else
+        return false
+    end
+end
+
 --- Calculate the day of week from date.
 function lib_lua_zeller(year, month, date)
     if (month < 1 or month > 12) then

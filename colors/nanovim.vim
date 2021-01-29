@@ -380,8 +380,8 @@ endf
 
 " Get the branch
 function Nanovim_Get_Git_Branch()
-  let l:git_branch = Lib_Get_Git_Branch(Lib_Get_Git_Root())
-  return l:git_branch[0]? '#' . l:git_branch[1] : ''
+  let l:git_branch = v:lua.lib_lua_get_git_branch(v:lua.lib_lua_get_git_root())
+  return !empty(l:git_branch)? '#' . l:git_branch : ''
 endfunction
 
 " | MODE || short_file_name git_branch        file_type file_encoding line:col |
