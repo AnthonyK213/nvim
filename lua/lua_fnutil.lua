@@ -415,7 +415,7 @@ function lib_lua_git_push_all(...)
             print("Invalid branch argument.")
         end
 
-        vim.fn.execute('!git push origin '..b_arg)
+        vim.fn.execute('!git push origin '..b_arg, false)
     else
         print("Wrong number of arguments is given.")
     end
