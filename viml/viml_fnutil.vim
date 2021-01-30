@@ -1,40 +1,5 @@
-" Variables
-"" OS
-if has("win32")
-  let g:util_def_start = 'start'
-  let g:util_def_shell = get(g:, 'default_shell', 'powershell.exe -nologo')
-  let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
-  let g:python3_host_prog = get(g:, 'python3_exec_path', $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE')
-  set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
-  set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
-  set wildignore+=*.pyc
-  set wildignore+=*.DS_Store
-  set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
-elseif has("unix")
-  let g:util_def_start = 'xdg-open'
-  let g:util_def_shell = get(g:, 'default_shell', 'bash')
-  let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
-  let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
-  set wildignore+=*.so
-elseif has("mac")
-  let g:util_def_start = 'open'
-  let g:util_def_shell = get(g:, 'default_shell', 'zsh')
-  let g:util_def_cc = get(g:, 'default_c_compiler', 'clang')
-endif
-
-
-" Functions
-"" Open pdf file
-function! s:util_pdf_view(...)
-  if a:0 > 0
-    let l:name = a:1
-  else
-    let l:name = escape(expand('%:r'), '%#') . '.pdf'
-  endif
-  silent exe '!' . g:util_def_start l:name
-endfunction
-
-"" Surround
+" Surround
+"" Functions
 function! s:util_sur_pair(pair_a)
   let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">", " ": " ", "《": "》", "“": "”" }
   if a:pair_a =~ '\v^(\(|\[|\{|\<|\s|《|“)+$'
@@ -92,6 +57,18 @@ function! s:util_sur_sub(...)
     call setline(line('.'), l:line_new)
   endif
 endfunction
+"" Common maps
+nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
+vn <silent> <leader>sa :<C-u>call <SID>util_sur_add('v')<CR>
+nn <silent> <leader>sd :call <SID>util_sur_sub('')<CR>
+nn <silent> <leader>sc :call <SID>util_sur_sub()<CR>
+"" Markdown maps
+for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
+  for mod_item in ['n', 'v']
+    exe mod_item . 'n' '<silent> <M-' . key . '>'
+          \ ':call <SID>util_sur_add("' . mod_item . '","' . val . '")<CR>'
+  endfor
+endfor
 
 
 " Key maps
@@ -111,19 +88,6 @@ ino <silent> <M-v> <C-R>=@+<CR>
 """ Select
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
-"" Surround
-""" Common maps
-nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
-vn <silent> <leader>sa :<C-u>call <SID>util_sur_add('v')<CR>
-nn <silent> <leader>sd :call <SID>util_sur_sub('')<CR>
-nn <silent> <leader>sc :call <SID>util_sur_sub()<CR>
-""" Markdown
-for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
-  for mod_item in ['n', 'v']
-    exe mod_item . 'n' '<silent> <M-' . key . '>'
-          \ ':call <SID>util_sur_add("' . mod_item . '","' . val . '")<CR>'
-  endfor
-endfor
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=v:lua.lib_lua_get_visual_selection()<CR><CR>
 "" Echo git status
@@ -145,8 +109,3 @@ ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
 ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
 ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:lib_const_r
 ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l
-
-
-" Commands
-"" View PDF
-command! -nargs=? -complete=file PDF :call <SID>util_pdf_view(<f-args>)

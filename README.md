@@ -57,7 +57,6 @@
       - Global variables and key maps.
     - `init_fnutil.vim`
       - Functions:
-        - View pdf in system default viewer(Mostly for after tex compile)
         - Surrounding(Add, delete & change)
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.

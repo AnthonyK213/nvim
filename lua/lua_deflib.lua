@@ -36,6 +36,11 @@ vim.g.lib_const_r = vim.fn.nvim_replace_termcodes("<C-G>U<Right>", true, false, 
 
 
 -- Functions
+--- Get global variable.
+function lib_lua_get(get_var, set_var)
+    if get_var then return get_var else return set_var end
+end
+
 --- Create a below right split window.
 function lib_lua_belowright_split(height)
     local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))

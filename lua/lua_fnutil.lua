@@ -2,6 +2,34 @@ init_source('fnutil')
 
 
 -- Variables
+--- OS
+local util_def_start, util_def_shell, util_def_cc
+if vim.fn.has("win32") == 1 then
+    util_def_start = 'start'
+    util_def_shell = lib_lua_get(vim.g.default_shell, 'powershell.exe -nologo')
+    util_def_cc    = lib_lua_get(vim.g.default_c_compiler, 'gcc')
+    vim.g.python3_host_prog = lib_lua_get(
+    vim.g.python3_exec_path,
+    vim.fn.expand('$HOME/Appdata/Local/Programs/Python/Python38/python.EXE'))
+
+    vim.o.wildignore = vim.o.wildignore..
+    "*.o,*.obj,*.bin,*.dll,*.exe,"..
+    "*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**,"..
+    "*.pyc,"..
+    "*.DS_Store,"..
+    "*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz"
+elseif vim.fn.has("unix") == 1 then
+    util_def_start = 'xdg-open'
+    util_def_shell = lib_lua_get(vim.g.default_shell, 'bash')
+    util_def_cc    = lib_lua_get(vim.g.default_c_compiler, 'gcc')
+    vim.g.python3_host_prog = lib_lua_get(vim.g.python3_exec_path, '/usr/bin/python3')
+
+    vim.o.wildignore = vim.o.wildignore.."*.so"
+elseif vim.fn.has("mac") == 1 then
+    util_def_start = 'open'
+    util_def_shell = lib_lua_get(vim.g.default_shell, 'zsh')
+    util_def_cc    = lib_lua_get(vim.g.default_c_compiler, 'clang')
+end
 --- Search web
 local util_web_list = {
     b = "https://www.baidu.com/s?wd=",
@@ -38,19 +66,19 @@ end
 --- Open terminal and launch shell
 function util_lua_terminal()
     lib_lua_belowright_split(15)
-    vim.fn.execute('terminal '..vim.g.util_def_shell)
+    vim.fn.execute('terminal '..util_def_shell)
 end
 
---- Open file of current buffer with system default browser.
-function util_lua_open()
-    local file_path = "\""..vim.fn.escape(vim.fn.expand('%:p'), '%#').."\""
+--- Open file with system default browser.
+function util_lua_open(file_path)
+    local file_path_esc = "\""..vim.fn.escape(file_path, '%#').."\""
     local cmd
     if vim.fn.has("win32") == 1 then
-        cmd = ''
+        cmd = util_def_start..' ""'
     else
-        cmd = vim.g.util_def_start
+        cmd = util_def_start
     end
-    vim.fn.execute('!'..cmd..' '..file_path)
+    vim.fn.execute('!'..cmd..' '..file_path_esc)
 end
 
 --- Hanzi count.
@@ -102,7 +130,7 @@ function util_lua_search_web(mode, site)
     else
         url_arg = "\""..url_raw.."\""
     end
-    vim.fn.execute('!'..vim.g.util_def_start..' '..url_arg)
+    vim.fn.execute('!'..util_def_start..' '..url_arg)
 end
 
 --- Calculate the day of week from a date(yyyy-mm-dd).
@@ -323,13 +351,13 @@ function util_lua_run_or_compile(option)
         term_cmd = cmdh..' python '..file
     elseif exts == 'c' then
         if option == '' then
-            term_cmd = cmdh..' '..vim.g.util_def_cc..' '..
+            term_cmd = cmdh..' '..util_def_cc..' '..
             file..' -o '..name..oute..' && '..exec..name
         elseif option == 'check' then
-            term_cmd = cmdh..' '..vim.g.util_def_cc..' '..
+            term_cmd = cmdh..' '..util_def_cc..' '..
             file..' -g -o '..name..oute
         elseif option == 'build' then
-            term_cmd = cmdh..' '..vim.g.util_def_cc..' '..
+            term_cmd = cmdh..' '..util_def_cc..' '..
             file..' -O2 -o '..name..oute
         else
             print('Invalid argument.')
@@ -460,7 +488,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>oe',
-    "<cmd>silent exe '!' . g:util_def_start '.'<CR>",
+    '<cmd>lua util_lua_open(".")<CR>',
     { noremap = true, silent = true })
 --- Terminal
 vim.api.nvim_set_keymap(
@@ -472,7 +500,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ob',
-    '<cmd>lua util_lua_open()<CR>',
+    '<cmd>lua util_lua_open(vim.fn.expand("%:p"))<CR>',
     { noremap = true, silent = true })
 --- Hanzi count.
 vim.api.nvim_set_keymap(
@@ -528,6 +556,7 @@ end
 vim.cmd('command! Xe1 lua util_lua_latex_xelatex()')
 vim.cmd('command! Xe2 lua util_lua_latex_xelatex2()')
 vim.cmd('command! Bib lua util_lua_latex_biber()')
+vim.cmd('command! PDF lua util_lua_open(vim.fn.expand("%:r")..".pdf")')
 --- Run or compile
 vim.cmd('command! -nargs=? CodeRun lua util_lua_run_or_compile(<q-args>)')
 --- Git push all
