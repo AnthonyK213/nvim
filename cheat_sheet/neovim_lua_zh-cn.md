@@ -497,7 +497,8 @@ true)
 print(result) -- 'hello world'
 ```
 
-**TODO**: The docs say that script-scope (`s:`) is supported, but running this snippet with a script-scoped variable throws an error. Why?
+**TODO**: The docs say that script-scope (`s:`) is supported, 
+but running this snippet with a script-scoped variable throws an error. Why?
 
 ### vim.api.nvim_command()
 
@@ -569,7 +570,8 @@ vim.api.nvim_set_option('updatetime', 3000)
 print(vim.api.nvim_get_option('updatetime')) -- 3000
 ```
 
-Buffer-local 和 Window-local 选项还需要缓冲区编号或窗口编号（使用`0`将设置 / 获取当前缓冲区 / 窗口的选项）：
+Buffer-local 和 Window-local 选项还需要缓冲区编号或窗口编号
+（使用`0`将设置 / 获取当前缓冲区 / 窗口的选项）：
 
 ```lua
 vim.api.nvim_win_set_option(0, 'number', true)
@@ -595,7 +597,8 @@ vim.bo.shiftwidth = 4
 print(vim.bo.shiftwidth) -- 4
 ```
 
-您可以为缓冲区本地和窗口本地选项指定一个数字。 如果未给出编号，则使用当前缓冲区 / 窗口：
+您可以为缓冲区本地和窗口本地选项指定一个数字。
+如果未给出编号，则使用当前缓冲区 / 窗口：
 
 ```lua
 vim.bo[4].expandtab = true -- same as vim.api.nvim_buf_set_option(4, 'expandtab', true)
@@ -626,20 +629,23 @@ See also:
 | :setglobal option=value | set          | -           |
 
 Lua 中没有`:set`命令的等价命令，可以全局设置，也可以本地设置。
-您可能认为`number`选项是全局的，但文档将其描述为`Windows-local`。 这样的选项实际上是“粘性的”：当您打开一个新窗口时，它们的值是从当前窗口复制过来的。
+您可能认为`number`选项是全局的，但文档将其描述为`Windows-local`。
+这样的选项实际上是“粘性的”：当您打开一个新窗口时，它们的值是从当前窗口复制过来的。
 因此，如果您要从您的`init.lua`设置选项，您应该这样做：
 
 ```lua
 vim.wo.number = true
 ```
 
-`shiftwidth`、`expandtab`、`undofile`等`本地到缓冲区`的选项更容易混淆。 假设您的`init.lua`包含以下代码：
+`shiftwidth`、`expandtab`、`undofile`等`本地到缓冲区`的选项更容易混淆。
+假设您的`init.lua`包含以下代码：
 
 ```lua
 vim.bo.expandtab = true
 ```
 
-当你启动 Neovim 并开始编辑时，一切都很好：按下`<Tab>`键会插入空格，而不是制表符。 打开另一个缓冲区，您会突然返回到选项卡...
+当你启动 Neovim 并开始编辑时，一切都很好：按下`<Tab>`键会插入空格，而不是制表符。
+打开另一个缓冲区，您会突然返回到选项卡...
 
 在全局设置它具有相反的问题：
 
