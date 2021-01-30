@@ -23,6 +23,7 @@ vim.cmd('augroup vim_one_extend')
 vim.cmd('autocmd!')
 vim.cmd('au ColorScheme one call v:lua.uiconf_lua_one_extend()')
 vim.cmd('augroup end')
+vim.o.tgc = true
 vim.o.bg = 'dark'
 vim.g.one_allow_italics = 1
 vim.cmd('colorscheme one')
@@ -342,3 +343,7 @@ vim.api.nvim_set_keymap(
     '<leader>bb',
     '<cmd>BufferLinePick<CR>',
     { noremap = true, silent = true })
+
+
+-- nvim-colorizer
+require('colorizer').setup()

@@ -5,7 +5,6 @@ syntax enable
 
 
 " Appearance
-set tgc
 set ruler
 set number
 set hidden

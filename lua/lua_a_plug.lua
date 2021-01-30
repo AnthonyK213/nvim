@@ -7,6 +7,7 @@ paq {'savq/paq-nvim', opt=true}
 paq {'rakr/vim-one', opt=true}
 paq {'glepnir/galaxyline.nvim', branch='main', opt=true}
 paq {'akinsho/nvim-bufferline.lua', opt=true}
+paq {'norcalli/nvim-colorizer.lua'}
 -- Tree manager
 paq {'preservim/nerdtree'}
 -- Git utilities
@@ -15,7 +16,6 @@ paq {'mhinz/vim-signify'}
 paq {'Xuyuanp/nerdtree-git-plugin'}
 -- Utilities
 paq {'AnthonyK213/vim-ipairs', branch='dev'}
-paq {'norcalli/nvim-colorizer.lua'}
 paq {'Yggdroot/indentLine'}
 paq {'tpope/vim-speeddating'}
 paq {'dhruvasagar/vim-table-mode'}

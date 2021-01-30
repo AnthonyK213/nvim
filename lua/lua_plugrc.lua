@@ -179,10 +179,6 @@ vim.g.pairs_usr_extd_map = {
 }
 
 
--- nvim-colorizer
-require('colorizer').setup()
-
-
 -- UltiSnips
 vim.g.UltiSnipsExpandTrigger       = "<C-c><C-s>"
 vim.g.UltiSnipsJumpForwardTrigger  = "<C-c><C-j>"
