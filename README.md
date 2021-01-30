@@ -32,7 +32,7 @@
     - `lua_a_init.lua`
       - Initial file.
     - `lua_a_plug.lua`
-      - Paq load plug-ins.
+      - Paq-nvim managed plug-ins.
     - `lua_deflib.lua`
       - Public function library.
     - `lua_fnutil.lua`
