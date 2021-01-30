@@ -240,7 +240,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'i',
     '<TAB>',
-    [[Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
+    [[v:lua.lib_lua_get_context('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
     [["<C-O>V>" . repeat(g:lib_const_r, &ts) : ]]..
     [["<Plug>(completion_smart_tab)"]],
     { noremap = false, silent = true, expr = true })

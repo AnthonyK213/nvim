@@ -35,12 +35,12 @@ let g:subrc_pairs_dict = {
       \ }
 
 function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
+  return index(a:match_list, v:lua.lib_lua_get_context('l') . v:lua.lib_lua_get_context('n')) >= 0
 endfunction
 
 function! s:subrc_pairs_back()
-  let l:back = Lib_Get_Char('b')
-  let l:fore = Lib_Get_Char('f')
+  let l:back = v:lua.lib_lua_get_context('b')
+  let l:fore = v:lua.lib_lua_get_context('f')
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
     return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
   endif
@@ -62,16 +62,16 @@ endfunction
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) Lib_Get_Char('n') ==# ")" ? g:lib_const_r : ")"
-ino <expr> ] Lib_Get_Char('n') ==# "]" ? g:lib_const_r : "]"
-ino <expr> } Lib_Get_Char('n') ==# "}" ? g:lib_const_r : "}"
+ino <expr> ) v:lua.lib_lua_get_context('n') ==# ")" ? g:lib_const_r : ")"
+ino <expr> ] v:lua.lib_lua_get_context('n') ==# "]" ? g:lib_const_r : "]"
+ino <expr> } v:lua.lib_lua_get_context('n') ==# "}" ? g:lib_const_r : "}"
 ino <expr> "
-      \ Lib_Get_Char('n') ==# "\"" ?
-      \ g:lib_const_r : or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
+      \ v:lua.lib_lua_get_context('n') ==# "\"" ?
+      \ g:lib_const_r : or(v:lua.lib_lua_get_context('l') =~ '\v[\\''"]', col('.') == 1) ?
       \ '"' : '""' . g:lib_const_l
 ino <expr> '
-      \ Lib_Get_Char('n') ==# "'" ?
-      \ g:lib_const_r : Lib_Get_Char('l') =~ '\v[''"]' ?
+      \ v:lua.lib_lua_get_context('n') ==# "'" ?
+      \ g:lib_const_r : v:lua.lib_lua_get_context('l') =~ '\v[''"]' ?
       \ "'" : "''" . g:lib_const_l
 ino <expr> <SPACE>
       \ <SID>subrc_is_surrounded(['{}']) ?
@@ -94,7 +94,7 @@ ino <silent><expr> <CR>
       \ "\<CR>\<C-o>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
-      \ or(Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
-      \ "\<C-n>" : Lib_Get_Char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ or(v:lua.lib_lua_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
+      \ "\<C-n>" : v:lua.lib_lua_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
       \ "\<C-o>V>" . repeat(g:lib_const_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"

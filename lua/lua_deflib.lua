@@ -1,6 +1,3 @@
-init_source('deflib')
-
-
 -- CONST
 --- Escape string for URL.
 lib_const_esc_url = {
@@ -89,6 +86,39 @@ function lib_lua_get_git_branch(git_root)
     else
         return false
     end
+end
+
+--- Get characters around the cursor.
+function lib_lua_get_context(mode)
+    if mode == 'l' then
+        return vim.fn.matchstr(vim.fn.getline('.'), '.\\%'..vim.fn.col('.')..'c')
+    elseif mode == 'n' then
+        return vim.fn.matchstr(vim.fn.getline('.'), '\\%'..vim.fn.col('.')..'c.')
+    elseif mode == 'b' then
+        return vim.fn.matchstr(vim.fn.getline('.'), '^.*\\%'..vim.fn.col('.')..'c')
+    elseif mode == 'f' then
+        return vim.fn.matchstr(vim.fn.getline('.'), '\\%'..vim.fn.col('.')..'c.*$')
+    end
+end
+
+--- Replace chars in a string according to a dictionary.
+function lib_lua_escape(str, esc_table)
+    local str_list = vim.fn.split(str, '\\zs')
+    for i,v in ipairs(str_list) do
+        if esc_table[v] then
+            str_list[i] = esc_table[v]
+        end
+    end
+    return table.concat(str_list)
+end
+
+--- Return the selections.
+function lib_lua_get_visual_selection()
+    local a_bak = vim.fn.getreg('a', 1)
+    vim.fn.execute('normal! gv"ay')
+    local a_val = vim.fn.getreg('a')
+    vim.fn.setreg('a', a_bak)
+    return a_val
 end
 
 --- Calculate the day of week from date.

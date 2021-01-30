@@ -52,15 +52,15 @@ function! s:util_sur_add(mode, ...)
 
   if a:mode ==# 'n'
     let l:org = getpos('.')
-    if Lib_Get_Char('f') =~ '\v^.\s' ||
-     \ Lib_Get_Char('f') =~ '\v^.$'
+    if v:lua.lib_lua_get_context('f') =~ '\v^.\s' ||
+     \ v:lua.lib_lua_get_context('f') =~ '\v^.$'
       exe "normal! a" . l:pair_b
     else
       exe "normal! Ea" . l:pair_b
     endif
     call setpos('.', l:org)
-    if Lib_Get_Char('l') =~ '\v\s' ||
-     \ Lib_Get_Char('b') =~ '\v^$'
+    if v:lua.lib_lua_get_context('l') =~ '\v\s' ||
+     \ v:lua.lib_lua_get_context('b') =~ '\v^$'
       exe "normal! i" . l:pair_a
     else
       exe "normal! Bi" . l:pair_a
@@ -76,8 +76,8 @@ function! s:util_sur_add(mode, ...)
 endfunction
 
 function! s:util_sur_sub(...)
-  let l:back = Lib_Get_Char('b')
-  let l:fore = Lib_Get_Char('f')
+  let l:back = v:lua.lib_lua_get_context('b')
+  let l:fore = v:lua.lib_lua_get_context('f')
   let l:pair_a = input("Surrounding delete: ")
   let l:pair_b = s:util_sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
@@ -125,7 +125,7 @@ for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
   endfor
 endfor
 "" Search visual selection
-vn  <silent> * y/\V<C-r>=Lib_Get_Visual_Selection()<CR><CR>
+vn  <silent> * y/\V<C-r>=v:lua.lib_lua_get_visual_selection()<CR><CR>
 "" Echo git status
 nn <silent> <leader>vs :!git status<CR>
 "" Some emacs shit.

@@ -59,7 +59,7 @@ function util_lua_hanzi_count(mode)
     if (mode == "n") then
         content = vim.fn.getline(1, '$')
     elseif (mode == "v") then
-        content = vim.fn.split(vim.fn.Lib_Get_Visual_Selection(), "\n")
+        content = vim.fn.split(lib_lua_get_visual_selection(), "\n")
     else
         return
     end
@@ -86,11 +86,9 @@ function util_lua_search_web(mode, site)
             ";", "*", "~", "`", 
             "(", ")", "[", "]", "{", "}"
         }
-        search_obj = vim.fn.Lib_Str_Escape(
-        lib_lua_get_clean_cWORD(del_list), lib_const_esc_url)
+        search_obj = lib_lua_escape(lib_lua_get_clean_cWORD(del_list), lib_const_esc_url)
     elseif mode == 'v' then
-        search_obj = vim.fn.Lib_Str_Escape(
-        vim.fn.Lib_Get_Visual_Selection(), lib_const_esc_url)
+        search_obj = lib_lua_escape(lib_lua_get_visual_selection(), lib_const_esc_url)
     end
 
     local url_raw = util_web_list[site]..search_obj
