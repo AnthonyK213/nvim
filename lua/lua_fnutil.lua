@@ -438,7 +438,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'v',
     '<F2>',
-    '<cmd><C-U>lua util_lua_mouse_toggle()<CR>',
+    ':<C-U>lua util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'i',
