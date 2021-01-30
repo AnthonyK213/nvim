@@ -34,7 +34,7 @@
     - `lua_a_plug.lua`
       - Paq load plug-ins.
     - `lua_deflib.lua`
-      - Public function library written in lua.
+      - Public function library.
     - `lua_fnutil.lua`
       - External cross-platform dependencies(Git, LaTeX, etc.)
       - Functions:
@@ -55,8 +55,6 @@
       - Basic configuration without any dependencies.
     - `init_custom.vim`
       - Global variables and key maps.
-    - `init_deflib.vim`
-      - Public function library written in vim script.
     - `init_fnutil.vim`
       - Functions:
         - View pdf in system default viewer(Mostly for after tex compile)
