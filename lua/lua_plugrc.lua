@@ -71,7 +71,7 @@ vim.g.vim_markdown_new_list_item_indent = 2
 --- Toggle math display.
 function plugrc_lua_vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
-    vim.cmd('syn off | syn on')
+    vim.fn.execute('syn off | syn on')
 end
 vim.api.nvim_set_keymap(
     'n',
@@ -86,7 +86,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>mm',
-    ':call v:lua.plugrc_lua_vim_markdown_math_toggle()<CR>',
+    ':lua plugrc_lua_vim_markdown_math_toggle()<CR>',
     { noremap = true, silent = true })
 
 
@@ -287,7 +287,7 @@ vim.cmd('augroup end')
 vim.api.nvim_set_keymap(
     'n',
     'K',
-    '<cmd>call v:lua.plugrc_lua_show_doc()<CR>',
+    '<cmd>lua plugrc_lua_show_doc()<CR>',
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'n',

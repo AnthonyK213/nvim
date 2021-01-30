@@ -133,9 +133,11 @@ function util_lua_append_day_from_date()
         local cword_stt = match_cword[2]
         local cword_end = vim.fn.matchstrpos(line, str_date, cword_stt)[3]
         vim.fn.setpos('.', {0, vim.fn.line('.'), cword_end})
-        -- Why?
+        -- Why not?
         --vim.fn.nvim_feedkeys('a '..day_of_week, 'x', true)
-        vim.cmd('normal! a '..day_of_week)
+        vim.fn.execute('normal! a '..day_of_week)
+    else
+        return
     end
 end
 

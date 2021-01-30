@@ -21,7 +21,7 @@ end
 -- When colorscheme set to vim-one.
 vim.cmd('augroup vim_one_extend')
 vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one call v:lua.uiconf_lua_one_extend()')
+vim.cmd('au ColorScheme one lua uiconf_lua_one_extend()')
 vim.cmd('augroup end')
 vim.o.tgc = true
 vim.o.bg = 'dark'

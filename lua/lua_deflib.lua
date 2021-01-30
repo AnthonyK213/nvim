@@ -39,7 +39,7 @@ vim.g.lib_const_r = vim.fn.nvim_replace_termcodes("<C-G>U<Right>", true, false, 
 --- Create a below right split window.
 function lib_lua_belowright_split(height)
     local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))
-    vim.cmd('belowright split')
+    vim.fn.execute('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
 end
 
