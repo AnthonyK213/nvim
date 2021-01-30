@@ -427,28 +427,28 @@ end
 vim.api.nvim_set_keymap(
     'n',
     '<F2>',
-    '<cmd>call v:lua.util_lua_mouse_toggle()<CR>',
+    '<cmd>lua util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'v',
     '<F2>',
-    '<cmd><C-U>call v:lua.util_lua_mouse_toggle()<CR>',
+    '<cmd><C-U>lua util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'i',
     '<F2>',
-    '<C-O><cmd>call v:lua.util_lua_mouse_toggle()<CR>',
+    '<C-O><cmd>lua util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     't',
     '<F2>',
-    '<C-\\><C-N><cmd>call v:lua.util_lua_mouse_toggle()<CR>',
+    '<C-\\><C-N><cmd>lua util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
 --- Background toggle
 vim.api.nvim_set_keymap(
     'n',
     '<leader>bg',
-    '<cmd>call v:lua.util_lua_bg_toggle()<CR>',
+    '<cmd>lua util_lua_bg_toggle()<CR>',
     { noremap = true, silent = true })
 --- Explorer
 vim.api.nvim_set_keymap(
@@ -460,13 +460,13 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ot',
-    '<cmd>call v:lua.util_lua_terminal()<CR>i',
+    '<cmd>lua util_lua_terminal()<CR>i',
     { noremap = true, silent = true })
 --- Open with system default browser
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ob',
-    '<cmd>call v:lua.util_lua_open()<CR>',
+    '<cmd>lua util_lua_open()<CR>',
     { noremap = true, silent = true })
 --- Hanzi count.
 vim.api.nvim_set_keymap(
@@ -483,7 +483,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>dd',
-    ":call v:lua.util_lua_append_day_from_date()<CR>",
+    ":lua util_lua_append_day_from_date()<CR>",
     { noremap = true, silent = true })
 --- Insert an orgmode-style timestamp at the end of the line
 vim.api.nvim_set_keymap(
@@ -495,36 +495,36 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'i',
     '<M-CR>',
-    "<C-o>:call v:lua.util_lua_md_insert_bullet()<CR>",
+    "<C-o>:lua util_lua_md_insert_bullet()<CR>",
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ml',
-    ":call v:lua.util_lua_md_sort_num_bullet()<CR>",
+    ":lua util_lua_md_sort_num_bullet()<CR>",
     { noremap = true, silent = true })
 --- Search cword in web browser
 for key,_ in pairs(util_web_list) do
     vim.api.nvim_set_keymap(
         'n',
         '<leader>k'..key,
-        '<cmd>call v:lua.util_lua_search_web("n", "'..key..'")<CR>',
+        '<cmd>lua util_lua_search_web("n", "'..key..'")<CR>',
         { noremap = true, silent = true })
     vim.api.nvim_set_keymap(
         'v',
         '<leader>k'..key,
-        ':<C-U>call v:lua.util_lua_search_web("v", "'..key..'")<CR>',
+        ':<C-U>lua util_lua_search_web("v", "'..key..'")<CR>',
         { noremap = true, silent = true })
 end
 
 
 -- Commands
 --- LaTeX
-vim.cmd('command! Xe1 call v:lua.util_lua_latex_xelatex()')
-vim.cmd('command! Xe2 call v:lua.util_lua_latex_xelatex2()')
-vim.cmd('command! Bib call v:lua.util_lua_latex_biber()')
+vim.cmd('command! Xe1 lua util_lua_latex_xelatex()')
+vim.cmd('command! Xe2 lua util_lua_latex_xelatex2()')
+vim.cmd('command! Bib lua util_lua_latex_biber()')
 --- Run or compile
-vim.cmd('command! -nargs=? CodeRun :call v:lua.util_lua_run_or_compile(<q-args>)')
+vim.cmd('command! -nargs=? CodeRun lua util_lua_run_or_compile(<q-args>)')
 --- Git push all
-vim.cmd('command! -nargs=* PushAll :call v:lua.util_lua_git_push_all(<f-args>)')
+vim.cmd('command! -nargs=* PushAll lua util_lua_git_push_all(<f-args>)')
 --- Echo time(May be useful in full screen?)
 vim.cmd([[command! Time :echo strftime('%Y-%m-%d %a %T')]])
