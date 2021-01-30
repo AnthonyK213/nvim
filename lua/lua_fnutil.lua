@@ -74,7 +74,11 @@ function util_lua_hanzi_count(mode)
         end
     end
 
-    return h_count
+    if h_count == 0 then
+        print("No Chinese characters found.")
+    else
+        print("The number of Chinese characters is "..tostring(h_count)..'.')
+    end
 end
 
 --- Search web
@@ -474,12 +478,12 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>cc',
-    ":echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('n')<CR>",
+    "<cmd>lua util_lua_hanzi_count('n')<CR>",
     { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
     'v',
     '<leader>cc',
-    ":<C-u>echo 'Chinese characters count: ' . v:lua.util_lua_hanzi_count('v')<CR>",
+    ":<C-u>lua util_lua_hanzi_count('v')<CR>",
     { noremap = true, silent = true })
 --- Append day of week after the date
 vim.api.nvim_set_keymap(
