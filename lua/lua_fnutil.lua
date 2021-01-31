@@ -572,8 +572,8 @@ for key,_ in pairs(util_web_list) do
         { noremap = true, silent = true })
 end
 --- Emacs shit.
-vim.api.nvim_set_keymap('n', '<M-x>', ':',      { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<M-x>', '<C-O>:', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-x>', ':',      { noremap = true })
+vim.api.nvim_set_keymap('i', '<M-x>', '<C-O>:', { noremap = true })
 vim.api.nvim_set_keymap('i', '<M-b>', '<C-O>b', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<M-f>', '<C-O>e<Right>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-SPACE>', '<C-O>v', { noremap = true, silent = true })
