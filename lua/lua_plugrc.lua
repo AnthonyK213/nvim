@@ -181,13 +181,14 @@ vim.g.pairs_usr_extd_map = {
 
 -- UltiSnips
 vim.g.UltiSnipsExpandTrigger       = "<C-C><C-S>"
-vim.g.UltiSnipsJumpForwardTrigger  = "<C-C><C-H>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<C-C><C-L>"
+vim.g.UltiSnipsJumpForwardTrigger  = "<C-C><C-L>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<C-C><C-H>"
 
 
 -- completion-nvim
 vim.g.completion_confirm_key         = ""
 vim.g.completion_enable_snippet      = 'UltiSnips'
+vim.g.completion_enable_auto_popup   = 1
 vim.g.completion_auto_change_source  = 1
 vim.g.completion_matching_smart_case = 1
 vim.g.completion_trigger_keyword_length = 2
