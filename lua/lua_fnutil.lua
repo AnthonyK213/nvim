@@ -466,12 +466,6 @@ vim.api.nvim_set_keymap('n', '<M-v>', '"+p',    { noremap = true, silent = true 
 vim.api.nvim_set_keymap('v', '<M-v>', '"+p',    { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<M-v>', '<C-R>=@+<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<M-a>', 'ggVG',   { noremap = true, silent = true })
---- Echo git status.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>vs',
-    ':!git status<CR>',
-    { noremap = true, silent = true })
 --- Search visual selection.
 vim.api.nvim_set_keymap(
     'v',
@@ -556,6 +550,12 @@ vim.api.nvim_set_keymap(
     'n',
     '<leader>ml',
     ":lua util_lua_md_sort_num_bullet()<CR>",
+    { noremap = true, silent = true })
+--- Echo git status.
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>vs',
+    ':!git status<CR>',
     { noremap = true, silent = true })
 --- Search cword in web browser
 for key,_ in pairs(util_web_list) do
