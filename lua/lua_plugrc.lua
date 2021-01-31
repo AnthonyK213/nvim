@@ -108,11 +108,7 @@ vim.g.mkdp_preview_options = {
 
 
 -- vim-table-mode
-vim.cmd('augroup vim_table_mode_style')
-vim.cmd('autocmd!')
-vim.cmd('au BufEnter *    let b:table_mode_corner = "+"')
-vim.cmd('au BufEnter *.md let b:table_mode_corner = "|"')
-vim.cmd('augroup end')
+vim.g.table_mode_corner = '+'
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ta',
@@ -149,13 +145,9 @@ vim.g.vimtex_compiler_progname = 'nvr'
 
 
 -- indentLine
+vim.g.indentLine_enabled = 1
 vim.g.indentLine_char = '¦'
 vim.g.indentLine_setConceal = 1
-vim.cmd('augroup indentline_status')
-vim.cmd('autocmd!')
-vim.cmd('au BufEnter,BufRead * let b:indentLine_enabled = 1')
-vim.cmd('au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let b:indentLine_enabled = 0')
-vim.cmd('augroup end')
 
 
 -- vim-ipairs
