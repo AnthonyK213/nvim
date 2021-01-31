@@ -312,7 +312,8 @@ end
 --- LaTeX recipes
 function util_lua_latex_xelatex()
     local name = vim.fn.expand('%:r')
-    vim.fn.execute('!xelatex -synctex=1 -interaction=nonstopmode -file-line-error '..name..'.tex', '')
+    vim.fn.execute('!xelatex -synctex=1 '..
+    '-interaction=nonstopmode -file-line-error '..name..'.tex', '')
 end
 
 function util_lua_latex_xelatex2()
@@ -493,25 +494,25 @@ vim.api.nvim_set_keymap(
     '<F2>',
     '<C-\\><C-N><cmd>lua util_lua_mouse_toggle()<CR>',
     { noremap = true, silent = true })
---- Background toggle
+--- Background toggle.
 vim.api.nvim_set_keymap(
     'n',
     '<leader>bg',
     '<cmd>lua util_lua_bg_toggle()<CR>',
     { noremap = true, silent = true })
---- Explorer
+--- Explorer.
 vim.api.nvim_set_keymap(
     'n',
     '<leader>oe',
     '<cmd>lua util_lua_open(".")<CR>',
     { noremap = true, silent = true })
---- Terminal
+--- Terminal.
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ot',
     '<cmd>lua util_lua_terminal()<CR>i',
     { noremap = true, silent = true })
---- Open with system default browser
+--- Open with system default browser.
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ob',
@@ -528,19 +529,19 @@ vim.api.nvim_set_keymap(
     '<leader>cc',
     ":<C-u>lua util_lua_hanzi_count('v')<CR>",
     { noremap = true, silent = true })
---- Append day of week after the date
+--- Append day of week after the date.
 vim.api.nvim_set_keymap(
     'n',
     '<leader>dd',
     ":lua util_lua_append_day_from_date()<CR>",
     { noremap = true, silent = true })
---- Insert an orgmode-style timestamp at the end of the line
+--- Insert an orgmode-style timestamp at the end of the line.
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ds',
     "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>",
     { noremap = true, silent = true })
---- List bullets
+--- List bullets.
 vim.api.nvim_set_keymap(
     'i',
     '<M-CR>',
@@ -557,18 +558,51 @@ vim.api.nvim_set_keymap(
     '<leader>vs',
     ':!git status<CR>',
     { noremap = true, silent = true })
---- Search cword in web browser
+--- Search cword in web browser.
 for key,_ in pairs(util_web_list) do
     vim.api.nvim_set_keymap(
         'n',
         '<leader>k'..key,
         '<cmd>lua util_lua_search_web("n", "'..key..'")<CR>',
-        { noremap = true, silent = true })
+            { noremap = true, silent = true })
     vim.api.nvim_set_keymap(
         'v',
         '<leader>k'..key,
         ':<C-U>lua util_lua_search_web("v", "'..key..'")<CR>',
         { noremap = true, silent = true })
+end
+--- Emacs shit.
+vim.api.nvim_set_keymap('n', '<M-x>', ':',      { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-x>', '<C-O>:', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-b>', '<C-O>b', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-f>', '<C-O>e<Right>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-SPACE>', '<C-O>v', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-A>', '<C-O>g0', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-E>', '<C-O>g$', { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<C-K>',
+    '<C-\\><C-O>D',
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<C-F>',
+    [[col('.') >= col('$') ? "\<C-o>+" : g:lib_const_r]],
+    { noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<C-B>',
+    [[col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l]],
+    { noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap(
+    'i',
+    '<M-d>',
+    '<C-\\><C-O>dw',
+    { noremap = true, silent = true })
+for key,val in pairs({n='j', p='k'}) do
+    vim.api.nvim_set_keymap('n', '<C-'..key..'>', 'g'..val, { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('v', '<C-'..key..'>', 'g'..val, { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('i', '<C-'..key..'>', '<C-O>g'..val, { noremap = true, silent = true })
 end
 
 

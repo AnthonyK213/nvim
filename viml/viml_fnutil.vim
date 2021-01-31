@@ -57,6 +57,8 @@ function! s:util_sur_sub(...)
     call setline(line('.'), l:line_new)
   endif
 endfunction
+
+
 "" Common maps
 nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
 vn <silent> <leader>sa :<C-u>call <SID>util_sur_add('v')<CR>
@@ -69,22 +71,3 @@ for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
           \ ':call <SID>util_sur_add("' . mod_item . '","' . val . '")<CR>'
   endfor
 endfor
-
-
-" Emacs shit.
-for [key, val] in items({"n": "j", "p": "k"})
-  exe 'nn  <C-' . key . '> g' . val
-  exe 'vn  <C-' . key . '> g' . val
-  exe 'ino <silent> <C-' . key . '> <C-o>g' . val
-endfor
-nn  <M-x> :
-ino <M-x> <C-o>:
-ino <M-b> <C-o>b
-ino <M-f> <C-o>e<Right>
-ino <C-SPACE> <C-o>v
-ino <silent> <C-a> <C-o>g0
-ino <silent> <C-e> <C-o>g$
-ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
-ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
-ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : g:lib_const_r
-ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l

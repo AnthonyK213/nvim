@@ -180,9 +180,9 @@ vim.g.pairs_usr_extd_map = {
 
 
 -- UltiSnips
-vim.g.UltiSnipsExpandTrigger       = "<C-c><C-s>"
-vim.g.UltiSnipsJumpForwardTrigger  = "<C-c><C-j>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<C-c><C-k>"
+vim.g.UltiSnipsExpandTrigger       = "<C-C><C-S>"
+vim.g.UltiSnipsJumpForwardTrigger  = "<C-C><C-H>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<C-C><C-L>"
 
 
 -- completion-nvim
@@ -247,12 +247,12 @@ vim.api.nvim_set_keymap(
     { noremap = false, silent = true })
 vim.api.nvim_set_keymap(
     'i',
-    '<C-J>',
+    '<C-C><C-J>',
     '<Plug>(completion_next_source)',
     { noremap = false, silent = true })
 vim.api.nvim_set_keymap(
     'i',
-    '<C-K>',
+    '<C-C><C-K>',
     '<Plug>(completion_prev_source)',
     { noremap = false, silent = true })
 
