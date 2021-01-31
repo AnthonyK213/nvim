@@ -457,7 +457,28 @@ end
 
 
 -- Key maps
---- Mouse toggle
+--- Windows-like behaviors.
+vim.api.nvim_set_keymap('n', '<C-S>', ':w<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Z>', 'u',      { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<M-c>', '"+y',    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<M-x>', '"+x',    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-v>', '"+p',    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<M-v>', '"+p',    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-v>', '<C-R>=@+<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-a>', 'ggVG',   { noremap = true, silent = true })
+--- Echo git status.
+vim.api.nvim_set_keymap(
+    'n',
+    '<leader>vs',
+    ':!git status<CR>',
+    { noremap = true, silent = true })
+--- Search visual selection.
+vim.api.nvim_set_keymap(
+    'v',
+    '*',
+    'y/\\V<C-r>=v:lua.lib_lua_get_visual_selection()<CR><CR>',
+    { noremap = true, silent = true })
+--- Mouse toggle.
 vim.api.nvim_set_keymap(
     'n',
     '<F2>',

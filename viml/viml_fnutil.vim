@@ -71,28 +71,7 @@ for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
 endfor
 
 
-" Key maps
-"" Windows-like behaviors
-""" Save
-nn  <silent> <C-s> :w<CR>
-ino <silent> <C-s> <C-o>:w<CR>
-""" Undo
-nn  <silent> <C-z> u
-ino <silent> <C-z> <C-o>u
-""" Copy/Paste
-vn  <silent> <M-c> "+y
-vn  <silent> <M-x> "+x
-nn  <silent> <M-v> "+p
-vn  <silent> <M-v> "+p
-ino <silent> <M-v> <C-R>=@+<CR>
-""" Select
-nn  <silent> <M-a> ggVG
-ino <silent> <M-a> <Esc>ggVG
-"" Search visual selection
-vn  <silent> * y/\V<C-r>=v:lua.lib_lua_get_visual_selection()<CR><CR>
-"" Echo git status
-nn <silent> <leader>vs :!git status<CR>
-"" Some emacs shit.
+" Emacs shit.
 for [key, val] in items({"n": "j", "p": "k"})
   exe 'nn  <C-' . key . '> g' . val
   exe 'vn  <C-' . key . '> g' . val
