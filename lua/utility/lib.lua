@@ -133,5 +133,16 @@ function lib.zeller(year, month, date)
     return days_list[z]
 end
 
+-- Source .vim file in configuration directory.
+function lib.viml_source(file)
+    if (vim.fn.has("win32") == 1) then
+        init_viml_path = vim.fn.expand("$localappdata")..'/nvim/'
+    elseif (vim.fn.has("unix") == 1) then
+        init_viml_path = '~/.config/nvim/'
+    end
+    local src_cmd = 'source '..init_viml_path..file..'.vim'
+    vim.api.nvim_exec(src_cmd, false)
+end
+
 
 return lib

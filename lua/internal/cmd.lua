@@ -19,7 +19,6 @@ vim.cmd('autocmd!')
 vim.cmd('au BufEnter * lua require("completion").on_attach()')
 vim.cmd('augroup end')
 -- nvim-lspconfig
---- Show diagnostic popup on cursor hold
 vim.cmd('augroup lsp_diagnositic_on_hold')
 vim.cmd('autocmd!')
 vim.cmd('au CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
