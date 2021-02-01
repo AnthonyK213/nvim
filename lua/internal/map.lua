@@ -310,7 +310,6 @@ vim.api.nvim_set_keymap(
     '<leader>gw',
     '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>',
     { noremap = true, silent = true })
---- Goto previous/next diagnostic warning/error
 vim.api.nvim_set_keymap(
     'n',
     '<leader>g[',
@@ -320,10 +319,4 @@ vim.api.nvim_set_keymap(
     'n',
     '<leader>g]',
     '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',
-    { noremap = true, silent = true })
--- nvim-bufferline.lua
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>bb',
-    '<cmd>BufferLinePick<CR>',
     { noremap = true, silent = true })
