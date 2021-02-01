@@ -7,7 +7,7 @@ paq {'savq/paq-nvim', opt=true}
 paq {'rakr/vim-one', opt=true}
 paq {'glepnir/galaxyline.nvim', branch='main', opt=true}
 paq {'akinsho/nvim-bufferline.lua', opt=true}
-paq {'norcalli/nvim-colorizer.lua'}
+paq {'norcalli/nvim-colorizer.lua', opt=true}
 -- Tree manager
 paq {'preservim/nerdtree'}
 -- Git utilities
