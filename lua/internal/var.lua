@@ -1,8 +1,8 @@
 -- Directional operation which won't mess up the history.
-vim.g.lib_const_l = vim.fn.nvim_replace_termcodes("<C-G>U<Left>",  true, false, true)
-vim.g.lib_const_d = vim.fn.nvim_replace_termcodes("<C-G>U<Down>",  true, false, true)
-vim.g.lib_const_u = vim.fn.nvim_replace_termcodes("<C-G>U<Up>",    true, false, true)
-vim.g.lib_const_r = vim.fn.nvim_replace_termcodes("<C-G>U<Right>", true, false, true)
+vim.g.const_dir_l = vim.fn.nvim_replace_termcodes("<C-G>U<Left>",  true, false, true)
+vim.g.const_dir_d = vim.fn.nvim_replace_termcodes("<C-G>U<Down>",  true, false, true)
+vim.g.const_dir_u = vim.fn.nvim_replace_termcodes("<C-G>U<Up>",    true, false, true)
+vim.g.const_dir_r = vim.fn.nvim_replace_termcodes("<C-G>U<Right>", true, false, true)
 
 
 -- Python3

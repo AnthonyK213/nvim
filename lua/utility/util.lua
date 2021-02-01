@@ -20,7 +20,7 @@ elseif vim.fn.has("mac") == 1 then
 end
 
 --- Search web
-util.util_web_list = {
+util.web_list = {
     b = "https://www.baidu.com/s?wd=",
     g = "https://www.google.com/search?q=",
     h = "https://github.com/search?q=",
@@ -137,12 +137,12 @@ function util.search_web(mode, site)
             ";", "*", "~", "`", 
             "(", ")", "[", "]", "{", "}"
         }
-        search_obj = lib.escape(lib.get_clean_cWORD(del_list), url_escape)
+        search_obj = lib.str_escape(lib.get_clean_cWORD(del_list), util.url_escape)
     elseif mode == 'v' then
-        search_obj = lib.escape(lib.get_visual_selection(), url_escape)
+        search_obj = lib.str_escape(lib.get_visual_selection(), util.url_escape)
     end
 
-    local url_raw = util_web_list[site]..search_obj
+    local url_raw = util.web_list[site]..search_obj
     local url_arg
     if vim.fn.has('win32') then
         url_arg = url_raw

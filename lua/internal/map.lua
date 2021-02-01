@@ -99,7 +99,7 @@ vim.api.nvim_set_keymap(
     ':!git status<CR>',
     { noremap = true, silent = true })
 -- Search cword in web browser.
-for key,_ in pairs(require('utility/util').util_web_list) do
+for key,_ in pairs(require('utility/util').web_list) do
     vim.api.nvim_set_keymap(
         'n',
         '<leader>k'..key,
@@ -127,12 +127,12 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'i',
     '<C-F>',
-    [[col('.') >= col('$') ? "\<C-o>+" : g:lib_const_r]],
+    [[col('.') >= col('$') ? "\<C-o>+" : g:const_dir_r]],
     { noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap(
     'i',
     '<C-B>',
-    [[col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l]],
+    [[col('.') == 1 ? "\<C-o>-\<C-o>$" : g:const_dir_l]],
     { noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap(
     'i',
@@ -241,7 +241,7 @@ vim.api.nvim_set_keymap(
     'i',
     '<TAB>',
     [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
-    [["<C-O>V>" . repeat(g:lib_const_r, &ts) : ]]..
+    [["<C-O>V>" . repeat(g:const_dir_r, &ts) : ]]..
     [["<Plug>(completion_smart_tab)"]],
     { noremap = false, silent = true, expr = true })
 vim.api.nvim_set_keymap(

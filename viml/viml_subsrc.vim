@@ -76,27 +76,27 @@ endfunction
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) <SID>util_get_context('n') ==# ")" ? g:lib_const_r : ")"
-ino <expr> ] <SID>util_get_context('n') ==# "]" ? g:lib_const_r : "]"
-ino <expr> } <SID>util_get_context('n') ==# "}" ? g:lib_const_r : "}"
+ino <expr> ) <SID>util_get_context('n') ==# ")" ? g:const_dir_r : ")"
+ino <expr> ] <SID>util_get_context('n') ==# "]" ? g:const_dir_r : "]"
+ino <expr> } <SID>util_get_context('n') ==# "}" ? g:const_dir_r : "}"
 ino <expr> "
       \ <SID>util_get_context('n') ==# "\"" ?
-      \ g:lib_const_r : or(<SID>util_get_context('l') =~ '\v[\\''"]', col('.') == 1) ?
-      \ '"' : '""' . g:lib_const_l
+      \ g:const_dir_r : or(<SID>util_get_context('l') =~ '\v[\\''"]', col('.') == 1) ?
+      \ '"' : '""' . g:const_dir_l
 ino <expr> '
       \ <SID>util_get_context('n') ==# "'" ?
-      \ g:lib_const_r : <SID>util_get_context('l') =~ '\v[''"]' ?
-      \ "'" : "''" . g:lib_const_l
+      \ g:const_dir_r : <SID>util_get_context('l') =~ '\v[''"]' ?
+      \ "'" : "''" . g:const_dir_l
 ino <expr> <SPACE>
       \ <SID>subrc_is_surrounded(['{}']) ?
-      \ "\<SPACE>\<SPACE>" . g:lib_const_l : "\<SPACE>"
+      \ "\<SPACE>\<SPACE>" . g:const_dir_l : "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()
 "" Markdown
-ino <expr> <M-P> "``" . g:lib_const_l
-ino <expr> <M-I> "**" . g:lib_const_l
-ino <expr> <M-B> "****" . repeat(g:lib_const_l, 2)
-ino <expr> <M-M> "******" . repeat(g:lib_const_l, 3)
-ino <expr> <M-U> "<u></u>" . repeat(g:lib_const_l, 4)
+ino <expr> <M-P> "``" . g:const_dir_l
+ino <expr> <M-I> "**" . g:const_dir_l
+ino <expr> <M-B> "****" . repeat(g:const_dir_l, 2)
+ino <expr> <M-M> "******" . repeat(g:const_dir_l, 3)
+ino <expr> <M-U> "<u></u>" . repeat(g:const_dir_l, 4)
 
 
 " Completion
@@ -110,5 +110,5 @@ ino <silent><expr> <CR>
 ino <silent><expr> <TAB>
       \ or(<SID>util_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
       \ "\<C-n>" : <SID>util_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-o>V>" . repeat(g:lib_const_r, &ts) : "\<TAB>"
+      \ "\<C-o>V>" . repeat(g:const_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"

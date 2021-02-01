@@ -72,7 +72,7 @@ function lib.get_context(mode)
 end
 
 -- Replace chars in a string according to a dictionary.
-function lib.escape(str, esc_table)
+function lib.str_escape(str, esc_table)
     local str_list = vim.fn.split(str, '\\zs')
     for i,v in ipairs(str_list) do
         if esc_table[v] then
