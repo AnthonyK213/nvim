@@ -21,17 +21,18 @@ function init_source(file)
 end
 
 
-require('lua_a_plug')
+require('package/paq')
 init_source('basics')
 init_source('custom')
-require('lua_deflib')
-require('lua_fnutil')
-require('lua_plugrc')
+require('utility/var')
+require('internal/map')
+require('internal/cmd')
+require('package/config')
 
 if (init_src == 'nano') then
     vim.o.tgc = true
     vim.o.bg  = 'dark'
     vim.cmd('colorscheme nanovim')
 elseif (init_src == 'one') then
-    require('lua_uiconf')
+    require('package/ui')
 end

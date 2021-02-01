@@ -1,4 +1,5 @@
-init_source('fnutil')
+local fnutil = {}
+local lib = require('utility/lib')
 
 
 -- Variables
@@ -6,42 +7,60 @@ init_source('fnutil')
 local util_def_start, util_def_shell, util_def_cc
 if vim.fn.has("win32") == 1 then
     util_def_start = 'start'
-    util_def_shell = lib_lua_get(vim.g.default_shell, 'powershell.exe -nologo')
-    util_def_cc    = lib_lua_get(vim.g.default_c_compiler, 'gcc')
-    vim.g.python3_host_prog = lib_lua_get(
-    vim.g.python3_exec_path,
-    vim.fn.expand('$HOME/Appdata/Local/Programs/Python/Python38/python.EXE'))
-
-    vim.o.wildignore = vim.o.wildignore..
-    "*.o,*.obj,*.bin,*.dll,*.exe,"..
-    "*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**,"..
-    "*.pyc,"..
-    "*.DS_Store,"..
-    "*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz"
+    util_def_shell = lib.get_var(vim.g.default_shell, 'powershell.exe -nologo')
+    util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'gcc')
 elseif vim.fn.has("unix") == 1 then
     util_def_start = 'xdg-open'
-    util_def_shell = lib_lua_get(vim.g.default_shell, 'bash')
-    util_def_cc    = lib_lua_get(vim.g.default_c_compiler, 'gcc')
-    vim.g.python3_host_prog = lib_lua_get(vim.g.python3_exec_path, '/usr/bin/python3')
-
-    vim.o.wildignore = vim.o.wildignore.."*.so"
+    util_def_shell = lib.get_var(vim.g.default_shell, 'bash')
+    util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'gcc')
 elseif vim.fn.has("mac") == 1 then
     util_def_start = 'open'
-    util_def_shell = lib_lua_get(vim.g.default_shell, 'zsh')
-    util_def_cc    = lib_lua_get(vim.g.default_c_compiler, 'clang')
+    util_def_shell = lib.get_var(vim.g.default_shell, 'zsh')
+    util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'clang')
 end
+
 --- Search web
-local util_web_list = {
+fnutil.util_web_list = {
     b = "https://www.baidu.com/s?wd=",
     g = "https://www.google.com/search?q=",
     h = "https://github.com/search?q=",
     y = "https://dict.youdao.com/w/eng/"
 }
 
+-- Escape string for URL.
+fnutil.url_escape = {
+    [" "]  = "\\%20",
+    ["!"]  = "\\%21",
+    ['"']  = "\\%22",
+    ["#"]  = "\\%23",
+    ["$"]  = "\\%24",
+    ["%"]  = "\\%25",
+    ["&"]  = "\\%26",
+    ["'"]  = "\\%27",
+    ["("]  = "\\%28",
+    [")"]  = "\\%29",
+    ["*"]  = "\\%2A",
+    ["+"]  = "\\%2B",
+    [","]  = "\\%2C",
+    ["/"]  = "\\%2F",
+    [":"]  = "\\%3A",
+    [";"]  = "\\%3B",
+    ["<"]  = "\\%3C",
+    ["="]  = "\\%3D",
+    [">"]  = "\\%3E",
+    ["?"]  = "\\%3F",
+    ["@"]  = "\\%40",
+    ["\\"] = "\\%5C",
+    ["|"]  = "\\%7C",
+    ["\n"] = "\\%20",
+    ["\r"] = "\\%20",
+    ["\t"] = "\\%20"
+}
+
 
 -- Functions
 --- Mouse toggle
-function util_lua_mouse_toggle(args)
+function fnutil.mouse_toggle(args)
     if (vim.o.mouse == 'a') then
         vim.o.mouse = ''
         print("Mouse disabled.")
@@ -52,7 +71,7 @@ function util_lua_mouse_toggle(args)
 end
 
 --- Background toggle
-function util_lua_bg_toggle()
+function fnutil.bg_toggle()
     if (vim.o.background == 'dark') then
         vim.o.background = 'light'
     else
@@ -63,14 +82,14 @@ function util_lua_bg_toggle()
     end
 end
 
---- Open terminal and launch shell
-function util_lua_terminal()
-    lib_lua_belowright_split(15)
+--- Open terminal and launch shell.
+function fnutil.terminal()
+    lib.belowright_split(15)
     vim.fn.execute('terminal '..util_def_shell)
 end
 
 --- Open file with system default browser.
-function util_lua_open(file_path)
+function fnutil.open(file_path)
     local file_path_esc = "\""..vim.fn.escape(file_path, '%#').."\""
     local cmd
     if vim.fn.has("win32") == 1 then
@@ -82,12 +101,12 @@ function util_lua_open(file_path)
 end
 
 --- Hanzi count.
-function util_lua_hanzi_count(mode)
+function fnutil.hanzi_count(mode)
     local content
     if (mode == "n") then
         content = vim.fn.getline(1, '$')
     elseif (mode == "v") then
-        content = vim.fn.split(lib_lua_get_visual_selection(), "\n")
+        content = vim.fn.split(lib.get_visual_selection(), "\n")
     else
         return
     end
@@ -110,7 +129,7 @@ function util_lua_hanzi_count(mode)
 end
 
 --- Search web
-function util_lua_search_web(mode, site)
+function fnutil.search_web(mode, site)
     local search_obj
     if mode == 'n' then
         local del_list = {
@@ -118,9 +137,9 @@ function util_lua_search_web(mode, site)
             ";", "*", "~", "`", 
             "(", ")", "[", "]", "{", "}"
         }
-        search_obj = lib_lua_escape(lib_lua_get_clean_cWORD(del_list), lib_const_esc_url)
+        search_obj = lib.escape(lib.get_clean_cWORD(del_list), url_escape)
     elseif mode == 'v' then
-        search_obj = lib_lua_escape(lib_lua_get_visual_selection(), lib_const_esc_url)
+        search_obj = lib.escape(lib.get_visual_selection(), url_escape)
     end
 
     local url_raw = util_web_list[site]..search_obj
@@ -134,7 +153,7 @@ function util_lua_search_web(mode, site)
 end
 
 --- Calculate the day of week from a date(yyyy-mm-dd).
-function util_lua_append_day_from_date()
+function fnutil.append_day_from_date()
     local str = vim.fn.expand("<cWORD>")
     if str:match('^$') then return end
     local str_date, m2, m3, m4 = str:match('^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$')
@@ -148,7 +167,7 @@ function util_lua_append_day_from_date()
         return
     end
 
-    local day_of_week = lib_lua_zeller(int_a, int_m, int_d)
+    local day_of_week = lib.zeller(int_a, int_m, int_d)
     if (day_of_week) then
         local line = vim.fn.getline('.')
         local cursor_pos = vim.fn.col('.')
@@ -174,7 +193,7 @@ function util_lua_append_day_from_date()
 end
 
 --- Markdown number bullet
-local function util_lua_md_check_line(lnum)
+local function md_check_line(lnum)
     local lstr = vim.fn.getline(lnum)
     local start, indent = lstr:find('^%s*', 1, false)
     local detect = 0
@@ -189,16 +208,16 @@ local function util_lua_md_check_line(lnum)
     return detect, lstr, bullet, indent
 end
 
-function util_lua_md_insert_bullet()
+function fnutil.md_insert_bullet()
     local c_num = vim.fn.line('.')
-    local c_det, c_str, c_bul, c_ind = util_lua_md_check_line('.')
+    local c_det, c_str, c_bul, c_ind = md_check_line('.')
     local l_det = 0
     local l_bul, l_ind
 
     if (c_det == 0) then
         local b_num = c_num - 1
         while (b_num > 0) do
-            local b_det, b_str, b_bul, b_ind = util_lua_md_check_line(b_num)
+            local b_det, b_str, b_bul, b_ind = md_check_line(b_num)
             if (b_ind < c_ind and b_det ~= 0) then
                 l_det = b_det
                 l_bul = b_bul
@@ -220,7 +239,7 @@ function util_lua_md_insert_bullet()
         local move_stp = 0
         local move_rec = {}
         while (f_num <= vim.fn.line('$')) do
-            local f_det, f_str, f_bul, f_ind = util_lua_md_check_line(f_num)
+            local f_det, f_str, f_bul, f_ind = md_check_line(f_num)
             if (f_det == l_det and f_ind == l_ind) then
                 table.insert(move_rec, move_stp)
                 if (l_det == 1) then
@@ -256,9 +275,9 @@ function util_lua_md_insert_bullet()
     end
 end
 
-function util_lua_md_sort_num_bullet()
+function fnutil.md_sort_num_bullet()
     local c_num = vim.fn.line('.')
-    local c_det, c_str, c_bul, c_ind = util_lua_md_check_line('.')
+    local c_det, c_str, c_bul, c_ind = md_check_line('.')
 
     if (c_det == 2) then
         local b_num_list = { c_num }
@@ -266,7 +285,7 @@ function util_lua_md_sort_num_bullet()
 
         local b_num = c_num - 1
         while (b_num > 0) do
-            local b_det, b_str, b_bul, b_ind = util_lua_md_check_line(b_num)
+            local b_det, b_str, b_bul, b_ind = md_check_line(b_num)
             if (b_det == 2) then
                 if (b_ind == c_ind) then
                     table.insert(b_num_list, b_num)
@@ -281,7 +300,7 @@ function util_lua_md_sort_num_bullet()
 
         local f_num = c_num + 1
         while (f_num <= vim.fn.line('$')) do
-            local f_det, f_str, f_bul, f_ind = util_lua_md_check_line(f_num)
+            local f_det, f_str, f_bul, f_ind = md_check_line(f_num)
             if (f_det == 2) then
                 if (f_ind == c_ind) then
                     table.insert(f_num_list, f_num)
@@ -310,26 +329,26 @@ function util_lua_md_sort_num_bullet()
 end
 
 --- LaTeX recipes
-function util_lua_latex_xelatex()
+function fnutil.latex_xelatex()
     local name = vim.fn.expand('%:r')
     vim.fn.execute('!xelatex -synctex=1 '..
     '-interaction=nonstopmode -file-line-error '..name..'.tex', '')
 end
 
-function util_lua_latex_xelatex2()
-    util_lua_latex_xelatex()
-    util_lua_latex_xelatex()
+function fnutil.latex_xelatex2()
+    latex_xelatex()
+    latex_xelatex()
 end
 
-function util_lua_latex_biber()
+function fnutil.latex_biber()
     local name = vim.fn.expand('%:r')
-    util_lua_latex_xelatex()
+    latex_xelatex()
     vim.fn.execute('!biber '..name..'.bcf', '')
-    util_lua_latex_xelatex2()
+    latex_xelatex2()
 end
 
 --- Run code
-function util_lua_run_or_compile(option)
+function fnutil.run_or_compile(option)
     local size = 30
     local cmdh = 'term'
     local path = vim.fn.expand('%:p')
@@ -395,7 +414,7 @@ function util_lua_run_or_compile(option)
     end
 
     if term_use then
-        lib_lua_belowright_split(size)
+        lib.belowright_split(size)
         vim.fn.execute(term_cmd)
     else
         vim.cmd(term_cmd)
@@ -403,13 +422,13 @@ function util_lua_run_or_compile(option)
 end
 
 --- Git push all
-function util_lua_git_push_all(...)
+function fnutil.git_push_all(...)
     local arg_list = {...}
-    local git_root = lib_lua_get_git_root()
+    local git_root = lib.get_git_root()
     local git_branch
 
     if git_root then
-        git_branch = lib_lua_get_git_branch(git_root)
+        git_branch = lib.get_git_branch(git_root)
     else
         print("Not a git repository.")
         return
@@ -456,165 +475,20 @@ function util_lua_git_push_all(...)
     end
 end
 
-
--- Key maps
---- Windows-like behaviors.
-vim.api.nvim_set_keymap('n', '<C-S>', ':w<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-S>', '<C-O>:w<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<M-c>', '"+y',    { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<M-x>', '"+x',    { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-v>', '"+p',    { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<M-v>', '"+p',    { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<M-v>', '<C-R>=@+<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-a>', 'ggVG',   { noremap = true, silent = true })
---- Search visual selection.
-vim.api.nvim_set_keymap(
-    'v',
-    '*',
-    'y/\\V<C-r>=v:lua.lib_lua_get_visual_selection()<CR><CR>',
-    { noremap = true, silent = true })
---- Mouse toggle.
-vim.api.nvim_set_keymap(
-    'n',
-    '<F2>',
-    '<cmd>lua util_lua_mouse_toggle()<CR>',
-    { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'v',
-    '<F2>',
-    ':<C-U>lua util_lua_mouse_toggle()<CR>',
-    { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'i',
-    '<F2>',
-    '<C-O><cmd>lua util_lua_mouse_toggle()<CR>',
-    { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    't',
-    '<F2>',
-    '<C-\\><C-N><cmd>lua util_lua_mouse_toggle()<CR>',
-    { noremap = true, silent = true })
---- Background toggle.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>bg',
-    '<cmd>lua util_lua_bg_toggle()<CR>',
-    { noremap = true, silent = true })
---- Explorer.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>oe',
-    '<cmd>lua util_lua_open(".")<CR>',
-    { noremap = true, silent = true })
---- Terminal.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>ot',
-    '<cmd>lua util_lua_terminal()<CR>i',
-    { noremap = true, silent = true })
---- Open with system default browser.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>ob',
-    '<cmd>lua util_lua_open(vim.fn.expand("%:p"))<CR>',
-    { noremap = true, silent = true })
---- Hanzi count.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>cc',
-    "<cmd>lua util_lua_hanzi_count('n')<CR>",
-    { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'v',
-    '<leader>cc',
-    ":<C-u>lua util_lua_hanzi_count('v')<CR>",
-    { noremap = true, silent = true })
---- Append day of week after the date.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>dd',
-    ":lua util_lua_append_day_from_date()<CR>",
-    { noremap = true, silent = true })
---- Insert an orgmode-style timestamp at the end of the line.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>ds',
-    "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>",
-    { noremap = true, silent = true })
---- List bullets.
-vim.api.nvim_set_keymap(
-    'i',
-    '<M-CR>',
-    "<C-o>:lua util_lua_md_insert_bullet()<CR>",
-    { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>ml',
-    ":lua util_lua_md_sort_num_bullet()<CR>",
-    { noremap = true, silent = true })
---- Echo git status.
-vim.api.nvim_set_keymap(
-    'n',
-    '<leader>vs',
-    ':!git status<CR>',
-    { noremap = true, silent = true })
---- Search cword in web browser.
-for key,_ in pairs(util_web_list) do
-    vim.api.nvim_set_keymap(
-        'n',
-        '<leader>k'..key,
-        '<cmd>lua util_lua_search_web("n", "'..key..'")<CR>',
-            { noremap = true, silent = true })
-    vim.api.nvim_set_keymap(
-        'v',
-        '<leader>k'..key,
-        ':<C-U>lua util_lua_search_web("v", "'..key..'")<CR>',
-        { noremap = true, silent = true })
+--- Toggle math display.
+function fnutil.vim_markdown_math_toggle()
+    vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
+    vim.fn.execute('syn off | syn on')
 end
---- Emacs shit.
-vim.api.nvim_set_keymap('n', '<M-x>', ':',      { noremap = true })
-vim.api.nvim_set_keymap('i', '<M-x>', '<C-O>:', { noremap = true })
-vim.api.nvim_set_keymap('i', '<M-b>', '<C-O>b', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<M-f>', '<C-O>e<Right>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-SPACE>', '<C-O>v', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-A>', '<C-O>g0', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-E>', '<C-O>g$', { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'i',
-    '<C-K>',
-    '<C-\\><C-O>D',
-    { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-    'i',
-    '<C-F>',
-    [[col('.') >= col('$') ? "\<C-o>+" : g:lib_const_r]],
-    { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap(
-    'i',
-    '<C-B>',
-    [[col('.') == 1 ? "\<C-o>-\<C-o>$" : g:lib_const_l]],
-    { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap(
-    'i',
-    '<M-d>',
-    '<C-\\><C-O>dw',
-    { noremap = true, silent = true })
-for key,val in pairs({n='j', p='k'}) do
-    vim.api.nvim_set_keymap('n', '<C-'..key..'>', 'g'..val, { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('v', '<C-'..key..'>', 'g'..val, { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('i', '<C-'..key..'>', '<C-O>g'..val, { noremap = true, silent = true })
+
+--- Show documents.
+function fnutil.show_doc()
+    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+        vim.fn.execute('h '..vim.fn.expand('<cword>'))
+    else
+        vim.lsp.buf.hover()
+    end
 end
 
 
--- Commands
---- LaTeX
-vim.cmd('command! Xe1 lua util_lua_latex_xelatex()')
-vim.cmd('command! Xe2 lua util_lua_latex_xelatex2()')
-vim.cmd('command! Bib lua util_lua_latex_biber()')
-vim.cmd('command! PDF lua util_lua_open(vim.fn.expand("%:r")..".pdf")')
---- Run or compile
-vim.cmd('command! -nargs=? CodeRun lua util_lua_run_or_compile(<q-args>)')
---- Git push all
-vim.cmd('command! -nargs=* PushAll lua util_lua_git_push_all(<f-args>)')
---- Echo time(May be useful in full screen?)
-vim.cmd([[command! Time :echo strftime('%Y-%m-%d %a %T')]])
+return fnutil

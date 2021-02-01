@@ -1,55 +1,20 @@
--- CONST
---- Escape string for URL.
-lib_const_esc_url = {
-    [" "]  = "\\%20",
-    ["!"]  = "\\%21",
-    ['"']  = "\\%22",
-    ["#"]  = "\\%23",
-    ["$"]  = "\\%24",
-    ["%"]  = "\\%25",
-    ["&"]  = "\\%26",
-    ["'"]  = "\\%27",
-    ["("]  = "\\%28",
-    [")"]  = "\\%29",
-    ["*"]  = "\\%2A",
-    ["+"]  = "\\%2B",
-    [","]  = "\\%2C",
-    ["/"]  = "\\%2F",
-    [":"]  = "\\%3A",
-    [";"]  = "\\%3B",
-    ["<"]  = "\\%3C",
-    ["="]  = "\\%3D",
-    [">"]  = "\\%3E",
-    ["?"]  = "\\%3F",
-    ["@"]  = "\\%40",
-    ["\\"] = "\\%5C",
-    ["|"]  = "\\%7C",
-    ["\n"] = "\\%20",
-    ["\r"] = "\\%20",
-    ["\t"] = "\\%20"
-}
---- Directional operation which won't mess up the history.
-vim.g.lib_const_l = vim.fn.nvim_replace_termcodes("<C-G>U<Left>",  true, false, true)
-vim.g.lib_const_d = vim.fn.nvim_replace_termcodes("<C-G>U<Down>",  true, false, true)
-vim.g.lib_const_u = vim.fn.nvim_replace_termcodes("<C-G>U<Up>",    true, false, true)
-vim.g.lib_const_r = vim.fn.nvim_replace_termcodes("<C-G>U<Right>", true, false, true)
+local pub_lib = {}
 
 
--- Functions
---- Get global variable.
-function lib_lua_get(get_var, set_var)
+-- Get global variable.
+function pub_lib.get_var(get_var, set_var)
     if get_var then return get_var else return set_var end
 end
 
---- Create a below right split window.
-function lib_lua_belowright_split(height)
+-- Create a below right split window.
+function pub_lib.belowright_split(height)
     local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))
     vim.fn.execute('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
 end
 
---- Return the <cWORD> without the noisy characters.
-function lib_lua_get_clean_cWORD(del_list)
+-- Return the <cWORD> without the noisy characters.
+function pub_lib.get_clean_cWORD(del_list)
     local c_word = vim.fn.split(vim.fn.expand("<cWORD>"), "\\zs")
     while vim.fn.index(del_list, c_word[#c_word]) >= 0 and #c_word >= 2 do
         table.remove(c_word, #c_word)
@@ -60,8 +25,8 @@ function lib_lua_get_clean_cWORD(del_list)
     return table.concat(c_word)
 end
 
---- Find the root directory of .git.
-function lib_lua_get_git_root()
+-- Find the root directory of .git.
+function pub_lib.get_git_root()
     local current_dir = vim.fn.expand('%:p:h')
     while true do
         if vim.fn.globpath(current_dir, ".git", 1) ~= '' then
@@ -74,8 +39,8 @@ function lib_lua_get_git_root()
     return false
 end
 
---- Get the branch name.
-function lib_lua_get_git_branch(git_root)
+-- Get the branch name.
+function pub_lib.get_git_branch(git_root)
     if not git_root then return false end
 
     local content, branch
@@ -93,8 +58,8 @@ function lib_lua_get_git_branch(git_root)
     end
 end
 
---- Get characters around the cursor.
-function lib_lua_get_context(mode)
+-- Get characters around the cursor.
+function pub_lib.get_context(mode)
     if mode == 'l' then
         return vim.fn.matchstr(vim.fn.getline('.'), '.\\%'..vim.fn.col('.')..'c')
     elseif mode == 'n' then
@@ -106,8 +71,8 @@ function lib_lua_get_context(mode)
     end
 end
 
---- Replace chars in a string according to a dictionary.
-function lib_lua_escape(str, esc_table)
+-- Replace chars in a string according to a dictionary.
+function pub_lib.escape(str, esc_table)
     local str_list = vim.fn.split(str, '\\zs')
     for i,v in ipairs(str_list) do
         if esc_table[v] then
@@ -117,8 +82,8 @@ function lib_lua_escape(str, esc_table)
     return table.concat(str_list)
 end
 
---- Return the selections.
-function lib_lua_get_visual_selection()
+-- Return the selections.
+function pub_lib.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
     vim.fn.execute('normal! gv"ay')
     local a_val = vim.fn.getreg('a')
@@ -126,8 +91,8 @@ function lib_lua_get_visual_selection()
     return a_val
 end
 
---- Calculate the day of week from date.
-function lib_lua_zeller(year, month, date)
+-- Calculate the day of week from date.
+function pub_lib.zeller(year, month, date)
     if (month < 1 or month > 12) then
         print("Not a valid month.")
         return
@@ -167,3 +132,6 @@ function lib_lua_zeller(year, month, date)
 
     return days_list[z]
 end
+
+
+return pub_lib
