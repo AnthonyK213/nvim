@@ -28,16 +28,18 @@
   git clone https://github.com/AnthonyK213/nvim.git
   ```
 * **Set init.lua**
-  - Lua
-    - `lua_a_init.lua`
-      - Initial file.
-    - `lua_a_plug.lua`
+  - Lua module
+    - `internal`
+      - Variables.
+      - Mappings.
+      - Commands.
+    - `package`
       - Paq-nvim managed plug-ins.
-    - `lua_deflib.lua`
+      - Configurations of plug-ins.(require lua_a_plug at first)
+      - UI configuration.
+    - `utility`
       - Public function library.
-    - `lua_fnutil.lua`
       - External cross-platform dependencies(Git, LaTeX, etc.)
-      - Functions:
         - Chinese characters count
         - LaTeX compile recipes
         - Git lazy push(commit all and push all)
@@ -46,10 +48,6 @@
         - Append orgmode style time stamp to the end of current line
         - Append day of week after a date string(yyyy-mm-dd)
         - Compile and run code of current buffer
-    - `lua_plugrc.lua`
-      - Configurations of plug-ins.(require lua_a_plug at first)
-    - `lua_uiconf.lua`
-      - UI configuration.
   - VimL
     - `init_basics.vim`
       - Basic configuration without any dependencies.
