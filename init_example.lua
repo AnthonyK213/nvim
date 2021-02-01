@@ -5,4 +5,4 @@
 --vim.g.gui_font_family    = 'Sarasa Mono SC'
 
 
-require('lua_a_init')
+require('core')
