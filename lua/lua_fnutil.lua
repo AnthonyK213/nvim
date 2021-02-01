@@ -460,7 +460,7 @@ end
 -- Key maps
 --- Windows-like behaviors.
 vim.api.nvim_set_keymap('n', '<C-S>', ':w<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-Z>', 'u',      { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-S>', '<C-O>:w<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<M-c>', '"+y',    { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<M-x>', '"+x',    { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<M-v>', '"+p',    { noremap = true, silent = true })

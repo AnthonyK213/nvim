@@ -58,7 +58,8 @@ nn <silent> <leader>bp :bp<CR>
 nn <silent> <Leader>cs :setlocal spell! spelllang=en_us<CR>
 
 
-" Scroll off.
+" Commands
+"" Scroll off.
 augroup filetype_behave
   autocmd!
   au BufEnter *    setlocal so=5
