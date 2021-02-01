@@ -89,7 +89,7 @@ function fnutil.terminal()
 end
 
 --- Open file with system default browser.
-function fnutil.open(file_path)
+function fnutil.open_file(file_path)
     local file_path_esc = "\""..vim.fn.escape(file_path, '%#').."\""
     local cmd
     if vim.fn.has("win32") == 1 then

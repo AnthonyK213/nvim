@@ -1,5 +1,5 @@
 -- Echo time(May be useful in full screen?)
-vim.cmd([[command! Time :echo strftime('%Y-%m-%d %a %T')]])
+vim.cmd('command! Time :echo strftime("%Y-%m-%d %a %T")')
 -- LaTeX
 vim.cmd('command! Xe1 lua require("utility/util").latex_xelatex()')
 vim.cmd('command! Xe2 lua require("utility/util").latex_xelatex2()')
@@ -12,7 +12,7 @@ vim.cmd('command! -nargs=* PushAll lua require("utility/util").git_push_all(<f-a
 
 
 -- vim-orgmode
-vim.cmd([[command! OrgAgenda :exe ":tabnew" g:org_agenda_path]])
+vim.cmd('command! OrgAgenda :exe ":tabnew" g:org_agenda_path')
 -- vimtex
 vim.cmd('augroup completion_nvim_enable_all')
 vim.cmd('autocmd!')

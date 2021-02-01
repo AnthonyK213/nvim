@@ -44,7 +44,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>oe',
-    '<cmd>lua require("utility/util").open(".")<CR>',
+    '<cmd>lua require("utility/util").open_file(".")<CR>',
     { noremap = true, silent = true })
 -- Terminal.
 vim.api.nvim_set_keymap(
@@ -56,7 +56,7 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     'n',
     '<leader>ob',
-    '<cmd>lua require("utility/util").open(vim.fn.expand("%:p"))<CR>',
+    '<cmd>lua require("utility/util").open_file(vim.fn.expand("%:p"))<CR>',
     { noremap = true, silent = true })
 -- Hanzi count.
 vim.api.nvim_set_keymap(
