@@ -1,4 +1,4 @@
-local fnutil = {}
+local util = {}
 local lib = require('utility/lib')
 
 
@@ -20,7 +20,7 @@ elseif vim.fn.has("mac") == 1 then
 end
 
 --- Search web
-fnutil.util_web_list = {
+util.util_web_list = {
     b = "https://www.baidu.com/s?wd=",
     g = "https://www.google.com/search?q=",
     h = "https://github.com/search?q=",
@@ -28,7 +28,7 @@ fnutil.util_web_list = {
 }
 
 -- Escape string for URL.
-fnutil.url_escape = {
+util.url_escape = {
     [" "]  = "\\%20",
     ["!"]  = "\\%21",
     ['"']  = "\\%22",
@@ -60,7 +60,7 @@ fnutil.url_escape = {
 
 -- Functions
 --- Mouse toggle
-function fnutil.mouse_toggle(args)
+function util.mouse_toggle(args)
     if (vim.o.mouse == 'a') then
         vim.o.mouse = ''
         print("Mouse disabled.")
@@ -71,7 +71,7 @@ function fnutil.mouse_toggle(args)
 end
 
 --- Background toggle
-function fnutil.bg_toggle()
+function util.bg_toggle()
     if (vim.o.background == 'dark') then
         vim.o.background = 'light'
     else
@@ -83,13 +83,13 @@ function fnutil.bg_toggle()
 end
 
 --- Open terminal and launch shell.
-function fnutil.terminal()
+function util.terminal()
     lib.belowright_split(15)
     vim.fn.execute('terminal '..util_def_shell)
 end
 
 --- Open file with system default browser.
-function fnutil.open_file(file_path)
+function util.open_file(file_path)
     local file_path_esc = "\""..vim.fn.escape(file_path, '%#').."\""
     local cmd
     if vim.fn.has("win32") == 1 then
@@ -101,7 +101,7 @@ function fnutil.open_file(file_path)
 end
 
 --- Hanzi count.
-function fnutil.hanzi_count(mode)
+function util.hanzi_count(mode)
     local content
     if (mode == "n") then
         content = vim.fn.getline(1, '$')
@@ -129,7 +129,7 @@ function fnutil.hanzi_count(mode)
 end
 
 --- Search web
-function fnutil.search_web(mode, site)
+function util.search_web(mode, site)
     local search_obj
     if mode == 'n' then
         local del_list = {
@@ -153,7 +153,7 @@ function fnutil.search_web(mode, site)
 end
 
 --- Calculate the day of week from a date(yyyy-mm-dd).
-function fnutil.append_day_from_date()
+function util.append_day_from_date()
     local str = vim.fn.expand("<cWORD>")
     if str:match('^$') then return end
     local str_date, m2, m3, m4 = str:match('^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$')
@@ -208,7 +208,7 @@ local function md_check_line(lnum)
     return detect, lstr, bullet, indent
 end
 
-function fnutil.md_insert_bullet()
+function util.md_insert_bullet()
     local c_num = vim.fn.line('.')
     local c_det, c_str, c_bul, c_ind = md_check_line('.')
     local l_det = 0
@@ -275,7 +275,7 @@ function fnutil.md_insert_bullet()
     end
 end
 
-function fnutil.md_sort_num_bullet()
+function util.md_sort_num_bullet()
     local c_num = vim.fn.line('.')
     local c_det, c_str, c_bul, c_ind = md_check_line('.')
 
@@ -329,18 +329,18 @@ function fnutil.md_sort_num_bullet()
 end
 
 --- LaTeX recipes
-function fnutil.latex_xelatex()
+function util.latex_xelatex()
     local name = vim.fn.expand('%:r')
     vim.fn.execute('!xelatex -synctex=1 '..
     '-interaction=nonstopmode -file-line-error '..name..'.tex', '')
 end
 
-function fnutil.latex_xelatex2()
+function util.latex_xelatex2()
     latex_xelatex()
     latex_xelatex()
 end
 
-function fnutil.latex_biber()
+function util.latex_biber()
     local name = vim.fn.expand('%:r')
     latex_xelatex()
     vim.fn.execute('!biber '..name..'.bcf', '')
@@ -348,7 +348,7 @@ function fnutil.latex_biber()
 end
 
 --- Run code
-function fnutil.run_or_compile(option)
+function util.run_or_compile(option)
     local size = 30
     local cmdh = 'term'
     local path = vim.fn.expand('%:p')
@@ -422,7 +422,7 @@ function fnutil.run_or_compile(option)
 end
 
 --- Git push all
-function fnutil.git_push_all(...)
+function util.git_push_all(...)
     local arg_list = {...}
     local git_root = lib.get_git_root()
     local git_branch
@@ -476,13 +476,13 @@ function fnutil.git_push_all(...)
 end
 
 --- Toggle math display.
-function fnutil.vim_markdown_math_toggle()
+function util.vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
     vim.fn.execute('syn off | syn on')
 end
 
 --- Show documents.
-function fnutil.show_doc()
+function util.show_doc()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
         vim.fn.execute('h '..vim.fn.expand('<cword>'))
     else
@@ -491,4 +491,4 @@ function fnutil.show_doc()
 end
 
 
-return fnutil
+return util

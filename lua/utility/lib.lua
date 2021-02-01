@@ -1,20 +1,20 @@
-local pub_lib = {}
+local lib = {}
 
 
 -- Get global variable.
-function pub_lib.get_var(get_var, set_var)
+function lib.get_var(get_var, set_var)
     if get_var then return get_var else return set_var end
 end
 
 -- Create a below right split window.
-function pub_lib.belowright_split(height)
+function lib.belowright_split(height)
     local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))
     vim.fn.execute('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
 end
 
 -- Return the <cWORD> without the noisy characters.
-function pub_lib.get_clean_cWORD(del_list)
+function lib.get_clean_cWORD(del_list)
     local c_word = vim.fn.split(vim.fn.expand("<cWORD>"), "\\zs")
     while vim.fn.index(del_list, c_word[#c_word]) >= 0 and #c_word >= 2 do
         table.remove(c_word, #c_word)
@@ -26,7 +26,7 @@ function pub_lib.get_clean_cWORD(del_list)
 end
 
 -- Find the root directory of .git.
-function pub_lib.get_git_root()
+function lib.get_git_root()
     local current_dir = vim.fn.expand('%:p:h')
     while true do
         if vim.fn.globpath(current_dir, ".git", 1) ~= '' then
@@ -40,7 +40,7 @@ function pub_lib.get_git_root()
 end
 
 -- Get the branch name.
-function pub_lib.get_git_branch(git_root)
+function lib.get_git_branch(git_root)
     if not git_root then return false end
 
     local content, branch
@@ -59,7 +59,7 @@ function pub_lib.get_git_branch(git_root)
 end
 
 -- Get characters around the cursor.
-function pub_lib.get_context(mode)
+function lib.get_context(mode)
     if mode == 'l' then
         return vim.fn.matchstr(vim.fn.getline('.'), '.\\%'..vim.fn.col('.')..'c')
     elseif mode == 'n' then
@@ -72,7 +72,7 @@ function pub_lib.get_context(mode)
 end
 
 -- Replace chars in a string according to a dictionary.
-function pub_lib.escape(str, esc_table)
+function lib.escape(str, esc_table)
     local str_list = vim.fn.split(str, '\\zs')
     for i,v in ipairs(str_list) do
         if esc_table[v] then
@@ -83,7 +83,7 @@ function pub_lib.escape(str, esc_table)
 end
 
 -- Return the selections.
-function pub_lib.get_visual_selection()
+function lib.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
     vim.fn.execute('normal! gv"ay')
     local a_val = vim.fn.getreg('a')
@@ -92,7 +92,7 @@ function pub_lib.get_visual_selection()
 end
 
 -- Calculate the day of week from date.
-function pub_lib.zeller(year, month, date)
+function lib.zeller(year, month, date)
     if (month < 1 or month > 12) then
         print("Not a valid month.")
         return
@@ -134,4 +134,4 @@ function pub_lib.zeller(year, month, date)
 end
 
 
-return pub_lib
+return lib
