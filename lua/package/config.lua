@@ -64,8 +64,8 @@ vim.g.vimtex_compiler_progname = 'nvr'
 
 
 -- indentLine
-vim.g.indentLine_enabled = 1
 vim.g.indentLine_char = '¦'
+vim.g.indentLine_enabled = 1
 vim.g.indentLine_setConceal = 1
 
 
@@ -134,10 +134,10 @@ end
 local lspconfig = require'lspconfig'
 --- clangd
 lspconfig.clangd.setup { on_attach=custom_attach }
---- rls
-lspconfig.rust_analyzer.setup { on_attach=custom_attach }
 --- jedi_language_server
 lspconfig.jedi_language_server.setup { on_attach=custom_attach }
+--- rls
+lspconfig.rust_analyzer.setup { on_attach=custom_attach }
 --- texlab
 lspconfig.texlab.setup { on_attach=custom_attach }
 --- Enable diagnostics
