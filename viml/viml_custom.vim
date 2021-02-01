@@ -51,8 +51,8 @@ vn <M-n> :normal
 """ Buffer
 nn <silent> <leader>bc :lcd %:p:h<CR>
 nn <expr><silent> <leader>bd
-      \ index(['help','terminal','nofile'], &buftype) < 0 ?
-      \ ":new\|bd#\|bp\<CR>" : ":bd\<CR>"
+      \ or(empty(bufname('%')), index(['help','terminal','nofile'], &buftype) >= 0) ?
+      \ ":bd\<CR>" : ":new\|bd#\|bp\<CR>"
 nn <silent> <leader>bh :noh<CR>
 nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
