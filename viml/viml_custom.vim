@@ -51,9 +51,8 @@ vn <M-n> :normal
 """ Buffer
 nn <silent> <leader>bc :lcd %:p:h<CR>
 nn <expr><silent> <leader>bd
-      \ empty(bufname('%')) \|\|
       \ index(['help','terminal','nofile'], &buftype) >= 0 \|\|
-      \ len(getbufinfo({'buflisted':1})) == 1 ?
+      \ len(getbufinfo({'buflisted':1})) <= 2 ?
       \ ":bd\<CR>" : ":bp\|bd#\<CR>"
 nn <silent> <leader>bh :noh<CR>
 nn <silent> <leader>bn :bn<CR>
