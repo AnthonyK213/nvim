@@ -24,6 +24,7 @@ end
 require('package/paq')
 init_source('basics')
 init_source('custom')
+init_source('fnutil')
 require('utility/var')
 require('internal/map')
 require('internal/cmd')

@@ -1,5 +1,19 @@
 " Surround
 "" Functions
+function! s:util_get_context(arg) abort
+  if a:arg ==# 'l'
+    return matchstr(getline('.'), '.\%' . col('.') . 'c')
+  elseif a:arg ==# 'n'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.')
+  elseif a:arg ==# 'b'
+    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
+  elseif a:arg ==# 'f'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
+  else
+    echo 'Invalid argument.'
+  endif
+endfunction
+
 function! s:util_sur_pair(pair_a)
   let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">", " ": " ", "《": "》", "“": "”" }
   if a:pair_a =~ '\v^(\(|\[|\{|\<|\s|《|“)+$'
@@ -17,15 +31,15 @@ function! s:util_sur_add(mode, ...)
 
   if a:mode ==# 'n'
     let l:org = getpos('.')
-    if v:lua.lib_lua_get_context('f') =~ '\v^.\s' ||
-     \ v:lua.lib_lua_get_context('f') =~ '\v^.$'
+    if s:util_get_context('f') =~ '\v^.\s' ||
+     \ s:util_get_context('f') =~ '\v^.$'
       exe "normal! a" . l:pair_b
     else
       exe "normal! Ea" . l:pair_b
     endif
     call setpos('.', l:org)
-    if v:lua.lib_lua_get_context('l') =~ '\v\s' ||
-     \ v:lua.lib_lua_get_context('b') =~ '\v^$'
+    if s:util_get_context('l') =~ '\v\s' ||
+     \ s:util_get_context('b') =~ '\v^$'
       exe "normal! i" . l:pair_a
     else
       exe "normal! Bi" . l:pair_a
@@ -41,8 +55,8 @@ function! s:util_sur_add(mode, ...)
 endfunction
 
 function! s:util_sur_sub(...)
-  let l:back = v:lua.lib_lua_get_context('b')
-  let l:fore = v:lua.lib_lua_get_context('f')
+  let l:back = s:util_get_context('b')
+  let l:fore = s:util_get_context('f')
   let l:pair_a = input("Surrounding delete: ")
   let l:pair_b = s:util_sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")

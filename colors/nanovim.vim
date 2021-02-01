@@ -373,15 +373,26 @@ hi link sqlKeyword               Nano_Face_Salient
 
 " StatusLine {{
 " Get mode
-fun Nanovim_Get_Mode()
-  return has_key(s:nanovim_mode, mode(1)) ?
-        \ s:nanovim_mode[mode(1)] : '_'
-endf
+function Nanovim_Get_Mode()
+  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
+endfunction
 
 " Get the branch
 function Nanovim_Get_Git_Branch()
-  let l:git_branch = v:lua.lib_lua_get_git_branch(v:lua.lib_lua_get_git_root())
-  return !empty(l:git_branch)? '#' . l:git_branch : ''
+  let l:current_dir = expand('%:p:h')
+  let l:is_git_repo = 0
+  while 1
+    if !empty(globpath(l:current_dir, ".git", 1)) | let l:is_git_repo = 1 | break | endif
+    let [l:temp_dir, l:current_dir] = [l:current_dir, fnamemodify(l:current_dir, ':h')]
+    if l:temp_dir == l:current_dir | break | endif
+  endwhile
+  if !l:is_git_repo | return '' | end
+  try
+    let l:content = readfile(l:current_dir . '/.git/HEAD')
+    return '#' . split(l:content[0], '/')[-1]
+  catch
+    return ''
+  endtry
 endfunction
 
 " | MODE || short_file_name git_branch        file_type file_encoding line:col |
