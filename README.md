@@ -35,19 +35,19 @@
       - Commands.
     - `package`
       - Paq-nvim managed plug-ins.
-      - Configurations of plug-ins.(require lua_a_plug at first)
+      - Configurations of plug-ins.
       - UI configuration.
     - `utility`
       - Public function library.
       - External cross-platform dependencies(Git, LaTeX, etc.)
-        - Chinese characters count
-        - LaTeX compile recipes
-        - Git lazy push(commit all and push all)
-        - Bullets auto-insertion and auto-arrangement
-        - Search cword or selection in system default browser
-        - Append orgmode style time stamp to the end of current line
-        - Append day of week after a date string(yyyy-mm-dd)
-        - Compile and run code of current buffer
+        - Chinese characters count.
+        - LaTeX compile recipes.
+        - Git lazy push(commit all and push all).
+        - Bullets auto-insertion and auto-arrangement.
+        - Search cword or selection in system default browser.
+        - Append orgmode style time stamp to the end of current line.
+        - Append day of week after a date string(yyyy-mm-dd).
+        - Compile and run code of current buffer.
   - VimL
     - `init_basics.vim`
       - Basic configuration without any dependencies.
