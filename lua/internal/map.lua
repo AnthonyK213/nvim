@@ -1,6 +1,52 @@
 local keymap = vim.api.nvim_set_keymap
 
 
+-- Indent entire line.
+keymap('n', '<C-j>', 'V<', { noremap = true })
+keymap('n', '<C-k>', 'V>', { noremap = true })
+-- Adjust window size.
+keymap('n', '<C-UP>',    '<C-W>-', { noremap = true })
+keymap('n', '<C-DOWN>',  '<C-W>+', { noremap = true })
+keymap('n', '<C-LEFT>',  '<C-W>>', { noremap = true })
+keymap('n', '<C-RIGHT>', '<C-W><', { noremap = true })
+-- Open init file.
+keymap('n', '<M-,>', '<cmd>tabnew $MYVIMRC<CR>', { noremap = true })
+-- Terminal.
+keymap('t', '<ESC>', '<C-\\><C-N>',         { noremap = true })
+keymap('t', '<M-d>', '<C-\\><C-N>:bd!<CR>', { noremap = true, silent = true })
+-- Find and replace.
+keymap('n', '<M-f>', ':%s/', { noremap = true })
+keymap('v', '<M-f>', ':s/',  { noremap = true })
+-- Normal command.
+keymap('n', '<M-n>', ':%normal ', { noremap = true })
+keymap('v', '<M-n>', ':normal ',  { noremap = true })
+-- Buffer.
+keymap('n', '<leader>bc', '<cmd>lcd %:p:h<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>bd',
+    [[index(['help','terminal','nofile'], &buftype) >= 0 ||]]..
+    [[len(getbufinfo({'buflisted':1})) <= 2 ?]]..
+    [[":bd<CR>" : ":bp|bd#<CR>"]],
+    { noremap = true, silent = true, expr = true })
+keymap('n', '<leader>bh', '<cmd>noh<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>bn', '<cmd>bn<CR>',  { noremap = true, silent = true })
+keymap('n', '<leader>bp', '<cmd>bp<CR>',  { noremap = true, silent = true })
+-- Toggle spell check status.
+keymap('n', '<leader>cs', '<cmd>setlocal spell! spelllang=en_us<CR>', { noremap = true, silent = true })
+-- Navigate windows.
+for _,direct in ipairs({'h', 'j', 'k', 'l', 'w'}) do
+    keymap('n', '<M-'..direct..'>', '<C-W>'..direct,            { noremap = true })
+    keymap('i', '<M-'..direct..'>', '<ESC><C-W>'..direct,       { noremap = true })
+    keymap('t', '<M-'..direct..'>', '<C-\\><C-N><C-W>'..direct, { noremap = true })
+end
+-- Switch tab.
+for i=1,10,1 do
+    local tab_key
+    if i == 10 then tab_key = 0 else tab_key = i end
+    keymap('n', '<M-'..tostring(tab_key)..'>', '<cmd>tabn '..tostring(i)..'<CR>',  { noremap = true, silent = true })
+    keymap('i', '<M-'..tostring(tab_key)..'>', '<C-O>:tabn '..tostring(i)..'<CR>', { noremap = true, silent = true })
+end
+
+
 -- Windows shit.
 keymap('n', '<C-S>', ':w<CR>',       { noremap = true, silent = true })
 keymap('i', '<C-S>', '<C-O>:w<CR>',  { noremap = true, silent = true })

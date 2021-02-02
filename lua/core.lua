@@ -2,7 +2,6 @@ local lib = require("utility/lib")
 local init_src = lib.get_var(vim.g.init_src, 'one')
 
 lib.viml_source('viml/viml_basics')
-lib.viml_source('viml/viml_custom')
 require('internal/var')
 require('internal/map')
 require('internal/cmd')
