@@ -40,8 +40,9 @@
     - `utility`
       - Public function library.
       - External cross-platform dependencies(Git, LaTeX, etc.)
-        - Chinese characters count.
         - LaTeX compile recipes.
+        - Chinese characters count.
+        - Surrounding(Add, delete & change)
         - Git lazy push(commit all and push all).
         - Bullets auto-insertion and auto-arrangement.
         - Search cword or selection in system default browser.
@@ -53,9 +54,6 @@
       - Basic configuration without any dependencies.
     - `init_custom.vim`
       - Global variables and key maps.
-    - `init_fnutil.vim`
-      - Functions:
-        - Surrounding(Add, delete & change)
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:

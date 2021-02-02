@@ -43,8 +43,6 @@ function! s:util_get_context(arg) abort
     return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
   elseif a:arg ==# 'f'
     return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
-  else
-    echo 'Invalid argument.'
   endif
 endfunction
 
