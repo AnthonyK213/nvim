@@ -89,21 +89,20 @@ for key,_ in pairs(require('utility/util').web_list) do
     keymap('v', '<leader>k'..key, ':<C-U>lua require("utility/util").search_web("v", "'..key..'")<CR>', { noremap = true, silent = true })
 end
 -- Emacs shit.
-keymap('n', '<M-x>', ':',             { noremap = true })
-keymap('i', '<M-x>', '<C-O>:',        { noremap = true })
-keymap('i', '<M-b>', '<C-O>b',        { noremap = true, silent = true })
+keymap('n', '<M-x>', ':',                   { noremap = true })
+keymap('i', '<M-x>', '<C-\\><C-O>:',        { noremap = true })
+keymap('i', '<M-b>', '<C-\\><C-O>b',        { noremap = true, silent = true })
 keymap('i', '<M-f>', '<C-\\><C-O>e<Right>', { noremap = true, silent = true })
-keymap('i', '<C-SPACE>', '<C-O>v',    { noremap = true, silent = true })
-keymap('i', '<C-A>', '<C-O>g0',       { noremap = true, silent = true })
-keymap('i', '<C-E>', '<C-O>g$',       { noremap = true, silent = true })
-keymap('i', '<C-K>', '<C-\\><C-O>D',  { noremap = true, silent = true })
-keymap('i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:const_dir_r]], { noremap = true, silent = true, expr = true })
-keymap('i', '<C-B>', [[col('.') == 1 ? "<C-O>-<C-O>$" : g:const_dir_l]], { noremap = true, silent = true, expr = true })
+keymap('i', '<C-A>', '<C-\\><C-O>g0',       { noremap = true, silent = true })
+keymap('i', '<C-E>', '<C-\\><C-O>g$',       { noremap = true, silent = true })
+keymap('i', '<C-K>', '<C-\\><C-O>D',        { noremap = true, silent = true })
+keymap('i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:const_dir_r]],     { noremap = true, silent = true, expr = true })
+keymap('i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:const_dir_l]], { noremap = true, silent = true, expr = true })
 keymap('i', '<M-d>', '<C-\\><C-O>dw', { noremap = true, silent = true })
 for key,val in pairs({n='j', p='k'}) do
-    keymap('n', '<C-'..key..'>', 'g'..val,      { noremap = true, silent = true })
-    keymap('v', '<C-'..key..'>', 'g'..val,      { noremap = true, silent = true })
-    keymap('i', '<C-'..key..'>', '<C-O>g'..val, { noremap = true, silent = true })
+    keymap('n', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
+    keymap('v', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
+    keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, { noremap = true, silent = true })
 end
 -- Surround
 keymap('n', '<leader>sa', '<cmd>lua require("utility/util").sur_add("n")<CR>',  { noremap = true, silent = true })

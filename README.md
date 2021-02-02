@@ -94,7 +94,6 @@
   - i:   `<C-a>`      -> Emacs line start.
   - i:   `<C-e>`      -> Emacs line end.
   - i:   `<C-k>`      -> Emacs kill test on the right.
-  - i:   `<C-SPACE>`  -> Emacs set mark.
   - i:   `<M-f>`      -> Emacs next word.
   - i:   `<M-b>`      -> Emacs last word.
   - in:  `<M-x>`      -> Command line.
