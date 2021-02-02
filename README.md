@@ -52,8 +52,6 @@
   - VimL
     - `init_basics.vim`
       - Basic configuration without any dependencies.
-    - `init_custom.vim`
-      - Global variables and key maps.
     - `init_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
       - Include:
