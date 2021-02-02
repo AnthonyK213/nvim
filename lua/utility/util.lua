@@ -475,6 +475,88 @@ function util.git_push_all(...)
     end
 end
 
+--- Surround
+local function sur_pair(pair_a)
+    local pairs = { ["("]=")", ["["]="]", ["{"]="}", ["<"]=">", [" "]=" ", ["《"]="》", ["“"]="”" }
+    if pair_a:match('^[%(%[{<%s《“]+$') then
+        local str_list = vim.fn.split(pair_a, '\\zs')
+        local new_list = {}
+        for _,val in ipairs(str_list) do
+            table.insert(new_list, 1, pairs[val])
+        end
+        return table.concat(new_list)
+    elseif vim.fn.matchstr(pair_a, '\\v^(\\<\\w+\\>)+$') ~= '' then
+        local str_list = vim.fn.split(pair_a, '<')
+        local new_list = {}
+        for _,val in ipairs(str_list) do
+            table.insert(new_list, 1, val)
+        end
+        return '</'..table.concat(new_list, '</')
+    else
+        return pair_a
+    end
+end
+
+function util.sur_add(mode, ...)
+    local arg_list = {...}
+    local pair_a
+    if #arg_list > 0 then
+        pair_a = arg_list[1]
+    else
+        pair_a = vim.fn.input("Surrounding add: ")
+    end
+    local pair_b = sur_pair(pair_a)
+
+    if mode == 'n' then
+        local origin = vim.fn.getpos('.')
+        if (lib.get_context('f'):match('^.%s') or
+            lib.get_context('f'):match('^.$')) then
+            vim.fn.execute('normal! a'..pair_b)
+        else
+            vim.fn.execute('normal! Ea'..pair_b)
+        end
+        vim.fn.setpos('.', origin)
+        if (lib.get_context('l'):match('%s') or
+            lib.get_context('b'):match('^$')) then
+            vim.fn.execute('normal! i'..pair_a)
+        else
+            vim.fn.execute('normal! Bi'..pair_a)
+        end
+    elseif mode == 'v' then
+        local stt_pos = vim.fn.getpos("'<")
+        local end_pos = vim.fn.getpos("'>")
+        vim.fn.setpos('.', end_pos)
+        vim.fn.execute('normal! a'..pair_b)
+        vim.fn.setpos('.', stt_pos)
+        vim.fn.execute('normal! i'..pair_a)
+    end
+end
+
+function util.sur_sub(...)
+    local arg_list = {...}
+    local back = lib.get_context('b')
+    local fore = lib.get_context('f')
+    local pair_a = vim.fn.input("Surrounding delete: ")
+    local pair_b = sur_pair(pair_a)
+    local pair_a_new
+    if #arg_list > 0 then
+        pair_a_new = arg_list[1]
+    else
+        pair_a_new = vim.fn.input("Change to: ")
+    end
+    local pair_b_new = sur_pair(pair_a_new)
+    local search_back = '\\v.*\\zs'..vim.fn.escape(pair_a, ' ()[]{}<>.+*')
+    local search_fore = '\\v'..vim.fn.escape(pair_b, ' ()[]{}<>.+*')
+
+    if (vim.fn.matchstr(back, search_back) ~= '' and
+        vim.fn.matchstr(fore, search_fore) ~= '') then
+        local back_new = vim.fn.substitute(back, search_back, pair_a_new, '')
+        local fore_new = vim.fn.substitute(fore, search_fore, pair_b_new, '')
+        local line_new = back_new..fore_new
+        vim.fn.setline(vim.fn.line('.'), line_new)
+    end
+end
+
 --- Toggle math display.
 function util.vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math

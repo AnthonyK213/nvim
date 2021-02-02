@@ -74,14 +74,14 @@ endfunction
 
 
 "" Common maps
-nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
-vn <silent> <leader>sa :<C-u>call <SID>util_sur_add('v')<CR>
-nn <silent> <leader>sd :call <SID>util_sur_sub('')<CR>
-nn <silent> <leader>sc :call <SID>util_sur_sub()<CR>
+"nn <silent> <leader>sa :call <SID>util_sur_add('n')<CR>
+"vn <silent> <leader>sa :<C-u>call <SID>util_sur_add('v')<CR>
+"nn <silent> <leader>sd :call <SID>util_sur_sub('')<CR>
+"nn <silent> <leader>sc :call <SID>util_sur_sub()<CR>
 "" Markdown maps
-for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
-  for mod_item in ['n', 'v']
-    exe mod_item . 'n' '<silent> <M-' . key . '>'
-          \ ':call <SID>util_sur_add("' . mod_item . '","' . val . '")<CR>'
-  endfor
-endfor
+"for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
+"  for mod_item in ['n', 'v']
+"    exe mod_item . 'n' '<silent> <M-' . key . '>'
+"          \ ':call <SID>util_sur_add("' . mod_item . '","' . val . '")<CR>'
+"  endfor
+"endfor

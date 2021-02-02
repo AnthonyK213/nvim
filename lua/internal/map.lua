@@ -59,6 +59,15 @@ for key,val in pairs({n='j', p='k'}) do
     keymap('v', '<C-'..key..'>', 'g'..val,      { noremap = true, silent = true })
     keymap('i', '<C-'..key..'>', '<C-O>g'..val, { noremap = true, silent = true })
 end
+-- Surround
+keymap('n', '<leader>sa', '<cmd>lua require("utility/util").sur_add("n")<CR>',  { noremap = true, silent = true })
+keymap('v', '<leader>sa', ':<C-U>lua require("utility/util").sur_add("v")<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>sd', '<cmd>lua require("utility/util").sur_sub("")<CR>',   { noremap = true, silent = true })
+keymap('n', '<leader>sc', '<cmd>lua require("utility/util").sur_sub()<CR>',     { noremap = true, silent = true })
+for key,val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
+    keymap('n', '<M-'..key..'>', '<cmd>lua require("utility/util").sur_add("n","'..val..'")<CR>',  { noremap = true, silent = true })
+    keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/util").sur_add("v","'..val..'")<CR>', { noremap = true, silent = true })
+end
 
 
 -- NERDTree
