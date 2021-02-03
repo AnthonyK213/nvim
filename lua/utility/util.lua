@@ -144,13 +144,12 @@ function util.search_web(mode, site)
 
     local url_raw = util.web_list[site]..search_obj
     local url_arg
-    if vim.fn.has('win32') then
+    if vim.fn.has('win32') == 1 then
         url_arg = url_raw
     else
         url_arg = "\""..url_raw.."\""
     end
-    --vim.fn.execute('!'..util_def_start..' '..url_arg)
-    print('!'..util_def_start..' '..url_arg)
+    vim.fn.execute('!'..util_def_start..' '..url_arg)
 end
 
 --- Calculate the day of week from a date(yyyy-mm-dd).
