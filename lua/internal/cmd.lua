@@ -1,5 +1,7 @@
 -- Echo time(May be useful in full screen?)
 vim.cmd('command! Time :echo strftime("%Y-%m-%d %a %T")')
+-- Evaluate formula surrounded by `.
+vim.cmd('command! Eval :lua require("utility/util").lua_eval()')
 -- LaTeX
 vim.cmd('command! Xe1 lua require("utility/util").latex_xelatex()')
 vim.cmd('command! Xe2 lua require("utility/util").latex_xelatex2()')
