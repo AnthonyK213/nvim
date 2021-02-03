@@ -149,7 +149,8 @@ function util.search_web(mode, site)
     else
         url_arg = "\""..url_raw.."\""
     end
-    vim.fn.execute('!'..util_def_start..' '..url_arg)
+    --vim.fn.execute('!'..util_def_start..' '..url_arg)
+    print('!'..util_def_start..' '..url_arg)
 end
 
 --- Calculate the day of week from a date(yyyy-mm-dd).
