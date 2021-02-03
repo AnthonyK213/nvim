@@ -16,8 +16,8 @@ paq {'tpope/vim-fugitive'}
 paq {'Xuyuanp/nerdtree-git-plugin'}
 -- Utilities
 paq {'Yggdroot/indentLine'}
-paq {'AnthonyK213/vim-ipairs', branch='dev'}
 paq {'tpope/vim-speeddating'}
+paq {'AnthonyK213/vim-ipairs'}
 paq {'dhruvasagar/vim-table-mode'}
 -- File type support
 paq {'lervag/vimtex'}
