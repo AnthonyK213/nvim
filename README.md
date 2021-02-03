@@ -150,15 +150,14 @@
 
 ## Commands
 - Functional utilities
-  - `Xe1`: Compile with XeLaTeX for one time.
-  - `Xe2`: Compile with XeLaTeX for two times.
   - `Bib`: Compile with biber.
+  - `CodeRun`: Run code of current buffer.
+  - `Eval`: Evaluate formula(lua) surrounded by backquotes.
+  - `OrgAgenda`: *vim-orgmode*, Open org agenda.
+  - `PDF`: Open pdf with the same name of the buffer file in the same directory.
   - `PushAll`: Just push all to the remote origin.
     - `-b`: branch, current branch default.
     - `-m`: comment, the date default.
-  - `CodeRun`: Run code of current buffer.
   - `Time`: Echo date and time.
-  - `PDF`: Open pdf with the given name in the system viewer.
-           Without name given, the name will be set at the file of the current buffer.
-- Plug-in
-  - `OrgAgenda`: Open org agenda.
+  - `Xe1`: Compile with XeLaTeX for one time.
+  - `Xe2`: Compile with XeLaTeX for two times.
