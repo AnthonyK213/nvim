@@ -6,6 +6,8 @@ keymap('n', '<leader>op', ':NERDTreeToggle<CR>',           { noremap = true, sil
 keymap('n', '<M-e>',      ':NERDTreeFocus<CR>',            { noremap = true, silent = true })
 keymap('i', '<M-e>',      '<ESC>:NERDTreeFocus<CR>',       { noremap = true, silent = true })
 keymap('t', '<M-e>',      '<C-\\><C-n>:NERDTreeFocus<CR>', { noremap = true, silent = true })
+-- fzf
+keymap('n', '<leader>bx', ':Buffers<CR>', { noremap = true, silent = true })
 -- signify
 keymap('n', '<leader>vj', '<Plug>(signify-next-hunk)',     { noremap = false, silent = true })
 keymap('n', '<leader>vk', '<Plug>(signify-prev-hunk)',     { noremap = false, silent = true })

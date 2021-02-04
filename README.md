@@ -89,13 +89,14 @@
 * **Leader**
   > `<leader>` is mapped to `<SPACE>`.
   - `<leader>b` -> **Buffer**.
-    - n:    `b` -> *nvim-bufferline.lua*, BufferLinePick
+    - n:    `b` -> *nvim-bufferline.lua*, BufferLinePick.
     - n:    `c` -> Set directory to the current buffer.
     - n:    `d` -> Delete buffer.
     - n:    `g` -> Toggle background.
     - n:    `h` -> Turn off highlights.
     - n:    `n` -> Next buffer.
     - n:    `p` -> Previous buffer.
+    - n:    `x` -> *fzf.vim*, switch buffer using fzf.
   - `<leader>c` -> **Check**.
     - nv:   `c` -> Chinese characters count.
     - n:    `s` -> Toggle spell check status.

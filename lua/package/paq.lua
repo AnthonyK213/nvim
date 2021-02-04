@@ -10,6 +10,9 @@ paq {'norcalli/nvim-colorizer.lua', opt=true}
 paq {'glepnir/galaxyline.nvim', branch='main', opt=true}
 -- Tree manager
 paq {'preservim/nerdtree'}
+-- FZF
+paq {'junegunn/fzf', hook=vim.fn['fzf#install']}
+paq {'junegunn/fzf.vim'}
 -- Git utilities
 paq {'mhinz/vim-signify'}
 paq {'tpope/vim-fugitive'}
