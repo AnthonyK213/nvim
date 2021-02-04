@@ -8,6 +8,8 @@ keymap('i', '<M-e>',      '<ESC>:NERDTreeFocus<CR>',       { noremap = true, sil
 keymap('t', '<M-e>',      '<C-\\><C-n>:NERDTreeFocus<CR>', { noremap = true, silent = true })
 -- fzf
 keymap('n', '<leader>bx', ':Buffers<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>ff', ':Files<CR>',   { noremap = true, silent = true })
+keymap('n', '<leader>fg', ':Rg<CR>',      { noremap = true, silent = true })
 -- signify
 keymap('n', '<leader>vj', '<Plug>(signify-next-hunk)',     { noremap = false, silent = true })
 keymap('n', '<leader>vk', '<Plug>(signify-prev-hunk)',     { noremap = false, silent = true })
