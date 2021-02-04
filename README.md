@@ -103,6 +103,9 @@
   - `<leader>d` -> **Date**
     - n:    `s` -> Insert time stamp at the end of line.
     - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+  - `<leader>f` -> FZF
+    - n:    `f` -> *fzf.vim*, fzf  (:Files)
+    - n:    `g` -> *fzf.vim*, ripgrep (:Rg)
   - `<leader>k` -> **Search text in web browser**.
     - nv:   `b` -> Baidu
     - nv:   `g` -> Google
