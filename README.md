@@ -42,11 +42,10 @@
     - `utility`
       - Public function library.
   - VimL
-    - `init_basics.vim`
+    - `viml_basics.vim`
       - Basic configuration without any dependencies.
-    - `init_subsrc.vim`
+    - `viml_subsrc.vim`
       - When don't want to use any plug-ins, this can be a simple substitute.
-      - Include:
   - Color schemes
     - `nanovim.vim`
       - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
