@@ -107,6 +107,18 @@
   - `<leader>f` -> FZF
     - n:    `f` -> *fzf.vim*, fzf  (:Files)
     - n:    `g` -> *fzf.vim*, ripgrep (:Rg)
+  - `<leader>g` -> **LSP**
+    - n:    `0` -> vim.lsp.buf.document_symbol()
+    - n:    `a` -> vim.lsp.buf.code_action()
+    - n:    `d` -> vim.lsp.buf.declaration()
+    - n:    `f` -> vim.lsp.buf.definition()
+    - n:    `h` -> vim.lsp.buf.signature_help()
+    - n:    `i` -> vim.lsp.buf.implementation()
+    - n:    `r` -> vim.lsp.buf.references()
+    - n:    `t` -> vim.lsp.buf.type_definition()
+    - n:    `w` -> vim.lsp.buf.workspace_symbol()
+    - n:    `[` -> vim.lsp.diagnostic.goto_prev()
+    - n:    `]` -> vim.lsp.diagnostic.goto_next()
   - `<leader>k` -> **Search text in web browser**.
     - nv:   `b` -> Baidu
     - nv:   `g` -> Google
