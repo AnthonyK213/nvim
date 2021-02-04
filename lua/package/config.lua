@@ -5,6 +5,10 @@ vim.g.NERDTreeMinimalUI = 1
 vim.g.NERDTreeDirArrows = 1
 
 
+-- fzf
+vim.cmd('let $FZF_DEFAULT_OPTS = "--layout=reverse"')
+
+
 -- signify
 --- Signs
 vim.g.signify_sign_add               = '+'
