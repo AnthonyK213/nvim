@@ -19,7 +19,7 @@
     ```
 
 
-## Install
+## Installation
 * **Configuration Directory**
   - Windows
     > %localappdata%/nvim
