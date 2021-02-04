@@ -48,20 +48,20 @@ end
 
 
 -- Windows shit.
-keymap('n', '<C-S>', ':w<CR>',       { noremap = true, silent = true })
-keymap('i', '<C-S>', '<C-O>:w<CR>',  { noremap = true, silent = true })
-keymap('v', '<M-c>', '"+y',          { noremap = true, silent = true })
-keymap('v', '<M-x>', '"+x',          { noremap = true, silent = true })
-keymap('n', '<M-v>', '"+p',          { noremap = true, silent = true })
-keymap('v', '<M-v>', '"+p',          { noremap = true, silent = true })
-keymap('i', '<M-v>', '<C-R>=@+<CR>', { noremap = true, silent = true })
-keymap('n', '<M-a>', 'ggVG',         { noremap = true, silent = true })
+keymap('n', '<C-S>', ':w<CR>',             { noremap = true, silent = true })
+keymap('i', '<C-S>', '<C-\\><C-O>:w<CR>',  { noremap = true, silent = true })
+keymap('v', '<M-c>', '"+y',                { noremap = true, silent = true })
+keymap('v', '<M-x>', '"+x',                { noremap = true, silent = true })
+keymap('n', '<M-v>', '"+p',                { noremap = true, silent = true })
+keymap('v', '<M-v>', '"+p',                { noremap = true, silent = true })
+keymap('i', '<M-v>', '<C-R>=@+<CR>',       { noremap = true, silent = true })
+keymap('n', '<M-a>', 'ggVG',               { noremap = true, silent = true })
 -- Search visual selection.
 keymap('v', '*', [[<ESC>/\V<C-r>=luaeval('require("utility/lib").get_visual_selection()')<CR><CR>]], { noremap = true, silent = true })
 -- Mouse toggle.
 keymap('n', '<F2>', '<cmd>lua require("utility/util").mouse_toggle()<CR>',            { noremap = true, silent = true })
 keymap('v', '<F2>', ':<C-U>lua require("utility/util").mouse_toggle()<CR>',           { noremap = true, silent = true })
-keymap('i', '<F2>', '<C-O><cmd>lua require("utility/util").mouse_toggle()<CR>',       { noremap = true, silent = true })
+keymap('i', '<F2>', '<C-\\><C-O><cmd>lua require("utility/util").mouse_toggle()<CR>', { noremap = true, silent = true })
 keymap('t', '<F2>', '<C-\\><C-N><cmd>lua require("utility/util").mouse_toggle()<CR>', { noremap = true, silent = true })
 -- Background toggle.
 keymap('n', '<leader>bg', '<cmd>lua require("utility/util").bg_toggle()<CR>',    { noremap = true, silent = true })
@@ -79,7 +79,7 @@ keymap('n', '<leader>dd', ':lua require("utility/util").append_day_from_date()<C
 -- Insert an orgmode-style timestamp at the end of the line.
 keymap('n', '<leader>ds', "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
 -- List bullets.
-keymap('i', '<M-CR>', '<C-o>:lua require("utility/util").md_insert_bullet()<CR>',  { noremap = true, silent = true })
+keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/util").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/util").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
 -- Echo git status.
 keymap('n', '<leader>vs', ':!git status<CR>', { noremap = true, silent = true })

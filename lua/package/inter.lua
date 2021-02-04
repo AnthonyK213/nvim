@@ -32,7 +32,7 @@ keymap('i', '<CR>',
     { noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
     [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
-    [["<C-O>V>" . repeat(g:const_dir_r, &ts) : ]]..
+    [["<C-\><C-O>V>" . repeat(g:const_dir_r, &ts) : ]]..
     [["<Plug>(completion_smart_tab)"]],
     { noremap = false, silent = true, expr = true })
 keymap('i', '<S-TAB>',    '<Plug>(completion_smart_s_tab)', { noremap = false, silent = true })
