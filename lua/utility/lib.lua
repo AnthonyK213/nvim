@@ -133,6 +133,13 @@ function lib.zeller(year, month, date)
     return days_list[z]
 end
 
+-- Mapping.
+function lib.map(f, t)
+    local t2 = {}
+    for key,val in pairs(t) do t2[key] = f(val) end
+    return t2
+end
+
 -- Source .vim file in configuration directory.
 function lib.viml_source(file)
     if (vim.fn.has("win32") == 1) then

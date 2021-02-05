@@ -1,8 +1,44 @@
+local lib = require("../utility/lib")
+
+local add = function(args)
+    local result = 0
+    for _,arg in ipairs(args) do
+        result = result + arg
+    end
+    return result
+end
+
+local subtract = function(args)
+    if #args == 2 then
+        return args[1] - args[2]
+    else
+        error("Fuck!")
+    end
+end
+
+local multiply = function(args)
+    local result = 1
+    for _,arg in ipairs(args) do
+        result = result * arg
+    end
+    return result
+end
+
+local divide = function(args)
+    if #args == 2 then
+        if args[2] ~= 0 then
+            return args[1] / args[2]
+        end
+    else
+        error("Fuck!")
+    end
+end
+
 local func_map = {
-    ['+']=function(arg_1, arg_2) return arg_1 + arg_2 end,
-    ['-']=function(arg_1, arg_2) return arg_1 - arg_2 end,
-    ['*']=function(arg_1, arg_2) return arg_1 * arg_2 end,
-    ['/']=function(arg_1, arg_2) return arg_1 / arg_2 end,
+    ['+'] = add,
+    ['-'] = subtract,
+    ['*'] = multiply,
+    ['/'] = divide,
 }
 
 local function tree_insert(tree, var, level)
@@ -40,15 +76,18 @@ end
 
 local function lisp_eval(arg)
     if type(arg) == 'number' then return arg end
-    return func_map[arg[1]](lisp_eval(arg[2]), lisp_eval(arg[3]))
+    if not arg then error("Fuck!") end
+    local func = func_map[arg[1]]
+    table.remove(arg, 1)
+    return func(lib.map(lisp_eval, arg))
 end
 
 
 --------------------------------------- TEST ---------------------------------------
 
 
-local test_str = '(* (+ (- (* 12 3.4) (/ -5 6.7)) 8) (/ -9 10))'
+local test_str = '(* (+ (- (* 12 3.4) (/ -5 6.7)) 8 2) (/ -9 10))'
 
 print(lisp_eval(lisp_parser(test_str)))
--- `(12 * 3.4 - -5 / 6.7 + 8.0) * -9 / 10`
--- -44.591641791045
+-- `(12 * 3.4 - -5 / 6.7 + 8.0 + 2) * -9 / 10`
+-- -46.391641791045
