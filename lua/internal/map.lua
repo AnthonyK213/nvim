@@ -20,6 +20,9 @@ keymap('v', '<M-f>', ':s/',  { noremap = true })
 -- Normal command.
 keymap('n', '<M-n>', ':%normal ', { noremap = true })
 keymap('v', '<M-n>', ':normal ',  { noremap = true })
+-- Evaluate formula surrounded by `.
+keymap('n', '<leader>ev', '<cmd>lua require("utility/eval").lua_eval()<CR>',  { noremap = true, silent = true })
+keymap('n', '<leader>el', '<cmd>lua require("utility/eval").lisp_eval()<CR>', { noremap = true, silent = true })
 -- Buffer.
 keymap('n', '<leader>bc', '<cmd>lcd %:p:h<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>bd',

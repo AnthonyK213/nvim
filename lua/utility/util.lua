@@ -557,24 +557,6 @@ function util.sur_sub(...)
     end
 end
 
--- Evaluate formula surrounded by `.
-function util.lua_eval()
-    local origin_pos = vim.fn.getpos('.')
-    vim.fn.execute('normal! F`')
-    local back = lib.get_context('b')
-    local fore = lib.get_context('f')
-    local expr = fore:match('^`(.-)`') or ''
-
-    if pcall(vim.fn.luaeval, expr) then
-        local result = tostring(vim.fn.luaeval(expr))
-        local fore_new = fore:gsub('%b``', result, 1)
-        vim.fn.setline('.', back..fore_new)
-    else
-        vim.fn.setpos('.', origin_pos)
-        print('No valid expression found.')
-    end
-end
-
 --- Toggle math display.
 function util.vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math

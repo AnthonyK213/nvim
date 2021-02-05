@@ -1,4 +1,28 @@
-local lib = require("../utility/lib")
+-- Evaluate formula surrounded by `.
+
+local eval = {}
+local lib = require("/utility/lib")
+
+
+local function text_eval(f)
+    local origin_pos = vim.fn.getpos('.')
+    vim.fn.execute('normal! F`')
+    local back = lib.get_context('b')
+    local fore = lib.get_context('f')
+    local expr = fore:match('^`(.-)`') or ''
+
+    if pcall(f, expr) then
+        local result = tostring(f(expr))
+        local fore_new = fore:gsub('%b``', result, 1)
+        vim.fn.setline('.', back..fore_new)
+    else
+        vim.fn.setpos('.', origin_pos)
+        print('No valid expression found.')
+    end
+end
+
+
+-------------------- Lisp --------------------
 
 local add = function(args)
     local result = 0
@@ -12,7 +36,7 @@ local subtract = function(args)
     if #args == 2 then
         return args[1] - args[2]
     else
-        error("Fuck!")
+        error("Fick, fick, fick! Mathematik!")
     end
 end
 
@@ -30,7 +54,7 @@ local divide = function(args)
             return args[1] / args[2]
         end
     else
-        error("Fuck!")
+        error("Fick, fick, fick! Mathematik!")
     end
 end
 
@@ -49,7 +73,7 @@ local function tree_insert(tree, var, level)
     table.insert(temp_node, var)
 end
 
-local function lisp_parser(str)
+local function lisp_tree(str)
     local tree_level = 0
     local pre_parse  = str:gsub('[%(%)]', function(s) return ' '..s..' ' end)
     local elem_table = vim.fn.split(pre_parse, '\\s')
@@ -74,19 +98,29 @@ local function lisp_parser(str)
     return tree_table[1]
 end
 
-local function lisp_eval(arg)
+local function lisp_tree_eval(arg)
     if type(arg) == 'number' then return arg end
     local func = func_map[arg[1]]
     table.remove(arg, 1)
-    return func(lib.map(lisp_eval, arg))
+    return func(lib.map(lisp_tree_eval, arg))
+end
+
+local function lisp_str_eval(str)
+    return lisp_tree_eval(lisp_tree(str))
+end
+
+-------------------- Lisp --------------------
+
+
+-- Evaluate Lua chunk surrounded by `.
+function eval.lua_eval()
+    text_eval(vim.fn.luaeval)
+end
+
+-- Evaluate Lisp chunk(math) surrounded by `.
+function eval.lisp_eval()
+    text_eval(lisp_str_eval)
 end
 
 
---------------------------------------- TEST ---------------------------------------
-
-
-local test_str = '(* (+ (- (* 12 3.4) (/ -5 6.7)) 8 2) (/ -9 10) -2)'
-
-print(lisp_eval(lisp_parser(test_str)))
--- `(12 * 3.4 - -5 / 6.7 + 8.0 + 2) * -9 / 10 * -2`
--- = -46.391641791045
+return eval

@@ -104,6 +104,9 @@
   - `<leader>d` -> **Date**
     - n:    `s` -> Insert time stamp at the end of line.
     - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+  - `<leader>e` -> **Evaluate**
+    - n:    `v` -> Evaluate lua chunk surrounded by backquote.
+    - n:    `l` -> Evaluate lisp chunk(math) surrounded by backquote.
   - `<leader>f` -> FZF
     - n:    `f` -> *fzf.vim*, fzf  (:Files)
     - n:    `g` -> *fzf.vim*, ripgrep (:Rg)
@@ -157,7 +160,6 @@
 - Functional utilities
   - `Bib`: Compile with biber.
   - `CodeRun`: Run code of current buffer.
-  - `Eval`: Evaluate formula(lua) surrounded by backquotes.
   - `OrgAgenda`: *vim-orgmode*, Open org agenda.
   - `PDF`: Open pdf with the same name of the buffer file in the same directory.
   - `PushAll`: Just push all to the remote origin.
