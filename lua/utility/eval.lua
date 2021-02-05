@@ -1,4 +1,4 @@
--- Evaluate formula surrounded by `.
+-- Evaluate formula surrounded by backquote.
 
 local eval = {}
 local lib = require("/utility/lib")
@@ -63,6 +63,10 @@ local func_map = {
     ['-'] = subtract,
     ['*'] = multiply,
     ['/'] = divide,
+    sqrt  = function(args) return math.sqrt(args[1]) end,
+    sin   = function(args) return math.sin(args[1]) end,
+    cos   = function(args) return math.cos(args[1]) end,
+    tan   = function(args) return math.tan(args[1]) end,
 }
 
 local function tree_insert(tree, var, level)
@@ -86,12 +90,10 @@ local function lisp_tree(str)
         elseif elem == ')' then
             tree_level = tree_level - 1
             if tree_level == 0 then break end
+        elseif func_map[elem] then
+            tree_insert(tree_table, elem, tree_level)
         elseif elem ~= '' then
-            if vim.fn.index({'+', '-', '*', '/'}, elem) >= 0 then
-                tree_insert(tree_table, elem, tree_level)
-            else
-                tree_insert(tree_table, tonumber(elem), tree_level)
-            end
+            tree_insert(tree_table, tonumber(elem), tree_level)
         end
     end
     if tree_level ~= 0 then return end
