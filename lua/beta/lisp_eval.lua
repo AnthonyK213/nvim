@@ -76,7 +76,6 @@ end
 
 local function lisp_eval(arg)
     if type(arg) == 'number' then return arg end
-    if not arg then error("Fuck!") end
     local func = func_map[arg[1]]
     table.remove(arg, 1)
     return func(lib.map(lisp_eval, arg))
@@ -86,8 +85,8 @@ end
 --------------------------------------- TEST ---------------------------------------
 
 
-local test_str = '(* (+ (- (* 12 3.4) (/ -5 6.7)) 8 2) (/ -9 10))'
+local test_str = '(* (+ (- (* 12 3.4) (/ -5 6.7)) 8 2) (/ -9 10) -2)'
 
 print(lisp_eval(lisp_parser(test_str)))
--- `(12 * 3.4 - -5 / 6.7 + 8.0 + 2) * -9 / 10`
--- -46.391641791045
+-- `(12 * 3.4 - -5 / 6.7 + 8.0 + 2) * -9 / 10 * -2`
+-- = -46.391641791045
