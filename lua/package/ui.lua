@@ -155,7 +155,7 @@ gls.left[3] = {
         provider  = get_current_file_name,
         condition = buffer_not_empty,
         highlight = {colors.fg, colors.section_bg},
-        separator = "",
+        separator = " ",
         separator_highlight = {colors.section_bg, colors.bg}
     }
 }
@@ -227,10 +227,10 @@ gls.right[4] = {
 }
 gls.right[5] = {
     GitIcon = {
-        provider = function() return '  ' end,
+        provider = function() return ' git:' end,
         condition = buffer_not_empty and
         require('galaxyline.provider_vcs').check_git_workspace,
-        highlight = {colors.middlegrey, colors.bg}
+        highlight = {colors.fg, colors.bg}
     }
 }
 gls.right[6] = {
@@ -302,7 +302,7 @@ gls.short_line_left[2] = {
     FileName = {
         provider = get_current_file_name,
         highlight = {colors.fg, colors.section_bg},
-        separator = ' ',
+        separator = '  ',
         separator_highlight = {colors.section_bg, colors.bg}
     }
 }
