@@ -545,8 +545,8 @@ function util.sur_sub(...)
         pair_a_new = vim.fn.input("Change to: ")
     end
     local pair_b_new = sur_pair(pair_a_new)
-    local search_back = '\\v.*\\zs'..vim.fn.escape(pair_a, ' ()[]{}<>.+*')
-    local search_fore = '\\v'..vim.fn.escape(pair_b, ' ()[]{}<>.+*')
+    local search_back = '\\v.*\\zs'..vim.fn.escape(pair_a, ' ()[]{}<>.+*^$')
+    local search_fore = '\\v'..vim.fn.escape(pair_b, ' ()[]{}<>.+*^$')
 
     if (vim.fn.matchstr(back, search_back) ~= '' and
         vim.fn.matchstr(fore, search_fore) ~= '') then
