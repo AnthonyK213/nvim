@@ -88,7 +88,7 @@
   - in:  <kbd>M-x</kbd>      -> Command line.
   - i:   <kbd>M-d</kbd>      -> Emacs delete word.
 * **Leader**
-  > <kbd>leader</kbd> is mapped to `<SPACE>`.
+  > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd>     -> **Buffer**.
     - n:    <kbd>b</kbd>     -> *nvim-bufferline.lua*, BufferLinePick.
     - n:    <kbd>c</kbd>     -> Set directory to the current buffer.
