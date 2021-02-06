@@ -45,9 +45,22 @@ set mouse=a
 
 "" GUI
 if exists('g:fvim_loaded')
+  " Cursor
   FVimCursorSmoothMove v:true
-  FVimFontAntialias    v:true
-  FVimUIPopupMenu      v:true
+  " Background
+  FVimBackgroundComposition 'blur'
+  FVimBackgroundOpacity 0.92
+  " Title bar
+  FVimCustomTitleBar v:true
+  " Font
+  FVimFontAntialias v:true
+  FVimFontLigature v:true
+  FVimFontLineHeight '+1.0'
+  "FVimFontNoBuiltInSymbols v:true
+  " UI
+  FVimUIPopupMenu v:true
+
+  nn <silent> <F11> :FVimToggleFullScreen<CR>
 else
   GuiTabline   0
   GuiPopupmenu 0
