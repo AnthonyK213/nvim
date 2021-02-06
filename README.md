@@ -8,7 +8,7 @@
   > pip install neovim-remote
 * **ripgrep**(for fzf.vim)
   - Crazy fast search tool.
-* **paq-nvim**
+* **[paq-nvim](https://github.com/savq/paq-nvim)**
   - Windows
     - Clone paq-nvim into
       > %localappdata%/nvim-data/site/pack/paqs/opt/paq-nvim
