@@ -158,13 +158,13 @@
 
 ## Commands
 - Functional utilities
-  - `Bib`: Compile with biber.
-  - `CodeRun`: Run code of current buffer.
-  - `OrgAgenda`: *vim-orgmode*, Open org agenda.
-  - `PDF`: Open pdf with the same name of the buffer file in the same directory.
-  - `PushAll`: Just push all to the remote origin.
-    - `-b`: branch, current branch default.
-    - `-m`: comment, the date default.
-  - `Time`: Echo date and time.
-  - `Xe1`: Compile with XeLaTeX for one time.
-  - `Xe2`: Compile with XeLaTeX for two times.
+  - `Bib`       : Compile with biber.
+  - `CodeRun`   : Run code of current buffer.
+  - `OrgAgenda` : *vim-orgmode*, Open org agenda.
+  - `PDF`       : Open pdf with the same name of the buffer file in the same directory.
+  - `PushAll`   : Just push all to the remote origin.
+    - `-b`      : branch, current branch default.
+    - `-m`      : comment, the date default.
+  - `Time`      : Echo date and time.
+  - `Xe1`       : Compile with XeLaTeX for one time.
+  - `Xe2`       : Compile with XeLaTeX for two times.
