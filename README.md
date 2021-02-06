@@ -2,13 +2,13 @@
 
 
 ## Requirements
-* **Neovim nightly build**
-* **Python**(for vim-orgmode)
+* [**Neovim**](https://github.com/neovim/neovim) nightly build
+* **Python** (for vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep)(for fzf.vim)
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
   - Crazy fast search tool.
-* **[paq-nvim](https://github.com/savq/paq-nvim)**
+* [**paq-nvim**](https://github.com/savq/paq-nvim)
   - Windows
     - Clone paq-nvim into
       > %localappdata%/nvim-data/site/pack/paqs/opt/paq-nvim
