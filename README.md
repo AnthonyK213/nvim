@@ -3,7 +3,7 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) nightly build
-* **Python** (for vim-orgmode)
+* [**Python**](https://www.python.org/) (for vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
@@ -53,10 +53,10 @@
 
 ## Key bindings
 * **Ctrl**
-  - n:   <kbd>C-j</kbd>      -> Indent left.
-  - n:   <kbd>C-k</kbd>      -> Indent right.
-  - in:  <kbd>C-s</kbd>      -> Save.
-  - in:  <kbd>C-z</kbd>      -> Undo.
+  - n:   <kbd>C-J</kbd>      -> Indent left.
+  - n:   <kbd>C-K</kbd>      -> Indent right.
+  - in:  <kbd>C-S</kbd>      -> Save.
+  - in:  <kbd>C-Z</kbd>      -> Undo.
   - n:   <kbd>C-Direct</kbd> -> Adjust window size.
 * **Meta**
   - in:  <kbd>M-a</kbd>      -> Select all.
