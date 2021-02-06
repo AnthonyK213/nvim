@@ -55,7 +55,7 @@ if exists('g:fvim_loaded')
   " Font
   FVimFontAntialias v:true
   FVimFontLigature v:true
-  FVimFontLineHeight '+1.0'
+  FVimFontLineHeight '+2.0'
   "FVimFontNoBuiltInSymbols v:true
   " UI
   FVimUIPopupMenu v:true
