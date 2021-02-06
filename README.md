@@ -54,107 +54,107 @@
 ## Key bindings
 * **Ctrl**
   - n:   <kbd>C-j</kbd>      -> Indent left.
-  - n:   <kbd>C-k</kbd>      - Indent right.
-  - in:  <kbd>C-s</kbd>      - Save.
-  - in:  <kbd>C-z</kbd>      - Undo.
-  - n:   <kbd>C-Direct</kbd> - Adjust window size.
+  - n:   <kbd>C-k</kbd>      -> Indent right.
+  - in:  <kbd>C-s</kbd>      -> Save.
+  - in:  <kbd>C-z</kbd>      -> Undo.
+  - n:   <kbd>C-Direct</kbd> -> Adjust window size.
 * **Meta**
-  - in:  <kbd>M-a</kbd>      - Select all.
-  - v:   <kbd>M-c</kbd>      - Copy to system clipboard.
-  - t:   <kbd>M-d</kbd>      - Close the terminal.
-  - int: <kbd>M-e</kbd>      - *nerdtree*, NERDTree focus.
-  - nv:  <kbd>M-f</kbd>      - Find and replace.
-  - inv: <kbd>M-h</kbd>      - Jump to the window left.
-  - inv: <kbd>M-j</kbd>      - Jump to the window below.
-  - inv: <kbd>M-k</kbd>      - Jump to the window above.
-  - inv: <kbd>M-l</kbd>      - Jump to the window right.
-  - nv:  <kbd>M-n</kbd>      - Normal command.
-  - inv: <kbd>M-v</kbd>      - Paste from system clipboard.
-  - inv: <kbd>M-w</kbd>      - Jump to the window in turn.
-  - v:   <kbd>M-x</kbd>      - Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>      - Open init.lua.
-  - i:   <kbd>M-CR</kbd>     - Auto insert bullet.
-  - in:  <kbd>M-Number</kbd> - Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - in:  <kbd>M-a</kbd>      -> Select all.
+  - v:   <kbd>M-c</kbd>      -> Copy to system clipboard.
+  - t:   <kbd>M-d</kbd>      -> Close the terminal.
+  - int: <kbd>M-e</kbd>      -> *nerdtree*, NERDTree focus.
+  - nv:  <kbd>M-f</kbd>      -> Find and replace.
+  - inv: <kbd>M-h</kbd>      -> Jump to the window left.
+  - inv: <kbd>M-j</kbd>      -> Jump to the window below.
+  - inv: <kbd>M-k</kbd>      -> Jump to the window above.
+  - inv: <kbd>M-l</kbd>      -> Jump to the window right.
+  - nv:  <kbd>M-n</kbd>      -> Normal command.
+  - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
+  - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
+  - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
+  - n:   <kbd>M-,</kbd>      -> Open init.lua.
+  - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
+  - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
 * **Emacs shit**
-  - inv: <kbd>C-n</kbd>      - Emacs next.
-  - inv: <kbd>C-p</kbd>      - Emacs previous.
-  - i:   <kbd>C-f</kbd>      - Emacs forward.
-  - i:   <kbd>C-b</kbd>      - Emacs backward.
-  - i:   <kbd>C-a</kbd>      - Emacs line start.
-  - i:   <kbd>C-e</kbd>      - Emacs line end.
-  - i:   <kbd>C-k</kbd>      - Emacs kill test on the right.
-  - i:   <kbd>M-f</kbd>      - Emacs next word.
-  - i:   <kbd>M-b</kbd>      - Emacs last word.
-  - in:  <kbd>M-x</kbd>      - Command line.
-  - i:   <kbd>M-d</kbd>      - Emacs delete word.
+  - inv: <kbd>C-n</kbd>      -> Emacs next.
+  - inv: <kbd>C-p</kbd>      -> Emacs previous.
+  - i:   <kbd>C-f</kbd>      -> Emacs forward.
+  - i:   <kbd>C-b</kbd>      -> Emacs backward.
+  - i:   <kbd>C-a</kbd>      -> Emacs line start.
+  - i:   <kbd>C-e</kbd>      -> Emacs line end.
+  - i:   <kbd>C-k</kbd>      -> Emacs kill test on the right.
+  - i:   <kbd>M-f</kbd>      -> Emacs next word.
+  - i:   <kbd>M-b</kbd>      -> Emacs last word.
+  - in:  <kbd>M-x</kbd>      -> Command line.
+  - i:   <kbd>M-d</kbd>      -> Emacs delete word.
 * **Leader**
-  > `<leader>` is mapped to `<SPACE>`.
-  - <kbd><leader>b</kbd> -> **Buffer**.
-    - n:    <kbd>b</kbd> -> *nvim-bufferline.lua*, BufferLinePick.
-    - n:    `c` -> Set directory to the current buffer.
-    - n:    `d` -> Delete buffer.
-    - n:    `g` -> Toggle background.
-    - n:    `h` -> Turn off highlights.
-    - n:    `n` -> Next buffer.
-    - n:    `p` -> Previous buffer.
-    - n:    `x` -> *fzf.vim*, switch buffer using fzf.
-  - `<leader>c` -> **Check**.
-    - nv:   `c` -> Chinese characters count.
-    - n:    `s` -> Toggle spell check status.
-  - `<leader>d` -> **Date**
-    - n:    `s` -> Insert time stamp at the end of line.
-    - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
-  - `<leader>e` -> **Evaluate**
-    - n:    `v` -> Evaluate lua chunk surrounded by backquote.
-    - n:    `l` -> Evaluate lisp chunk(math) surrounded by backquote.
-  - `<leader>f` -> FZF
-    - n:    `f` -> *fzf.vim*, fzf  (:Files)
-    - n:    `g` -> *fzf.vim*, ripgrep (:Rg)
-  - `<leader>g` -> **LSP**
-    - n:    `0` -> vim.lsp.buf.document_symbol()
-    - n:    `a` -> vim.lsp.buf.code_action()
-    - n:    `d` -> vim.lsp.buf.declaration()
-    - n:    `f` -> vim.lsp.buf.definition()
-    - n:    `h` -> vim.lsp.buf.signature_help()
-    - n:    `i` -> vim.lsp.buf.implementation()
-    - n:    `r` -> vim.lsp.buf.references()
-    - n:    `t` -> vim.lsp.buf.type_definition()
-    - n:    `w` -> vim.lsp.buf.workspace_symbol()
-    - n:    `[` -> vim.lsp.diagnostic.goto_prev()
-    - n:    `]` -> vim.lsp.diagnostic.goto_next()
-  - `<leader>k` -> **Search text in web browser**.
-    - nv:   `b` -> Baidu
-    - nv:   `g` -> Google
-    - nv:   `h` -> Github
-    - nv:   `y` -> Youdao
-  - `<leader>m` -> **vim-markdown**
-    - n:    `l` -> Sort number list.
-    - n:    `m` -> *vim-markdown*, Toggle math syntax.
-    - n:    `h` -> *vim-markdown*, Toc horizontal.
-    - n:    `v` -> *vim-markdown*, Toc vertical.
-  - `<leader>o` -> **Open**.
-    - n:    `b` -> Open file of buffer with system default browser.
-    - n:    `e` -> Open system file manager.
-    - nt:   `p` -> *nerdtree*, NERDTree toggle.
-    - n:    `t` -> Open terminal.
-  - `<leader>s` -> **Surrounding**.
-    - nv:   `a` -> Surrounding add.
-    - n:    `c` -> Surrounding change.
-    - n:    `d` -> Surrounding delete.
-  - `<leader>t` -> **vim-table-mode**
-    - n:    `a` -> *vim-table-mode*, Add formula.
-    - n:    `c` -> *vim-table-mode*, Evaluate formula.
-    - n:    `f` -> *vim-table-mode*, Re-align.
-  - `<leader>v` -> **VCS**.
-    - n:    `j` -> *vim-signify*, Next hunk.
-    - n:    `k` -> *vim-signify*, Previous hunk.
-    - n:    `J` -> *vim-signify*, Last hunk.
-    - n:    `K` -> *vim-signify*, First hunk.
-    - n:    `s` -> Git status.
-    - n:    `t` -> *vim-signify*, Signify toggle.
+  > <kbd>leader</kbd> is mapped to `<SPACE>`.
+  - <kbd>leader-b-</kbd>     -> **Buffer**.
+    - n:    <kbd>b</kbd>     -> *nvim-bufferline.lua*, BufferLinePick.
+    - n:    <kbd>c</kbd>     -> Set directory to the current buffer.
+    - n:    <kbd>d</kbd>     -> Delete buffer.
+    - n:    <kbd>g</kbd>     -> Toggle background.
+    - n:    <kbd>h</kbd>     -> Turn off highlights.
+    - n:    <kbd>n</kbd>     -> Next buffer.
+    - n:    <kbd>p</kbd>     -> Previous buffer.
+    - n:    <kbd>x</kbd>     -> *fzf.vim*, switch buffer using fzf.
+  - <kbd>leader-c-</kbd>     -> **Check**.
+    - nv:   <kbd>c</kbd>     -> Chinese characters count.
+    - n:    <kbd>s</kbd>     -> Toggle spell check status.
+  - <kbd>leader-d-</kbd>     -> **Date**
+    - n:    <kbd>s</kbd>     -> Insert time stamp at the end of line.
+    - n:    <kbd>d</kbd>     -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+  - <kbd>leader-e-</kbd>     -> **Evaluate**
+    - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
+    - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
+  - <kbd>leader-f-</kbd>     -> FZF
+    - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
+    - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
+  - <kbd>leader-g-</kbd>     -> **LSP**
+    - n:    <kbd>0</kbd>     -> vim.lsp.buf.document_symbol()
+    - n:    <kbd>a</kbd>     -> vim.lsp.buf.code_action()
+    - n:    <kbd>d</kbd>     -> vim.lsp.buf.declaration()
+    - n:    <kbd>f</kbd>     -> vim.lsp.buf.definition()
+    - n:    <kbd>h</kbd>     -> vim.lsp.buf.signature_help()
+    - n:    <kbd>i</kbd>     -> vim.lsp.buf.implementation()
+    - n:    <kbd>r</kbd>     -> vim.lsp.buf.references()
+    - n:    <kbd>t</kbd>     -> vim.lsp.buf.type_definition()
+    - n:    <kbd>w</kbd>     -> vim.lsp.buf.workspace_symbol()
+    - n:    <kbd>[</kbd>     -> vim.lsp.diagnostic.goto_prev()
+    - n:    <kbd>]</kbd>     -> vim.lsp.diagnostic.goto_next()
+  - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
+    - nv:   <kbd>b</kbd>     -> Baidu
+    - nv:   <kbd>g</kbd>     -> Google
+    - nv:   <kbd>h</kbd>     -> Github
+    - nv:   <kbd>y</kbd>     -> Youdao
+  - <kbd>leader-m-</kbd>     -> **vim-markdown**
+    - n:    <kbd>l</kbd>     -> Sort number list.
+    - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
+    - n:    <kbd>h</kbd>     -> *vim-markdown*, Toc horizontal.
+    - n:    <kbd>v</kbd>     -> *vim-markdown*, Toc vertical.
+  - <kbd>leader-o-</kbd>     -> **Open**.
+    - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
+    - n:    <kbd>e</kbd>     -> Open system file manager.
+    - nt:   <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
+    - n:    <kbd>t</kbd>     -> Open terminal.
+  - <kbd>leader-s-</kbd>     -> **Surrounding**.
+    - nv:   <kbd>a</kbd>     -> Surrounding add.
+    - n:    <kbd>c</kbd>     -> Surrounding change.
+    - n:    <kbd>d</kbd>     -> Surrounding delete.
+  - <kbd>leader-t-</kbd>     -> **vim-table-mode**
+    - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
+    - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
+    - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
+  - <kbd>leader-v-</kbd>     -> **VCS**.
+    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
+    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
+    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
+    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
+    - n:    <kbd>s</kbd>     -> Git status.
+    - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
 * **Misc**
-  - v:   `*`    -> Search visual selection.
-  - invt:`<F2>` -> Toggle mouse status.
+  - v:   <kbd>*</kbd>        -> Search visual selection.
+  - invt:<kbd><F2></kbd>     -> Toggle mouse status.
 
 ## Commands
 - Functional utilities
