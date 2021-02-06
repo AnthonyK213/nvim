@@ -154,7 +154,7 @@
     - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
 * **Misc**
   - v:   <kbd>*</kbd>        -> Search visual selection.
-  - invt:<kbd><F2></kbd>     -> Toggle mouse status.
+  - invt:<kbd>F2</kbd>       -> Toggle mouse status.
 
 ## Commands
 - Functional utilities
