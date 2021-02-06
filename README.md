@@ -30,25 +30,26 @@
   git clone https://github.com/AnthonyK213/nvim.git
   ```
 * **Set init.lua**
-  - Lua module
-    - `internal`
-      - Variables.
-      - Mappings.
-      - Commands.
-    - `package`
-      - Paq-nvim managed plug-ins.
-      - Configurations of plug-ins.
-      - UI configuration.
-    - `utility`
-      - Public function library.
-  - VimL
-    - `viml_basics.vim`
-      - Basic configuration without any dependencies.
-    - `viml_subsrc.vim`
-      - When don't want to use any plug-ins, this can be a simple substitute.
-  - Color schemes
-    - `nanovim.vim`
-      - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
+
+
+## Modules
+- Lua
+  - `internal`
+    - Variables; Mappings; Commands.
+  - `package`
+    - Paq-nvim managed plug-ins.
+    - Configurations of plug-ins.
+    - UI configuration.
+  - `utility`
+    - Public function library.
+- VimL
+  - `viml_basics.vim`
+    - Basic configuration without any dependencies.
+  - `viml_subsrc.vim`
+    - When no plug-ins installed, this could be a simple substitute.
+- Color scheme
+  - `nanovim.vim`
+    - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
 
 
 ## Key bindings
@@ -152,19 +153,19 @@
     - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
     - n:    <kbd>s</kbd>     -> Git status.
     - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
-* **Misc**
-  - v:   <kbd>*</kbd>        -> Search visual selection.
-  - invt:<kbd>F2</kbd>       -> Toggle mouse status.
+* **Miscellanea**
+  - v:      <kbd>*</kbd>     -> Search visual selection.
+  - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
 
 ## Commands
 - Functional utilities
-  - `Bib`       : Compile with biber.
-  - `CodeRun`   : Run code of current buffer.
-  - `OrgAgenda` : *vim-orgmode*, Open org agenda.
-  - `PDF`       : Open pdf with the same name of the buffer file in the same directory.
-  - `PushAll`   : Just push all to the remote origin.
-    - `-b`      : branch, current branch default.
-    - `-m`      : comment, the date default.
-  - `Time`      : Echo date and time.
-  - `Xe1`       : Compile with XeLaTeX for one time.
-  - `Xe2`       : Compile with XeLaTeX for two times.
+  - `Bib`       -> Compile with biber.
+  - `CodeRun`   -> Run code of current buffer.
+  - `OrgAgenda` -> *vim-orgmode*, Open org agenda.
+  - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
+  - `PushAll`   -> Just push all to the remote origin.
+    - `-b`      -> branch, current branch default.
+    - `-m`      -> comment, the date default.
+  - `Time`      -> Echo date and time.
+  - `Xe1`       -> Compile with XeLaTeX for one time.
+  - `Xe2`       -> Compile with XeLaTeX for two times.
