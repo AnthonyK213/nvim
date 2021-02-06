@@ -53,7 +53,7 @@
 
 ## Key bindings
 * **Ctrl**
-  - n:   `<C-j>`      -> Indent left.
+  - n:   <kbd>C-j</kbd>      -> Indent left.
   - n:   `<C-k>`      -> Indent right.
   - in:  `<C-s>`      -> Save.
   - in:  `<C-z>`      -> Undo.
