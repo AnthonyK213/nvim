@@ -86,9 +86,9 @@ local mode_alias = {
     s      = 'S',
     S      = 'S',
     t      = 'T',
-    v      = 'V',
-    V      = 'Ṿ',
-    [''] = 'Ṽ',
+    v      = 'v',
+    V      = 'V',
+    [''] = 'B',
 }
 --- Functions
 --- Check whether the current buffer is empty.

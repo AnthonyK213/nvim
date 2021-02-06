@@ -1,7 +1,11 @@
 " Configuration for nvim-qt
 "" Functions
 function! s:nvimqt_font_set(family, size)
-  exe 'GuiFont!' a:family . ':h' . a:size
+  if exists('g:fvim_loaded')
+    exe 'set guifont=' . escape(a:family, ' ') . ':h' . a:size
+  else
+    exe 'GuiFont!' a:family . ':h' . a:size
+  endif
 endfunction
 
 function! s:nvimqt_font_expand()
@@ -40,9 +44,15 @@ lcd %:p:h
 set mouse=a
 
 "" GUI
-:GuiTabline   0
-:GuiPopupmenu 0
-:GuiLinespace 0
+if exists('g:fvim_loaded')
+  FVimCursorSmoothMove v:true
+  FVimFontAntialias    v:true
+  FVimUIPopupMenu      v:true
+else
+  GuiTabline   0
+  GuiPopupmenu 0
+  GuiLinespace 0
+endif
 
 "" Font
 if !exists('g:gui_font_size')
