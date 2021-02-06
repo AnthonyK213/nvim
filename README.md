@@ -54,43 +54,43 @@
 ## Key bindings
 * **Ctrl**
   - n:   <kbd>C-j</kbd>      -> Indent left.
-  - n:   `<C-k>`      -> Indent right.
-  - in:  `<C-s>`      -> Save.
-  - in:  `<C-z>`      -> Undo.
-  - n:   `<C-Direct>` -> Adjust window size.
+  - n:   <kbd>C-k</kbd>      - Indent right.
+  - in:  <kbd>C-s</kbd>      - Save.
+  - in:  <kbd>C-z</kbd>      - Undo.
+  - n:   <kbd>C-Direct</kbd> - Adjust window size.
 * **Meta**
-  - in:  `<M-a>`      -> Select all.
-  - v:   `<M-c>`      -> Copy to system clipboard.
-  - t:   `<M-d>`      -> Close the terminal.
-  - int: `<M-e>`      -> *nerdtree*, NERDTree focus.
-  - nv:  `<M-f>`      -> Find and replace.
-  - inv: `<M-h>`      -> Jump to the window left.
-  - inv: `<M-j>`      -> Jump to the window below.
-  - inv: `<M-k>`      -> Jump to the window above.
-  - inv: `<M-l>`      -> Jump to the window right.
-  - nv:  `<M-n>`      -> Normal command.
-  - inv: `<M-v>`      -> Paste from system clipboard.
-  - inv: `<M-w>`      -> Jump to the window in turn.
-  - v:   `<M-x>`      -> Cut to system clipboard.
-  - n:   `<M-,>`      -> Open init.lua.
-  - i:   `<M-CR>`     -> Auto insert bullet.
-  - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - in:  <kbd>M-a</kbd>      - Select all.
+  - v:   <kbd>M-c</kbd>      - Copy to system clipboard.
+  - t:   <kbd>M-d</kbd>      - Close the terminal.
+  - int: <kbd>M-e</kbd>      - *nerdtree*, NERDTree focus.
+  - nv:  <kbd>M-f</kbd>      - Find and replace.
+  - inv: <kbd>M-h</kbd>      - Jump to the window left.
+  - inv: <kbd>M-j</kbd>      - Jump to the window below.
+  - inv: <kbd>M-k</kbd>      - Jump to the window above.
+  - inv: <kbd>M-l</kbd>      - Jump to the window right.
+  - nv:  <kbd>M-n</kbd>      - Normal command.
+  - inv: <kbd>M-v</kbd>      - Paste from system clipboard.
+  - inv: <kbd>M-w</kbd>      - Jump to the window in turn.
+  - v:   <kbd>M-x</kbd>      - Cut to system clipboard.
+  - n:   <kbd>M-,</kbd>      - Open init.lua.
+  - i:   <kbd>M-CR</kbd>     - Auto insert bullet.
+  - in:  <kbd>M-Number</kbd> - Switch tab(Number: 1, 2, 3, ..., 9, 0).
 * **Emacs shit**
-  - inv: `<C-n>`      -> Emacs next.
-  - inv: `<C-p>`      -> Emacs previous.
-  - i:   `<C-f>`      -> Emacs forward.
-  - i:   `<C-b>`      -> Emacs backward.
-  - i:   `<C-a>`      -> Emacs line start.
-  - i:   `<C-e>`      -> Emacs line end.
-  - i:   `<C-k>`      -> Emacs kill test on the right.
-  - i:   `<M-f>`      -> Emacs next word.
-  - i:   `<M-b>`      -> Emacs last word.
-  - in:  `<M-x>`      -> Command line.
-  - i:   `<M-d>`      -> Emacs delete word.
+  - inv: <kbd>C-n</kbd>      - Emacs next.
+  - inv: <kbd>C-p</kbd>      - Emacs previous.
+  - i:   <kbd>C-f</kbd>      - Emacs forward.
+  - i:   <kbd>C-b</kbd>      - Emacs backward.
+  - i:   <kbd>C-a</kbd>      - Emacs line start.
+  - i:   <kbd>C-e</kbd>      - Emacs line end.
+  - i:   <kbd>C-k</kbd>      - Emacs kill test on the right.
+  - i:   <kbd>M-f</kbd>      - Emacs next word.
+  - i:   <kbd>M-b</kbd>      - Emacs last word.
+  - in:  <kbd>M-x</kbd>      - Command line.
+  - i:   <kbd>M-d</kbd>      - Emacs delete word.
 * **Leader**
   > `<leader>` is mapped to `<SPACE>`.
-  - `<leader>b` -> **Buffer**.
-    - n:    `b` -> *nvim-bufferline.lua*, BufferLinePick.
+  - <kbd><leader>b</kbd> -> **Buffer**.
+    - n:    <kbd>b</kbd> -> *nvim-bufferline.lua*, BufferLinePick.
     - n:    `c` -> Set directory to the current buffer.
     - n:    `d` -> Delete buffer.
     - n:    `g` -> Toggle background.
