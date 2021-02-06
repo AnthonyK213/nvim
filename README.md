@@ -6,7 +6,7 @@
 * **Python**(for vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
-* **ripgrep**(for fzf.vim)
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep)(for fzf.vim)
   - Crazy fast search tool.
 * **[paq-nvim](https://github.com/savq/paq-nvim)**
   - Windows
