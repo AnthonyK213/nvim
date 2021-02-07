@@ -7,7 +7,7 @@ paq {'savq/paq-nvim', opt=true}
 paq {'rakr/vim-one', opt=true}
 paq {'akinsho/nvim-bufferline.lua', opt=true}
 paq {'norcalli/nvim-colorizer.lua', opt=true}
-paq {'glepnir/galaxyline.nvim', branch='main', opt=true}
+paq {'hoob3rt/lualine.nvim', opt=true}
 -- Tree manager
 paq {'preservim/nerdtree'}
 -- FZF
