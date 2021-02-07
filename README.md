@@ -114,17 +114,17 @@
     - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
   - <kbd>leader-g-</kbd>     -> **LSP**
-    - n:    <kbd>0</kbd>     -> vim.lsp.buf.document_symbol()
-    - n:    <kbd>a</kbd>     -> vim.lsp.buf.code_action()
-    - n:    <kbd>d</kbd>     -> vim.lsp.buf.declaration()
-    - n:    <kbd>f</kbd>     -> vim.lsp.buf.definition()
-    - n:    <kbd>h</kbd>     -> vim.lsp.buf.signature_help()
-    - n:    <kbd>i</kbd>     -> vim.lsp.buf.implementation()
-    - n:    <kbd>r</kbd>     -> vim.lsp.buf.references()
-    - n:    <kbd>t</kbd>     -> vim.lsp.buf.type_definition()
-    - n:    <kbd>w</kbd>     -> vim.lsp.buf.workspace_symbol()
-    - n:    <kbd>[</kbd>     -> vim.lsp.diagnostic.goto_prev()
-    - n:    <kbd>]</kbd>     -> vim.lsp.diagnostic.goto_next()
+    - n:    <kbd>0</kbd>     -> `vim.lsp.buf.document_symbol()`
+    - n:    <kbd>a</kbd>     -> `vim.lsp.buf.code_action()`
+    - n:    <kbd>d</kbd>     -> `vim.lsp.buf.declaration()`
+    - n:    <kbd>f</kbd>     -> `vim.lsp.buf.definition()`
+    - n:    <kbd>h</kbd>     -> `vim.lsp.buf.signature_help()`
+    - n:    <kbd>i</kbd>     -> `vim.lsp.buf.implementation()`
+    - n:    <kbd>r</kbd>     -> `vim.lsp.buf.references()`
+    - n:    <kbd>t</kbd>     -> `vim.lsp.buf.type_definition()`
+    - n:    <kbd>w</kbd>     -> `vim.lsp.buf.workspace_symbol()`
+    - n:    <kbd>[</kbd>     -> `vim.lsp.diagnostic.goto_prev()`
+    - n:    <kbd>]</kbd>     -> `vim.lsp.diagnostic.goto_next()`
   - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
     - nv:   <kbd>b</kbd>     -> Baidu
     - nv:   <kbd>g</kbd>     -> Google
