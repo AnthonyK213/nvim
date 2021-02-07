@@ -59,7 +59,6 @@ if exists('g:fvim_loaded')
   "FVimFontNoBuiltInSymbols v:true
   " UI
   FVimUIPopupMenu v:true
-
   nn <silent> <F11> :FVimToggleFullScreen<CR>
 else
   GuiTabline   0
@@ -79,12 +78,13 @@ call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
 
-nn  <silent> <C-=> :call <SID>nvimqt_font_expand()<CR>
-nn  <silent> <C--> :call <SID>nvimqt_font_shrink()<CR>
-nn  <silent> <C-0> :call <SID>nvimqt_font_origin()<CR>
-ino <silent> <C-=> <C-o>:call <SID>nvimqt_font_expand()<CR>
-ino <silent> <C--> <C-o>:call <SID>nvimqt_font_shrink()<CR>
-ino <silent> <C-0> <C-o>:call <SID>nvimqt_font_origin()<CR>
+nn  <silent> <C-0> <cmd>call       <SID>nvimqt_font_origin()<CR>
+ino <silent> <C-0> <C-\><C-o>:call <SID>nvimqt_font_origin()<CR>
+
+for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 'ScrollWheelDown':'shrink' })
+  exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>nvimqt_font_' . val . '()<CR>'
+  exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
+endfor
 
 " Lazy save the memo.
 nn <silent> <C-s> :call <SID>nvimqt_memo_lazy_save()<CR>
