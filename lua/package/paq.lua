@@ -29,8 +29,8 @@ paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
 paq {'iamcco/markdown-preview.nvim', hook=vim.fn['mkdp#util#install']}
 -- Completion; LSP
-paq {'SirVer/ultisnips'}
-paq {'honza/vim-snippets'}
+paq {'hrsh7th/vim-vsnip'}
+paq {'hrsh7th/vim-vsnip-integ'}
 paq {'neovim/nvim-lspconfig'}
 paq {'nvim-lua/completion-nvim'}
 paq {'tjdevries/lsp_extensions.nvim'}

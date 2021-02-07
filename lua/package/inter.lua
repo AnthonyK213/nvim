@@ -24,10 +24,11 @@ keymap('n', '<leader>mm', ':lua require("utility/util").vim_markdown_math_toggle
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>tc', ':TableEvalFormulaLine<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>tf', ':TableModeRealign<CR>',     { noremap = true, silent = true })
--- UltiSnips
-vim.g.UltiSnipsExpandTrigger       = "<C-C><C-S>"
-vim.g.UltiSnipsJumpForwardTrigger  = "<C-C><C-L>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<C-C><C-H>"
+-- vim-vsnip
+keymap('i', '<C-C><C-L>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-next)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
+keymap('s', '<C-C><C-L>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-next)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
+keymap('i', '<C-C><C-H>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-prev)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
+keymap('s', '<C-C><C-H>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-prev)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
 -- completion-nvim
 keymap('i', '<CR>',
     [[pumvisible() ? complete_info()["selected"] != "-1" ? ]]..

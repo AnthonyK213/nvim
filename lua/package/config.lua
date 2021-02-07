@@ -96,7 +96,7 @@ vim.g.pairs_usr_extd_map = {
 
 -- completion-nvim
 vim.g.completion_confirm_key         = ""
-vim.g.completion_enable_snippet      = 'UltiSnips'
+vim.g.completion_enable_snippet      = 'vim-vsnip'
 vim.g.completion_enable_auto_popup   = 1
 vim.g.completion_auto_change_source  = 1
 vim.g.completion_matching_smart_case = 1
@@ -104,18 +104,13 @@ vim.g.completion_trigger_keyword_length = 2
 vim.g.completion_matching_strategy_list = { 'exact', 'substring', 'fuzzy' }
 vim.g.completion_chain_complete_list = {
     default = {
-        { complete_items = { 'lsp', 'UltiSnips' } },
+        { complete_items = { 'lsp', 'vim-vsnip' } },
         { complete_items = { 'path' }, triggered_only = { '/' } },
         { mode           = '<c-p>' },
         { mode           = '<c-n>' }
     },
-    vim = {
-        { complete_items = { 'UltiSnips' } },
-        { mode           = '<c-p>' },
-        { mode           = '<c-n>' }
-    },
     lua = {
-        { complete_items = { 'ts', 'UltiSnips' } },
+        { complete_items = { 'ts', 'vim-vsnip' } },
         { mode           = '<c-p>' },
         { mode           = '<c-n>' }
     },
@@ -140,10 +135,12 @@ local lspconfig = require'lspconfig'
 lspconfig.clangd.setup { on_attach=custom_attach }
 --- jedi_language_server
 lspconfig.jedi_language_server.setup { on_attach=custom_attach }
---- rls
+--- rust_analyzer
 lspconfig.rust_analyzer.setup { on_attach=custom_attach }
 --- texlab
 lspconfig.texlab.setup { on_attach=custom_attach }
+--- vim script
+lspconfig.vimls.setup { on_attach=custom_attach }
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
