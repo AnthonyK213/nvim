@@ -369,6 +369,8 @@ function util.run_or_compile(option)
     local term_use = true
     if exts == 'py' then
         term_cmd = cmdh..' python '..file
+    elseif exts == 'rb' then
+        term_cmd = cmdh..' ruby '..file
     elseif exts == 'c' then
         if option == '' then
             term_cmd = cmdh..' '..util_def_cc..' '..

@@ -75,7 +75,6 @@ end
 
 vim.cmd('packadd lualine.nvim')
 local lualine = require('lualine')
-lualine.theme = 'onedark'
 lualine.separator = '|'
 lualine.sections = {
     lualine_a = { get_current_mode },
@@ -94,7 +93,14 @@ lualine.inactive_sections = {
     lualine_z = {  },
 }
 lualine.extensions = { 'fzf' }
+lualine.theme = 'one'..vim.o.background
 lualine.status()
+vim.cmd('augroup lualine_color_toggle')
+vim.cmd('autocmd!')
+vim.cmd('au ColorScheme one lua '..
+        'require("lualine").theme="one"..vim.o.bg '..
+        'require("lualine").status()')
+vim.cmd('augroup end')
 
 
 -- nvim-bufferline.lua
