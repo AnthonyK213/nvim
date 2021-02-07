@@ -47,6 +47,8 @@
     - Basic configuration without any dependencies.
   - `viml_subsrc.vim`
     - When no plug-ins installed, this could be a simple substitute.
+- Snippet
+  - The same as vscode's.
 - Color scheme
   - `nanovim.vim`
     - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
