@@ -70,7 +70,7 @@ local function get_current_file_name()
     if vim.bo.modifiable then
         if vim.bo.modified then return file..' MO' end
     end
-    return file..' '
+    return file
 end
 
 vim.cmd('packadd lualine.nvim')
