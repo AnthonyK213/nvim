@@ -25,10 +25,10 @@ keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent 
 keymap('n', '<leader>tc', ':TableEvalFormulaLine<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>tf', ':TableModeRealign<CR>',     { noremap = true, silent = true })
 -- vim-vsnip
-keymap('i', '<C-C><C-L>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-next)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
-keymap('s', '<C-C><C-L>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-next)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
-keymap('i', '<C-C><C-H>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-prev)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
-keymap('s', '<C-C><C-H>', 'vsnip#jumpable(1)  ? "<Plug>(vsnip-jump-prev)"      : "<Nul>"', { noremap = true, silent = true, expr = true })
+keymap('i', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"', { noremap = false, silent = true, expr = true })
+keymap('s', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"', { noremap = false, silent = true, expr = true })
+keymap('i', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
+keymap('s', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
 -- completion-nvim
 keymap('i', '<CR>',
     [[pumvisible() ? complete_info()["selected"] != "-1" ? ]]..

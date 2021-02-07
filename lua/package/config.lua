@@ -94,6 +94,14 @@ vim.g.pairs_usr_extd_map = {
 }
 
 
+-- vim-vsnip
+if vim.fn.has('win32') then
+    vim.g.vsnip_snippet_dir = vim.fn.expand('$localappdata/nvim/snippet')
+elseif vim.fn.has('unix') then
+    vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippet')
+end
+
+
 -- completion-nvim
 vim.g.completion_confirm_key         = ""
 vim.g.completion_enable_snippet      = 'vim-vsnip'
