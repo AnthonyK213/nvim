@@ -95,9 +95,9 @@ vim.g.pairs_usr_extd_map = {
 
 
 -- vim-vsnip
-if vim.fn.has('win32') then
+if vim.fn.has('win32') == 1 then
     vim.g.vsnip_snippet_dir = vim.fn.expand('$localappdata/nvim/snippet')
-elseif vim.fn.has('unix') then
+elseif vim.fn.has('unix') == 1 then
     vim.g.vsnip_snippet_dir = vim.fn.expand('$HOME/.config/nvim/snippet')
 end
 
