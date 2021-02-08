@@ -45,6 +45,15 @@ local function get_current_file_name()
     end
     return file
 end
+--- Get diagnostics
+local function get_diagnostics()
+    local e_count = vim.lsp.diagnostic.get_count(0, 'Error')
+    local w_count = vim.lsp.diagnostic.get_count(0, 'Warning')
+    local e_str, w_str = '', ''
+    if e_count ~= 0 then e_str = ' E:'..tostring(e_count) end
+    if w_count ~= 0 then w_str = ' W:'..tostring(w_count) end
+    return e_str..w_str
+end
 --- Load status line.
 vim.cmd('packadd lualine.nvim')
 local lualine = require('lualine')
@@ -53,7 +62,7 @@ lualine.sections = {
     lualine_a = { get_current_mode },
     lualine_b = { get_current_file_name },
     lualine_c = { 'branch', 'signify' },
-    lualine_x = { 'encoding', 'fileformat', 'filetype' },
+    lualine_x = { get_diagnostics, 'filetype', 'encoding', 'fileformat' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
 }
