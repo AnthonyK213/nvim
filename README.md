@@ -43,9 +43,9 @@
   - `utility`
     - Public function library.
 - VimL
-  - `viml_basics.vim`
+  - `basics.vim`
     - Basic configuration without any dependencies.
-  - `viml_subsrc.vim`
+  - `subsrc.vim`
     - When no plug-ins installed, this could be a simple substitute.
 - Snippet
   - The same as vscode's.
