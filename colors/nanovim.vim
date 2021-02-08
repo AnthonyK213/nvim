@@ -29,7 +29,7 @@ let g:colors_name = 'nanovim'
 
 " Colors {{
 if &background ==# 'light'
-  let s:nano_color_background = { "gui": "#FAFAFA", "cterm": "15"  } "White
+  let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
   let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
   let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" } "Amber
   let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" } "Deep Orange
