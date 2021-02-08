@@ -1,32 +1,5 @@
--- vim-one
-vim.cmd('packadd vim-one')
-local function one_hl(...)
-    vim.call('one#highlight', ...)
-end
-function uiconf_lua_one_extend()
-    one_hl('SpellBad',         'e06c75', '', 'underline')
-    one_hl('SpellCap',         'd19a66', '', 'underline')
-    one_hl('mkdBold',          '4b5263', '', '')
-    one_hl('mkdItalic',        '4b5263', '', '')
-    one_hl('mkdBoldItalic',    '4b5263', '', '')
-    one_hl('mkdCodeDelimiter', '4b5263', '', '')
-    one_hl('htmlBold',         'd19a66', '', 'bold')
-    one_hl('htmlItalic',       'c678dd', '', 'italic')
-    one_hl('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
-    one_hl('htmlH1',           'e06c75', '', 'bold')
-    one_hl('htmlH2',           'e06c75', '', 'bold')
-    one_hl('htmlH3',           'e06c75', '', '')
-    one_hl('mkdHeading',       'e06c75', '', '')
-end
--- When colorscheme set to vim-one.
-vim.cmd('augroup vim_one_extend')
-vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua uiconf_lua_one_extend()')
-vim.cmd('augroup end')
 vim.o.tgc = true
 vim.o.bg = 'dark'
-vim.g.one_allow_italics = 1
-vim.cmd('colorscheme one')
 
 
 -- lualine.nvim
@@ -72,7 +45,7 @@ local function get_current_file_name()
     end
     return file
 end
-
+--- Load status line.
 vim.cmd('packadd lualine.nvim')
 local lualine = require('lualine')
 lualine.separator = '|'
@@ -93,8 +66,6 @@ lualine.inactive_sections = {
     lualine_z = {  },
 }
 lualine.extensions = { 'fzf' }
-lualine.theme = 'one'..vim.o.background
-lualine.status()
 vim.cmd('augroup lualine_color_toggle')
 vim.cmd('autocmd!')
 vim.cmd('au ColorScheme one lua '..
@@ -137,3 +108,32 @@ vim.api.nvim_set_keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap 
 -- nvim-colorizer
 vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
+
+
+-- vim-one
+vim.cmd('packadd vim-one')
+local function one_hl(...)
+    vim.call('one#highlight', ...)
+end
+function uiconf_lua_one_extend()
+    one_hl('SpellBad',         'e06c75', '', 'underline')
+    one_hl('SpellCap',         'd19a66', '', 'underline')
+    one_hl('mkdBold',          '4b5263', '', '')
+    one_hl('mkdItalic',        '4b5263', '', '')
+    one_hl('mkdBoldItalic',    '4b5263', '', '')
+    one_hl('mkdCodeDelimiter', '4b5263', '', '')
+    one_hl('htmlBold',         'd19a66', '', 'bold')
+    one_hl('htmlItalic',       'c678dd', '', 'italic')
+    one_hl('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
+    one_hl('htmlH1',           'e06c75', '', 'bold')
+    one_hl('htmlH2',           'e06c75', '', 'bold')
+    one_hl('htmlH3',           'e06c75', '', '')
+    one_hl('mkdHeading',       'e06c75', '', '')
+end
+-- When colorscheme set to vim-one.
+vim.cmd('augroup vim_one_extend')
+vim.cmd('autocmd!')
+vim.cmd('au ColorScheme one lua uiconf_lua_one_extend()')
+vim.cmd('augroup end')
+vim.g.one_allow_italics = 1
+vim.cmd('colorscheme one')
