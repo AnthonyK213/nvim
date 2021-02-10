@@ -1,5 +1,4 @@
 -- Evaluate formula surrounded by backquote.
-
 local eval = {}
 local lib = require("/utility/lib")
 

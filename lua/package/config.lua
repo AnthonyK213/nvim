@@ -132,9 +132,7 @@ vim.g.completion_chain_complete_list = {
     comment = {}
 }
 --- completion attach
-local custom_attach = function()
-    require'completion'.on_attach()
-end
+local custom_attach = function() require'completion'.on_attach() end
 
 
 -- nvim-lspconfig
