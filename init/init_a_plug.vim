@@ -5,6 +5,9 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'vim-airline/vim-airline'
   " Tree manager
   Plug 'preservim/nerdtree'
+  " FZF
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
   " Git utilities
   Plug 'tpope/vim-fugitive'
   Plug 'mhinz/vim-signify'
@@ -19,6 +22,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'jceb/vim-orgmode'
   Plug 'plasticboy/vim-markdown'
   Plug 'sophacles/vim-processing'
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
   " Completion; LSP
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()

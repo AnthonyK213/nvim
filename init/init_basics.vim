@@ -11,7 +11,7 @@ set hidden
 set cursorline
 set cmdheight=1
 set laststatus=2
-set shortmess=atI
+set shortmess=catI
 set noshowmode showcmd
 set list listchars=tab:>-,trail:·
 
@@ -37,6 +37,7 @@ set winaltkeys=no
 set history=500
 set updatetime=300
 set notimeout nottimeout
+set completeopt=menuone,noinsert,noselect
 
 
 " Search

@@ -5,6 +5,13 @@ colorscheme onedark
 let g:airline_theme = 'onedark'
 
 
+" FZF
+let $FZF_DEFAULT_OPTS = "--layout=reverse"
+nn <silent> <leader>bx :Buffers<CR>
+nn <silent> <leader>ff :Files<CR>
+nn <silent> <leader>fg :Rg<CR>
+
+
 " NERDTree
 let g:NERDTreeDirArrowExpandable  = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
@@ -147,3 +154,26 @@ let g:pairs_usr_extd_map = {
       \ "<M-M>" : "***",
       \ "<M-U>" : "<u>"
       \ }
+
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+function! s:check_back_bullet()
+  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
+endfunction
+function! s:subrc_is_surrounded(match_list)
+  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
+endfunction
+ino <silent><expr> <TAB>
+      \ Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
+      \ <SID>check_back_bullet() ? "\<C-o>V>" . repeat(lib_const_r, &ts) :
+      \ "\<Tab>"
+ino <silent><expr> <S-TAB>
+      \ pumvisible() ?
+      \ "\<C-p>" :
+      \ "\<C-h>"
+ino <silent><expr> <CR>
+      \ pumvisible() ? "\<C-y>" :
+      \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
+      \ "\<CR>\<C-o>O" :
+      \ "\<CR>"
