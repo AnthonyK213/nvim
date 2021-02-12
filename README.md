@@ -158,6 +158,7 @@
   - v:      <kbd>*</kbd>     -> Search visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
 
+
 ## Commands
 - Functional utilities
   - `Bib`       -> Compile with biber.
