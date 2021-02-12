@@ -21,5 +21,4 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
   " Completion; LSP
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()

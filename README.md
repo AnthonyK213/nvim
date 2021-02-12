@@ -1,10 +1,7 @@
 # Neovim Configuration
 
 ## Dependencies
-* **Node.js**(to use coc.nvim & markdown-preview)
-  > npm install yarn -g  
-  > npm install neovim -g
-* **Python**(to use vim-orgmode)
+* **Python**(for vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
 * **vim-plug**
@@ -146,21 +143,6 @@
     - n:    `K` -> First hunk.
     - n:    `s` -> Git status.
     - n:    `t` -> Signify toggle.
-  - `<leader>C` -> **Coc.nvim**
-    - n:    `a` -> Do codeAction of current line.
-    - n:    `c` -> Fix autofix problem of current line.
-    - n:    `f` -> Format selected region.
-    - n:    `s` -> Do codeAction of selected region.
-    - n:    `r` -> Rename current word.
-    - n:    `l` -> *CocList*
-      - n:  `a` -> Show all diagnostics.
-      - n:  `e` -> Manage extensions.
-      - n:  `c` -> Show commands.
-      - n:  `o` -> Find symbol of current document.
-      - n:  `s` -> Search workspace symbols.
-      - n:  `j` -> Do default action for next item.
-      - n:  `k` -> Do default action for previous item.
-      - n:  `p` -> Resume latest coc list.
 * **Misc**
   - v:   `*`    -> Search visual selection.
   - invt:`<F2>` -> Toggle mouse status.
