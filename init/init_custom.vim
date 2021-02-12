@@ -11,14 +11,6 @@ else
 endif
 
 
-" Scroll off
-augroup scroll_off
-  autocmd!
-  au BufEnter * setlocal so=5
-  au BufEnter *.md setlocal so=999
-augroup end
-
-
 " Key maps
 "" Ctrl
 """ Indent entire line.
@@ -64,3 +56,11 @@ nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
 """ Toggle spell check
 nn <silent> <Leader>cs :setlocal spell! spelllang=en_us<CR>
+
+
+" Scroll off
+augroup scroll_off
+  autocmd!
+  au BufEnter * setlocal so=5
+  au BufEnter *.md setlocal so=999
+augroup end
