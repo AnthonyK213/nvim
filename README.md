@@ -1,163 +1,177 @@
 # Neovim Configuration
 
-## Dependencies
-* **Python**(for vim-orgmode)
+
+## Requirements
+* [**Neovim**](https://github.com/neovim/neovim)
+* [**Python**](https://www.python.org/) (for vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
-* **vim-plug**
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
+  - Crazy fast search tool.
+* [**vim-plug**](https://github.com/junegunn/vim-plug)
   - Windows
     - Set plug.vim into
       > ~/AppData/Local/nvim-data/site/autoload/
-    - Plug-in directory
-      > ~/AppData/Local/nvim-data/plugged/
   - GNU/Linux
-    - Set plug.vim into
-      > ~/.local/share/nvim/site/autoload/
+    ```bash
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    ```
 
 
-## Install
+## Installation
 * **Configuration Directory**
   - Windows
-    > cd ~/AppData/Local/
+    > %localappdata%/nvim
   - GNU/Linux
-    > cd ~/.config/
+    > ~/.config/nvim
 * **Clone source code**
-  > git clone https://github.com/AnthonyK213/nvim.git -b viml
+  ```bash
+  git clone https://github.com/AnthonyK213/nvim.git -b viml
+  ```
 * **Set init.vim**
-  - Basics
-    - `init_basics.vim`
-      - Basic configuration without any dependencies.
-    - `init_custom.vim`
-      - Global variables and key maps.
-    - `init_deflib.vim`
-      - Public function library.
-  - Utilities
-    - `init_fnutil.vim`
-      - External cross-platform dependencies(Git, LaTeX, etc.)
-      - Functions:
-        - Surrounding(Add, delete & change)
-        - Chinese characters count
-        - Search cword or selection in system default browser
-        - Bullets auto-insertion and auto-arrangement
-        - LaTeX compile recipes
-        - Git lazy push(Commit all and push all)
-        - Compile and run code of current buffer
-        - View pdf in system default viewer
-        - Append orgmode style time stamp to the end of current line
-        - Append day of week after a date string(yyyy-mm-dd)
-    - `init_subsrc.vim`
-      - When don't want to use any plug-ins, this can be a simple substitute.
-      - Include:
-        - Netrw configuration
-        - Build-in completion
-        - Simple auto-pairing
-  - Plug-ins
-    - `init_a_plug.vim`
-      - Vim-plug load plug-ins.
-    - `init_plugrc.vim`
-      - Configurations of plug-ins.(source init_plugin at first)
-  - Color schemes
-    - `nanovim.vim`
-      - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
+
+
+## Modules
+- Basics
+  - `basics.vim`
+    - Basic configuration without any dependencies.
+  - `custom.vim`
+    - Global variables and key maps.
+  - `deflib.vim`
+    - Public function library.
+- Utilities
+  - `fnutil.vim`
+    - External cross-platform dependencies(Git, LaTeX, etc.)
+    - Functions:
+      - Surrounding(Add, delete & change)
+      - Chinese characters count
+      - Search cword or selection in system default browser
+      - Bullets auto-insertion and auto-arrangement
+      - LaTeX compile recipes
+      - Git lazy push(Commit all and push all)
+      - Compile and run code of current buffer
+      - View pdf in system default viewer
+      - Append orgmode style time stamp to the end of current line
+      - Append day of week after a date string(yyyy-mm-dd)
+  - `subsrc.vim`
+    - When don't want to use any plug-ins, this can be a simple substitute.
+    - Include:
+      - Netrw configuration
+      - Build-in completion
+      - Simple auto-pairing
+- Plug-ins
+  - `a_plug.vim`
+    - Vim-plug load plug-ins.
+  - `plugrc.vim`
+    - Configurations of plug-ins.(source init_plugin at first)
+- Color schemes
+  - `nanovim.vim`
+    - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
 
 
 ## Key bindings
 * **Ctrl**
-  - n:   `<C-j>`      -> Indent left.
-  - n:   `<C-k>`      -> Indent right.
-  - in:  `<C-s>`      -> Save.
-  - in:  `<C-z>`      -> Undo.
-  - n:   `<C-Direct>` -> Adjust window size.
+  - n:   <kbd>C-J</kbd>      -> Indent left.
+  - n:   <kbd>C-K</kbd>      -> Indent right.
+  - in:  <kbd>C-S</kbd>      -> Save.
+  - n:   <kbd>C-Direct</kbd> -> Adjust window size.
 * **Meta**
-  - in:  `<M-a>`      -> Select all.
-  - v:   `<M-c>`      -> Copy to system clipboard.
-  - t:   `<M-d>`      -> Close the terminal.
-  - int: `<M-e>`      -> NERDTree focus.
-  - nv:  `<M-f>`      -> Find and replace.
-  - inv: `<M-h>`      -> Jump to the window left.
-  - inv: `<M-j>`      -> Jump to the window below.
-  - inv: `<M-k>`      -> Jump to the window above.
-  - inv: `<M-l>`      -> Jump to the window right.
-  - nv:  `<M-n>`      -> Normal command.
-  - inv: `<M-v>`      -> Paste from system clipboard.
-  - inv: `<M-w>`      -> Jump to the window in turn.
-  - v:   `<M-x>`      -> Cut to system clipboard.
-  - n:   `<M-,>`      -> Open init.vim.
-  - i:   `<M-CR>`     -> Auto insert bullet.
-  - in:  `<M-Number>` -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - in:  <kbd>M-a</kbd>      -> Select all.
+  - v:   <kbd>M-c</kbd>      -> Copy to system clipboard.
+  - t:   <kbd>M-d</kbd>      -> Close the terminal.
+  - int: <kbd>M-e</kbd>      -> *nerdtree*, NERDTree focus.
+  - nv:  <kbd>M-f</kbd>      -> Find and replace.
+  - inv: <kbd>M-h</kbd>      -> Jump to the window left.
+  - inv: <kbd>M-j</kbd>      -> Jump to the window below.
+  - inv: <kbd>M-k</kbd>      -> Jump to the window above.
+  - inv: <kbd>M-l</kbd>      -> Jump to the window right.
+  - nv:  <kbd>M-n</kbd>      -> Normal command.
+  - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
+  - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
+  - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
+  - n:   <kbd>M-,</kbd>      -> Open init.lua.
+  - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
+  - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
 * **Emacs shit**
-  - inv: `<C-n>`      -> Emacs next.
-  - inv: `<C-p>`      -> Emacs previous.
-  - i:   `<C-f>`      -> Emacs forward.
-  - i:   `<C-b>`      -> Emacs backward.
-  - i:   `<C-a>`      -> Emacs line start.
-  - i:   `<C-e>`      -> Emacs line end.
-  - i:   `<C-k>`      -> Emacs kill test on the right.
-  - i:   `<C-SPACE>`  -> Emacs set mark.
-  - i:   `<M-f>`      -> Emacs next word.
-  - i:   `<M-b>`      -> Emacs last word.
-  - in:  `<M-x>`      -> Command line.
-  - i:   `<M-d>`      -> Emacs delete word.
+  - inv: <kbd>C-n</kbd>      -> Emacs next.
+  - inv: <kbd>C-p</kbd>      -> Emacs previous.
+  - i:   <kbd>C-f</kbd>      -> Emacs forward.
+  - i:   <kbd>C-b</kbd>      -> Emacs backward.
+  - i:   <kbd>C-a</kbd>      -> Emacs line start.
+  - i:   <kbd>C-e</kbd>      -> Emacs line end.
+  - i:   <kbd>C-k</kbd>      -> Emacs kill test on the right.
+  - i:   <kbd>M-f</kbd>      -> Emacs next word.
+  - i:   <kbd>M-b</kbd>      -> Emacs last word.
+  - in:  <kbd>M-x</kbd>      -> Command line.
+  - i:   <kbd>M-d</kbd>      -> Emacs delete word.
 * **Leader**
-  > `<leader>` is mapped to `<SPACE>`.
-  - `<leader>b` -> **Buffer**.
-    - n:    `c` -> Set directory to the current buffer.
-    - n:    `d` -> Delete buffer.
-    - n:    `g` -> Toggle background.
-    - n:    `h` -> Turn off highlights.
-    - n:    `n` -> Next buffer.
-    - n:    `p` -> Previous buffer.
-  - `<leader>c` -> **Check**.
-    - nv:   `c` -> Chinese characters count.
-    - n:    `s` -> Toggle spell check status.
-  - `<leader>d` -> **Date**
-    - n:    `s` -> Insert time stamp at the end of line.
-    - n:    `d` -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
-  - `<leader>k` -> **Search text in web browser**.
-    - nv:   `b` -> Baidu
-    - nv:   `g` -> Google
-    - nv:   `h` -> Github
-    - nv:   `y` -> Youdao
-  - `<leader>m` -> **vim-markdown**
-    - n:    `l` -> Sort number list.
-    - n:    `m` -> Toggle math syntax.
-    - n:    `h` -> Toc horizontal.
-    - n:    `v` -> Toc vertical.
-  - `<leader>o` -> **Open**.
-    - n:    `b` -> Open file of buffer with system default browser.
-    - n:    `e` -> Open system file manager.
-    - nt:   `p` -> NERDTree toggle.
-    - n:    `t` -> Open terminal.
-  - `<leader>s` -> **Surrounding**.
-    - nv:   `a` -> Surrounding add.
-    - n:    `c` -> Surrounding change.
-    - n:    `d` -> Surrounding delete.
-  - `<leader>t` -> **vim-table-mode**
-    - n:    `a` -> Add formula.
-    - n:    `c` -> Evaluate formula.
-    - n:    `f` -> Re-align.
-  - `<leader>v` -> **VCS**.
-    - n:    `j` -> Next hunk.
-    - n:    `k` -> Previous hunk.
-    - n:    `J` -> Last hunk.
-    - n:    `K` -> First hunk.
-    - n:    `s` -> Git status.
-    - n:    `t` -> Signify toggle.
-* **Misc**
-  - v:   `*`    -> Search visual selection.
-  - invt:`<F2>` -> Toggle mouse status.
+  > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
+  - <kbd>leader-b-</kbd>     -> **Buffer**.
+    - n:    <kbd>b</kbd>     -> *nvim-bufferline.lua*, BufferLinePick.
+    - n:    <kbd>c</kbd>     -> Set directory to the current buffer.
+    - n:    <kbd>d</kbd>     -> Delete buffer.
+    - n:    <kbd>g</kbd>     -> Toggle background.
+    - n:    <kbd>h</kbd>     -> Turn off highlights.
+    - n:    <kbd>n</kbd>     -> Next buffer.
+    - n:    <kbd>p</kbd>     -> Previous buffer.
+    - n:    <kbd>x</kbd>     -> *fzf.vim*, switch buffer using fzf.
+  - <kbd>leader-c-</kbd>     -> **Check**.
+    - nv:   <kbd>c</kbd>     -> Chinese characters count.
+    - n:    <kbd>s</kbd>     -> Toggle spell check status.
+  - <kbd>leader-d-</kbd>     -> **Date**
+    - n:    <kbd>s</kbd>     -> Insert time stamp at the end of line.
+    - n:    <kbd>d</kbd>     -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+  - <kbd>leader-e-</kbd>     -> **Evaluate**
+    - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
+    - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
+  - <kbd>leader-f-</kbd>     -> FZF
+    - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
+    - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
+  - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
+    - nv:   <kbd>b</kbd>     -> Baidu
+    - nv:   <kbd>g</kbd>     -> Google
+    - nv:   <kbd>h</kbd>     -> Github
+    - nv:   <kbd>y</kbd>     -> Youdao
+  - <kbd>leader-m-</kbd>     -> **vim-markdown**
+    - n:    <kbd>l</kbd>     -> Sort number list.
+    - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
+    - n:    <kbd>h</kbd>     -> *vim-markdown*, Toc horizontal.
+    - n:    <kbd>v</kbd>     -> *vim-markdown*, Toc vertical.
+  - <kbd>leader-o-</kbd>     -> **Open**.
+    - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
+    - n:    <kbd>e</kbd>     -> Open system file manager.
+    - nt:   <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
+    - n:    <kbd>t</kbd>     -> Open terminal.
+  - <kbd>leader-s-</kbd>     -> **Surrounding**.
+    - nv:   <kbd>a</kbd>     -> Surrounding add.
+    - n:    <kbd>c</kbd>     -> Surrounding change.
+    - n:    <kbd>d</kbd>     -> Surrounding delete.
+  - <kbd>leader-t-</kbd>     -> **vim-table-mode**
+    - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
+    - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
+    - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
+  - <kbd>leader-v-</kbd>     -> **VCS**.
+    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
+    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
+    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
+    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
+    - n:    <kbd>s</kbd>     -> Git status.
+    - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
+* **Miscellanea**
+  - v:      <kbd>*</kbd>     -> Search visual selection.
+  - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
+
 
 ## Commands
-- Functional utilities
-  - `Xe1`: Compile with XeLaTeX for one time.
-  - `Xe2`: Compile with XeLaTeX for two times.
-  - `Bib`: Compile with biber.
-  - `PushAll`: Just push all to the remote origin.
-    - `-b`: branch, current branch default.
-    - `-m`: comment, the date default.
-  - `CodeRun`: Run code of current buffer.
-  - `Time`: Echo date and time.
-  - `PDF`: Open pdf with the given name in the system viewer.
-           Without name given, the name will be set at the file of the current buffer.
-- Plug-in
-  - `OrgAgenda`: Open org agenda.
+## Commands
+- `Bib`       -> Compile with biber.
+- `CodeRun`   -> Run code of current buffer.
+- `OrgAgenda` -> *vim-orgmode*, Open org agenda.
+- `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
+- `PushAll`   -> Just push all to the remote origin.
+  - `-b`      -> branch, current branch default.
+  - `-m`      -> comment, the date default.
+- `Time`      -> Echo date and time.
+- `Xe1`       -> Compile with XeLaTeX for one time.
+- `Xe2`       -> Compile with XeLaTeX for two times.
