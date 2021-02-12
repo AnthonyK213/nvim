@@ -156,6 +156,18 @@ let g:pairs_usr_extd_map = {
       \ }
 
 
+" vim-vsnip
+if has('win32')
+  let g:vsnip_snippet_dir = expand('$localappdata/nvim/snippet')
+elseif has('unix')
+  let g:vsnip_snippet_dir = expand('$HOME/.config/nvim/snippet')
+endif
+imap <expr><silent> <C-C><C-N> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"
+smap <expr><silent> <C-C><C-N> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"
+imap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"
+smap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"
+
+
 " deoplete
 let g:deoplete#enable_at_startup = 1
 function! s:check_back_bullet()

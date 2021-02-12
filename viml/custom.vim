@@ -54,7 +54,7 @@ nn <expr><silent> <leader>bd
       \ index(['help','terminal','nofile'], &buftype) >= 0 \|\|
       \ len(getbufinfo({'buflisted':1})) <= 2 ?
       \ ":bd<CR>" : ":bp\|bd#<CR>"
-nn <silent> <leader>bh :bh<CR>
+nn <silent> <leader>bh :noh<CR>
 nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
 """ Toggle spell check
