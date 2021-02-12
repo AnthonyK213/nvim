@@ -1,17 +1,24 @@
 " Name:    nanovim.vim
 " Licence: MIT
+" vim:     set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
 
-
-let g:nanovi_mode={
-      \ 'n'  : ' N ',
-      \ 'v'  : ' V ',
-      \ 'V'  : ' Ṿ ',
-      \ '' : ' Ṽ ',
-      \ 'i'  : ' I ',
-      \ 'R'  : ' R ',
-      \ 'Rv' : ' R ',
-      \ 'c'  : ' C ',
-      \ 't'  : ' T '
+let s:nanovim_mode={
+      \ 'c'     : ' C ',
+      \ 'i'     : ' I ',
+      \ 'ic'    : ' I ',
+      \ 'ix'    : ' I ',
+      \ 'n'     : ' N ',
+      \ 'multi' : ' M ',
+      \ 'niI'   : ' Ĩ ',
+      \ 'no'    : ' N ',
+      \ 'R'     : ' R ',
+      \ 'Rv'    : ' R ',
+      \ 's'     : ' S ',
+      \ 'S'     : ' S ',
+      \ 't'     : ' T ',
+      \ 'v'     : ' v ',
+      \ 'V'     : ' V ',
+      \ ''    : ' B ',
       \ }
 
 hi clear
@@ -20,8 +27,7 @@ set noshowmode
 if exists('syntax on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
-
-" Colors
+" Colors {{
 if &background ==# 'light'
   let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
   let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
@@ -43,8 +49,9 @@ elseif &background ==# 'dark'
   let s:nano_color_faded      = { "gui": "#616E87", "cterm": "244" }
   let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  } "Snow Storm 3  / nord 6
 endif
+" }}
 
-
+" Faces {{
 " Define highlight groups
 function! s:h(group, style)
   execute "highlight" a:group
@@ -234,8 +241,9 @@ call s:h("SpellBad", {
       \ "fg": s:nano_color_popout,
       \ "gui": "underline"
       \ })
+" }}
 
-
+" Links {{
 hi! link Identifier              Nano_Face_Default
 hi! link Function                Nano_Face_Strong
 hi! link Type                    Nano_Face_Salient
@@ -288,8 +296,8 @@ hi! link qfLineNr                Nano_Face_Subtle
 hi! link ModeMsg                 Nano_Face_Faded
 hi! link helpHyperTextEntry      Nano_Face_Salient
 hi! link helpHyperTextJump       Nano_Face_Popout
-hi! link TabLine                 Nano_Face_Default
-hi! link TabLineSel              Nano_Face_Salient
+hi! link TabLine                 Nano_Face_Faded
+hi! link TabLineSel              Nano_Face_Strong
 hi! link TabLineFill             Nano_Face_Default
 hi! link htmlH1                  Nano_Face_Strong
 hi! link htmlH2                  Nano_Face_Strong
@@ -361,25 +369,47 @@ hi link ALEInfoSign              Nano_Face_Subtle
 
 hi link sqlStatement             Nano_Face_Salient
 hi link sqlKeyword               Nano_Face_Salient
+" }}
 
+" StatusLine {{
+" Get mode
+function Nanovim_Get_Mode()
+  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
+endfunction
 
-" Get the branch name without git
-function! s:nanovi_set_buf()
-  let l:git_branch = Lib_Get_Git_Branch(Lib_Get_Git_Root())
-  let b:nanovi_branch = l:git_branch[0] ? '#' . l:git_branch[1] : ''
-  " StatusLine
-  " | MODE || short_file_name git_branch        file_type file_encoding line:col |
+" Get the branch
+function Nanovim_Get_Git_Branch()
+  let l:current_dir = expand('%:p:h')
+  let l:is_git_repo = 0
+  while 1
+    if !empty(globpath(l:current_dir, ".git", 1)) | let l:is_git_repo = 1 | break | endif
+    let [l:temp_dir, l:current_dir] = [l:current_dir, fnamemodify(l:current_dir, ':h')]
+    if l:temp_dir == l:current_dir | break | endif
+  endwhile
+  if !l:is_git_repo | return '' | end
+  try
+    let l:content = readfile(l:current_dir . '/.git/HEAD')
+    return '#' . split(l:content[0], '/')[-1]
+  catch
+    return ''
+  endtry
+endfunction
+
+" | MODE || short_file_name git_branch        file_type file_encoding line:col |
+function! s:nanovim_set_buf()
   set statusline=
   set statusline+=%#Nano_Face_Default#\ 
-  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':toupper(g:nanovi_mode[mode()])}
-  set statusline+=%#Nano_Face_Header_Popout#%{&modified?toupper(g:nanovi_mode[mode()]):''}
+  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
+  set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
   set statusline+=%#Nano_Face_Header_Subtle#▎
-  set statusline+=%#Nano_Face_Status_Subtle#%f\ %{b:nanovi_branch}%=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
+  set statusline+=%#Nano_Face_Status_Subtle#%f\ %{Nanovim_Get_Git_Branch()}
+  set statusline+=%=
+  set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
   set statusline+=%#Nano_Face_Default#\ 
 endfunction
 
-
-augroup nanovi_get_git_branch
+augroup nanovim_set_buffer
   autocmd!
-  autocmd BufEnter,WinEnter,BufWinEnter,BufReadPost,BufWritePost,FileType,FileChangedShellPost * call <SID>nanovi_set_buf()
-augroup END
+  autocmd BufEnter,FileChangedShellPost * call <SID>nanovim_set_buf()
+augroup end
+" }}
