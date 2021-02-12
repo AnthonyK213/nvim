@@ -363,7 +363,7 @@ function! s:util_md_insert_bullet()
   endif
 
   if l:detect == 0
-    call feedkeys("\<C-o>o")
+    call feedkeys("\<C-\>\<C-O>o")
   else
     let l:lnum_f = l:lnum + 1
     let l:move_d = 0
@@ -390,7 +390,7 @@ function! s:util_md_insert_bullet()
     endwhile
     let l:count_d = len(l:move_record) == 0 ? 0 : l:move_record[0]
     let l:nbullet = l:detect == 2 ? (l:bullet + 1) . '. ' : l:bullet . ' '
-    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-o>o\<C-o>0" .
+    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) . "\<C-\>\<C-o>o\<C-\>\<C-o>0" .
           \ repeat("\<space>", l:indent) . l:nbullet)
   endif
 endfunction
@@ -529,7 +529,7 @@ endfunction
 "" Mouse toggle
 nn  <silent> <F2> :call           <SID>util_mouse_toggle()<CR>
 vn  <silent> <F2> :<C-u>call      <SID>util_mouse_toggle()<CR>
-ino <silent> <F2> <C-o>:call      <SID>util_mouse_toggle()<CR>
+ino <silent> <F2> <C-\><C-o>:call <SID>util_mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-n>:call <SID>util_mouse_toggle()<CR>a
 "" Background toggle
 nn  <silent> <leader>bg :call <SID>util_bg_toggle()<CR>
@@ -542,10 +542,10 @@ nn  <silent> <leader>ob :call <SID>util_open()<CR>
 "" Windows-like behaviors
 """ Save
 nn  <silent> <C-s> :w<CR>
-ino <silent> <C-s> <C-o>:w<CR>
+ino <silent> <C-s> <C-\><C-o>:w<CR>
 """ Undo
 nn  <silent> <C-z> u
-ino <silent> <C-z> <C-o>u
+ino <silent> <C-z> <C-\><C-o>u
 """ Copy/Paste
 vn  <silent> <M-c> "+y
 vn  <silent> <M-x> "+x
@@ -581,8 +581,8 @@ for key in keys(s:util_web_list)
   exe 'vn <silent> <leader>k' . key ':<C-u>call <SID>util_search_web("v", "' . key . '")<CR>'
 endfor
 "" List bullets
-ino <silent> <M-CR> <C-o>:call <SID>util_md_insert_bullet()<CR>
-nn  <silent> <leader>ml  :call <SID>util_md_sort_num_bullet()<CR>
+ino <silent> <M-CR> <C-\><C-o>:call <SID>util_md_insert_bullet()<CR>
+nn  <silent> <leader>ml       :call <SID>util_md_sort_num_bullet()<CR>
 "" Echo git status
 nn <silent> <leader>vs :!git status<CR>
 "" Append day of week after the date
@@ -593,19 +593,19 @@ nn <silent> <leader>ds A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 for [key, val] in items({"n": "j", "p": "k"})
   exe 'nn  <C-' . key . '> g' . val
   exe 'vn  <C-' . key . '> g' . val
-  exe 'ino <silent> <C-' . key . '> <C-o>g' . val
+  exe 'ino <silent> <C-' . key . '> <C-\><C-O>g' . val
 endfor
 nn  <M-x> :
-ino <M-x> <C-o>:
-ino <M-b> <C-o>b
-ino <M-f> <C-o>e<Right>
-ino <C-SPACE> <C-o>v
-ino <silent> <C-a> <C-o>g0
-ino <silent> <C-e> <C-o>g$
-ino <silent><expr> <C-k> col('.') >= col('$') ? "" : "\<C-o>D"
-ino <silent><expr> <M-d> col('.') >= col('$') ? "" : "\<C-o>dw"
-ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-o>+" : lib_const_r
-ino <silent><expr> <C-b> col('.') == 1 ? "\<C-o>-\<C-o>$" : lib_const_l
+ino <M-x> <C-\><C-o>:
+ino <M-b> <C-\><C-o>b
+ino <M-f> <C-\><C-o>e<Right>
+ino <C-SPACE> <C-\><C-o>v
+ino <silent> <C-a> <C-\><C-o>g0
+ino <silent> <C-e> <C-\><C-o>g$
+ino <silent> <C-k> <C-\><C-o>D"
+ino <silent> <M-d> <C-\><C-o>dw"
+ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-\>\<C-o>+" : lib_const_r
+ino <silent><expr> <C-b> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : lib_const_l
 
 
 " Commands

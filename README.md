@@ -3,7 +3,7 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim)
-* [**Python**](https://www.python.org/) (for vim-orgmode)
+* [**Python**](https://www.python.org/) (for deoplete & vim-orgmode)
   > pip install pynvim  
   > pip install neovim-remote
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
