@@ -11,13 +11,11 @@ else
 endif
 
 
-" Filetype behave
-augroup filetype_behave
+" Scroll off
+augroup scroll_off
   autocmd!
   au BufEnter * setlocal so=5
-  au BufEnter *.md setlocal ts=2 sw=2 sts=2 so=999 tw=0 nowrap nolinebreak
-  au BufEnter *.org,*.yml setlocal ts=2 sw=2 sts=2 tw=0 nowrap nolinebreak
-  au BufEnter *.cs,*.pde,*.tex,*.java,*.lisp,*.vim setlocal ts=2 sw=2 sts=2
+  au BufEnter *.md setlocal so=999
 augroup end
 
 

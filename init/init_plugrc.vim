@@ -60,10 +60,6 @@ let g:airline_mode_map = {
       \ 'V'     : 'Ṿ',
       \ ''    : 'Ṽ',
       \ }
-"" Separators
-""     ;     ;    
-"let g:airline_left_sep = ''
-"let g:airline_left_alt_sep = ''
 "" Tab
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
@@ -102,11 +98,6 @@ let g:mkdp_preview_options = {
 
 
 " vim-table-mode
-augroup vimtable
-  autocmd!
-  au BufEnter *    let g:table_mode_corner = '+'
-  au BufEnter *.md let g:table_mode_corner = '|'
-augroup end
 nn <silent> <leader>ta :TableAddFormula<CR>
 nn <silent> <leader>tf :TableModeRealign<CR>
 nn <silent> <leader>tc :TableEvalFormulaLine<CR>
@@ -135,11 +126,6 @@ command! OrgAgenda :exe ":tabnew" agenda_path
 " IndentLine
 let g:indentLine_char = '¦'
 let g:indentLine_setConceal = 1
-augroup indentline
-  autocmd!
-  au BufEnter,BufRead * let g:indentLine_enabled = 1
-  au BufEnter,BufRead *.md,*.org,*.json,*.txt,*.tex let g:indentLine_enabled = 0
-augroup end
 
 
 " vim-ipairs
