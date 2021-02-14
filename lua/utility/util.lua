@@ -3,7 +3,8 @@ local lib = require('utility/lib')
 
 
 -- Variables
---- OS
+--- Local
+---- OS
 local util_def_start, util_def_shell, util_def_cc
 if vim.fn.has("win32") == 1 then
     util_def_start = 'start'
@@ -18,16 +19,8 @@ elseif vim.fn.has("mac") == 1 then
     util_def_shell = lib.get_var(vim.g.default_shell, 'zsh')
     util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'clang')
 end
-
---- Search web
-util.web_list = {
-    b = "https://www.baidu.com/s?wd=",
-    g = "https://www.google.com/search?q=",
-    h = "https://github.com/search?q=",
-    y = "https://dict.youdao.com/w/eng/"
-}
-
--- Escape string for URL.
+--- Global
+---- Escape string for URL.
 util.url_escape = {
     [" "]  = "\\%20",
     ["!"]  = "\\%21",
@@ -142,7 +135,7 @@ function util.search_web(mode, site)
         search_obj = lib.str_escape(lib.get_visual_selection(), util.url_escape)
     end
 
-    local url_raw = util.web_list[site]..search_obj
+    local url_raw = site..search_obj
     local url_arg
     if vim.fn.has('win32') == 1 then
         url_arg = url_raw

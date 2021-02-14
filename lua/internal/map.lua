@@ -87,9 +87,15 @@ keymap('n', '<leader>ml', ':lua require("utility/util").md_sort_num_bullet()<CR>
 -- Echo git status.
 keymap('n', '<leader>vs', ':!git status<CR>', { noremap = true, silent = true })
 -- Search cword in web browser.
-for key,_ in pairs(require('utility/util').web_list) do
-    keymap('n', '<leader>k'..key, '<cmd>lua require("utility/util").search_web("n", "'..key..'")<CR>',  { noremap = true, silent = true })
-    keymap('v', '<leader>k'..key, ':<C-U>lua require("utility/util").search_web("v", "'..key..'")<CR>', { noremap = true, silent = true })
+local web_list = vim.g.default_web_list or {
+    b = "https://www.baidu.com/s?wd=",
+    g = "https://www.google.com/search?q=",
+    h = "https://github.com/search?q=",
+    y = "https://dict.youdao.com/w/eng/"
+}
+for key,val in pairs(web_list) do
+    keymap('n', '<leader>k'..key, '<cmd>lua require("utility/util").search_web("n", "'..val..'")<CR>',  { noremap = true, silent = true })
+    keymap('v', '<leader>k'..key, ':<C-U>lua require("utility/util").search_web("v", "'..val..'")<CR>', { noremap = true, silent = true })
 end
 -- Emacs shit.
 keymap('n', '<M-x>', ':',                   { noremap = true })

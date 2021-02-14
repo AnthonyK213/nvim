@@ -1,7 +1,19 @@
-local lib = require("utility/lib")
-local init_src = lib.get_var(vim.g.init_src, 'one')
+local init_src = vim.g.init_src or 'one'
 
-lib.viml_source('viml/basics')
+
+-- Source .vim file in configuration directory.
+local function vsource(file)
+    if (vim.fn.has("win32") == 1) then
+        init_viml_path = vim.fn.expand("$localappdata")..'/nvim/'
+    elseif (vim.fn.has("unix") == 1) then
+        init_viml_path = '~/.config/nvim/'
+    end
+    local src_cmd = 'source '..init_viml_path..file..'.vim'
+    vim.api.nvim_exec(src_cmd, false)
+end
+
+
+vsource('viml/basics')
 require('internal/var')
 require('internal/map')
 require('internal/cmd')
