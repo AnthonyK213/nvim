@@ -3,6 +3,7 @@ local init_src = vim.g.init_src or 'one'
 
 -- Source .vim file in configuration directory.
 local function vsource(file)
+    local init_viml_path
     if (vim.fn.has("win32") == 1) then
         init_viml_path = vim.fn.expand("$localappdata")..'/nvim/'
     elseif (vim.fn.has("unix") == 1) then
