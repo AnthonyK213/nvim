@@ -4,7 +4,7 @@ vim.cmd('command! Time :echo strftime("%Y-%m-%d %a %T")')
 vim.cmd('command! Xe1 lua require("utility/util").latex_xelatex()')
 vim.cmd('command! Xe2 lua require("utility/util").latex_xelatex2()')
 vim.cmd('command! Bib lua require("utility/util").latex_biber()')
-vim.cmd('command! PDF lua require("utility/util").open(vim.fn.expand("%:r")..".pdf")')
+vim.cmd('command! PDF lua require("utility/util").open_file(vim.fn.expand("%:r")..".pdf")')
 -- Run or compile
 vim.cmd('command! -nargs=? CodeRun lua require("utility/util").run_or_compile(<q-args>)')
 -- Git push all

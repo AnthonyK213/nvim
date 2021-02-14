@@ -336,15 +336,15 @@ function util.latex_xelatex()
 end
 
 function util.latex_xelatex2()
-    latex_xelatex()
-    latex_xelatex()
+    util.latex_xelatex()
+    util.latex_xelatex()
 end
 
 function util.latex_biber()
     local name = vim.fn.expand('%:r')
-    latex_xelatex()
+    util.latex_xelatex()
     vim.fn.execute('!biber '..name..'.bcf', '')
-    latex_xelatex2()
+    util.latex_xelatex2()
 end
 
 --- Run code
