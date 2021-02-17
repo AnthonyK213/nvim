@@ -101,8 +101,7 @@ function lib.zeller(year, month, date)
     local month_days_count
     if (month == 2) then
         month_days_count = 28
-        if ((year % 100 ~= 0 and year % 4 == 0) or
-            (year % 100 == 0 and year % 400 == 0)) then
+        if ((year % 100 ~= 0 and year % 4 == 0) or year % 400 == 0) then
             month_days_count = month_days_count + 1
         end
     else
