@@ -48,10 +48,8 @@ local multiply = function(args)
 end
 
 local divide = function(args)
-    if #args == 2 then
-        if args[2] ~= 0 then
-            return args[1] / args[2]
-        end
+    if #args == 2 and args[2] ~= 0 then
+        return args[1] / args[2]
     else
         error("Fick, fick, fick! Mathematik!")
     end
