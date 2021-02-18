@@ -79,7 +79,7 @@ lualine.options.icons_enabled = false
 lualine.sections = {
     lualine_a = { get_current_mode },
     lualine_b = { { 'branch', icons_enabled=true }, { 'signify', colored=false } },
-    lualine_c = { 'filename', file_readonly },
+    lualine_c = { { 'filename', shorten=false, full_path=true }, file_readonly },
     lualine_x = { get_diagnostics, 'filetype', 'encoding', 'fileformat' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
