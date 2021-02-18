@@ -2,6 +2,33 @@ vim.o.tgc = true
 vim.o.bg = 'dark'
 
 
+-- vim-one
+vim.cmd('packadd vim-one')
+local one_h = function(...) vim.call('one#highlight', ...) end
+function ui_one_extend()
+    one_h('SpellBad',         'e06c75', '', 'underline')
+    one_h('SpellCap',         'd19a66', '', 'underline')
+    one_h('mkdBold',          '4b5263', '', '')
+    one_h('mkdItalic',        '4b5263', '', '')
+    one_h('mkdBoldItalic',    '4b5263', '', '')
+    one_h('mkdCodeDelimiter', '4b5263', '', '')
+    one_h('htmlBold',         'd19a66', '', 'bold')
+    one_h('htmlItalic',       'c678dd', '', 'italic')
+    one_h('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
+    one_h('htmlH1',           'e06c75', '', 'bold')
+    one_h('htmlH2',           'e06c75', '', 'bold')
+    one_h('htmlH3',           'e06c75', '', '')
+    one_h('mkdHeading',       'e06c75', '', '')
+    one_h('diffChanged',      'd19a66', '', '')
+end
+-- When colorscheme set to vim-one.
+vim.cmd('augroup vim_one_extend')
+vim.cmd('autocmd!')
+vim.cmd('au ColorScheme one lua ui_one_extend()')
+vim.cmd('augroup end')
+vim.g.one_allow_italics = 1
+
+
 -- lualine.nvim
 local mode_alias = {
     c      = 'C',
@@ -24,7 +51,7 @@ local mode_alias = {
 --- If file is readonly.
 local function file_readonly()
     if vim.bo.filetype == 'help' then return '' end
-    if vim.bo.readonly == true then return ' RO' end
+    if vim.bo.readonly == true then return 'RO' end
     return ''
 end
 --- Current mode.
@@ -34,16 +61,6 @@ local function get_current_mode()
     else
         return '_'
     end
-end
---- Current file name.
-local function get_current_file_name()
-    local file = vim.fn.expand('%:t')
-    if vim.fn.empty(file) == 1 then return '' end
-    if string.len(file_readonly()) ~= 0 then return file..file_readonly() end
-    if vim.bo.modifiable then
-        if vim.bo.modified then return file..' MO' end
-    end
-    return file
 end
 --- Get diagnostics
 local function get_diagnostics()
@@ -57,11 +74,12 @@ end
 --- Load status line.
 vim.cmd('packadd lualine.nvim')
 local lualine = require('lualine')
-lualine.separator = '|'
+lualine.options.separator = '|'
+lualine.options.icons_enabled = false
 lualine.sections = {
     lualine_a = { get_current_mode },
-    lualine_b = { get_current_file_name },
-    lualine_c = { 'branch', 'signify' },
+    lualine_b = { { 'branch', icons_enabled=true }, { 'signify', colored=false } },
+    lualine_c = { 'filename', file_readonly },
     lualine_x = { get_diagnostics, 'filetype', 'encoding', 'fileformat' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
@@ -78,7 +96,7 @@ lualine.extensions = { 'fzf' }
 vim.cmd('augroup lualine_color_toggle')
 vim.cmd('autocmd!')
 vim.cmd('au ColorScheme one lua '..
-        'require("lualine").theme="one"..vim.o.bg '..
+        'require("lualine").options.theme="one"..vim.o.bg '..
         'require("lualine").status()')
 vim.cmd('augroup end')
 
@@ -119,30 +137,5 @@ vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
 
 
--- vim-one
-vim.cmd('packadd vim-one')
-local function one_h(...)
-    vim.call('one#highlight', ...)
-end
-function ui_one_extend()
-    one_h('SpellBad',         'e06c75', '', 'underline')
-    one_h('SpellCap',         'd19a66', '', 'underline')
-    one_h('mkdBold',          '4b5263', '', '')
-    one_h('mkdItalic',        '4b5263', '', '')
-    one_h('mkdBoldItalic',    '4b5263', '', '')
-    one_h('mkdCodeDelimiter', '4b5263', '', '')
-    one_h('htmlBold',         'd19a66', '', 'bold')
-    one_h('htmlItalic',       'c678dd', '', 'italic')
-    one_h('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
-    one_h('htmlH1',           'e06c75', '', 'bold')
-    one_h('htmlH2',           'e06c75', '', 'bold')
-    one_h('htmlH3',           'e06c75', '', '')
-    one_h('mkdHeading',       'e06c75', '', '')
-end
--- When colorscheme set to vim-one.
-vim.cmd('augroup vim_one_extend')
-vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua ui_one_extend()')
-vim.cmd('augroup end')
-vim.g.one_allow_italics = 1
+-- Set color scheme finally.
 vim.cmd('colorscheme one')

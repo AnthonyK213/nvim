@@ -11,7 +11,7 @@ paq {'hoob3rt/lualine.nvim', opt=true}
 -- Tree manager
 paq {'preservim/nerdtree'}
 -- FZF
-paq {'junegunn/fzf', hook=vim.fn['fzf#install']}
+paq {'junegunn/fzf', run=vim.fn['fzf#install']}
 paq {'junegunn/fzf.vim'}
 -- Git utilities
 paq {'mhinz/vim-signify'}
@@ -27,7 +27,7 @@ paq {'lervag/vimtex'}
 paq {'jceb/vim-orgmode'}
 paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
-paq {'iamcco/markdown-preview.nvim', hook=vim.fn['mkdp#util#install']}
+paq {'iamcco/markdown-preview.nvim', run=vim.fn['mkdp#util#install']}
 -- Completion; LSP
 paq {'hrsh7th/vim-vsnip'}
 paq {'hrsh7th/vim-vsnip-integ'}

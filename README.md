@@ -10,8 +10,9 @@
   - Crazy fast search tool.
 * [**paq-nvim**](https://github.com/savq/paq-nvim)
   - Windows
-    - Clone paq-nvim into
-      > %localappdata%/nvim-data/site/pack/paqs/opt/paq-nvim
+    ```bash
+    git clone https://github.com/savq/paq-nvim.git "$env:LOCALAPPDATA\nvim-data\site\pack\paqs\opt\paq-nvim"
+    ```
   - GNU/Linux
     ```bash
     git clone https://github.com/savq/paq-nvim.git \
