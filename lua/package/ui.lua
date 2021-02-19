@@ -27,6 +27,7 @@ vim.cmd('autocmd!')
 vim.cmd('au ColorScheme one lua ui_one_extend()')
 vim.cmd('augroup end')
 vim.g.one_allow_italics = 1
+vim.cmd('colorscheme one')
 
 
 -- lualine.nvim
@@ -74,8 +75,11 @@ end
 --- Load status line.
 vim.cmd('packadd lualine.nvim')
 local lualine = require('lualine')
-lualine.options.separator = '|'
-lualine.options.icons_enabled = false
+lualine.options = {
+    theme = 'one'..vim.o.bg,
+    separator = '|',
+    icons_enabled = false
+}
 lualine.sections = {
     lualine_a = { get_current_mode },
     lualine_b = { { 'branch', icons_enabled=true }, { 'signify', colored=false } },
@@ -93,11 +97,10 @@ lualine.inactive_sections = {
     lualine_z = {  },
 }
 lualine.extensions = { 'fzf' }
+lualine.status()
 vim.cmd('augroup lualine_color_toggle')
 vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua '..
-        'require("lualine").options.theme="one"..vim.o.bg '..
-        'require("lualine").status()')
+vim.cmd('au ColorScheme one lua require("lualine").options.theme="one"..vim.o.bg')
 vim.cmd('augroup end')
 
 
@@ -135,7 +138,3 @@ vim.api.nvim_set_keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap 
 -- nvim-colorizer
 vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
-
-
--- Set color scheme finally.
-vim.cmd('colorscheme one')
