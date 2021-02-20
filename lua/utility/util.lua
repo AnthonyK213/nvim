@@ -380,6 +380,8 @@ function util.run_or_compile(option)
         end
     elseif exts == 'cpp' then
         term_cmd = cmdh..' g++ '..file
+    elseif exts == 'cs' then
+        term_cmd = 'csc '
     elseif exts == 'rs' then
         if option == '' then
             term_cmd = cmdh..' cargo run'
