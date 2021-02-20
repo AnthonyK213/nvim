@@ -117,11 +117,6 @@ vim.g.completion_chain_complete_list = {
         { mode           = '<c-p>' },
         { mode           = '<c-n>' }
     },
-    lua = {
-        { complete_items = { 'ts', 'vim-vsnip' } },
-        { mode           = '<c-p>' },
-        { mode           = '<c-n>' }
-    },
     markdown = {
         { mode = '<c-p>' },
         { mode = '<c-n>' }
