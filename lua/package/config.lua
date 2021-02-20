@@ -179,6 +179,7 @@ if init_lsp_option.sumneko_lua then
     local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
     lspconfig.sumneko_lua.setup {
         cmd = { sumneko_binary, '-E', sumneko_root_path.."/main.lua" };
+        on_attach = custom_attach,
         settings = {
             Lua = {
                 runtime = {
