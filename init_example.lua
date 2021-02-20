@@ -9,7 +9,7 @@ vim.g.init_lsp_option = {
     -- C, C++
     clangd = false,
     -- C#
-    omnisharp = true,
+    omnisharp = false,
     -- LaTeX
     texlab = false,
     -- Lua
