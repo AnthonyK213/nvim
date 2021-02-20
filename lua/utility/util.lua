@@ -53,7 +53,7 @@ util.url_escape = {
 
 -- Functions
 --- Mouse toggle
-function util.mouse_toggle(args)
+function util.mouse_toggle()
     if (vim.o.mouse == 'a') then
         vim.o.mouse = ''
         print("Mouse disabled.")
@@ -105,8 +105,8 @@ function util.hanzi_count(mode)
     end
 
     local h_count = 0
-    for i, line in ipairs(content) do
-        for j, char in ipairs(vim.fn.split(line, "\\zs")) do
+    for _,line in ipairs(content) do
+        for _,char in ipairs(vim.fn.split(line, "\\zs")) do
             local code = vim.fn.char2nr(char)
             if code >= 0x4E00 and code <= 0x9FA5 then
                 h_count = h_count + 1
@@ -127,7 +127,7 @@ function util.search_web(mode, site)
     if mode == 'n' then
         local del_list = {
             ".", ",", "'", "\"",
-            ";", "*", "~", "`", 
+            ";", "*", "~", "`",
             "(", ")", "[", "]", "{", "}"
         }
         search_obj = lib.str_escape(lib.get_clean_cWORD(del_list), util.url_escape)

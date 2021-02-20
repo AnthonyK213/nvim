@@ -4,5 +4,22 @@
 --vim.g.gui_font_size      = 10
 --vim.g.gui_font_family    = 'Sarasa Mono SC'
 
+-- LSP
+vim.g.init_lsp_option = {
+    -- C, C++
+    clangd = false,
+    -- Python
+    jedi_language_server = false,
+    -- Rust
+    rls = false,
+    rust_analyzer = false,
+    -- LaTeX
+    texlab = false,
+    -- Lua
+    sumneko_lua = false,
+    -- Vim script
+    vimls = false,
+}
+
 
 require('core')

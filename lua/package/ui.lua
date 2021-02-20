@@ -5,7 +5,7 @@ vim.o.bg = 'dark'
 -- vim-one
 vim.cmd('packadd vim-one')
 local one_h = function(...) vim.call('one#highlight', ...) end
-function ui_one_extend()
+function UI_ONE_EXTEND()
     one_h('SpellBad',         'e06c75', '', 'underline')
     one_h('SpellCap',         'd19a66', '', 'underline')
     one_h('mkdBold',          '4b5263', '', '')
@@ -24,7 +24,7 @@ end
 -- When colorscheme set to vim-one.
 vim.cmd('augroup vim_one_extend')
 vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua ui_one_extend()')
+vim.cmd('au ColorScheme one lua UI_ONE_EXTEND()')
 vim.cmd('augroup end')
 vim.g.one_allow_italics = 1
 vim.cmd('colorscheme one')

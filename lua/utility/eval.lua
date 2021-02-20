@@ -68,7 +68,7 @@ local func_map = {
 
 local function tree_insert(tree, var, level)
     local temp_node = tree
-    for i=1,level,1 do
+    for _=1,level,1 do
         temp_node = temp_node[#temp_node]
     end
     table.insert(temp_node, var)
@@ -80,7 +80,7 @@ local function lisp_tree(str)
     local elem_table = vim.fn.split(pre_parse, '\\s')
     local tree_table = {}
 
-    for index,elem in ipairs(elem_table) do
+    for _,elem in ipairs(elem_table) do
         if elem == '(' then
             tree_insert(tree_table, {}, tree_level)
             tree_level = tree_level + 1
