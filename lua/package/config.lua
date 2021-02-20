@@ -137,16 +137,65 @@ local custom_attach = function() require'completion'.on_attach() end
 
 -- nvim-lspconfig
 local lspconfig = require'lspconfig'
+local init_lsp_option = vim.g.init_lsp_option or {}
 --- clangd
-lspconfig.clangd.setup { on_attach=custom_attach }
+if init_lsp_option.clangd then
+    lspconfig.clangd.setup { on_attach=custom_attach }
+end
 --- jedi_language_server
-lspconfig.jedi_language_server.setup { on_attach=custom_attach }
+if init_lsp_option.jedi_language_server then
+    lspconfig.jedi_language_server.setup { on_attach=custom_attach }
+end
 --- rust_analyzer
-lspconfig.rust_analyzer.setup { on_attach=custom_attach }
+if init_lsp_option.rust_analyzer then
+    lspconfig.rust_analyzer.setup { on_attach=custom_attach }
+end
 --- texlab
-lspconfig.texlab.setup { on_attach=custom_attach }
+if init_lsp_option.texlab then
+    lspconfig.texlab.setup { on_attach=custom_attach }
+end
+--- sumneko_lua
+if init_lsp_option.sumneko_lua then
+    local system_name, sumneko_root_path
+    if vim.fn.has("mac") == 1 then
+        system_name = "macOS"
+        sumneko_root_path = "path"
+    elseif vim.fn.has("unix") == 1 then
+        system_name = "Linux"
+        sumneko_root_path = "path"
+    elseif vim.fn.has('win32') == 1 then
+        system_name = "Windows"
+        sumneko_root_path = "D:/Env/LSP/lua-language-server"
+    else
+        print("Unsupported system for sumneko.")
+    end
+    local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+    lspconfig.sumneko_lua.setup {
+        cmd = { sumneko_binary, '-E', sumneko_root_path.."/main.lua" };
+        on_attach = custom_attach,
+        settings = {
+            Lua = {
+                runtime = {
+                    version = 'LuaJIT',
+                    path = vim.split(package.path, ';'),
+                },
+                diagnostics = {
+                    globals = { 'vim' },
+                },
+                workspace = {
+                    library = {
+                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                    },
+                },
+            },
+        },
+    }
+end
 --- vim script
-lspconfig.vimls.setup { on_attach=custom_attach }
+if init_lsp_option.vimls then
+    lspconfig.vimls.setup { on_attach=custom_attach }
+end
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
