@@ -8,15 +8,17 @@
 vim.g.init_lsp_option = {
     -- C, C++
     clangd = false,
+    -- C#
+    omnisharp = true,
+    -- LaTeX
+    texlab = false,
+    -- Lua
+    sumneko_lua = false,
     -- Python
     jedi_language_server = false,
     -- Rust
     rls = false,
     rust_analyzer = false,
-    -- LaTeX
-    texlab = false,
-    -- Lua
-    sumneko_lua = false,
     -- Vim script
     vimls = false,
 }

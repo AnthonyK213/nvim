@@ -153,6 +153,14 @@ end
 if init_lsp_option.texlab then
     lspconfig.texlab.setup { on_attach=custom_attach }
 end
+--- omnisharp
+if init_lsp_option.omnisharp then
+    local pid = vim.fn.getpid()
+    lspconfig.omnisharp.setup {
+        cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
+        on_attach = custom_attach
+    }
+end
 --- sumneko_lua
 if init_lsp_option.sumneko_lua then
     local system_name, sumneko_root_path
