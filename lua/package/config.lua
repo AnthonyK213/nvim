@@ -141,6 +141,10 @@ end
 if init_lsp_option.jedi_language_server then
     lspconfig.jedi_language_server.setup { on_attach=custom_attach }
 end
+--- rls
+if init_lsp_option.rls then
+    lspconfig.rls.setup { on_attach=custom_attach }
+end
 --- rust_analyzer
 if init_lsp_option.rust_analyzer then
     lspconfig.rust_analyzer.setup { on_attach=custom_attach }
