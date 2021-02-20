@@ -121,9 +121,7 @@ require'bufferline'.setup {
         max_prefix_length = 15,
         tab_size = 18,
         diagnostics = 'nvim_lsp',
-        diagnostics_indicator = function(count, level)
-            return "("..count..")"
-        end,
+        diagnostics_indicator = function(count, level) return "("..count..")" end,
         show_buffer_close_icons = true,
         persist_buffer_sort = true,
         separator_style = "thin",
