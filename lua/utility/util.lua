@@ -381,7 +381,16 @@ function util.run_or_compile(option)
     elseif exts == 'cpp' then
         term_cmd = cmdh..' g++ '..file
     elseif exts == 'cs' then
-        term_cmd = 'csc '
+        if vim.fn.has("win32") ~= 1 then return end
+        if option == '' then
+            term_cmd = cmdh..' csc '..file..' && '..exec..name
+        elseif vim.fn.match(option, '\\v^b(exe|winexe|library|module)') then
+            local target = option:match('^b(.+)$')
+            term_cmd = cmdh..' csc /target:'..target..' '..file
+        else
+            print('Invalid argument.')
+            return
+        end
     elseif exts == 'rs' then
         if option == '' then
             term_cmd = cmdh..' cargo run'
