@@ -82,7 +82,7 @@ lualine.options = {
 }
 lualine.sections = {
     lualine_a = { get_current_mode },
-    lualine_b = { { 'branch', icons_enabled=true }, { 'signify', colored=false } },
+    lualine_b = { { 'branch', icons_enabled=true }, { 'diff', colored=false } },
     lualine_c = { { 'filename', shorten=false, full_path=true }, file_readonly },
     lualine_x = { get_diagnostics, 'filetype', 'encoding', 'fileformat' },
     lualine_y = { 'progress' },
