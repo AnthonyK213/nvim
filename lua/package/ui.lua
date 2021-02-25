@@ -19,7 +19,6 @@ function UI_ONE_EXTEND()
     one_h('htmlH2',           'e06c75', '', 'bold')
     one_h('htmlH3',           'e06c75', '', '')
     one_h('mkdHeading',       'e06c75', '', '')
-    one_h('diffChanged',      'd19a66', '', '')
 end
 -- When colorscheme set to vim-one.
 vim.cmd('augroup vim_one_extend')
@@ -63,28 +62,20 @@ local function get_current_mode()
         return '_'
     end
 end
---- Get diagnostics
-local function get_diagnostics()
-    local e_count = vim.lsp.diagnostic.get_count(0, 'Error')
-    local w_count = vim.lsp.diagnostic.get_count(0, 'Warning')
-    local e_str, w_str = '', ''
-    if e_count ~= 0 then e_str = ' E:'..tostring(e_count) end
-    if w_count ~= 0 then w_str = ' W:'..tostring(w_count) end
-    return e_str..w_str
-end
 --- Load status line.
 vim.cmd('packadd lualine.nvim')
 local lualine = require('lualine')
 lualine.options = {
     theme = 'one'..vim.o.bg,
-    separator = '|',
+    section_separators = nil,
+    component_separators = '|',
     icons_enabled = false
 }
 lualine.sections = {
     lualine_a = { get_current_mode },
-    lualine_b = { { 'branch', icons_enabled=true }, { 'diff', colored=false } },
+    lualine_b = { { 'branch', icons_enabled=true }, { 'diff', colored=true } },
     lualine_c = { { 'filename', shorten=false, full_path=true }, file_readonly },
-    lualine_x = { get_diagnostics, 'filetype', 'encoding', 'fileformat' },
+    lualine_x = { { 'diagnostics', sources={ 'nvim_lsp' } }, 'filetype', 'encoding', 'fileformat' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
 }
