@@ -68,16 +68,16 @@ local lualine = require('lualine')
 lualine.options = {
     theme = 'one'..vim.o.bg,
     section_separators = nil,
-    component_separators = '|',
+    component_separators = '│',
     icons_enabled = false
 }
 lualine.sections = {
     lualine_a = { get_current_mode },
     lualine_b = { { 'branch', icons_enabled=true }, { 'diff', colored=true } },
     lualine_c = { { 'filename', shorten=false, full_path=true }, file_readonly },
-    lualine_x = { { 'diagnostics', sources={ 'nvim_lsp' } }, 'filetype', 'encoding', 'fileformat' },
-    lualine_y = { 'progress' },
-    lualine_z = { 'location' },
+    lualine_x = { { 'diagnostics', sources={ 'nvim_lsp' } }, 'filetype' },
+    lualine_y = { 'encoding', 'fileformat' },
+    lualine_z = { 'progress', 'location' },
 }
 lualine.inactive_sections = {
     lualine_a = {  },
