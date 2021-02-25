@@ -56,7 +56,8 @@ keymap('n', '<leader>gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>',  { norem
 keymap('n', '<leader>gw', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
-
+-- nvim-bufferline.lua
+keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
 
 -- vim-orgmode
 vim.cmd('command! OrgAgenda :exe ":tabnew" g:org_agenda_path')

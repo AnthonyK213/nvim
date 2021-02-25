@@ -121,7 +121,6 @@ require'bufferline'.setup {
         sort_by = 'extension'
     }
 }
-vim.api.nvim_set_keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
 
 
 -- nvim-colorizer
