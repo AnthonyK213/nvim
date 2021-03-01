@@ -188,7 +188,7 @@ end
 --- Markdown number bullet
 local function md_check_line(lnum)
     local lstr = vim.fn.getline(lnum)
-    local start, indent = lstr:find('^%s*', 1, false)
+    local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
     local bullet
     if (lstr:match('^%s*[%+%-%*]%s+.*$')) then
@@ -203,14 +203,14 @@ end
 
 function util.md_insert_bullet()
     local c_num = vim.fn.line('.')
-    local c_det, c_str, c_bul, c_ind = md_check_line('.')
+    local c_det, _, c_bul, c_ind = md_check_line('.')
     local l_det = 0
     local l_bul, l_ind
 
     if (c_det == 0) then
         local b_num = c_num - 1
         while (b_num > 0) do
-            local b_det, b_str, b_bul, b_ind = md_check_line(b_num)
+            local b_det, _, b_bul, b_ind = md_check_line(b_num)
             if (b_ind < c_ind and b_det ~= 0) then
                 l_det = b_det
                 l_bul = b_bul
@@ -270,7 +270,7 @@ end
 
 function util.md_sort_num_bullet()
     local c_num = vim.fn.line('.')
-    local c_det, c_str, c_bul, c_ind = md_check_line('.')
+    local c_det, _, _, c_ind = md_check_line('.')
 
     if (c_det == 2) then
         local b_num_list = { c_num }
@@ -278,7 +278,7 @@ function util.md_sort_num_bullet()
 
         local b_num = c_num - 1
         while (b_num > 0) do
-            local b_det, b_str, b_bul, b_ind = md_check_line(b_num)
+            local b_det, _, _, b_ind = md_check_line(b_num)
             if (b_det == 2) then
                 if (b_ind == c_ind) then
                     table.insert(b_num_list, b_num)
@@ -293,7 +293,7 @@ function util.md_sort_num_bullet()
 
         local f_num = c_num + 1
         while (f_num <= vim.fn.line('$')) do
-            local f_det, f_str, f_bul, f_ind = md_check_line(f_num)
+            local f_det, _, _, f_ind = md_check_line(f_num)
             if (f_det == 2) then
                 if (f_ind == c_ind) then
                     table.insert(f_num_list, f_num)
