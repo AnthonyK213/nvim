@@ -322,22 +322,26 @@ function util.md_sort_num_bullet()
 end
 
 --- LaTeX recipes
-function util.latex_xelatex()
+local function latex_xelatex()
     local name = vim.fn.expand('%:r')
     vim.fn.execute('!xelatex -synctex=1 '..
     '-interaction=nonstopmode -file-line-error '..name..'.tex', '')
 end
 
-function util.latex_xelatex2()
-    util.latex_xelatex()
-    util.latex_xelatex()
+local function latex_biber()
+    local name = vim.fn.expand('%:r')
+    latex_xelatex()
+    vim.fn.execute('!biber '..name..'.bcf', '')
+    latex_xelatex()
+    latex_xelatex()
 end
 
-function util.latex_biber()
+local function latex_bibtex()
     local name = vim.fn.expand('%:r')
-    util.latex_xelatex()
-    vim.fn.execute('!biber '..name..'.bcf', '')
-    util.latex_xelatex2()
+    latex_xelatex()
+    vim.fn.execute('!bibtex '..name..'.aux', '')
+    latex_xelatex()
+    latex_xelatex()
 end
 
 --- Run code
@@ -414,6 +418,17 @@ function util.run_or_compile(option)
     elseif exts == 'lua' then
         term_cmd = 'luafile '..path
         term_use = false
+    elseif exts == 'tex' then
+        if option == '' then
+            latex_xelatex() return
+        elseif option == 'biber' then
+            latex_biber() return
+        elseif option == 'bibtex' then
+            latex_bibtex() return
+        else
+            print('Invalid argument.')
+            return
+        end
     else
         print('Unknown file type: .'..exts)
         return
