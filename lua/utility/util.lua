@@ -83,6 +83,7 @@ end
 
 --- Open file with system default browser.
 function util.open_file(file_path)
+    if vim.fn.glob(file_path) == '' then return end
     local file_path_esc = "\""..vim.fn.escape(file_path, '%#').."\""
     local cmd
     if vim.fn.has("win32") == 1 then

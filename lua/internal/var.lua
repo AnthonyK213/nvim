@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-if vim.fn.glob(vim.fn.expand('$ONEDRIVE')) then
+if vim.fn.glob(vim.fn.expand('$ONEDRIVE')) ~= '' then
     vim.g.onedrive_path = vim.fn.expand('$ONEDRIVE')
     vim.g.usr_desktop = vim.fn.expand(vim.fn.fnamemodify(vim.g.onedrive_path, ':h')..'/Desktop')
 else
