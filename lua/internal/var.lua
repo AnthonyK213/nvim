@@ -9,7 +9,7 @@ else
 end
 
 if vim.fn.has("win32") == 1 then
-    vim.g.python3_host_prog = vim.g.python3_exec_path or vim.fn.expand('$HOME/Appdata/Local/Programs/Python/Python38/python.EXE')
+    vim.g.python3_host_prog = vim.g.python3_exec_path or vim.fn.expand('$HOME/Appdata/Local/Programs/Python/Python38/python')
     vim.o.wildignore = vim.o.wildignore..
     "*.o,*.obj,*.bin,*.dll,*.exe,"..
     "*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**,"..
