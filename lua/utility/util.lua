@@ -480,7 +480,7 @@ function util.git_push_all(...)
         end
 
         vim.fn.execute('!git add *')
-        vim.fn.execute('!git commit -m "'..m_arg..'"')
+        vim.fn.execute('!git commit -m '..m_arg)
         print('Commit message: '..m_arg)
 
         if b_idx > 0 and b_idx % 2 == 1 then
