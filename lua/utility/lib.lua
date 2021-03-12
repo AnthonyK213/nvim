@@ -8,7 +8,7 @@ end
 
 -- Create a below right split window.
 function lib.belowright_split(height)
-    local term_h = math.min(height, math.floor(vim.fn.nvim_win_get_height(0) / 2))
+    local term_h = math.min(height, math.floor(vim.api.nvim_win_get_height(0) / 2))
     vim.fn.execute('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
 end

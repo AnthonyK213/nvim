@@ -179,7 +179,7 @@ function util.append_day_from_date()
         local cword_end = vim.fn.matchstrpos(line, str_date, cword_stt)[3]
         vim.fn.setpos('.', {0, vim.fn.line('.'), cword_end})
         -- Why not?
-        --vim.fn.nvim_feedkeys('a '..day_of_week, 'x', true)
+        --vim.api.nvim_feedkeys('a '..day_of_week, 'x', true)
         vim.fn.execute('normal! a '..day_of_week)
     else
         return
@@ -227,7 +227,7 @@ function util.md_insert_bullet()
     end
 
     if (l_det == 0) then
-        vim.fn.nvim_input('<C-O>o')
+        vim.api.nvim_input('<C-O>o')
     else
         local f_num = c_num + 1
         local move_stp = 0
@@ -263,9 +263,9 @@ function util.md_insert_bullet()
         else
             l_bul_new = l_bul.." "
         end
-        local feed_string = vim.fn.nvim_replace_termcodes(string.rep('<Down>', count_d)..
+        local feed_string = vim.api.nvim_replace_termcodes(string.rep('<Down>', count_d)..
         '<C-O>o<C-O>i'..string.rep('<SPACE>', l_ind)..l_bul_new, true, false, true)
-        vim.fn.nvim_feedkeys(feed_string, 'i', true)
+        vim.api.nvim_feedkeys(feed_string, 'i', true)
     end
 end
 
