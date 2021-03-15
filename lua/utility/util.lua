@@ -65,13 +65,10 @@ end
 
 --- Background toggle
 function util.bg_toggle()
-    if (vim.o.background == 'dark') then
-        vim.o.background = 'light'
+    if (vim.o.bg == 'dark') then
+        vim.o.bg = 'light'
     else
-        vim.o.background = 'dark'
-    end
-    if (vim.g.colors_name) then
-        vim.fn.execute('colorscheme '..vim.g.colors_name)
+        vim.o.bg = 'dark'
     end
 end
 
@@ -167,8 +164,9 @@ function util.append_day_from_date()
         local cursor_pos = vim.fn.col('.')
         local match_start = 0
         local match_cword
+        local search_str = vim.fn.escape(str, ' ()[]{}<>.+*^$')
         while (true) do
-            match_cword = vim.fn.matchstrpos(line, str, match_start)
+            match_cword = vim.fn.matchstrpos(line, search_str, match_start)
             if (match_cword[2] <= cursor_pos and
                 match_cword[3] >= cursor_pos) then
                 break

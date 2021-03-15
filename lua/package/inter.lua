@@ -59,8 +59,6 @@ keymap('n', '<leader>g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { norem
 -- nvim-bufferline.lua
 keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
 
--- vim-orgmode
-vim.cmd('command! OrgAgenda :exe ":tabnew" g:org_agenda_path')
 -- vimtex
 vim.cmd('augroup completion_nvim_enable_all')
 vim.cmd('autocmd!')

@@ -3,7 +3,7 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) nightly build
-* [**Python**](https://www.python.org/) (for vim-orgmode)
+* [**Python**](https://www.python.org/)
   > pip install pynvim  
   > pip install neovim-remote
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
@@ -155,6 +155,7 @@
     - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
     - n:    <kbd>s</kbd>     -> Git status.
     - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
+  - <kbd>leader-w-</kbd>     -> **Vimwiki**.
 * **Miscellanea**
   - v:      <kbd>*</kbd>     -> Search visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
@@ -162,7 +163,6 @@
 
 ## Commands
 - `CodeRun`   -> Run or compile the code in current buffer.
-- `OrgAgenda` -> *vim-orgmode*, Open org agenda.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push all to the remote origin.
   - `-b`      -> branch, current branch default.

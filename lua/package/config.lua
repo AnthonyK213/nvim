@@ -50,9 +50,14 @@ vim.g.mkdp_preview_options = {
 vim.g.table_mode_corner = '+'
 
 
--- vim-orgmode
-vim.g.org_agenda_path = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/Agenda.org")
-vim.g.org_agenda_files = { vim.g.org_agenda_path }
+-- vimwiki
+vim.g.vimwiki_list = {{
+    path = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/"),
+    syntax = 'default',
+    ext = '.wiki'
+}}
+vim.g.vimwiki_folding    = 'syntax'
+vim.g.vimwiki_ext2syntax = { ['.wikimd']='markdown' }
 
 
 -- vimtex
@@ -67,10 +72,19 @@ vim.g.vimtex_view_general_options_latexmk = '-reuse-instance'
 vim.g.vimtex_compiler_progname = 'nvr'
 
 
--- indentLine
-vim.g.indentLine_char = '¦'
-vim.g.indentLine_enabled = 1
-vim.g.indentLine_setConceal = 1
+-- indent-guides.nvim
+require('indent_guides').setup({
+    exclude_filetypes = {
+        'help',
+        'dashboard',
+        'dashpreview',
+        'NvimTree',
+        'vista',
+        'sagahover',
+    };
+    even_colors = { fg = '#2a3834', bg='#332b36' };
+    odd_colors  = { fg = '#332b36', bg='#2a3834' };
+})
 
 
 -- vim-ipairs
@@ -205,8 +219,8 @@ if init_lsp_option.vimls then
 end
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics,
-    { virtual_text = true, signs = true, update_in_insert = false })
+vim.lsp.diagnostic.on_publish_diagnostics,
+{ virtual_text = true, signs = true, update_in_insert = false })
 
 
 -- treesitter

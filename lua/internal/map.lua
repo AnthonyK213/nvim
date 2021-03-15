@@ -79,8 +79,8 @@ keymap('n', '<leader>cc', '<cmd>lua require("utility/util").hanzi_count("n")<CR>
 keymap('v', '<leader>cc', ':<C-u>lua require("utility/util").hanzi_count("v")<CR>', { noremap = true, silent = true })
 -- Append day of week after the date.
 keymap('n', '<leader>dd', ':lua require("utility/util").append_day_from_date()<CR>', { noremap = true, silent = true })
--- Insert an orgmode-style timestamp at the end of the line.
-keymap('n', '<leader>ds', "A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
+-- Insert an timestamp at the end of the line.
+keymap('n', '<leader>ds', "A<C-R>=strftime(' [[%Y-%m-%d %a %H:%M]]')<CR><Esc>", { noremap = true, silent = true })
 -- List bullets.
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/util").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/util").md_sort_num_bullet()<CR>', { noremap = true, silent = true })

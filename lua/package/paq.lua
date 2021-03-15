@@ -18,13 +18,13 @@ paq {'mhinz/vim-signify'}
 paq {'tpope/vim-fugitive'}
 paq {'Xuyuanp/nerdtree-git-plugin'}
 -- Utilities
-paq {'Yggdroot/indentLine'}
+paq {'glepnir/indent-guides.nvim'}
 paq {'tpope/vim-speeddating'}
 paq {'AnthonyK213/vim-ipairs'}
 paq {'dhruvasagar/vim-table-mode'}
 -- File type support
 paq {'lervag/vimtex'}
-paq {'jceb/vim-orgmode'}
+paq {'vimwiki/vimwiki'}
 paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
 paq {'iamcco/markdown-preview.nvim', run=vim.fn['mkdp#util#install']}
