@@ -5,9 +5,9 @@ local paq = require('paq-nvim').paq
 paq {'savq/paq-nvim', opt=true}
 -- Visual
 paq {'rakr/vim-one', opt=true}
+paq {'hoob3rt/lualine.nvim', opt=true}
 paq {'akinsho/nvim-bufferline.lua', opt=true}
 paq {'norcalli/nvim-colorizer.lua', opt=true}
-paq {'hoob3rt/lualine.nvim', opt=true}
 -- Tree manager
 paq {'preservim/nerdtree'}
 -- FZF
@@ -18,10 +18,10 @@ paq {'mhinz/vim-signify'}
 paq {'tpope/vim-fugitive'}
 paq {'Xuyuanp/nerdtree-git-plugin'}
 -- Utilities
-paq {'glepnir/indent-guides.nvim'}
 paq {'tpope/vim-speeddating'}
 paq {'AnthonyK213/vim-ipairs'}
 paq {'dhruvasagar/vim-table-mode'}
+paq {'glepnir/indent-guides.nvim'}
 -- File type support
 paq {'lervag/vimtex'}
 paq {'vimwiki/vimwiki'}

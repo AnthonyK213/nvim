@@ -26,9 +26,9 @@ endfunction
 function! s:nvimqt_memo_lazy_save()
   if expand('%:t') ==? ''
     if exists('g:onedrive_path')
-      silent exe 'w' g:onedrive_path . '/Documents/Agenda/memo/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+      silent exe 'w' g:onedrive_path . '/Documents/Agenda/diary/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     else
-      silent exe 'w' g:usr_desktop . '/memo_' . strftime("%y%m%d_%H%M") . '.md | e!'
+      silent exe 'w' g:usr_desktop . '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     end
   else
     exe 'w'
