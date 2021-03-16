@@ -53,6 +53,7 @@ vim.g.table_mode_corner = '+'
 -- vimwiki
 vim.g.vimwiki_list = {{
     path = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/"),
+    path_html = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/html/"),
     syntax = 'default',
     ext = '.wiki'
 }}
