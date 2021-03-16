@@ -73,21 +73,6 @@ vim.g.vimtex_view_general_options_latexmk = '-reuse-instance'
 vim.g.vimtex_compiler_progname = 'nvr'
 
 
--- indent-guides.nvim
-require('indent_guides').setup({
-    exclude_filetypes = {
-        'help',
-        'dashboard',
-        'dashpreview',
-        'NvimTree',
-        'vista',
-        'sagahover',
-    };
-    even_colors = { fg='#2a3834', bg='#332b36' };
-    odd_colors  = { fg='#332b36', bg='#2a3834' };
-})
-
-
 -- vim-ipairs
 vim.g.pairs_map_ret  = 0
 vim.g.pairs_map_bak  = 1

@@ -7,10 +7,10 @@ paq {'savq/paq-nvim', opt=true}
 paq {'rakr/vim-one', opt=true}
 paq {'hoob3rt/lualine.nvim', opt=true}
 paq {'akinsho/nvim-bufferline.lua', opt=true}
+paq {'glepnir/indent-guides.nvim', opt=true}
 paq {'norcalli/nvim-colorizer.lua', opt=true}
--- Tree manager
+-- File system
 paq {'preservim/nerdtree'}
--- FZF
 paq {'junegunn/fzf', run=vim.fn['fzf#install']}
 paq {'junegunn/fzf.vim'}
 -- Git utilities
@@ -21,7 +21,6 @@ paq {'Xuyuanp/nerdtree-git-plugin'}
 paq {'tpope/vim-speeddating'}
 paq {'AnthonyK213/vim-ipairs'}
 paq {'dhruvasagar/vim-table-mode'}
-paq {'glepnir/indent-guides.nvim'}
 -- File type support
 paq {'lervag/vimtex'}
 paq {'vimwiki/vimwiki'}

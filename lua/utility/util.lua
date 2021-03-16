@@ -65,11 +65,7 @@ end
 
 --- Background toggle
 function util.bg_toggle()
-    if (vim.o.bg == 'dark') then
-        vim.o.bg = 'light'
-    else
-        vim.o.bg = 'dark'
-    end
+    vim.o.bg = vim.o.bg == 'dark' and 'light' or 'dark'
 end
 
 --- Open terminal and launch shell.

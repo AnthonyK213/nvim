@@ -4,29 +4,11 @@ vim.o.bg = 'dark'
 
 -- vim-one
 vim.cmd('packadd vim-one')
-local one_h = function(...) vim.call('one#highlight', ...) end
-function UI_ONE_EXTEND()
-    one_h('SpellBad',         'e06c75', '', 'underline')
-    one_h('SpellCap',         'd19a66', '', 'underline')
-    one_h('mkdBold',          '4b5263', '', '')
-    one_h('mkdItalic',        '4b5263', '', '')
-    one_h('mkdBoldItalic',    '4b5263', '', '')
-    one_h('mkdCodeDelimiter', '4b5263', '', '')
-    one_h('htmlBold',         'd19a66', '', 'bold')
-    one_h('htmlItalic',       'c678dd', '', 'italic')
-    one_h('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
-    one_h('htmlH1',           'e06c75', '', 'bold')
-    one_h('htmlH2',           'e06c75', '', 'bold')
-    one_h('htmlH3',           'e06c75', '', '')
-    one_h('mkdHeading',       'e06c75', '', '')
-end
--- When colorscheme set to vim-one.
+vim.g.one_allow_italics = 1
 vim.cmd('augroup vim_one_extend')
 vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua UI_ONE_EXTEND()')
+vim.cmd('au ColorScheme one lua require("utility/misc").ui_one_extend()')
 vim.cmd('augroup end')
-vim.g.one_allow_italics = 1
-vim.cmd('colorscheme one')
 
 
 -- lualine.nvim
@@ -126,3 +108,15 @@ require'bufferline'.setup {
 -- nvim-colorizer
 vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
+
+
+-- indent-guides.nvim
+vim.cmd('packadd indent-guides.nvim')
+vim.cmd('augroup indent_guides_color_toggle')
+vim.cmd('autocmd!')
+vim.cmd('au ColorSchemePre one lua require("utility/misc").indent_guides_color_toggle()')
+vim.cmd('augroup end')
+
+
+-- Load color scheme.
+vim.cmd('colorscheme one')
