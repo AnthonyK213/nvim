@@ -91,7 +91,7 @@ lualine.extensions = { 'fzf' }
 lualine.status()
 vim.cmd('augroup lualine_color_toggle')
 vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua require("lualine").options.theme="one"..vim.o.bg')
+vim.cmd('au ColorSchemePre one lua require("lualine").options.theme="one"..vim.o.bg')
 vim.cmd('augroup end')
 
 
