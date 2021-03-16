@@ -36,6 +36,7 @@ end
 
 -- indent-guides.nvim toggle colors.
 function misc.indent_guides_color_toggle()
+    local indent = require('indent_guides')
     local green, red
     if vim.o.bg == 'dark' then
         green = '#2a3834'
@@ -45,7 +46,7 @@ function misc.indent_guides_color_toggle()
         red   = '#f4e7ef'
     end
 
-    require('indent_guides').setup({
+    indent.setup({
         exclude_filetypes = {
             'help',
             'dashboard',
@@ -57,6 +58,8 @@ function misc.indent_guides_color_toggle()
         even_colors = { fg=green, bg=red };
         odd_colors  = { fg=red, bg=green };
     })
+
+    indent.indent_guides_enable()
 end
 
 

@@ -114,7 +114,7 @@ require('colorizer').setup()
 vim.cmd('packadd indent-guides.nvim')
 vim.cmd('augroup indent_guides_color_toggle')
 vim.cmd('autocmd!')
-vim.cmd('au ColorSchemePre one lua require("utility/misc").indent_guides_color_toggle()')
+vim.cmd('au ColorScheme one lua require("utility/misc").indent_guides_color_toggle()')
 vim.cmd('augroup end')
 
 
