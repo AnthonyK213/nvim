@@ -19,7 +19,7 @@ keymap('n', '<leader>vt', ':SignifyToggle<CR>',            { noremap = true,  si
 -- vim-markdown
 keymap('n', '<leader>mh', ':Toch<CR>:resize 15<CR>',                                     { noremap = true, silent = true })
 keymap('n', '<leader>mv', ':Tocv<CR>:vertical resize 50<CR>',                            { noremap = true, silent = true })
-keymap('n', '<leader>mm', ':lua require("utility/util").vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>mm', ':lua require("utility/misc").vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
 -- vim-table-mode
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>tc', ':TableEvalFormulaLine<CR>', { noremap = true, silent = true })

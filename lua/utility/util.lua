@@ -573,12 +573,6 @@ function util.sur_sub(...)
     end
 end
 
---- Toggle math display.
-function util.vim_markdown_math_toggle()
-    vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
-    vim.fn.execute('syn off | syn on')
-end
-
 --- Show documents.
 function util.show_doc()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then

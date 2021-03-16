@@ -15,6 +15,12 @@ function RUN_CODE_OPTION()
     end
 end
 
+--- Toggle math display.
+function misc.vim_markdown_math_toggle()
+    vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
+    vim.fn.execute('syn off | syn on')
+end
+
 -- Extend theme one.
 function misc.ui_one_extend()
     local one_h = function(...) vim.call('one#highlight', ...) end
