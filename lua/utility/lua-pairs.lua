@@ -19,6 +19,8 @@ local lp_comm = {
     ['"'] = '"'
 }
 
+local opt = {}
+
 
 local function tab_extd(a, b)
     for key, val in pairs(b) do
@@ -165,7 +167,6 @@ function M.lp_mates(pair_a)
         local pair_b = vim.b.lp_buf[pair_a]
         keys = pair_a..pair_b..string.rep('<C-g>U<Left>', #pair_b)
     end
-    print(keys)
     feed_keys(keys)
 end
 
@@ -212,46 +213,48 @@ local function def_map(kbd, key)
     { noremap=true, expr=false, silent=true })
 end
 
-function M.setup(option)
+function M.def_all()
+    if vim.b.lp_map_list then return end
 
-    function M.def_all()
-        if vim.b.lp_map_list then return end
+    if opt.extd then
+        tab_extd(lp_comm, opt.extd)
+    end
 
-        if option.extd then
-            tab_extd(lp_comm, option.extd)
-        end
+    def_var()
 
-        def_var()
+    if opt.ret then
+        def_map('<CR>', '<CR>')
+    else
+        api.nvim_set_keymap(
+        'i',
+        '<Plug>(ipairs_enter)',
+        '<CMD>lua require("utility/lua-pairs").lp_enter()<CR>',
+        { silent=true, expr=false, noremap=true })
+    end
 
-        if option.ret then
-            def_map('<CR>', '<CR>')
-        else
-            api.nvim_set_keymap(
-            'i',
-            '<Plug>(ipairs_enter)',
-            '<CMD>lua require("utility/lua-pairs").lp_enter()<CR>',
-            { silent=true, expr=false, noremap=true })
-        end
+    if opt.bak then
+        def_map("<BS>", "<BS>")
+        def_map("<M-BS>", "<M-BS>")
+    end
 
-        if option.bak then
-            def_map("<BS>", "<BS>")
-            def_map("<M-BS>", "<M-BS>")
-        end
+    if opt.spc then
+        def_map("<SPACE>", "<SPACE>")
+    end
 
-        if option.spc then
-            def_map("<SPACE>", "<SPACE>")
-        end
+    for _,key in ipairs(vim.b.lp_map_list) do
+        def_map(key, key)
+    end
 
-        for _,key in ipairs(vim.b.lp_map_list) do
-            def_map(key, key)
-        end
-
-        if option.extd_map then
-            for key, val in pairs(option.extd_map) do
-                def_map(key, val)
-            end
+    if opt.extd_map then
+        for key, val in pairs(opt.extd_map) do
+            def_map(key, val)
         end
     end
+end
+
+function M.setup(option)
+
+    opt = option
 
     vim.cmd('augroup pairs_update_buffer')
     vim.cmd('autocmd!')

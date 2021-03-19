@@ -75,6 +75,7 @@ vim.g.vimtex_compiler_progname = 'nvr'
 
 -- lua-pairs
 require('utility/lua-pairs').setup {
+    ret = false,
     bak = true,
     spc = true,
     extd = {
