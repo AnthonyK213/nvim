@@ -73,24 +73,25 @@ vim.g.vimtex_view_general_options_latexmk = '-reuse-instance'
 vim.g.vimtex_compiler_progname = 'nvr'
 
 
--- vim-ipairs
-vim.g.pairs_map_ret  = 0
-vim.g.pairs_map_bak  = 1
-vim.g.pairs_map_spc  = 1
-vim.g.pairs_usr_extd = {
-    ["$"]   = "$",
-    ["`"]   = "`",
-    ["*"]   = "*",
-    ["**"]  = "**",
-    ["***"] = "***",
-    ["<u>"] = "</u>"
-}
-vim.g.pairs_usr_extd_map = {
-    ["<M-P>"] = "`",
-    ["<M-I>"] = "*",
-    ["<M-B>"] = "**",
-    ["<M-M>"] = "***",
-    ["<M-U>"] = "<u>"
+-- lua-pairs
+require('utility/lua-pairs').setup {
+    bak = true,
+    spc = true,
+    extd = {
+        ["$"]   = "$",
+        ["`"]   = "`",
+        ["*"]   = "*",
+        ["**"]  = "**",
+        ["***"] = "***",
+        ["<u>"] = "</u>"
+    },
+    extd_map = {
+        ["<M-P>"] = "`",
+        ["<M-I>"] = "*",
+        ["<M-B>"] = "**",
+        ["<M-M>"] = "***",
+        ["<M-U>"] = "<u>"
+    }
 }
 
 
