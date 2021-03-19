@@ -256,7 +256,7 @@ function M.setup(option)
 
     opt = option
 
-    vim.cmd('augroup pairs_update_buffer')
+    vim.cmd('augroup lp_buffer_update')
     vim.cmd('autocmd!')
     vim.cmd('au BufEnter * lua require("utility/lua-pairs").def_all()')
     vim.cmd('au FileType * lua require("utility/lua-pairs").clr_map() require("utility/lua-pairs").def_all()')
