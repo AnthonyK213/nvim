@@ -1,4 +1,5 @@
 local keymap = vim.api.nvim_set_keymap
+local augroup = require("utility/misc").set_au_group
 
 
 -- NERDTree
@@ -60,12 +61,6 @@ keymap('n', '<leader>g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { norem
 keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
 
 -- completion-nvim
-vim.cmd('augroup completion_nvim_enable_all')
-vim.cmd('autocmd!')
-vim.cmd('au BufEnter * lua require("completion").on_attach()')
-vim.cmd('augroup end')
+augroup('completion_nvim_enable_all', 'BufEnter * lua require("completion").on_attach()')
 -- nvim-lspconfig
-vim.cmd('augroup lsp_diagnositic_on_hold')
-vim.cmd('autocmd!')
-vim.cmd('au CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
-vim.cmd('augroup end')
+augroup('lsp_diagnositic_on_hold', 'CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')

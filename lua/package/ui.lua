@@ -1,22 +1,16 @@
 vim.o.tgc = true
 vim.o.bg = 'dark'
 
+local augroup = require("utility/misc").set_au_group
+
 
 -- vim-one
 vim.cmd('packadd vim-one')
 vim.g.one_allow_italics = 1
-vim.cmd('augroup vim_one_extend')
-vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua require("utility/misc").ui_one_extend()')
-vim.cmd('augroup end')
 
 
 -- lualine.nvim
 vim.cmd('packadd lualine.nvim')
-vim.cmd('augroup lualine_setup')
-vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua require("utility/misc").lualine_setup()')
-vim.cmd('augroup end')
 
 
 -- nvim-bufferline.lua
@@ -54,11 +48,12 @@ require('colorizer').setup()
 
 -- indent-guides.nvim
 vim.cmd('packadd indent-guides.nvim')
-vim.cmd('augroup indent_guides_color_toggle')
-vim.cmd('autocmd!')
-vim.cmd('au ColorScheme one lua require("utility/misc").indent_guides_color_toggle()')
-vim.cmd('augroup end')
 
 
 -- Load color scheme.
+augroup('one_ui_setup',
+'ColorScheme one lua local misc = require("utility/misc") '
+..'misc.ui_one_extend() '
+..'misc.lualine_setup() '
+..'misc.indent_guides_color_toggle()')
 vim.cmd('colorscheme one')

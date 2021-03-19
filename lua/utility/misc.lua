@@ -15,6 +15,16 @@ function RUN_CODE_OPTION()
     end
 end
 
+-- Define auto command group.
+function misc.set_au_group(name, ...)
+    vim.cmd('augroup '..name)
+    vim.cmd('autocmd!')
+    for _, cmd in ipairs({...}) do
+        vim.cmd('au '..cmd)
+    end
+    vim.cmd('augroup end')
+end
+
 --- Toggle math display.
 function misc.vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
