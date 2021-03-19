@@ -1,4 +1,3 @@
--- vim-ipairs
 -- File:       lua-pairs.lua
 -- Repository: https://github.com/AnthonyK213/nvim
 -- License:    The MIT License (MIT)
