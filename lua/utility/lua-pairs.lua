@@ -5,42 +5,40 @@
 
 
 local M = {}
-
-
 local vim = vim
 local api = vim.api
 local fn  = vim.fn
 
-local lp_comm = {
-    ["("] = ")",
-    ["["] = ']',
-    ["{"] = "}",
-    ["'"] = "'",
-    ['"'] = '"'
-}
-
 local opt = {}
+local lp_comm={ ["("]=")", ["["]=']', ["{"]="}", ["'"]="'", ['"']='"' }
 
 
+---------- Local functions ---------
+
+-- Extend table b to a.
 local function tab_extd(a, b)
     for key, val in pairs(b) do
         a[key] = val
     end
 end
 
+-- Convert string to terminal codes.
 local function rep_term(str)
     return api.nvim_replace_termcodes(str, true, false, true)
 end
 
+-- Feed keys to buffer.
 local function feed_keys(str)
     return api.nvim_feedkeys(rep_term(str), 'n', true)
 end
 
+-- Determine if a character is a alphabetic/numeric/Chinese character.
 local function is_alphanumchar(char)
     local nr = fn.char2nr(char)
     return char:match('[%w_]') or (nr >= 0x4E00 and nr <= 0x9fA5)
 end
 
+-- Escape regex special characters in a string by '%'.
 local function reg_esc(str)
     local str_list = vim.fn.split(str, '\\zs')
     local esc_table = { '(', ')', '[', ']', '.', '%', '+', '-', '*', '?', '^', '$' }
@@ -52,6 +50,11 @@ local function reg_esc(str)
     return table.concat(str_list)
 end
 
+-- Get characters around cursor by 'mode'.
+-- 'l' -> Return the character before cursor.
+-- 'n' -> Return the character next cursor.
+-- 'b' -> Return the line slice before cursor.
+-- 'f' -> Return the line slice next cursor.
 local function get_ctxt(mode)
     if mode == 'l' then
         return fn.matchstr(api.nvim_get_current_line(), '.\\%'..fn.col('.')..'c')
@@ -64,6 +67,13 @@ local function get_ctxt(mode)
     end
 end
 
+-- Define the buffer variables.
+-- b:lp_last_spec -> If the last character matches, do not trigger the pairing event.
+-- b:lp_next_spec -> If the next character matches, do not trigger the pairing event.
+-- b:lp_back_spec -> If the line slice next the cursor matches, do not trigger.
+-- b:lp_buf       -> { pair_left = pair_right }
+-- b:lp_buf_map   -> { key = function_name }
+-- b:lp_map_list  -> { keys_to_map }
 local function def_var()
     vim.b.lp_last_spec = "[\"'\\]"
     vim.b.lp_next_spec = "[\"']"
@@ -111,6 +121,25 @@ end
 local function is_sur(pair_table)
     local last_char = get_ctxt('l')
     return pair_table[last_char] and vim.b.lp_buf[last_char] == get_ctxt('n')
+end
+
+local function def_map(kbd, key)
+    local k = key:match('<%u.*>') and '' or '"'..fn.escape(key, '"')..'"'
+    api.nvim_buf_set_keymap(
+    0, 'i', kbd,
+    [[<CMD>lua require('utility/lua-pairs').lp_]]..vim.b.lp_buf_map[key]..'('..k..')<CR>',
+    { noremap=true, expr=false, silent=true })
+end
+
+
+---------- Module functions ---------
+function M.clr_map()
+    if vim.b.lp_map_list then
+        for _,key in ipairs(vim.b.lp_map_list) do
+            api.nvim_exec('ino <buffer> '..key..' '..key, false)
+        end
+        vim.b.lp_map_list = nil
+    end
 end
 
 function M.lp_enter()
@@ -196,23 +225,6 @@ function M.lp_quote(quote)
     feed_keys(keys)
 end
 
-function M.clr_map()
-    if vim.b.lp_map_list then
-        for _,key in ipairs(vim.b.lp_map_list) do
-            api.nvim_exec('ino <buffer> '..key..' '..key, false)
-        end
-        vim.b.lp_map_list = nil
-    end
-end
-
-local function def_map(kbd, key)
-    local k = key:match('<%u.*>') and '' or '"'..fn.escape(key, '"')..'"'
-    api.nvim_buf_set_keymap(
-    0, 'i', kbd,
-    [[<CMD>lua require('utility/lua-pairs').lp_]]..vim.b.lp_buf_map[key]..'('..k..')<CR>',
-    { noremap=true, expr=false, silent=true })
-end
-
 function M.def_all()
     if vim.b.lp_map_list then return end
 
@@ -253,9 +265,7 @@ function M.def_all()
 end
 
 function M.setup(option)
-
     opt = option
-
     vim.cmd('augroup lp_buffer_update')
     vim.cmd('autocmd!')
     vim.cmd('au BufEnter * lua require("utility/lua-pairs").def_all()')
