@@ -1,7 +1,7 @@
 -- vim-ipairs
--- -- File:       lua-pairs.lua
--- -- Repository: https://github.com/AnthonyK213/lua-pairs
--- -- License:    The MIT License (MIT)
+-- File:       lua-pairs.lua
+-- Repository: https://github.com/AnthonyK213/lua-pairs
+-- License:    The MIT License (MIT)
 
 
 local M = {}
@@ -27,7 +27,7 @@ local function rep_term(str)
     return api.nvim_replace_termcodes(str, true, false, true)
 end
 
--- Feed keys to buffer.
+-- Feed keys to current buffer.
 local function feed_keys(str)
     return api.nvim_feedkeys(rep_term(str), 'n', true)
 end
@@ -52,9 +52,9 @@ end
 
 -- Get characters around cursor by 'mode'.
 -- 'l' -> Return the character before cursor.
--- 'n' -> Return the character next cursor.
--- 'b' -> Return the line slice before cursor.
--- 'f' -> Return the line slice next cursor.
+-- 'n' -> Return the character after cursor.
+-- 'b' -> Return the half line before cursor.
+-- 'f' -> Return the half line after cursor.
 local function get_ctxt(mode)
     if mode == 'l' then
         return fn.matchstr(api.nvim_get_current_line(), '.\\%'..fn.col('.')..'c')
@@ -68,9 +68,9 @@ local function get_ctxt(mode)
 end
 
 -- Define the buffer variables.
--- b:lp_last_spec -> If the last character matches, do not trigger the pairing event.
--- b:lp_next_spec -> If the next character matches, do not trigger the pairing event.
--- b:lp_back_spec -> If the line slice next the cursor matches, do not trigger.
+-- b:lp_last_spec -> If the last character matches, no pairing event triggered.
+-- b:lp_next_spec -> If the next character matches, no pairing event triggered.
+-- b:lp_back_spec -> If the half line after the cursor matches, do not trigger.
 -- b:lp_buf       -> { pair_left = pair_right }
 -- b:lp_buf_map   -> { key = function_name }
 -- b:lp_map_list  -> { keys_to_map }
@@ -118,11 +118,13 @@ local function def_var()
     vim.b.lp_map_list = lp_map_list
 end
 
+-- Determine whether the cursor is surrounded by pairs in 'pair_table'
 local function is_sur(pair_table)
     local last_char = get_ctxt('l')
     return pair_table[last_char] and vim.b.lp_buf[last_char] == get_ctxt('n')
 end
 
+-- Difine buffer key maps.
 local function def_map(kbd, key)
     local k = key:match('<%u.*>') and '' or '"'..fn.escape(key, '"')..'"'
     api.nvim_buf_set_keymap(
@@ -133,6 +135,8 @@ end
 
 
 ---------- Module functions ---------
+
+-- Clear key maps of current buffer.
 function M.clr_map()
     if vim.b.lp_map_list then
         for _,key in ipairs(vim.b.lp_map_list) do
@@ -142,6 +146,11 @@ function M.clr_map()
     end
 end
 
+-- Enter.
+-- Inside a pair of brackets:
+-- {|} -> feed <CR> -> {
+--                         |
+--                     }
 function M.lp_enter()
     if is_sur(vim.b.lp_buf) then
         feed_keys('<CR><C-O>O')
@@ -150,6 +159,11 @@ function M.lp_enter()
     end
 end
 
+-- Backspace.
+-- Inside a defined pair(1 character):
+-- (|) -> feed <BS> -> |
+-- Inside a pair of barces with one space:
+-- { | } -> feed <BS> -> {|}
 function M.lp_backs()
     local back = get_ctxt('b')
     local fore = get_ctxt('f')
@@ -164,6 +178,9 @@ function M.lp_backs()
     end
 end
 
+-- Super backspace.
+-- Inside a defined pair(no length limit):
+-- <u>|</u> -> feed <M-BS> -> |
 function M.lp_supbs()
     local back = get_ctxt('b')
     local fore = get_ctxt('f')
@@ -183,11 +200,19 @@ function M.lp_supbs()
     end
 end
 
+-- Space.
+-- Inside a pair of braces:
+-- {|} -> feed <SPACE> -> { | }
 function M.lp_space()
     local keys = is_sur({ ['{']='}' }) and '<SPACE><SPACE><C-g>U<Left>' or '<SPACE>'
     feed_keys(keys)
 end
 
+-- Complete a pair of characters consisting of different characters:
+-- | -> feed ( -> (|)
+-- | -> feed defind_kbd -> pair_a|pair_b
+-- Before a alphabetic/numeric/Chinese character:
+-- |a -> feed ( -> (|a
 function M.lp_mates(pair_a)
     local keys
     if is_alphanumchar(get_ctxt('n')) then
@@ -199,11 +224,23 @@ function M.lp_mates(pair_a)
     feed_keys(keys)
 end
 
+-- Inside a defined pair:
+-- (|) -> feed ) -> ()|
 function M.lp_close(pair_b)
     local keys = get_ctxt('n') == pair_b and '<C-g>U<Right>' or pair_b
     feed_keys(keys)
 end
 
+-- Complete a pair of characters consisting of identical characters:
+-- | -> feed " -> "|"
+-- Inside a pair of quote:
+-- "|" -> feed " -> ""|
+-- After the escape character("\"), a quote character or a alphabetic/numeric/Chinese character:
+-- \| -> feed " -> \"|
+-- "| -> feed " -> ""|
+-- a| -> feed " -> a"|
+-- Before a alphabetic/numeric/Chinese character:
+-- |a -> feed " -> "|a
 function M.lp_quote(quote)
     local last_char = get_ctxt('l')
     local next_char = get_ctxt('n')
@@ -225,6 +262,7 @@ function M.lp_quote(quote)
     feed_keys(keys)
 end
 
+-- Define variables and key maps.
 function M.def_all()
     if vim.b.lp_map_list then return end
 
@@ -264,6 +302,7 @@ function M.def_all()
     end
 end
 
+-- Set up lua-pairs.
 function M.setup(option)
     opt = option
     vim.cmd('augroup lp_buffer_update')
