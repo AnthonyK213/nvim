@@ -54,10 +54,10 @@ end
 
 -- Get characters around the cursor by 'mode'.
 -- @param string mode Four mode to get the context
--- 'l' -> Return the character before cursor
--- 'n' -> Return the character after cursor
--- 'b' -> Return the half line before cursor
--- 'f' -> Return the half line after cursor
+--   'l' -> Return the character before cursor
+--   'n' -> Return the character after cursor
+--   'b' -> Return the half line before cursor
+--   'f' -> Return the half line after cursor
 -- @return string Grabbed string around the cursor
 local function get_ctxt(mode)
     if mode == 'l' then
@@ -232,7 +232,7 @@ function M.lp_space()
     feed_keys(keys)
 end
 
--- Complete a pair of characters consisting of different characters:
+-- Complete 'mates':
 --   | -> feed ( -> (|)
 --   | -> feed defind_kbd -> pair_a|pair_b
 -- Before a NAC character:
