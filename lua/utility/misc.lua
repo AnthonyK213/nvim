@@ -119,8 +119,8 @@ function misc.lualine_setup()
     require('lualine').setup {
         options = {
             theme = 'one'..vim.o.bg,
-            section_separators = nil,
-            component_separators = nil,
+            section_separators = '',
+            component_separators = '',
             icons_enabled = false
         },
         sections = {
