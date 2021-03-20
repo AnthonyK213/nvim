@@ -22,9 +22,10 @@ require('package/paq')
 require('package/config')
 require('package/inter')
 
+vim.o.bg  = INIT_OPTIONS.bg or 'dark'
+
 if (init_src == 'nano') then
     vim.o.tgc = true
-    vim.o.bg  = 'dark'
     vim.cmd('colorscheme nanovim')
 elseif (init_src == 'one') then
     require('package/ui')

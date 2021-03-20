@@ -134,7 +134,7 @@ local custom_attach = function() require'completion'.on_attach() end
 
 -- nvim-lspconfig
 local lspconfig = require'lspconfig'
-local init_lsp_option = vim.g.init_lsp_option or {}
+local init_lsp_option = INIT_OPTIONS.lsp or {}
 --- clangd
 if init_lsp_option.clangd then
     lspconfig.clangd.setup { on_attach=custom_attach }

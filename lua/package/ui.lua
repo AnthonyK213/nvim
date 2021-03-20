@@ -1,6 +1,4 @@
 vim.o.tgc = true
-vim.o.bg = 'dark'
-
 local augroup = require("utility/misc").set_au_group
 
 

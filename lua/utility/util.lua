@@ -8,16 +8,16 @@ local lib = require('utility/lib')
 local util_def_start, util_def_shell, util_def_cc
 if vim.fn.has("win32") == 1 then
     util_def_start = 'start'
-    util_def_shell = lib.get_var(vim.g.default_shell, 'powershell.exe -nologo')
-    util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'gcc')
+    util_def_shell = lib.get_var(INIT_OPTIONS.sh, 'powershell.exe -nologo')
+    util_def_cc    = lib.get_var(INIT_OPTIONS.cc, 'gcc')
 elseif vim.fn.has("unix") == 1 then
     util_def_start = 'xdg-open'
-    util_def_shell = lib.get_var(vim.g.default_shell, 'bash')
-    util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'gcc')
+    util_def_shell = lib.get_var(INIT_OPTIONS.sh, 'bash')
+    util_def_cc    = lib.get_var(INIT_OPTIONS.cc, 'gcc')
 elseif vim.fn.has("mac") == 1 then
     util_def_start = 'open'
-    util_def_shell = lib.get_var(vim.g.default_shell, 'zsh')
-    util_def_cc    = lib.get_var(vim.g.default_c_compiler, 'clang')
+    util_def_shell = lib.get_var(INIT_OPTIONS.sh, 'zsh')
+    util_def_cc    = lib.get_var(INIT_OPTIONS.cc, 'clang')
 end
 --- Global
 ---- Escape string for URL.

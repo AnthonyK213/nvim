@@ -87,7 +87,7 @@ keymap('n', '<leader>ml', ':lua require("utility/util").md_sort_num_bullet()<CR>
 -- Echo git status.
 keymap('n', '<leader>vs', ':!git status<CR>', { noremap = true, silent = true })
 -- Search cword in web browser.
-local web_list = vim.g.default_web_list or {
+local web_list = INIT_OPTIONS.site or {
     b = "https://www.baidu.com/s?wd=",
     g = "https://www.google.com/search?q=",
     h = "https://github.com/search?q=",
