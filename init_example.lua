@@ -1,8 +1,9 @@
--- Viml options
+-- GUI options
 --vim.g.gui_font_size   = 12
 --vim.g.gui_font_family = 'Consolas'
+--vim.g.gui_background  = 'dark'
 
--- Lua options
+-- Options
 INIT_OPTIONS = {
     --sh  = 'zsh',
     --cc  = 'clang',

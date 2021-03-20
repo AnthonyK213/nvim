@@ -66,6 +66,8 @@ else
   GuiLinespace 0
 endif
 
+let &bg = exists('g:gui_background') ? g:gui_background : 'dark'
+
 "" Font
 if !exists('g:gui_font_size')
   let g:gui_font_size = 10
