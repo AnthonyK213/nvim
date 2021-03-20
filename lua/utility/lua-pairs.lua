@@ -92,6 +92,7 @@ local function def_var()
         vim.b.lp_last_spec = "[\"'\\&<]"
     elseif vim.bo.filetype == 'lisp' then
         table.insert(lp_map_list, '`')
+        lp_buf["'"] = nil
         lp_buf['`'] = "'"
     elseif vim.bo.filetype == 'html' then
         table.insert(lp_map_list, '<')
