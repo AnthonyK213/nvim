@@ -110,7 +110,7 @@
   - <kbd>leader-e-</kbd>     -> **Evaluate**
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
-  - <kbd>leader-f-</kbd>     -> FZF
+  - <kbd>leader-f-</kbd>     -> **FZF**
     - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
   - <kbd>leader-g-</kbd>     -> **LSP**
