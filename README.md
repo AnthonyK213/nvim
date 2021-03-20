@@ -30,11 +30,13 @@
   ```bash
   git clone https://github.com/AnthonyK213/nvim.git
   ```
-* **Set init.lua**
+* **Set up /lua/core/opt.lua**
 
 
 ## Modules
 - Lua
+  - `core`
+    - Set up options.
   - `internal`
     - Variables; Mappings; Commands.
   - `package`
