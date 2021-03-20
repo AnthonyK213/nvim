@@ -1,10 +1,4 @@
--- GUI options
---vim.g.gui_font_size   = 12
---vim.g.gui_font_family = 'Consolas'
---vim.g.gui_background  = 'dark'
-
--- Options
-INIT_OPTIONS = {
+return {
     --sh  = 'zsh',
     --cc  = 'clang',
     --py3 = '/usr/bin/python3',
@@ -26,9 +20,13 @@ INIT_OPTIONS = {
         rust_analyzer = false,
         -- Vim script
         vimls = false
+    },
+    ]]
+    --[[
+    gui = {
+        font_family = 'Consolas',
+        font_size = 12,
+        bg = 'light'
     }
-    --]]
+    ]]
 }
-
-
-require('core')

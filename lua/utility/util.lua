@@ -1,5 +1,6 @@
 local util = {}
 local lib = require('utility/lib')
+local core_opt = require('core/opt')
 
 
 -- Variables
@@ -8,16 +9,16 @@ local lib = require('utility/lib')
 local util_def_start, util_def_shell, util_def_cc
 if vim.fn.has("win32") == 1 then
     util_def_start = 'start'
-    util_def_shell = lib.get_var(INIT_OPTIONS.sh, 'powershell.exe -nologo')
-    util_def_cc    = lib.get_var(INIT_OPTIONS.cc, 'gcc')
+    util_def_shell = lib.get_var(core_opt.sh, 'powershell.exe -nologo')
+    util_def_cc    = lib.get_var(core_opt.cc, 'gcc')
 elseif vim.fn.has("unix") == 1 then
     util_def_start = 'xdg-open'
-    util_def_shell = lib.get_var(INIT_OPTIONS.sh, 'bash')
-    util_def_cc    = lib.get_var(INIT_OPTIONS.cc, 'gcc')
+    util_def_shell = lib.get_var(core_opt.sh, 'bash')
+    util_def_cc    = lib.get_var(core_opt.cc, 'gcc')
 elseif vim.fn.has("mac") == 1 then
     util_def_start = 'open'
-    util_def_shell = lib.get_var(INIT_OPTIONS.sh, 'zsh')
-    util_def_cc    = lib.get_var(INIT_OPTIONS.cc, 'clang')
+    util_def_shell = lib.get_var(core_opt.sh, 'zsh')
+    util_def_cc    = lib.get_var(core_opt.cc, 'clang')
 end
 --- Global
 ---- Escape string for URL.

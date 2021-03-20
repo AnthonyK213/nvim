@@ -22,7 +22,7 @@ require('package/paq')
 require('package/config')
 require('package/inter')
 
-vim.o.bg  = INIT_OPTIONS.bg or 'dark'
+vim.o.bg  = require('core/opt').bg or 'dark'
 
 if (init_src == 'nano') then
     vim.o.tgc = true
