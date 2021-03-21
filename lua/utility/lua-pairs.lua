@@ -22,7 +22,7 @@ local tab_extd = function(a, b) for key, val in pairs(b) do a[key] = val end end
 
 -- Convert string to terminal codes.
 -- @tparam string str String to be converted
--- @treturn string Converted string, can be used as termianl code.
+-- @treturn string Converted string, can be used as terminal code.
 local rep_term = function(str) return api.nvim_replace_termcodes(str, true, false, true) end
 
 -- Feed keys to current buffer.
@@ -39,7 +39,7 @@ local function is_NAC(char)
 end
 
 -- Escape regex special characters in a string by '%'.
--- @tparam string str String to be converted which can be use in a regex match patern
+-- @tparam string str String to be converted which can be use in a regex match pattern
 -- @treturn string Converted string
 local function reg_esc(str)
     local str_list = vim.fn.split(str, '\\zs')
@@ -53,7 +53,7 @@ local function reg_esc(str)
 end
 
 -- Get characters around the cursor by 'mode'.
--- @tparam string mode Four mode to get the context
+-- @tparam string mode Four modes to get the context
 --   'l' -> Return the character before cursor
 --   'n' -> Return the character after cursor
 --   'b' -> Return the half line before cursor
@@ -234,7 +234,7 @@ end
 
 -- Complete 'mates':
 --   | -> feed ( -> (|)
---   | -> feed defind_kbd -> pair_a|pair_b
+--   | -> feed defined_kbd -> pair_a|pair_b
 -- Before a NAC character:
 --   |a -> feed ( -> (|a
 -- @tparam string pair_a Left part of a pair of 'mates'
