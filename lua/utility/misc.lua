@@ -1,20 +1,6 @@
 local misc = {}
 
 
--- Run code complete option list.
-function RUN_CODE_OPTION()
-    local ft = vim.bo.filetype
-    if ft == 'c' then
-        return {'build', 'check'}
-    elseif ft == 'rust' then
-        return {'build', 'clean', 'check', 'rustc'}
-    elseif ft == 'tex' then
-        return {'biber', 'bibtex'}
-    else
-        return {''}
-    end
-end
-
 -- Define auto command group.
 function misc.set_au_group(name, ...)
     vim.cmd('augroup '..name)

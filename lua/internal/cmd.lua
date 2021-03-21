@@ -12,3 +12,17 @@ require("utility/misc").set_au_group(
 'BufEnter * setlocal so=5',
 'BufEnter *.md setlocal so=999'
 )
+
+-- Run code complete option list.
+function RUN_CODE_OPTION()
+    local ft = vim.bo.filetype
+    if ft == 'c' then
+        return {'build', 'check'}
+    elseif ft == 'rust' then
+        return {'build', 'clean', 'check', 'rustc'}
+    elseif ft == 'tex' then
+        return {'biber', 'bibtex'}
+    else
+        return {''}
+    end
+end
