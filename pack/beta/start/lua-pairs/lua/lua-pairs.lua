@@ -148,7 +148,7 @@ local function def_map(kbd, key)
     local k = key:match('<%u.*>') and '' or '"'..fn.escape(key, '"')..'"'
     api.nvim_buf_set_keymap(
     0, 'i', kbd,
-    [[<CMD>lua require('utility/lua-pairs').lp_]]..vim.b.lp_buf_map[key]..'('..k..')<CR>',
+    [[<CMD>lua require('lua-pairs').lp_]]..vim.b.lp_buf_map[key]..'('..k..')<CR>',
     { noremap=true, expr=false, silent=true })
 end
 
@@ -309,7 +309,7 @@ function M.def_all()
         api.nvim_set_keymap(
         'i',
         '<Plug>(ipairs_enter)',
-        '<CMD>lua require("utility/lua-pairs").lp_enter()<CR>',
+        '<CMD>lua require("lua-pairs").lp_enter()<CR>',
         { silent=true, expr=false, noremap=true })
     end
 
@@ -345,8 +345,8 @@ function M.setup(option)
     opt = option
     vim.cmd('augroup lp_buffer_update')
     vim.cmd('autocmd!')
-    vim.cmd('au BufEnter * lua require("utility/lua-pairs").def_all()')
-    vim.cmd('au FileType * lua require("utility/lua-pairs").clr_map() require("utility/lua-pairs").def_all()')
+    vim.cmd('au BufEnter * lua require("lua-pairs").def_all()')
+    vim.cmd('au FileType * lua require("lua-pairs").clr_map() require("lua-pairs").def_all()')
     vim.cmd('augroup end')
 end
 

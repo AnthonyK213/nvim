@@ -1,8 +1,8 @@
-local misc = {}
+local M = {}
 
 
 -- Define auto command group.
-function misc.set_au_group(name, ...)
+function M.set_au_group(name, ...)
     vim.cmd('augroup '..name)
     vim.cmd('autocmd!')
     for _, cmd in ipairs({...}) do
@@ -12,13 +12,13 @@ function misc.set_au_group(name, ...)
 end
 
 --- Toggle math display.
-function misc.vim_markdown_math_toggle()
+function M.vim_markdown_math_toggle()
     vim.g.vim_markdown_math = 1 - vim.g.vim_markdown_math
     vim.fn.execute('syn off | syn on')
 end
 
 -- Extend theme one.
-function misc.ui_one_extend()
+function M.ui_one_extend()
     local one_h = function(...) vim.call('one#highlight', ...) end
 
     one_h('SpellBad',         'e06c75', '', 'underline')
@@ -37,7 +37,7 @@ function misc.ui_one_extend()
 end
 
 -- indent-guides.nvim toggle colors.
-function misc.indent_guides_color_toggle()
+function M.indent_guides_color_toggle()
     local indent = require('indent_guides')
     local green, red
     if vim.o.bg == 'dark' then
@@ -101,7 +101,7 @@ local function get_current_mode()
 end
 
 --- lualine setup.
-function misc.lualine_setup()
+function M.lualine_setup()
     require('lualine').setup {
         options = {
             theme = 'one'..vim.o.bg,
@@ -130,4 +130,4 @@ function misc.lualine_setup()
 end
 
 
-return misc
+return M

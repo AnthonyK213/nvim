@@ -45,7 +45,7 @@ keymap('i', '<S-TAB>',    '<Plug>(completion_smart_s_tab)', { noremap = false, s
 keymap('i', '<C-C><C-J>', '<Plug>(completion_next_source)', { noremap = false, silent = true })
 keymap('i', '<C-C><C-K>', '<Plug>(completion_prev_source)', { noremap = false, silent = true })
 -- nvim-lspconfig
-keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',      { noremap = true, silent = true })
+keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',       { noremap = true, silent = true })
 keymap('n', '<leader>g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ga', '<cmd>lua vim.lsp.buf.code_action()<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.declaration()<CR>',      { noremap = true, silent = true })

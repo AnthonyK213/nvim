@@ -1,28 +1,9 @@
 local M = {}
-local api = vim.api
 local fn  = vim.fn
+local lib = require("utility/lib")
 
 
--- Get characters around the cursor by 'mode'.
--- @tparam string mode Four modes to get the context
---   'l' -> Return the character before cursor
---   'n' -> Return the character after cursor
---   'b' -> Return the half line before cursor
---   'f' -> Return the half line after cursor
--- @treturn string Grabbed string around the cursor
-local function get_ctxt(mode)
-    if mode == 'l' then
-        return fn.matchstr(api.nvim_get_current_line(), '.\\%'..fn.col('.')..'c')
-    elseif mode == 'n' then
-        return fn.matchstr(api.nvim_get_current_line(), '\\%'..fn.col('.')..'c.')
-    elseif mode == 'b' then
-        return fn.matchstr(api.nvim_get_current_line(), '^.*\\%'..fn.col('.')..'c')
-    elseif mode == 'f' then
-        return fn.matchstr(api.nvim_get_current_line(), '\\%'..fn.col('.')..'c.*$')
-    end
-end
-
-local function sur_pair(pair_a)
+local function srd_pair(pair_a)
     local pairs = { ["("]=")", ["["]="]", ["{"]="}", ["<"]=">", [" "]=" ", ["《"]="》", ["“"]="”" }
     if pair_a:match('^[%(%[{<%s《“]+$') then
         local str_list = fn.split(pair_a, '\\zs')
@@ -43,7 +24,7 @@ local function sur_pair(pair_a)
     end
 end
 
-function M.sur_add(mode, ...)
+function M.srd_add(mode, ...)
     local arg_list = {...}
     local pair_a
     if #arg_list > 0 then
@@ -51,19 +32,19 @@ function M.sur_add(mode, ...)
     else
         pair_a = fn.input("Surrounding add: ")
     end
-    local pair_b = sur_pair(pair_a)
+    local pair_b = srd_pair(pair_a)
 
     if mode == 'n' then
         local origin = fn.getpos('.')
-        if (get_ctxt('f'):match('^.%s') or
-            get_ctxt('f'):match('^.$')) then
+        if (lib.get_context('f'):match('^.%s') or
+            lib.get_context('f'):match('^.$')) then
             fn.execute('normal! a'..pair_b)
         else
             fn.execute('normal! Ea'..pair_b)
         end
         fn.setpos('.', origin)
-        if (get_ctxt('l'):match('%s') or
-            get_ctxt('b'):match('^$')) then
+        if (lib.get_context('l'):match('%s') or
+            lib.get_context('b'):match('^$')) then
             fn.execute('normal! i'..pair_a)
         else
             fn.execute('normal! Bi'..pair_a)
@@ -78,19 +59,19 @@ function M.sur_add(mode, ...)
     end
 end
 
-function M.sur_sub(...)
+function M.srd_sub(...)
     local arg_list = {...}
-    local back = get_ctxt('b')
-    local fore = get_ctxt('f')
+    local back = lib.get_context('b')
+    local fore = lib.get_context('f')
     local pair_a = fn.input("Surrounding delete: ")
-    local pair_b = sur_pair(pair_a)
+    local pair_b = srd_pair(pair_a)
     local pair_a_new
     if #arg_list > 0 then
         pair_a_new = arg_list[1]
     else
         pair_a_new = fn.input("Change to: ")
     end
-    local pair_b_new = sur_pair(pair_a_new)
+    local pair_b_new = srd_pair(pair_a_new)
     local search_back = '\\v.*\\zs'..fn.escape(pair_a, ' ()[]{}<>.+*^$')
     local search_fore = '\\v'..fn.escape(pair_b, ' ()[]{}<>.+*^$')
 

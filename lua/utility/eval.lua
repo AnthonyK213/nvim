@@ -1,5 +1,5 @@
 -- Evaluate formula surrounded by backquote.
-local eval = {}
+local M = {}
 local lib = require("/utility/lib")
 
 
@@ -112,14 +112,14 @@ end
 
 
 -- Evaluate Lua chunk surrounded by `.
-function eval.lua_eval()
+function M.lua_eval()
     text_eval(vim.fn.luaeval)
 end
 
 -- Evaluate Lisp chunk(math) surrounded by `.
-function eval.lisp_eval()
+function M.lisp_eval()
     text_eval(lisp_str_eval)
 end
 
 
-return eval
+return M

@@ -78,12 +78,12 @@ keymap('n', '<leader>ob', '<cmd>lua require("utility/util").open_file(vim.fn.exp
 keymap('n', '<leader>cc', '<cmd>lua require("utility/util").hanzi_count("n")<CR>',  { noremap = true, silent = true })
 keymap('v', '<leader>cc', ':<C-u>lua require("utility/util").hanzi_count("v")<CR>', { noremap = true, silent = true })
 -- Append day of week after the date.
-keymap('n', '<leader>dd', ':lua require("utility/util").append_day_from_date()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>dd', ':lua require("utility/note").append_day_from_date()<CR>', { noremap = true, silent = true })
 -- Insert an timestamp at the end of the line.
 keymap('n', '<leader>ds', "A<C-R>=strftime(' [[%Y-%m-%d %a %H:%M]]')<CR><Esc>", { noremap = true, silent = true })
 -- List bullets.
-keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/util").md_insert_bullet()<CR>',  { noremap = true, silent = true })
-keymap('n', '<leader>ml', ':lua require("utility/util").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
+keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  { noremap = true, silent = true })
+keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
 -- Echo git status.
 keymap('n', '<leader>vs', ':!git status<CR>', { noremap = true, silent = true })
 -- Search cword in web browser.
@@ -114,11 +114,11 @@ for key,val in pairs({n='j', p='k'}) do
     keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, { noremap = true, silent = true })
 end
 -- Surround
-keymap('n', '<leader>sa', '<cmd>lua require("utility/lua-surround").sur_add("n")<CR>',  { noremap = true, silent = true })
-keymap('v', '<leader>sa', ':<C-U>lua require("utility/lua-surround").sur_add("v")<CR>', { noremap = true, silent = true })
-keymap('n', '<leader>sd', '<cmd>lua require("utility/lua-surround").sur_sub("")<CR>',   { noremap = true, silent = true })
-keymap('n', '<leader>sc', '<cmd>lua require("utility/lua-surround").sur_sub()<CR>',     { noremap = true, silent = true })
+keymap('n', '<leader>sa', '<cmd>lua require("utility/srd").srd_add("n")<CR>',  { noremap = true, silent = true })
+keymap('v', '<leader>sa', ':<C-U>lua require("utility/srd").srd_add("v")<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>sd', '<cmd>lua require("utility/srd").srd_sub("")<CR>',   { noremap = true, silent = true })
+keymap('n', '<leader>sc', '<cmd>lua require("utility/srd").srd_sub()<CR>',     { noremap = true, silent = true })
 for key,val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
-    keymap('n', '<M-'..key..'>', '<cmd>lua require("utility/lua-surround").sur_add("n","'..val..'")<CR>',  { noremap = true, silent = true })
-    keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/lua-surround").sur_add("v","'..val..'")<CR>', { noremap = true, silent = true })
+    keymap('n', '<M-'..key..'>', '<cmd>lua require("utility/srd").srd_add("n","'..val..'")<CR>',  { noremap = true, silent = true })
+    keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/srd").srd_add("v","'..val..'")<CR>', { noremap = true, silent = true })
 end
