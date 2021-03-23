@@ -401,8 +401,8 @@ function! s:nanovim_set_buf()
   set statusline+=%#Nano_Face_Default#\ 
   set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
   set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
-  set statusline+=%#Nano_Face_Header_Subtle#▎
-  set statusline+=%#Nano_Face_Status_Subtle#%f\ %{Nanovim_Get_Git_Branch()}
+  "set statusline+=%#Nano_Face_Header_Subtle#▎
+  set statusline+=%#Nano_Face_Status_Subtle#\ %f\ %{Nanovim_Get_Git_Branch()}
   set statusline+=%=
   set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
   set statusline+=%#Nano_Face_Default#\ 
