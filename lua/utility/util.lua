@@ -215,7 +215,7 @@ function M.run_or_compile(option)
         if vim.fn.has("win32") ~= 1 then return end
         if option == '' then
             term_cmd = cmdh..' csc '..file..' && '..exec..name
-        elseif vim.fn.match(option, '\\v^b(exe|winexe|library|module)') then
+        elseif vim.fn.match(option, '\\v^b(exe|winexe|library|module)') >= 0 then
             local target = option:match('^b(.+)$')
             term_cmd = cmdh..' csc /target:'..target..' '..file
         else
