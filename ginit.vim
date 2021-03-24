@@ -1,11 +1,7 @@
 " Configuration for nvim-qt
 "" Functions
 function! s:nvimqt_font_set(family, size)
-  if exists('g:fvim_loaded')
-    exe 'set guifont=' . escape(a:family, ' ') . ':h' . a:size
-  else
-    exe 'GuiFont!' a:family . ':h' . a:size
-  endif
+  exe 'GuiFont!' a:family . ':h' . a:size
 endfunction
 
 function! s:nvimqt_font_expand()
@@ -44,27 +40,9 @@ lcd %:p:h
 set mouse=a
 
 "" GUI
-if exists('g:fvim_loaded')
-  " Cursor
-  FVimCursorSmoothMove v:true
-  " Background
-  FVimBackgroundComposition 'blur'
-  FVimBackgroundOpacity 0.92
-  " Title bar
-  FVimCustomTitleBar v:true
-  " Font
-  FVimFontAntialias v:true
-  FVimFontLigature v:true
-  FVimFontLineHeight '+2.0'
-  "FVimFontNoBuiltInSymbols v:true
-  " UI
-  FVimUIPopupMenu v:true
-  nn <silent> <F11> :FVimToggleFullScreen<CR>
-else
-  GuiTabline   0
-  GuiPopupmenu 0
-  GuiLinespace 0
-endif
+GuiTabline   0
+GuiPopupmenu 0
+GuiLinespace 0
 
 if exists('g:gui_background')
   let &bg = g:gui_background
@@ -90,5 +68,5 @@ for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 
   exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
 endfor
 
-" Lazy save the memo.
+"" Lazy save the memo.
 nn <silent> <C-s> :call <SID>nvimqt_memo_lazy_save()<CR>
