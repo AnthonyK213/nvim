@@ -32,10 +32,16 @@ local add = function(args)
 end
 
 local subtract = function(args)
-    if #args == 2 then
-        return args[1] - args[2]
+    local result = args[1]
+    if #args == 0 then
+        error("Wrong number of arguments.")
+    elseif #args == 1 then
+        return -result
     else
-        error("Fick, fick, fick! Mathematik!")
+        for i = 2, #args, 1 do
+            result = result - args[i]
+        end
+        return result
     end
 end
 
@@ -48,10 +54,38 @@ local multiply = function(args)
 end
 
 local divide = function(args)
-    if #args == 2 and args[2] ~= 0 then
-        return args[1] / args[2]
+    local result = args[1]
+    if #args == 0 then
+        error("Wrong number of arguments.")
+    elseif #args == 1 then
+        return 1 / result
     else
-        error("Fick, fick, fick! Mathematik!")
+        for i = 2, #args, 1 do
+            if args[i] ~= 0 then
+                result = result / args[i]
+            else
+                error("Fick, fick, fick! Mathematik!")
+            end
+        end
+    end
+    return result
+end
+
+local power = function(args)
+    local pow_res = 1
+    for i = 2, #args, 1 do
+        pow_res = pow_res * args[i]
+    end
+    return math.pow(args[1], pow_res)
+end
+
+local expow = function(args)
+    if #args == 0 then
+        return math.exp(1)
+    elseif #args == 1 then
+        return math.exp(args[1])
+    else
+        error("Wrong number of arguments.")
     end
 end
 
@@ -60,10 +94,14 @@ local func_map = {
     ['-'] = subtract,
     ['*'] = multiply,
     ['/'] = divide,
+    pow   = power,
+    exp   = expow,
+    pi    = function(args) return math.pi * multiply(args) end,
     sqrt  = function(args) return math.sqrt(args[1]) end,
     sin   = function(args) return math.sin(args[1]) end,
     cos   = function(args) return math.cos(args[1]) end,
     tan   = function(args) return math.tan(args[1]) end,
+    log   = function(args) return math.log(args[1]) end,
 }
 
 local function tree_insert(tree, var, level)
