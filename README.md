@@ -140,7 +140,7 @@
   - <kbd>leader-o-</kbd>     -> **Open**.
     - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd>     -> Open system file manager.
-    - nt:   <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
+    - n:    <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
     - n:    <kbd>t</kbd>     -> Open terminal.
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
