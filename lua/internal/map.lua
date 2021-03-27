@@ -26,7 +26,7 @@ keymap('n', '<leader>el', '<cmd>lua require("utility/eval").lisp_eval()<CR>', { 
 -- Buffer.
 keymap('n', '<leader>bc', '<cmd>lcd %:p:h<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>bd',
-    [[index(['help','terminal','nofile'], &buftype) >= 0 ||]]..
+    [[index(['help','terminal','nofile','quickfix'], &buftype) >= 0 ||]]..
     [[len(getbufinfo({'buflisted':1})) <= 2 ?]]..
     [[":bd<CR>" : ":bp|bd#<CR>"]],
     { noremap = true, silent = true, expr = true })

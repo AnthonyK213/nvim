@@ -17,6 +17,18 @@ function M.vim_markdown_math_toggle()
     vim.fn.execute('syn off | syn on')
 end
 
+-- Toc
+function M.toc_of_md_tex()
+    if vim.bo.filetype == 'markdown' then
+        vim.cmd('Tocv')
+        vim.cmd('vertical resize 50')
+    elseif vim.bo.filetype == 'tex' then
+        vim.cmd('VimtexTocToggle')
+    else
+        print("Filetype "..vim.bo.filetype.." doesn't support Toc.")
+    end
+end
+
 -- Extend theme one.
 function M.ui_one_extend()
     local one_h = function(...) vim.call('one#highlight', ...) end

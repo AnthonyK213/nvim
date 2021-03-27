@@ -19,7 +19,7 @@ keymap('n', '<leader>vK', '9999<Plug>(signify-prev-hunk)', { noremap = false, si
 keymap('n', '<leader>vt', ':SignifyToggle<CR>',            { noremap = true,  silent = true })
 -- vim-markdown
 keymap('n', '<leader>mh', ':Toch<CR>:resize 15<CR>',                                     { noremap = true, silent = true })
-keymap('n', '<leader>mv', ':Tocv<CR>:vertical resize 50<CR>',                            { noremap = true, silent = true })
+keymap('n', '<leader>mv', ':lua require("utility/misc").toc_of_md_tex()<CR>',            { noremap = true, silent = true })
 keymap('n', '<leader>mm', ':lua require("utility/misc").vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
 -- vim-table-mode
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
@@ -45,7 +45,7 @@ keymap('i', '<S-TAB>',    '<Plug>(completion_smart_s_tab)', { noremap = false, s
 keymap('i', '<C-C><C-J>', '<Plug>(completion_next_source)', { noremap = false, silent = true })
 keymap('i', '<C-C><C-K>', '<Plug>(completion_prev_source)', { noremap = false, silent = true })
 -- nvim-lspconfig
-keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',       { noremap = true, silent = true })
+keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ga', '<cmd>lua vim.lsp.buf.code_action()<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.declaration()<CR>',      { noremap = true, silent = true })
