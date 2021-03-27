@@ -1,7 +1,11 @@
 " Configuration for nvim-qt
 "" Functions
 function! s:nvimqt_font_set(family, size)
-  exe 'GuiFont!' a:family . ':h' . a:size
+  if exists('g:fvim_loaded')
+    exe 'set guifont=' . escape(a:family, ' ') . ':h' . a:size
+  else
+    exe 'GuiFont!' a:family . ':h' . a:size
+  endif
 endfunction
 
 function! s:nvimqt_font_expand()
@@ -33,29 +37,58 @@ endfunction
 
 
 "" Set behaviors
-exe 'cd' g:usr_desktop
+if exists('g:usr_desktop')
+  exe 'cd' g:usr_desktop
+endif
 lcd %:p:h
 set mouse=a
 
 "" GUI
-:GuiTabline   0
-:GuiPopupmenu 0
-:GuiLinespace 0
+if exists('g:fvim_loaded')
+  " Cursor
+  FVimCursorSmoothMove v:true
+  " Background
+  FVimBackgroundComposition 'blur'
+  FVimBackgroundOpacity 0.92
+  " Title bar
+  FVimCustomTitleBar v:true
+  " Font
+  FVimFontAntialias v:true
+  FVimFontLigature v:true
+  FVimFontLineHeight '+2.0'
+  "FVimFontNoBuiltInSymbols v:true
+  " UI
+  FVimUIPopupMenu v:true
+  nn <silent> <F11> :FVimToggleFullScreen<CR>
+else
+  GuiTabline   0
+  GuiPopupmenu 0
+  GuiLinespace 0
+endif
+
+if exists('g:gui_background')
+  let &bg = g:gui_background
+endif
 
 "" Font
-let g:gui_font_size = 10
-let g:gui_font_family = '等距更纱黑体 SC'
+if !exists('g:gui_font_size')
+  let g:gui_font_size = 10
+endif
+if !exists('gui_font_family')
+  let g:gui_font_family = 'Monospace'
+endif
 call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
 
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
 
-nn  <silent> <C-=> :call <SID>nvimqt_font_expand()<CR>
-nn  <silent> <C--> :call <SID>nvimqt_font_shrink()<CR>
-nn  <silent> <C-0> :call <SID>nvimqt_font_origin()<CR>
-ino <silent> <C-=> <C-o>:call <SID>nvimqt_font_expand()<CR>
-ino <silent> <C--> <C-o>:call <SID>nvimqt_font_shrink()<CR>
-ino <silent> <C-0> <C-o>:call <SID>nvimqt_font_origin()<CR>
+nn  <silent> <C-0> <cmd>call       <SID>nvimqt_font_origin()<CR>
+ino <silent> <C-0> <C-\><C-o>:call <SID>nvimqt_font_origin()<CR>
+
+for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 'ScrollWheelDown':'shrink' })
+  exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>nvimqt_font_' . val . '()<CR>'
+  exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
+endfor
 
 " Lazy save the memo.
 nn <silent> <C-s> :call <SID>nvimqt_memo_lazy_save()<CR>
