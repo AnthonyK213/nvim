@@ -21,6 +21,12 @@ tno <silent> <leader>op <C-\><C-N>:20Lexplore<CR>
 
 
 " Pairs
+"" Directional operation which won't mess up the history.
+let g:const_dir_l = "\<C-g>U\<Left>"
+let g:const_dir_d = "\<C-g>U\<Down>"
+let g:const_dir_u = "\<C-g>U\<Up>"
+let g:const_dir_r = "\<C-g>U\<Right>"
+
 let g:subrc_pairs_dict = {
       \ "("  : ")",
       \ "["  : "]",
