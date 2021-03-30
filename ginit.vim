@@ -19,6 +19,11 @@ function! s:nvimqt_font_origin()
   call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
 endfunction
 
+function! s:nvimqt_bg()
+  let l:hour = str2nr(strftime('%H'))
+  let &bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
+endfunction
+
 function! s:nvimqt_memo_lazy_save()
   if expand('%:t') ==? ''
     if exists('g:onedrive_path')
@@ -44,8 +49,10 @@ GuiTabline   0
 GuiPopupmenu 0
 GuiLinespace 0
 
-if exists('g:gui_background')
+if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
+else
+  call s:nvimqt_bg()
 endif
 
 "" Font
