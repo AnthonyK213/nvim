@@ -28,7 +28,15 @@ function! s:nvimqt_bg_checker(timer_id)
   call s:nvimqt_bg()
 endfunction
 
-function! s:nvimqt_memo_lazy_save()
+function! s:nvimqt_fullscreen_toggle()
+  call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
+endfunction
+
+function! s:gui_line_number_toggle()
+  let &nu = (&nu + 1) % 2
+endfunction
+
+function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
@@ -75,6 +83,8 @@ call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
 
+"" Gui key bindings.
+""" Font size
 nn  <silent> <C-0> <cmd>call       <SID>nvimqt_font_origin()<CR>
 ino <silent> <C-0> <C-\><C-o>:call <SID>nvimqt_font_origin()<CR>
 
@@ -82,6 +92,11 @@ for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 
   exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>nvimqt_font_' . val . '()<CR>'
   exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
 endfor
-
-"" Lazy save the memo.
-nn <silent> <C-s> :call <SID>nvimqt_memo_lazy_save()<CR>
+""" Toggle full screen
+nn  <silent> <F11> :call <SID>nvimqt_fullscreen_toggle()<CR>
+ino <silent> <F11> <C-\><C-o>:call <SID>nvimqt_fullscreen_toggle()<CR>
+""" Toggle line number display
+nn  <silent> <F10> :call <SID>gui_line_number_toggle()<CR>
+ino <silent> <F10> <C-\><C-o>:call <SID>gui_line_number_toggle()<CR>
+""" Lazy save the memo.
+nn <silent> <C-s> :call <SID>gui_memo_lazy_save()<CR>
