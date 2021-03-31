@@ -29,7 +29,9 @@ function! s:nvimqt_bg_checker(timer_id)
 endfunction
 
 function! s:nvimqt_memo_lazy_save()
-  if expand('%:t') ==? ''
+  if !empty(&bt)
+    return
+  elseif empty(expand('%:t'))
     if exists('g:onedrive_path')
       silent exe 'w' g:onedrive_path . '/Documents/Agenda/diary/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     else
