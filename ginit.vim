@@ -32,10 +32,6 @@ function! s:nvimqt_fullscreen_toggle()
   call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
 endfunction
 
-function! s:gui_line_number_toggle()
-  let &nu = (&nu + 1) % 2
-endfunction
-
 function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
@@ -92,11 +88,11 @@ for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 
   exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>nvimqt_font_' . val . '()<CR>'
   exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
 endfor
+""" Toggle line number display
+nn  <silent> <F10> :set invnumber<CR>
+ino <silent> <F10> <C-\><C-o>:set invnumber<CR>
 """ Toggle full screen
 nn  <silent> <F11> :call <SID>nvimqt_fullscreen_toggle()<CR>
 ino <silent> <F11> <C-\><C-o>:call <SID>nvimqt_fullscreen_toggle()<CR>
-""" Toggle line number display
-nn  <silent> <F10> :call <SID>gui_line_number_toggle()<CR>
-ino <silent> <F10> <C-\><C-o>:call <SID>gui_line_number_toggle()<CR>
 """ Lazy save the memo.
-nn <silent> <C-s> :call <SID>gui_memo_lazy_save()<CR>
+nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>

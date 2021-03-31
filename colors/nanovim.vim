@@ -373,12 +373,12 @@ hi link sqlKeyword               Nano_Face_Salient
 
 " StatusLine {{
 " Get mode
-function Nanovim_Get_Mode()
+function! Nanovim_Get_Mode()
   return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
 endfunction
 
 " Get the branch
-function Nanovim_Get_Git_Branch()
+function! Nanovim_Get_Git_Branch()
   let l:current_dir = expand('%:p:h')
   let l:is_git_repo = 0
   while 1
