@@ -24,6 +24,10 @@ function! s:nvimqt_bg()
   let &bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
 endfunction
 
+function! s:nvimqt_bg_checker(timer_id)
+  call s:nvimqt_bg()
+endfunction
+
 function! s:nvimqt_memo_lazy_save()
   if expand('%:t') ==? ''
     if exists('g:onedrive_path')
@@ -54,6 +58,8 @@ if exists('g:gui_background') && !empty(g:gui_background)
 else
   call s:nvimqt_bg()
 endif
+
+let timer_id = timer_start(1800000, function('<SID>nvimqt_bg_checker'), { 'repeat': -1 })
 
 "" Font
 if !exists('g:gui_font_size')
