@@ -123,5 +123,6 @@ for key,val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
     keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/srd").srd_add("v","'..val..'")<CR>', { noremap = true, silent = true })
 end
 -- Comment
---keymap("n", "<leader>la", '<cmd>lua require("test/cmt").cmt_norm()<CR>', { noremap = true, silent = true })
---keymap("v", "<leader>la", ':<C-U>lua require("test/cmt").cmt_vis()<CR>', { noremap = true, silent = true })
+keymap("n", "<leader>la", '<cmd>lua require("utility/cmt").cmt_add_norm()<CR>', { noremap = true, silent = true })
+keymap("v", "<leader>la", ':<C-U>lua require("utility/cmt").cmt_add_vis()<CR>', { noremap = true, silent = true })
+keymap("n", "<leader>ld", '<cmd>lua require("utility/cmt").cmt_del_norm()<CR>', { noremap = true, silent = true })

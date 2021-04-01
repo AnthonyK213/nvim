@@ -82,6 +82,18 @@ function M.str_escape(str, esc_table)
     return table.concat(str_list)
 end
 
+-- Escape lua regex special characters in a string by '%'.
+function M.lua_reg_esc(str)
+    local str_list = vim.fn.split(str, '\\zs')
+    local esc_table = { '(', ')', '[', ']', '.', '%', '+', '-', '*', '?', '^', '$' }
+    for i,v in ipairs(str_list) do
+        if vim.fn.index(esc_table, v) >= 0 then
+            str_list[i] = '%'..v
+        end
+    end
+    return table.concat(str_list)
+end
+
 -- Return the selections.
 function M.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
