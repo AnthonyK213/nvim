@@ -72,6 +72,7 @@ end
 function M.terminal()
     lib.belowright_split(15)
     vim.fn.execute('terminal '..util_def_shell)
+    vim.cmd('setl nonu')
 end
 
 --- Show documents.
