@@ -8,15 +8,16 @@ local cmt_mark_tab_single = {
     c = "//",
     cpp = "//",
     cs = "//",
-    rust = "//",
     java = "//",
-    python = "#",
     lua = "--",
-    -- No multiline comment marks.
+    rust = "//",
+    -- No multiline comment marks;
+    -- Or something stupid like python.
     lisp = ";;",
-    vim = '"',
     perl = '#',
+    python = "#",
     tex = "%",
+    vim = '"',
     vimwiki = "%% "
 }
 
@@ -26,8 +27,8 @@ local cmt_mark_tab_multi = {
     cs = { "/*", "*/" },
     rust = { "/*", "*/" },
     java = { "/*", "*/" },
-    python = { "'''", "'''" },
-    lua = { "--[[", "]]" }
+    lua = { "--[[", "]]" },
+    --python = { "'''", "'''" },
 }
 
 function M.cmt_add_norm()
@@ -70,7 +71,6 @@ function M.cmt_add_vis()
     end
 end
 
---[[
 local function is_cmt_line()
     local line = api.nvim_get_current_line()
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
@@ -82,12 +82,25 @@ local function is_cmt_line()
     return false, line
 end
 
+--[[
 local function is_cmt_block()
     local lnum_c = fn.line('.')
+    local c_line_b = lib.get_context('b')
+    local c_line_f = lib.get_context('f')
+    local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
+    local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
+    if c_line_b:match("") then
+    end
+    if c_line_f:mathc("") then
+    end
     while lnum_c > 0 do
         lnum_c = lnum_c - 1
     end
+    while lnum_c <= fn.line('$') do
+        lnum_c = lnum_c + 1
+    end
 end
+]]
 
 function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
@@ -96,12 +109,13 @@ function M.cmt_del_norm()
         fn.setline('.', line_new)
         return
     end
+    --[[
     local cmt_block = is_cmt_block()
     if cmt_block then
 
     end
+    ]]
 end
-]]
 
 
 return M
