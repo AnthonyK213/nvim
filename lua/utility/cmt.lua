@@ -12,6 +12,7 @@ local cmt_mark_tab_single = {
     java = "//",
     python = "#",
     lua = "--",
+    -- No multiline comment marks.
     lisp = ";;",
     vim = '"',
     perl = '#',
