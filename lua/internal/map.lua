@@ -126,3 +126,4 @@ end
 keymap("n", "<leader>la", '<cmd>lua require("utility/cmt").cmt_add_norm()<CR>', { noremap = true, silent = true })
 keymap("v", "<leader>la", ':<C-U>lua require("utility/cmt").cmt_add_vis()<CR>', { noremap = true, silent = true })
 keymap("n", "<leader>ld", '<cmd>lua require("utility/cmt").cmt_del_norm()<CR>', { noremap = true, silent = true })
+keymap("v", "<leader>ld", ':<C-U>lua require("utility/cmt").cmt_del_vis()<CR>', { noremap = true, silent = true })

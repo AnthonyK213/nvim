@@ -13,7 +13,7 @@ local cmt_mark_tab_single = {
     rust = "//",
     -- No multiline comment marks;
     -- Or something stupid like python.
-    lisp = ";;",
+    lisp = ";",
     perl = '#',
     python = "#",
     tex = "%",
@@ -71,8 +71,8 @@ function M.cmt_add_vis()
     end
 end
 
-local function is_cmt_line()
-    local line = api.nvim_get_current_line()
+local function is_cmt_line(lnum)
+    local line = fn.getline(lnum)
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
     local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
     if line:match("^%s*"..esc_cmt_mark..".*$") then
@@ -104,7 +104,7 @@ end
 
 function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
-    local cmt_line, line_new = is_cmt_line()
+    local cmt_line, line_new = is_cmt_line('.')
     if cmt_line then
         fn.setline('.', line_new)
         return
@@ -115,6 +115,17 @@ function M.cmt_del_norm()
 
     end
     ]]
+end
+
+function M.cmt_del_vis()
+    local lnum_s = fn.getpos("'<")[2]
+    local lnum_e = fn.getpos("'>")[2]
+    for i = lnum_s, lnum_e, 1 do
+        local cmt_line, line_new = is_cmt_line(i)
+        if cmt_line then
+            fn.setline(i, line_new)
+        end
+    end
 end
 
 
