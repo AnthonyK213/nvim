@@ -70,16 +70,38 @@ function M.cmt_add_vis()
     end
 end
 
-function M.cmt_del_norm()
+--[[
+local function is_cmt_line()
+    local line = api.nvim_get_current_line()
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
-    if not cmt_mark then return end
-    local line_old = fn.getline('.')
     local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
-    if line_old:match("^%s*"..esc_cmt_mark..".*$") then
-        local l, r = line_old:match("^(%s*)"..esc_cmt_mark.."(.*)$")
-        fn.setline('.', l..r)
+    if line:match("^%s*"..esc_cmt_mark..".*$") then
+        local l, r = line:match("^(%s*)"..esc_cmt_mark.."(.*)$")
+        return true, l..r
+    end
+    return false, line
+end
+
+local function is_cmt_block()
+    local lnum_c = fn.line('.')
+    while lnum_c > 0 do
+        lnum_c = lnum_c - 1
     end
 end
+
+function M.cmt_del_norm()
+    if not cmt_mark_tab_single[vim.bo.filetype] then return end
+    local cmt_line, line_new = is_cmt_line()
+    if cmt_line then
+        fn.setline('.', line_new)
+        return
+    end
+    local cmt_block = is_cmt_block()
+    if cmt_block then
+
+    end
+end
+]]
 
 
 return M
