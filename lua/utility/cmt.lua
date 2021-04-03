@@ -25,9 +25,9 @@ local cmt_mark_tab_multi = {
     c = { "/*", "*/" },
     cpp = { "/*", "*/" },
     cs = { "/*", "*/" },
-    rust = { "/*", "*/" },
     java = { "/*", "*/" },
     lua = { "--[[", "]]" },
+    rust = { "/*", "*/" },
     --python = { "'''", "'''" },
 }
 
@@ -67,7 +67,7 @@ function M.cmt_add_vis()
             end
         end
     else
-        print("Unfortunately, neovim have no idea how to comment "..vim.bo.filetype.." file.")
+        print("Have no idea how to comment "..vim.bo.filetype.." file.")
     end
 end
 
