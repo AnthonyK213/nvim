@@ -30,22 +30,28 @@ function M.toc_of_md_tex()
 end
 
 -- Extend theme one.
-function M.ui_one_extend()
-    local one_h = function(...) vim.call('one#highlight', ...) end
+local function set_hi(group, fg, bg, attr)
+    local cmd = "highlight "..group
+    if fg then cmd = cmd.." guifg="..fg end
+    if bg then cmd = cmd.." guibg="..bg end
+    if attr then cmd = cmd.." gui="..attr end
+    vim.cmd(cmd)
+end
 
-    one_h('SpellBad',         'e06c75', '', 'underline')
-    one_h('SpellCap',         'd19a66', '', 'underline')
-    one_h('mkdBold',          '4b5263', '', '')
-    one_h('mkdItalic',        '4b5263', '', '')
-    one_h('mkdBoldItalic',    '4b5263', '', '')
-    one_h('mkdCodeDelimiter', '4b5263', '', '')
-    one_h('htmlBold',         'd19a66', '', 'bold')
-    one_h('htmlItalic',       'c678dd', '', 'italic')
-    one_h('htmlBoldItalic',   'e5c07b', '', 'bold,italic')
-    one_h('htmlH1',           'e06c75', '', 'bold')
-    one_h('htmlH2',           'e06c75', '', 'bold')
-    one_h('htmlH3',           'e06c75', '', '')
-    one_h('mkdHeading',       'e06c75', '', '')
+function M.ui_one_extend()
+    set_hi('SpellBad',         '#e06c75', nil, 'underline')
+    set_hi('SpellCap',         '#d19a66', nil, 'underline')
+    set_hi('mkdBold',          '#4b5263', nil, nil)
+    set_hi('mkdItalic',        '#4b5263', nil, nil)
+    set_hi('mkdBoldItalic',    '#4b5263', nil, nil)
+    set_hi('mkdCodeDelimiter', '#4b5263', nil, nil)
+    set_hi('htmlBold',         '#d19a66', nil, 'bold')
+    set_hi('htmlItalic',       '#c678dd', nil, 'italic')
+    set_hi('htmlBoldItalic',   '#e5c07b', nil, 'bold,italic')
+    set_hi('htmlH1',           '#e06c75', nil, 'bold')
+    set_hi('htmlH2',           '#e06c75', nil, 'bold')
+    set_hi('htmlH3',           '#e06c75', nil, nil)
+    set_hi('mkdHeading',       '#e06c75', nil, nil)
 end
 
 -- indent-guides.nvim toggle colors.

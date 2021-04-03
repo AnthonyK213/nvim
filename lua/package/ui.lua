@@ -2,9 +2,9 @@ vim.o.tgc = true
 local augroup = require("utility/misc").set_au_group
 
 
--- vim-one
-vim.cmd('packadd vim-one')
-vim.g.one_allow_italics = 1
+-- one-nvim
+vim.cmd('packadd one-nvim')
+vim.g.one_nvim_transparent_bg = false
 
 
 -- lualine.nvim
@@ -50,8 +50,8 @@ vim.cmd('packadd indent-guides.nvim')
 
 -- Load color scheme.
 augroup('one_ui_setup',
-'ColorScheme one lua local misc = require("utility/misc") '
+'ColorScheme one-nvim lua local misc = require("utility/misc") '
 ..'misc.ui_one_extend() '
 ..'misc.lualine_setup() '
 ..'misc.indent_guides_color_toggle()')
-vim.cmd('colorscheme one')
+vim.cmd('colorscheme one-nvim')

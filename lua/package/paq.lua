@@ -4,7 +4,7 @@ local paq = require('paq-nvim').paq
 
 paq {'savq/paq-nvim', opt=true}
 -- Visual
-paq {'rakr/vim-one', opt=true}
+paq {'Th3Whit3Wolf/one-nvim', opt=true}
 paq {'hoob3rt/lualine.nvim', opt=true}
 paq {'akinsho/nvim-bufferline.lua', opt=true}
 paq {'glepnir/indent-guides.nvim', opt=true}
