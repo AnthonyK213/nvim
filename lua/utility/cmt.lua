@@ -39,7 +39,7 @@ function M.cmt_add_norm()
         api.nvim_feedkeys(cmd, 'x', true)
         fn.setpos('.', pos)
     else
-        print("Unfortunately, neovim have no idea how to comment "..vim.bo.filetype.." file.")
+        print("Have no idea how to comment "..vim.bo.filetype.." file.")
     end
 end
 
