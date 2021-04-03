@@ -30,7 +30,7 @@
   ```bash
   git clone https://github.com/AnthonyK213/nvim.git
   ```
-* **Set up /lua/core/opt.lua**
+* **Set up lua/core/opt.lua**
 
 
 ## Modules
