@@ -36,7 +36,7 @@ function M.cmt_add_norm()
     if cmt_mark then
         local pos = fn.getpos('.')
         local cmd = api.nvim_replace_termcodes("I"..cmt_mark, true, false, true)
-        api.nvim_feedkeys(cmd, 'x', true)
+        api.nvim_feedkeys(cmd, 'xn', true)
         fn.setpos('.', pos)
     else
         print("Have no idea how to comment "..vim.bo.filetype.." file.")
