@@ -82,25 +82,103 @@ local function is_cmt_line(lnum)
     return false, line
 end
 
---[[
-local function is_cmt_block()
+local function del_cmt_block()
     local lnum_c = fn.line('.')
+    --[[
     local c_line_b = lib.get_context('b')
     local c_line_f = lib.get_context('f')
-    local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
-    local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
-    if c_line_b:match("") then
+    ]]
+    local cmt_mark = cmt_mark_tab_multi[vim.bo.filetype]
+
+    if not cmt_mark then return end
+
+    local cmt_mark_a = cmt_mark[1]
+    local cmt_mark_b = cmt_mark[2]
+    local lua_cmt_mark_a = lib.lua_reg_esc(cmt_mark_a)
+    local lua_cmt_mark_b = lib.lua_reg_esc(cmt_mark_b)
+    --local sub_b, sub_f = false, false
+
+    --[[
+    if c_line_b:match(lua_cmt_mark_a..".-$") then
+        local pos_a = c_line_b:find(lua_cmt_mark_a..".-$")
+        if c_line_b:match(lua_cmt_mark_b..".-$") then
+            local pos_b = c_line_b:find(lua_cmt_mark_b..".-$")
+            if pos_a < pos_b then
+                goto c_line_b_end
+            end
+        end
+        c_line_b = c_line_b:gsub(lua_cmt_mark_a, "")
+        sub_b = true
     end
-    if c_line_f:mathc("") then
+    ::c_line_b_end::
+    ]]
+
+    for i = lnum_c - 1, 1, -1 do
+        local line_p = fn.getline(i)
+        if (line_p:match(lua_cmt_mark_b..".-$") and not
+            line_p:match(lua_cmt_mark_a..".-$")) then
+            return
+        end
+        if line_p:match(lua_cmt_mark_a..".-$") then
+            local pos_a = line_p:find(lua_cmt_mark_a..".-$")
+            if line_p:match(lua_cmt_mark_b..".-$") then
+                local pos_b = line_p:find(lua_cmt_mark_b..".-$")
+                if pos_a < pos_b then
+                    return
+                end
+            end
+            if line_p:match("^%s*"..lua_cmt_mark_a.."%s*$") then
+                vim.cmd(i.."d")
+                lnum_c = lnum_c - 1
+            else
+                line_p = line_p:gsub(lua_cmt_mark_a, "")
+                fn.setline(i, line_p)
+            end
+            break
+        end
     end
-    while lnum_c > 0 do
-        lnum_c = lnum_c - 1
+
+    --[[
+    if c_line_f:match("^.-"..lua_cmt_mark_b) then
+        local pos_b = c_line_f:find(lua_cmt_mark_b..".+$")
+        if c_line_f:match("^.-"..lua_cmt_mark_a) then
+            local pos_a = c_line_f:find(lua_cmt_mark_a..".+$")
+            if pos_a < pos_b then
+                goto c_line_f_end
+            end
+        end
+        c_line_f = c_line_f:gsub(lua_cmt_mark_b, "")
+        sub_f = true
     end
-    while lnum_c <= fn.line('$') do
-        lnum_c = lnum_c + 1
+    ::c_line_f_end::
+    ]]
+
+    --[[
+    if sub_b and sub_f then
+        fn.setline(lnum_c, c_line_b..c_line_f)
+    end
+    ]]
+
+    for i = lnum_c + 1, fn.line('$'), 1 do
+        local line_n = fn.getline(i)
+        if line_n:match(lua_cmt_mark_b..".*$") then
+            local pos_b = line_n:find(lua_cmt_mark_b..".*$")
+            if line_n:match(lua_cmt_mark_a..".*$") then
+                local pos_a = line_n:find(lua_cmt_mark_a..".*$")
+                if pos_a < pos_b then
+                    return
+                end
+            end
+            if line_n:match("^%s*"..lua_cmt_mark_b.."%s*$") then
+                vim.cmd(i.."d")
+            else
+                line_n = line_n:gsub(lua_cmt_mark_b, "")
+                fn.setline(i, line_n)
+            end
+            break
+        end
     end
 end
-]]
 
 function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
@@ -109,12 +187,7 @@ function M.cmt_del_norm()
         fn.setline('.', line_new)
         return
     end
-    --[[
-    local cmt_block = is_cmt_block()
-    if cmt_block then
-
-    end
-    ]]
+    del_cmt_block()
 end
 
 function M.cmt_del_vis()

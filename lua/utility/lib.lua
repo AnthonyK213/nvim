@@ -94,6 +94,11 @@ function M.lua_reg_esc(str)
     return table.concat(str_list)
 end
 
+-- Escape vim regex(magic) special characters in a string by '%'.
+function M.vim_reg_esc(str)
+    return vim.fn.escape(str, ' ()[]{}<>.+*^$')
+end
+
 -- Return the selections.
 function M.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
