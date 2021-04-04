@@ -132,6 +132,9 @@
     - nv:   <kbd>g</kbd>     -> Google
     - nv:   <kbd>h</kbd>     -> Github
     - nv:   <kbd>y</kbd>     -> Youdao
+  - <kbd>leader-l-</kbd>     -> **Comment**
+    - nv:   <kbd>a</kbd>     -> Comment line/block
+    - nv:   <kbd>d</kbd>     -> Un-comment line/block
   - <kbd>leader-m-</kbd>     -> **vim-markdown**
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
