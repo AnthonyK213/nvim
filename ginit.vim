@@ -89,8 +89,11 @@ for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 
   exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
 endfor
 """ Toggle line number display
-nn  <silent> <F10> :set invnumber<CR>
-ino <silent> <F10> <C-\><C-o>:set invnumber<CR>
+nn  <silent> <F9> :set invnumber<CR>
+ino <silent> <F9> <C-\><C-o>:set invnumber<CR>
+""" Toggle relative line number display
+nn  <silent> <F10> :set invrelativenumber<CR>
+ino <silent> <F10> <C-\><C-o>:set invrelativenumber<CR>
 """ Toggle full screen
 nn  <silent> <F11> :call <SID>nvimqt_fullscreen_toggle()<CR>
 ino <silent> <F11> <C-\><C-o>:call <SID>nvimqt_fullscreen_toggle()<CR>
