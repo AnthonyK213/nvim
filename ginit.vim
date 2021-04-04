@@ -32,6 +32,14 @@ function! s:nvimqt_fullscreen_toggle()
   call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
 endfunction
 
+function! s:gui_number_toggle()
+  if &rnu == 1 | set nornu | endif | set invnu
+endfunction
+
+function! s:gui_relative_number_toggle()
+  if &nu == 1 | set invrnu | else | set nu rnu | endif
+endfunction
+
 function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
@@ -89,11 +97,11 @@ for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 
   exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
 endfor
 """ Toggle line number display
-nn  <silent> <F9> :set invnumber<CR>
-ino <silent> <F9> <C-\><C-o>:set invnumber<CR>
+nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
+ino <silent> <F9> <C-\><C-o>:call <SID>gui_number_toggle()<CR>
 """ Toggle relative line number display
-nn  <silent> <F10> :set invrelativenumber<CR>
-ino <silent> <F10> <C-\><C-o>:set invrelativenumber<CR>
+nn  <silent> <F10> :call <SID>gui_relative_number_toggle()<CR>
+ino <silent> <F10> <C-\><C-o>:call <SID>gui_relative_number_toggle()<CR>
 """ Toggle full screen
 nn  <silent> <F11> :call <SID>nvimqt_fullscreen_toggle()<CR>
 ino <silent> <F11> <C-\><C-o>:call <SID>nvimqt_fullscreen_toggle()<CR>
