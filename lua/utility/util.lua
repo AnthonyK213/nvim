@@ -270,5 +270,26 @@ function M.run_or_compile(option)
     end
 end
 
+function M.nvim_nightly_upgrade(...)
+    local arg_list = {...}
+    local proxy_args
+
+    if #arg_list == 0 then
+        proxy_args = ""
+    elseif arg_list[1] == "default" then
+        proxy_args = " -proxy default"
+    else
+        proxy_args = " -proxy "..arg_list[1]
+    end
+
+    local script_name = "nvim_nightly_upgrade"
+    if vim.fn.has("win32") == 1 then
+        local script_path = vim.fn.expand("$localappdata")..'/nvim/shell/'..
+        script_name.."_win.ps1"..proxy_args
+        lib.belowright_split(30)
+        vim.fn.execute("term powershell "..script_path)
+    end
+end
+
 
 return M

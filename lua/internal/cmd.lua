@@ -13,6 +13,9 @@ require("utility/misc").set_au_group(
 'BufEnter *.md setlocal so=999'
 )
 
+-- Neovim nightly upgrade
+vim.cmd('command! -nargs=* NightlyUpgrade lua require("utility/util").nvim_nightly_upgrade(<f-args>)')
+
 -- Run code complete option list.
 function RUN_CODE_OPTION()
     local ft = vim.bo.filetype
