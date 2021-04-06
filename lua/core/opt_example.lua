@@ -4,6 +4,13 @@ return {
     --py3 = '/usr/bin/python3',
     --bg  = 'dark',
     --[[
+    gui = {
+        font_family = 'Consolas',
+        font_size = 12,
+        bg = 'light'
+    },
+    ]]
+    --[[
     lsp = {
         -- C, C++
         clangd = false,
@@ -23,10 +30,9 @@ return {
     },
     ]]
     --[[
-    gui = {
-        font_family = 'Consolas',
-        font_size = 12,
-        bg = 'light'
+    ts = {
+        ensure = { "c", "rust", "python", "lua" },
+        hi_disable = { "c" }
     }
     ]]
 }

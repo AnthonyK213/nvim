@@ -215,6 +215,11 @@ vim.lsp.diagnostic.on_publish_diagnostics,
 
 
 -- treesitter
+local ts_option = require("core/opt").ts or {}
 require'nvim-treesitter.configs'.setup {
-    highlight = { enable = true },
+    ensure_installed = ts_option.ensure or { "c" },
+    highlight = {
+        enable = true,
+        disable = ts_option.hi_disable or {}
+    },
 }
