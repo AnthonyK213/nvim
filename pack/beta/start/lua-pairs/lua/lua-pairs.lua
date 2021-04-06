@@ -210,7 +210,7 @@ function M.lp_supbs()
     local res = { false, 0, 0 }
     for key, val in pairs(vim.b.lp_buf) do
         if (back:match(reg_esc(key)..'$') and
-            '^'..fore:match(reg_esc(val)) and
+            fore:match('^'..reg_esc(val)) and
             #key + #val > res[2] + res[3]) then
             res = { true, #key, #val }
         end
