@@ -1,6 +1,6 @@
--- Disable matchit & matchparen
+-- matchit & matchparen
 vim.g.loaded_matchit = 0
-vim.g.loaded_matchparen = 0
+--vim.g.loaded_matchparen = 0
 
 
 -- NERDTree
