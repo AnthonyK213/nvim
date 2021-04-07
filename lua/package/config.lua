@@ -1,6 +1,6 @@
 -- matchit & matchparen
-vim.g.loaded_matchit = 0
---vim.g.loaded_matchparen = 0
+vim.g.loaded_matchit = 1
+--vim.g.loaded_matchparen = 1
 
 
 -- NERDTree
