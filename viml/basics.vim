@@ -26,7 +26,7 @@ set formatoptions+=B  " Prevent space when merge lines in Chinese
 
 
 " Behavior
-set showmatch matchtime=5
+"set showmatch matchtime=5
 set autoindent smartindent
 set tabstop=4 shiftwidth=4 softtabstop=4
 set wrap linebreak showbreak=>
