@@ -1,3 +1,8 @@
+-- Disable matchit & matchparen
+vim.g.loaded_matchit = 0
+vim.g.loaded_matchparen = 0
+
+
 -- NERDTree
 vim.g.NERDTreeDirArrowExpandable  = '+'
 vim.g.NERDTreeDirArrowCollapsible = '-'
@@ -216,7 +221,7 @@ vim.lsp.diagnostic.on_publish_diagnostics,
 
 -- treesitter
 local ts_option = require("core/opt").ts or {}
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
     ensure_installed = ts_option.ensure or { "c" },
     highlight = {
         enable = true,
