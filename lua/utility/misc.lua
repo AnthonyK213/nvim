@@ -103,11 +103,13 @@ local mode_alias = {
 }
 
 --- If file is readonly.
+--[[
 local function file_readonly()
     if vim.bo.filetype == 'help' then return '' end
     if vim.bo.readonly == true then return 'RO' end
     return ''
 end
+]]
 
 --- Current mode.
 local function get_current_mode()
@@ -128,20 +130,20 @@ function M.lualine_setup()
             icons_enabled = false
         },
         sections = {
-            lualine_a = { get_current_mode },
-            lualine_b = { 'branch' },
-            lualine_c = { file_readonly, { 'filename', full_path=true, shorten=false }, 'diff' },
-            lualine_x = { { 'diagnostics', sources={ 'nvim_lsp' } }, 'filetype' },
-            lualine_y = { 'encoding', 'fileformat' },
-            lualine_z = { 'progress', 'location' },
+            lualine_a = {get_current_mode},
+            lualine_b = {'branch'},
+            lualine_c = {{'filename', full_path=true, shorten=false}, 'diff'},
+            lualine_x = {{'diagnostics', sources={'nvim_lsp'}}, 'filetype'},
+            lualine_y = {'encoding', 'fileformat'},
+            lualine_z = {'progress', 'location'},
         },
         inactive_sections = {
-            lualine_a = { },
-            lualine_b = { },
-            lualine_c = { 'filename' },
-            lualine_x = { 'location' },
-            lualine_y = { },
-            lualine_z = { },
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = {'filename'},
+            lualine_x = {'location'},
+            lualine_y = {},
+            lualine_z = {},
         },
         extensions = { 'nerdtree' }
     }
