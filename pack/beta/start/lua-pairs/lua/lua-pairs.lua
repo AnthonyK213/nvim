@@ -219,7 +219,7 @@ function M.lp_supbs()
         feed_keys(string.rep('<C-g>U<Left>', res[2])..
         '<C-\\><C-O>'..tostring(res[2] + res[3])..'x')
     else
-        feed_keys('<C-\\><C-o>dB')
+        feed_keys('<C-\\><C-o>db')
     end
 end
 
