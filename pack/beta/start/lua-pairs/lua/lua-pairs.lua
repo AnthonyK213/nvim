@@ -310,7 +310,7 @@ function M.def_all()
     else
         api.nvim_set_keymap(
         'i',
-        '<Plug>(ipairs_enter)',
+        '<Plug>(lua_pairs_enter)',
         '<CMD>lua require("lua-pairs").lp_enter()<CR>',
         { silent=true, expr=false, noremap=true })
     end

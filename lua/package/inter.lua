@@ -34,7 +34,7 @@ keymap('s', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul
 keymap('i', '<CR>',
     [[pumvisible() ? complete_info()["selected"] != "-1" ? ]]..
     [["<Plug>(completion_confirm_completion)" : "<C-E><CR>" : ]]..
-    [["<Plug>(ipairs_enter)"]],
+    [["<Plug>(lua_pairs_enter)"]],
     { noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
     [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
