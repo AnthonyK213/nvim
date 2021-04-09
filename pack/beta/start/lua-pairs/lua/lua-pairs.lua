@@ -18,17 +18,23 @@ local lp_comm={ ["("]=")", ["["]=']', ["{"]="}", ["'"]="'", ['"']='"' }
 -- @tparam table a Table to be extended
 -- @tparam table a Table to extend
 -- @treturn nil
-local tab_extd = function(a, b) for key, val in pairs(b) do a[key] = val end end
+local tab_extd = function(a, b)
+    for key, val in pairs(b) do a[key] = val end
+end
 
 -- Convert string to terminal codes.
 -- @tparam string str String to be converted
 -- @treturn string Converted string, can be used as terminal code.
-local rep_term = function(str) return api.nvim_replace_termcodes(str, true, false, true) end
+local rep_term = function(str)
+    return api.nvim_replace_termcodes(str, true, false, true)
+end
 
 -- Feed keys to current buffer.
 -- @tparam string str Operation as string to feed to buffer.
 -- @treturn nil
-local feed_keys = function(str) api.nvim_feedkeys(rep_term(str), 'n', true) end
+local feed_keys = function(str)
+    api.nvim_feedkeys(rep_term(str), 'n', true)
+end
 
 -- Determine if a character is a numeric/alphabetic/Chinese(NAC) character.
 -- @tparam string(char) char A character to be tested
@@ -43,7 +49,11 @@ end
 -- @treturn string Converted string
 local function reg_esc(str)
     local str_list = vim.fn.split(str, '\\zs')
-    local esc_table = { '(', ')', '[', ']', '.', '%', '+', '-', '*', '?', '^', '$' }
+    local esc_table = {
+        '(', ')', '[', ']',
+        '+', '-', '*', '?',
+        '.', '%', '^', '$'
+    }
     for i,v in ipairs(str_list) do
         if fn.index(esc_table, v) >= 0 then
             str_list[i] = '%'..v
@@ -72,9 +82,12 @@ local function get_ctxt(mode)
 end
 
 -- Define the buffer variables.
--- @bufvar string     b:lp_last_spec If the last character matches, no pairing event triggered.
--- @bufvar string     b:lp_next_spec If the next character matches, no pairing event triggered.
--- @bufvar string     b:lp_back_spec If the half line after the cursor matches, do not trigger.
+-- @bufvar string     b:lp_last_spec If the last character matches,
+--                    no pairing event triggered.
+-- @bufvar string     b:lp_next_spec If the next character matches,
+--                    no pairing event triggered.
+-- @bufvar string     b:lp_back_spec If the half line after the cursor matches,
+--                    do not trigger.
 -- @bufvar hashtable  b:lp_buf       { (string)pair_left = (string)pair_right }
 -- @bufvar hashtable  b:lp_buf_map   { (string)key = (string)pair_type }
 --   `pair_type`:
