@@ -220,7 +220,6 @@ function M.lp_supbs()
         '<C-\\><C-O>'..tostring(res[2] + res[3])..'x')
     elseif back:match('{%s$') and fore:match('^%s}') then
         feed_keys('<C-g>U<Left><Left><C-\\><C-o>4x')
-        return
     else
         feed_keys('<C-\\><C-o>db')
     end
