@@ -182,7 +182,7 @@ function M.run_or_compile(option)
     local exts = string.lower(vim.fn.expand('%:e'))
     local exec, oute
 
-    if vim.fn.has('win32') then
+    if vim.fn.has('win32') == 1 then
         exec = ''
         oute = '.exe'
     else
