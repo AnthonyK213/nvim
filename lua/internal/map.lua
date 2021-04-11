@@ -10,7 +10,9 @@ keymap('n', '<C-DOWN>',  '<C-W>+', { noremap = true })
 keymap('n', '<C-LEFT>',  '<C-W>>', { noremap = true })
 keymap('n', '<C-RIGHT>', '<C-W><', { noremap = true })
 -- Open init file.
-keymap('n', '<M-,>', '<cmd>tabnew $MYVIMRC<CR>', { noremap = true })
+keymap('n', '<M-,>',
+[[expand("%:t") == '' ? ":e $MYVIMRC<CR>" : ":tabnew $MYVIMRC<CR>"]],
+{ noremap = true, expr = true })
 -- Terminal.
 keymap('t', '<ESC>', '<C-\\><C-N>',         { noremap = true })
 keymap('t', '<M-d>', '<C-\\><C-N>:bd!<CR>', { noremap = true, silent = true })
@@ -26,10 +28,10 @@ keymap('n', '<leader>el', '<cmd>lua require("utility/eval").lisp_eval()<CR>', { 
 -- Buffer.
 keymap('n', '<leader>bc', '<cmd>lcd %:p:h<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>bd',
-    [[index(['help','terminal','nofile','quickfix'], &buftype) >= 0 ||]]..
-    [[len(getbufinfo({'buflisted':1})) <= 2 ?]]..
-    [[":bd<CR>" : ":bp|bd#<CR>"]],
-    { noremap = true, silent = true, expr = true })
+[[index(['help','terminal','nofile','quickfix'], &buftype) >= 0 ||]]..
+[[len(getbufinfo({'buflisted':1})) <= 2 ?]]..
+[[":bd<CR>" : ":bp|bd#<CR>"]],
+{ noremap = true, silent = true, expr = true })
 keymap('n', '<leader>bh', '<cmd>noh<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>bn', '<cmd>bn<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>bp', '<cmd>bp<CR>',  { noremap = true, silent = true })
