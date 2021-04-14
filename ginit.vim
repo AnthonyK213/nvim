@@ -1,34 +1,34 @@
-" Configuration for nvim-qt
+" Configuration for neovim gui using ginit.vim
 "" Functions
-function! s:nvimqt_font_set(family, size)
+function! s:gui_font_set(family, size)
   exe 'GuiFont!' a:family . ':h' . a:size
 endfunction
 
-function! s:nvimqt_font_expand()
+function! s:gui_font_expand()
   let g:gui_font_size += s:gui_font_step
-  call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
+  call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 endfunction
 
-function! s:nvimqt_font_shrink()
+function! s:gui_font_shrink()
   let g:gui_font_size = max([g:gui_font_size - s:gui_font_step, 3])
-  call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
+  call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 endfunction
 
-function! s:nvimqt_font_origin()
+function! s:gui_font_origin()
   let g:gui_font_size = g:gui_font_size_origin
-  call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
+  call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 endfunction
 
-function! s:nvimqt_bg()
+function! s:gui_set_background()
   let l:hour = str2nr(strftime('%H'))
   let &bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
 endfunction
 
-function! s:nvimqt_bg_checker(timer_id)
-  call s:nvimqt_bg()
+function! s:gui_bg_checker(timer_id)
+  call s:gui_set_background()
 endfunction
 
-function! s:nvimqt_fullscreen_toggle()
+function! s:gui_fullscreen_toggle()
   call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
 endfunction
 
@@ -70,10 +70,10 @@ GuiLinespace 0
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
 else
-  call s:nvimqt_bg()
+  call s:gui_set_background()
 endif
 
-let timer_id = timer_start(1800000, function('<SID>nvimqt_bg_checker'), { 'repeat': -1 })
+let timer_id = timer_start(1800000, function('<SID>gui_bg_checker'), { 'repeat': -1 })
 
 "" Font
 if !exists('g:gui_font_size')
@@ -82,19 +82,19 @@ endif
 if !exists('gui_font_family')
   let g:gui_font_family = 'Monospace'
 endif
-call s:nvimqt_font_set(g:gui_font_family, g:gui_font_size)
+call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
 
 "" Gui key bindings.
 """ Font size
-nn  <silent> <C-0> <cmd>call       <SID>nvimqt_font_origin()<CR>
-ino <silent> <C-0> <C-\><C-o>:call <SID>nvimqt_font_origin()<CR>
+nn  <silent> <C-0> <cmd>call       <SID>gui_font_origin()<CR>
+ino <silent> <C-0> <C-\><C-o>:call <SID>gui_font_origin()<CR>
 
 for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 'ScrollWheelDown':'shrink' })
-  exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>nvimqt_font_' . val . '()<CR>'
-  exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>nvimqt_font_' . val . '()<CR>'
+  exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>gui_font_' . val . '()<CR>'
+  exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>gui_font_' . val . '()<CR>'
 endfor
 """ Toggle line number display
 nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
@@ -103,7 +103,7 @@ ino <silent> <F9> <C-\><C-o>:call <SID>gui_number_toggle()<CR>
 nn  <silent> <F10> :call <SID>gui_relative_number_toggle()<CR>
 ino <silent> <F10> <C-\><C-o>:call <SID>gui_relative_number_toggle()<CR>
 """ Toggle full screen
-nn  <silent> <F11> :call <SID>nvimqt_fullscreen_toggle()<CR>
-ino <silent> <F11> <C-\><C-o>:call <SID>nvimqt_fullscreen_toggle()<CR>
+nn  <silent> <F11> :call <SID>gui_fullscreen_toggle()<CR>
+ino <silent> <F11> <C-\><C-o>:call <SID>gui_fullscreen_toggle()<CR>
 """ Lazy save the memo.
 nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
