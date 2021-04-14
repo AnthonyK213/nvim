@@ -18,14 +18,11 @@ vim.cmd('command! -nargs=* NightlyUpgrade lua require("utility/util").nvim_night
 
 -- Run code complete option list.
 function RUN_CODE_OPTION()
-    local ft = vim.bo.filetype
-    if ft == 'c' then
-        return {'build', 'check'}
-    elseif ft == 'rust' then
-        return {'build', 'clean', 'check', 'rustc'}
-    elseif ft == 'tex' then
-        return {'biber', 'bibtex'}
-    else
-        return {''}
-    end
+    local option_table = {
+        c    = {'build', 'check'},
+        rust = {'build', 'clean', 'check', 'rustc'},
+        tex  = {'biber', 'bibtex'},
+    }
+    local res = option_table[vim.bo.filetype]
+    if res then return res else return {''} end
 end
