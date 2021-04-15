@@ -3,8 +3,6 @@ local lib = require('utility/lib')
 local uv = vim.loop
 
 
--- WTF?
-
 --[[
 local function onread(err, data)
     if err then
