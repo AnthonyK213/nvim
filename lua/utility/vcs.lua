@@ -3,6 +3,42 @@ local lib = require('utility/lib')
 local uv = vim.loop
 
 
+local function git_push_async(b_arg)
+    Handle_push = uv.spawn('git', {
+        args = {'push', 'origin', b_arg}
+    },
+    function()
+        print('Pushed to remote repository.')
+        Handle_push:close()
+    end)
+end
+
+
+local function git_commit_async(m_arg, b_arg)
+    Handle_commit = uv.spawn('git', {
+        args = {'commit', '-m', '"'..m_arg..'"'}
+    },
+    function ()
+        --print("Root directory: "..git_root)
+        --print("Current branch: "..git_branch)
+        print('Commit message: '..m_arg)
+        Handle_commit:close()
+        git_push_async(b_arg)
+    end)
+end
+
+
+local function git_push_all_async(m_arg, b_arg)
+    Handle_add = uv.spawn('git', {
+        args = {'add', '*'}
+    },
+    function ()
+        Handle_add:close()
+        git_commit_async(m_arg, b_arg)
+    end)
+end
+
+
 --- Git push all
 function M.git_push_all(...)
     local arg_list = {...}
@@ -38,22 +74,7 @@ function M.git_push_all(...)
         end
 
         --vim.fn.execute('!git add *')
-        Handle_add = uv.spawn('git', {
-            args = {'add', '*'}
-        },
-        function ()
-            Handle_add:close()
-        end)
         --vim.fn.execute('!git commit -m "'..m_arg..'"')
-        Handle_commit = uv.spawn('git', {
-            args = {'commit', '-m', '"'..m_arg..'"'}
-        },
-        function ()
-            print("Root directory: "..git_root)
-            print("Current branch: "..git_branch)
-            print('Commit message: '..m_arg)
-            Handle_commit:close()
-        end)
 
         if b_idx > 0 and b_idx % 2 == 1 then
             b_arg = arg_list[b_idx + 1]
@@ -64,13 +85,7 @@ function M.git_push_all(...)
         end
 
         --vim.fn.execute('!git push origin '..b_arg, false)
-        Handle_push = uv.spawn('git', {
-            args = {'push', 'origin', b_arg}
-        },
-        function()
-            print('Pushed to remote repository.')
-            Handle_push:close()
-        end)
+        git_push_all_async(m_arg, b_arg)
     else
         print("Wrong number of arguments is given.")
     end
