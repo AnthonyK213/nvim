@@ -20,20 +20,20 @@ local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
     Handle_push = uv.spawn('git', {
-        args = {'push', 'origin', b_arg},
+        args = {'push', 'origin', b_arg, '--porcelain'},
         stdio = {stdout, stderr}
     },
     vim.schedule_wrap(function()
         --print('Pushed to remote repository.')
         stdout:read_stop()
-        stderr:read_stop()
         stdout:close()
+        stderr:read_stop()
         stderr:close()
-        Handle_push:close()
         print(out)
+        Handle_push:close()
     end))
-    uv.read_start(stdout, onread)
-    uv.read_start(stderr, onread)
+    stdout:read_start(vim.schedule_wrap(onread))
+    stderr:read_start(vim.schedule_wrap(onread))
 end
 
 local function git_commit_async(m_arg, b_arg)
