@@ -38,21 +38,21 @@ function M.git_push_all(...)
         end
 
         --vim.fn.execute('!git add *')
-        Handle = uv.spawn('git', {
+        Handle_add = uv.spawn('git', {
             args = {'add', '*'}
         },
         function ()
-            Handle:close()
+            Handle_add:close()
         end)
         --vim.fn.execute('!git commit -m "'..m_arg..'"')
-        Handle = uv.spawn('git', {
+        Handle_commit = uv.spawn('git', {
             args = {'commit', '-m', '"'..m_arg..'"'}
         },
         function ()
             print("Root directory: "..git_root)
             print("Current branch: "..git_branch)
             print('Commit message: '..m_arg)
-            Handle:close()
+            Handle_commit:close()
         end)
 
         if b_idx > 0 and b_idx % 2 == 1 then
@@ -64,12 +64,12 @@ function M.git_push_all(...)
         end
 
         --vim.fn.execute('!git push origin '..b_arg, false)
-        Handle = uv.spawn('git', {
+        Handle_push = uv.spawn('git', {
             args = {'push', 'origin', b_arg}
         },
         function()
             print('Pushed to remote repository.')
-            Handle:close()
+            Handle_push:close()
         end)
     else
         print("Wrong number of arguments is given.")
