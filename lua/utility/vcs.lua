@@ -79,6 +79,7 @@ function M.git_push_all(...)
             b_arg = git_branch
         else
             print("Invalid branch argument.")
+            return
         end
 
         git_push_all_async(git_root, git_branch, m_arg, b_arg)
