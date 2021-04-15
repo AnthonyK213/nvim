@@ -10,7 +10,7 @@ local function onread(err, data)
     if err then end
 
     if data then
-        out = table.concat(vim.split(data, '#CRLF#'))
+        out = table.concat(vim.split(data, '\n'))
     end
 end
 
