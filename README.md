@@ -169,7 +169,7 @@
 ## Commands
 - `CodeRun`   -> Run or compile the code in current buffer.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
-- `PushAll`   -> Just push all to the remote origin.
+- `PushAll`   -> Just push all to the remote origin (async).
   - `-b`      -> branch, current branch default.
   - `-m`      -> comment, the date default.
 - `Time`      -> Echo date and time.
