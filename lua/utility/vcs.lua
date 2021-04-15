@@ -58,7 +58,6 @@ local function git_push_all_async(m_arg, b_arg)
     end))
 end
 
---- Git push all
 function M.git_push_all(...)
     local arg_list = {...}
     local git_root = lib.get_git_root()
