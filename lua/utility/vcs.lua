@@ -10,7 +10,6 @@ local function onread(err, data)
     if err then end
 
     if data then
-        print(data)
         out = table.concat(vim.split(data, '#CRLF#'))
     end
 end
@@ -20,7 +19,7 @@ local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
     Handle_push = uv.spawn('git', {
-        args = {'push', 'origin', b_arg, '--porcelain'},
+        args = {'push', 'origin', b_arg},
         stdio = {stdout, stderr}
     },
     vim.schedule_wrap(function()
