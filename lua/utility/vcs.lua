@@ -20,7 +20,7 @@ local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
     Handle_push = uv.spawn('git', {
-        args = {'push', 'origin', b_arg},
+        args = {'push', 'origin', b_arg, '--porcelain'},
         stdio = {stdout, stderr}
     },
     vim.schedule_wrap(function()
