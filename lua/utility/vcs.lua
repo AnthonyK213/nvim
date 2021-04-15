@@ -10,7 +10,7 @@ local function onread(err, data)
     if err then
     elseif data then
         local vals = vim.split(data, "\n")
-        for _, val in pairs(vals) do
+        for _, val in ipairs(vals) do
             if val ~= "" then
                 table.insert(outputs, val)
             end
@@ -23,14 +23,14 @@ local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
     Handle_push = uv.spawn('git', {
-        args = {'push', 'origin', b_arg},
+        args = {'push', 'origin', b_arg, '--porcelain'},
         stdio = {stdout, stderr}
     },
     vim.schedule_wrap(function()
         --print('Pushed to remote repository.')
         stdout:read_stop()
-        stdout:close()
         stderr:read_stop()
+        stdout:close()
         stderr:close()
         print(table.concat(outputs))
         Handle_push:close()
