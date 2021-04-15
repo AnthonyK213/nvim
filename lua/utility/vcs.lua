@@ -5,7 +5,6 @@ local uv = vim.loop
 
 local outputs = {}
 
-
 local function onread(err, data)
     if err then
     elseif data then
@@ -17,7 +16,6 @@ local function onread(err, data)
         end
     end
 end
-
 
 local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
