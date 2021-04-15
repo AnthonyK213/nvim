@@ -11,7 +11,7 @@ local function onread(err, data)
 
     if data then
         print(data)
-        out = data
+        out = table.concat(vim.split(data, '#CRLF#'))
     end
 end
 
