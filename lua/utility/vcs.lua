@@ -3,40 +3,14 @@ local lib = require('utility/lib')
 local uv = vim.loop
 
 
---[[
-local function onread(err, data)
-    if err then
-    end
-
-    if data then
-        print("Pushed to remote repository.")
-    end
-end
-]]
-
-
 local function git_push_async(b_arg)
-    --[[
-    local stdout = uv.new_pipe(false)
-    local stderr = uv.new_pipe(false)
-    ]]
     Handle_push = uv.spawn('git', {
         args = {'push', 'origin', b_arg}
     },
     function()
         print('Pushed to remote repository.')
-        --[[
-        stdout:read_stop()
-        stderr:read_stop()
-        stdout:close()
-        stderr:close()
-        ]]
         Handle_push:close()
     end)
-    --[[
-    uv.read_start(stdout, onread)
-    uv.read_start(stderr, onread)
-    ]]
 end
 
 local function git_commit_async(m_arg, b_arg)
