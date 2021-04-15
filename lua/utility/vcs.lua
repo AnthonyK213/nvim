@@ -7,9 +7,9 @@ local out
 
 
 local function onread(err, data)
-    if err then end
-
-    if data then
+    if err then
+        out = "Error: "..err
+    elseif data then
         out = table.concat(vim.split(data, '\n'))
         out = data
     end
