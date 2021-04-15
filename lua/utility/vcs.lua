@@ -30,10 +30,10 @@ local function git_push_async(b_arg)
         stdout:close()
         stderr:close()
         Handle_push:close()
-        uv.read_start(stdout, onread)
-        uv.read_start(stderr, onread)
         print(out)
     end))
+    uv.read_start(stdout, onread)
+    uv.read_start(stderr, onread)
 end
 
 local function git_commit_async(m_arg, b_arg)
