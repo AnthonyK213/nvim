@@ -32,6 +32,7 @@ local function git_push_async(b_arg)
         print(table.concat(outputs))
         Handle_push:close()
     end))
+    outputs = {}
     stdout:read_start(vim.schedule_wrap(onread))
     stderr:read_start(vim.schedule_wrap(onread))
 end
