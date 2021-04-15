@@ -1,5 +1,6 @@
 local M = {}
 local lib = require('utility/lib')
+local uv = vim.loop
 
 
 --- Git push all
@@ -50,7 +51,15 @@ function M.git_push_all(...)
             print("Invalid branch argument.")
         end
 
-        vim.fn.execute('!git push origin '..b_arg, false)
+        --vim.fn.execute('!git push origin '..b_arg, false)
+        Handle = uv.spawn('git', {
+            args = {'push', 'origin', b_arg}
+        },
+        function()
+            print('Pushed to remote repository.')
+            Handle:close()
+        end
+        )
     else
         print("Wrong number of arguments is given.")
     end
