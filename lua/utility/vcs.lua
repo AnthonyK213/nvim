@@ -45,8 +45,8 @@ local function git_commit_async(m_arg, b_arg)
     },
     function ()
         print("Commit message: "..m_arg)
-        Handle_commit:close()
         git_push_async(b_arg)
+        Handle_commit:close()
     end)
 end
 
@@ -55,8 +55,8 @@ local function git_push_all_async(m_arg, b_arg)
         args = {'add', '*'}
     },
     function ()
-        Handle_add:close()
         git_commit_async(m_arg, b_arg)
+        Handle_add:close()
     end)
 end
 
