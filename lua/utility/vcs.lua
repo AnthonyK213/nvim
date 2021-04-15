@@ -3,7 +3,6 @@ local lib = require('utility/lib')
 local uv = vim.loop
 
 
--- Async?
 local function git_push_async(b_arg)
     Handle_push = uv.spawn('git', {
         args = {'push', 'origin', b_arg}
