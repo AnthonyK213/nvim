@@ -8,7 +8,7 @@ local outputs = {}
 local function onread(err, data)
     if err then
     elseif data then
-        local vals = vim.split(data, "#CRLF#")
+        local vals = vim.split(data, "\n")
         for _, val in ipairs(vals) do
             if val ~= "" then
                 table.insert(outputs, val)
