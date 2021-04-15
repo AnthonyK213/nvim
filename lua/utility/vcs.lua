@@ -4,7 +4,7 @@ local uv = vim.loop
 
 
 local function onread(err, data)
-    --if err then end
+    if err then end
 
     if data then
         print(data)
