@@ -17,8 +17,6 @@ function M.git_push_all(...)
     end
 
     if git_branch then
-        print("Root directory: "..git_root)
-        print("Current branch: "..git_branch)
         vim.fn.execute('cd '..git_root)
     else
         print("Not a valid git repository.")
@@ -39,9 +37,23 @@ function M.git_push_all(...)
             return
         end
 
-        vim.fn.execute('!git add *')
-        vim.fn.execute('!git commit -m "'..m_arg..'"')
-        print('Commit message: '..m_arg)
+        --vim.fn.execute('!git add *')
+        Handle = uv.spawn('git', {
+            args = {'add', '*'}
+        },
+        function ()
+            Handle:close()
+        end)
+        --vim.fn.execute('!git commit -m "'..m_arg..'"')
+        Handle = uv.spawn('git', {
+            args = {'commit', '-m', '"'..m_arg..'"'}
+        },
+        function ()
+            print("Root directory: "..git_root)
+            print("Current branch: "..git_branch)
+            print('Commit message: '..m_arg)
+            Handle:close()
+        end)
 
         if b_idx > 0 and b_idx % 2 == 1 then
             b_arg = arg_list[b_idx + 1]
@@ -58,8 +70,7 @@ function M.git_push_all(...)
         function()
             print('Pushed to remote repository.')
             Handle:close()
-        end
-        )
+        end)
     else
         print("Wrong number of arguments is given.")
     end
