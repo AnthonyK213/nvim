@@ -21,6 +21,8 @@ local function git_push_async(b_arg)
     },
     function()
         --print('Pushed to remote repository.')
+        stdout:close()
+        stderr:close()
         Handle_push:close()
     end)
     uv.read_start(stdout, onread)
