@@ -22,10 +22,10 @@ tno <silent> <leader>op <C-\><C-N>:20Lexplore<CR>
 
 " Pairs
 "" Directional operation which won't mess up the history.
-let g:const_dir_l = "\<C-g>U\<Left>"
-let g:const_dir_d = "\<C-g>U\<Down>"
-let g:const_dir_u = "\<C-g>U\<Up>"
-let g:const_dir_r = "\<C-g>U\<Right>"
+let g:subrc_dir_l = "\<C-g>U\<Left>"
+let g:subrc_dir_d = "\<C-g>U\<Down>"
+let g:subrc_dir_u = "\<C-g>U\<Up>"
+let g:subrc_dir_r = "\<C-g>U\<Right>"
 
 let g:subrc_pairs_dict = {
       \ "("  : ")",
@@ -40,7 +40,7 @@ let g:subrc_pairs_dict = {
       \ "<u>": "</u>"
       \ }
 
-function! s:util_get_context(arg) abort
+function! s:subsrc_get_context(arg) abort
   if a:arg ==# 'l'
     return matchstr(getline('.'), '.\%' . col('.') . 'c')
   elseif a:arg ==# 'n'
@@ -53,12 +53,12 @@ function! s:util_get_context(arg) abort
 endfunction
 
 function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, s:util_get_context('l') . s:util_get_context('n')) >= 0
+  return index(a:match_list, s:subsrc_get_context('l') . s:subsrc_get_context('n')) >= 0
 endfunction
 
 function! s:subrc_pairs_back()
-  let l:back = s:util_get_context('b')
-  let l:fore = s:util_get_context('f')
+  let l:back = s:subsrc_get_context('b')
+  let l:fore = s:subsrc_get_context('f')
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
     return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
   endif
@@ -80,27 +80,28 @@ endfunction
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) <SID>util_get_context('n') ==# ")" ? g:const_dir_r : ")"
-ino <expr> ] <SID>util_get_context('n') ==# "]" ? g:const_dir_r : "]"
-ino <expr> } <SID>util_get_context('n') ==# "}" ? g:const_dir_r : "}"
+ino <expr> ) <SID>subsrc_get_context('n') ==# ")" ? g:subrc_dir_r : ")"
+ino <expr> ] <SID>subsrc_get_context('n') ==# "]" ? g:subrc_dir_r : "]"
+ino <expr> } <SID>subsrc_get_context('n') ==# "}" ? g:subrc_dir_r : "}"
 ino <expr> "
-      \ <SID>util_get_context('n') ==# "\"" ?
-      \ g:const_dir_r : or(<SID>util_get_context('l') =~ '\v[\\''"]', col('.') == 1) ?
-      \ '"' : '""' . g:const_dir_l
+      \ <SID>subsrc_get_context('n') ==# "\"" ?
+      \ g:subrc_dir_r : or(<SID>subsrc_get_context('l') =~ '\v[\\''"]',
+      \ and(<SID>subsrc_get_context('b') =~ '\v^\s*$', &filetype == 'vim')) ?
+      \ '"' : '""' . g:subrc_dir_l
 ino <expr> '
-      \ <SID>util_get_context('n') ==# "'" ?
-      \ g:const_dir_r : <SID>util_get_context('l') =~ '\v[''"]' ?
-      \ "'" : "''" . g:const_dir_l
+      \ <SID>subsrc_get_context('n') ==# "'" ?
+      \ g:subrc_dir_r : <SID>subsrc_get_context('l') =~ '\v[''"]' ?
+      \ "'" : "''" . g:subrc_dir_l
 ino <expr> <SPACE>
       \ <SID>subrc_is_surrounded(['{}']) ?
-      \ "\<SPACE>\<SPACE>" . g:const_dir_l : "\<SPACE>"
+      \ "\<SPACE>\<SPACE>" . g:subrc_dir_l : "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()
 "" Markdown
-ino <expr> <M-P> "``" . g:const_dir_l
-ino <expr> <M-I> "**" . g:const_dir_l
-ino <expr> <M-B> "****" . repeat(g:const_dir_l, 2)
-ino <expr> <M-M> "******" . repeat(g:const_dir_l, 3)
-ino <expr> <M-U> "<u></u>" . repeat(g:const_dir_l, 4)
+ino <expr> <M-P> "``" . g:subrc_dir_l
+ino <expr> <M-I> "**" . g:subrc_dir_l
+ino <expr> <M-B> "****" . repeat(g:subrc_dir_l, 2)
+ino <expr> <M-M> "******" . repeat(g:subrc_dir_l, 3)
+ino <expr> <M-U> "<u></u>" . repeat(g:subrc_dir_l, 4)
 
 
 " Completion
@@ -112,7 +113,21 @@ ino <silent><expr> <CR>
       \ "\<CR>\<C-o>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
-      \ or(<SID>util_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
-      \ "\<C-n>" : <SID>util_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-o>V>" . repeat(g:const_dir_r, &ts) : "\<TAB>"
+      \ or(<SID>subsrc_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
+      \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-o>V>" . repeat(g:subrc_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+
+" Emacs shit
+ino <C-A> <C-\><C-O>g0
+ino <C-E> <C-\><C-O>g$
+ino <C-K> <C-\><C-O>D
+nn  <C-N> gj
+nn  <C-P> gk
+vn  <C-N> gj
+vn  <C-P> gk
+ino <C-N> <C-\><C-O>gj
+ino <C-P> <C-\><C-O>gk
+ino <expr> <C-F> col('.') >= col('$') ? "<C-\><C-O>+" : g:subrc_dir_r
+ino <expr> <C-B> col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:subrc_dir_l
