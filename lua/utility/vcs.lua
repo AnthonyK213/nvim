@@ -13,31 +13,28 @@ local function git_push_async(b_arg)
     end)
 end
 
-
-local function git_commit_async(m_arg, b_arg)
+local function git_commit_async(git_root, git_branch, m_arg, b_arg)
     Handle_commit = uv.spawn('git', {
         args = {'commit', '-m', '"'..m_arg..'"'}
     },
     function ()
-        --print("Root directory: "..git_root)
-        --print("Current branch: "..git_branch)
-        print('Commit message: '..m_arg)
+        print("Root directory: "..git_root..
+        "\nCurrent branch: "..git_branch..
+        '\nCommit message: '..m_arg)
         Handle_commit:close()
         git_push_async(b_arg)
     end)
 end
 
-
-local function git_push_all_async(m_arg, b_arg)
+local function git_push_all_async(git_root, git_branch, m_arg, b_arg)
     Handle_add = uv.spawn('git', {
         args = {'add', '*'}
     },
     function ()
         Handle_add:close()
-        git_commit_async(m_arg, b_arg)
+        git_commit_async(git_root, git_branch, m_arg, b_arg)
     end)
 end
-
 
 --- Git push all
 function M.git_push_all(...)
@@ -73,9 +70,6 @@ function M.git_push_all(...)
             return
         end
 
-        --vim.fn.execute('!git add *')
-        --vim.fn.execute('!git commit -m "'..m_arg..'"')
-
         if b_idx > 0 and b_idx % 2 == 1 then
             b_arg = arg_list[b_idx + 1]
         elseif b_idx == 0 then
@@ -84,8 +78,7 @@ function M.git_push_all(...)
             print("Invalid branch argument.")
         end
 
-        --vim.fn.execute('!git push origin '..b_arg, false)
-        git_push_all_async(m_arg, b_arg)
+        git_push_all_async(git_root, git_branch, m_arg, b_arg)
     else
         print("Wrong number of arguments is given.")
     end
