@@ -11,6 +11,7 @@ local function onread(err, data)
 
     if data then
         out = table.concat(vim.split(data, '\n'))
+        out = data
     end
 end
 
