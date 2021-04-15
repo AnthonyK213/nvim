@@ -13,6 +13,7 @@ local function onread(err, data)
         print(data)
         out = data
     end
+    out = "cnm"
 end
 
 
