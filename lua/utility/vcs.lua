@@ -18,9 +18,9 @@ local function git_commit_async(git_root, git_branch, m_arg, b_arg)
         args = {'commit', '-m', m_arg}
     },
     function ()
-        print("Root directory: "..git_root..
-        "  Current branch: "..git_branch..
-        "  Commit message: "..m_arg)
+        print("Root directory:", git_root)
+        print("\nCurrent branch:", git_branch)
+        print("\nCommit message:", m_arg)
         --print("Commit message: "..m_arg)
         Handle_commit:close()
         git_push_async(b_arg)
