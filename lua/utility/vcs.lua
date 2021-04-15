@@ -3,11 +3,15 @@ local lib = require('utility/lib')
 local uv = vim.loop
 
 
+local out
+
+
 local function onread(err, data)
     if err then end
 
     if data then
         print(data)
+        out = data
     end
 end
 
@@ -29,6 +33,7 @@ local function git_push_async(b_arg)
     end))
     uv.read_start(stdout, onread)
     uv.read_start(stderr, onread)
+    print(out)
 end
 
 local function git_commit_async(m_arg, b_arg)
