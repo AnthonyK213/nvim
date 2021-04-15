@@ -15,12 +15,12 @@ end
 
 local function git_commit_async(git_root, git_branch, m_arg, b_arg)
     Handle_commit = uv.spawn('git', {
-        args = {'commit', '-m', '"'..m_arg..'"'}
+        args = {'commit', '-m', m_arg}
     },
     function ()
         print("Root directory: "..git_root..
         "\nCurrent branch: "..git_branch..
-        '\nCommit message: '..m_arg)
+        "\nCommit message: "..m_arg)
         Handle_commit:close()
         git_push_async(b_arg)
     end)
