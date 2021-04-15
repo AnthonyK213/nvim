@@ -7,31 +7,31 @@ local function git_push_async(b_arg)
     Handle_push = uv.spawn('git', {
         args = {'push', 'origin', b_arg}
     },
-    function()
+    vim.schedule_wrap(function()
         print('Pushed to remote repository.')
         Handle_push:close()
-    end)
+    end))
 end
 
 local function git_commit_async(m_arg, b_arg)
     Handle_commit = uv.spawn('git', {
         args = {'commit', '-m', m_arg}
     },
-    function ()
+    vim.schedule_wrap(function ()
         print("Commit message: "..m_arg)
         Handle_commit:close()
         git_push_async(b_arg)
-    end)
+    end))
 end
 
 local function git_push_all_async(m_arg, b_arg)
     Handle_add = uv.spawn('git', {
         args = {'add', '*'}
     },
-    function ()
+    vim.schedule_wrap(function ()
         Handle_add:close()
         git_commit_async(m_arg, b_arg)
-    end)
+    end))
 end
 
 --- Git push all
