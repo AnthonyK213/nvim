@@ -211,6 +211,15 @@ local function latex_xelatex_bib(prog)
 end
 
 --- Run code
+---- Support list:
+----   1. C
+----   2. C++
+----   3. C#
+----   4. Python
+----   5. Rust
+----   6. Vim script
+----   7. Lua (Neovim)
+----   8. LaTeX
 function M.run_or_compile(option)
     local size = 30
     local cmdh = 'term'
