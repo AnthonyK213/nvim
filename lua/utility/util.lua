@@ -1,4 +1,5 @@
 local M = {}
+local uv = vim.loop
 local lib = require('utility/lib')
 local core_opt = require('core/opt')
 
@@ -150,26 +151,63 @@ function M.search_web(mode, site)
 end
 
 --- LaTeX recipes
-local function latex_xelatex()
+local latex_step = 1
+
+local function latex_xelatex(cb, cb_cb, cb_cb_cb)
     local name = vim.fn.expand('%:r')
-    vim.fn.execute('!xelatex -synctex=1 '..
-    '-interaction=nonstopmode -file-line-error '..name..'.tex', '')
+    Handle_latex = uv.spawn('xelatex', {
+        args = {
+            '-synctex=1',
+            '-interaction=nonstopmode',
+            '-file-line-error',
+            name..'.tex'
+        }
+    },
+    vim.schedule_wrap(function()
+        print(latex_step.." -> Xelatex")
+        latex_step = latex_step + 1
+        Handle_latex:close()
+        if cb then cb(cb_cb, cb_cb_cb) end
+    end))
 end
 
-local function latex_biber()
+local function latex_biber(cb, cb_cb)
     local name = vim.fn.expand('%:r')
-    latex_xelatex()
-    vim.fn.execute('!biber '..name..'.bcf', '')
-    latex_xelatex()
-    latex_xelatex()
+    Handle_biber = uv.spawn('biber', {
+        args = { name..'.bcf' }
+    },
+    vim.schedule_wrap(function()
+        print(latex_step.." -> Biber")
+        latex_step = latex_step + 1
+        Handle_biber:close()
+        if cb then cb(cb_cb) end
+    end))
 end
 
-local function latex_bibtex()
+local function latex_bibtex(cb, cb_cb)
     local name = vim.fn.expand('%:r')
-    latex_xelatex()
-    vim.fn.execute('!bibtex '..name..'.aux', '')
-    latex_xelatex()
-    latex_xelatex()
+    Handle_bibtex = uv.spawn('bibtex', {
+        args = { name..'.aux' }
+    },
+    vim.schedule_wrap(function()
+        print(latex_step.." -> Bibtex")
+        latex_step = latex_step + 1
+        Handle_bibtex:close()
+        if cb then cb(cb_cb) end
+    end))
+end
+
+local prog_table = {
+    biber = latex_biber,
+    bibtex = latex_bibtex,
+}
+
+local function latex_xelatex_bib(prog)
+    local f = prog_table[prog]
+    if f then
+        latex_step = 1
+        latex_xelatex(f, latex_xelatex, latex_xelatex)
+    end
 end
 
 --- Run code
@@ -248,11 +286,12 @@ function M.run_or_compile(option)
         term_use = false
     elseif exts == 'tex' then
         if option == '' then
-            latex_xelatex() return
-        elseif option == 'biber' then
-            latex_biber() return
-        elseif option == 'bibtex' then
-            latex_bibtex() return
+            latex_step = 1
+            latex_xelatex()
+            return
+        elseif prog_table[option] then
+            latex_xelatex_bib(option)
+            return
         else
             print('Invalid argument.')
             return
