@@ -8,7 +8,7 @@ local function onread(err, data)
     end
 
     if data then
-        print(data)
+        print("Pushed to remote repository.")
     end
 end
 
@@ -20,7 +20,7 @@ local function git_push_async(b_arg)
         args = {'push', 'origin', b_arg}
     },
     function()
-        print('Pushed to remote repository.')
+        --print('Pushed to remote repository.')
         Handle_push:close()
     end)
     uv.read_start(stdout, onread)
