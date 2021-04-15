@@ -27,7 +27,6 @@ local function git_push_async(b_arg)
         stdio = {stdout, stderr}
     },
     vim.schedule_wrap(function()
-        --print('Pushed to remote repository.')
         stdout:read_stop()
         stderr:read_stop()
         stdout:close()
