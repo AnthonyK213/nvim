@@ -116,7 +116,6 @@ if exists('g:fvim_loaded')
   FVimBackgroundComposition 'blur'
   FVimCustomTitleBar        v:true
   FVimFontAntialias         v:true
-  FVimFontNoBuiltInSymbols  v:false
 endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
