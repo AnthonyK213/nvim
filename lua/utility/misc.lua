@@ -102,15 +102,6 @@ local mode_alias = {
     [''] = 'B',
 }
 
---- If file is readonly.
---[[
-local function file_readonly()
-    if vim.bo.filetype == 'help' then return '' end
-    if vim.bo.readonly == true then return 'RO' end
-    return ''
-end
-]]
-
 --- Current mode.
 local function get_current_mode()
     if mode_alias[vim.fn.mode(1)] ~= nil then

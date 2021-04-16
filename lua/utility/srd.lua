@@ -4,7 +4,11 @@ local lib = require("utility/lib")
 
 
 local function srd_pair(pair_a)
-    local pairs = { ["("]=")", ["["]="]", ["{"]="}", ["<"]=">", [" "]=" ", ["《"]="》", ["“"]="”" }
+    local pairs = {
+        ["("]=")", ["["]="]", ["{"]="}",
+        ["<"]=">", [" "]=" ",
+        ["《"]="》", ["“"]="”",
+    }
     if pair_a:match('^[%(%[{<%s《“]+$') then
         local str_list = fn.split(pair_a, '\\zs')
         local new_list = {}
