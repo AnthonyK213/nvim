@@ -144,7 +144,7 @@ let g:gui_font_size_origin = g:gui_font_size
 call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 
 
-" GUI key bindings.
+" GUI key bindings
 "" Font size
 nn  <silent> <C-0> <cmd>call       <SID>gui_font_origin()<CR>
 ino <silent> <C-0> <C-\><C-o>:call <SID>gui_font_origin()<CR>
