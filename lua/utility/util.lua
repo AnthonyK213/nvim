@@ -151,16 +151,16 @@ function M.search_web(mode, site)
 end
 
 --- LaTeX recipes
-local latex_step = 1
+local latex_step
+local latex_name
 
 local function latex_xelatex(cb, cb_cb, cb_cb_cb)
-    local name = vim.fn.expand('%:r')
     Handle_latex = uv.spawn('xelatex', {
         args = {
             '-synctex=1',
             '-interaction=nonstopmode',
             '-file-line-error',
-            name..'.tex'
+            latex_name..'.tex'
         }
     },
     vim.schedule_wrap(function()
@@ -172,9 +172,8 @@ local function latex_xelatex(cb, cb_cb, cb_cb_cb)
 end
 
 local function latex_biber(cb, cb_cb)
-    local name = vim.fn.expand('%:r')
     Handle_biber = uv.spawn('biber', {
-        args = { name..'.bcf' }
+        args = { latex_name..'.bcf' }
     },
     vim.schedule_wrap(function()
         print(latex_step.." -> Biber")
@@ -185,9 +184,8 @@ local function latex_biber(cb, cb_cb)
 end
 
 local function latex_bibtex(cb, cb_cb)
-    local name = vim.fn.expand('%:r')
     Handle_bibtex = uv.spawn('bibtex', {
-        args = { name..'.aux' }
+        args = { latex_name..'.aux' }
     },
     vim.schedule_wrap(function()
         print(latex_step.." -> Bibtex")
@@ -205,7 +203,6 @@ local prog_table = {
 local function latex_xelatex_bib(prog)
     local f = prog_table[prog]
     if f then
-        latex_step = 1
         latex_xelatex(f, latex_xelatex, latex_xelatex)
     end
 end
@@ -294,8 +291,9 @@ function M.run_or_compile(option)
         term_cmd = 'luafile '..path
         term_use = false
     elseif exts == 'tex' then
+        latex_step = 1
+        latex_name = vim.fn.expand('%:p:r')
         if option == '' then
-            latex_step = 1
             latex_xelatex()
             return
         elseif prog_table[option] then
