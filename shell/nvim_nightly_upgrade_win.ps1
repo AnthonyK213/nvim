@@ -21,7 +21,7 @@ if ($proxy -eq $null) {
     Invoke-WebRequest -Uri $source -OutFile $archive
 } elseif ($proxy -eq "default") {
     Write-Host "Using default proxy."
-    Invoke-WebRequest -Uri $source -OutFile $archive -proxy $proxy_default
+    Invoke-WebRequest -Uri $source -OutFile $archive -Proxy $proxy_default
 } else {
     Write-Host "Using proxy: $proxy."
     Invoke-WebRequest -Uri $source -OutFile $archive -Proxy $proxy

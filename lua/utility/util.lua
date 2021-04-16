@@ -324,18 +324,21 @@ function M.nvim_nightly_upgrade(...)
 
     if #arg_list == 0 then
         proxy_args = ""
-    elseif arg_list[1] == "default" then
-        proxy_args = " -proxy default"
     else
-        proxy_args = " -proxy "..arg_list[1]
+        proxy_args = arg_list[1]
     end
 
     local script_name = "nvim_nightly_upgrade"
     if vim.fn.has("win32") == 1 then
         local script_path = vim.fn.expand("$localappdata")..'/nvim/shell/'..
-        script_name.."_win.ps1"..proxy_args
+        script_name.."_win.ps1 -proxy "..proxy_args
         lib.belowright_split(30)
         vim.fn.execute("term powershell "..script_path)
+    elseif vim.fn.has("unix") == 1 then
+        local script_path = vim.fn.expand("$HOME/.config")..'/nvim/shell/'..
+        script_name.."_linux.sh "..proxy_args
+        lib.belowright_split(30)
+        vim.fn.execute("term bash "..script_path)
     end
 end
 
