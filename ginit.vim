@@ -1,7 +1,32 @@
-" Configuration for neovim gui using ginit.vim
-"" Functions
+"""""""" Configuration for neovim GUI using ginit.vim
+
+" Variables
+let s:gui_size_kbd = {
+      \ '=' : 'expand',
+      \ '-' : 'shrink',
+      \ 'ScrollWheelUp' : 'expand',
+      \ 'ScrollWheelDown' : 'shrink',
+      \ }
+
+let s:nvimqt_option_table = {
+      \ 'GuiTabline'         : 1,
+      \ 'GuiPopupmenu'       : 1,
+      \ 'GuiLinespace'       : 0,
+      \ 'GuiScrollBar'       : 1,
+      \ 'GuiRenderLigatures' : 1,
+      \ 'GuiAdaptiveColor'   : 1,
+      \ 'GuiWindowOpacity'   : '0.92',
+      \ 'GuiAdaptiveStyle'   : 'Fusion',
+      \ }
+
+
+" Functions
 function! s:gui_font_set(family, size)
-  exe 'GuiFont!' a:family . ':h' . a:size
+  if exists(':GuiFont')
+    exe 'GuiFont!' a:family . ':h' . a:size
+  else
+    exe 'set guifont=' . escape(a:family, ' ') . ':h' . a:size
+  endif
 endfunction
 
 function! s:gui_font_expand()
@@ -29,7 +54,17 @@ function! s:gui_bg_checker(timer_id)
 endfunction
 
 function! s:gui_fullscreen_toggle()
-  call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
+  if exists('GuiWindowFullScreen')
+    call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
+  elseif exists(':FVimToggleFullScreen')
+    FVimToggleFullScreen
+  endif
+endfunction
+
+function! s:nvimqt_set_option(opt, arg)
+  if exists(':' . a:opt)
+    exe a:opt a:arg
+  endif
 endfunction
 
 function! s:gui_number_toggle()
@@ -45,9 +80,12 @@ function! s:gui_memo_lazy_save()
     return
   elseif empty(expand('%:t'))
     if exists('g:onedrive_path')
-      silent exe 'w' g:onedrive_path . '/Documents/Agenda/diary/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
+      silent exe 'w' g:onedrive_path .
+            \ '/Documents/Agenda/diary/memo_' .
+            \ strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     else
-      silent exe 'w' g:usr_desktop . '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
+      silent exe 'w' g:usr_desktop .
+            \ '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     end
   else
     exe 'w'
@@ -55,55 +93,80 @@ function! s:gui_memo_lazy_save()
 endfunction
 
 
-"" Set behaviors
+" Set behaviors
 if exists('g:usr_desktop')
   exe 'cd' g:usr_desktop
 endif
 lcd %:p:h
 set mouse=a
 
-"" GUI
-GuiTabline   0
-GuiPopupmenu 0
-GuiLinespace 0
 
+" GUI
+"" neovim-qt GUI
+for [opt, arg] in items(s:nvimqt_option_table)
+  call s:nvimqt_set_option(opt, arg)
+endfor
+"" Fvim GUI
+if exists('g:fvim_loaded')
+  FVimUIPopupMenu           v:true
+  FVimFontLigature          v:true
+  FVimFontLineHeight        '+2.0'
+  FVimBackgroundOpacity     0.92
+  FVimCursorSmoothMove      v:true
+  FVimBackgroundComposition 'blur'
+  FVimCustomTitleBar        v:true
+  FVimFontAntialias         v:true
+  FVimFontNoBuiltInSymbols  v:false
+endif
+"" Background
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
 else
   call s:gui_set_background()
 endif
 
-let timer_id = timer_start(1800000, function('<SID>gui_bg_checker'), { 'repeat': -1 })
+let timer_id = timer_start(
+      \ 600000,
+      \ function('<SID>gui_bg_checker'),
+      \ { 'repeat': -1 })
 
-"" Font
+
+" Font
 if !exists('g:gui_font_size')
   let g:gui_font_size = 10
 endif
+
 if !exists('gui_font_family')
   let g:gui_font_family = 'Monospace'
 endif
-call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
+call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 
-"" Gui key bindings.
-""" Font size
+
+" GUI key bindings.
+"" Font size
 nn  <silent> <C-0> <cmd>call       <SID>gui_font_origin()<CR>
 ino <silent> <C-0> <C-\><C-o>:call <SID>gui_font_origin()<CR>
 
-for [key, val] in items({ '=':'expand', '-':'shrink', 'ScrollWheelUp':'expand', 'ScrollWheelDown':'shrink' })
+for [key, val] in items(s:gui_size_kbd)
   exe 'nn'  '<silent> <C-' . key . '> <cmd>call       <SID>gui_font_' . val . '()<CR>'
   exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call <SID>gui_font_' . val . '()<CR>'
 endfor
-""" Toggle line number display
+
+"" Toggle line number display
 nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
 ino <silent> <F9> <C-\><C-o>:call <SID>gui_number_toggle()<CR>
-""" Toggle relative line number display
+"" Toggle relative line number display
 nn  <silent> <F10> :call <SID>gui_relative_number_toggle()<CR>
 ino <silent> <F10> <C-\><C-o>:call <SID>gui_relative_number_toggle()<CR>
-""" Toggle full screen
+"" Toggle full screen
 nn  <silent> <F11> :call <SID>gui_fullscreen_toggle()<CR>
 ino <silent> <F11> <C-\><C-o>:call <SID>gui_fullscreen_toggle()<CR>
-""" Lazy save the memo.
+"" Lazy save the memo.
 nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
+"" Toggle tree view
+if exists(':GuiTreeviewToggle')
+  nn <silent> <leader>op :GuiTreeviewToggle<CR>
+endif
