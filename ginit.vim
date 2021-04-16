@@ -9,7 +9,7 @@ let s:gui_size_kbd = {
       \ }
 
 let s:nvimqt_option_table = {
-      \ 'GuiTabline'         : 1,
+      \ 'GuiTabline'         : 0,
       \ 'GuiPopupmenu'       : 1,
       \ 'GuiLinespace'       : 0,
       \ 'GuiScrollBar'       : 1,
@@ -168,5 +168,5 @@ ino <silent> <F11> <C-\><C-o>:call <SID>gui_fullscreen_toggle()<CR>
 nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 "" Toggle tree view
 if exists(':GuiTreeviewToggle')
-  nn <silent> <leader>op :GuiTreeviewToggle<CR>
+  nn <silent> <F3> :GuiTreeviewToggle<CR>
 endif
