@@ -391,7 +391,7 @@ function! Nanovim_Get_File_Name()
     let l:path_sepr = "\\"
   endif
 
-  if strlen(l:file_path) > 40
+  if strlen(l:file_path) > winwidth(0) * 0.4
     let l:path_list = split(l:file_dir, l:path_sepr)
     let l:path_head = "/"
     if has('win32')
