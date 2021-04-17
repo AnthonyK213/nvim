@@ -38,7 +38,6 @@ set history=500
 set updatetime=300
 set notimeout nottimeout
 set completeopt=menuone,noinsert,noselect
-"set showmatch matchtime=5
 
 
 " Search
@@ -51,4 +50,3 @@ set nobackup nowritebackup
 set noswapfile noundofile
 set autoread autowrite
 set confirm
-"set autochdir

@@ -143,8 +143,10 @@
   - <kbd>leader-o-</kbd>     -> **Open**.
     - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd>     -> Open system file manager.
-    - n:    <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
     - n:    <kbd>t</kbd>     -> Open terminal.
+    - n:    <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle(current directory).
+    - n:    <kbd>r</kbd>     -> *nerdtree*, NERDTree toggle(working directory).
+    - n:    <kbd>v</kbd>     -> *nerdtree*, NERDTree toggle(VSC root directory).
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
