@@ -4,6 +4,7 @@ vim.g.loaded_matchit = 1
 
 
 -- nvim-tree.lua
+vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_show_icons = {
     git = 1,
     folders = 0,
@@ -187,7 +188,8 @@ if init_lsp_option.sumneko_lua then
     else
         print("Unsupported system for sumneko.")
     end
-    local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+    local sumneko_binary = sumneko_root_path..
+    "/bin/"..system_name.."/lua-language-server"
     lspconfig.sumneko_lua.setup {
         cmd = { sumneko_binary, '-E', sumneko_root_path.."/main.lua" };
         on_attach = custom_attach,
