@@ -67,7 +67,7 @@
   - in:  <kbd>M-a</kbd>      -> Select all.
   - v:   <kbd>M-c</kbd>      -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>      -> Close the terminal.
-  - int: <kbd>M-e</kbd>      -> *nerdtree*, NERDTree focus.
+  - int: <kbd>M-e</kbd>      -> *nvim-tree.lua*, nvim-tree find file.
   - nv:  <kbd>M-f</kbd>      -> Find and replace.
   - inv: <kbd>M-h</kbd>      -> Jump to the window left.
   - inv: <kbd>M-j</kbd>      -> Jump to the window below.
@@ -144,9 +144,7 @@
     - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd>     -> Open system file manager.
     - n:    <kbd>t</kbd>     -> Open terminal.
-    - n:    <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle(current directory).
-    - n:    <kbd>r</kbd>     -> *nerdtree*, NERDTree toggle(working directory).
-    - n:    <kbd>v</kbd>     -> *nerdtree*, NERDTree toggle(VSC root directory).
+    - n:    <kbd>p</kbd>     -> *nvim-tree.lua*, nvim-tree toggle(current directory).
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.

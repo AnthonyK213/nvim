@@ -10,13 +10,12 @@ paq {'akinsho/nvim-bufferline.lua', opt=true}
 paq {'glepnir/indent-guides.nvim', opt=true}
 paq {'norcalli/nvim-colorizer.lua', opt=true}
 -- File system
-paq {'preservim/nerdtree'}
+paq {'kyazdani42/nvim-tree.lua'}
 paq {'junegunn/fzf', run=vim.fn['fzf#install']}
 paq {'junegunn/fzf.vim'}
 -- Git utilities
 paq {'mhinz/vim-signify'}
 paq {'tpope/vim-fugitive'}
-paq {'Xuyuanp/nerdtree-git-plugin'}
 -- Utilities
 paq {'tpope/vim-speeddating'}
 paq {'dhruvasagar/vim-table-mode'}

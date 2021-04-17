@@ -3,11 +3,12 @@ vim.g.loaded_matchit = 1
 --vim.g.loaded_matchparen = 1
 
 
--- NERDTree
-vim.g.NERDTreeDirArrowExpandable  = '+'
-vim.g.NERDTreeDirArrowCollapsible = '-'
-vim.g.NERDTreeMinimalUI = 1
-vim.g.NERDTreeDirArrows = 1
+-- nvim-tree.lua
+vim.g.nvim_tree_show_icons = {
+    git = 1,
+    folders = 0,
+    files = 0
+}
 
 
 -- fzf

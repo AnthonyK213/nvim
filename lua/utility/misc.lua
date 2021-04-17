@@ -136,7 +136,6 @@ function M.lualine_setup()
             lualine_y = {},
             lualine_z = {},
         },
-        extensions = { 'nerdtree' }
     }
 end
 
