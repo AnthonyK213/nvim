@@ -3,7 +3,9 @@ local augroup = require("utility/misc").set_au_group
 
 
 -- NERDTree
-keymap('n', '<leader>op', ':NERDTreeToggle<CR>',           { noremap = true, silent = true })
+keymap('n', '<leader>op', ':NERDTreeToggle %:p:h<CR>',     { noremap = true, silent = true })
+keymap('n', '<leader>or', ':NERDTreeToggle<CR>',           { noremap = true, silent = true })
+keymap('n', '<leader>ov', ':NERDTreeToggleVCS<CR>',        { noremap = true, silent = true })
 keymap('n', '<M-e>',      ':NERDTreeFocus<CR>',            { noremap = true, silent = true })
 keymap('i', '<M-e>',      '<ESC>:NERDTreeFocus<CR>',       { noremap = true, silent = true })
 keymap('t', '<M-e>',      '<C-\\><C-n>:NERDTreeFocus<CR>', { noremap = true, silent = true })
