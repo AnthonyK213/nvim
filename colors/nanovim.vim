@@ -376,6 +376,36 @@ function! Nanovim_Get_Mode()
   return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
 endfunction
 
+" Get file name
+function! Nanovim_Get_File_Name()
+  let l:file_path = expand('%:p')
+  let l:file_dir  = expand('%:p:h')
+  let l:file_name = expand('%:t')
+  
+  if empty(l:file_name)
+    return "[No Name]"
+  endif
+
+  let l:path_sepr = "/"
+  if has('win32')
+    let l:path_sepr = "\\"
+  endif
+
+  if strlen(l:file_path) > 40
+    let l:path_list = split(l:file_dir, l:path_sepr)
+    let l:path_head = "/"
+    if has('win32')
+      let l:path_head = remove(l:path_list, 0) . "\\"
+    endif
+    for l:dir in l:path_list
+      let l:path_head .= l:dir[0] . l:path_sepr
+    endfor
+    return l:path_head . l:file_name
+  endif
+
+  return l:file_path
+endfunction
+
 " Get the branch
 function! Nanovim_Get_Git_Branch()
   let l:current_dir = expand('%:p:h')
@@ -400,8 +430,7 @@ function! s:nanovim_set_buf()
   set statusline+=%#Nano_Face_Default#\ 
   set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
   set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
-  "set statusline+=%#Nano_Face_Header_Subtle#▎
-  set statusline+=%#Nano_Face_Status_Subtle#\ %f\ %{Nanovim_Get_Git_Branch()}
+  set statusline+=%#Nano_Face_Status_Subtle#\ %{Nanovim_Get_File_Name()}\ %{Nanovim_Get_Git_Branch()}
   set statusline+=%=
   set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
   set statusline+=%#Nano_Face_Default#\ 
