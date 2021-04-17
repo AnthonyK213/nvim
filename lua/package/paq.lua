@@ -30,6 +30,6 @@ paq {'hrsh7th/vim-vsnip'}
 paq {'hrsh7th/vim-vsnip-integ'}
 paq {'neovim/nvim-lspconfig'}
 paq {'nvim-lua/completion-nvim'}
-paq {'tjdevries/lsp_extensions.nvim'}
+paq {'nvim-lua/lsp_extensions.nvim'}
 paq {'nvim-treesitter/nvim-treesitter'}
 paq {'nvim-treesitter/completion-treesitter'}
