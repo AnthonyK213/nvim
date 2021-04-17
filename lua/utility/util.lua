@@ -218,6 +218,7 @@ end
 ----   7. Lua (Neovim)
 ----   8. LaTeX
 function M.run_or_compile(option)
+    local gcwd = vim.fn.getcwd()
     local size = 30
     local cmdh = 'term'
     local path = vim.fn.expand('%:p')
@@ -233,6 +234,8 @@ function M.run_or_compile(option)
         exec = './'
         oute = ''
     end
+
+    vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
 
     local term_cmd
     local term_use = true
@@ -252,7 +255,7 @@ function M.run_or_compile(option)
             file..' -O2 -o '..name..oute
         else
             print('Invalid argument.')
-            return
+            goto skip_exec
         end
     elseif exts == 'cpp' then
         term_cmd = cmdh..' g++ '..file
@@ -265,14 +268,13 @@ function M.run_or_compile(option)
             term_cmd = cmdh..' csc /target:'..target..' '..file
         else
             print('Invalid argument.')
-            return
+            goto skip_exec
         end
     elseif exts == 'rs' then
         if option == '' then
             term_cmd = cmdh..' cargo run'
         elseif option == 'rustc' then
-            term_cmd = cmdh..' rustc '..file..
-            ' && '..exec..name
+            term_cmd = cmdh..' rustc '..file..' && '..exec..name
         elseif option == 'clean' then
             term_cmd = '!cargo clean'
             term_use = false
@@ -282,7 +284,7 @@ function M.run_or_compile(option)
             term_cmd = cmdh..' cargo build --release'
         else
             print('Invalid argument.')
-            return
+            goto skip_exec
         end
     elseif exts == 'vim' then
         term_cmd = 'source '..path
@@ -301,11 +303,11 @@ function M.run_or_compile(option)
             return
         else
             print('Invalid argument.')
-            return
+            goto skip_exec
         end
     else
         print('Unknown file type: .'..exts)
-        return
+        goto skip_exec
     end
 
     if term_use then
@@ -314,6 +316,9 @@ function M.run_or_compile(option)
     else
         vim.cmd(term_cmd)
     end
+
+    ::skip_exec::
+    vim.api.nvim_set_current_dir(gcwd)
 end
 
 function M.nvim_nightly_upgrade(...)

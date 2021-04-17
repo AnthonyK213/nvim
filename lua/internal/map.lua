@@ -11,8 +11,8 @@ keymap('n', '<C-LEFT>',  '<C-W>>', { noremap = true })
 keymap('n', '<C-RIGHT>', '<C-W><', { noremap = true })
 -- Open init file.
 keymap('n', '<M-,>',
-[[expand("%:t") == '' ? ":e $MYVIMRC<CR>" : ":tabnew $MYVIMRC<CR>"]],
-{ noremap = true, expr = true })
+[[(expand("%:t") == '' ? ":e $MYVIMRC<CR>" : ":tabnew $MYVIMRC<CR>") . ":cd %:p:h<CR>"]],
+{ noremap = true, expr = true, silent = true })
 -- Terminal.
 keymap('t', '<ESC>', '<C-\\><C-N>',         { noremap = true })
 keymap('t', '<M-d>', '<C-\\><C-N>:bd!<CR>', { noremap = true, silent = true })
@@ -26,7 +26,7 @@ keymap('v', '<M-n>', ':normal ',  { noremap = true })
 keymap('n', '<leader>ev', '<cmd>lua require("utility/eval").lua_eval()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>el', '<cmd>lua require("utility/eval").lisp_eval()<CR>', { noremap = true, silent = true })
 -- Buffer.
-keymap('n', '<leader>bc', '<cmd>lcd %:p:h<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>bc', '<cmd>cd %:p:h<CR>:pwd<CR>', { noremap = true })
 keymap('n', '<leader>bd',
 [[index(['help','terminal','nofile','quickfix'], &buftype) >= 0 ||]]..
 [[len(getbufinfo({'buflisted':1})) <= 2 ?]]..
@@ -71,7 +71,7 @@ keymap('t', '<F2>', '<C-\\><C-N><cmd>lua require("utility/util").mouse_toggle()<
 -- Background toggle.
 keymap('n', '<leader>bg', '<cmd>lua require("utility/util").bg_toggle()<CR>',    { noremap = true, silent = true })
 -- Explorer.
-keymap('n', '<leader>oe', '<cmd>lua require("utility/util").open_file(".")<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>oe', '<cmd>lua require("utility/util").open_file(vim.fn.expand("%:p:h"))<CR>', { noremap = true, silent = true })
 -- Terminal.
 keymap('n', '<leader>ot', '<cmd>lua require("utility/util").terminal()<CR>i',    { noremap = true, silent = true })
 -- Open with system default browser.

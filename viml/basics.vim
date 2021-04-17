@@ -21,12 +21,11 @@ set list listchars=tab:>-,trail:·
 set encoding=utf-8 termencoding=utf-8
 set fileencodings=utf-8,chinese,ucs-bom,latin-1,shift-jis,gb18030,gbk,gb2312,cp936
 set fileformats=unix,dos,mac
-set formatoptions+=m  " Prevent wrapping when Unicode > 255
-set formatoptions+=B  " Prevent space when merge lines in Chinese
+set formatoptions+=m
+set formatoptions+=B
 
 
 " Behavior
-"set showmatch matchtime=5
 set autoindent smartindent
 set tabstop=4 shiftwidth=4 softtabstop=4
 set wrap linebreak showbreak=>
@@ -39,6 +38,7 @@ set history=500
 set updatetime=300
 set notimeout nottimeout
 set completeopt=menuone,noinsert,noselect
+"set showmatch matchtime=5
 
 
 " Search
@@ -49,6 +49,6 @@ set ignorecase smartcase
 " File
 set nobackup nowritebackup
 set noswapfile noundofile
-set autochdir
 set autoread autowrite
 set confirm
+"set autochdir

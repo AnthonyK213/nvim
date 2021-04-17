@@ -97,7 +97,7 @@ endfunction
 if exists('g:usr_desktop')
   exe 'cd' g:usr_desktop
 endif
-lcd %:p:h
+cd %:p:h
 set mouse=a
 
 

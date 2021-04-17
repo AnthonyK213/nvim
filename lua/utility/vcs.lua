@@ -71,7 +71,7 @@ function M.git_push_all(...)
     end
 
     if git_branch then
-        vim.fn.execute('cd '..git_root)
+        vim.api.nvim_set_current_dir(git_root)
     else
         print("Not a valid git repository.")
         return
