@@ -1,6 +1,5 @@
 " Name:    nanovim.vim
 " Licence: MIT
-" vim:     set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
 
 let s:nanovim_mode={
       \ 'c'     : ' C ',
@@ -413,3 +412,5 @@ augroup nanovim_set_buffer
   autocmd BufEnter,FileChangedShellPost * call <SID>nanovim_set_buf()
 augroup end
 " }}
+
+" vim:     set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
