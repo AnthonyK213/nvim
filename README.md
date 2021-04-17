@@ -144,7 +144,7 @@
     - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd>     -> Open system file manager.
     - n:    <kbd>t</kbd>     -> Open terminal.
-    - n:    <kbd>p</kbd>     -> *nvim-tree.lua*, nvim-tree toggle(current directory).
+    - n:    <kbd>p</kbd>     -> *nvim-tree.lua*, nvim-tree toggle.
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
