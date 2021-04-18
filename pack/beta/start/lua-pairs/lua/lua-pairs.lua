@@ -216,6 +216,8 @@ end
 -- Super backspace.
 -- Inside a defined pair(no length limit):
 --   <u>|</u> -> feed <M-BS> -> |
+-- Kill a word:
+--   Kill a word| -> feed <M-BS> -> Kill a |
 -- @treturn nil
 function M.lp_supbs()
     local back = get_ctxt('b')
