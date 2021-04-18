@@ -46,7 +46,8 @@ endfunction
 
 function! s:gui_set_background()
   let l:hour = str2nr(strftime('%H'))
-  let &bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
+  let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
+  if &bg != l:bg | let &bg = l:bg | endif
 endfunction
 
 function! s:gui_bg_checker(timer_id)
