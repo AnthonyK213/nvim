@@ -45,7 +45,7 @@ local function is_NAC(char)
 end
 
 -- Escape regex special characters in a string by '%'.
--- @tparam string str String to be converted which can be use in a regex match pattern
+-- @tparam string str String to be converted to be a regex match pattern
 -- @treturn string Converted string
 local function reg_esc(str)
     local str_list = vim.fn.split(str, '\\zs')
@@ -69,25 +69,24 @@ end
 --   'b' -> Return the half line before cursor
 --   'f' -> Return the half line after cursor
 -- @treturn string Grabbed string around the cursor
+local get_ctxt_arg = {
+    l = { '.\\%', 'c' },
+    n = { '\\%', 'c.' },
+    b = { '^.*\\%', 'c' },
+    f = { '\\%', 'c.*$' },
+}
+
 local function get_ctxt(mode)
-    if mode == 'l' then
-        return fn.matchstr(api.nvim_get_current_line(), '.\\%'..fn.col('.')..'c')
-    elseif mode == 'n' then
-        return fn.matchstr(api.nvim_get_current_line(), '\\%'..fn.col('.')..'c.')
-    elseif mode == 'b' then
-        return fn.matchstr(api.nvim_get_current_line(), '^.*\\%'..fn.col('.')..'c')
-    elseif mode == 'f' then
-        return fn.matchstr(api.nvim_get_current_line(), '\\%'..fn.col('.')..'c.*$')
-    end
+    local arg_table = get_ctxt_arg[mode]
+    return fn.matchstr(
+    api.nvim_get_current_line(),
+    arg_table[1]..fn.col('.')..arg_table[2])
 end
 
 -- Define the buffer variables.
--- @bufvar string     b:lp_last_spec If the last character matches,
---                    no pairing event triggered.
--- @bufvar string     b:lp_next_spec If the next character matches,
---                    no pairing event triggered.
--- @bufvar string     b:lp_back_spec If the half line after the cursor matches,
---                    do not trigger.
+-- @bufvar string     b:lp_last_spec No paifing if the last character matches
+-- @bufvar string     b:lp_next_spec No pairing if the next character matches
+-- @bufvar string     b:lp_back_spec No pairing if the left half line matches
 -- @bufvar hashtable  b:lp_buf       { (string)pair_left = (string)pair_right }
 -- @bufvar hashtable  b:lp_buf_map   { (string)key = (string)pair_type }
 --   `pair_type`:
@@ -147,7 +146,7 @@ end
 
 -- Check the surrounding characters of the cursor.
 -- @tparam hashtable pair_table Defined pairs to index
--- @treturn bool True if the cursor is surrounded by one of the pairs in `pair_table`
+-- @treturn bool True if the cursor is surrounded by pair in `pair_table`
 local function is_sur(pair_table)
     local last_char = get_ctxt('l')
     return pair_table[last_char] and vim.b.lp_buf[last_char] == get_ctxt('n')
@@ -161,7 +160,7 @@ local function def_map(kbd, key)
     local k = key:match('<%u.*>') and '' or '"'..fn.escape(key, '"')..'"'
     api.nvim_buf_set_keymap(
     0, 'i', kbd,
-    [[<CMD>lua require('lua-pairs').lp_]]..vim.b.lp_buf_map[key]..'('..k..')<CR>',
+    '<CMD>lua require("lua-pairs").lp_'..vim.b.lp_buf_map[key]..'('..k..')<CR>',
     { noremap=true, expr=false, silent=true })
 end
 
@@ -187,7 +186,10 @@ end
 -- @treturn nil
 function M.lp_enter()
     if is_sur(vim.b.lp_buf) then
-        feed_keys('<CR><C-O>O')
+        feed_keys('<CR><C-\\><C-O>O')
+    elseif get_ctxt('b'):match('{%s*$') and
+        get_ctxt('f'):match('^%s*}') then
+        feed_keys('<C-\\><C-O>diB<CR><C-\\><C-O>O')
     else
         feed_keys('<CR>')
     end
@@ -200,14 +202,11 @@ end
 --   { | } -> feed <BS> -> {|}
 -- @treturn nil
 function M.lp_backs()
-    local back = get_ctxt('b')
-    local fore = get_ctxt('f')
-    if back:match('{%s$') and fore:match('^%s}') then
-        feed_keys('<C-g>U<Left><C-\\><C-o>2x')
-        return
-    end
     if is_sur(vim.b.lp_buf) then
         feed_keys('<C-g>U<Right><BS><BS>')
+    elseif get_ctxt('b'):match('{%s$') and
+        get_ctxt('f'):match('^%s}') then
+        feed_keys('<C-\\><C-O>diB')
     else
         feed_keys('<BS>')
     end
@@ -233,10 +232,10 @@ function M.lp_supbs()
     if res[1] then
         feed_keys(string.rep('<C-g>U<Left>', res[2])..
         '<C-\\><C-O>'..tostring(res[2] + res[3])..'x')
-    elseif back:match('{%s$') and fore:match('^%s}') then
-        feed_keys('<C-g>U<Left><Left><C-\\><C-o>4x')
+    elseif back:match('{%s*$') and fore:match('^%s*}') then
+        feed_keys('<C-\\><C-O>diB')
     else
-        feed_keys('<C-\\><C-o>db')
+        feed_keys('<C-\\><C-O>db')
     end
 end
 
@@ -245,7 +244,9 @@ end
 --   {|} -> feed <SPACE> -> { | }
 -- @treturn nil
 function M.lp_space()
-    local keys = is_sur({ ['{']='}' }) and '<SPACE><SPACE><C-g>U<Left>' or '<SPACE>'
+    local keys = is_sur({ ['{']='}' }) and
+    '<SPACE><SPACE><C-g>U<Left>' or
+    '<SPACE>'
     feed_keys(keys)
 end
 
@@ -363,7 +364,9 @@ function M.setup(option)
     vim.cmd('augroup lp_buffer_update')
     vim.cmd('autocmd!')
     vim.cmd('au BufEnter * lua require("lua-pairs").def_all()')
-    vim.cmd('au FileType * lua require("lua-pairs").clr_map() require("lua-pairs").def_all()')
+    vim.cmd([[au FileType * lua ]]..
+    [[require("lua-pairs").clr_map() ]]..
+    [[require("lua-pairs").def_all()]])
     vim.cmd('augroup end')
 end
 
