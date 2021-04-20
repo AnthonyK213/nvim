@@ -11,12 +11,13 @@ paq {'glepnir/indent-guides.nvim', opt=true}
 paq {'norcalli/nvim-colorizer.lua', opt=true}
 -- File system
 paq {'kyazdani42/nvim-tree.lua'}
-paq {'junegunn/fzf', run=vim.fn['fzf#install']}
-paq {'junegunn/fzf.vim'}
+paq {'nvim-telescope/telescope.nvim'}
 -- Git utilities
 paq {'mhinz/vim-signify'}
 paq {'tpope/vim-fugitive'}
 -- Utilities
+paq {'nvim-lua/popup.nvim'}
+paq {'nvim-lua/plenary.nvim'}
 paq {'tpope/vim-speeddating'}
 paq {'dhruvasagar/vim-table-mode'}
 -- File type support

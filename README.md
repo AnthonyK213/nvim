@@ -6,7 +6,7 @@
 * [**Python**](https://www.python.org/)
   > pip install pynvim  
   > pip install neovim-remote
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   - Crazy fast search tool.
 * [**paq-nvim**](https://github.com/savq/paq-nvim)
   - Windows
@@ -102,7 +102,7 @@
     - n:    <kbd>h</kbd>     -> Turn off highlights.
     - n:    <kbd>n</kbd>     -> Next buffer.
     - n:    <kbd>p</kbd>     -> Previous buffer.
-    - n:    <kbd>x</kbd>     -> *fzf.vim*, switch buffer using fzf.
+    - n:    <kbd>x</kbd>     -> *nvim-telescope*, switch buffer.
   - <kbd>leader-c-</kbd>     -> **Check**.
     - nv:   <kbd>c</kbd>     -> Chinese characters count.
     - n:    <kbd>s</kbd>     -> Toggle spell check status.
@@ -112,9 +112,9 @@
   - <kbd>leader-e-</kbd>     -> **Evaluate**
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
-  - <kbd>leader-f-</kbd>     -> **FZF**
-    - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
-    - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
+  - <kbd>leader-f-</kbd>     -> **Find**
+    - n:    <kbd>f</kbd>     -> *nvim-telescope*, find_files
+    - n:    <kbd>g</kbd>     -> *nvim-telescope*, live_grep
   - <kbd>leader-g-</kbd>     -> **LSP**
     - n:    <kbd>0</kbd>     -> `vim.lsp.buf.document_symbol()`
     - n:    <kbd>a</kbd>     -> `vim.lsp.buf.code_action()`

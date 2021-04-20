@@ -12,10 +12,6 @@ vim.g.nvim_tree_show_icons = {
 }
 
 
--- fzf
-vim.cmd('let $FZF_DEFAULT_OPTS = "--layout=reverse"')
-
-
 -- signify
 --- Signs
 vim.g.signify_sign_add               = '+'
