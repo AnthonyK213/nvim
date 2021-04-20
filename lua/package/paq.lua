@@ -13,8 +13,9 @@ paq {'norcalli/nvim-colorizer.lua', opt=true}
 paq {'kyazdani42/nvim-tree.lua'}
 paq {'nvim-telescope/telescope.nvim'}
 -- Git utilities
-paq {'mhinz/vim-signify'}
+--paq {'mhinz/vim-signify'}
 paq {'tpope/vim-fugitive'}
+paq {'lewis6991/gitsigns.nvim'}
 -- Utilities
 paq {'nvim-lua/popup.nvim'}
 paq {'nvim-lua/plenary.nvim'}

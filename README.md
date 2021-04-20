@@ -102,7 +102,7 @@
     - n:    <kbd>h</kbd>     -> Turn off highlights.
     - n:    <kbd>n</kbd>     -> Next buffer.
     - n:    <kbd>p</kbd>     -> Previous buffer.
-    - n:    <kbd>x</kbd>     -> *nvim-telescope*, switch buffer.
+    - n:    <kbd>x</kbd>     -> *telescope.nvim*, switch buffer.
   - <kbd>leader-c-</kbd>     -> **Check**.
     - nv:   <kbd>c</kbd>     -> Chinese characters count.
     - n:    <kbd>s</kbd>     -> Toggle spell check status.
@@ -113,8 +113,8 @@
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd>     -> **Find**
-    - n:    <kbd>f</kbd>     -> *nvim-telescope*, find_files
-    - n:    <kbd>g</kbd>     -> *nvim-telescope*, live_grep
+    - n:    <kbd>f</kbd>     -> *telescope.nvim*, find_files
+    - n:    <kbd>g</kbd>     -> *telescope.nvim*, live_grep
   - <kbd>leader-g-</kbd>     -> **LSP**
     - n:    <kbd>0</kbd>     -> `vim.lsp.buf.document_symbol()`
     - n:    <kbd>a</kbd>     -> `vim.lsp.buf.code_action()`
@@ -127,6 +127,16 @@
     - n:    <kbd>w</kbd>     -> `vim.lsp.buf.workspace_symbol()`
     - n:    <kbd>[</kbd>     -> `vim.lsp.diagnostic.goto_prev()`
     - n:    <kbd>]</kbd>     -> `vim.lsp.diagnostic.goto_next()`
+  - <kbd>leader-h-</kbd>     -> **VCS**.
+    - n:    <kbd>j</kbd>     -> *gitsigns.nvim*, next hunk.
+    - n:    <kbd>k</kbd>     -> *gitsigns.nvim*, previous hunk.
+    - n:    <kbd>s</kbd>     -> *gitsigns.nvim*, stage hunk.
+    - n:    <kbd>u</kbd>     -> *gitsigns.nvim*, undo stage hunk.
+    - n:    <kbd>r</kbd>     -> *gitsigns.nvim*, reset hunk.
+    - n:    <kbd>R</kbd>     -> *gitsigns.nvim*, reset buffer.
+    - n:    <kbd>p</kbd>     -> *gitsigns.nvim*, preview hunk.
+    - n:    <kbd>b</kbd>     -> *gitsigns.nvim*, blame line.
+    - n:    <kbd>h</kbd>     -> Git status.
   - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
     - nv:   <kbd>b</kbd>     -> Baidu
     - nv:   <kbd>g</kbd>     -> Google
@@ -153,13 +163,6 @@
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
-  - <kbd>leader-v-</kbd>     -> **VCS**.
-    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
-    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
-    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
-    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
-    - n:    <kbd>s</kbd>     -> Git status.
-    - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
   - <kbd>leader-w-</kbd>     -> **Vimwiki**.
 * **Miscellanea**
   - v:      <kbd>*</kbd>     -> Search visual selection.

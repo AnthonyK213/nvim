@@ -7,16 +7,10 @@ keymap('n', '<leader>op', ':NvimTreeToggle<CR>',              { noremap = true, 
 keymap('n', '<M-e>',      ':NvimTreeFindFile<CR>',            { noremap = true, silent = true })
 keymap('i', '<M-e>',      '<ESC>:NvimTreeFindFile<CR>',       { noremap = true, silent = true })
 keymap('t', '<M-e>',      '<C-\\><C-n>:NvimTreeFindFile<CR>', { noremap = true, silent = true })
--- nvim-telescope
+-- telescope.nvim
 keymap('n', '<leader>bx', ':Telescope buffers<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>ff', ':Telescope find_files<CR>',   { noremap = true, silent = true })
 keymap('n', '<leader>fg', ':Telescope live_grep<CR>',      { noremap = true, silent = true })
--- signify
-keymap('n', '<leader>vj', '<Plug>(signify-next-hunk)',     { noremap = false, silent = true })
-keymap('n', '<leader>vk', '<Plug>(signify-prev-hunk)',     { noremap = false, silent = true })
-keymap('n', '<leader>vJ', '9999<Plug>(signify-next-hunk)', { noremap = false, silent = true })
-keymap('n', '<leader>vK', '9999<Plug>(signify-prev-hunk)', { noremap = false, silent = true })
-keymap('n', '<leader>vt', ':SignifyToggle<CR>',            { noremap = true,  silent = true })
 -- vim-markdown
 keymap('n', '<leader>mh', ':Toch<CR>:resize 15<CR>',                                     { noremap = true, silent = true })
 keymap('n', '<leader>mv', ':lua require("utility/misc").toc_of_md_tex()<CR>',            { noremap = true, silent = true })

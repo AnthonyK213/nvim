@@ -87,7 +87,7 @@ keymap('n', '<leader>ds', "A<C-R>=strftime(' [[%Y-%m-%d %a %H:%M]]')<CR><Esc>", 
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
 -- Echo git status.
-keymap('n', '<leader>vs', ':!git status<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>hh', ':!git status<CR>', { noremap = true, silent = true })
 -- Search cword in web browser.
 local web_list = {
     b = "https://www.baidu.com/s?wd=",
