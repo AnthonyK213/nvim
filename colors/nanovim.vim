@@ -28,25 +28,25 @@ let g:colors_name = 'nanovim'
 
 " Colors {{
 if &background ==# 'light'
-  let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  } "White
-  let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   } "Black
-  let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" } "Amber
-  let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" } "Deep Orange
-  let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "98"  } "Deep Purple
-  let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "255" } "Very Light Grey
-  let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "254" } "Blue Grey / L50
-  let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" } "Blue Grey / L200
-  let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" } "Blue Grey / L800
+  let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  }
+  let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   }
+  let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" }
+  let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" }
+  let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "98"  }
+  let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "255" }
+  let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "254" }
+  let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" }
+  let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" }
 elseif &background ==# 'dark'
-  let s:nano_color_background = { "gui": "#2E3440", "cterm": "235" } "Polar Night 0 / nord 0
-  let s:nano_color_strong     = { "gui": "#ECEFF4", "cterm": "15"  } "Snow Storm 3  / nord 6
-  let s:nano_color_critical   = { "gui": "#EBCB8B", "cterm": "222" } "Aurora        / nord 11
-  let s:nano_color_popout     = { "gui": "#D08770", "cterm": "209" } "Aurora        / nord 12
-  let s:nano_color_salient    = { "gui": "#81A1C1", "cterm": "110" } "Frost         / nord 9
-  let s:nano_color_highlight  = { "gui": "#3B4252", "cterm": "238" } "Polar Night 1 / nord 1
-  let s:nano_color_subtle     = { "gui": "#434C5E", "cterm": "240" } "Polar Night 2 / nord 2
+  let s:nano_color_background = { "gui": "#2E3440", "cterm": "235" }
+  let s:nano_color_strong     = { "gui": "#ECEFF4", "cterm": "15"  }
+  let s:nano_color_critical   = { "gui": "#EBCB8B", "cterm": "222" }
+  let s:nano_color_popout     = { "gui": "#D08770", "cterm": "209" }
+  let s:nano_color_salient    = { "gui": "#81A1C1", "cterm": "110" }
+  let s:nano_color_highlight  = { "gui": "#3B4252", "cterm": "238" }
+  let s:nano_color_subtle     = { "gui": "#434C5E", "cterm": "240" }
   let s:nano_color_faded      = { "gui": "#616E87", "cterm": "244" }
-  let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  } "Snow Storm 3  / nord 6
+  let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  }
 endif
 " }}
 
@@ -371,12 +371,14 @@ hi link sqlKeyword               Nano_Face_Salient
 " }}
 
 " StatusLine {{
-" Get mode
+" Get mode.
+" It is better to use just one character to show the mode.
 function! Nanovim_Get_Mode()
   return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
 endfunction
 
-" Get file name
+" Get file name.
+" Shorten then file name when the window is too narrow.
 function! Nanovim_Get_File_Name()
   let l:file_path = expand('%:p')
   let l:file_dir  = expand('%:p:h')
@@ -389,6 +391,10 @@ function! Nanovim_Get_File_Name()
   let l:path_sepr = "/"
   if has('win32')
     let l:path_sepr = "\\"
+  endif
+
+  if strlen(l:file_path) > winwidth(0) * 0.7
+    return l:file_name
   endif
 
   if strlen(l:file_path) > winwidth(0) * 0.4
@@ -411,9 +417,15 @@ function! Nanovim_Get_Git_Branch()
   let l:current_dir = expand('%:p:h')
   let l:is_git_repo = 0
   while 1
-    if !empty(globpath(l:current_dir, ".git", 1)) | let l:is_git_repo = 1 | break | endif
-    let [l:temp_dir, l:current_dir] = [l:current_dir, fnamemodify(l:current_dir, ':h')]
-    if l:temp_dir == l:current_dir | break | endif
+    if !empty(globpath(l:current_dir, ".git", 1))
+      let l:is_git_repo = 1
+      break
+    endif
+    let l:temp_dir = l:current_dir
+    let l:current_dir = fnamemodify(l:current_dir, ':h')
+    if l:temp_dir ==# l:current_dir
+      break
+    endif
   endwhile
   if !l:is_git_repo | return '' | end
   try
@@ -430,7 +442,8 @@ function! s:nanovim_set_buf()
   set statusline+=%#Nano_Face_Default#\ 
   set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
   set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
-  set statusline+=%#Nano_Face_Status_Subtle#\ %{Nanovim_Get_File_Name()}\ %{Nanovim_Get_Git_Branch()}
+  set statusline+=%#Nano_Face_Status_Subtle#\ %{Nanovim_Get_File_Name()}\ 
+  set statusline+=%{Nanovim_Get_Git_Branch()}
   set statusline+=%=
   set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
   set statusline+=%#Nano_Face_Default#\ 
