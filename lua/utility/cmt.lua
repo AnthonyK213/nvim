@@ -16,6 +16,7 @@ local cmt_mark_tab_single = {
     lisp = ";",
     perl = '#',
     python = "#",
+    sh = "#",
     tex = "%",
     vim = '"',
     vimwiki = "%% "
