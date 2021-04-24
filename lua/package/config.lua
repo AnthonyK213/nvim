@@ -11,6 +11,7 @@ vim.g.nvim_tree_show_icons = {
     folders = 1,
     files = 1
 }
+vim.g.nvim_tree_ignore = { '.git', '.cache' }
 vim.g.nvim_tree_icons = {
     default = '▪ ',
     symlink = '▫ ',
