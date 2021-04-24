@@ -10,7 +10,8 @@ paq {'akinsho/nvim-bufferline.lua', opt=true}
 paq {'glepnir/indent-guides.nvim', opt=true}
 paq {'norcalli/nvim-colorizer.lua', opt=true}
 -- File system
-paq {'kyazdani42/nvim-tree.lua'}
+--paq {'kyazdani42/nvim-tree.lua'}
+paq {'AnthonyK213/nvim-tree.lua'}
 paq {'nvim-telescope/telescope.nvim'}
 -- Git utilities
 paq {'tpope/vim-fugitive'}
