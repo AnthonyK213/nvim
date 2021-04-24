@@ -58,3 +58,6 @@ keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = 
 augroup('completion_nvim_enable_all', 'BufEnter * lua require("completion").on_attach()')
 -- nvim-lspconfig
 augroup('lsp_diagnositic_on_hold', 'CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
+
+-- nvim-colorizer.lua
+vim.cmd('command! ColorizerReset lua package.loaded["colorizer"] = nil require("colorizer").setup() require("colorizer").attach_to_buffer(0)')
