@@ -5,10 +5,38 @@ vim.g.loaded_matchit = 1
 
 -- nvim-tree.lua
 vim.g.nvim_tree_indent_markers = 1
+vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_show_icons = {
     git = 1,
-    folders = 0,
-    files = 0
+    folders = 1,
+    files = 1
+}
+vim.g.nvim_tree_icons = {
+    default = '▪ ',
+    symlink = '▫ ',
+    git = {
+        unstaged = "✗",
+        staged = "✓",
+        unmerged = "U",
+        renamed = "➜",
+        untracked = "★",
+        deleted = "D",
+        ignored = "◌"
+    },
+    folder = {
+        default = "+",
+        open = "-",
+        empty = "*",
+        empty_open = "*",
+        symlink = "@",
+        symlink_open = "@",
+    },
+    lsp = {
+        hint = "H",
+        info = "I",
+        warning = "W",
+        error = "E",
+    }
 }
 
 
