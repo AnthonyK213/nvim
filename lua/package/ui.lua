@@ -1,5 +1,5 @@
 vim.o.tgc = true
-local augroup = require("utility/misc").set_au_group
+local augroup = require("utility/lib").set_au_group
 
 
 -- one-nvim
@@ -50,7 +50,7 @@ vim.cmd('packadd indent-guides.nvim')
 
 -- Load color scheme.
 augroup('one_ui_setup',
-'ColorScheme one-nvim lua local misc = require("utility/misc") '
+'ColorScheme one-nvim lua local misc = require("package/misc") '
 ..'misc.ui_one_extend() '
 ..'misc.lualine_setup() '
 ..'misc.indent_guides_color_toggle()')

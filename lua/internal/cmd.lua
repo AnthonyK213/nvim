@@ -7,7 +7,7 @@ vim.cmd('command! -nargs=? -complete=customlist,v:lua.RUN_CODE_OPTION CodeRun lu
 -- Git push all
 vim.cmd('command! -nargs=* PushAll lua require("utility/vcs").git_push_all(<f-args>)')
 -- Scroll off
-require("utility/misc").set_au_group(
+require("utility/lib").set_au_group(
 'scroll_off',
 'BufEnter * setlocal so=5',
 'BufEnter *.md setlocal so=999'

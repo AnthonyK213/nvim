@@ -1,5 +1,5 @@
 local keymap = vim.api.nvim_set_keymap
-local augroup = require("utility/misc").set_au_group
+local augroup = require("utility/lib").set_au_group
 
 
 -- nvim-tree.lua
@@ -13,8 +13,8 @@ keymap('n', '<leader>ff', ':Telescope find_files<CR>',   { noremap = true, silen
 keymap('n', '<leader>fg', ':Telescope live_grep<CR>',      { noremap = true, silent = true })
 -- vim-markdown
 keymap('n', '<leader>mh', ':Toch<CR>:resize 15<CR>',                                     { noremap = true, silent = true })
-keymap('n', '<leader>mv', ':lua require("utility/misc").toc_of_md_tex()<CR>',            { noremap = true, silent = true })
-keymap('n', '<leader>mm', ':lua require("utility/misc").vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>mv', ':lua require("package/misc").toc_of_md_tex()<CR>',            { noremap = true, silent = true })
+keymap('n', '<leader>mm', ':lua require("package/misc").vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
 -- vim-table-mode
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>tc', ':TableEvalFormulaLine<CR>', { noremap = true, silent = true })

@@ -115,5 +115,15 @@ function M.map(f, t)
     return t2
 end
 
+-- Define auto command group.
+function M.set_au_group(name, ...)
+    vim.cmd('augroup '..name)
+    vim.cmd('autocmd!')
+    for _, cmd in ipairs({...}) do
+        vim.cmd('au '..cmd)
+    end
+    vim.cmd('augroup end')
+end
+
 
 return M
