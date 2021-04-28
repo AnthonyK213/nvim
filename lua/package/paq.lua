@@ -27,7 +27,7 @@ paq {'vimwiki/vimwiki'}
 paq {'plasticboy/vim-markdown'}
 paq {'sophacles/vim-processing'}
 paq {'iamcco/markdown-preview.nvim', run=vim.fn['mkdp#util#install']}
--- Completion; LSP
+-- Snippet; Completion; LSP; Treesitter
 paq {'hrsh7th/vim-vsnip'}
 paq {'hrsh7th/vim-vsnip-integ'}
 paq {'neovim/nvim-lspconfig'}
