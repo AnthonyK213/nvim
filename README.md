@@ -106,13 +106,13 @@
   - <kbd>leader-c-</kbd>     -> **Check**.
     - nv:   <kbd>c</kbd>     -> Chinese characters count.
     - n:    <kbd>s</kbd>     -> Toggle spell check status.
-  - <kbd>leader-d-</kbd>     -> **Date**
+  - <kbd>leader-d-</kbd>     -> **Date**.
     - n:    <kbd>s</kbd>     -> Insert time stamp at the end of line.
     - n:    <kbd>d</kbd>     -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
-  - <kbd>leader-e-</kbd>     -> **Evaluate**
+  - <kbd>leader-e-</kbd>     -> **Evaluate**.
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
-  - <kbd>leader-f-</kbd>     -> **Find**
+  - <kbd>leader-f-</kbd>     -> **Find**.
     - n:    <kbd>f</kbd>     -> *telescope.nvim*, find_files
     - n:    <kbd>g</kbd>     -> *telescope.nvim*, live_grep
   - <kbd>leader-g-</kbd>     -> **LSP**
@@ -142,7 +142,7 @@
     - nv:   <kbd>g</kbd>     -> Google
     - nv:   <kbd>h</kbd>     -> Github
     - nv:   <kbd>y</kbd>     -> Youdao
-  - <kbd>leader-l-</kbd>     -> **Comment**
+  - <kbd>leader-l-</kbd>     -> **Comment**.
     - nv:   <kbd>a</kbd>     -> Comment line/block
     - nv:   <kbd>d</kbd>     -> Un-comment line/block
   - <kbd>leader-m-</kbd>     -> **vim-markdown**
@@ -159,7 +159,7 @@
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
     - n:    <kbd>d</kbd>     -> Surrounding delete.
-  - <kbd>leader-t-</kbd>     -> **vim-table-mode**
+  - <kbd>leader-t-</kbd>     -> **vim-table-mode**.
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
