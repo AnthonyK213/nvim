@@ -1,6 +1,7 @@
 -- Evaluate formula surrounded by backquote.
 local M = {}
-local lib = require("/utility/lib")
+local lib = require("utility/lib")
+local mlib = require("utility/mlib")
 
 
 local function text_eval(f)
@@ -102,6 +103,8 @@ local func_map = {
     cos   = function(args) return math.cos(args[1]) end,
     tan   = function(args) return math.tan(args[1]) end,
     log   = function(args) return math.log(args[1]) end,
+    fact  = function(args) return mlib.factorial(args[1]) end,
+    gamma = function(args) return mlib.gamma(args[1]) end,
 }
 
 local function tree_insert(tree, var, level)
