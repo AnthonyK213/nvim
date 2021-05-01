@@ -19,7 +19,10 @@ return {
         -- LaTeX
         texlab = false,
         -- Lua
-        sumneko_lua = false,
+        sumneko_lua = {
+            enable = false,
+            path = nil
+        },
         -- Python
         jedi_language_server = false,
         -- Rust
