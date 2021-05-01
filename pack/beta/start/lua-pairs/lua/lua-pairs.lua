@@ -354,7 +354,7 @@ end
 -- Set up lua-pairs.
 -- @tparam hashtable option User configuration
 --   bool      ret      True to map <CR>
---   bool      ret      True to map <BS> and <M-BS>
+--   bool      bak      True to map <BS> and <M-BS>
 --   bool      spc      True to map <SPACE>
 --   hashtable extd     To extend the default pairs
 --   hashtable extd_map To define key bindings of extend pairs
