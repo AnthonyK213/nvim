@@ -55,7 +55,7 @@ function! s:gui_bg_checker(timer_id)
 endfunction
 
 function! s:gui_fullscreen_toggle()
-  if exists('GuiWindowFullScreen')
+  if exists('*GuiWindowFullScreen')
     call GuiWindowFullScreen((g:GuiWindowFullScreen + 1) % 2)
   elseif exists(':FVimToggleFullScreen')
     FVimToggleFullScreen
