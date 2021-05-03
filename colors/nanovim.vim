@@ -368,6 +368,21 @@ hi link ALEInfoSign              Nano_Face_Subtle
 
 hi link sqlStatement             Nano_Face_Salient
 hi link sqlKeyword               Nano_Face_Salient
+
+" nvim-tree
+hi link NvimTreeSymlink          Nano_Face_Subtle
+hi link NvimTreeFolderName       Nano_Face_Faded
+hi link NvimTreeRootFolder       Nano_Face_Salient
+hi link NvimTreeFolderIcon       Nano_Face_Faded
+hi link NvimTreeEmptyFolderName  Nano_Face_Subtle
+hi link NvimTreeOpenedFolderName Nano_Face_Strong
+hi link NvimTreeExecFile         Nano_Face_Salient
+hi link NvimTreeMarkdownFile     StatusLineWarning
+hi link NvimTreeIndentMarker     Nano_Face_Faded
+
+hi link NvimTreeGitDirty         Nano_Face_Popout
+hi link NvimTreeGitStaged        Nano_Face_Salient
+hi link NvimTreeNew              Nano_Face_Popout
 " }}
 
 " StatusLine {{
