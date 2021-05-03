@@ -15,7 +15,7 @@ call plug#begin(stdpath('data') . '/plugged')
   " Utilities
   Plug 'Yggdroot/indentLine'
   Plug 'tpope/vim-speeddating'
-  Plug 'AnthonyK213/vim-ipairs', {'branch': 'master'}
+  Plug 'AnthonyK213/vim-ipairs'
   Plug 'dhruvasagar/vim-table-mode'
   " File type support
   Plug 'lervag/vimtex'
@@ -25,5 +25,4 @@ call plug#begin(stdpath('data') . '/plugged')
   " Completion; LSP
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()

@@ -123,11 +123,15 @@ let g:vimtex_view_general_options_latexmk = '-reuse-instance'
 let g:vimtex_compiler_progname = 'nvr'
 
 
-" vim-orgmode
-"let g:org_indent=2
-let agenda_path = expand(g:onedrive_path . "/Documents/Agenda/Agenda.org")
-let g:org_agenda_files = [agenda_path]
-command! OrgAgenda :exe ":tabnew" agenda_path
+" vimwiki
+let g:vimwiki_list = [{
+      \ 'path' : expand(g:onedrive_path . '/Documents/Agenda/'),
+      \ 'path_html' : expand(g:onedrive_path . '/Documents/Agenda/html/'),
+      \ 'syntax' : 'default',
+      \ 'ext' : '.wiki'
+      \ }]
+let g:vimwiki_folding = 'syntax'
+let g:vimwiki_ext2syntax = { '.wikimd' : 'markdown' }
 
 
 " IndentLine
@@ -168,8 +172,7 @@ imap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "
 smap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"
 
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
+" COMPLETION
 function! s:check_back_bullet()
   return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
 endfunction
@@ -180,12 +183,5 @@ ino <silent><expr> <TAB>
       \ Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
       \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(lib_const_r, &ts) :
       \ "\<Tab>"
-ino <silent><expr> <S-TAB>
-      \ pumvisible() ?
-      \ "\<C-p>" :
-      \ "\<C-h>"
-ino <silent><expr> <CR>
-      \ pumvisible() ? "\<C-y>" :
-      \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
-      \ "\<CR>\<C-\>\<C-o>O" :
-      \ "\<CR>"
+ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"

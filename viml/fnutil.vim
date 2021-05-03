@@ -44,10 +44,7 @@ endfunction
 
 "" Background toggle
 function! s:util_bg_toggle()
-  let &background = (&background == 'dark' ? 'light' : 'dark')
-  if exists("g:colors_name")
-    exe 'colorscheme' g:colors_name
-  endif
+  let &background = &background == 'dark' ? 'light' : 'dark'
 endfunction
 
 "" Open terminal and launch shell

@@ -31,7 +31,7 @@ while tab_num <= 10
   let tab_num += 1
 endwhile
 """ Open .vimrc(init.vim)
-nn  <M-,> :tabnew $MYVIMRC<CR>
+nn <expr><silent> <M-,> (expand("%:t") == '' ? ":e $MYVIMRC<CR>" : ":tabnew $MYVIMRC<CR>") . ":cd %:p:h<CR>"
 """ Terminal
 tno <Esc> <C-\><C-n>
 tno <silent> <M-d> <C-\><C-N>:bd!<CR>
@@ -51,7 +51,7 @@ vn <M-n> :normal
 """ Buffer
 nn <silent> <leader>bc :lcd %:p:h<CR>
 nn <expr><silent> <leader>bd
-      \ index(['help','terminal','nofile'], &buftype) >= 0 \|\|
+      \ index(['help','terminal','nofile', 'quickfix'], &buftype) >= 0 \|\|
       \ len(getbufinfo({'buflisted':1})) <= 2 ?
       \ ":bd<CR>" : ":bp\|bd#<CR>"
 nn <silent> <leader>bh :noh<CR>
