@@ -22,7 +22,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'plasticboy/vim-markdown'
   Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-  " Completion; LSP
+  " Snippet
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
