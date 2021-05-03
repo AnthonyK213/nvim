@@ -360,6 +360,9 @@ hi! link ALEInfoSign              Nano_Face_Subtle
 hi! link sqlStatement             Nano_Face_Salient
 hi! link sqlKeyword               Nano_Face_Salient
 
+" vim-markdown
+hi! link mkdHeading               Nano_Face_Salient
+
 " Signify, git-gutter
 hi! link SignifySignAdd           Nano_Face_Faded
 hi! link SignifySignDelete        Nano_Face_Faded
