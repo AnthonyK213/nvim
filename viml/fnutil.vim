@@ -602,8 +602,8 @@ ino <M-f> <C-\><C-o>e<Right>
 ino <C-SPACE> <C-\><C-o>v
 ino <silent> <C-a> <C-\><C-o>g0
 ino <silent> <C-e> <C-\><C-o>g$
-ino <silent> <C-k> <C-\><C-o>D"
-ino <silent> <M-d> <C-\><C-o>dw"
+ino <silent> <C-k> <C-\><C-o>D
+ino <silent> <M-d> <C-\><C-o>dw
 ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-\>\<C-o>+" : lib_const_r
 ino <silent><expr> <C-b> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : lib_const_l
 
