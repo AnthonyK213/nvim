@@ -22,10 +22,12 @@ function M.gamma(x)
     -- First interval: (0, 0.001)
     --
     -- For small x, 1/Gamma(x) has power series x + gamma x^2  - ...
-    -- So in this range, 1/Gamma(x) = x + gamma x^2 with error on the order of x^3.
+    -- So in this range, 1/Gamma(x) = x + gamma x^2 with error on the
+    -- order of x^3.
     -- The relative error over this interval is less than 6e-7.
 
-    local gamma_const = 0.577215664901532860606512090 -- Euler's gamma constant
+    -- Euler's gamma constant
+    local gamma_const = 0.577215664901532860606512090
 
     if x < 0.001 then
         return 1.0 / (x * (1.0 + gamma_const * x))
