@@ -174,14 +174,14 @@ smap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "
 
 " COMPLETION
 function! s:check_back_bullet()
-  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
+  return usr#lib#get_char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
 endfunction
 function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
+  return index(a:match_list, usr#lib#get_char('l') . usr#lib#get_char('n')) >= 0
 endfunction
 ino <silent><expr> <TAB>
-      \ Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(lib_const_r, &ts) :
+      \ usr#lib#get_char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
+      \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(g:lib_const_r, &ts) :
       \ "\<Tab>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"

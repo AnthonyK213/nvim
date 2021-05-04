@@ -38,8 +38,6 @@
     - Basic configuration without any dependencies.
   - `custom.vim`
     - Global variables and key maps.
-  - `deflib.vim`
-    - Public function library.
 - Utilities
   - `fnutil.vim`
     - External cross-platform dependencies(Git, LaTeX, etc.)

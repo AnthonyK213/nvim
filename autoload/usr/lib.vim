@@ -1,51 +1,12 @@
-" CONST
-"" Escape string for URL.
-let g:lib_const_esc_url = {
-      \ " " : "\\\%20",
-      \ "!" : "\\\%21",
-      \ '"' : "\\\%22",
-      \ "#" : "\\\%23",
-      \ "$" : "\\\%24",
-      \ "%" : "\\\%25",
-      \ "&" : "\\\%26",
-      \ "'" : "\\\%27",
-      \ "(" : "\\\%28",
-      \ ")" : "\\\%29",
-      \ "*" : "\\\%2A",
-      \ "+" : "\\\%2B",
-      \ "," : "\\\%2C",
-      \ "/" : "\\\%2F",
-      \ ":" : "\\\%3A",
-      \ ";" : "\\\%3B",
-      \ "<" : "\\\%3C",
-      \ "=" : "\\\%3D",
-      \ ">" : "\\\%3E",
-      \ "?" : "\\\%3F",
-      \ "@" : "\\\%40",
-      \ "\\": "\\\%5C",
-      \ "|" : "\\\%7C",
-      \ "\n": "\\\%20",
-      \ "\r": "\\\%20",
-      \ "\t": "\\\%20"
-      \ }
-
-"" Directional operation which won't mess up the history.
-let lib_const_l = "\<C-g>U\<Left>"
-let lib_const_d = "\<C-g>U\<Down>"
-let lib_const_u = "\<C-g>U\<Up>"
-let lib_const_r = "\<C-g>U\<Right>"
-
-
-" Functions
 "" Create a below right split window.
-function! Lib_Belowright_Split(height)
+function! usr#lib#belowright_split(height)
   let l:height = min([a:height, nvim_win_get_height(0) / 2])
   belowright split
   exe 'resize' l:height
 endfunction
 
 "" Find the root directory of .git
-function! Lib_Get_Git_Root()
+function! usr#lib#get_git_root()
   let l:dir = expand('%:p:h')
   while 1
     if !empty(globpath(l:dir, ".git", 1)) | return [1, l:dir] | endif
@@ -56,7 +17,7 @@ function! Lib_Get_Git_Root()
 endfunction
 
 "" Get the branch name without git
-function! Lib_Get_Git_Branch(git_root)
+function! usr#lib#get_git_branch(git_root)
   if a:git_root[0] == 0
     return [0, '']
   else
@@ -70,7 +31,7 @@ function! Lib_Get_Git_Branch(git_root)
 endfunction
 
 "" Get the character around the cursor.
-function! Lib_Get_Char(num) abort
+function! usr#lib#get_char(num) abort
   if a:num ==# 'l'
     return matchstr(getline('.'), '.\%' . col('.') . 'c')
   elseif a:num ==# 'n'
@@ -86,13 +47,13 @@ endfunction
 
 "" Determines if a character is a Chinese character.
 "" Why is this faster than regex?
-function! Lib_Is_Hanzi(char)
+function! usr#lib#is_hanzi(char)
   let l:code = char2nr(a:char)
   return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
 
 "" Return the <cWORD> without the noisy characters.
-function! Lib_Get_Clean_CWORD(del_list)
+function! usr#lib#get_clean_cWORD(del_list)
   let l:c_word = expand("<cWORD>")
   while index(a:del_list, l:c_word[(len(l:c_word) - 1)]) >= 0 && len(l:c_word) >= 2
     let l:c_word = l:c_word[:(len(l:c_word) - 2)]
@@ -104,7 +65,7 @@ function! Lib_Get_Clean_CWORD(del_list)
 endfunction
 
 "" Return the selections as string.
-function! Lib_Get_Visual_Selection()
+function! usr#lib#get_visual_selection()
   try
     let l:a_save = @a
     silent normal! gv"ay
@@ -116,7 +77,7 @@ endfunction
 
 "" Replace chars in a string according to a dictionary.
 "" Probably function escape() is more useful in most situations.
-function! Lib_Str_Escape(str, esc_dict)
+function! usr#lib#str_escape(str, esc_dict)
   let l:str_lst = split(a:str, '.\zs')
   let l:i = 0
   for char in l:str_lst

@@ -21,8 +21,7 @@ set list listchars=tab:>-,trail:·
 set encoding=utf-8 termencoding=utf-8
 set fileencodings=utf-8,chinese,ucs-bom,latin-1,shift-jis,gb18030,gbk,gb2312,cp936
 set fileformats=unix,dos,mac
-set formatoptions+=m
-set formatoptions+=B
+set formatoptions+=mB
 
 
 " Behavior

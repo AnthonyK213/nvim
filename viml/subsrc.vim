@@ -1,6 +1,5 @@
 " Basics
 set showmode
-set completeopt=longest,menuone
 
 
 " Comments leader
@@ -22,6 +21,12 @@ tno <silent> <leader>op <C-\><C-N>:20Lexplore<CR>
 
 
 " Pairs
+"" Directional operation which won't mess up the history.
+let g:subrc_dir_l = "\<C-g>U\<Left>"
+let g:subrc_dir_d = "\<C-g>U\<Down>"
+let g:subrc_dir_u = "\<C-g>U\<Up>"
+let g:subrc_dir_r = "\<C-g>U\<Right>"
+
 let g:subrc_pairs_dict = {
       \ "("  : ")",
       \ "["  : "]",
@@ -35,13 +40,25 @@ let g:subrc_pairs_dict = {
       \ "<u>": "</u>"
       \ }
 
+function! s:subsrc_get_context(arg) abort
+  if a:arg ==# 'l'
+    return matchstr(getline('.'), '.\%' . col('.') . 'c')
+  elseif a:arg ==# 'n'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.')
+  elseif a:arg ==# 'b'
+    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
+  elseif a:arg ==# 'f'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
+  endif
+endfunction
+
 function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, Lib_Get_Char('l') . Lib_Get_Char('n')) >= 0
+  return index(a:match_list, s:subsrc_get_context('l') . s:subsrc_get_context('n')) >= 0
 endfunction
 
 function! s:subrc_pairs_back()
-  let l:back = Lib_Get_Char('b')
-  let l:fore = Lib_Get_Char('f')
+  let l:back = s:subsrc_get_context('b')
+  let l:fore = s:subsrc_get_context('f')
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
     return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
   endif
@@ -63,48 +80,54 @@ endfunction
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) Lib_Get_Char('n') ==# ")" ? lib_const_r : ")"
-ino <expr> ] Lib_Get_Char('n') ==# "]" ? lib_const_r : "]"
-ino <expr> } Lib_Get_Char('n') ==# "}" ? lib_const_r : "}"
+ino <expr> ) <SID>subsrc_get_context('n') ==# ")" ? g:subrc_dir_r : ")"
+ino <expr> ] <SID>subsrc_get_context('n') ==# "]" ? g:subrc_dir_r : "]"
+ino <expr> } <SID>subsrc_get_context('n') ==# "}" ? g:subrc_dir_r : "}"
 ino <expr> "
-      \ Lib_Get_Char('n') ==# "\"" ?
-      \ lib_const_r :
-      \ or(Lib_Get_Char('l') =~ '\v[\\''"]', col('.') == 1) ?
-      \ '"' :
-      \ '""' . lib_const_l
+      \ <SID>subsrc_get_context('n') ==# "\"" ?
+      \ g:subrc_dir_r : or(<SID>subsrc_get_context('l') =~ '\v[\\''"]',
+      \ and(<SID>subsrc_get_context('b') =~ '\v^\s*$', &filetype == 'vim')) ?
+      \ '"' : '""' . g:subrc_dir_l
 ino <expr> '
-      \ Lib_Get_Char('n') ==# "'" ?
-      \ lib_const_r :
-      \ Lib_Get_Char('l') =~ '\v[''"]' ?
-      \ "'" :
-      \ "''" . lib_const_l
+      \ <SID>subsrc_get_context('n') ==# "'" ?
+      \ g:subrc_dir_r : <SID>subsrc_get_context('l') =~ '\v[''"]' ?
+      \ "'" : "''" . g:subrc_dir_l
 ino <expr> <SPACE>
       \ <SID>subrc_is_surrounded(['{}']) ?
-      \ "\<SPACE>\<SPACE>" . lib_const_l :
-      \ "\<SPACE>"
+      \ "\<SPACE>\<SPACE>" . g:subrc_dir_l : "\<SPACE>"
 ino <expr> <BS> <SID>subrc_pairs_back()
 "" Markdown
-ino <expr> <M-P> "``" . lib_const_l
-ino <expr> <M-I> "**" . lib_const_l
-ino <expr> <M-B> "****" . repeat(lib_const_l, 2)
-ino <expr> <M-M> "******" . repeat(lib_const_l, 3)
-ino <expr> <M-U> "<u></u>" . repeat(lib_const_l, 4)
+ino <expr> <M-P> "``" . g:subrc_dir_l
+ino <expr> <M-I> "**" . g:subrc_dir_l
+ino <expr> <M-B> "****" . repeat(g:subrc_dir_l, 2)
+ino <expr> <M-M> "******" . repeat(g:subrc_dir_l, 3)
+ino <expr> <M-U> "<u></u>" . repeat(g:subrc_dir_l, 4)
 
 
 " Completion
-function! s:check_back_bullet()
-  return Lib_Get_Char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
-endfunction
-ino <silent><expr> <TAB>
-      \ Lib_Get_Char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(lib_const_r, &ts) :
-      \ "\<Tab>"
-ino <silent><expr> <S-TAB>
-      \ pumvisible() ?
-      \ "\<C-p>" :
-      \ "\<C-h>"
+" Key maps
+"" Completion
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
-      \ "\<CR>\<C-\>\<C-o>O" :
+      \ "\<CR>\<C-o>O" :
       \ "\<CR>"
+ino <silent><expr> <TAB>
+      \ or(<SID>subsrc_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
+      \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-o>V>" . repeat(g:subrc_dir_r, &ts) : "\<TAB>"
+ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+
+" Emacs shit
+ino <C-A> <C-\><C-O>g0
+ino <C-E> <C-\><C-O>g$
+ino <C-K> <C-\><C-O>D
+nn  <C-N> gj
+nn  <C-P> gk
+vn  <C-N> gj
+vn  <C-P> gk
+ino <C-N> <C-\><C-O>gj
+ino <C-P> <C-\><C-O>gk
+ino <expr> <C-F> col('.') >= col('$') ? "<C-\><C-O>+" : g:subrc_dir_r
+ino <expr> <C-B> col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:subrc_dir_l
