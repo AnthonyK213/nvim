@@ -421,7 +421,14 @@ function! Nanovim_Get_File_Name()
       let l:path_head = remove(l:path_list, 0) . "\\"
     endif
     for l:dir in l:path_list
-      let l:path_head .= l:dir[0] . l:path_sepr
+      if l:dir[0] !=# '.'
+        let l:dir_short = l:dir[0]
+      elseif strlen(l:dir) > 1
+        let l:dir_short = l:dir[0:1]
+      else
+        let l:dir_short = '.'
+      endif
+      let l:path_head .= l:dir_short . l:path_sepr
     endfor
     return l:path_head . l:file_name
   endif
