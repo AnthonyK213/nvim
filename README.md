@@ -149,12 +149,12 @@
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
-  - <kbd>leader-v-</kbd>     -> **VCS**.
+  - <kbd>leader-h-</kbd>     -> **VCS**.
     - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
     - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
     - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
     - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
-    - n:    <kbd>s</kbd>     -> Git status.
+    - n:    <kbd>h</kbd>     -> Git status.
     - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
 * **Miscellanea**
   - v:      <kbd>*</kbd>     -> Search visual selection.

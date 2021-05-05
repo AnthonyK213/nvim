@@ -33,11 +33,11 @@ let g:signify_sign_change            = '~'
 "" Disable the numbers disctracting
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
-nmap <silent> <leader>vj <plug>(signify-next-hunk)
-nmap <silent> <leader>vk <plug>(signify-prev-hunk)
-nmap <silent> <leader>vJ 9999<plug>(signify-next-hunk)
-nmap <silent> <leader>vK 9999<plug>(signify-prev-hunk)
-nn   <silent> <leader>vt :SignifyToggle<CR>
+nmap <silent> <leader>hj <plug>(signify-next-hunk)
+nmap <silent> <leader>hk <plug>(signify-prev-hunk)
+nmap <silent> <leader>hJ 9999<plug>(signify-next-hunk)
+nmap <silent> <leader>hK 9999<plug>(signify-prev-hunk)
+nn   <silent> <leader>ht :SignifyToggle<CR>
 
 
 " vim-airline
