@@ -1,24 +1,6 @@
 " Name:    nanovim.vim
 " Licence: MIT
 
-let s:nanovim_mode={
-      \ 'c'     : ' C ',
-      \ 'i'     : ' I ',
-      \ 'ic'    : ' I ',
-      \ 'ix'    : ' I ',
-      \ 'n'     : ' N ',
-      \ 'multi' : ' M ',
-      \ 'niI'   : ' Ĩ ',
-      \ 'no'    : ' N ',
-      \ 'R'     : ' R ',
-      \ 'Rv'    : ' R ',
-      \ 's'     : ' S ',
-      \ 'S'     : ' S ',
-      \ 't'     : ' T ',
-      \ 'v'     : ' v ',
-      \ 'V'     : ' V ',
-      \ ''    : ' B ',
-      \ }
 
 hi clear
 set laststatus=2
@@ -33,7 +15,7 @@ if &background ==# 'light'
   let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" }
   let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" }
   let s:nano_color_salient    = { "gui": "#673AB7", "cterm": "98"  }
-  let s:nano_color_highlight  = { "gui": "#F9F9F9", "cterm": "255" }
+  let s:nano_color_highlight  = { "gui": "#FAFAFA", "cterm": "255" }
   let s:nano_color_subtle     = { "gui": "#ECEFF1", "cterm": "254" }
   let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" }
   let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" }
@@ -112,11 +94,6 @@ call s:h("Nano_Face_Faded", {
 " background color that is barely perceptible.
 call s:h("Nano_Face_Subtle", {
       \ "fg": s:nano_color_subtle
-      \ })
-" Subtle face for the statusline.
-call s:h("Nano_Face_Status_Subtle", {
-      \ "fg": s:nano_color_foreground,
-      \ "bg": s:nano_color_subtle
       \ })
 " Default face for the header line.
 call s:h("Nano_Face_Header_Default", {
@@ -388,90 +365,19 @@ hi! link NvimTreeGitNew           Nano_Face_Popout
 " }}
 
 " StatusLine {{
-" Get mode.
-" It is better to use just one character to show the mode.
-function! Nanovim_Get_Mode()
-  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
-endfunction
-
-" Get file name.
-" Shorten then file name when the window is too narrow.
-function! Nanovim_Get_File_Name()
-  let l:file_path = expand('%:p')
-  let l:file_dir  = expand('%:p:h')
-  let l:file_name = expand('%:t')
-  
-  if empty(l:file_name)
-    return "[No Name]"
-  endif
-
-  let l:path_sepr = "/"
-  if has('win32')
-    let l:path_sepr = "\\"
-  endif
-
-  if strlen(l:file_path) > winwidth(0) * 0.7
-    return l:file_name
-  endif
-
-  if strlen(l:file_path) > winwidth(0) * 0.4
-    let l:path_list = split(l:file_dir, l:path_sepr)
-    let l:path_head = "/"
-    if has('win32')
-      let l:path_head = remove(l:path_list, 0) . "\\"
-    endif
-    for l:dir in l:path_list
-      if l:dir[0] !=# '.'
-        let l:dir_short = l:dir[0]
-      elseif strlen(l:dir) > 1
-        let l:dir_short = l:dir[0:1]
-      else
-        let l:dir_short = '.'
-      endif
-      let l:path_head .= l:dir_short . l:path_sepr
-    endfor
-    return l:path_head . l:file_name
-  endif
-
-  return l:file_path
-endfunction
-
-" Get the branch
-function! Nanovim_Get_Git_Branch()
-  let l:current_dir = expand('%:p:h')
-  let l:is_git_repo = 0
-  while 1
-    if !empty(globpath(l:current_dir, ".git", 1))
-      let l:is_git_repo = 1
-      break
-    endif
-    let l:temp_dir = l:current_dir
-    let l:current_dir = fnamemodify(l:current_dir, ':h')
-    if l:temp_dir ==# l:current_dir
-      break
-    endif
-  endwhile
-  if !l:is_git_repo | return '' | end
-  try
-    let l:content = readfile(l:current_dir . '/.git/HEAD')
-    return '#' . split(l:content[0], '/')[-1]
-  catch
-    return ''
-  endtry
-endfunction
-
-" | MODE || short_file_name git_branch        file_type file_encoding line:col |
+" | MODE || file_name (file_type, git_branch)        file_encoding line:col |
+set showtabline=0
 function! s:nanovim_set_buf()
-  set statusline=
-  set statusline+=%#Nano_Face_Default#\ 
-  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
-  set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
-  set statusline+=%#Nano_Face_Header_Subtle#▌
-  set statusline+=%#Nano_Face_Status_Subtle#\ %{Nanovim_Get_File_Name()}\ 
-  set statusline+=%{Nanovim_Get_Git_Branch()}
-  set statusline+=%=
-  set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
-  set statusline+=%#Nano_Face_Default#\ 
+  set stl=
+  set stl+=%#Nano_Face_Default#\ 
+  set stl+=%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}
+  set stl+=%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}
+  set stl+=%#Nano_Face_Header_Subtle#▌
+  set stl+=%#Nano_Face_Header_Strong#\ %{nanovim#util#get_file_name()}
+  set stl+=%#Nano_Face_Header_Default#\ \ %{nanovim#util#filetype_and_branch()}
+  set stl+=%=
+  set stl+=%{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
+  set stl+=%#Nano_Face_Default#\ 
 endfunction
 
 augroup nanovim_set_buffer
