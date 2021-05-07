@@ -70,8 +70,8 @@ require('gitsigns').setup {
         ['n <leader>hp'] = '<cmd>lua require("gitsigns").preview_hunk()<CR>',
         ['n <leader>hb'] = '<cmd>lua require("gitsigns").blame_line()<CR>',
         -- Text objects
-        ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
-        ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>'
+        ['o ih'] = ':<C-U>lua require("gitsigns").select_hunk()<CR>',
+        ['x ih'] = ':<C-U>lua require("gitsigns").select_hunk()<CR>'
     },
     watch_index = {
         interval = 1000
@@ -197,11 +197,11 @@ vim.g.completion_chain_complete_list = {
     comment = {}
 }
 --- completion attach
-local custom_attach = function() require'completion'.on_attach() end
+local custom_attach = function() require('completion').on_attach() end
 
 
 -- nvim-lspconfig
-local lspconfig = require'lspconfig'
+local lspconfig = require('lspconfig')
 local init_lsp_option = require('core/opt').lsp or {}
 --- clangd
 if init_lsp_option.clangd then

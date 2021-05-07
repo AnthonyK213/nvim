@@ -13,7 +13,7 @@ vim.cmd('packadd lualine.nvim')
 
 -- nvim-bufferline.lua
 vim.cmd('packadd nvim-bufferline.lua')
-require'bufferline'.setup {
+require('bufferline').setup {
     options = {
         view = "default",
         numbers = "none",
