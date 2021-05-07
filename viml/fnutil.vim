@@ -1,31 +1,9 @@
 " Variables
-"" OS
-if has("win32")
-  let g:util_def_start = 'start'
-  let g:util_def_shell = get(g:, 'default_shell', 'powershell.exe -nologo')
-  let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
-  let g:python3_host_prog = get(g:, 'python3_exec_path', $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE')
-  set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
-  set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
-  set wildignore+=*.pyc
-  set wildignore+=*.DS_Store
-  set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
-elseif has("unix")
-  let g:util_def_start = 'xdg-open'
-  let g:util_def_shell = get(g:, 'default_shell', 'bash')
-  let g:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
-  let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
-  set wildignore+=*.so
-elseif has("mac")
-  let g:util_def_start = 'open'
-  let g:util_def_shell = get(g:, 'default_shell', 'zsh')
-  let g:util_def_cc = get(g:, 'default_c_compiler', 'clang')
-endif
 "" Directional operation which won't mess up the history.
-let g:lib_const_l = "\<C-g>U\<Left>"
-let g:lib_const_d = "\<C-g>U\<Down>"
-let g:lib_const_u = "\<C-g>U\<Up>"
-let g:lib_const_r = "\<C-g>U\<Right>"
+let g:const_dir_l = "\<C-g>U\<Left>"
+let g:const_dir_d = "\<C-g>U\<Down>"
+let g:const_dir_u = "\<C-g>U\<Up>"
+let g:const_dir_r = "\<C-g>U\<Right>"
 "" Search web
 let s:util_web_list = {
       \ "b" : "https://www.baidu.com/s?wd=",
@@ -114,8 +92,8 @@ ino <silent> <C-a> <C-\><C-o>g0
 ino <silent> <C-e> <C-\><C-o>g$
 ino <silent> <C-k> <C-\><C-o>D
 ino <silent> <M-d> <C-\><C-o>dw
-ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-\>\<C-o>+" : g:lib_const_r
-ino <silent><expr> <C-b> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : g:lib_const_l
+ino <silent><expr> <C-f> col('.') >= col('$') ? "\<C-\>\<C-o>+" : g:const_dir_r
+ino <silent><expr> <C-b> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : g:const_dir_l
 
 
 " Commands

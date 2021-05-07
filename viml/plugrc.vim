@@ -181,7 +181,7 @@ function! s:subrc_is_surrounded(match_list)
 endfunction
 ino <silent><expr> <TAB>
       \ usr#lib#get_char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(g:lib_const_r, &ts) :
+      \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(g:const_dir_r, &ts) :
       \ "\<Tab>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"

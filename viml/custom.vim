@@ -9,6 +9,18 @@ else
   let g:onedrive_path = expand('$HOME')
   let g:usr_desktop = expand('$HOME/Desktop')
 endif
+"" OS
+if has("win32")
+  let g:python3_host_prog = get(g:, 'python3_exec_path', $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE')
+  set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
+  set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
+  set wildignore+=*.pyc
+  set wildignore+=*.DS_Store
+  set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
+elseif has("unix")
+  let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
+  set wildignore+=*.so
+endif
 
 
 " Key maps

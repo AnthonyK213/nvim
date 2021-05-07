@@ -1,3 +1,17 @@
+"" OS
+if has("win32")
+  let s:util_def_start = 'start'
+  let s:util_def_shell = get(g:, 'default_shell', 'powershell.exe -nologo')
+  let s:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
+elseif has("unix")
+  let s:util_def_start = 'xdg-open'
+  let s:util_def_shell = get(g:, 'default_shell', 'bash')
+  let s:util_def_cc = get(g:, 'default_c_compiler', 'gcc')
+elseif has("mac")
+  let s:util_def_start = 'open'
+  let s:util_def_shell = get(g:, 'default_shell', 'zsh')
+  let s:util_def_cc = get(g:, 'default_c_compiler', 'clang')
+endif
 "" Escape string for URL.
 let s:lib_const_esc_url = {
       \ " " : "\\\%20",
@@ -49,19 +63,19 @@ endfunction
 "" Open terminal and launch shell
 function! usr#util#terminal()
   call usr#lib#belowright_split(15)
-  exe ':terminal' g:util_def_shell
+  exe ':terminal' s:util_def_shell
 endfunction
 
 "" Open file of buffer with system default browser.
 function! usr#util#open()
   let l:file_path = '"' . escape(expand('%:p'), '%#') . '"'
-  let l:cmd = has("win32") ? '' : g:util_def_start
+  let l:cmd = has("win32") ? '' : s:util_def_start
   silent exe '!' . l:cmd l:file_path
 endfunction
 
 "" Open file manager
 function! usr#util#explorer()
-  silent exe '!' . g:util_def_start '.'
+  silent exe '!' . s:util_def_start '.'
 endfunction
 
 "" Open pdf file
@@ -71,7 +85,7 @@ function! usr#util#pdf_view(...)
   else
     let l:name = escape(expand('%:r'), '%#') . '.pdf'
   endif
-  silent exe '!' . g:util_def_start l:name
+  silent exe '!' . s:util_def_start l:name
 endfunction
 
 "" Hanzi count.
@@ -108,7 +122,7 @@ function! usr#util#search_web(mode, site)
   endif
   let l:url_raw = a:site . l:search_obj
   let l:url_arg = has("win32") ? l:url_raw : '"' . l:url_raw . '"'
-  silent exe '!' . g:util_def_start l:url_arg
+  silent exe '!' . s:util_def_start l:url_arg
   redraw
 endfunction
 
@@ -160,11 +174,11 @@ function! usr#util#run_or_compile(option)
     endif
     call usr#lib#belowright_split(l:size)
     if l:optn ==? ''
-      exe l:cmdh g:util_def_cc l:file '-o' l:name . l:oute '&&' l:exec . l:name
+      exe l:cmdh s:util_def_cc l:file '-o' l:name . l:oute '&&' l:exec . l:name
     elseif l:optn ==? 'check'
-      exe l:cmdh g:util_def_cc l:file '-g -o' l:name . l:oute
+      exe l:cmdh s:util_def_cc l:file '-g -o' l:name . l:oute
     elseif l:optn ==? 'build'
-      exe l:cmdh g:util_def_cc l:file '-O2 -o' l:name . l:oute
+      exe l:cmdh s:util_def_cc l:file '-O2 -o' l:name . l:oute
     endif
   elseif l:exts ==? 'cpp'
     " C++
