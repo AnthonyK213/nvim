@@ -11,6 +11,9 @@ local fn  = vim.fn
 local opt = {}
 local lp_comm={ ["("]=")", ["["]=']', ["{"]="}", ["'"]="'", ['"']='"' }
 
+local left  = '<C-g>U<Left>'
+local right = '<C-g>U<Right>'
+
 
 ---------- Local functions ---------
 
@@ -203,7 +206,7 @@ end
 -- @treturn nil
 function M.lp_backs()
     if is_sur(vim.b.lp_buf) then
-        feed_keys('<C-g>U<Right><BS><BS>')
+        feed_keys(right..'<BS><BS>')
     elseif get_ctxt('b'):match('{%s$') and
         get_ctxt('f'):match('^%s}') then
         feed_keys('<C-\\><C-O>diB')
@@ -230,7 +233,7 @@ function M.lp_supbs()
         end
     end
     if res[1] then
-        feed_keys(string.rep('<C-g>U<Left>', res[2])..
+        feed_keys(string.rep(left, res[2])..
         '<C-\\><C-O>'..tostring(res[2] + res[3])..'x')
     elseif back:match('{%s*$') and fore:match('^%s*}') then
         feed_keys('<C-\\><C-O>diB')
@@ -245,8 +248,7 @@ end
 -- @treturn nil
 function M.lp_space()
     local keys = is_sur({ ['{']='}' }) and
-    '<SPACE><SPACE><C-g>U<Left>' or
-    '<SPACE>'
+    '<SPACE><SPACE>'..left or '<SPACE>'
     feed_keys(keys)
 end
 
@@ -263,7 +265,7 @@ function M.lp_mates(pair_a)
         keys = pair_a
     else
         local pair_b = vim.b.lp_buf[pair_a]
-        keys = pair_a..pair_b..string.rep('<C-g>U<Left>', #pair_b)
+        keys = pair_a..pair_b..string.rep(left, #pair_b)
     end
     feed_keys(keys)
 end
@@ -273,7 +275,7 @@ end
 -- @tparam string pair_b Right part of a pair of 'mates'
 -- @treturn nil
 function M.lp_close(pair_b)
-    local keys = get_ctxt('n') == pair_b and '<C-g>U<Right>' or pair_b
+    local keys = get_ctxt('n') == pair_b and right or pair_b
     feed_keys(keys)
 end
 
@@ -296,7 +298,7 @@ function M.lp_quote(quote)
     if (next_char == quote and
         (last_char == quote or
         is_NAC(last_char))) then
-        keys = '<C-g>U<Right>'
+        keys = right
     elseif (last_char == quote or
         is_NAC(last_char) or
         is_NAC(next_char) or
@@ -305,7 +307,7 @@ function M.lp_quote(quote)
         get_ctxt('b'):match(vim.b.lp_back_spec)) then
         keys = quote
     else
-        keys = quote..quote..'<C-g>U<Left>'
+        keys = quote..quote..left
     end
     feed_keys(keys)
 end
