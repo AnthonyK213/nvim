@@ -370,11 +370,11 @@ set showtabline=0
 function! s:nanovim_set_buf()
   set stl=
   set stl+=%#Nano_Face_Default#\ 
-  set stl+=%#Nano_Face_Header_Faded#%{&modified?'':cl#nanovim#get_mode()}
-  set stl+=%#Nano_Face_Header_Popout#%{&modified?cl#nanovim#get_mode():''}
+  set stl+=%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}
+  set stl+=%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}
   set stl+=%#Nano_Face_Header_Subtle#▌
-  set stl+=%#Nano_Face_Header_Strong#\ %{cl#nanovim#get_file_name()}
-  set stl+=%#Nano_Face_Header_Default#\ \ %{cl#nanovim#filetype_and_branch()}
+  set stl+=%#Nano_Face_Header_Strong#\ %{nanovim#util#get_file_name()}
+  set stl+=%#Nano_Face_Header_Default#\ \ %{nanovim#util#filetype_and_branch()}
   set stl+=%=
   set stl+=%{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
   set stl+=%#Nano_Face_Default#\ 

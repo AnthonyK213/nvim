@@ -54,13 +54,13 @@ endfunction
 " Autoload functions
 " Get mode.
 " It is better to use just one character to show the mode.
-function! cl#nanovim#get_mode()
+function! nanovim#util#get_mode()
   return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
 endfunction
 
 " Get file name.
 " Shorten then file name when the window is too narrow.
-function! cl#nanovim#get_file_name()
+function! nanovim#util#get_file_name()
   let l:file_path = expand('%:p')
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
@@ -101,7 +101,7 @@ function! cl#nanovim#get_file_name()
 endfunction
 
 " (filetype, branch)
-function! cl#nanovim#filetype_and_branch()
+function! nanovim#util#filetype_and_branch()
   let l:ls_old = [s:cap_str_init(&ft), s:get_git_branch()]
   let l:ls_new = []
   for l:item in l:ls_old
