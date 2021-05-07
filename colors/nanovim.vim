@@ -461,17 +461,21 @@ function! Nanovim_Get_Git_Branch()
 endfunction
 
 " | MODE || short_file_name git_branch        file_type file_encoding line:col |
+set showtabline=2
 function! s:nanovim_set_buf()
   set statusline=
-  set statusline+=%#Nano_Face_Default#\ 
-  set statusline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
-  set statusline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
-  set statusline+=%#Nano_Face_Header_Subtle#▌
-  set statusline+=%#Nano_Face_Status_Subtle#\ %{Nanovim_Get_File_Name()}\ 
-  set statusline+=%{Nanovim_Get_Git_Branch()}
-  set statusline+=%=
-  set statusline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
-  set statusline+=%#Nano_Face_Default#\ 
+  set statusline+=%#Nano_Face_Faded#\ %{repeat('-',winwidth(0)-2)}
+
+  set tabline=
+  set tabline+=%#Nano_Face_Default#\ 
+  set tabline+=%#Nano_Face_Header_Faded#%{&modified?'':Nanovim_Get_Mode()}
+  set tabline+=%#Nano_Face_Header_Popout#%{&modified?Nanovim_Get_Mode():''}
+  set tabline+=%#Nano_Face_Header_Subtle#▌
+  set tabline+=%#Nano_Face_Status_Subtle#\ %{Nanovim_Get_File_Name()}\ 
+  set tabline+=%{Nanovim_Get_Git_Branch()}
+  set tabline+=%=
+  set tabline+=%y\ %{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
+  set tabline+=%#Nano_Face_Default#\ 
 endfunction
 
 augroup nanovim_set_buffer
