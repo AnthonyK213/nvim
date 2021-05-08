@@ -367,6 +367,13 @@ hi! link NvimTreeGitNew           Nano_Face_Popout
 " StatusLine {{
 " | MODE || file_name (file_type, git_branch)                     line:column |
 set showtabline=0
+function! s:nanovim_enter_special_buffer()
+  if index(['NvimTree', 'help'], &ft) >= 0
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
+  endif
+endfunction
+
 let &stl = "%#Nano_Face_Default# " .
       \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}" .
       \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}" .
@@ -378,6 +385,7 @@ let &stl = "%#Nano_Face_Default# " .
 augroup nanovim_redrawstatus
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
+  autocmd BufEnter * call <SID>nanovim_enter_special_buffer()
 augroup end
 " }}
 
