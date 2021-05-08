@@ -102,16 +102,6 @@ endfunction
 
 " (filetype, branch)
 function! nanovim#util#filetype_and_branch()
-  let l:ls_old = [s:cap_str_init(&ft), s:get_git_branch()]
-  let l:ls_new = []
-  for l:item in l:ls_old
-    if !empty(l:item)
-      call add(l:ls_new, l:item)
-    endif
-  endfor
-  if len(l:ls_new)
-    return '(' . join(l:ls_new, ', ') .')'
-  else
-    return ''
-  endif
+  let l:ls = filter([s:cap_str_init(&ft), s:get_git_branch()], '!empty(v:val)')
+  if len(l:ls) | return '(' . join(l:ls, ', ') .')' | else | return '' | endif
 endfunction
