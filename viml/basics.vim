@@ -19,7 +19,7 @@ set list listchars=tab:>-,trail:·
 
 " Language, encode
 set encoding=utf-8 termencoding=utf-8
-set fenc=utf-8,chinese,ucs-bom,latin-1,shift-jis,gb18030,gbk,gb2312,cp936
+set fencs=utf-8,chinese,ucs-bom,latin-1,shift-jis,gb18030,gbk,gb2312,cp936
 set fileformats=unix,dos,mac
 set formatoptions+=mB
 
