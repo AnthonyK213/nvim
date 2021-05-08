@@ -63,19 +63,19 @@ end
 function M.get_context(mode)
     if mode == 'l' then
         return vim.fn.matchstr(
-        vim.api.nvim_get_current_line('.'),
+        vim.api.nvim_get_current_line(),
         '.\\%'..vim.fn.col('.')..'c')
     elseif mode == 'n' then
         return vim.fn.matchstr(
-        vim.api.nvim_get_current_line('.'),
+        vim.api.nvim_get_current_line(),
         '\\%'..vim.fn.col('.')..'c.')
     elseif mode == 'b' then
         return vim.fn.matchstr(
-        vim.api.nvim_get_current_line('.'),
+        vim.api.nvim_get_current_line(),
         '^.*\\%'..vim.fn.col('.')..'c')
     elseif mode == 'f' then
         return vim.fn.matchstr(
-        vim.api.nvim_get_current_line('.'),
+        vim.api.nvim_get_current_line(),
         '\\%'..vim.fn.col('.')..'c.*$')
     end
 end
