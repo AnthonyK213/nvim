@@ -365,25 +365,20 @@ hi! link NvimTreeGitNew           Nano_Face_Popout
 " }}
 
 " StatusLine {{
-" | MODE || file_name (file_type, git_branch)        file_encoding line:col |
+" | MODE || file_name (file_type, git_branch)                     line:column |
 set showtabline=0
-function! s:nanovim_set_buf()
-  set stl=
-  set stl+=%#Nano_Face_Default#\ 
-  set stl+=%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}
-  set stl+=%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}
-  set stl+=%#Nano_Face_Header_Subtle#▌
-  set stl+=%#Nano_Face_Header_Strong#\ %{nanovim#util#get_file_name()}
-  set stl+=%#Nano_Face_Header_Default#\ \ %{nanovim#util#filetype_and_branch()}
-  set stl+=%=
-  set stl+=%{strlen(&fenc)?&fenc:'none'}\ %l:%c\ 
-  set stl+=%#Nano_Face_Default#\ 
-endfunction
+let &stl = "%#Nano_Face_Default# " .
+      \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}" .
+      \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}" .
+      \ "%#Nano_Face_Header_Subtle#▌" .
+      \ "%#Nano_Face_Header_Strong# %{nanovim#util#get_file_name()}" .
+      \ "%#Nano_Face_Header_Default#  %{nanovim#util#filetype_and_branch()}" .
+      \ "%= %l:%c %#Nano_Face_Default# "
 
-augroup nanovim_set_buffer
+augroup nanovim_redrawstatus
   autocmd!
-  autocmd BufEnter,FileChangedShellPost * call <SID>nanovim_set_buf()
+  autocmd FileChangedShellPost * redrawstatus
 augroup end
 " }}
 
-" vim:     set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
+" vim: set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
