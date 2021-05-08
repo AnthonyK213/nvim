@@ -74,7 +74,7 @@ nn  <silent> <leader>ml :call usr#note#md_sort_num_bullet()<CR>
 "" Echo git status
 nn <silent> <leader>hh :!git status<CR>
 "" Append day of week after the date
-nn <silent> <leader>dd :call usr#util#append_day_from_date()<CR>
+nn <silent> <leader>dd :call usr#note#append_day_from_date()<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nn <silent> <leader>ds A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
 "" Some emacs shit.
