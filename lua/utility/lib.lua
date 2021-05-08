@@ -8,7 +8,8 @@ end
 
 -- Create a below right split window.
 function M.belowright_split(height)
-    local term_h = math.min(height, math.floor(vim.api.nvim_win_get_height(0) / 2))
+    local term_h = math.min(height,
+    math.floor(vim.api.nvim_win_get_height(0) / 2))
     vim.fn.execute('belowright split')
     vim.fn.execute('resize '..tostring(term_h))
 end
@@ -61,20 +62,28 @@ end
 -- Get characters around the cursor.
 function M.get_context(mode)
     if mode == 'l' then
-        return vim.fn.matchstr(vim.fn.getline('.'), '.\\%'..vim.fn.col('.')..'c')
+        return vim.fn.matchstr(
+        vim.api.nvim_get_current_line('.'),
+        '.\\%'..vim.fn.col('.')..'c')
     elseif mode == 'n' then
-        return vim.fn.matchstr(vim.fn.getline('.'), '\\%'..vim.fn.col('.')..'c.')
+        return vim.fn.matchstr(
+        vim.api.nvim_get_current_line('.'),
+        '\\%'..vim.fn.col('.')..'c.')
     elseif mode == 'b' then
-        return vim.fn.matchstr(vim.fn.getline('.'), '^.*\\%'..vim.fn.col('.')..'c')
+        return vim.fn.matchstr(
+        vim.api.nvim_get_current_line('.'),
+        '^.*\\%'..vim.fn.col('.')..'c')
     elseif mode == 'f' then
-        return vim.fn.matchstr(vim.fn.getline('.'), '\\%'..vim.fn.col('.')..'c.*$')
+        return vim.fn.matchstr(
+        vim.api.nvim_get_current_line('.'),
+        '\\%'..vim.fn.col('.')..'c.*$')
     end
 end
 
 -- Replace chars in a string according to a dictionary.
 function M.str_escape(str, esc_table)
     local str_list = vim.fn.split(str, '\\zs')
-    for i,v in ipairs(str_list) do
+    for i, v in ipairs(str_list) do
         if esc_table[v] then
             str_list[i] = esc_table[v]
         end
@@ -85,8 +94,12 @@ end
 -- Escape lua regex special characters in a string by '%'.
 function M.lua_reg_esc(str)
     local str_list = vim.fn.split(str, '\\zs')
-    local esc_table = { '(', ')', '[', ']', '.', '%', '+', '-', '*', '?', '^', '$' }
-    for i,v in ipairs(str_list) do
+    local esc_table = {
+        '(', ')', '[', ']',
+        '+', '-', '*', '?',
+        '.', '%', '^', '$'
+    }
+    for i, v in ipairs(str_list) do
         if vim.fn.index(esc_table, v) >= 0 then
             str_list[i] = '%'..v
         end
@@ -111,7 +124,7 @@ end
 -- Mapping a function to table.
 function M.map(f, t)
     local t2 = {}
-    for key,val in pairs(t) do t2[key] = f(val) end
+    for key, val in pairs(t) do t2[key] = f(val) end
     return t2
 end
 

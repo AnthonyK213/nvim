@@ -50,8 +50,10 @@ function M.cmt_add_vis()
     local pos_s = fn.getpos("'<")
     local pos_e = fn.getpos("'>")
     if cmt_mark_multi then
-        local cmd_s = api.nvim_replace_termcodes("O"..cmt_mark_multi[1], true, false, true)
-        local cmd_e = api.nvim_replace_termcodes("o"..cmt_mark_multi[2], true, false, true)
+        local cmd_s = api.nvim_replace_termcodes(
+        "O"..cmt_mark_multi[1], true, false, true)
+        local cmd_e = api.nvim_replace_termcodes(
+        "o"..cmt_mark_multi[2], true, false, true)
         fn.setpos('.', pos_e)
         api.nvim_feedkeys(cmd_e, 'xn', true)
         fn.setpos('.', pos_s)

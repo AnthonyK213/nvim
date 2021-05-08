@@ -134,7 +134,8 @@ function M.md_insert_bullet()
                 if (l_det == 1) then
                     break
                 elseif (l_det == 2 and f_det == 2) then
-                    local f_new = f_str:gsub(tostring(f_bul), tostring(f_bul + 1), 1)
+                    local f_new = f_str:gsub(
+                    tostring(f_bul), tostring(f_bul + 1), 1)
                     vim.fn.setline(f_num, f_new)
                 end
             elseif (f_ind <= l_ind) then
@@ -158,8 +159,9 @@ function M.md_insert_bullet()
         else
             l_bul_new = l_bul.." "
         end
-        local feed_string = vim.api.nvim_replace_termcodes(string.rep('<Down>', count_d)..
-        '<C-O>o<C-O>i'..string.rep('<SPACE>', l_ind)..l_bul_new, true, false, true)
+        local feed_string = vim.api.nvim_replace_termcodes(string.rep('<Down>',
+        count_d)..'<C-O>o<C-O>i'..string.rep('<SPACE>', l_ind)..l_bul_new,
+        true, false, true)
         vim.api.nvim_feedkeys(feed_string, 'in', true)
     end
 end
@@ -204,7 +206,8 @@ function M.md_sort_num_bullet()
 
         local b_len = #b_num_list
         for i, u in ipairs(b_num_list) do
-            local lb_new = vim.fn.getline(u):gsub('%d+', tostring(b_len - i + 1), 1)
+            local lb_new = vim.fn.getline(u):gsub(
+            '%d+', tostring(b_len - i + 1), 1)
             vim.fn.setline(u, lb_new)
         end
 

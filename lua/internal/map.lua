@@ -38,13 +38,13 @@ keymap('n', '<leader>bp', '<cmd>bp<CR>',  { noremap = true, silent = true })
 -- Toggle spell check status.
 keymap('n', '<leader>cs', '<cmd>setlocal spell! spelllang=en_us<CR>', { noremap = true, silent = true })
 -- Navigate windows.
-for _,direct in ipairs({'h', 'j', 'k', 'l', 'w'}) do
+for _, direct in ipairs({'h', 'j', 'k', 'l', 'w'}) do
     keymap('n', '<M-'..direct..'>', '<C-W>'..direct,            { noremap = true })
     keymap('i', '<M-'..direct..'>', '<ESC><C-W>'..direct,       { noremap = true })
     keymap('t', '<M-'..direct..'>', '<C-\\><C-N><C-W>'..direct, { noremap = true })
 end
 -- Switch tab.
-for i=1,10,1 do
+for i = 1, 10, 1 do
     local tab_key
     if i == 10 then tab_key = 0 else tab_key = i end
     keymap('n', '<M-'..tostring(tab_key)..'>', '<cmd>tabn '..tostring(i)..'<CR>',  { noremap = true, silent = true })
@@ -95,7 +95,7 @@ local web_list = {
     h = "https://github.com/search?q=",
     y = "https://dict.youdao.com/w/eng/"
 }
-for key,val in pairs(web_list) do
+for key, val in pairs(web_list) do
     keymap('n', '<leader>k'..key, '<cmd>lua require("utility/util").search_web("n", "'..val..'")<CR>',  { noremap = true, silent = true })
     keymap('v', '<leader>k'..key, ':<C-U>lua require("utility/util").search_web("v", "'..val..'")<CR>', { noremap = true, silent = true })
 end
@@ -110,7 +110,7 @@ keymap('i', '<C-K>', '<C-\\><C-O>D',        { noremap = true, silent = true })
 keymap('i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:const_dir_r]],     { noremap = true, silent = true, expr = true })
 keymap('i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:const_dir_l]], { noremap = true, silent = true, expr = true })
 keymap('i', '<M-d>', '<C-\\><C-O>dw', { noremap = true, silent = true })
-for key,val in pairs({n='j', p='k'}) do
+for key, val in pairs({n='j', p='k'}) do
     keymap('n', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
     keymap('v', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
     keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, { noremap = true, silent = true })
@@ -120,7 +120,7 @@ keymap('n', '<leader>sa', '<cmd>lua require("utility/srd").srd_add("n")<CR>',  {
 keymap('v', '<leader>sa', ':<C-U>lua require("utility/srd").srd_add("v")<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>sd', '<cmd>lua require("utility/srd").srd_sub("")<CR>',   { noremap = true, silent = true })
 keymap('n', '<leader>sc', '<cmd>lua require("utility/srd").srd_sub()<CR>',     { noremap = true, silent = true })
-for key,val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
+for key, val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
     keymap('n', '<M-'..key..'>', '<cmd>lua require("utility/srd").srd_add("n","'..val..'")<CR>',  { noremap = true, silent = true })
     keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/srd").srd_add("v","'..val..'")<CR>', { noremap = true, silent = true })
 end
