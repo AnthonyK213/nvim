@@ -234,7 +234,7 @@ function M.lp_supbs()
     end
     if res[1] then
         feed_keys(string.rep(left, res[2])..
-        '<C-\\><C-O>'..tostring(res[2] + res[3])..'x')
+        string.rep('<Del>', res[2] + res[3]))
     elseif back:match('{%s*$') and fore:match('^%s*}') then
         feed_keys('<C-\\><C-O>diB')
     else
