@@ -78,11 +78,11 @@
   - n:   <kbd>M-,</kbd>      -> Open `$MYVIMRC`.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
-  - inv: <kbd>M-B</kbd>      -> Markdown bold: **bold** 
-  - inv: <kbd>M-I</kbd>      -> Markdown italic: *italic*
-  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***bold_italic***
-  - inv: <kbd>M-P</kbd>      -> Markdown block: `block`
-  - inv: <kbd>M-U</kbd>      -> Markdown/HTML underscore: <u>bold</u>
+  - inv: <kbd>M-B</kbd>      -> Markdown **bold**.
+  - inv: <kbd>M-I</kbd>      -> Markdown *italic*.
+  - inv: <kbd>M-M</kbd>      -> Markdown ***bold_italic***.
+  - inv: <kbd>M-P</kbd>      -> Markdown `block`.
+  - inv: <kbd>M-U</kbd>      -> Markdown/HTML <u>underscore</u>.
 * **Emacs shit**
   - inv: <kbd>C-N</kbd>      -> Emacs next.
   - inv: <kbd>C-P</kbd>      -> Emacs previous.
@@ -115,9 +115,9 @@
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd>     -> **Find**.
-    - n:    <kbd>b</kbd>     -> *telescope.nvim*, buffers
-    - n:    <kbd>f</kbd>     -> *telescope.nvim*, find_files
-    - n:    <kbd>g</kbd>     -> *telescope.nvim*, live_grep
+    - n:    <kbd>b</kbd>     -> *telescope.nvim*, buffers.
+    - n:    <kbd>f</kbd>     -> *telescope.nvim*, find_files.
+    - n:    <kbd>g</kbd>     -> *telescope.nvim*, live_grep.
   - <kbd>leader-g-</kbd>     -> **LSP**
     - n:    <kbd>0</kbd>     -> `vim.lsp.buf.document_symbol()`
     - n:    <kbd>a</kbd>     -> `vim.lsp.buf.code_action()`
@@ -142,8 +142,8 @@
     - nv:   <kbd>h</kbd>     -> Github
     - nv:   <kbd>y</kbd>     -> Youdao
   - <kbd>leader-l-</kbd>     -> **Comment**.
-    - nv:   <kbd>a</kbd>     -> Comment line/block
-    - nv:   <kbd>d</kbd>     -> Un-comment line/block
+    - nv:   <kbd>a</kbd>     -> Comment line/block.
+    - nv:   <kbd>d</kbd>     -> Un-comment line/block.
   - <kbd>leader-m-</kbd>     -> **Markdown**
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
