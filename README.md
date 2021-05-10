@@ -75,12 +75,12 @@
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>      -> Open init.lua.
+  - n:   <kbd>M-,</kbd>      -> Open `$MYVIMRC`.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - inv: <kbd>M-B</kbd>      -> Markdown bold: **bold** 
   - inv: <kbd>M-I</kbd>      -> Markdown italic: *italic*
-  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***italic***
+  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***bold_italic***
   - inv: <kbd>M-P</kbd>      -> Markdown block: `block`
   - inv: <kbd>M-U</kbd>      -> Markdown/HTML underscore: <u>bold</u>
 * **Emacs shit**
@@ -144,7 +144,7 @@
   - <kbd>leader-l-</kbd>     -> **Comment**.
     - nv:   <kbd>a</kbd>     -> Comment line/block
     - nv:   <kbd>d</kbd>     -> Un-comment line/block
-  - <kbd>leader-m-</kbd>     -> **vim-markdown**
+  - <kbd>leader-m-</kbd>     -> **Markdown**
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
     - n:    <kbd>h</kbd>     -> *vim-markdown*, Toc horizontal.
@@ -158,7 +158,7 @@
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
     - n:    <kbd>d</kbd>     -> Surrounding delete.
-  - <kbd>leader-t-</kbd>     -> **vim-table-mode**.
+  - <kbd>leader-t-</kbd>     -> **Table mode**.
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
