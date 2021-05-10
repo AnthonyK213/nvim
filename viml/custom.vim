@@ -25,9 +25,6 @@ endif
 
 " Key maps
 "" Ctrl
-""" Indent entire line.
-nn <C-j> V<
-nn <C-k> V>
 """ Adjust window size.
 nn <C-UP>    <C-W>-
 nn <C-DOWN>  <C-W>+

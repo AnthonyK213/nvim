@@ -6,8 +6,8 @@ let g:airline_theme = 'onedark'
 
 
 " FZF
-let $FZF_DEFAULT_OPTS = "--layout=reverse"
-nn <silent> <leader>bx :Buffers<CR>
+"let $FZF_DEFAULT_OPTS = "--layout=reverse"
+nn <silent> <leader>fb :Buffers<CR>
 nn <silent> <leader>ff :Files<CR>
 nn <silent> <leader>fg :Rg<CR>
 
@@ -37,7 +37,6 @@ nmap <silent> <leader>hj <plug>(signify-next-hunk)
 nmap <silent> <leader>hk <plug>(signify-prev-hunk)
 nmap <silent> <leader>hJ 9999<plug>(signify-next-hunk)
 nmap <silent> <leader>hK 9999<plug>(signify-prev-hunk)
-nn   <silent> <leader>ht :SignifyToggle<CR>
 
 
 " vim-airline

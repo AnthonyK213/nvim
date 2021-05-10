@@ -70,8 +70,6 @@
 
 ## Key bindings
 * **Ctrl**
-  - n:   <kbd>C-J</kbd>      -> Indent left.
-  - n:   <kbd>C-K</kbd>      -> Indent right.
   - in:  <kbd>C-S</kbd>      -> Save.
   - n:   <kbd>C-Direct</kbd> -> Adjust window size.
 * **Meta**
@@ -88,17 +86,23 @@
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>      -> Open init.lua.
+  - n:   <kbd>M-,</kbd>      -> Open `$MYVIMRC`.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - inv: <kbd>M-B</kbd>      -> Markdown bold: **bold** 
+  - inv: <kbd>M-I</kbd>      -> Markdown italic: *italic*
+  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***italic***
+  - inv: <kbd>M-P</kbd>      -> Markdown block: `block`
+  - inv: <kbd>M-U</kbd>      -> Markdown/HTML underscore: <u>bold</u>
+
 * **Emacs shit**
-  - inv: <kbd>C-n</kbd>      -> Emacs next.
-  - inv: <kbd>C-p</kbd>      -> Emacs previous.
-  - i:   <kbd>C-f</kbd>      -> Emacs forward.
-  - i:   <kbd>C-b</kbd>      -> Emacs backward.
-  - i:   <kbd>C-a</kbd>      -> Emacs line start.
-  - i:   <kbd>C-e</kbd>      -> Emacs line end.
-  - i:   <kbd>C-k</kbd>      -> Emacs kill test on the right.
+  - inv: <kbd>C-N</kbd>      -> Emacs next.
+  - inv: <kbd>C-P</kbd>      -> Emacs previous.
+  - i:   <kbd>C-F</kbd>      -> Emacs forward.
+  - i:   <kbd>C-B</kbd>      -> Emacs backward.
+  - i:   <kbd>C-A</kbd>      -> Emacs line start.
+  - i:   <kbd>C-E</kbd>      -> Emacs line end.
+  - i:   <kbd>C-K</kbd>      -> Emacs kill test on the right.
   - i:   <kbd>M-f</kbd>      -> Emacs next word.
   - i:   <kbd>M-b</kbd>      -> Emacs last word.
   - in:  <kbd>M-x</kbd>      -> Command line.
@@ -113,25 +117,30 @@
     - n:    <kbd>h</kbd>     -> Turn off highlights.
     - n:    <kbd>n</kbd>     -> Next buffer.
     - n:    <kbd>p</kbd>     -> Previous buffer.
-    - n:    <kbd>x</kbd>     -> *fzf.vim*, switch buffer using fzf.
   - <kbd>leader-c-</kbd>     -> **Check**.
     - nv:   <kbd>c</kbd>     -> Chinese characters count.
     - n:    <kbd>s</kbd>     -> Toggle spell check status.
-  - <kbd>leader-d-</kbd>     -> **Date**
+  - <kbd>leader-d-</kbd>     -> **Date**.
     - n:    <kbd>s</kbd>     -> Insert time stamp at the end of line.
-    - n:    <kbd>d</kbd>     -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+    - n:    <kbd>d</kbd>     -> Append day of week to yyyy-mm-dd.
   - <kbd>leader-e-</kbd>     -> **Evaluate**
-    - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
-    - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
-  - <kbd>leader-f-</kbd>     -> FZF
+    - n:    <kbd>v</kbd>     -> Evaluate viml chunk surrounded by backquote.
+  - <kbd>leader-f-</kbd>     -> **FZF**.
+    - n:    <kbd>b</kbd>     -> *fzf.vim*, switch buffer using fzf.
     - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
+  - <kbd>leader-h-</kbd>     -> **VCS**.
+    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
+    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
+    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
+    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
+    - n:    <kbd>h</kbd>     -> Git status.
   - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
     - nv:   <kbd>b</kbd>     -> Baidu
     - nv:   <kbd>g</kbd>     -> Google
     - nv:   <kbd>h</kbd>     -> Github
     - nv:   <kbd>y</kbd>     -> Youdao
-  - <kbd>leader-m-</kbd>     -> **vim-markdown**
+  - <kbd>leader-m-</kbd>     -> **Markdown**.
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
     - n:    <kbd>h</kbd>     -> *vim-markdown*, Toc horizontal.
@@ -139,37 +148,25 @@
   - <kbd>leader-o-</kbd>     -> **Open**.
     - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd>     -> Open system file manager.
-    - nt:   <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
     - n:    <kbd>t</kbd>     -> Open terminal.
+    - nt:   <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
     - n:    <kbd>d</kbd>     -> Surrounding delete.
-  - <kbd>leader-t-</kbd>     -> **vim-table-mode**
+  - <kbd>leader-t-</kbd>     -> **Table mode**
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
-  - <kbd>leader-h-</kbd>     -> **VCS**.
-    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
-    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
-    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
-    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
-    - n:    <kbd>h</kbd>     -> Git status.
-    - n:    <kbd>t</kbd>     -> *vim-signify*, Signify toggle.
 * **Miscellanea**
   - v:      <kbd>*</kbd>     -> Search visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
 
 
 ## Commands
-## Commands
-- `Bib`       -> Compile with biber.
 - `CodeRun`   -> Run code of current buffer.
-- `OrgAgenda` -> *vim-orgmode*, Open org agenda.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push all to the remote origin.
   - `-b`      -> branch, current branch default.
   - `-m`      -> comment, the date default.
 - `Time`      -> Echo date and time.
-- `Xe1`       -> Compile with XeLaTeX for one time.
-- `Xe2`       -> Compile with XeLaTeX for two times.

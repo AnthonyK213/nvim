@@ -127,22 +127,22 @@ function! usr#util#search_web(mode, site)
 endfunction
 
 "" LaTeX recipes
-function! usr#util#latex_xelatex()
+function! s:latex_xelatex()
   let l:name = expand('%:r')
   exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
 endfunction
 
-function! usr#util#latex_xelatex2()
-  call usr#util#latex_xelatex()
-  call usr#util#latex_xelatex()
+function! s:latex_xelatex2()
+  call s:latex_xelatex()
+  call s:latex_xelatex()
 endfunction
 
-function! usr#util#latex_biber()
+function! s:latex_biber()
   let l:name = expand('%:r')
-  call usr#util#latex_xelatex()
+  call s:latex_xelatex()
   exe '!biber' l:name . '.bcf'
-  call usr#util#latex_xelatex()
-  call usr#util#latex_xelatex()
+  call s:latex_xelatex()
+  call s:latex_xelatex()
 endfunction
 
 "" Run code
@@ -211,6 +211,13 @@ function! usr#util#run_or_compile(option)
   elseif l:exts ==? 'lua'
     " LUA
     exe 'luafile %'
+  elseif l:exts ==? 'tex'
+    " TeX
+    if l:optn ==? ''
+      call s:latex_xelatex()
+    elseif l:optn == 'biber'
+      call s:latex_biber()
+    endif
   else
     " ERROR
     echo 'Unknown file type: .' . l:exts

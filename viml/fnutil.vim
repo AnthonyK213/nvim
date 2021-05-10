@@ -97,10 +97,6 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : g:const_
 
 
 " Commands
-"" Latex
-command! Xe1 call usr#util#latex_xelatex()
-command! Xe2 call usr#util#latex_xelatex2()
-command! Bib call usr#util#latex_biber()
 "" Git
 command! -nargs=* PushAll :call usr#vcs#git_push_all(<f-args>)
 "" Run code
