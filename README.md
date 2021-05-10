@@ -59,8 +59,6 @@
 
 ## Key bindings
 * **Ctrl**
-  - n:   <kbd>C-J</kbd>      -> Indent left.
-  - n:   <kbd>C-K</kbd>      -> Indent right.
   - in:  <kbd>C-S</kbd>      -> Save.
   - n:   <kbd>C-Direct</kbd> -> Adjust window size.
 * **Meta**
@@ -80,14 +78,19 @@
   - n:   <kbd>M-,</kbd>      -> Open init.lua.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - inv: <kbd>M-B</kbd>      -> Markdown bold: **bold** 
+  - inv: <kbd>M-I</kbd>      -> Markdown italic: *italic*
+  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***italic***
+  - inv: <kbd>M-P</kbd>      -> Markdown block: `block`
+  - inv: <kbd>M-U</kbd>      -> Markdown/HTML underscore: <u>bold</u>
 * **Emacs shit**
-  - inv: <kbd>C-n</kbd>      -> Emacs next.
-  - inv: <kbd>C-p</kbd>      -> Emacs previous.
-  - i:   <kbd>C-f</kbd>      -> Emacs forward.
-  - i:   <kbd>C-b</kbd>      -> Emacs backward.
-  - i:   <kbd>C-a</kbd>      -> Emacs line start.
-  - i:   <kbd>C-e</kbd>      -> Emacs line end.
-  - i:   <kbd>C-k</kbd>      -> Emacs kill test on the right.
+  - inv: <kbd>C-N</kbd>      -> Emacs next.
+  - inv: <kbd>C-P</kbd>      -> Emacs previous.
+  - i:   <kbd>C-F</kbd>      -> Emacs forward.
+  - i:   <kbd>C-B</kbd>      -> Emacs backward.
+  - i:   <kbd>C-A</kbd>      -> Emacs line start.
+  - i:   <kbd>C-E</kbd>      -> Emacs line end.
+  - i:   <kbd>C-K</kbd>      -> Emacs kill test on the right.
   - i:   <kbd>M-f</kbd>      -> Emacs next word.
   - i:   <kbd>M-b</kbd>      -> Emacs last word.
   - in:  <kbd>M-x</kbd>      -> Command line.
@@ -102,17 +105,17 @@
     - n:    <kbd>h</kbd>     -> Turn off highlights.
     - n:    <kbd>n</kbd>     -> Next buffer.
     - n:    <kbd>p</kbd>     -> Previous buffer.
-    - n:    <kbd>x</kbd>     -> *telescope.nvim*, switch buffer.
   - <kbd>leader-c-</kbd>     -> **Check**.
     - nv:   <kbd>c</kbd>     -> Chinese characters count.
     - n:    <kbd>s</kbd>     -> Toggle spell check status.
   - <kbd>leader-d-</kbd>     -> **Date**.
     - n:    <kbd>s</kbd>     -> Insert time stamp at the end of line.
-    - n:    <kbd>d</kbd>     -> Append day of week to the end of a date string(yyyy-mm-dd) under the cursor.
+    - n:    <kbd>d</kbd>     -> Append the day of week to yyyy-mm-dd.
   - <kbd>leader-e-</kbd>     -> **Evaluate**.
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd>     -> **Find**.
+    - n:    <kbd>b</kbd>     -> *telescope.nvim*, buffers
     - n:    <kbd>f</kbd>     -> *telescope.nvim*, find_files
     - n:    <kbd>g</kbd>     -> *telescope.nvim*, live_grep
   - <kbd>leader-g-</kbd>     -> **LSP**
@@ -168,7 +171,7 @@
 ## Commands
 - `CodeRun`   -> Run or compile the code in current buffer.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
-- `PushAll`   -> Just push all to the remote origin (async).
+- `PushAll`   -> Just push all to the remote origin.
   - `-b`      -> branch, current branch default.
   - `-m`      -> comment, the date default.
 - `Time`      -> Echo date and time.

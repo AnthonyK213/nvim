@@ -8,7 +8,7 @@ keymap('n', '<M-e>',      ':NvimTreeFindFile<CR>',            { noremap = true, 
 keymap('i', '<M-e>',      '<ESC>:NvimTreeFindFile<CR>',       { noremap = true, silent = true })
 keymap('t', '<M-e>',      '<C-\\><C-n>:NvimTreeFindFile<CR>', { noremap = true, silent = true })
 -- telescope.nvim
-keymap('n', '<leader>bx', ':lua require("telescope.builtin").buffers()<CR>',    { noremap = true, silent = true })
+keymap('n', '<leader>fb', ':lua require("telescope.builtin").buffers()<CR>',    { noremap = true, silent = true })
 keymap('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<CR>',  { noremap = true, silent = true })
 -- vim-markdown
@@ -25,7 +25,7 @@ keymap('i', '<CR>',
 { noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
 [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
-[["<C-\><C-O>V>" . repeat(g:const_dir_r, &ts) : pumvisible() ? ]]..
+[["<C-\><C-O>>>" . repeat(g:const_dir_r, &ts) : pumvisible() ? ]]..
 [["<C-n>" : vsnip#jumpable(1) ? ]]..
 [["<Plug>(vsnip-jump-next)" : luaeval("require('utility/lib').get_context('l')") =~ '\v(\w|\.|_)' ? ]]..
 [[compe#complete() : "<TAB>"]],

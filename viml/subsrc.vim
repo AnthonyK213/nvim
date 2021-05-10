@@ -109,12 +109,12 @@ ino <expr> <M-U> "<u></u>" . repeat(g:subrc_dir_l, 4)
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
-      \ "\<CR>\<C-o>O" :
+      \ "\<CR>\<C-\>\<C-o>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
       \ or(<SID>subsrc_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
       \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-o>V>" . repeat(g:subrc_dir_r, &ts) : "\<TAB>"
+      \ "\<C-\>\<C-o>>>" . repeat(g:subrc_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 

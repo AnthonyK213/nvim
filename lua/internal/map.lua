@@ -1,9 +1,6 @@
 local keymap = vim.api.nvim_set_keymap
 
 
--- Indent entire line.
-keymap('n', '<C-j>', 'V<', { noremap = true })
-keymap('n', '<C-k>', 'V>', { noremap = true })
 -- Adjust window size.
 keymap('n', '<C-UP>',    '<C-W>-', { noremap = true })
 keymap('n', '<C-DOWN>',  '<C-W>+', { noremap = true })
