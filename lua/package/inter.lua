@@ -24,9 +24,9 @@ keymap('i', '<CR>',
 [[compe#confirm("<Plug>(lua_pairs_enter)")]],
 { noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
-[[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
-[["<C-\><C-O>>>" . repeat(g:const_dir_r, &ts) : pumvisible() ? ]]..
-[["<C-n>" : vsnip#jumpable(1) ? ]]..
+[[pumvisible() ? ]]..
+[["<C-n>" : luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
+[["<C-\><C-O>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ? ]]..
 [["<Plug>(vsnip-jump-next)" : luaeval("require('utility/lib').get_context('l')") =~ '\v(\w|\.|_)' ? ]]..
 [[compe#complete() : "<TAB>"]],
 { noremap = false, silent = true, expr = true })
