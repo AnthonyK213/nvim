@@ -187,35 +187,31 @@ elseif vim.fn.has('unix') == 1 then
 end
 
 
--- completion-nvim
-vim.g.completion_confirm_key         = ""
-vim.g.completion_enable_snippet      = 'vim-vsnip'
-vim.g.completion_enable_auto_popup   = 1
-vim.g.completion_auto_change_source  = 1
-vim.g.completion_matching_smart_case = 1
-vim.g.completion_trigger_keyword_length = 2
-vim.g.completion_matching_strategy_list = { 'exact', 'substring', 'fuzzy' }
-vim.g.completion_chain_complete_list = {
-    default = {
-        { complete_items = { 'lsp', 'vim-vsnip' } },
-        { complete_items = { 'path' }, triggered_only = { '/' } },
-        { mode           = '<c-p>' },
-        { mode           = '<c-n>' }
-    },
-    vimwiki = {},
-    markdown = {
-        { complete_items = { 'path' }, triggered_only = { '/' } },
-        { complete_items = { 'vim-vsnip' } },
-        { mode = '<c-p>' },
-        { mode = '<c-n>' }
-    },
-    string = {
-        { complete_items = { 'path' }, triggered_only = { '/' } },
-    },
-    comment = {}
+-- nvim-compe
+require('compe').setup {
+    enabled = true;
+    autocomplete = true;
+    debug = false;
+    min_length = 2;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    incomplete_delay = 400;
+    max_abbr_width = 100;
+    max_kind_width = 100;
+    max_menu_width = 100;
+    documentation = true;
+
+    source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        vsnip = true;
+        ultisnips = false;
+    };
 }
---- completion attach
-local custom_attach = function() require('completion').on_attach() end
 
 
 -- nvim-lspconfig
@@ -223,30 +219,29 @@ local lspconfig = require('lspconfig')
 local init_lsp_option = require('core/opt').lsp or {}
 --- clangd
 if init_lsp_option.clangd then
-    lspconfig.clangd.setup { on_attach = custom_attach }
+    lspconfig.clangd.setup {}
 end
 --- jedi_language_server
 if init_lsp_option.jedi_language_server then
-    lspconfig.jedi_language_server.setup { on_attach = custom_attach }
+    lspconfig.jedi_language_server.setup {}
 end
 --- rls
 if init_lsp_option.rls then
-    lspconfig.rls.setup { on_attach = custom_attach }
+    lspconfig.rls.setup {}
 end
 --- rust_analyzer
 if init_lsp_option.rust_analyzer then
-    lspconfig.rust_analyzer.setup { on_attach = custom_attach }
+    lspconfig.rust_analyzer.setup {}
 end
 --- texlab
 if init_lsp_option.texlab then
-    lspconfig.texlab.setup { on_attach = custom_attach }
+    lspconfig.texlab.setup {}
 end
 --- omnisharp
 if init_lsp_option.omnisharp then
     local pid = vim.fn.getpid()
     lspconfig.omnisharp.setup {
         cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
-        on_attach = custom_attach
     }
 end
 --- sumneko_lua
@@ -272,7 +267,6 @@ if init_lsp_option.sumneko_lua and init_lsp_option.sumneko_lua.enable then
     "/bin/"..system_name.."/lua-language-server"
     lspconfig.sumneko_lua.setup {
         cmd = { sumneko_binary, '-E', sumneko_root_path.."/main.lua" };
-        on_attach = custom_attach,
         settings = {
             Lua = {
                 runtime = {
@@ -294,7 +288,7 @@ if init_lsp_option.sumneko_lua and init_lsp_option.sumneko_lua.enable then
 end
 --- vim script
 if init_lsp_option.vimls then
-    lspconfig.vimls.setup { on_attach = custom_attach }
+    lspconfig.vimls.setup {}
 end
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(

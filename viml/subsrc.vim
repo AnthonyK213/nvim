@@ -105,8 +105,7 @@ ino <expr> <M-U> "<u></u>" . repeat(g:subrc_dir_l, 4)
 
 
 " Completion
-" Key maps
-"" Completion
+"" Key maps
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?

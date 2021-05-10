@@ -24,20 +24,14 @@ keymap('i', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul
 keymap('s', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"', { noremap = false, silent = true, expr = true })
 keymap('i', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
 keymap('s', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
--- completion-nvim
-keymap('i', '<CR>',
-    [[pumvisible() ? complete_info()["selected"] != "-1" ? ]]..
-    [["<Plug>(completion_confirm_completion)" : "<C-E><CR>" : ]]..
-    [["<Plug>(lua_pairs_enter)"]],
-    { noremap = false, silent = true, expr = true })
+-- nvim-comple
+keymap('i', '<CR>', [[compe#confirm({ 'keys': "<Plug>(lua_pairs_enter)", 'mode': 'i' })]], { noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
-    [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
-    [["<C-\><C-O>V>" . repeat(g:const_dir_r, &ts) : ]]..
-    [["<Plug>(completion_smart_tab)"]],
-    { noremap = false, silent = true, expr = true })
-keymap('i', '<S-TAB>',    '<Plug>(completion_smart_s_tab)', { noremap = false, silent = true })
-keymap('i', '<C-C><C-J>', '<Plug>(completion_next_source)', { noremap = false, silent = true })
-keymap('i', '<C-C><C-K>', '<Plug>(completion_prev_source)', { noremap = false, silent = true })
+[[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
+[["<C-\><C-O>V>" . repeat(g:const_dir_r, &ts) : pumvisible() ? ]]..
+[["<C-n>" : "<TAB>"]],
+{ noremap = true, silent = true, expr = true })
+keymap('i', '<S-TAB>',    'pumvisible() ? "<C-p>" : "<S-TAB>"', { noremap = true, silent = true, expr = true })
 -- nvim-lspconfig
 keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  { noremap = true, silent = true })
@@ -54,10 +48,8 @@ keymap('n', '<leader>g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { norem
 -- nvim-bufferline.lua
 keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
 
--- completion-nvim
-augroup('completion_nvim_enable_all', 'BufEnter * lua require("completion").on_attach()')
--- nvim-lspconfig
-augroup('lsp_diagnositic_on_hold', 'CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
-
 -- nvim-colorizer.lua
 vim.cmd('command! ColorizerReset lua package.loaded["colorizer"] = nil require("colorizer").setup() require("colorizer").attach_to_buffer(0)')
+
+-- nvim-lspconfig
+augroup('lsp_diagnositic_on_hold', 'CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')

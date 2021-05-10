@@ -30,7 +30,6 @@ paq {'iamcco/markdown-preview.nvim', run=vim.fn['mkdp#util#install']}
 -- Snippet; Completion; LSP; Treesitter
 paq {'hrsh7th/vim-vsnip'}
 paq {'hrsh7th/vim-vsnip-integ'}
+paq {'hrsh7th/nvim-compe'}
 paq {'neovim/nvim-lspconfig'}
-paq {'nvim-lua/completion-nvim'}
 paq {'nvim-treesitter/nvim-treesitter'}
-paq {'nvim-treesitter/completion-treesitter'}
