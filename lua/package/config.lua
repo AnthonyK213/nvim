@@ -181,7 +181,7 @@ require('lua-pairs').setup {
 
 -- vim-vsnip
 if vim.fn.has('win32') == 1 then
-    vim.g.vsnip_snippet_dir = vim.fn.expand('$localappdata/nvim/snippet')
+    vim.g.vsnip_snippet_dir = vim.fn.expand('$LOCALAPPDATA/nvim/snippet')
 elseif vim.fn.has('unix') == 1 then
     vim.g.vsnip_snippet_dir = vim.fn.expand('$HOME/.config/nvim/snippet')
 end
@@ -189,28 +189,26 @@ end
 
 -- nvim-compe
 require('compe').setup {
-    enabled = true;
-    autocomplete = true;
-    debug = false;
-    min_length = 2;
-    preselect = 'enable';
-    throttle_time = 80;
-    source_timeout = 200;
-    incomplete_delay = 400;
-    max_abbr_width = 100;
-    max_kind_width = 100;
-    max_menu_width = 100;
-    documentation = true;
-
+    enabled = true,
+    autocomplete = true,
+    debug = false,
+    min_length = 2,
+    preselect = 'enable',
+    throttle_time = 80,
+    source_timeout = 200,
+    incomplete_delay = 400,
+    max_abbr_width = 100,
+    max_kind_width = 100,
+    max_menu_width = 100,
+    documentation = true,
     source = {
-        path = true;
-        buffer = true;
-        calc = true;
-        nvim_lsp = true;
-        nvim_lua = true;
-        vsnip = true;
-        ultisnips = false;
-    };
+        path = true,
+        buffer = true,
+        nvim_lsp = true,
+        nvim_lua = true,
+        vsnip = true,
+        calc = false,
+    }
 }
 
 

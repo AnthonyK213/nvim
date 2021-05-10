@@ -25,13 +25,13 @@ keymap('s', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul
 keymap('i', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
 keymap('s', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
 -- nvim-comple
-keymap('i', '<CR>', [[compe#confirm({ 'keys': "<Plug>(lua_pairs_enter)", 'mode': 'i' })]], { noremap = false, silent = true, expr = true })
+keymap('i', '<CR>', [[compe#confirm("<Plug>(lua_pairs_enter)")]], { noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
 [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
 [["<C-\><C-O>V>" . repeat(g:const_dir_r, &ts) : pumvisible() ? ]]..
 [["<C-n>" : "<TAB>"]],
 { noremap = true, silent = true, expr = true })
-keymap('i', '<S-TAB>',    'pumvisible() ? "<C-p>" : "<S-TAB>"', { noremap = true, silent = true, expr = true })
+keymap('i', '<S-TAB>', 'pumvisible() ? "<C-p>" : "<S-TAB>"', { noremap = true, silent = true, expr = true })
 -- nvim-lspconfig
 keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  { noremap = true, silent = true })
