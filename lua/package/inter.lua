@@ -19,19 +19,28 @@ keymap('n', '<leader>mm', ':lua require("package/misc").vim_markdown_math_toggle
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>tc', ':TableEvalFormulaLine<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>tf', ':TableModeRealign<CR>',     { noremap = true, silent = true })
--- vim-vsnip
-keymap('i', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"', { noremap = false, silent = true, expr = true })
-keymap('s', '<C-C><C-N>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"', { noremap = false, silent = true, expr = true })
-keymap('i', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
-keymap('s', '<C-C><C-P>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"', { noremap = false, silent = true, expr = true })
--- nvim-comple
-keymap('i', '<CR>', [[compe#confirm("<Plug>(lua_pairs_enter)")]], { noremap = false, silent = true, expr = true })
+-- vim-vsnip & nvim-compe
+keymap('i', '<CR>',
+[[compe#confirm("<Plug>(lua_pairs_enter)")]],
+{ noremap = false, silent = true, expr = true })
 keymap('i', '<TAB>',
 [[luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
 [["<C-\><C-O>V>" . repeat(g:const_dir_r, &ts) : pumvisible() ? ]]..
-[["<C-n>" : "<TAB>"]],
-{ noremap = true, silent = true, expr = true })
-keymap('i', '<S-TAB>', 'pumvisible() ? "<C-p>" : "<S-TAB>"', { noremap = true, silent = true, expr = true })
+[["<C-n>" : vsnip#jumpable(1) ? ]]..
+[["<Plug>(vsnip-jump-next)" : luaeval("require('utility/lib').get_context('l')") =~ '\v(\w|\.|_)' ? ]]..
+[[compe#complete() : "<TAB>"]],
+{ noremap = false, silent = true, expr = true })
+keymap('s', '<TAB>',
+[[vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"]],
+{ noremap = false, silent = true, expr = true })
+keymap('i', '<S-TAB>',
+[[pumvisible() ? ]]..
+[["<C-p>" : vsnip#jumpable(1) ? ]]..
+[["<Plug>(vsnip-jump-prev)" : "<S-TAB>"]],
+{ noremap = false, silent = true, expr = true })
+keymap('s', '<S-TAB>',
+[[vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"]],
+{ noremap = false, silent = true, expr = true })
 -- nvim-lspconfig
 keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  { noremap = true, silent = true })
