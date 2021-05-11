@@ -21,7 +21,7 @@ ino <silent> <F2> <C-\><C-o>:call usr#util#mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-n>:call usr#util#mouse_toggle()<CR>a
 "" Background toggle
 nn  <silent> <leader>bg :call usr#util#bg_toggle()<CR>
-""" Explorer
+"" Explorer
 nn  <silent> <leader>oe :call usr#util#explorer()<CR>
 "" Terminal
 nn  <silent> <leader>ot :call usr#util#terminal()<CR>i
@@ -31,9 +31,6 @@ nn  <silent> <leader>ob :call usr#util#open()<CR>
 """ Save
 nn  <silent> <C-s> :w<CR>
 ino <silent> <C-s> <C-\><C-o>:w<CR>
-""" Undo
-nn  <silent> <C-z> u
-ino <silent> <C-z> <C-\><C-o>u
 """ Copy/Paste
 vn  <silent> <M-c> "+y
 vn  <silent> <M-x> "+x
@@ -48,6 +45,8 @@ nn  <silent> <leader>cc
       \ :echo 'Chinese characters count: ' . usr#util#hanzi_count("n")<CR>
 vn  <silent> <leader>cc
       \ :<C-u>echo 'Chinese characters count: ' . usr#util#hanzi_count("v")<CR>
+"" Evaluate formula surrounded by `.
+nn <silent> <leader>ev :call usr#eval#text_eval()<CR>
 "" Surround
 """ Common maps
 nn <silent> <leader>sa :call usr#srd#sur_add('n')<CR>

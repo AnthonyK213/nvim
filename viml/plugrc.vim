@@ -159,28 +159,38 @@ let g:pairs_usr_extd_map = {
       \ }
 
 
-" vim-vsnip
+" vim-vsnip & asyncomplete.vim
 if has('win32')
   let g:vsnip_snippet_dir = expand('$localappdata/nvim/snippet')
 elseif has('unix')
   let g:vsnip_snippet_dir = expand('$HOME/.config/nvim/snippet')
 endif
-imap <expr><silent> <C-C><C-N> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"
-smap <expr><silent> <C-C><C-N> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"
-imap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"
-smap <expr><silent> <C-C><C-P> vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"
 
+let g:asyncomplete_auto_pop = 1
+let g:asyncomplete_auto_completeopt = 0
+let g:asyncomplete_min_chars = 2
+let g:asyncomplete_buffer_clear_cache = 1
 
-" COMPLETION
-function! s:check_back_bullet()
-  return usr#lib#get_char('b') =~ '\v^\s*(\+|-|*|\d+\.)\s$'
-endfunction
-function! s:subrc_is_surrounded(match_list)
-  return index(a:match_list, usr#lib#get_char('l') . usr#lib#get_char('n')) >= 0
-endfunction
-ino <silent><expr> <TAB>
-      \ usr#lib#get_char('l') =~ '\v[a-z_\u4e00-\u9fa5]' ? "\<C-N>" :
-      \ <SID>check_back_bullet() ? "\<C-\>\<C-o>V>" . repeat(g:const_dir_r, &ts) :
-      \ "\<Tab>"
-ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+      \ 'name': 'buffer',
+      \ 'allowlist': ['*'],
+      \ 'blocklist': [],
+      \ 'completor': function('asyncomplete#sources#buffer#completor'),
+      \ 'config': {
+      \   'max_buffer_size': 5000000,
+      \ },
+      \ }))
+
+im  <silent><expr> <TAB>
+      \ pumvisible() ?
+      \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ?
+      \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('l') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+      \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
+im  <silent><expr> <S-TAB>
+      \ pumvisible() ?
+      \ "\<C-P>" : vsnip#jumpable(1) ?
+      \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
 im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"
+smap <silent><expr> <TAB>   vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
+smap <silent><expr> <S-TAB> vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
