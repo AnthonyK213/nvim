@@ -113,7 +113,7 @@ function M.lualine_setup()
         sections = {
             lualine_a = {get_current_mode},
             lualine_b = {'branch'},
-            lualine_c = {{'filename', full_path=true, shorten=false}, 'diff'},
+            lualine_c = {{'filename', path=2}, 'diff'},
             lualine_x = {{'diagnostics', sources={'nvim_lsp'}}, 'filetype'},
             lualine_y = {'encoding', 'fileformat'},
             lualine_z = {'progress', 'location'},
