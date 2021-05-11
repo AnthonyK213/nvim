@@ -174,8 +174,9 @@ end
 -- @return nil
 function M.clr_map()
     if vim.b.lp_map_list then
-        for _,key in ipairs(vim.b.lp_map_list) do
-            api.nvim_exec('ino <buffer> '..key..' '..key, false)
+        for _, key in ipairs(vim.b.lp_map_list) do
+            api.nvim_buf_set_keymap(0, 'i', key, key,
+            { noremap=true, expr=false, silent=true })
         end
         vim.b.lp_map_list = nil
     end
