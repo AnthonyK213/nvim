@@ -2,13 +2,16 @@ vim.o.tgc = true
 local augroup = require("utility/lib").set_au_group
 
 
--- one-nvim
-vim.cmd('packadd one-nvim')
-vim.g.one_nvim_transparent_bg = false
+-- material.nvim
+vim.cmd('packadd material.nvim')
+vim.g.material_style = 'oceanic'
+vim.g.material_italic_comments = true
+require('material').set()
 
 
 -- lualine.nvim
 vim.cmd('packadd lualine.nvim')
+require('package/misc').lualine_setup()
 
 
 -- nvim-bufferline.lua
@@ -44,12 +47,6 @@ vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
 
 
--- indent-guides.nvim
-vim.cmd('packadd indent-guides.nvim')
-
-
--- Autocommand, on loading one-nvim
--- FIXME: After setting this Autocommand, if set &background after setting
--- color scheme in the configuration, the lualine will not appear properly.
-augroup('one_ui_setup', 'ColorScheme one-nvim lua require("package/misc").one_ui_setup()')
-vim.cmd('colorscheme one-nvim')
+-- When setting colorscheme.
+augroup('ui_refresh', 'ColorScheme * lua require("package/misc").ui_refresh()')
+require('package/misc').ui_hi_extend()

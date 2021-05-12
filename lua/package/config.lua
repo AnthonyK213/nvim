@@ -133,6 +133,14 @@ vim.g.mkdp_preview_options = {
 vim.g.table_mode_corner = '+'
 
 
+-- indent-blankline.nvim
+vim.g.indent_blankline_char_list = { '¦' }
+vim.g.indent_blankline_use_treesitter = true
+vim.g.indent_blankline_buftype_exclude = {
+    'terminal', 'NvimTree'
+}
+
+
 -- vimwiki
 vim.g.vimwiki_list = {{
     path = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/"),
