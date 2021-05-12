@@ -49,5 +49,7 @@ vim.cmd('packadd indent-guides.nvim')
 
 
 -- Autocommand, on loading one-nvim
+-- FIXME: After setting this Autocommand, if set &background after setting
+-- color scheme in the configuration, the lualine will not appear properly.
 augroup('one_ui_setup', 'ColorScheme one-nvim lua require("package/misc").one_ui_setup()')
 vim.cmd('colorscheme one-nvim')
