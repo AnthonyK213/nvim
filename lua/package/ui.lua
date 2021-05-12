@@ -48,10 +48,6 @@ require('colorizer').setup()
 vim.cmd('packadd indent-guides.nvim')
 
 
--- Load color scheme.
-augroup('one_ui_setup',
-'ColorScheme one-nvim lua local misc = require("package/misc") '
-..'misc.ui_one_extend() '
-..'misc.lualine_setup() '
-..'misc.indent_guides_color_toggle()')
+-- Autocommand, on loading one-nvim
+augroup('one_ui_setup', 'ColorScheme one-nvim lua require("package/misc").one_ui_setup()')
 vim.cmd('colorscheme one-nvim')

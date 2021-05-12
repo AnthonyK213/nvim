@@ -19,7 +19,7 @@ function M.toc_of_md_tex()
     end
 end
 
--- Extend theme one.
+-- Extend theme one-nvim.
 local function set_hi(group, fg, bg, attr)
     local cmd = "highlight "..group
     if fg then cmd = cmd.." guifg="..fg end
@@ -28,7 +28,7 @@ local function set_hi(group, fg, bg, attr)
     vim.cmd(cmd)
 end
 
-function M.ui_one_extend()
+local function one_hi_extend()
     set_hi('SpellBad',         '#e06c75', nil, 'underline')
     set_hi('SpellCap',         '#d19a66', nil, 'underline')
     set_hi('mkdBold',          '#4b5263', nil, nil)
@@ -45,7 +45,7 @@ function M.ui_one_extend()
 end
 
 -- indent-guides.nvim toggle colors.
-function M.indent_guides_color_toggle()
+local function indent_guides_color_toggle()
     local indent = require('indent_guides')
     local green, red
     if vim.o.bg == 'dark' then
@@ -102,7 +102,7 @@ local function get_current_mode()
 end
 
 --- lualine setup.
-function M.lualine_setup()
+local function lualine_setup()
     require('lualine').setup {
         options = {
             theme = 'one'..vim.o.bg,
@@ -127,6 +127,13 @@ function M.lualine_setup()
             lualine_z = {},
         },
     }
+end
+
+--- Execute when load one-nvim.
+function M.one_ui_setup()
+    one_hi_extend()
+    lualine_setup()
+    indent_guides_color_toggle()
 end
 
 
