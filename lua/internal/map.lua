@@ -7,9 +7,7 @@ keymap('n', '<C-DOWN>',  '<C-W>+', { noremap = true })
 keymap('n', '<C-LEFT>',  '<C-W>>', { noremap = true })
 keymap('n', '<C-RIGHT>', '<C-W><', { noremap = true })
 -- Open init file.
-keymap('n', '<M-,>',
-[[(expand("%:t") == '' ? ":e $MYVIMRC<CR>" : ":tabnew $MYVIMRC<CR>") . ":cd %:p:h<CR>"]],
-{ noremap = true, expr = true, silent = true })
+keymap('n', '<M-,>', '<cmd>lua require("utility/util").edit_file("$MYVIMRC", true)<CR>', { noremap = true, expr = false, silent = true })
 -- Terminal.
 keymap('t', '<ESC>', '<C-\\><C-N>',         { noremap = true })
 keymap('t', '<M-d>', '<C-\\><C-N>:bd!<CR>', { noremap = true, silent = true })

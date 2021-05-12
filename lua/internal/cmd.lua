@@ -1,5 +1,5 @@
 -- Echo time(May be useful in full screen?)
-vim.cmd('command! Time :echo strftime("%Y-%m-%d %a %T")')
+vim.cmd('command! Time echo strftime("%Y-%m-%d %a %T")')
 -- LaTeX
 vim.cmd('command! PDF lua require("utility/util").open_file(vim.fn.expand("%:p:r")..".pdf")')
 -- Run or compile
@@ -13,5 +13,7 @@ require("utility/lib").set_au_group(
 'BufEnter *.md setlocal so=999'
 )
 
--- Neovim nightly upgrade
+-- Neovim nightly upgrade.
 vim.cmd('command! -nargs=* NightlyUpgrade lua require("utility/util").nvim_nightly_upgrade(<f-args>)')
+-- Open ssh configuration.
+vim.cmd('command! SSHconifg lua require("utility/util").edit_file("$HOME/.ssh/config", false)')

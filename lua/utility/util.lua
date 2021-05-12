@@ -85,6 +85,19 @@ function M.show_doc()
     end
 end
 
+--- Open and edit text file in vim.
+function M.edit_file(file_path, chdir)
+    local path = vim.fn.expand(file_path)
+    if vim.fn.expand("%:t") == '' then
+        vim.fn.execute('e '..path)
+    else
+        vim.fn.execute('tabnew '..path)
+    end
+    if chdir then
+        vim.fn.execute('cd %:p:h')
+    end
+end
+
 --- Open file with system default browser.
 function M.open_file(file_path)
     if vim.fn.glob(file_path) == '' then return end
