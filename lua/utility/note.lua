@@ -94,8 +94,8 @@ function M.hanzi_count(mode)
     end
 
     local h_count = 0
-    for _,line in ipairs(content) do
-        for _,char in ipairs(vim.fn.split(line, "\\zs")) do
+    for _, line in ipairs(content) do
+        for _, char in ipairs(vim.fn.split(line, "\\zs")) do
             local code = vim.fn.char2nr(char)
             if code >= 0x4E00 and code <= 0x9FA5 then
                 h_count = h_count + 1

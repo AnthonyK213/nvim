@@ -12,14 +12,14 @@ local function srd_pair(pair_a)
     if pair_a:match('^[%(%[{<%s《“]+$') then
         local str_list = fn.split(pair_a, '\\zs')
         local new_list = {}
-        for _,val in ipairs(str_list) do
+        for _, val in ipairs(str_list) do
             table.insert(new_list, 1, pairs[val])
         end
         return table.concat(new_list)
     elseif fn.matchstr(pair_a, '\\v^(\\<\\w+\\>)+$') ~= '' then
         local str_list = fn.split(pair_a, '<')
         local new_list = {}
-        for _,val in ipairs(str_list) do
+        for _, val in ipairs(str_list) do
             table.insert(new_list, 1, val)
         end
         return '</'..table.concat(new_list, '</')

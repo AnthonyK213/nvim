@@ -57,7 +57,7 @@ local function reg_esc(str)
         '+', '-', '*', '?',
         '.', '%', '^', '$'
     }
-    for i,v in ipairs(str_list) do
+    for i, v in ipairs(str_list) do
         if fn.index(esc_table, v) >= 0 then
             str_list[i] = '%'..v
         end
@@ -343,7 +343,7 @@ function M.def_all()
         def_map("<SPACE>", "<SPACE>")
     end
 
-    for _,key in ipairs(vim.b.lp_map_list) do
+    for _, key in ipairs(vim.b.lp_map_list) do
         def_map(key, key)
     end
 
