@@ -41,10 +41,6 @@ vim.g.nvim_tree_icons = {
 }
 
 
--- neogit
-require('neogit').setup {}
-
-
 -- gitsigns.nvim
 require('gitsigns').setup {
     signs = {

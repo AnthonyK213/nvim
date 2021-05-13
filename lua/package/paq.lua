@@ -13,7 +13,7 @@ use {'norcalli/nvim-colorizer.lua', opt = true}
 use {'AnthonyK213/nvim-tree.lua'}
 use {'nvim-telescope/telescope.nvim'}
 -- Git utilities
-use {'TimUntersberger/neogit'}
+use {'tpope/vim-fugitive'}
 use {'lewis6991/gitsigns.nvim'}
 -- Utilities
 use {'nvim-lua/popup.nvim'}
@@ -32,3 +32,5 @@ use {'hrsh7th/vim-vsnip'}
 use {'hrsh7th/nvim-compe'}
 use {'neovim/nvim-lspconfig'}
 use {'nvim-treesitter/nvim-treesitter'}
+-- Games
+use {'alec-gibson/nvim-tetris'}
