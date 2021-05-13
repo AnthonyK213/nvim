@@ -3,7 +3,7 @@ vim.cmd('command! Time echo strftime("%Y-%m-%d %a %T")')
 -- Open pdf file, useful when finish the compilation of tex file.
 vim.cmd('command! PDF lua require("utility/util").open_file(vim.fn.expand("%:p:r")..".pdf")')
 -- Run or compile
-vim.cmd('command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun lua require("utility/util").run_or_compile(<q-args>)')
+vim.cmd('command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun lua require("utility/comp").run_or_compile(<q-args>)')
 -- Git push all
 vim.cmd('command! -nargs=* PushAll lua require("utility/vcs").git_push_all(<f-args>)')
 -- Neovim nightly upgrade.

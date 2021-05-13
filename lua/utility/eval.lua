@@ -21,7 +21,6 @@ local function text_eval(f)
     end
 end
 
-
 -------------------- Lisp --------------------
 
 local add = function(args)
@@ -150,7 +149,6 @@ local function lisp_str_eval(str)
 end
 
 -------------------- Lisp --------------------
-
 
 -- Evaluate Lua chunk surrounded by `.
 function M.lua_eval()
