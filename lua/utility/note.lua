@@ -1,3 +1,4 @@
+local lib = require('utility/lib')
 local M = {}
 
 
@@ -78,6 +79,34 @@ function M.append_day_from_date()
         vim.cmd('normal! a '..day_of_week)
     else
         return
+    end
+end
+
+--- Hanzi count.
+function M.hanzi_count(mode)
+    local content
+    if (mode == "n") then
+        content = vim.fn.getline(1, '$')
+    elseif (mode == "v") then
+        content = vim.fn.split(lib.get_visual_selection(), "\n")
+    else
+        return
+    end
+
+    local h_count = 0
+    for _,line in ipairs(content) do
+        for _,char in ipairs(vim.fn.split(line, "\\zs")) do
+            local code = vim.fn.char2nr(char)
+            if code >= 0x4E00 and code <= 0x9FA5 then
+                h_count = h_count + 1
+            end
+        end
+    end
+
+    if h_count == 0 then
+        print("No Chinese characters found.")
+    else
+        print("The number of Chinese characters is "..tostring(h_count)..'.')
     end
 end
 

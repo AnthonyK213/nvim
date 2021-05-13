@@ -11,7 +11,46 @@ require('material').set()
 
 -- lualine.nvim
 vim.cmd('packadd lualine.nvim')
-require('package/misc').lualine_setup()
+local mode_alias = {
+    i = 'I', ic  = 'I', ix     = 'I',
+    v = 'v', V   = 'V', [''] = 'B',
+    n = 'N', niI = 'Ĩ', no     = 'N',
+    R = 'R', Rv = 'R',
+    s = 'S', S  = 'S',
+    c = 'C', t  = 'T',
+    multi = 'M',
+}
+require('lualine').setup {
+    options = {
+        theme = 'material-nvim',
+        section_separators = '',
+        component_separators = '',
+        icons_enabled = false
+    },
+    sections = {
+        lualine_a = {function()
+            if mode_alias[vim.fn.mode(1)] ~= nil then
+                return mode_alias[vim.fn.mode(1)]
+            else
+                return '_'
+            end
+        end},
+        lualine_b = {'branch'},
+        lualine_c = {{'filename', path=2}, 'diff'},
+        lualine_x = {{'diagnostics', sources={'nvim_lsp'}}, 'filetype'},
+        lualine_y = {'encoding', 'fileformat'},
+        lualine_z = {'progress', 'location'},
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {},
+    },
+    extensions = {'nvim-tree'}
+}
 
 
 -- nvim-bufferline.lua
@@ -48,5 +87,5 @@ require('colorizer').setup()
 
 
 -- When setting colorscheme.
-augroup('ui_refresh', 'ColorScheme * lua require("package/misc").ui_refresh()')
-require('package/misc').ui_hi_extend()
+augroup('ui_refresh', 'ColorScheme * lua require("utility/util").hi_extd()')
+require('utility/util').hi_extd()

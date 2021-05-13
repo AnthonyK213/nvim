@@ -11,3 +11,42 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
     return ''
   endif
 endfunction
+
+" Toggle math display.
+function! usr#misc#vim_markdown_math_toggle()
+  let g:vim_markdown_math = 1 - g:vim_markdown_math
+  syntax off | syntax on
+endfunction
+
+" Show table of contents.
+function! usr#misc#toc_of_md_tex()
+  if &ft ==? 'markdown'
+    if exists(':Tocv')
+      Tocv
+      vertical resize 50
+    endif
+  elseif &ft ==? 'tex'
+    if exists(':VimtexTocToggle')
+      VimtexTocToggle
+    endif
+  else
+    echo 'Filetype' &ft 'does not support Toc.'
+  endif
+endfunction
+
+" Neovim nightly update.
+function! usr#misc#nvim_nightly_upgrade(...)
+  let l:proxy_args = a:0 == 0 ? "" : a:1
+  let l:script_name = "nvim_nightly_upgrade"
+  if has('win32')
+    let l:cmd = expand("$LOCALAPPDATA") . '/nvim/shell/' .
+          \ l:script_name . '_win.ps1 -proxy ' . l:proxy_args
+    lua require('utility/lib').belowright_split(30)
+    exe 'term powershell' l:cmd
+  elseif has('unix')
+    let l:cmd = expand("$HOME/.config") . '/nvim/shell/' .
+          \ l:script_name . '_linux.sh' . l:proxy_args
+    lua require('utility/lib').belowright_split(30)
+    exe 'term bash' l:cmd
+  endif
+endfunction

@@ -23,32 +23,15 @@ elseif vim.fn.has("mac") == 1 then
 end
 ---- Escape string for URL.
 local url_escape = {
-    [" "]  = "\\%20",
-    ["!"]  = "\\%21",
-    ['"']  = "\\%22",
-    ["#"]  = "\\%23",
-    ["$"]  = "\\%24",
-    ["%"]  = "\\%25",
-    ["&"]  = "\\%26",
-    ["'"]  = "\\%27",
-    ["("]  = "\\%28",
-    [")"]  = "\\%29",
-    ["*"]  = "\\%2A",
-    ["+"]  = "\\%2B",
-    [","]  = "\\%2C",
-    ["/"]  = "\\%2F",
-    [":"]  = "\\%3A",
-    [";"]  = "\\%3B",
-    ["<"]  = "\\%3C",
-    ["="]  = "\\%3D",
-    [">"]  = "\\%3E",
-    ["?"]  = "\\%3F",
-    ["@"]  = "\\%40",
-    ["\\"] = "\\%5C",
-    ["|"]  = "\\%7C",
-    ["\n"] = "\\%20",
-    ["\r"] = "\\%20",
-    ["\t"] = "\\%20"
+    [" "]  = "\\%20", ["!"]  = "\\%21", ['"']  = "\\%22",
+    ["#"]  = "\\%23", ["$"]  = "\\%24", ["%"]  = "\\%25",
+    ["&"]  = "\\%26", ["'"]  = "\\%27", ["("]  = "\\%28",
+    [")"]  = "\\%29", ["*"]  = "\\%2A", ["+"]  = "\\%2B",
+    [","]  = "\\%2C", ["/"]  = "\\%2F", [":"]  = "\\%3A",
+    [";"]  = "\\%3B", ["<"]  = "\\%3C", ["="]  = "\\%3D",
+    [">"]  = "\\%3E", ["?"]  = "\\%3F", ["@"]  = "\\%40",
+    ["\\"] = "\\%5C", ["|"]  = "\\%7C", ["\n"] = "\\%20",
+    ["\r"] = "\\%20", ["\t"] = "\\%20"
 }
 
 
@@ -109,34 +92,6 @@ function M.open_file(file_path)
         cmd = util_def_start
     end
     vim.fn.execute('!'..cmd..' '..file_path_esc)
-end
-
---- Hanzi count.
-function M.hanzi_count(mode)
-    local content
-    if (mode == "n") then
-        content = vim.fn.getline(1, '$')
-    elseif (mode == "v") then
-        content = vim.fn.split(lib.get_visual_selection(), "\n")
-    else
-        return
-    end
-
-    local h_count = 0
-    for _,line in ipairs(content) do
-        for _,char in ipairs(vim.fn.split(line, "\\zs")) do
-            local code = vim.fn.char2nr(char)
-            if code >= 0x4E00 and code <= 0x9FA5 then
-                h_count = h_count + 1
-            end
-        end
-    end
-
-    if h_count == 0 then
-        print("No Chinese characters found.")
-    else
-        print("The number of Chinese characters is "..tostring(h_count)..'.')
-    end
 end
 
 --- Search web
@@ -334,28 +289,21 @@ function M.run_or_compile(option)
     vim.api.nvim_set_current_dir(gcwd)
 end
 
-function M.nvim_nightly_upgrade(...)
-    local arg_list = {...}
-    local proxy_args
-
-    if #arg_list == 0 then
-        proxy_args = ""
-    else
-        proxy_args = arg_list[1]
-    end
-
-    local script_name = "nvim_nightly_upgrade"
-    if vim.fn.has("win32") == 1 then
-        local script_path = vim.fn.expand("$localappdata")..'/nvim/shell/'..
-        script_name.."_win.ps1 -proxy "..proxy_args
-        lib.belowright_split(30)
-        vim.fn.execute("term powershell "..script_path)
-    elseif vim.fn.has("unix") == 1 then
-        local script_path = vim.fn.expand("$HOME/.config")..'/nvim/shell/'..
-        script_name.."_linux.sh "..proxy_args
-        lib.belowright_split(30)
-        vim.fn.execute("term bash "..script_path)
-    end
+function M.hi_extd()
+    local set_hi = lib.set_highlight_group
+    set_hi('SpellBad',         '#f07178', nil, 'underline')
+    set_hi('SpellCap',         '#ffcc00', nil, 'underline')
+    set_hi('mkdBold',          '#474747', nil, nil)
+    set_hi('mkdItalic',        '#474747', nil, nil)
+    set_hi('mkdBoldItalic',    '#474747', nil, nil)
+    set_hi('mkdCodeDelimiter', '#474747', nil, nil)
+    set_hi('htmlBold',         '#ffcc00', nil, 'bold')
+    set_hi('htmlItalic',       '#c792ea', nil, 'italic')
+    set_hi('htmlBoldItalic',   '#ffcb6b', nil, 'bold,italic')
+    set_hi('htmlH1',           '#f07178', nil, 'bold')
+    set_hi('htmlH2',           '#f07178', nil, 'bold')
+    set_hi('htmlH3',           '#f07178', nil, nil)
+    set_hi('mkdHeading',       '#f07178', nil, nil)
 end
 
 

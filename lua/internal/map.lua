@@ -72,8 +72,8 @@ keymap('n', '<leader>ot', '<cmd>lua require("utility/util").terminal()<CR>i',   
 -- Open with system default browser.
 keymap('n', '<leader>ob', '<cmd>lua require("utility/util").open_file(vim.fn.expand("%:p"))<CR>', { noremap = true, silent = true })
 -- Hanzi count.
-keymap('n', '<leader>cc', '<cmd>lua require("utility/util").hanzi_count("n")<CR>',  { noremap = true, silent = true })
-keymap('v', '<leader>cc', ':<C-u>lua require("utility/util").hanzi_count("v")<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>cc', '<cmd>lua require("utility/note").hanzi_count("n")<CR>',  { noremap = true, silent = true })
+keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR>', { noremap = true, silent = true })
 -- Append day of week after the date.
 keymap('n', '<leader>dd', ':lua require("utility/note").append_day_from_date()<CR>', { noremap = true, silent = true })
 -- Insert an timestamp at the end of the line.

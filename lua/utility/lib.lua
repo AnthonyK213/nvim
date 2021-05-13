@@ -138,5 +138,14 @@ function M.set_au_group(name, ...)
     vim.cmd('augroup end')
 end
 
+-- Define highlight group.
+function M.set_highlight_group(group, fg, bg, attr)
+    local cmd = "highlight! "..group
+    if fg   then cmd = cmd.." guifg="..fg end
+    if bg   then cmd = cmd.." guibg="..bg end
+    if attr then cmd = cmd.." gui="..attr end
+    vim.cmd(cmd)
+end
+
 
 return M
