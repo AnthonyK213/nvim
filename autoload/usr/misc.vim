@@ -1,3 +1,19 @@
+" Background toggle.
+function! usr#misc#bg_toggle()
+  let &bg = &bg == 'dark' ? 'light' : 'dark'
+endfunction
+
+" Mouse toggle.
+function! usr#misc#mouse_toggle()
+  if &mouse ==? 'a'
+    let &mouse = ''
+    echo 'Mouse disabled.'
+  else
+    let &mouse = 'a'
+    echo 'Mouse enabled.'
+  endif
+endfunction
+
 " Run code complete option list.
 function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {

@@ -36,22 +36,6 @@ local url_escape = {
 
 
 -- Functions
---- Mouse toggle
-function M.mouse_toggle()
-    if (vim.o.mouse == 'a') then
-        vim.o.mouse = ''
-        print("Mouse disabled.")
-    else
-        vim.o.mouse = 'a'
-        print("Mouse enabled.")
-    end
-end
-
---- Background toggle
-function M.bg_toggle()
-    vim.o.bg = vim.o.bg == 'dark' and 'light' or 'dark'
-end
-
 --- Open terminal and launch shell.
 function M.terminal()
     lib.belowright_split(15)
@@ -92,6 +76,23 @@ function M.open_file(file_path)
         cmd = util_def_start
     end
     vim.fn.execute('!'..cmd..' '..file_path_esc)
+end
+
+function M.hi_extd()
+    local set_hi = lib.set_highlight_group
+    set_hi('SpellBad',         '#f07178', nil, 'underline')
+    set_hi('SpellCap',         '#ffcc00', nil, 'underline')
+    set_hi('mkdBold',          '#474747', nil, nil)
+    set_hi('mkdItalic',        '#474747', nil, nil)
+    set_hi('mkdBoldItalic',    '#474747', nil, nil)
+    set_hi('mkdCodeDelimiter', '#474747', nil, nil)
+    set_hi('htmlBold',         '#ffcc00', nil, 'bold')
+    set_hi('htmlItalic',       '#c792ea', nil, 'italic')
+    set_hi('htmlBoldItalic',   '#ffcb6b', nil, 'bold,italic')
+    set_hi('htmlH1',           '#f07178', nil, 'bold')
+    set_hi('htmlH2',           '#f07178', nil, 'bold')
+    set_hi('htmlH3',           '#f07178', nil, nil)
+    set_hi('mkdHeading',       '#f07178', nil, nil)
 end
 
 --- Search web
@@ -287,23 +288,6 @@ function M.run_or_compile(option)
 
     ::skip_exec::
     vim.api.nvim_set_current_dir(gcwd)
-end
-
-function M.hi_extd()
-    local set_hi = lib.set_highlight_group
-    set_hi('SpellBad',         '#f07178', nil, 'underline')
-    set_hi('SpellCap',         '#ffcc00', nil, 'underline')
-    set_hi('mkdBold',          '#474747', nil, nil)
-    set_hi('mkdItalic',        '#474747', nil, nil)
-    set_hi('mkdBoldItalic',    '#474747', nil, nil)
-    set_hi('mkdCodeDelimiter', '#474747', nil, nil)
-    set_hi('htmlBold',         '#ffcc00', nil, 'bold')
-    set_hi('htmlItalic',       '#c792ea', nil, 'italic')
-    set_hi('htmlBoldItalic',   '#ffcb6b', nil, 'bold,italic')
-    set_hi('htmlH1',           '#f07178', nil, 'bold')
-    set_hi('htmlH2',           '#f07178', nil, 'bold')
-    set_hi('htmlH3',           '#f07178', nil, nil)
-    set_hi('mkdHeading',       '#f07178', nil, nil)
 end
 
 
