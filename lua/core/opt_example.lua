@@ -3,6 +3,7 @@ return {
     --cc  = 'clang',
     --py3 = '/usr/bin/python3',
     --bg  = 'dark',
+    --material = 'oceanic',
     --[[
     gui = {
         font_family = 'Consolas',

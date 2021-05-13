@@ -4,7 +4,7 @@ local augroup = require("utility/lib").set_au_group
 
 -- material.nvim
 vim.cmd('packadd material.nvim')
-vim.g.material_style = 'oceanic'
+vim.g.material_style = require('core/opt').material or 'oceanic'
 vim.g.material_italic_comments = true
 require('material').set()
 
