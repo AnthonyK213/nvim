@@ -40,7 +40,7 @@ while tab_num <= 10
   let tab_num += 1
 endwhile
 """ Open .vimrc(init.vim)
-nn <expr><silent> <M-,> (expand("%:t") == '' ? ":e $MYVIMRC<CR>" : ":tabnew $MYVIMRC<CR>") . ":cd %:p:h<CR>"
+nn <silent> <M-,> :call usr#util#edit_file("$MYVIMRC", 1)<CR>
 """ Terminal
 tno <Esc> <C-\><C-n>
 tno <silent> <M-d> <C-\><C-N>:bd!<CR>

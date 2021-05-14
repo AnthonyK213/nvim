@@ -13,7 +13,7 @@ elseif has("mac")
   let s:util_def_cc = get(g:, 'default_c_compiler', 'clang')
 endif
 "" Escape string for URL.
-let s:lib_const_esc_url = {
+let s:esc_url = {
       \ " " : "\\\%20",
       \ "!" : "\\\%21",
       \ '"' : "\\\%22",
@@ -44,68 +44,34 @@ let s:lib_const_esc_url = {
 
 
 " Functions
-"" Mouse toggle
-function! usr#util#mouse_toggle()
-  if &mouse == 'a'
-    set mouse=
-    echom "Mouse disabled"
-  else
-    set mouse=a
-    echom "Mouse enabled"
-  endif
-endfunction
-
-"" Background toggle
-function! usr#util#bg_toggle()
-  let &background = &background == 'dark' ? 'light' : 'dark'
-endfunction
-
 "" Open terminal and launch shell
 function! usr#util#terminal()
   call usr#lib#belowright_split(15)
-  exe ':terminal' s:util_def_shell
+  silent exe 'terminal' s:util_def_shell
+  setl nonu
 endfunction
 
-"" Open file of buffer with system default browser.
-function! usr#util#open()
-  let l:file_path = '"' . escape(expand('%:p'), '%#') . '"'
-  let l:cmd = has("win32") ? '' : s:util_def_start
-  silent exe '!' . l:cmd l:file_path
-endfunction
-
-"" Open file manager
-function! usr#util#explorer()
-  silent exe '!' . s:util_def_start '.'
-endfunction
-
-"" Open pdf file
-function! usr#util#pdf_view(...)
-  if a:0 > 0
-    let l:name = a:1
+"" Open and edit test file in vim.
+function! usr#util#edit_file(file_path, chdir)
+  let l:path = expand(a:file_path)
+  if empty(expand("%:t"))
+    silent exe 'e' l:path
   else
-    let l:name = escape(expand('%:r'), '%#') . '.pdf'
+    silent exe 'tabnew' l:path
   endif
-  silent exe '!' . s:util_def_start l:name
+  if a:chdir
+    silent exe 'cd %:p:h'
+  endif
 endfunction
 
-"" Hanzi count.
-function! usr#util#hanzi_count(mode)
-  if a:mode ==# 'n'
-    let l:content = getline(1, '$')
-  elseif a:mode ==# 'v'
-    let l:content = split(usr#lib#get_visual_selection(), "\n")
-  else
+"" Open file with system default browser.
+function! usr#util#open_file(file_path)
+  if empty(glob(a:file_path))
     return
-  endif
-
-  let l:h_count = 0
-  for line in l:content
-    for char in split(line, '.\zs')
-      if usr#lib#is_hanzi(char) | let l:h_count += 1 | endif
-    endfor
-  endfor
-
-  return l:h_count
+  end
+  let l:file_path_esc = '"' . escape(expand(a:file_path), '%#') . '"'
+  let l:cmd = has("win32") ? s:util_def_start . ' ""' : s:util_def_start
+  silent exe '!' . l:cmd l:file_path_esc
 endfunction
 
 "" Search web
@@ -116,9 +82,9 @@ function! usr#util#search_web(mode, site)
         \ "(", ")", "[", "]", "{", "}"
         \ ]
   if a:mode ==? "n"
-    let l:search_obj = usr#lib#str_escape(usr#lib#get_clean_cWORD(l:del_list), s:lib_const_esc_url)
+    let l:search_obj = usr#lib#str_escape(usr#lib#get_clean_cWORD(l:del_list), s:esc_url)
   elseif a:mode ==? "v"
-    let l:search_obj = usr#lib#str_escape(usr#lib#get_visual_selection(), s:lib_const_esc_url)
+    let l:search_obj = usr#lib#str_escape(usr#lib#get_visual_selection(), s:esc_url)
   endif
   let l:url_raw = a:site . l:search_obj
   let l:url_arg = has("win32") ? l:url_raw : '"' . l:url_raw . '"'

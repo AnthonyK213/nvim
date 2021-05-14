@@ -15,18 +15,18 @@ let s:util_web_list = {
 
 " Key maps
 "" Mouse toggle
-nn  <silent> <F2> :call           usr#util#mouse_toggle()<CR>
-vn  <silent> <F2> :<C-u>call      usr#util#mouse_toggle()<CR>
-ino <silent> <F2> <C-\><C-o>:call usr#util#mouse_toggle()<CR>
-tno <silent> <F2> <C-\><C-n>:call usr#util#mouse_toggle()<CR>a
+nn  <silent> <F2> :call           usr#misc#mouse_toggle()<CR>
+vn  <silent> <F2> :<C-u>call      usr#misc#mouse_toggle()<CR>
+ino <silent> <F2> <C-\><C-o>:call usr#misc#mouse_toggle()<CR>
+tno <silent> <F2> <C-\><C-n>:call usr#misc#mouse_toggle()<CR>a
 "" Background toggle
-nn  <silent> <leader>bg :call usr#util#bg_toggle()<CR>
+nn  <silent> <leader>bg :call usr#misc#bg_toggle()<CR>
 "" Explorer
-nn  <silent> <leader>oe :call usr#util#explorer()<CR>
+nn  <silent> <leader>oe :call usr#util#open_file(expand("%:p:h"))<CR>
 "" Terminal
 nn  <silent> <leader>ot :call usr#util#terminal()<CR>i
 "" Open with system default browser
-nn  <silent> <leader>ob :call usr#util#open()<CR>
+nn  <silent> <leader>ob :call usr#util#open_file(expand("%:p"))<CR>
 "" Windows-like behaviors
 """ Save
 nn  <silent> <C-s> :w<CR>
@@ -42,9 +42,9 @@ nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 "" Hanzi count
 nn  <silent> <leader>cc
-      \ :echo 'Chinese characters count: ' . usr#util#hanzi_count("n")<CR>
+      \ :echo 'Chinese characters count: ' . usr#note#hanzi_count("n")<CR>
 vn  <silent> <leader>cc
-      \ :<C-u>echo 'Chinese characters count: ' . usr#util#hanzi_count("v")<CR>
+      \ :<C-u>echo 'Chinese characters count: ' . usr#note#hanzi_count("v")<CR>
 "" Evaluate formula surrounded by `.
 nn <silent> <leader>ev :call usr#eval#text_eval()<CR>
 "" Surround
@@ -99,8 +99,8 @@ ino <silent><expr> <C-b> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : g:const_
 "" Git
 command! -nargs=* PushAll :call usr#vcs#git_push_all(<f-args>)
 "" Run code
-command! -nargs=? CodeRun :call usr#util#run_or_compile(<q-args>)
+command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun :call usr#util#run_or_compile(<q-args>)
 "" Echo time(May be useful in full screen?)
 command! Time :echo strftime('%Y-%m-%d %a %T')
 "" View PDF
-command! -nargs=? -complete=file PDF :call usr#util#pdf_view(<f-args>)
+command! PDF :call usr#util#open_file(expand("%:p:r") . ".pdf")

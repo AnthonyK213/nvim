@@ -2,7 +2,7 @@
 set termguicolors
 set background=dark
 let g:material_terminal_italics = 1
-let g:material_theme_style = 1
+let g:material_theme_style = 'default'
 let g:airline_theme = 'material'
 colorscheme material
 
@@ -79,7 +79,7 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 2
 nn <silent> <leader>mh :Toch<CR>:resize 15<CR>
-nn <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
+nn <silent> <leader>mv :call usr#misc#show_toc()<CR>
 nn <silent> <leader>mm :call usr#misc#vim_markdown_math_toggle()<CR>
 
 
