@@ -1,16 +1,16 @@
 " Background toggle.
 function! usr#misc#bg_toggle()
-  let &bg = &bg == 'dark' ? 'light' : 'dark'
+  let &bg = &bg ==# 'dark' ? 'light' : 'dark'
 endfunction
 
 " Mouse toggle.
 function! usr#misc#mouse_toggle()
-  if &mouse ==? 'a'
+  if &mouse ==# 'a'
     let &mouse = ''
-    echo 'Mouse disabled.'
+    echom 'Mouse disabled'
   else
     let &mouse = 'a'
-    echo 'Mouse enabled.'
+    echom 'Mouse enabled'
   endif
 endfunction
 
@@ -35,7 +35,7 @@ function! usr#misc#vim_markdown_math_toggle()
 endfunction
 
 " Show table of contents.
-function! usr#misc#toc_of_md_tex()
+function! usr#misc#show_toc()
   if &ft ==? 'markdown'
     if exists(':Tocv')
       Tocv

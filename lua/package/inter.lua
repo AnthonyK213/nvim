@@ -13,7 +13,7 @@ keymap('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<CR>', 
 keymap('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<CR>',  { noremap = true, silent = true })
 -- vim-markdown
 keymap('n', '<leader>mh', ':Toch<CR>:resize 15<CR>',                       { noremap = true, silent = true })
-keymap('n', '<leader>mv', ':call usr#misc#toc_of_md_tex()<CR>',            { noremap = true, silent = true })
+keymap('n', '<leader>mv', ':call usr#misc#show_toc()<CR>',            { noremap = true, silent = true })
 keymap('n', '<leader>mm', ':call usr#misc#vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
 -- vim-table-mode
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
