@@ -44,16 +44,6 @@ function! s:gui_font_origin()
   call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 endfunction
 
-"function! s:gui_set_background()
-  "let l:hour = str2nr(strftime('%H'))
-  "let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
-  "if &bg != l:bg | let &bg = l:bg | endif
-"endfunction
-
-"function! s:gui_bg_checker(timer_id)
-  "call s:gui_set_background()
-"endfunction
-
 function! s:gui_fullscreen_toggle()
   if exists('*GuiWindowFullScreen')
     if g:GuiWindowFullScreen == 0
@@ -125,16 +115,12 @@ if exists('g:fvim_loaded')
   FVimFontAntialias         v:true
 endif
 "" Background
-"if exists('g:gui_background') && !empty(g:gui_background)
-  "let &bg = g:gui_background
-"else
-  "call s:gui_set_background()
-"endif
-
-"let timer_id = timer_start(
-      "\ 600000,
-      "\ function('<SID>gui_bg_checker'),
-      "\ { 'repeat': -1 })
+if exists('g:gui_background') && !empty(g:gui_background)
+  let &bg = g:gui_background
+endif
+if has('nvim')
+  lua require('utility/util').time_background()
+endif
 
 
 " Font

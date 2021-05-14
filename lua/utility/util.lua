@@ -63,7 +63,7 @@ function M.hi_extd()
     set_hi('mkdHeading',       '#f07178', nil, nil)
 end
 
---- Search web
+--- Search web.
 function M.search_web(mode, site)
     local search_obj
     if mode == 'n' then
@@ -85,6 +85,16 @@ function M.search_web(mode, site)
         url_arg = "\""..url_raw.."\""
     end
     vim.fn.execute('!'..pub.start..' '..url_arg)
+end
+
+--- Set background according to time.
+function M.time_background()
+    local timer = vim.loop.new_timer()
+    timer:start(0, 60000, vim.schedule_wrap(function()
+        local hour = tonumber(vim.fn.strftime('%H'))
+        local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
+        if vim.o.bg ~= bg then vim.o.bg = bg end
+    end))
 end
 
 
