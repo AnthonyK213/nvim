@@ -1,8 +1,10 @@
 " Onedark
 set termguicolors
 set background=dark
-colorscheme onedark
-let g:airline_theme = 'onedark'
+let g:material_terminal_italics = 1
+let g:material_theme_style = 1
+let g:airline_theme = 'material'
+colorscheme material
 
 
 " FZF
@@ -70,10 +72,6 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 
 " vim-markdown
-function! s:vim_markdown_math_toggle()
-  let g:vim_markdown_math = 1 - g:vim_markdown_math
-  syn off | syn on
-endfunction
 let g:vim_markdown_math = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_autowrite = 1
@@ -82,7 +80,7 @@ let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 2
 nn <silent> <leader>mh :Toch<CR>:resize 15<CR>
 nn <silent> <leader>mv :Tocv<CR>:vertical resize 50<CR>
-nn <silent> <leader>mm :call <SID>vim_markdown_math_toggle()<CR>
+nn <silent> <leader>mm :call usr#misc#vim_markdown_math_toggle()<CR>
 
 
 " markdown preview

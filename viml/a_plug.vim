@@ -1,7 +1,7 @@
 " Load plug-ins
 call plug#begin(stdpath('data') . '/plugged')
-  " Visual
-  Plug 'joshdick/onedark.vim'
+  " UI
+  Plug 'kaicataldo/material.vim', { 'branch': 'main' }
   Plug 'vim-airline/vim-airline'
   " Tree manager
   Plug 'preservim/nerdtree'
