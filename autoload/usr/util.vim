@@ -92,6 +92,21 @@ function! usr#util#search_web(mode, site)
   redraw
 endfunction
 
+"" Set background according to time.
+function! s:background_checker(bg_timer)
+  let l:hour = str2nr(strftime('%H'))
+  let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
+  if &bg != l:bg | let &bg = l:bg | endif
+endfunction
+
+function! usr#util#time_background()
+  let bg_timer = timer_start(
+        \ 60000,
+        \ function('<SID>background_checker'),
+        \ { 'repeat': -1 })
+  call s:background_checker(bg_timer)
+endfunction
+
 "" LaTeX recipes
 function! s:latex_xelatex()
   let l:name = expand('%:r')
