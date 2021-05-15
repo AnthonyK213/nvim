@@ -1,18 +1,3 @@
-" Variables
-"" Directional operation which won't mess up the history.
-let g:const_dir_l = "\<C-g>U\<Left>"
-let g:const_dir_d = "\<C-g>U\<Down>"
-let g:const_dir_u = "\<C-g>U\<Up>"
-let g:const_dir_r = "\<C-g>U\<Right>"
-"" Search web
-let s:util_web_list = {
-      \ "b" : "https://www.baidu.com/s?wd=",
-      \ "g" : "https://www.google.com/search?q=",
-      \ "h" : "https://github.com/search?q=",
-      \ "y" : "https://dict.youdao.com/w/eng/"
-      \ }
-
-
 " Key maps
 "" Mouse toggle
 nn  <silent> <F2> :call           usr#misc#mouse_toggle()<CR>
@@ -27,24 +12,9 @@ nn  <silent> <leader>oe :call usr#util#open_file(expand("%:p:h"))<CR>
 nn  <silent> <leader>ot :call usr#util#terminal()<CR>i
 "" Open with system default browser
 nn  <silent> <leader>ob :call usr#util#open_file(expand("%:p"))<CR>
-"" Windows-like behaviors
-""" Save
-nn  <silent> <C-s> :w<CR>
-ino <silent> <C-s> <C-\><C-o>:w<CR>
-""" Copy/Paste
-vn  <silent> <M-c> "+y
-vn  <silent> <M-x> "+x
-nn  <silent> <M-v> "+p
-vn  <silent> <M-v> "+p
-ino <silent> <M-v> <C-R>=@+<CR>
-""" Select
-nn  <silent> <M-a> ggVG
-ino <silent> <M-a> <Esc>ggVG
 "" Hanzi count
-nn  <silent> <leader>cc
-      \ :echo 'Chinese characters count: ' . usr#note#hanzi_count("n")<CR>
-vn  <silent> <leader>cc
-      \ :<C-u>echo 'Chinese characters count: ' . usr#note#hanzi_count("v")<CR>
+nn  <silent> <leader>cc :call usr#note#hanzi_count("n")<CR>
+vn  <silent> <leader>cc :<C-u>call usr#note#hanzi_count("v")<CR>
 "" Evaluate formula surrounded by `.
 nn <silent> <leader>ev :call usr#eval#text_eval()<CR>
 "" Surround
@@ -54,18 +24,24 @@ vn <silent> <leader>sa :<C-u>call usr#srd#sur_add('v')<CR>
 nn <silent> <leader>sd :call usr#srd#sur_sub('')<CR>
 nn <silent> <leader>sc :call usr#srd#sur_sub()<CR>
 """ Markdown
-for [key, val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
-  for mod_item in ['n', 'v']
-    exe mod_item . 'n' '<silent> <M-' . key . '>'
-          \ ':call usr#srd#sur_add("' . mod_item . '","' . val . '")<CR>'
+for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
+  for s:mod_item in ['n', 'v']
+    exe s:mod_item . 'n' '<silent> <M-' . s:key . '>'
+          \ ':call usr#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
   endfor
 endfor
 "" Search visual selection
 vn  <silent> * y/\V<C-r>=usr#lib#get_visual_selection()<CR><CR>
 "" Search cword in web browser
-for [key, val] in items(s:util_web_list)
-  exe 'nn <silent> <leader>k' . key ':call usr#util#search_web("n", "' . val . '")<CR>'
-  exe 'vn <silent> <leader>k' . key ':<C-u>call usr#util#search_web("v", "' . val . '")<CR>'
+let s:util_web_list = {
+      \ "b" : "https://www.baidu.com/s?wd=",
+      \ "g" : "https://www.google.com/search?q=",
+      \ "h" : "https://github.com/search?q=",
+      \ "y" : "https://dict.youdao.com/w/eng/"
+      \ }
+for [s:key, s:val] in items(s:util_web_list)
+  exe 'nn <silent> <leader>k' . s:key ':call usr#util#search_web("n", "' . s:val . '")<CR>'
+  exe 'vn <silent> <leader>k' . s:key ':<C-u>call usr#util#search_web("v", "' . s:val . '")<CR>'
 endfor
 "" List bullets
 ino <silent> <M-CR> <C-\><C-o>:call usr#note#md_insert_bullet()<CR>
@@ -75,12 +51,12 @@ nn <silent> <leader>hh :!git status<CR>
 "" Append day of week after the date
 nn <silent> <leader>dd :call usr#note#append_day_from_date()<CR>
 "" Insert an orgmode-style timestamp at the end of the line
-nn <silent> <leader>ds A<C-R>=strftime(' <%Y-%m-%d %a %H:%M>')<CR><Esc>
+nn <silent> <leader>ds A<C-R>=strftime(' [[%Y-%m-%d %a %H:%M]]')<CR><Esc>
 "" Some emacs shit.
-for [key, val] in items({"n": "j", "p": "k"})
-  exe 'nn  <C-' . key . '> g' . val
-  exe 'vn  <C-' . key . '> g' . val
-  exe 'ino <silent> <C-' . key . '> <C-\><C-O>g' . val
+for [s:key, s:val] in items({"n": "j", "p": "k"})
+  exe 'nn  <C-' . s:key . '> g' . s:val
+  exe 'vn  <C-' . s:key . '> g' . s:val
+  exe 'ino <silent> <C-' . s:key . '> <C-\><C-O>g' . s:val
 endfor
 nn  <M-x> :
 ino <M-x> <C-\><C-o>:

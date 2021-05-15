@@ -21,6 +21,11 @@ elseif has("unix")
   let g:python3_host_prog = get(g:, 'python3_exec_path', '/usr/bin/python3')
   set wildignore+=*.so
 endif
+"" Directional operation which won't mess up the history.
+let g:const_dir_l = "\<C-g>U\<Left>"
+let g:const_dir_d = "\<C-g>U\<Down>"
+let g:const_dir_u = "\<C-g>U\<Up>"
+let g:const_dir_r = "\<C-g>U\<Right>"
 
 
 " Key maps
@@ -45,10 +50,10 @@ nn <silent> <M-,> :call usr#util#edit_file("$MYVIMRC", 1)<CR>
 tno <Esc> <C-\><C-n>
 tno <silent> <M-d> <C-\><C-N>:bd!<CR>
 """ Navigate
-for direct in ['h', 'j', 'k', 'l', 'w']
-  exe 'nn  <M-' . direct . '> <C-w>'            . direct
-  exe 'ino <M-' . direct . '> <ESC><C-w>'       . direct
-  exe 'tno <M-' . direct . '> <C-\><C-n><C-w>'  . direct
+for s:direct in ['h', 'j', 'k', 'l', 'w']
+  exe 'nn  <M-' . s:direct . '> <C-w>'            . s:direct
+  exe 'ino <M-' . s:direct . '> <ESC><C-w>'       . s:direct
+  exe 'tno <M-' . s:direct . '> <C-\><C-n><C-w>'  . s:direct
 endfor
 """ Find and replace
 nn <M-f> :%s/
@@ -68,6 +73,19 @@ nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
 """ Toggle spell check
 nn <silent> <Leader>cs :setlocal spell! spelllang=en_us<CR>
+"" Windows-like behaviors
+""" Save
+nn  <silent> <C-s> :w<CR>
+ino <silent> <C-s> <C-\><C-o>:w<CR>
+""" Copy/Paste
+vn  <silent> <M-c> "+y
+vn  <silent> <M-x> "+x
+nn  <silent> <M-v> "+p
+vn  <silent> <M-v> "+p
+ino <silent> <M-v> <C-R>=@+<CR>
+""" Select
+nn  <silent> <M-a> ggVG
+ino <silent> <M-a> <Esc>ggVG
 
 
 " Scroll off

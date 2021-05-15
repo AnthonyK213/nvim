@@ -80,9 +80,9 @@ endfunction
 function! usr#lib#str_escape(str, esc_dict)
   let l:str_lst = split(a:str, '.\zs')
   let l:i = 0
-  for char in l:str_lst
-    if has_key(a:esc_dict, char)
-      let l:str_lst[l:i] = a:esc_dict[char]
+  for l:char in l:str_lst
+    if has_key(a:esc_dict, l:char)
+      let l:str_lst[l:i] = a:esc_dict[l:char]
     endif
     let l:i = l:i + 1
   endfor

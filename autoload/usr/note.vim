@@ -86,13 +86,17 @@ function! usr#note#hanzi_count(mode)
   endif
 
   let l:h_count = 0
-  for line in l:content
-    for char in split(line, '.\zs')
-      if usr#lib#is_hanzi(char) | let l:h_count += 1 | endif
+  for l:line in l:content
+    for l:char in split(l:line, '.\zs')
+      if usr#lib#is_hanzi(l:char) | let l:h_count += 1 | endif
     endfor
   endfor
 
-  return l:h_count
+  if l:h_count == 0
+    echo 'No Chinese characters found.'
+  else
+    echo 'The number of Chinese characters is' l:h_count . '.'
+  endif
 endfunction
 
 "" Markdown number bullet
@@ -214,8 +218,8 @@ function usr#note#md_sort_num_bullet()
     let l:num_la = reverse(l:num_lb) + l:num_lf
 
     let l:i = 1
-    for item in l:num_la
-      call setline(item, substitute(getline(item),
+    for l:item in l:num_la
+      call setline(l:item, substitute(getline(l:item),
             \ '\v(\d+)', '\=' . l:i, ''))
       let l:i += 1
     endfor

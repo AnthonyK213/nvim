@@ -63,12 +63,12 @@ function! s:subrc_pairs_back()
     return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
   endif
   let l:res = [0, 0, 0]
-  for [key, val] in items(g:subrc_pairs_dict)
-    let l:key_esc = '\v' . escape(key, ' ()[]{}<>*') . '$'
-    let l:val_esc = '\v^' . escape(val, ' ()[]{}<>*')
+  for [l:key, l:val] in items(g:subrc_pairs_dict)
+    let l:key_esc = '\v' . escape(l:key, ' ()[]{}<>*') . '$'
+    let l:val_esc = '\v^' . escape(l:val, ' ()[]{}<>*')
     if l:back =~ l:key_esc && l:fore =~ l:val_esc && 
-     \ len(key) + len(val) > l:res[1] + l:res[2]
-      let l:res = [1, len(key), len(val)]
+     \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
+      let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor
   return l:res[0] ?
