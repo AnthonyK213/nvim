@@ -37,12 +37,12 @@ nn <C-LEFT>  <C-W>>
 nn <C-RIGHT> <C-w><
 "" Meta
 """ Switch tab
-let tab_num = 1
-while tab_num <= 10
-  let tab_key = tab_num == 10 ? 0 : tab_num
-  exe 'nn  <silent> <M-' . tab_key . '>           :tabn' tab_num . '<CR>'
-  exe 'ino <silent> <M-' . tab_key . '> <C-\><C-O>:tabn' tab_num . '<CR>'
-  let tab_num += 1
+let s:tab_num = 1
+while s:tab_num <= 10
+  let s:tab_key = s:tab_num == 10 ? 0 : s:tab_num
+  exe 'nn  <silent> <M-' . s:tab_key . '>           :tabn' s:tab_num . '<CR>'
+  exe 'ino <silent> <M-' . s:tab_key . '> <C-\><C-O>:tabn' s:tab_num . '<CR>'
+  let s:tab_num += 1
 endwhile
 """ Open .vimrc(init.vim)
 nn <silent> <M-,> :call usr#util#edit_file("$MYVIMRC", 1)<CR>
