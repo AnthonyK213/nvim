@@ -100,8 +100,8 @@ set mouse=a
 
 " GUI
 "" neovim-qt GUI
-for [opt, arg] in items(s:nvimqt_option_table)
-  call s:nvimqt_set_option(opt, arg)
+for [s:opt, s:arg] in items(s:nvimqt_option_table)
+  call s:nvimqt_set_option(s:opt, s:arg)
 endfor
 "" Fvim GUI
 if exists('g:fvim_loaded')
@@ -142,11 +142,11 @@ call s:gui_font_set(g:gui_font_family, g:gui_font_size)
 nn  <silent> <C-0> <cmd>call       <SID>gui_font_origin()<CR>
 ino <silent> <C-0> <C-\><C-o>:call <SID>gui_font_origin()<CR>
 
-for [key, val] in items(s:gui_size_kbd)
-  exe 'nn'  '<silent> <C-' . key . '> <cmd>call'
-        \ '<SID>gui_font_' . val . '()<CR>'
-  exe 'ino' '<silent> <C-' . key . '> <C-\><C-O>:call'
-        \ '<SID>gui_font_' . val . '()<CR>'
+for [s:key, s:val] in items(s:gui_size_kbd)
+  exe 'nn'  '<silent> <C-' . s:key . '> <cmd>call'
+        \ '<SID>gui_font_' . s:val . '()<CR>'
+  exe 'ino' '<silent> <C-' . s:key . '> <C-\><C-O>:call'
+        \ '<SID>gui_font_' . s:val . '()<CR>'
 endfor
 "" Toggle line number display
 nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
