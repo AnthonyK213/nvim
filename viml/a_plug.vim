@@ -20,6 +20,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'dhruvasagar/vim-table-mode'
   " File type support
   Plug 'lervag/vimtex'
+  Plug 'vimwiki/vimwiki'
   Plug 'plasticboy/vim-markdown'
   Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
