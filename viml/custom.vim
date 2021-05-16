@@ -2,13 +2,9 @@
 "" Leader key
 let g:mapleader = "\<Space>"
 "" Directories
-if !empty(glob(expand('$ONEDRIVE')))
-  let g:onedrive_path = expand('$ONEDRIVE')
-  let g:usr_desktop = expand(fnamemodify(g:onedrive_path, ':h') . "/Desktop")
-else
-  let g:onedrive_path = expand('$HOME')
-  let g:usr_desktop = expand('$HOME/Desktop')
-endif
+let g:path_home = get(g:, 'default_home', expand('$HOME'))
+let g:path_cloud = get(g:, 'default_cloud', expand('$ONEDRIVE'))
+let g:path_desktop = get(g:, 'default_desktop', expand(g:path_home . '/Desktop'))
 "" OS
 if has("win32")
   let g:python3_host_prog = get(g:, 'python3_exec_path', $HOME . '/Appdata/Local/Programs/Python/Python38/python.EXE')

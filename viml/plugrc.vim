@@ -121,8 +121,8 @@ let g:vimtex_compiler_progname = 'nvr'
 
 " vimwiki
 let g:vimwiki_list = [{
-      \ 'path' : expand(g:onedrive_path . '/Documents/Agenda/'),
-      \ 'path_html' : expand(g:onedrive_path . '/Documents/Agenda/html/'),
+      \ 'path' : expand(g:path_cloud . '/Documents/Agenda/'),
+      \ 'path_html' : expand(g:path_cloud . '/Documents/Agenda/html/'),
       \ 'syntax' : 'default',
       \ 'ext' : '.wiki'
       \ }]
