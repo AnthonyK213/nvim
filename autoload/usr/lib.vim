@@ -89,3 +89,7 @@ function! usr#lib#str_escape(str, esc_dict)
   endfor
   return join(l:str_lst, '')
 endfunction
+
+function! usr#lib#vim_reg_esc(str)
+  return escape(a:str, ' ()[]{}<>.+*^$')
+endfunction
