@@ -48,10 +48,14 @@ function! s:gui_fullscreen_toggle()
   if exists('*GuiWindowFullScreen')
     if g:GuiWindowFullScreen == 0
       call GuiWindowFullScreen(1)
-      GuiScrollBar 0
+      if exists(':GuiScrollBar')
+        GuiScrollBar 0
+      endif
     else
       call GuiWindowFullScreen(0)
-      exe 'GuiScrollBar' s:nvimqt_option_table['GuiScrollBar']
+      if exists(':GuiScrollBar')
+        exe 'GuiScrollBar' s:nvimqt_option_table['GuiScrollBar']
+      endif
     endif
   elseif exists(':FVimToggleFullScreen')
     FVimToggleFullScreen
