@@ -14,12 +14,13 @@ local cmt_mark_tab_single = {
     -- No multiline comment marks;
     -- Or something stupid like python.
     lisp = ";",
-    perl = '#',
+    perl = "#",
     python = "#",
     sh = "#",
     tex = "%",
     vim = '"',
-    vimwiki = "%% "
+    vimwiki = "%% ",
+    sshconfig = "#"
 }
 
 local cmt_mark_tab_multi = {
@@ -29,7 +30,6 @@ local cmt_mark_tab_multi = {
     java = { "/*", "*/" },
     lua = { "--[[", "]]" },
     rust = { "/*", "*/" },
-    --python = { "'''", "'''" },
 }
 
 function M.cmt_add_norm()
@@ -64,8 +64,8 @@ function M.cmt_add_vis()
         for i = lnum_s, lnum_e, 1 do
             local line_old = fn.getline(i)
             if not line_old:match("^%s*$") then
-                local l, r = line_old:match("^(%s*)(.*)$")
-                local line_new = l..cmt_mark_single..r
+                local line_new = line_old:gsub("^(%s*)(.*)$",
+                "%1"..cmt_mark_single.."%2")
                 fn.setline(i, line_new)
             end
         end
@@ -77,10 +77,12 @@ end
 local function is_cmt_line(lnum)
     local line = fn.getline(lnum)
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
-    local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
-    if line:match("^%s*"..esc_cmt_mark..".*$") then
-        local l, r = line:match("^(%s*)"..esc_cmt_mark.."(.*)$")
-        return true, l..r
+    if cmt_mark then
+        local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
+        if line:match("^%s*"..esc_cmt_mark..".*$") then
+            local l, r = line:match("^(%s*)"..esc_cmt_mark.."(.*)$")
+            return true, l..r
+        end
     end
     return false, line
 end
