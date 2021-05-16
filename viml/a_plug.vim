@@ -1,3 +1,4 @@
+let g:plug_def_comp = get(g:, 'default_complete', '')
 " Load plug-ins
 call plug#begin(stdpath('data') . '/plugged')
   " UI
@@ -25,10 +26,10 @@ call plug#begin(stdpath('data') . '/plugged')
   " Snippet; Completion
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
-if g:default_complete ==# 'asyncomplete'
+if g:plug_def_comp ==# 'asyncomplete'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
-elseif g:default_complete ==# 'coc'
+elseif g:plug_def_comp ==# 'coc'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
 call plug#end()
