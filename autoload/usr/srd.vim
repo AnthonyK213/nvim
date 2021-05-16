@@ -1,8 +1,13 @@
 "" Surround
 function! s:sur_pair(pair_a)
-  let l:pairs = { "(": ")", "[": "]", "{": "}", "<": ">", " ": " ", "《": "》", "“": "”" }
+  let l:pairs = {
+        \ "(": ")", "[": "]", "{": "}",
+        \ "<": ">", " ": " ",
+        \ "《": "》", "“": "”"
+        \ }
   if a:pair_a =~ '\v^(\(|\[|\{|\<|\s|《|“)+$'
-    return join(reverse(map(split(a:pair_a, '.\zs'), {idx, val -> l:pairs[val]})), '')
+    return join(reverse(map(split(a:pair_a, '.\zs'),
+          \ {idx, val -> l:pairs[val]})), '')
   elseif a:pair_a =~ '\v^(\<\w+\>)+$'
     return '</' . join(reverse(split(a:pair_a, '<')), '</')
   else
