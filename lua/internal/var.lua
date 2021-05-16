@@ -29,7 +29,8 @@ end
 -- GUI
 if core_opt.gui then
     vim.g.gui_font_size   = core_opt.gui.font_size
-    vim.g.gui_font_family = core_opt.gui.font_family
+    vim.g.gui_font_half   = core_opt.gui.font_half
+    vim.g.gui_font_full   = core_opt.gui.font_full
     vim.g.gui_background  = core_opt.gui.bg or ''
 end
 

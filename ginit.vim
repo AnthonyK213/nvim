@@ -21,27 +21,28 @@ let s:nvimqt_option_table = {
 
 
 " Functions
-function! s:gui_font_set(family, size)
+function! s:gui_font_set(half, full, size)
   if exists(':GuiFont')
-    exe 'GuiFont!' a:family . ':h' . a:size
+    exe 'GuiFont!' a:half . ':h' . a:size
   else
-    exe 'set guifont=' . escape(a:family, ' ') . ':h' . a:size
+    let &gfn = a:half . ':h' . a:size
   endif
+  let &gfw = a:full . ':h' . a:size
 endfunction
 
 function! s:gui_font_expand()
   let g:gui_font_size += s:gui_font_step
-  call s:gui_font_set(g:gui_font_family, g:gui_font_size)
+  call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 endfunction
 
 function! s:gui_font_shrink()
   let g:gui_font_size = max([g:gui_font_size - s:gui_font_step, 3])
-  call s:gui_font_set(g:gui_font_family, g:gui_font_size)
+  call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 endfunction
 
 function! s:gui_font_origin()
   let g:gui_font_size = g:gui_font_size_origin
-  call s:gui_font_set(g:gui_font_family, g:gui_font_size)
+  call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 endfunction
 
 function! s:gui_fullscreen_toggle()
@@ -128,17 +129,21 @@ endif
 
 
 " Font
+if !exists('g:gui_font_half')
+  let g:gui_font_half = 'Monospace'
+endif
+
+if !exists('g:gui_font_full')
+  let g:gui_font_full = '宋体'
+endif
+
 if !exists('g:gui_font_size')
   let g:gui_font_size = 10
 endif
 
-if !exists('gui_font_family')
-  let g:gui_font_family = 'Monospace'
-endif
-
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
-call s:gui_font_set(g:gui_font_family, g:gui_font_size)
+call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 
 
 " GUI key bindings

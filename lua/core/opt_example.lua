@@ -13,7 +13,8 @@ return {
     ]]
     --[[
     gui = {
-        font_family = 'Consolas',
+        font_half = 'Consolas',
+        font_full = '黑体',
         font_size = 12,
         bg = 'light'
     },
