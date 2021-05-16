@@ -5,6 +5,9 @@
 "let g:default_cloud = v:null
 "let g:default_desktop = v:null
 "let g:default_complete = 'asyncomplete'
+"let g:gui_font_half = 'Monospace'
+"let g:gui_font_full = 'Monospace'
+"let g:gui_font_size = 12
 
 
 if !exists('g:init_src')
