@@ -129,6 +129,16 @@
     - n:    <kbd>b</kbd>     -> *fzf.vim*, switch buffer using fzf.
     - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
+  - <kbd>leader-g-</kbd>     -> **LSP**.
+    - n:    <kbd>a</kbd>     -> *coc.nvim*, code action.
+    - n:    <kbd>d</kbd>     -> *coc.nvim*, declaration.
+    - n:    <kbd>f</kbd>     -> *coc.nvim*, definition.
+    - n:    <kbd>i</kbd>     -> *coc.nvim*, implementation.
+    - n:    <kbd>q</kbd>     -> *coc.nvim*, autofix.
+    - n:    <kbd>r</kbd>     -> *coc.nvim*, references.
+    - n:    <kbd>t</kbd>     -> *coc.nvim*, type definition.
+    - n:    <kbd>[</kbd>     -> *coc.nvim*, previous diagnostic.
+    - n:    <kbd>]</kbd>     -> *coc.nvim*, next diagnostic.
   - <kbd>leader-h-</kbd>     -> **VCS**.
     - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
     - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.

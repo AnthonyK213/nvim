@@ -25,4 +25,5 @@ elseif g:init_src == 'full'
   source <sfile>:h/viml/custom.vim
   source <sfile>:h/viml/fnutil.vim
   source <sfile>:h/viml/plugrc.vim
+  source <sfile>:h/viml/ps_opt.vim
 endif

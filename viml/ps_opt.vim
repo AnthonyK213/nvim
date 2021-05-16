@@ -32,6 +32,7 @@ elseif g:plug_def_comp ==# 'coc'
   let g:coc_global_extensions = [
         \ 'coc-python',
         \ 'coc-rls',
+        \ 'coc-vimlsp',
         \ 'coc-vimtex',
         \ ]
 
