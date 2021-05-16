@@ -139,8 +139,8 @@ vim.g.indent_blankline_buftype_exclude = {
 
 -- vimwiki
 vim.g.vimwiki_list = {{
-    path = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/"),
-    path_html = vim.fn.expand(vim.g.onedrive_path.."/Documents/Agenda/html/"),
+    path = vim.fn.expand(vim.g.path_cloud.."/Documents/Agenda/"),
+    path_html = vim.fn.expand(vim.g.path_cloud.."/Documents/Agenda/html/"),
     syntax = 'default',
     ext = '.wiki'
 }}

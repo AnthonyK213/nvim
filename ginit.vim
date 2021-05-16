@@ -76,12 +76,12 @@ function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
-    if exists('g:onedrive_path')
-      silent exe 'w' g:onedrive_path .
+    if exists('g:path_cloud')
+      silent exe 'w' g:path_cloud .
             \ '/Documents/Agenda/diary/memo_' .
             \ strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     else
-      silent exe 'w' g:usr_desktop .
+      silent exe 'w' g:path_desktop .
             \ '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
     end
   else
@@ -91,8 +91,8 @@ endfunction
 
 
 " Set behaviors
-if exists('g:usr_desktop')
-  exe 'cd' g:usr_desktop
+if exists('g:path_desktop')
+  exe 'cd' g:path_desktop
 endif
 cd %:p:h
 set mouse=a

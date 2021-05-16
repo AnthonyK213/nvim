@@ -1,31 +1,28 @@
+local fn = vim.fn
 local core_opt = require('core/opt')
 local rep_term = vim.api.nvim_replace_termcodes
 
 vim.g.mapleader = " "
 
-if vim.fn.glob(vim.fn.expand('$ONEDRIVE')) ~= '' then
-    vim.g.onedrive_path = vim.fn.expand('$ONEDRIVE')
-    vim.g.usr_desktop = vim.fn.expand(
-    vim.fn.fnamemodify(vim.g.onedrive_path, ':h')..'/Desktop')
-else
-    vim.g.onedrive_path = vim.fn.expand('$HOME')
-    vim.g.usr_desktop = vim.fn.expand('$HOME/Desktop')
-end
+local path = core_opt.path or {}
+vim.g.path_home = path.home or fn.expand('$HOME')
+vim.g.path_cloud = path.cloud or fn.expand('$ONEDRIVE')
+vim.g.path_desktop = path.desktop or fn.expand(vim.g.path_home..'/Desktop')
 
-if vim.fn.has("win32") == 1 then
+if fn.has("win32") == 1 then
     vim.g.python3_host_prog =
     core_opt.py3 or
-    vim.fn.expand('$LOCALAPPDATA/Programs/Python/Python38/python')
+    fn.expand('$LOCALAPPDATA/Programs/Python/Python38/python')
     vim.o.wildignore = vim.o.wildignore..
     "*.o,*.obj,*.bin,*.dll,*.exe,"..
     "*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**,"..
     "*.pyc,"..
     "*.DS_Store,"..
     "*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz"
-elseif vim.fn.has("unix") == 1 then
+elseif fn.has("unix") == 1 then
     vim.g.python3_host_prog = core_opt.py3 or '/usr/bin/python3'
     vim.o.wildignore = vim.o.wildignore.."*.so"
-elseif vim.fn.has("mac") == 1 then
+elseif fn.has("mac") == 1 then
     vim.g.python3_host_prog = core_opt.py3 or '/usr/bin/python3'
 end
 

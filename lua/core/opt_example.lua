@@ -5,6 +5,13 @@ return {
     --bg  = 'dark',
     --material = 'oceanic',
     --[[
+    path = {
+        home = nil,
+        cloud = nil,
+        desktop = nil
+    },
+    ]]
+    --[[
     gui = {
         font_family = 'Consolas',
         font_size = 12,
