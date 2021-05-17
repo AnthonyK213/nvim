@@ -129,15 +129,15 @@ endif
 
 
 " Font
-if !exists('g:gui_font_half')
+if !exists('g:gui_font_half') || empty(g:gui_font_half)
   let g:gui_font_half = 'Monospace'
 endif
 
-if !exists('g:gui_font_full')
-  let g:gui_font_full = '宋体'
+if !exists('g:gui_font_full') || empty(g:gui_font_full)
+  let g:gui_font_full = 'Monospace'
 endif
 
-if !exists('g:gui_font_size')
+if !exists('g:gui_font_size') || empty(g:gui_font_size)
   let g:gui_font_size = 10
 endif
 
