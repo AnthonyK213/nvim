@@ -1,20 +1,19 @@
 local M = {}
-local lib = require('utility/lib')
 local core_opt = require('core/opt')
 
 
 if vim.fn.has("win32") == 1 then
     M.start = 'start'
-    M.shell = lib.get_var(core_opt.sh, 'powershell.exe -nologo')
-    M.ccomp = lib.get_var(core_opt.cc, 'gcc')
+    M.shell = core_opt.dep.sh or 'powershell.exe -nologo'
+    M.ccomp = core_opt.dep.cc or 'gcc'
 elseif vim.fn.has("unix") == 1 then
     M.start = 'xdg-open'
-    M.shell = lib.get_var(core_opt.sh, 'bash')
-    M.ccomp = lib.get_var(core_opt.cc, 'gcc')
+    M.shell = core_opt.dep.sh or 'bash'
+    M.ccomp = core_opt.dep.cc or 'gcc'
 elseif vim.fn.has("mac") == 1 then
     M.start = 'open'
-    M.shell = lib.get_var(core_opt.sh, 'zsh')
-    M.ccomp = lib.get_var(core_opt.cc, 'clang')
+    M.shell = core_opt.dep.sh or 'zsh'
+    M.ccomp = core_opt.dep.cc or 'clang'
 end
 
 M.esc_url = {

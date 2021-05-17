@@ -30,7 +30,37 @@
   ```bash
   git clone https://github.com/AnthonyK213/nvim.git
   ```
-* **Set up lua/core/opt.lua**
+* **Set up [lua/core/opt.lua](lua/core/opt_example.lua)**
+  - Essential:
+    - **dep** -> Dependencies
+      - `cc`  -> C compiler
+      - `sh`  -> Shell
+      - `py3` -> Python3 executable path
+    - **path** -> Path
+      - `home`    -> Home directory
+      - `cloud`   -> Cloud drive directory
+      - `desktop` -> Desktop directory
+    - **tui** -> Tui
+      - `bg`       -> Tui background
+      - `material` -> style of material theme
+    - **gui** -> Gui (neovim-qt, fvim)
+      - `font_half` -> See &gfn
+      - `font_full` -> See &gfw
+      - `font_size` -> Gui font size
+      - `bg`        -> Gui background
+  - Optional:
+    - **lsp** -> Language Server Protocol
+      - `clangd`
+      - `jedi_language_server`
+      - `omnisharp`
+      - `rls`
+      - `rust_analyzer`
+      - `sumneko_lua`
+      - `texlab`
+      - `vimls`
+    - **ts** -> Treesitter
+      - `ensure`     -> Parsers to install automatically
+      - `hi_disable` -> File type to disable treesitter highlight
 
 
 ## Modules

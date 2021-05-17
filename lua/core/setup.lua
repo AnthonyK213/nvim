@@ -24,7 +24,7 @@ require('package/config')
 require('package/inter')
 
 -- Color scheme
-vim.o.bg = require('core/opt').bg or 'dark'
+vim.o.bg = require('core/opt').tui.bg or 'dark'
 local init_src = vim.g.init_src or 'one'
 
 if init_src == 'nano' then

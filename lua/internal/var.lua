@@ -4,14 +4,13 @@ local rep_term = vim.api.nvim_replace_termcodes
 
 vim.g.mapleader = " "
 
-local path = core_opt.path or {}
-vim.g.path_home = path.home or fn.expand('$HOME')
-vim.g.path_cloud = path.cloud or fn.expand('$ONEDRIVE')
-vim.g.path_desktop = path.desktop or fn.expand(vim.g.path_home..'/Desktop')
+vim.g.path_home = core_opt.path.home or fn.expand('$HOME')
+vim.g.path_cloud = core_opt.path.cloud or fn.expand('$ONEDRIVE')
+vim.g.path_desktop = core_opt.path.desktop or fn.expand(vim.g.path_home..'/Desktop')
 
 if fn.has("win32") == 1 then
     vim.g.python3_host_prog =
-    core_opt.py3 or
+    core_opt.dep.py3 or
     fn.expand('$LOCALAPPDATA/Programs/Python/Python38/python')
     vim.o.wildignore = vim.o.wildignore..
     "*.o,*.obj,*.bin,*.dll,*.exe,"..
@@ -20,10 +19,10 @@ if fn.has("win32") == 1 then
     "*.DS_Store,"..
     "*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz"
 elseif fn.has("unix") == 1 then
-    vim.g.python3_host_prog = core_opt.py3 or '/usr/bin/python3'
+    vim.g.python3_host_prog = core_opt.dep.py3 or '/usr/bin/python3'
     vim.o.wildignore = vim.o.wildignore.."*.so"
 elseif fn.has("mac") == 1 then
-    vim.g.python3_host_prog = core_opt.py3 or '/usr/bin/python3'
+    vim.g.python3_host_prog = core_opt.dep.py3 or '/usr/bin/python3'
 end
 
 -- GUI

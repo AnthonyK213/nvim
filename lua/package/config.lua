@@ -218,36 +218,36 @@ require('compe').setup {
 
 -- nvim-lspconfig
 local lspconfig = require('lspconfig')
-local init_lsp_option = require('core/opt').lsp or {}
+local lsp_option = require('core/opt').lsp or {}
 --- clangd
-if init_lsp_option.clangd then
+if lsp_option.clangd then
     lspconfig.clangd.setup {}
 end
 --- jedi_language_server
-if init_lsp_option.jedi_language_server then
+if lsp_option.jedi_language_server then
     lspconfig.jedi_language_server.setup {}
 end
 --- rls
-if init_lsp_option.rls then
+if lsp_option.rls then
     lspconfig.rls.setup {}
 end
 --- rust_analyzer
-if init_lsp_option.rust_analyzer then
+if lsp_option.rust_analyzer then
     lspconfig.rust_analyzer.setup {}
 end
 --- texlab
-if init_lsp_option.texlab then
+if lsp_option.texlab then
     lspconfig.texlab.setup {}
 end
 --- omnisharp
-if init_lsp_option.omnisharp then
+if lsp_option.omnisharp then
     local pid = vim.fn.getpid()
     lspconfig.omnisharp.setup {
         cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
     }
 end
 --- sumneko_lua
-if init_lsp_option.sumneko_lua and init_lsp_option.sumneko_lua.enable then
+if lsp_option.sumneko_lua and lsp_option.sumneko_lua.enable then
     local system_name, sumneko_root_path
     if vim.fn.has("mac") == 1 then
         system_name = "macOS"
@@ -255,12 +255,12 @@ if init_lsp_option.sumneko_lua and init_lsp_option.sumneko_lua.enable then
     elseif vim.fn.has("unix") == 1 then
         system_name = "Linux"
         sumneko_root_path = vim.fn.expand(
-        init_lsp_option.sumneko_lua.path or
+        lsp_option.sumneko_lua.path or
         "~/.local/bin/lua-language-server")
     elseif vim.fn.has('win32') == 1 then
         system_name = "Windows"
         sumneko_root_path = vim.fn.expand(
-        init_lsp_option.sumneko_lua.path or
+        lsp_option.sumneko_lua.path or
         "D:/Env/LSP/lua-language-server")
     else
         print("Unsupported system for sumneko.")
@@ -289,7 +289,7 @@ if init_lsp_option.sumneko_lua and init_lsp_option.sumneko_lua.enable then
     }
 end
 --- vim script
-if init_lsp_option.vimls then
+if lsp_option.vimls then
     lspconfig.vimls.setup {}
 end
 --- Enable diagnostics
@@ -301,7 +301,7 @@ vim.lsp.diagnostic.on_publish_diagnostics,
 -- treesitter
 local ts_option = require("core/opt").ts or {}
 require('nvim-treesitter.configs').setup {
-    ensure_installed = ts_option.ensure or { "c" },
+    ensure_installed = ts_option.ensure or {},
     highlight = {
         enable = true,
         disable = ts_option.hi_disable or {}

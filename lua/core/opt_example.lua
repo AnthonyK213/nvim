@@ -1,50 +1,39 @@
 return {
-    --sh  = 'zsh',
-    --cc  = 'clang',
-    --py3 = '/usr/bin/python3',
-    --bg  = 'dark',
-    --material = 'oceanic',
-    --[[
+    dep = {
+        --sh = 'zsh',
+        --cc = 'clang',
+        --py3 = '/usr/bin/python3',
+    },
     path = {
         home = nil,
         cloud = nil,
-        desktop = nil
+        desktop = nil,
     },
-    ]]
-    --[[
+    tui = {
+        --bg = 'dark',
+        --material = 'oceanic',
+    },
     gui = {
         font_half = 'Consolas',
         font_full = '黑体',
         font_size = 12,
-        bg = 'light'
+        --bg = 'light',
     },
-    ]]
-    --[[
     lsp = {
-        -- C, C++
         clangd = false,
-        -- C#
+        jedi_language_server = false,
         omnisharp = false,
-        -- LaTeX
-        texlab = false,
-        -- Lua
+        rls = false,
+        rust_analyzer = false,
         sumneko_lua = {
             enable = false,
             path = nil
         },
-        -- Python
-        jedi_language_server = false,
-        -- Rust
-        rls = false,
-        rust_analyzer = false,
-        -- Vim script
-        vimls = false
+        texlab = false,
+        vimls = false,
     },
-    ]]
-    --[[
     ts = {
         ensure = { "c", "rust", "python", "lua" },
-        hi_disable = { "c" }
+        --hi_disable = { "c" },
     }
-    ]]
 }
