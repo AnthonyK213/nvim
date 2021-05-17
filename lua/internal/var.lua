@@ -28,10 +28,18 @@ end
 
 -- GUI
 if core_opt.gui then
-    vim.g.gui_font_size   = core_opt.gui.font_size or ''
-    vim.g.gui_font_half   = core_opt.gui.font_half or ''
-    vim.g.gui_font_full   = core_opt.gui.font_full or ''
-    vim.g.gui_background  = core_opt.gui.bg or ''
+    if core_opt.gui.font_half then
+        vim.g.gui_font_half = core_opt.gui.font_half
+    end
+    if core_opt.gui.font_full then
+        vim.g.gui_font_full = core_opt.gui.font_full
+    end
+    if core_opt.gui.font_size then
+        vim.g.gui_font_size = core_opt.gui.font_size
+    end
+    if core_opt.gui.bg then
+        vim.g.gui_background = core_opt.gui.bg
+    end
 end
 
 -- Directional operation which won't mess up the history.
