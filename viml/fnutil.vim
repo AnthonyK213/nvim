@@ -52,6 +52,11 @@ nn <silent> <leader>hh :!git status<CR>
 nn <silent> <leader>dd :call usr#note#append_day_from_date()<CR>
 "" Insert an orgmode-style timestamp at the end of the line
 nn <silent> <leader>ds A<C-R>=strftime(' [[%Y-%m-%d %a %H:%M]]')<CR><Esc>
+"" Comment
+nn  <leader>la :call usr#cmt#cmt_add_norm()<CR>
+vn  <leader>la :<C-u>call usr#cmt#cmt_add_vis()<CR>
+nn  <leader>ld :call usr#cmt#cmt_del_norm()<CR>
+vn  <leader>ld :<C-u>call usr#cmt#cmt_del_vis()<CR>
 "" Some emacs shit.
 for [s:key, s:val] in items({"n": "j", "p": "k"})
   exe 'nn  <C-' . s:key . '> g' . s:val
