@@ -43,12 +43,12 @@
     - **tui** -> Tui
       - `bg`       -> Tui background
       - `material` -> style of material theme
+  - Optional:
     - **gui** -> Gui (neovim-qt, fvim)
       - `font_half` -> See &gfn
       - `font_full` -> See &gfw
       - `font_size` -> Gui font size
       - `bg`        -> Gui background
-  - Optional:
     - **lsp** -> Language Server Protocol
       - `clangd`
       - `jedi_language_server`
