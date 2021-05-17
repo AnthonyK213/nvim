@@ -9,6 +9,13 @@
 "let g:gui_font_full = 'Monospace'
 "let g:gui_font_size = 12
 
+let g:coc_global_extensions = [
+      \ 'coc-python',
+      \ 'coc-rls',
+      \ 'coc-vimlsp',
+      \ 'coc-vimtex',
+      \ ]
+
 
 if !exists('g:init_src')
   let g:init_src = 'full'
