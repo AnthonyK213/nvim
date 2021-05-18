@@ -17,7 +17,6 @@ let g:netrw_winsize = 80
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 nn  <silent> <leader>op :20Lexplore<CR>
-tno <silent> <leader>op <C-\><C-N>:20Lexplore<CR>
 
 
 " Pairs
