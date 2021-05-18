@@ -64,7 +64,7 @@ function M.append_day_from_date()
         local cursor_pos = vim.fn.col('.')
         local match_start = 0
         local match_cword
-        local search_str = vim.fn.escape(str, ' ()[]{}<>.+*^$')
+        local search_str = lib.vim_reg_esc(str)
         while (true) do
             match_cword = vim.fn.matchstrpos(line, search_str, match_start)
             if (match_cword[2] <= cursor_pos and

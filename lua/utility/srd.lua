@@ -76,8 +76,8 @@ function M.srd_sub(...)
         pair_a_new = fn.input("Change to: ")
     end
     local pair_b_new = srd_pair(pair_a_new)
-    local search_back = '\\v.*\\zs'..fn.escape(pair_a, ' ()[]{}<>.+*^$')
-    local search_fore = '\\v'..fn.escape(pair_b, ' ()[]{}<>.+*^$')
+    local search_back = '\\v.*\\zs'..lib.vim_reg_esc(pair_a)
+    local search_fore = '\\v'..lib.vim_reg_esc(pair_b)
 
     if (fn.matchstr(back, search_back) ~= '' and
         fn.matchstr(fore, search_fore) ~= '') then
