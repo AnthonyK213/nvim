@@ -11,7 +11,7 @@ use {'norcalli/nvim-colorizer.lua', opt = true}
 -- File system
 use {'kyazdani42/nvim-tree.lua'}
 use {'nvim-telescope/telescope.nvim'}
--- Git utilities
+-- VCS utilities
 use {'tpope/vim-fugitive'}
 use {'lewis6991/gitsigns.nvim'}
 -- Utilities

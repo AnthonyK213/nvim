@@ -3,7 +3,7 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) nightly build
-* [**Python**](https://www.python.org/)
+* [**Python**](https://www.python.org/) (For [vimtex](https://github.com/lervag/vimtex))
   > pip install pynvim  
   > pip install neovim-remote
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
@@ -85,6 +85,41 @@
 - Color scheme
   - `nanovim.vim`
     - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
+
+
+## Packages
+* Package manager
+  - [paq-nvim](https://github.com/savq/paq-nvim)
+* Visual
+  - [material.nvim](https://github.com/marko-cerovac/material.nvim)
+  - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
+  - [nvim-bufferline.lua](https://github.com/akinsho/nvim-bufferline.lua)
+  - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
+* File system
+  - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
+  - [nvim-telescope](https://github.com/nvim-telescope/telescope.nvim)
+* VCS utilities
+  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
+  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+* Utilities
+  - [popup.nvim](https://github.com/nvim-lua/popup.nvim)
+  - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
+  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
+  - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
+* File type support
+  - [vimtex](https://github.com/lervag/vimtex)
+  - [vimwiki](https://github.com/vimwiki/vimwiki)
+  - [vim-markdown](https://github.com/plasticboy/vim-markdown)
+  - [vim-processing](https://github.com/sophacles/vim-processing)
+  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+* Snippet; Completion; LSP; TreeSitter
+  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+  - [nvim-compe](https://github.com/hrsh7th/nvim-compe)
+  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+* Games
+  - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
 
 
 ## Key bindings
