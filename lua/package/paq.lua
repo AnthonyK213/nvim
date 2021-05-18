@@ -9,8 +9,7 @@ use {'hoob3rt/lualine.nvim',        opt = true}
 use {'akinsho/nvim-bufferline.lua', opt = true}
 use {'norcalli/nvim-colorizer.lua', opt = true}
 -- File system
---paq {'kyazdani42/nvim-tree.lua'}
-use {'AnthonyK213/nvim-tree.lua'}
+use {'kyazdani42/nvim-tree.lua'}
 use {'nvim-telescope/telescope.nvim'}
 -- Git utilities
 use {'tpope/vim-fugitive'}
