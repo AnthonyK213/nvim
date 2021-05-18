@@ -71,10 +71,14 @@ keymap('n', '<leader>oe', '<Cmd>lua require("utility/util").open_file(vim.fn.exp
 keymap('n', '<leader>ot', '<Cmd>lua require("utility/util").terminal()<CR>i',    { noremap = true, silent = true })
 -- Open with system default browser.
 keymap('n', '<leader>ob', '<Cmd>lua require("utility/util").open_file(vim.fn.expand("%:p"))<CR>', { noremap = true, silent = true })
--- Open url under the cursor.
+-- Open url under the cursor or in the selection.
 keymap('n', '<leader>ou',
-[[<cmd>lua local util = require("utility/util") ]]..
+[[<Cmd>lua local util = require("utility/util") ]]..
 [[util.open_url(util.match_url(vim.fn.expand("<cWORD>")))<CR>]],
+{ noremap = true, silent = true })
+keymap('v', '<leader>ou',
+[[:<C-u>lua local util = require("utility/util") ]]..
+[[util.open_url(util.match_url(require("utility/lib").get_visual_selection()))<CR>]],
 { noremap = true, silent = true })
 -- Hanzi count.
 keymap('n', '<leader>cc', '<Cmd>lua require("utility/note").hanzi_count("n")<CR>',  { noremap = true, silent = true })

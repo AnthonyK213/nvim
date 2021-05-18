@@ -61,6 +61,8 @@ function M.open_url(url)
 end
 
 --- Match URL in string.
+--- FIXME: Function will not work properly in some markdown link cases.
+--- For example: str = "[hh.h](https://www.bing.com)" -> has a dot in lable.
 function M.match_url(str)
     local function max4(a, b, c, d)
         return math.max(a + 0, b + 0, c + 0, d + 0)

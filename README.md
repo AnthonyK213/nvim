@@ -220,6 +220,7 @@
     - n:    <kbd>e</kbd>     -> Open system file manager.
     - n:    <kbd>t</kbd>     -> Open terminal.
     - n:    <kbd>p</kbd>     -> *nvim-tree.lua*, nvim-tree toggle.
+    - nv:   <kbd>u</kbd>     -> Open url under the cursor or in the selection.
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
