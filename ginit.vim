@@ -1,13 +1,6 @@
 """""""" Configuration for neovim GUI using ginit.vim
 
 " Variables
-let s:gui_size_kbd = {
-      \ '=' : 'expand',
-      \ '-' : 'shrink',
-      \ 'ScrollWheelUp' : 'expand',
-      \ 'ScrollWheelDown' : 'shrink',
-      \ }
-
 let s:nvimqt_option_table = {
       \ 'GuiTabline'         : 0,
       \ 'GuiPopupmenu'       : 1,
@@ -17,6 +10,17 @@ let s:nvimqt_option_table = {
       \ 'GuiAdaptiveColor'   : 1,
       \ 'GuiWindowOpacity'   : '0.92',
       \ 'GuiAdaptiveStyle'   : 'Fusion',
+      \ }
+
+let s:fvim_option_table = {
+      \ 'FVimUIPopupMenu'           : 'v:true',
+      \ 'FVimFontLigature'          : 'v:true',
+      \ 'FVimFontLineHeight'        : '"+2.0"',
+      \ 'FVimBackgroundOpacity'     : '0.92',
+      \ 'FVimCursorSmoothMove'      : 'v:true',
+      \ 'FVimBackgroundComposition' : '"blur"',
+      \ 'FVimCustomTitleBar'        : 'v:true',
+      \ 'FVimFontAntialias'         : 'v:true',
       \ }
 
 
@@ -63,10 +67,12 @@ function! s:gui_fullscreen_toggle()
   endif
 endfunction
 
-function! s:nvimqt_set_option(opt, arg)
-  if exists(':' . a:opt)
-    silent exe a:opt a:arg
-  endif
+function! s:gui_set_option_table(option_table)
+  for [l:opt, l:arg] in items(a:option_table)
+    if exists(':' . l:opt)
+      silent exe l:opt l:arg
+    endif
+  endfor
 endfunction
 
 function! s:gui_number_toggle()
@@ -105,19 +111,10 @@ set mouse=a
 
 " GUI
 "" neovim-qt GUI
-for [s:opt, s:arg] in items(s:nvimqt_option_table)
-  call s:nvimqt_set_option(s:opt, s:arg)
-endfor
+call s:gui_set_option_table(s:nvimqt_option_table)
 "" Fvim GUI
 if exists('g:fvim_loaded')
-  FVimUIPopupMenu           v:true
-  FVimFontLigature          v:true
-  FVimFontLineHeight        '+2.0'
-  FVimBackgroundOpacity     0.92
-  FVimCursorSmoothMove      v:true
-  FVimBackgroundComposition 'blur'
-  FVimCustomTitleBar        v:true
-  FVimFontAntialias         v:true
+  call s:gui_set_option_table(s:fvim_option_table)
 endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
@@ -148,13 +145,17 @@ call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 
 " GUI key bindings
 "" Font size
-nn  <silent> <C-0> <cmd>call       <SID>gui_font_origin()<CR>
-ino <silent> <C-0> <C-\><C-o>:call <SID>gui_font_origin()<CR>
-
-for [s:key, s:val] in items(s:gui_size_kbd)
-  exe 'nn'  '<silent> <C-' . s:key . '> <cmd>call'
+let s:gui_font_size_kbd = {
+      \ '<C-0>' : 'origin',
+      \ '<C-=>' : 'expand',
+      \ '<C-->' : 'shrink',
+      \ '<C-ScrollWheelUp>'   : 'expand',
+      \ '<C-ScrollWheelDown>' : 'shrink',
+      \ }
+for [s:key, s:val] in items(s:gui_font_size_kbd)
+  exe 'nn'  '<silent>' s:key '<Cmd>call'
         \ '<SID>gui_font_' . s:val . '()<CR>'
-  exe 'ino' '<silent> <C-' . s:key . '> <C-\><C-O>:call'
+  exe 'ino' '<silent>' s:key '<C-\><C-O>:call'
         \ '<SID>gui_font_' . s:val . '()<CR>'
 endfor
 "" Toggle line number display
