@@ -11,10 +11,13 @@ keymap('t', '<M-e>',      '<C-\\><C-n>:NvimTreeFindFile<CR>', { noremap = true, 
 keymap('n', '<leader>fb', ':lua require("telescope.builtin").buffers()<CR>',    { noremap = true, silent = true })
 keymap('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<CR>',  { noremap = true, silent = true })
--- vim-markdown
+-- vim-markdown & markdown-preview.nvim
 keymap('n', '<leader>mh', ':Toch<CR>:resize 15<CR>',                       { noremap = true, silent = true })
-keymap('n', '<leader>mv', ':call usr#misc#show_toc()<CR>',            { noremap = true, silent = true })
+keymap('n', '<leader>mv', ':call usr#misc#show_toc()<CR>',                 { noremap = true, silent = true })
 keymap('n', '<leader>mm', ':call usr#misc#vim_markdown_math_toggle()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>mt',
+'exists(":MarkdownPreviewToggle") ? ":MarkdownPreviewToggle<CR>" : "<ESC>"',
+{ expr = true, noremap = true, silent = true })
 -- vim-table-mode
 keymap('n', '<leader>ta', ':TableAddFormula<CR>',      { noremap = true, silent = true })
 keymap('n', '<leader>tc', ':TableEvalFormulaLine<CR>', { noremap = true, silent = true })
