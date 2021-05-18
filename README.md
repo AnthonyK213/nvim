@@ -190,6 +190,7 @@
     - n:    <kbd>f</kbd>     -> `vim.lsp.buf.definition()`
     - n:    <kbd>h</kbd>     -> `vim.lsp.buf.signature_help()`
     - n:    <kbd>i</kbd>     -> `vim.lsp.buf.implementation()`
+    - n:    <kbd>m</kbd>     -> `vim.lsp.buf.formatting_sync()`
     - n:    <kbd>r</kbd>     -> `vim.lsp.buf.references()`
     - n:    <kbd>t</kbd>     -> `vim.lsp.buf.type_definition()`
     - n:    <kbd>w</kbd>     -> `vim.lsp.buf.workspace_symbol()`
