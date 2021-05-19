@@ -20,7 +20,7 @@ local cmt_mark_tab_single = {
     tex = "%",
     vim = '"',
     vimwiki = "%% ",
-    markdown = "< ",
+    markdown = "> ",
     sshconfig = "#",
 }
 
