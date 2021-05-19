@@ -61,6 +61,9 @@
     - **ts** -> Treesitter
       - `ensure`     -> Parsers to install automatically
       - `hi_disable` -> File type to disable treesitter highlight
+    - **plug** -> Built-in plugins
+      - `matchit`    -> matchit.vim
+      - `matchparen` -> matchparen.vim
 
 
 ## Modules
@@ -70,8 +73,8 @@
   - `internal`
     - Variables; Mappings; Commands.
   - `package`
-    - Paq-nvim managed plug-ins.
-    - Configurations of plug-ins.
+    - Paq-nvim managed plugins.
+    - Configurations of plugins.
     - UI configuration.
   - `utility`
     - Public function library.
@@ -79,7 +82,7 @@
   - `basics.vim`
     - Basic configuration without any dependencies.
   - `subsrc.vim`
-    - When no plug-ins installed, this could be a simple substitute.
+    - When no plugins installed, this could be a simple substitute.
 - Snippet
   - The same as vscode's.
 - Color scheme

@@ -35,5 +35,9 @@ return {
     ts = {
         ensure = { "c", "rust", "python", "lua" },
         --hi_disable = { "c" },
+    },
+    plug = {
+        matchit = true,
+        matchparen = true,
     }
 }
