@@ -1,17 +1,5 @@
--- Source .vim file in configuration directory.
-local function vsource(file)
-    local init_viml_path
-    if (vim.fn.has("win32") == 1) then
-        init_viml_path = vim.fn.expand("$localappdata/nvim/")
-    elseif (vim.fn.has("unix") == 1) then
-        init_viml_path = '~/.config/nvim/'
-    end
-    vim.cmd('source '..init_viml_path..file..'.vim')
-end
-
-
 -- Vim script
-vsource('viml/basics')
+vim.fn['usr#misc#vsource']('viml/basics')
 
 -- Internal settings
 require('internal/var')
