@@ -1,3 +1,15 @@
+" Source .vim files.
+function! usr#misc#vsource(file_list)
+  if has("win32")
+    let l:init_viml_path = expand("$localappdata/nvim/")
+  elseif has("unix")
+    let l:init_viml_path = expand('~/.config/nvim/')
+  endif
+  for l:file in a:file_list
+    exe 'source' l:init_viml_path . 'viml/' . l:file . '.vim'
+  endfor
+endfunction
+
 " Background toggle.
 function! usr#misc#bg_toggle()
   let &bg = &bg ==# 'dark' ? 'light' : 'dark'
@@ -49,4 +61,3 @@ function! usr#misc#show_toc()
     echo 'Filetype' &ft 'does not support Toc.'
   endif
 endfunction
-
