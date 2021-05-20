@@ -4,7 +4,7 @@ local use = require('paq-nvim').paq
 -- Package manager
 use {'savq/paq-nvim', opt = true}
 -- Visual
-use {'marko-cerovac/material.nvim', opt = true}
+use {'folke/tokyonight.nvim',       opt = true}
 use {'hoob3rt/lualine.nvim',        opt = true}
 use {'akinsho/nvim-bufferline.lua', opt = true}
 use {'norcalli/nvim-colorizer.lua', opt = true}

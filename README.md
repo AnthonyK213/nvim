@@ -42,11 +42,11 @@
       - `desktop` -> Desktop directory
     - **tui** -> Tui
       - `bg`       -> Tui background
-      - `material` -> style of material theme
+      - `theme` -> style of color theme
   - Optional:
     - **gui** -> Gui (neovim-qt, fvim)
-      - `font_half` -> See &gfn
-      - `font_full` -> See &gfw
+      - `font_half` -> See `guifont`
+      - `font_full` -> See `guifontwide`
       - `font_size` -> Gui font size
       - `bg`        -> Gui background
     - **lsp** -> Language Server Protocol
@@ -94,7 +94,7 @@
 * Package manager
   - [paq-nvim](https://github.com/savq/paq-nvim)
 * Visual
-  - [material.nvim](https://github.com/marko-cerovac/material.nvim)
+  - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
   - [nvim-bufferline.lua](https://github.com/akinsho/nvim-bufferline.lua)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)

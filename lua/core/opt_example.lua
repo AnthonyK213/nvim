@@ -11,7 +11,7 @@ return {
     },
     tui = {
         --bg = 'dark',
-        --material = 'oceanic',
+        --theme = '',
     },
     gui = {
         font_half = 'Consolas',

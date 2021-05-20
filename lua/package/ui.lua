@@ -3,10 +3,10 @@ local augroup = require("utility/lib").set_au_group
 
 
 -- material.nvim
-vim.cmd('packadd material.nvim')
-vim.g.material_style = require('core/opt').tui.material or 'oceanic'
-vim.g.material_italic_comments = true
-require('material').set()
+vim.cmd('packadd tokyonight.nvim')
+vim.g.tokyonight_style = require('core/opt').tui.theme or 'storm'
+vim.g.tokyonight_italic_keywords = false
+vim.g.tokyonight_sidebars = { "terminal" }
 
 
 -- lualine.nvim
@@ -22,7 +22,7 @@ local mode_alias = {
 }
 require('lualine').setup {
     options = {
-        theme = 'material-nvim',
+        theme = 'tokyonight',
         section_separators = '',
         component_separators = '',
         icons_enabled = false
@@ -86,6 +86,6 @@ vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
 
 
--- When setting colorscheme.
+-- Setting colorscheme.
 augroup('ui_refresh', 'ColorScheme * lua require("utility/vis").hi_extd()')
-require('utility/vis').hi_extd()
+vim.cmd[[colorscheme tokyonight]]
