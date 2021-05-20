@@ -87,5 +87,5 @@ require('colorizer').setup()
 
 
 -- When setting colorscheme.
-augroup('ui_refresh', 'ColorScheme * lua require("utility/util").hi_extd()')
-require('utility/util').hi_extd()
+augroup('ui_refresh', 'ColorScheme * lua require("utility/vis").hi_extd()')
+require('utility/vis').hi_extd()

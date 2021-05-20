@@ -121,7 +121,7 @@ if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
 endif
 if has('nvim') && exists('g:colors_name') && colors_name ==# 'nanovim'
-  lua require('utility/util').time_background()
+  lua require('utility/vis').time_background()
 endif
 
 
