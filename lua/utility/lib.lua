@@ -147,5 +147,16 @@ function M.set_highlight_group(group, fg, bg, attr)
     vim.cmd(cmd)
 end
 
+-- source vim file.
+function M.vim_source(file)
+    local init_viml_path
+    if vim.fn.has("win32") == 1 then
+        init_viml_path = vim.fn.expand("$LOCALAPPDATA/nvim/")
+    elseif vim.fn.has("unix") == 1 then
+        init_viml_path = vim.fn.expand('~/.config/nvim/')
+    end
+    vim.cmd('source '..init_viml_path..file..'.vim')
+end
+
 
 return M

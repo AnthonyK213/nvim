@@ -1,13 +1,3 @@
-" Source .vim files.
-function! usr#misc#vsource(file)
-  if has("win32")
-    let l:init_viml_path = expand("$localappdata/nvim/")
-  elseif has("unix")
-    let l:init_viml_path = expand('~/.config/nvim/')
-  endif
-  exe 'source' l:init_viml_path . a:file . '.vim'
-endfunction
-
 " Background toggle.
 function! usr#misc#bg_toggle()
   let &bg = &bg ==# 'dark' ? 'light' : 'dark'

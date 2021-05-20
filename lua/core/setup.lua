@@ -1,5 +1,5 @@
 -- Vim script
-vim.fn['usr#misc#vsource']('viml/basics')
+require('utility/lib').vim_source('viml/basics')
 
 -- Internal settings
 require('internal/var')
