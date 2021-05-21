@@ -1,10 +1,10 @@
-" Onedark
+" tokyonight-vim
 set termguicolors
 set background=dark
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'default'
-let g:airline_theme = 'material'
-colorscheme material
+let g:tokyonight_style = 'storm'
+let g:tokyonight_enable_italic = 1
+let g:airline_theme = 'tokyonight'
+colorscheme tokyonight
 
 
 " FZF
