@@ -42,13 +42,13 @@
       - `desktop` -> Desktop directory
     - **tui** -> Tui
       - `bg`       -> Tui background
-      - `theme` -> style of color theme
+      - `theme` -> Style of color theme
   - Optional:
     - **gui** -> Gui (neovim-qt, fvim)
+      - `bg`        -> Gui background
       - `font_half` -> See `guifont`
       - `font_full` -> See `guifontwide`
       - `font_size` -> Gui font size
-      - `bg`        -> Gui background
     - **lsp** -> Language Server Protocol
       - `clangd`
       - `jedi_language_server`
