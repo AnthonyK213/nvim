@@ -119,8 +119,7 @@ endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
-endif
-if has('nvim') && exists('g:colors_name') && colors_name ==# 'nanovim'
+elseif exists('g:colors_name') && g:colors_name ==# 'nanovim'
   lua require('utility/vis').time_background()
 endif
 
