@@ -368,7 +368,7 @@ hi! link NvimTreeGitNew           Nano_Face_Popout
 " | MODE || file_name (file_type, git_branch)                     line:column |
 set showtabline=0
 function! s:nanovim_enter_special_buffer()
-  if index(['NvimTree', 'help', 'netrw', 'nerdtree'], &ft) >= 0
+  if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) >= 0
     let &l:stl = "%#Nano_Face_Default# " .
           \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
   endif
