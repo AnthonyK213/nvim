@@ -119,8 +119,7 @@ endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
-endif
-if exists('g:colors_name') && g:colors_name ==# 'nanovim'
+elseif exists('g:colors_name') && g:colors_name ==# 'nanovim'
   call usr#util#time_background()
 endif
 
@@ -131,7 +130,7 @@ if !exists('g:gui_font_half')
 endif
 
 if !exists('g:gui_font_full')
-  let g:gui_font_full = '宋体'
+  let g:gui_font_full = 'Monospace'
 endif
 
 if !exists('g:gui_font_size')
