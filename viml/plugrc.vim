@@ -59,7 +59,7 @@ let g:airline_mode_map = {
       \ 'no'    : 'N',
       \ 'R'     : 'R',
       \ 'Rv'    : 'R',
-      \ 's'     : 'S',
+      \ 's'     : 's',
       \ 'S'     : 'S',
       \ ''    : 'S',
       \ 't'     : 'T',
