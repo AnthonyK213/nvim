@@ -4,17 +4,25 @@
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim)
 * [**Python**](https://www.python.org/) (for [VimTeX](https://github.com/lervag/vimtex)))
-  > pip install pynvim  
-  > pip install neovim-remote
+  ```sh
+  pip install pynvim
+  pip install neovim-remote
+  ```
 * [**Node.js**](https://nodejs.org) (for [coc.nvim](https://github.com/neoclide/coc.nvim))
+  ```sh
+  npm install neovim -g
+  ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   - Crazy fast search tool.
 * [**vim-plug**](https://github.com/junegunn/vim-plug)
   - Windows
     - Set plug.vim into
-      > ~/AppData/Local/nvim-data/site/autoload/
+      ```sh
+      iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+          ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+      ```
   - GNU/Linux
-    ```bash
+    ```sh
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     ```
@@ -23,14 +31,18 @@
 ## Installation
 * **Configuration Directory**
   - Windows
-    > %localappdata%/nvim
+    ```sh
+    cd $env:LOCALAPPDATA\nvim
+    ```
   - GNU/Linux
-    > ~/.config/nvim
+    ```sh
+    cd ~/.config/nvim
+    ```
 * **Clone source code**
-  ```bash
+  ```sh
   git clone https://github.com/AnthonyK213/nvim.git -b viml
   ```
-* **Set init.vim**
+* **Set [init.vim](/init_expamle.vim)**
 
 
 ## Modules
