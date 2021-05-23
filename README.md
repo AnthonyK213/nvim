@@ -3,7 +3,7 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) nightly build
-* [**Python**](https://www.python.org/) (For [vimtex](https://github.com/lervag/vimtex))
+* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
   > pip install pynvim  
   > pip install neovim-remote
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
@@ -111,7 +111,7 @@
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
 * File type support
-  - [vimtex](https://github.com/lervag/vimtex)
+  - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [vim-markdown](https://github.com/plasticboy/vim-markdown)
   - [vim-processing](https://github.com/sophacles/vim-processing)

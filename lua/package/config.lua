@@ -153,7 +153,7 @@ vim.g.vimwiki_folding    = 'syntax'
 vim.g.vimwiki_ext2syntax = { ['.wikimd']='markdown' }
 
 
--- vimtex
+-- VimTeX
 vim.g.tex_flavor = 'latex'
 if (vim.fn.has("win32") == 1) then
     vim.g.vimtex_view_general_viewer = 'SumatraPDF'
