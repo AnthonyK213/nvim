@@ -9,7 +9,7 @@ let s:nanovim_mode={
       \ 'no'    : ' N ',
       \ 'R'     : ' R ',
       \ 'Rv'    : ' R ',
-      \ 's'     : ' S ',
+      \ 's'     : ' s ',
       \ 'S'     : ' S ',
       \ 't'     : ' T ',
       \ 'v'     : ' v ',

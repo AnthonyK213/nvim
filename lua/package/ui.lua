@@ -16,7 +16,7 @@ local mode_alias = {
     v = 'v', V   = 'V', [''] = 'B',
     n = 'N', niI = 'Ĩ', no     = 'N',
     R = 'R', Rv = 'R',
-    s = 'S', S  = 'S',
+    s = 's', S  = 'S',
     c = 'C', t  = 'T',
     multi = 'M',
 }
