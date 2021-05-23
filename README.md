@@ -4,17 +4,19 @@
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) nightly build
 * [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
-  > pip install pynvim  
-  > pip install neovim-remote
+  ```sh
+  pip install pynvim
+  pip install neovim-remote
+  ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   - Crazy fast search tool.
 * [**paq-nvim**](https://github.com/savq/paq-nvim)
   - Windows
-    ```bash
+    ```sh
     git clone https://github.com/savq/paq-nvim.git "$env:LOCALAPPDATA\nvim-data\site\pack\paqs\opt\paq-nvim"
     ```
   - GNU/Linux
-    ```bash
+    ```sh
     git clone https://github.com/savq/paq-nvim.git \
         "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
     ```
@@ -23,11 +25,15 @@
 ## Installation
 * **Configuration Directory**
   - Windows
-    > %localappdata%/nvim
+    ```sh
+    cd $env:LOCALAPPDATA\nvim
+    ```
   - GNU/Linux
-    > ~/.config/nvim
+    ```sh
+    cd ~/.config/nvim
+    ```
 * **Clone source code**
-  ```bash
+  ```sh
   git clone https://github.com/AnthonyK213/nvim.git
   ```
 * **Set up [lua/core/opt.lua](lua/core/opt_example.lua)**
