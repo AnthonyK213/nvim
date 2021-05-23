@@ -3,10 +3,11 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim)
-* [**Python**](https://www.python.org/) (for deoplete & vim-orgmode)
+* [**Python**](https://www.python.org/) (for [VimTeX](https://github.com/lervag/vimtex)))
   > pip install pynvim  
   > pip install neovim-remote
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (for fzf.vim)
+* [**Node.js**](https://nodejs.org) (for [coc.nvim](https://github.com/neoclide/coc.nvim))
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   - Crazy fast search tool.
 * [**vim-plug**](https://github.com/junegunn/vim-plug)
   - Windows
@@ -40,18 +41,6 @@
     - Global variables and key maps.
 - Utilities
   - `fnutil.vim`
-    - External cross-platform dependencies(Git, LaTeX, etc.)
-    - Functions:
-      - Surrounding(Add, delete & change)
-      - Chinese characters count
-      - Search cword or selection in system default browser
-      - Bullets auto-insertion and auto-arrangement
-      - LaTeX compile recipes
-      - Git lazy push(Commit all and push all)
-      - Compile and run code of current buffer
-      - View pdf in system default viewer
-      - Append orgmode style time stamp to the end of current line
-      - Append day of week after a date string(yyyy-mm-dd)
   - `subsrc.vim`
     - When don't want to use any plug-ins, this can be a simple substitute.
     - Include:
@@ -63,6 +52,8 @@
     - Vim-plug load plug-ins.
   - `plugrc.vim`
     - Configurations of plug-ins.(source init_plugin at first)
+  - `ps_opt.vim`      
+    - Optional configurations of plugins.
 - Color schemes
   - `nanovim.vim`
     - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
