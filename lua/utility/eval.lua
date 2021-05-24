@@ -6,7 +6,7 @@ local mlib = require("utility/mlib")
 
 local function text_eval(f)
     local origin_pos = vim.fn.getpos('.')
-    vim.fn.execute('normal! F`')
+    vim.cmd('normal! F`')
     local back = lib.get_context('b')
     local fore = lib.get_context('f')
     local expr = fore:match('^`(.-)`') or ''
@@ -14,7 +14,7 @@ local function text_eval(f)
     if pcall(f, expr) then
         local result = tostring(f(expr))
         local fore_new = fore:gsub('%b``', result, 1)
-        vim.fn.setline('.', back..fore_new)
+        vim.api.nvim_set_current_line(back..fore_new)
     else
         vim.fn.setpos('.', origin_pos)
         print('No valid expression found.')

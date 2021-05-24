@@ -190,7 +190,7 @@ function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
     local cmt_line, line_new = is_cmt_line('.')
     if cmt_line then
-        fn.setline('.', line_new)
+        vim.api.nvim_set_current_line(line_new)
         return
     end
     del_cmt_block()

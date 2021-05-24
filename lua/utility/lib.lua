@@ -1,17 +1,12 @@
 local M = {}
 
 
--- Get global variable.
-function M.get_var(get_var, set_var)
-    if get_var ~= nil then return get_var else return set_var end
-end
-
 -- Create a below right split window.
 function M.belowright_split(height)
     local term_h = math.min(height,
     math.floor(vim.api.nvim_win_get_height(0) / 2))
-    vim.fn.execute('belowright split')
-    vim.fn.execute('resize '..tostring(term_h))
+    vim.cmd('belowright split')
+    vim.cmd('resize '..tostring(term_h))
 end
 
 -- Return the <cWORD> without the noisy characters.
@@ -115,7 +110,7 @@ end
 -- Return the selections.
 function M.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
-    vim.fn.execute('normal! gv"ay')
+    vim.cmd('normal! gv"ay')
     local a_val = vim.fn.getreg('a')
     vim.fn.setreg('a', a_bak)
     return a_val

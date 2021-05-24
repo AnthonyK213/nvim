@@ -29,11 +29,7 @@ require('lualine').setup {
     },
     sections = {
         lualine_a = {function()
-            if mode_alias[vim.fn.mode(1)] ~= nil then
-                return mode_alias[vim.fn.mode(1)]
-            else
-                return '_'
-            end
+            return mode_alias[vim.api.nvim_get_mode().mode] or '_'
         end},
         lualine_b = {'branch'},
         lualine_c = {{'filename', path=2}, 'diff'},

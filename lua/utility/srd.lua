@@ -42,24 +42,24 @@ function M.srd_add(mode, ...)
         local origin = fn.getpos('.')
         if (lib.get_context('f'):match('^.%s') or
             lib.get_context('f'):match('^.$')) then
-            fn.execute('normal! a'..pair_b)
+            vim.cmd('normal! a'..pair_b)
         else
-            fn.execute('normal! Ea'..pair_b)
+            vim.cmd('normal! Ea'..pair_b)
         end
         fn.setpos('.', origin)
         if (lib.get_context('l'):match('%s') or
             lib.get_context('b'):match('^$')) then
-            fn.execute('normal! i'..pair_a)
+            vim.cmd('normal! i'..pair_a)
         else
-            fn.execute('normal! Bi'..pair_a)
+            vim.cmd('normal! Bi'..pair_a)
         end
     elseif mode == 'v' then
         local stt_pos = fn.getpos("'<")
         local end_pos = fn.getpos("'>")
         fn.setpos('.', end_pos)
-        fn.execute('normal! a'..pair_b)
+        vim.cmd('normal! a'..pair_b)
         fn.setpos('.', stt_pos)
-        fn.execute('normal! i'..pair_a)
+        vim.cmd('normal! i'..pair_a)
     end
 end
 
@@ -84,7 +84,7 @@ function M.srd_sub(...)
         local back_new = fn.substitute(back, search_back, pair_a_new, '')
         local fore_new = fn.substitute(fore, search_fore, pair_b_new, '')
         local line_new = back_new..fore_new
-        fn.setline(fn.line('.'), line_new)
+        vim.api.nvim_set_current_line(line_new)
     end
 end
 

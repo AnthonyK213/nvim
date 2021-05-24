@@ -85,7 +85,7 @@ function M.git_push_all(...)
         if m_idx > 0 and m_idx % 2 == 1 then
             m_arg = arg_list[m_idx + 1]
         elseif m_idx == 0 then
-            m_arg = vim.fn.strftime('%y%m%d')
+            m_arg = os.date('%y%m%d')
         else
             print("Invalid commit argument.")
             return

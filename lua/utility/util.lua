@@ -6,14 +6,14 @@ local pub = require('utility/pub')
 --- Open terminal and launch shell.
 function M.terminal()
     lib.belowright_split(15)
-    vim.fn.execute('terminal '..pub.shell)
+    vim.cmd('terminal '..pub.shell)
     vim.cmd('setl nonu')
 end
 
 --- Show documents.
 function M.show_doc()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-        vim.fn.execute('h '..vim.fn.expand('<cword>'))
+        vim.cmd('h '..vim.fn.expand('<cword>'))
     else
         vim.lsp.buf.hover()
     end
@@ -23,12 +23,12 @@ end
 function M.edit_file(file_path, chdir)
     local path = vim.fn.expand(file_path)
     if vim.fn.expand("%:t") == '' then
-        vim.fn.execute('e '..path)
+        vim.cmd('e '..path)
     else
-        vim.fn.execute('tabnew '..path)
+        vim.cmd('tabnew '..path)
     end
     if chdir then
-        vim.fn.execute('cd %:p:h')
+        vim.cmd('cd %:p:h')
     end
 end
 
@@ -42,7 +42,7 @@ function M.open_file(file_path)
     else
         cmd = pub.start
     end
-    vim.fn.execute('!'..cmd..' '..file_path_esc)
+    vim.cmd('!'..cmd..' '..file_path_esc)
 end
 
 --- Open url with system default web browser.
@@ -57,7 +57,7 @@ function M.open_url(url)
     else
         url_arg = "\""..url.."\""
     end
-    vim.fn.execute('!'..pub.start..' '..url_arg)
+    vim.cmd('!'..pub.start..' '..url_arg)
 end
 
 --- Match URL in string.

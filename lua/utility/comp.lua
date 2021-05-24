@@ -166,10 +166,9 @@ function M.run_or_compile(option)
 
     if term_use then
         lib.belowright_split(size)
-        vim.fn.execute(term_cmd)
-    else
-        vim.cmd(term_cmd)
     end
+
+    vim.cmd(term_cmd)
 
     ::skip_exec::
     vim.api.nvim_set_current_dir(gcwd)
