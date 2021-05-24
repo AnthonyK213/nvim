@@ -153,7 +153,7 @@ function M.vim_source(file)
     if vim.fn.has("win32") == 1 then
         init_viml_path = vim.fn.expand("$LOCALAPPDATA/nvim/")
     elseif vim.fn.has("unix") == 1 then
-        init_viml_path = vim.fn.expand('~/.config/nvim/')
+        init_viml_path = vim.fn.expand('$HOME/.config/nvim/')
     end
     vim.cmd('source '..init_viml_path..file..'.vim')
 end

@@ -261,7 +261,7 @@ if lsp_option.sumneko_lua and lsp_option.sumneko_lua.enable then
         system_name = "Linux"
         sumneko_root_path = vim.fn.expand(
         lsp_option.sumneko_lua.path or
-        "~/.local/bin/lua-language-server")
+        "$HOME/.local/bin/lua-language-server")
     elseif vim.fn.has('win32') == 1 then
         system_name = "Windows"
         sumneko_root_path = vim.fn.expand(
