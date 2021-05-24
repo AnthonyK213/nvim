@@ -65,7 +65,7 @@ function! s:subrc_pairs_back()
   for [l:key, l:val] in items(g:subrc_pairs_dict)
     let l:key_esc = '\v' . escape(l:key, ' ()[]{}<>*') . '$'
     let l:val_esc = '\v^' . escape(l:val, ' ()[]{}<>*')
-    if l:back =~ l:key_esc && l:fore =~ l:val_esc && 
+    if l:back =~ l:key_esc && l:fore =~ l:val_esc &&
      \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
       let l:res = [1, len(l:key), len(l:val)]
     endif
