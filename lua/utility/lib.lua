@@ -110,7 +110,7 @@ end
 -- Return the selections.
 function M.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
-    vim.cmd('normal! gv"ay')
+    vim.cmd('silent normal! gv"ay')
     local a_val = vim.fn.getreg('a')
     vim.fn.setreg('a', a_bak)
     return a_val
