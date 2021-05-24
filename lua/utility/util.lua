@@ -61,13 +61,7 @@ function M.open_url(url)
 end
 
 --- Match URL in string.
---- FIXME: Function will not work properly in some markdown link cases.
---- For example: str = "[hh.h](https://www.bing.com)" -> has a dot in lable.
 function M.match_url(str)
-    local function max4(a, b, c, d)
-        return math.max(a + 0, b + 0, c + 0, d + 0)
-    end
-
     local protocols = {
         [''] = 0,
         ['http://'] = 0,
@@ -75,17 +69,13 @@ function M.match_url(str)
         ['ftp://'] = 0
     }
 
-    local url, prot, subd, tld, colon, port, slash, path =
-    str:match('(([%w_.~!*:@&+$/?%%#-]-)(%w[-.%w]*%.)'..
-    '(%w+)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))')
+    local url, prot, dom, colon, port, slash, path =
+    str:match'((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
 
     if (url and
+        not (dom..'.'):find('%W%W') and
         protocols[prot:lower()] == (1 - #slash) * #path and
-        not subd:find('%W%W') and
-        (colon == '' or port ~= '' and port + 0 < 65536) and
-        (pub.url_domain_table[tld:lower()] or tld:find('^%d+$') and
-        subd:find('^%d+%.%d+%.%d+%.$') and
-        max4(tld, subd:match('^(%d+)%.(%d+)%.(%d+)%.$')) < 256)) then
+        (colon == '' or port ~= '' and port + 0 < 65536)) then
         return url
     end
 end
