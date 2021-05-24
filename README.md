@@ -183,8 +183,8 @@
     - nv:   <kbd>c</kbd>     -> Chinese characters count.
     - n:    <kbd>s</kbd>     -> Toggle spell check status.
   - <kbd>leader-d-</kbd>     -> **GTD**.
-    - n:    <kbd>s</kbd>     -> Insert timestamp after cursor.
     - n:    <kbd>d</kbd>     -> Append the day of week to yyyy-mm-dd.
+    - n:    <kbd>s</kbd>     -> Insert timestamp after cursor.
     - n:    <kbd>t</kbd>     -> Print TODO list.
   - <kbd>leader-e-</kbd>     -> **Evaluate**.
     - n:    <kbd>v</kbd>     -> Evaluate lua chunk surrounded by backquote.
