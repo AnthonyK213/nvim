@@ -3,14 +3,14 @@ local lib = require('utility/lib')
 local pub = require('utility/pub')
 
 
---- Open terminal and launch shell.
+-- Open terminal and launch shell.
 function M.terminal()
     lib.belowright_split(15)
     vim.cmd('terminal '..pub.shell)
     vim.cmd('setl nonu')
 end
 
---- Show documents.
+-- Show documents.
 function M.show_doc()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
         vim.cmd('h '..vim.fn.expand('<cword>'))
@@ -19,7 +19,7 @@ function M.show_doc()
     end
 end
 
---- Open and edit text file in vim.
+-- Open and edit text file in vim.
 function M.edit_file(file_path, chdir)
     local path = vim.fn.expand(file_path)
     if vim.fn.expand("%:t") == '' then
@@ -32,7 +32,7 @@ function M.edit_file(file_path, chdir)
     end
 end
 
---- Open file with system default browser.
+-- Open file with system default browser.
 function M.open_file(file_path)
     if vim.fn.glob(file_path) == '' then return end
     local file_path_esc = "\""..vim.fn.shellescape(file_path).."\""
@@ -42,13 +42,13 @@ function M.open_file(file_path)
     else
         cmd = pub.start
     end
-    vim.cmd('!'..cmd..' '..file_path_esc)
+    vim.cmd('silent !'..cmd..' '..file_path_esc)
 end
 
---- Open url with system default web browser.
+-- Open url with system default web browser.
 function M.open_url(url)
     if not url then
-        print('No invalid url found.')
+        print('No valid url found.')
         return
     end
     local url_arg
@@ -57,10 +57,10 @@ function M.open_url(url)
     else
         url_arg = "\""..url.."\""
     end
-    vim.cmd('!'..pub.start..' '..url_arg)
+    vim.cmd('silent !'..pub.start..' '..url_arg)
 end
 
---- Match URL in string.
+-- Match URL in string.
 function M.match_url(str)
     local protocols = {
         [''] = 0,
@@ -80,7 +80,7 @@ function M.match_url(str)
     end
 end
 
---- Search web.
+-- Search web.
 function M.search_web(mode, site)
     local search_obj
     if mode == 'n' then

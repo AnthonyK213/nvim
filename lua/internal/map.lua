@@ -80,13 +80,15 @@ keymap('v', '<leader>ou',
 [[:<C-u>lua local util = require("utility/util") ]]..
 [[util.open_url(util.match_url(require("utility/lib").get_visual_selection()))<CR>]],
 { noremap = true, silent = true })
+-- Append day of week after the date.
+keymap('n', '<leader>dd', ':lua require("utility/gtd").append_day_from_date()<CR>', { noremap = true, silent = true })
+-- Print TODO list.
+keymap("n", "<leader>dt", '<Cmd>lua require("utility/gtd").print_todo_list()<CR>', { noremap = true, silent = true })
 -- Hanzi count.
 keymap('n', '<leader>cc', '<Cmd>lua require("utility/note").hanzi_count("n")<CR>',  { noremap = true, silent = true })
 keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR>', { noremap = true, silent = true })
--- Append day of week after the date.
-keymap('n', '<leader>dd', ':lua require("utility/note").append_day_from_date()<CR>', { noremap = true, silent = true })
--- Insert an timestamp at the end of the line.
-keymap('n', '<leader>ds', "A<C-R>=strftime(' [[%Y-%m-%d %a %H:%M]]')<CR><Esc>", { noremap = true, silent = true })
+-- Insert an timestamp after cursor.
+keymap('n', '<leader>ds', "i<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
 -- List bullets.
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', { noremap = true, silent = true })

@@ -130,7 +130,7 @@ function M.run_or_compile(option)
         elseif option == 'rustc' then
             term_cmd = cmdh..' rustc '..file..' && '..exec..name
         elseif option == 'clean' then
-            term_cmd = '!cargo clean'
+            term_cmd = 'silent !cargo clean'
             term_use = false
         elseif option == 'check' then
             term_cmd = cmdh..' cargo check'
