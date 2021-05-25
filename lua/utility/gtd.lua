@@ -47,7 +47,7 @@ end
 function M.append_day_from_date()
     local cword = vim.fn.expand("<cWORD>")
     if cword:match('^$') then return end
-    local str_date, m2, m3, m4 = cword:match('^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$')
+    local str_date, m2, m3, m4 = cword:match'^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$'
     local int_a, int_m, int_d
     if str_date then
         int_a = tonumber(m2)
