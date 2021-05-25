@@ -45,9 +45,9 @@ local function zeller(year, month, date)
 end
 
 function M.append_day_from_date()
-    local str = vim.fn.expand("<cWORD>")
-    if str:match('^$') then return end
-    local str_date, m2, m3, m4 = str:match('^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$')
+    local cword = vim.fn.expand("<cWORD>")
+    if cword:match('^$') then return end
+    local str_date, m2, m3, m4 = cword:match('^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$')
     local int_a, int_m, int_d
     if str_date then
         int_a = tonumber(m2)
@@ -62,19 +62,18 @@ function M.append_day_from_date()
     if day_of_week then
         local line = vim.api.nvim_get_current_line()
         local cursor_pos = vim.fn.col('.')
-        local match_start = 0
-        local match_cword
-        local search_str = lib.vim_reg_esc(str)
-        while (true) do
-            match_cword = vim.fn.matchstrpos(line, "\\v"..search_str, match_start)
-            if (match_cword[2] <= cursor_pos and
-                match_cword[3] >= cursor_pos) then
+        local search_str = '()'..lib.lua_reg_esc(str_date)..'()'
+        local match_pos = line:gmatch(search_str)
+        local cword_end
+
+        for pos_s, pos_e in match_pos do
+            if (pos_s <= cursor_pos + 1 and
+                pos_e >= cursor_pos + 1) then
+                cword_end = pos_e - 1
                 break
             end
-            match_start = match_cword[3]
         end
-        local cword_stt = match_cword[2]
-        local cword_end = vim.fn.matchstrpos(line, str_date, cword_stt)[3]
+
         vim.fn.setpos('.', {0, vim.fn.line('.'), cword_end})
         vim.cmd('normal! a '..day_of_week)
     else

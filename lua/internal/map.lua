@@ -88,7 +88,7 @@ keymap("n", "<leader>dt", '<Cmd>lua require("utility/gtd").print_todo_list()<CR>
 keymap('n', '<leader>cc', '<Cmd>lua require("utility/note").hanzi_count("n")<CR>',  { noremap = true, silent = true })
 keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR>', { noremap = true, silent = true })
 -- Insert an timestamp after cursor.
-keymap('n', '<leader>ds', "i<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
+keymap('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
 -- List bullets.
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
