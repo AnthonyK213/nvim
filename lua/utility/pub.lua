@@ -62,5 +62,12 @@ for domain in url_domains:gmatch('%w+') do
     M.url_domain_table[domain] = true
 end
 
+-- Boxes
+--[[
+┌─┐┍━┑┎─┒┏━┓╭─╮╒═╕╓─╖╔═╗
+│ ││ │┃ ┃┃ ┃│ ││ │║ ║║ ║
+└─┘┕━┙┖─┚┗━┛╰─╯╘═╛╙─╜╚═╝
+]]
+
 
 return M
