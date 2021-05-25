@@ -45,40 +45,28 @@ local function zeller(year, month, date)
 end
 
 function M.append_day_from_date()
-    local cword = vim.fn.expand("<cWORD>")
-    if cword:match('^$') then return end
-    local str_date, m2, m3, m4 = cword:match'^.*((%d%d%d%d)%-(%d%d)%-(%d%d)).*$'
-    local int_a, int_m, int_d
-    if str_date then
-        int_a = tonumber(m2)
-        int_m = tonumber(m3)
-        int_d = tonumber(m4)
-    else
-        print("Not a valid date expression.")
-        return
-    end
+    local line = vim.api.nvim_get_current_line()
+    local col = vim.fn.col('.')
 
-    local day_of_week = zeller(int_a, int_m, int_d)
-    if day_of_week then
-        local line = vim.api.nvim_get_current_line()
-        local cursor_pos = vim.fn.col('.')
-        local search_str = '()'..lib.lua_reg_esc(str_date)..'()'
-        local match_pos = line:gmatch(search_str)
-        local cword_end
-
-        for pos_s, pos_e in match_pos do
-            if (pos_s <= cursor_pos + 1 and
-                pos_e >= cursor_pos + 1) then
-                cword_end = pos_e - 1
-                break
-            end
+    local y, m, d, insert_pos
+    for pos_s, date, year, month, day, pos_e
+        in line:gmatch('()((%d%d%d%d)%-(%d%d)%-(%d%d))()') do
+        if (pos_s <= col + 1 and
+            pos_e >= col + 1 and
+            date) then
+            y = tonumber(year)
+            m = tonumber(month)
+            d = tonumber(day)
+            insert_pos = pos_e - 1
+            break
         end
-
-        vim.fn.setpos('.', {0, vim.fn.line('.'), cword_end})
-        vim.cmd('normal! a '..day_of_week)
-    else
-        return
     end
+
+    if not insert_pos then return end
+    local day_of_week = zeller(y, m, d)
+    if not day_of_week then return end
+    vim.fn.setpos('.', {0, vim.fn.line('.'), insert_pos})
+    vim.cmd('normal! a '..day_of_week)
 end
 
 -- Count down to a timestamp(<%Y-%m-%d %a %H:%M>).
