@@ -61,7 +61,7 @@ function! usr#misc#nvim_nightly_upgrade(...)
     exe 'term powershell' l:cmd
   elseif has('unix')
     let l:cmd = expand("$HOME/.config") . '/nvim/shell/' .
-          \ l:script_name . '_linux.sh' . l:proxy_args
+          \ l:script_name . '_linux.sh ' . l:proxy_args
     lua require('utility/lib').belowright_split(30)
     exe 'term bash' l:cmd
   endif
