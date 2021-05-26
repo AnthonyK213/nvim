@@ -28,6 +28,58 @@ local function srd_pair(pair_a)
     end
 end
 
+-- Collect pairs in hashtable `tab_pair`.
+-- If pair_a then -1, if pair_b then 1.
+local function srd_collect(str, pair_a, pair_b)
+    local tab_pair = {}
+    for pos in str:gmatch('()'..lib.lua_reg_esc(pair_a)) do
+        tab_pair[tostring(pos)] = -1
+    end
+
+    for pos in str:gmatch('()'..lib.lua_reg_esc(pair_b)) do
+        tab_pair[tostring(pos)] = 1
+    end
+    return tab_pair
+end
+
+-- Locate surrounding pair in direction `dir`
+-- @param: int dir -1 or 1, -1 for backward, 1 for forward.
+local function srd_locate(str, pair_a, pair_b, dir)
+    local tab_pair = srd_collect(str, pair_a, pair_b)
+    local list_pos = {}
+    local res = {}
+    local sort_func
+
+    if dir < 0 then
+        sort_func = function(a, b) return a + 0 > b + 0 end
+    else
+        sort_func = function(a, b) return a + 0 < b + 0 end
+    end
+
+    for i in pairs(tab_pair) do
+        table.insert(list_pos, i)
+    end
+
+    table.sort(list_pos, sort_func)
+
+    for _, v in ipairs(list_pos) do
+        table.insert(res, tab_pair[v])
+    end
+
+    local sum = 0
+    local pair_pos
+
+    for i, v in ipairs(res) do
+        sum = sum + v
+        if sum == dir then
+            pair_pos = list_pos[i]
+            break
+        end
+    end
+
+    return pair_pos
+end
+
 function M.srd_add(mode, ...)
     local arg_list = {...}
     local pair_a
@@ -76,15 +128,32 @@ function M.srd_sub(...)
         pair_a_new = fn.input("Change to: ")
     end
     local pair_b_new = srd_pair(pair_a_new)
-    local search_back = '\\v.*\\zs'..lib.vim_reg_esc(pair_a)
-    local search_fore = '\\v'..lib.vim_reg_esc(pair_b)
 
-    if (fn.matchstr(back, search_back) ~= '' and
-        fn.matchstr(fore, search_fore) ~= '') then
-        local back_new = fn.substitute(back, search_back, pair_a_new, '')
-        local fore_new = fn.substitute(fore, search_fore, pair_b_new, '')
-        local line_new = back_new..fore_new
-        vim.api.nvim_set_current_line(line_new)
+    local back_new, fore_new
+
+    if pair_a == pair_b then
+        local pat = lib.lua_reg_esc(pair_a)
+        if (back:match('^.+'..pat) and
+            fore:match(pat)) then
+            back_new = back:gsub('^(.+)'..pat, '%1'..pair_a_new, 1)
+            fore_new = fore:gsub(pat, pair_b_new, 1)
+        end
+    else
+        local pos_a = srd_locate(back, pair_a, pair_b, -1)
+        local pos_b = srd_locate(fore, pair_a, pair_b, 1)
+        print(pos_a, pos_b)
+        if pos_a and pos_b then
+            back_new = back:sub(1, pos_a - 1)..
+            pair_a_new..
+            back:sub(pos_a + pair_a:len())
+            fore_new = fore:sub(1, pos_b - 1)..
+            pair_b_new..
+            fore:sub(pos_b + pair_b:len())
+        end
+    end
+
+    if back_new and fore_new then
+        vim.api.nvim_set_current_line(back_new..fore_new)
     end
 end
 
