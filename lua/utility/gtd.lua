@@ -1,5 +1,4 @@
 local M = {}
-local lib = require('utility/lib')
 
 
 -- Calculate the day of week from a date(yyyy-mm-dd).
