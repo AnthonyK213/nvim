@@ -16,7 +16,7 @@ local function srd_pair(pair_a)
             table.insert(new_list, 1, pairs[val])
         end
         return table.concat(new_list)
-    elseif fn.matchstr(pair_a, '\\v^(\\<\\w+\\>)+$') ~= '' then
+    elseif fn.matchstr(pair_a, '\\v^(\\<\\w{-}\\>)+$') ~= '' then
         local str_list = fn.split(pair_a, '<')
         local new_list = {}
         for _, val in ipairs(str_list) do
