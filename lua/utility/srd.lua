@@ -134,9 +134,9 @@ function M.srd_sub(...)
 
     if pair_a == pair_b then
         local pat = lib.lua_reg_esc(pair_a)
-        if (back:match('^.+'..pat) and
+        if (back:match('^.*'..pat) and
             fore:match(pat)) then
-            back_new = back:gsub('^(.+)'..pat, '%1'..pair_a_new, 1)
+            back_new = back:gsub('^(.*)'..pat, '%1'..pair_a_new, 1)
             fore_new = fore:gsub(pat, pair_b_new, 1)
         end
     else
