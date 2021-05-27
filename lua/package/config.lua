@@ -224,13 +224,27 @@ require('compe').setup {
 -- nvim-lspconfig
 local lspconfig = require('lspconfig')
 local lsp_option = require('core/opt').lsp or {}
+-- Enable LSP snippets.
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+        'documentation',
+        'detail',
+        'additionalTextEdits',
+    }
+}
 --- clangd
 if lsp_option.clangd then
-    lspconfig.clangd.setup {}
+    lspconfig.clangd.setup {
+        capabilities = capabilities
+    }
 end
 --- jedi_language_server
 if lsp_option.jedi_language_server then
-    lspconfig.jedi_language_server.setup {}
+    lspconfig.jedi_language_server.setup {
+        capabilities = capabilities
+    }
 end
 --- rls
 if lsp_option.rls then
@@ -238,11 +252,15 @@ if lsp_option.rls then
 end
 --- rust_analyzer
 if lsp_option.rust_analyzer then
-    lspconfig.rust_analyzer.setup {}
+    lspconfig.rust_analyzer.setup {
+        capabilities = capabilities
+    }
 end
 --- texlab
 if lsp_option.texlab then
-    lspconfig.texlab.setup {}
+    lspconfig.texlab.setup {
+        capabilities = capabilities
+    }
 end
 --- omnisharp
 if lsp_option.omnisharp then
@@ -295,7 +313,9 @@ if lsp_option.sumneko_lua and lsp_option.sumneko_lua.enable then
 end
 --- vim script
 if lsp_option.vimls then
-    lspconfig.vimls.setup {}
+    lspconfig.vimls.setup {
+        capabilities = capabilities
+    }
 end
 --- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
