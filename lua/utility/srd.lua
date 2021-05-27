@@ -43,7 +43,7 @@ local function srd_collect(str, pair_a, pair_b)
 end
 
 -- Locate surrounding pair in direction `dir`
--- @param: int dir -1 or 1, -1 for backward, 1 for forward.
+-- @param int dir -1 or 1, -1 for backward, 1 for forward.
 -- FIXME: If there are imbalanced pairs in string, how to get this work?
 local function srd_locate(str, pair_a, pair_b, dir)
     local tab_pair = srd_collect(str, pair_a, pair_b)
@@ -142,7 +142,6 @@ function M.srd_sub(...)
     else
         local pos_a = srd_locate(back, pair_a, pair_b, -1)
         local pos_b = srd_locate(fore, pair_a, pair_b, 1)
-        print(pos_a, pos_b)
         if pos_a and pos_b then
             back_new = back:sub(1, pos_a - 1)..
             pair_a_new..
