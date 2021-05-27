@@ -19,7 +19,7 @@ local right = '<C-g>U<Right>'
 
 -- Extend table b to a.
 -- @param table a Table to be extended
--- @param table a Table to extend
+-- @param table b Table to extend
 -- @return nil
 local tab_extd = function(a, b)
     for key, val in pairs(b) do a[key] = val end
