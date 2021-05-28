@@ -140,7 +140,7 @@
   - v:   <kbd>M-c</kbd>      -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>      -> Close the terminal.
   - int: <kbd>M-e</kbd>      -> *nvim-tree.lua*, nvim-tree find file.
-  - nv:  <kbd>M-f</kbd>      -> Find and replace.
+  - nv:  <kbd>M-g</kbd>      -> Find and replace.
   - inv: <kbd>M-h</kbd>      -> Jump to the window left.
   - inv: <kbd>M-j</kbd>      -> Jump to the window below.
   - inv: <kbd>M-k</kbd>      -> Jump to the window above.
@@ -165,8 +165,8 @@
   - i:   <kbd>C-A</kbd>      -> Emacs line start.
   - i:   <kbd>C-E</kbd>      -> Emacs line end.
   - i:   <kbd>C-K</kbd>      -> Emacs kill test on the right.
-  - i:   <kbd>M-f</kbd>      -> Emacs next word.
-  - i:   <kbd>M-b</kbd>      -> Emacs last word.
+  - in:  <kbd>M-f</kbd>      -> Emacs next word.
+  - in:  <kbd>M-b</kbd>      -> Emacs last word.
   - in:  <kbd>M-x</kbd>      -> Command line.
   - i:   <kbd>M-d</kbd>      -> Emacs delete word.
 * **Leader**
