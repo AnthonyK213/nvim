@@ -117,10 +117,10 @@ function M.get_visual_selection()
 end
 
 -- Mapping a function to table.
-function M.map(f, t)
-    local t2 = {}
-    for key, val in pairs(t) do t2[key] = f(val) end
-    return t2
+function M.map(tab, func)
+    local res = {}
+    for key, val in pairs(tab) do res[key] = func(val) end
+    return res
 end
 
 -- Define auto command group.

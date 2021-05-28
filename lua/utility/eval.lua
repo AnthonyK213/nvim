@@ -141,7 +141,7 @@ local function lisp_tree_eval(arg)
     if type(arg) == 'number' then return arg end
     local func = func_map[arg[1]]
     table.remove(arg, 1)
-    return func(lib.map(lisp_tree_eval, arg))
+    return func(lib.map(arg, lisp_tree_eval))
 end
 
 local function lisp_str_eval(str)
