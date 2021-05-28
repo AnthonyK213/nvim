@@ -116,6 +116,15 @@ function M.get_visual_selection()
     return a_val
 end
 
+-- Reverse a ipairs table.
+function M.reverse(tab)
+    local tmp = {}
+    for i = #tab, 1, -1 do
+        table.insert(tmp, tab[i])
+    end
+    return tmp
+end
+
 -- Mapping a function to table.
 function M.map(tab, func)
     local res = {}
