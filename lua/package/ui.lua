@@ -53,21 +53,33 @@ require('lualine').setup {
 vim.cmd('packadd nvim-bufferline.lua')
 require('bufferline').setup {
     options = {
-        view = "default",
         numbers = "none",
         number_style = "",
         mappings = false,
-        buffer_close_icon= 'x',
+
+        buffer_close_icon= '×',
         modified_icon = '+',
-        close_icon = 'x',
+        close_icon = '×',
         left_trunc_marker = '<',
         right_trunc_marker = '>',
         max_name_length = 18,
         max_prefix_length = 15,
         tab_size = 18,
+
         diagnostics = 'nvim_lsp',
         diagnostics_indicator = function(count) return "("..count..")" end,
+
+        custom_filter = function(buf_number)
+            local bt = vim.bo[buf_number].bt
+            if (bt ~= 'terminal' and
+                bt ~= 'quickfix') then
+                return true
+            end
+        end,
+
+        show_buffer_icons = false,
         show_buffer_close_icons = true,
+        show_close_icon = false,
         persist_buffer_sort = true,
         separator_style = "thin",
         enforce_regular_tabs = false,
