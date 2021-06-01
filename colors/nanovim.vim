@@ -377,7 +377,6 @@ endfunction
 let &stl = "%#Nano_Face_Default# " .
       \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}" .
       \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}" .
-      \ "%#Nano_Face_Header_Subtle#▌" .
       \ "%#Nano_Face_Header_Strong# %{nanovim#util#get_file_name()}" .
       \ "%#Nano_Face_Header_Default#  %{nanovim#util#filetype_and_branch()}" .
       \ "%= %l:%c %#Nano_Face_Default# "
