@@ -1,7 +1,7 @@
 -- Echo time(May be useful in full screen?)
 vim.cmd('command! Time echo strftime("%Y-%m-%d %a %T")')
 -- Open pdf file, useful when finish the compilation of tex file.
-vim.cmd('command! PDF lua require("utility/util").open_file(vim.fn.expand("%:p:r")..".pdf")')
+vim.cmd('command! PDF lua require("utility/util").open_file_or_url(vim.fn.expand("%:p:r")..".pdf")')
 -- Run or compile
 vim.cmd('command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun lua require("utility/comp").run_or_compile(<q-args>)')
 -- Git push all

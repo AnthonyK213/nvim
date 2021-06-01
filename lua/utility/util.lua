@@ -32,32 +32,21 @@ function M.edit_file(file_path, chdir)
     end
 end
 
--- Open file with system default browser.
-function M.open_file(file_path)
-    if vim.fn.glob(file_path) == '' then return end
-    local file_path_esc = "\""..vim.fn.shellescape(file_path).."\""
+-- Open file or url with system default browser.
+function M.open_file_or_url(arg)
+    if (not arg) or
+        (vim.fn.glob(arg) == '' and not
+        arg:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
+        return
+    end
+    local arg_esc = vim.fn.shellescape(arg, 1)
     local cmd
-    if vim.fn.has("win32") == 1 then
+    if vim.fn.has('win32') == 1 then
         cmd = pub.start..' ""'
     else
         cmd = pub.start
     end
-    vim.cmd('silent !'..cmd..' '..file_path_esc)
-end
-
--- Open url with system default web browser.
-function M.open_url(url)
-    if not url then
-        print('No valid url found.')
-        return
-    end
-    local url_arg
-    if vim.fn.has('win32') == 1 then
-        url_arg = url
-    else
-        url_arg = "\""..url.."\""
-    end
-    vim.cmd('silent !'..pub.start..' '..url_arg)
+    vim.cmd('silent !'..cmd..' '..arg_esc)
 end
 
 -- Match URL in string.
@@ -94,7 +83,7 @@ function M.search_web(mode, site)
         search_obj = lib.str_escape(lib.get_visual_selection(), pub.esc_url)
     end
 
-    M.open_url(site..search_obj)
+    M.open_file_or_url(site..search_obj)
 end
 
 

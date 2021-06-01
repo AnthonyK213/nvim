@@ -66,19 +66,19 @@ keymap('t', '<F2>', '<C-\\><C-N><Cmd>call usr#misc#mouse_toggle()<CR>', { norema
 -- Background toggle.
 keymap('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', { noremap = true, silent = true })
 -- Explorer.
-keymap('n', '<leader>oe', '<Cmd>lua require("utility/util").open_file(vim.fn.expand("%:p:h"))<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>oe', '<Cmd>lua require("utility/util").open_file_or_url(vim.fn.expand("%:p:h"))<CR>', { noremap = true, silent = true })
 -- Terminal.
 keymap('n', '<leader>ot', '<Cmd>lua require("utility/util").terminal()<CR>i',    { noremap = true, silent = true })
 -- Open with system default browser.
-keymap('n', '<leader>ob', '<Cmd>lua require("utility/util").open_file(vim.fn.expand("%:p"))<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>ob', '<Cmd>lua require("utility/util").open_file_or_url(vim.fn.expand("%:p"))<CR>', { noremap = true, silent = true })
 -- Open url under the cursor or in the selection.
 keymap('n', '<leader>ou',
 [[<Cmd>lua local util = require("utility/util") ]]..
-[[util.open_url(util.match_url(vim.fn.expand("<cWORD>")))<CR>]],
+[[util.open_file_or_url(util.match_url(vim.fn.expand("<cWORD>")))<CR>]],
 { noremap = true, silent = true })
 keymap('v', '<leader>ou',
 [[:<C-u>lua local util = require("utility/util") ]]..
-[[util.open_url(util.match_url(require("utility/lib").get_visual_selection()))<CR>]],
+[[util.open_file_or_url(util.match_url(require("utility/lib").get_visual_selection()))<CR>]],
 { noremap = true, silent = true })
 -- Append day of week after the date.
 keymap('n', '<leader>dd', ':lua require("utility/gtd").append_day_from_date()<CR>', { noremap = true, silent = true })
