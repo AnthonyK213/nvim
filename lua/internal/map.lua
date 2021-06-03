@@ -28,6 +28,7 @@ keymap('n', '<leader>bd',
 [[":bd<CR>" : ":bp|bd#<CR>"]],
 { noremap = true, silent = true, expr = true })
 keymap('n', '<leader>bh', '<Cmd>noh<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>bl', '<Cmd>ls<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>bn', '<Cmd>bn<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>bp', '<Cmd>bp<CR>',  { noremap = true, silent = true })
 -- Toggle spell check status.
