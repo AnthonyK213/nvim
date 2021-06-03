@@ -177,6 +177,7 @@
     - n:    <kbd>d</kbd>     -> Delete buffer.
     - n:    <kbd>g</kbd>     -> Toggle background.
     - n:    <kbd>h</kbd>     -> Turn off highlights.
+    - n:    <kbd>l</kbd>     -> List buffers.
     - n:    <kbd>n</kbd>     -> Next buffer.
     - n:    <kbd>p</kbd>     -> Previous buffer.
   - <kbd>leader-c-</kbd>     -> **Check**.
