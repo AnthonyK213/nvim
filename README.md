@@ -39,6 +39,10 @@
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt_example.lua \
        "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt.lua
     ```
+* **Install plugins**
+  ```vim
+  :PaqInstall
+  ```
 * **opt.lua options (see [lua/core/opt.lua](lua/core/opt_example.lua))**
   - Essential:
     - **dep** -> Dependencies
