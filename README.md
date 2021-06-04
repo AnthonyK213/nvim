@@ -26,14 +26,14 @@
 * **Clone source code and setup**
   - Windows
     ```sh
-    git clone https://github.com/AnthonyK213/nvim.git -b dev "$env:LOCALAPPDATA\nvim"
+    git clone https://github.com/AnthonyK213/nvim.git "$env:LOCALAPPDATA\nvim"
     ```
     ```sh
     Copy-Item "$env:LOCALAPPDATA\nvim\lua\core\opt_example.lua" -Destination "$env:LOCALAPPDATA\nvim\lua\core\opt.lua"
     ```
   - GNU/Linux
     ```sh
-    git clone https://github.com/AnthonyK213/nvim.git -b dev "${XDG_DATA_HOME:-$HOME/.config}"/nvim
+    git clone https://github.com/AnthonyK213/nvim.git "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
     ```sh
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt_example.lua \
