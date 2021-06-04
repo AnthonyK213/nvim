@@ -46,7 +46,7 @@ function M.open_file_or_url(arg)
     else
         cmd = pub.start
     end
-    vim.cmd('silent !'..cmd..' '..arg_esc)
+    vim.fn.execute('!'..cmd..' '..arg_esc)
 end
 
 -- Match URL in string.
@@ -78,9 +78,9 @@ function M.search_web(mode, site)
             ";", "*", "~", "`",
             "(", ")", "[", "]", "{", "}"
         }
-        search_obj = lib.str_escape(lib.get_clean_cWORD(del_list), pub.esc_url)
+        search_obj = lib.encode_url(lib.get_clean_cWORD(del_list))
     elseif mode == 'v' then
-        search_obj = lib.str_escape(lib.get_visual_selection(), pub.esc_url)
+        search_obj = lib.encode_url(lib.get_visual_selection())
     end
 
     M.open_file_or_url(site..search_obj)

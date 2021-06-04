@@ -151,7 +151,7 @@ function M.set_highlight_group(group, fg, bg, attr)
     vim.cmd(cmd)
 end
 
--- source vim file.
+-- Source vim file.
 function M.vim_source(file)
     local init_viml_path
     if vim.fn.has("win32") == 1 then
@@ -160,6 +160,14 @@ function M.vim_source(file)
         init_viml_path = vim.fn.expand('$HOME/.config/nvim/')
     end
     vim.cmd('source '..init_viml_path..file..'.vim')
+end
+
+-- Encode URL.
+function M.encode_url(str)
+    str = str:gsub("([^%w%.%- ])", function(x)
+        return string.format("%%%02X", string.byte(x))
+    end)
+    return str:gsub(" ", "+")
 end
 
 
