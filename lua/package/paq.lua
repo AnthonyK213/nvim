@@ -2,7 +2,7 @@ vim.cmd('packadd paq-nvim')
 local use = require('paq-nvim').paq
 
 -- Package manager
-use {'savq/paq-nvim', opt = true}
+use {'savq/paq-nvim'}
 -- Visual
 use {'folke/tokyonight.nvim',       opt = true}
 use {'hoob3rt/lualine.nvim',        opt = true}

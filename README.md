@@ -13,30 +13,33 @@
 * [**paq-nvim**](https://github.com/savq/paq-nvim)
   - Windows
     ```sh
-    git clone https://github.com/savq/paq-nvim.git "$env:LOCALAPPDATA\nvim-data\site\pack\paqs\opt\paq-nvim"
+    git clone https://github.com/savq/paq-nvim.git "$env:LOCALAPPDATA\nvim-data\site\pack\paqs\start\paq-nvim"
     ```
   - GNU/Linux
     ```sh
-    git clone https://github.com/savq/paq-nvim.git \
-        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
+    git clone --depth=1 https://github.com/savq/paq-nvim.git \
+        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
     ```
 
 
 ## Installation
-* **Configuration Directory**
+* **Clone source code and setup**
   - Windows
     ```sh
-    cd $env:LOCALAPPDATA\nvim
+    git clone https://github.com/AnthonyK213/nvim.git -b dev "$env:LOCALAPPDATA\nvim"
+    ```
+    ```sh
+    Copy-Item "$env:LOCALAPPDATA\nvim\lua\core\opt_example.lua" -Destination "$env:LOCALAPPDATA\nvim\lua\core\opt.lua"
     ```
   - GNU/Linux
     ```sh
-    cd ~/.config/nvim
+    git clone https://github.com/AnthonyK213/nvim.git -b dev "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-* **Clone source code**
-  ```sh
-  git clone https://github.com/AnthonyK213/nvim.git
-  ```
-* **Set up [lua/core/opt.lua](lua/core/opt_example.lua)**
+    ```sh
+    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt_example.lua \
+       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt.lua
+    ```
+* **opt.lua options (see [lua/core/opt.lua](lua/core/opt_example.lua))**
   - Essential:
     - **dep** -> Dependencies
       - `cc`  -> C compiler
@@ -99,7 +102,7 @@
 ## Packages
 * Package manager
   - [paq-nvim](https://github.com/savq/paq-nvim)
-* Visual
+* Visual(Optional)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
   - [nvim-bufferline.lua](https://github.com/akinsho/nvim-bufferline.lua)
