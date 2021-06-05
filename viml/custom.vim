@@ -52,8 +52,8 @@ for s:direct in ['h', 'j', 'k', 'l', 'w']
   exe 'tno <M-' . s:direct . '> <C-\><C-n><C-w>'  . s:direct
 endfor
 """ Find and replace
-nn <M-f> :%s/
-vn <M-f> :s/
+nn <M-g> :%s/
+vn <M-g> :s/
 """ Normal command
 nn <M-n> :%normal 
 vn <M-n> :normal 
@@ -82,6 +82,8 @@ ino <silent> <M-v> <C-R>=@+<CR>
 """ Select
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
+"" Command mode
+cm <M-BS> <C-W>
 
 
 " Scroll off

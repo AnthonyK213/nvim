@@ -79,7 +79,7 @@
   - v:   <kbd>M-c</kbd>      -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>      -> Close the terminal.
   - int: <kbd>M-e</kbd>      -> *nerdtree*, NERDTree focus.
-  - nv:  <kbd>M-f</kbd>      -> Find and replace.
+  - nv:  <kbd>M-g</kbd>      -> Find and replace.
   - inv: <kbd>M-h</kbd>      -> Jump to the window left.
   - inv: <kbd>M-j</kbd>      -> Jump to the window below.
   - inv: <kbd>M-k</kbd>      -> Jump to the window above.
