@@ -6,8 +6,6 @@ keymap('n', '<C-UP>',    '<C-W>-', { noremap = true })
 keymap('n', '<C-DOWN>',  '<C-W>+', { noremap = true })
 keymap('n', '<C-LEFT>',  '<C-W>>', { noremap = true })
 keymap('n', '<C-RIGHT>', '<C-W><', { noremap = true })
--- Open init file.
-keymap('n', '<M-,>', '<Cmd>lua require("utility/util").edit_file("$MYVIMRC", true)<CR>', { noremap = true, expr = false, silent = true })
 -- Terminal.
 keymap('t', '<ESC>', '<C-\\><C-N>',         { noremap = true })
 keymap('t', '<M-d>', '<C-\\><C-N>:bd!<CR>', { noremap = true, silent = true })
@@ -17,9 +15,6 @@ keymap('v', '<M-g>', ':s/',  { noremap = true })
 -- Normal command.
 keymap('n', '<M-n>', ':%normal ', { noremap = true })
 keymap('v', '<M-n>', ':normal ',  { noremap = true })
--- Evaluate formula surrounded by `.
-keymap('n', '<leader>ev', '<Cmd>lua require("utility/eval").lua_eval()<CR>',  { noremap = true, silent = true })
-keymap('n', '<leader>el', '<Cmd>lua require("utility/eval").lisp_eval()<CR>', { noremap = true, silent = true })
 -- Buffer.
 keymap('n', '<leader>bc', '<Cmd>cd %:p:h<CR>:pwd<CR>', { noremap = true })
 keymap('n', '<leader>bd',
@@ -46,6 +41,8 @@ for i = 1, 10, 1 do
     keymap('n', '<M-'..tostring(tab_key)..'>', '<Cmd>tabn '..tostring(i)..'<CR>',  { noremap = true, silent = true })
     keymap('i', '<M-'..tostring(tab_key)..'>', '<C-O>:tabn '..tostring(i)..'<CR>', { noremap = true, silent = true })
 end
+-- Command mode.
+keymap('c', '<M-BS>', '<C-W>', {})
 
 
 -- Windows shit.
@@ -57,6 +54,26 @@ keymap('n', '<M-v>', '"+p',                { noremap = true, silent = true })
 keymap('v', '<M-v>', '"+p',                { noremap = true, silent = true })
 keymap('i', '<M-v>', '<C-R>=@+<CR>',       { noremap = true, silent = true })
 keymap('n', '<M-a>', 'ggVG',               { noremap = true, silent = true })
+-- Emacs shit.
+keymap('n', '<M-x>', ':',                   { noremap = true })
+keymap('i', '<M-x>', '<C-\\><C-O>:',        { noremap = true })
+keymap('i', '<M-b>', '<C-\\><C-O>b',        { noremap = true, silent = true })
+keymap('i', '<M-f>', '<C-\\><C-O>e<Right>', { noremap = true, silent = true })
+keymap('n', '<M-b>', 'b',                   { noremap = true, silent = true })
+keymap('n', '<M-f>', 'e',                   { noremap = true, silent = true })
+keymap('i', '<C-A>', '<C-\\><C-O>g0',       { noremap = true, silent = true })
+keymap('i', '<C-E>', '<C-\\><C-O>g$',       { noremap = true, silent = true })
+keymap('i', '<C-K>', '<C-\\><C-O>D',        { noremap = true, silent = true })
+keymap('i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:const_dir_r]],     { noremap = true, silent = true, expr = true })
+keymap('i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:const_dir_l]], { noremap = true, silent = true, expr = true })
+keymap('i', '<M-d>', '<C-\\><C-O>dw', { noremap = true, silent = true })
+for key, val in pairs({n='j', p='k'}) do
+    keymap('n', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
+    keymap('v', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
+    keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, { noremap = true, silent = true })
+end
+
+
 -- Search visual selection.
 keymap('v', '*', [[<ESC>/\V<C-r>=luaeval('require("utility/lib").get_visual_selection()')<CR><CR>]], { noremap = true, silent = true })
 -- Mouse toggle.
@@ -66,6 +83,8 @@ keymap('i', '<F2>', '<C-\\><C-O><Cmd>call usr#misc#mouse_toggle()<CR>', { norema
 keymap('t', '<F2>', '<C-\\><C-N><Cmd>call usr#misc#mouse_toggle()<CR>', { noremap = true, silent = true })
 -- Background toggle.
 keymap('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', { noremap = true, silent = true })
+-- Open init file.
+keymap('n', '<M-,>', '<Cmd>lua require("utility/util").edit_file("$MYVIMRC", true)<CR>', { noremap = true, silent = true })
 -- Explorer.
 keymap('n', '<leader>oe', '<Cmd>lua require("utility/util").open_file_or_url(vim.fn.expand("%:p:h"))<CR>', { noremap = true, silent = true })
 -- Terminal.
@@ -81,6 +100,9 @@ keymap('v', '<leader>ou',
 [[:<C-u>lua local util = require("utility/util") ]]..
 [[util.open_file_or_url(util.match_url(require("utility/lib").get_visual_selection()))<CR>]],
 { noremap = true, silent = true })
+-- Evaluate formula surrounded by `.
+keymap('n', '<leader>ev', '<Cmd>lua require("utility/eval").lua_eval()<CR>',  { noremap = true, silent = true })
+keymap('n', '<leader>el', '<Cmd>lua require("utility/eval").lisp_eval()<CR>', { noremap = true, silent = true })
 -- Append day of week after the date.
 keymap('n', '<leader>dd', ':lua require("utility/gtd").append_day_from_date()<CR>', { noremap = true, silent = true })
 -- Print TODO list.
@@ -105,24 +127,6 @@ local web_list = {
 for key, val in pairs(web_list) do
     keymap('n', '<leader>k'..key, '<Cmd>lua require("utility/util").search_web("n", "'..val..'")<CR>',  { noremap = true, silent = true })
     keymap('v', '<leader>k'..key, ':<C-U>lua require("utility/util").search_web("v", "'..val..'")<CR>', { noremap = true, silent = true })
-end
--- Emacs shit.
-keymap('n', '<M-x>', ':',                   { noremap = true })
-keymap('i', '<M-x>', '<C-\\><C-O>:',        { noremap = true })
-keymap('i', '<M-b>', '<C-\\><C-O>b',        { noremap = true, silent = true })
-keymap('i', '<M-f>', '<C-\\><C-O>e<Right>', { noremap = true, silent = true })
-keymap('n', '<M-b>', 'b',                   { noremap = true, silent = true })
-keymap('n', '<M-f>', 'e',                   { noremap = true, silent = true })
-keymap('i', '<C-A>', '<C-\\><C-O>g0',       { noremap = true, silent = true })
-keymap('i', '<C-E>', '<C-\\><C-O>g$',       { noremap = true, silent = true })
-keymap('i', '<C-K>', '<C-\\><C-O>D',        { noremap = true, silent = true })
-keymap('i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:const_dir_r]],     { noremap = true, silent = true, expr = true })
-keymap('i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:const_dir_l]], { noremap = true, silent = true, expr = true })
-keymap('i', '<M-d>', '<C-\\><C-O>dw', { noremap = true, silent = true })
-for key, val in pairs({n='j', p='k'}) do
-    keymap('n', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
-    keymap('v', '<C-'..key..'>', 'g'..val,            { noremap = true, silent = true })
-    keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, { noremap = true, silent = true })
 end
 -- Surround
 keymap('n', '<leader>sa', '<Cmd>lua require("utility/srd").srd_add("n")<CR>',  { noremap = true, silent = true })
