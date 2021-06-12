@@ -93,7 +93,7 @@
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - inv: <kbd>M-B</kbd>      -> Markdown bold: **bold** 
   - inv: <kbd>M-I</kbd>      -> Markdown italic: *italic*
-  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***italic***
+  - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***bold_italic***
   - inv: <kbd>M-P</kbd>      -> Markdown block: `block`
   - inv: <kbd>M-U</kbd>      -> Markdown/HTML underscore: <u>bold</u>
 
