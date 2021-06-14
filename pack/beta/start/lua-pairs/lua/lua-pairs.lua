@@ -39,12 +39,12 @@ local feed_keys = function(str)
     api.nvim_feedkeys(rep_term(str), 'n', true)
 end
 
--- Determine if a character is a numeric/alphabetic/Chinese(NAC) character.
+-- Determine if a character is a numeric/alphabetic/CJK(NAC) character.
 -- @param string(char) char A character to be tested
 -- @return bool True if the character is a NAC
 local function is_NAC(char)
     local nr = fn.char2nr(char)
-    return char:match('[%w_]') or (nr >= 0x4E00 and nr <= 0x9fA5)
+    return char:match('[%w_]') or (nr >= 0x4E00 and nr <= 0x9FFF)
 end
 
 -- Escape regex special characters in a string by '%'.
