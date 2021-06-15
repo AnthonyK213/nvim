@@ -51,7 +51,7 @@ end
 -- @param string str String to be converted to be a regex match pattern
 -- @return string Converted string
 local function reg_esc(str)
-    local str_list = vim.fn.split(str, '\\zs')
+    local str_list = fn.split(str, '\\zs')
     local esc_table = {
         '(', ')', '[', ']',
         '+', '-', '*', '?',
