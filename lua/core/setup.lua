@@ -13,9 +13,9 @@ require('package/inter')
 
 -- Color scheme
 vim.o.bg = require('core/opt').tui.bg or 'dark'
-local init_src = vim.g.init_src
+local nvim_init_src = vim.g.nvim_init_src or vim.fn.expand('$NVIM_INIT_SRC')
 
-if init_src == 'nano' then
+if nvim_init_src == 'nano' then
     vim.o.tgc = true
     vim.cmd('colorscheme nanovim')
 else
