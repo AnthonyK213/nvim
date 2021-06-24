@@ -367,24 +367,34 @@ hi! link NvimTreeGitNew           Nano_Face_Popout
 " StatusLine {{
 " | MODE || file_name (file_type, git_branch)                     line:column |
 set showtabline=0
-function! s:nanovim_enter_special_buffer()
+function! s:nanovim_enter()
   if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) >= 0
     let &l:stl = "%#Nano_Face_Default# " .
           \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
+  else
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#mode()}" .
+          \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#mode():''}" .
+          \ "%#Nano_Face_Header_Strong# %{nanovim#util#fname()}" .
+          \ "%#Nano_Face_Header_Default#  %{nanovim#util#misc_info()}" .
+          \ "%= %l:%c %#Nano_Face_Default# "
   endif
 endfunction
 
-let &stl = "%#Nano_Face_Default# " .
-      \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}" .
-      \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}" .
-      \ "%#Nano_Face_Header_Strong# %{nanovim#util#get_file_name()}" .
-      \ "%#Nano_Face_Header_Default#  %{nanovim#util#filetype_and_branch()}" .
-      \ "%= %l:%c %#Nano_Face_Default# "
+function! s:nanovim_leave()
+  if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) < 0
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Faded#" .
+          \ repeat('-', winwidth(0) - 2) .
+          \ "%#Nano_Face_Default# "
+  endif
+endfunction
 
 augroup nanovim_redrawstatus
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
-  autocmd BufEnter * call <SID>nanovim_enter_special_buffer()
+  autocmd BufEnter,VimEnter * call <SID>nanovim_enter()
+  autocmd BufLeave,WinLeave * call <SID>nanovim_leave()
 augroup end
 " }}
 
