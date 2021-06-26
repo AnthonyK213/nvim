@@ -164,10 +164,10 @@ end
 
 -- Encode URL.
 function M.encode_url(str)
-    str = str:gsub("([^%w%.%- ])", function(x)
+    local res = str:gsub("([^%w%.%-%s])", function(x)
         return string.format("%%%02X", string.byte(x))
-    end)
-    return str:gsub(" ", "+")
+    end):gsub(" ", "%%20")
+    return res
 end
 
 
