@@ -1,5 +1,6 @@
 " Basics
 set showmode
+let mapleader = "\<SPACE>"
 
 
 " Comments leader

@@ -1,6 +1,8 @@
 """""""" Configuration for neovim GUI using ginit.vim
 
 " Variables
+if !has("nvim") | set guioptions=egrLt | endif
+
 let s:nvimqt_option_table = {
       \ 'GuiTabline'         : 0,
       \ 'GuiPopupmenu'       : 1,
