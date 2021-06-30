@@ -50,6 +50,16 @@ function! usr#misc#show_toc()
   endif
 endfunction
 
+" nvim-tree open file with os default application.
+function! usr#misc#nvim_tree_os_open()
+lua <<EOF
+  local node = require('nvim-tree.lib').get_node_at_cursor()
+  if node then
+    require('utility/util').open_file_or_url(node.absolute_path)
+  end
+EOF
+endfunction
+
 " Neovim nightly update.
 function! usr#misc#nvim_nightly_upgrade(...)
   let l:proxy_args = a:0 == 0 ? "" : a:1

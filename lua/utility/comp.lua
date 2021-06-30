@@ -159,6 +159,11 @@ function M.run_or_compile(option)
             print('Invalid argument.')
             goto skip_exec
         end
+    elseif exts == 'pde' then
+        if vim.fn.has(":RunProcessing") then
+            vim.cmd("RunProcessing")
+        end
+        return
     else
         print('Unknown file type: .'..exts)
         goto skip_exec

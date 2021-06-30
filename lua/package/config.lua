@@ -11,12 +11,21 @@ end
 -- nvim-tree.lua
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_git_hl = 1
+vim.g.nvim_tree_ignore = { '.git', '.cache' }
+vim.g.nvim_tree_window_picker_exclude = {
+    filetype = {
+        'qf',
+        'help',
+    },
+    buftype = {
+        'terminal',
+    }
+}
 vim.g.nvim_tree_show_icons = {
     git = 1,
     folders = 1,
     files = 1
 }
-vim.g.nvim_tree_ignore = { '.git', '.cache' }
 vim.g.nvim_tree_icons = {
     default = '▪ ',
     symlink = '▫ ',
@@ -43,6 +52,38 @@ vim.g.nvim_tree_icons = {
         warning = "W",
         error = "E",
     }
+}
+local tree_cb = require('nvim-tree.config').nvim_tree_callback
+vim.g.nvim_tree_bindings = {
+    ["<CR>"]           = tree_cb("edit"),
+    ["<2-LeftMouse>"]  = tree_cb("edit"),
+    ["<2-RightMouse>"] = tree_cb("cd"),
+    ["C"]              = tree_cb("cd"),
+    ["s"]              = tree_cb("vsplit"),
+    ["i"]              = tree_cb("split"),
+    ["t"]              = tree_cb("tabnew"),
+    ["<C-K>"]          = tree_cb("prev_sibling"),
+    ["<C-J>"]          = tree_cb("next_sibling"),
+    ["<S-CR>"]         = tree_cb("close_node"),
+    ["<Tab>"]          = tree_cb("preview"),
+    ["<C-I>"]          = tree_cb("toggle_ignored"),
+    ["<C-H>"]          = tree_cb("toggle_dotfiles"),
+    ["R"]              = tree_cb("refresh"),
+    ["a"]              = tree_cb("create"),
+    ["d"]              = tree_cb("remove"),
+    ["r"]              = tree_cb("rename"),
+    ["<C-R>"]          = tree_cb("full_rename"),
+    ["x"]              = tree_cb("cut"),
+    ["c"]              = tree_cb("copy"),
+    ["p"]              = tree_cb("paste"),
+    ["y"]              = tree_cb("copy_name"),
+    ["<M-y>"]          = tree_cb("copy_path"),
+    ["<M-Y>"]          = tree_cb("copy_absolute_path"),
+    ["hk"]             = tree_cb("prev_git_item"),
+    ["hj"]             = tree_cb("next_git_item"),
+    ["u"]              = tree_cb("dir_up"),
+    ["q"]              = tree_cb("close"),
+    ["o"]              = ":call usr#misc#nvim_tree_os_open()<CR>",
 }
 
 
