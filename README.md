@@ -165,13 +165,13 @@
   - inv: <kbd>M-P</kbd>      -> Markdown `block`.
   - inv: <kbd>M-U</kbd>      -> Markdown/HTML <u>underscore</u>.
 * **Emacs shit**
-  - inv: <kbd>C-N</kbd>      -> Emacs next.
-  - inv: <kbd>C-P</kbd>      -> Emacs previous.
-  - i:   <kbd>C-F</kbd>      -> Emacs forward.
-  - i:   <kbd>C-B</kbd>      -> Emacs backward.
+  - inv: <kbd>C-N</kbd>      -> Emacs next line.
+  - inv: <kbd>C-P</kbd>      -> Emacs previous line.
+  - i:   <kbd>C-F</kbd>      -> Emacs move forward.
+  - i:   <kbd>C-B</kbd>      -> Emacs move backward.
   - i:   <kbd>C-A</kbd>      -> Emacs line start.
   - i:   <kbd>C-E</kbd>      -> Emacs line end.
-  - i:   <kbd>C-K</kbd>      -> Emacs kill test on the right.
+  - i:   <kbd>C-K</kbd>      -> Emacs kill text on the right.
   - in:  <kbd>M-f</kbd>      -> Emacs next word.
   - in:  <kbd>M-b</kbd>      -> Emacs last word.
   - in:  <kbd>M-x</kbd>      -> Command line.
