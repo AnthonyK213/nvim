@@ -160,7 +160,7 @@ function M.run_or_compile(option)
             goto skip_exec
         end
     elseif exts == 'pde' then
-        if vim.fn.has(":RunProcessing") then
+        if vim.fn.has(":RunProcessing") == 1 then
             vim.cmd("RunProcessing")
         end
         return
