@@ -112,7 +112,7 @@ function M.run_or_compile(option)
             goto skip_exec
         end
     elseif exts == 'cpp' then
-        term_cmd = cmdh..' g++ '..file
+        term_cmd = cmdh..' g++ '..file..' -o '..name..oute..' && '..exec..name
     elseif exts == 'cs' then
         if vim.fn.has("win32") ~= 1 then return end
         if option == '' then
