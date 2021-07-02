@@ -10,15 +10,14 @@
   ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   - Crazy fast search tool.
-* [**paq-nvim**](https://github.com/savq/paq-nvim)
+* [**packer.nvim**](https://github.com/wbthomason/packer.nvim)
   - Windows
     ```sh
-    git clone https://github.com/savq/paq-nvim.git "$env:LOCALAPPDATA\nvim-data\site\pack\paqs\start\paq-nvim"
+    git clone https://github.com/wbthomason/packer.nvim "$env:LOCALAPPDATA\nvim-data\site\pack\packer\start\packer.nvim"
     ```
   - GNU/Linux
     ```sh
-    git clone --depth=1 https://github.com/savq/paq-nvim.git \
-        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+    git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     ```
 
 
@@ -105,7 +104,7 @@
 
 ## Packages
 * Package manager
-  - [paq-nvim](https://github.com/savq/paq-nvim)
+  - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * Visual(Optional)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)

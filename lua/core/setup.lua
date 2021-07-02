@@ -7,7 +7,7 @@ require('internal/map')
 require('internal/cmd')
 
 -- Package configurations
-require('package/paq')
+require('package/packer')
 require('package/config')
 require('package/inter')
 
