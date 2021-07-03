@@ -22,11 +22,7 @@ require('packer').startup(function(use)
     }
     -- VCS utilities
     use {
-        --'tpope/vim-fugitive';
-        {
-            'TimUntersberger/neogit',
-            config = function() require('package/neogit') end
-        };
+        'tpope/vim-fugitive';
         {
             'lewis6991/gitsigns.nvim',
             config = function() require('package/gitsigns') end
