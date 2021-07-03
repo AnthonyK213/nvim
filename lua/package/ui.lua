@@ -1,4 +1,3 @@
-vim.o.tgc = true
 local augroup = require("utility/lib").set_au_group
 
 
@@ -87,11 +86,13 @@ require('bufferline').setup {
         sort_by = 'extension'
     }
 }
+vim.api.nvim_set_keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
 
 
 -- nvim-colorizer
 vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
+vim.cmd('command! ColorizerReset lua package.loaded["colorizer"] = nil require("colorizer").setup() require("colorizer").attach_to_buffer(0)')
 
 
 -- Setting colorscheme.
