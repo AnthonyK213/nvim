@@ -1,3 +1,6 @@
+set vb t_vb=
+set guioptions=egrLt
+
 if has("win32")
   let s:nvim = expand("$LOCALAPPDATA/nvim")
 elseif has("unix")
