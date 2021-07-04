@@ -128,7 +128,7 @@ endfunction
 function! nanovim#util#leave()
   if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) < 0
     let &l:stl = "%#Nano_Face_Default# " .
-          \ "%#Nano_Face_Header_Default# %{nanovim#util#fname()}" .
+          \ "%#Nano_Face_Header_Subtle# %{nanovim#util#fname()}" .
           \ "%= %#Nano_Face_Default# "
   endif
 endfunction
