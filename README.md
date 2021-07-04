@@ -80,7 +80,7 @@
 * **.vimrc(optional)**
   - Windows
     ```sh
-    Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" -Destination "$env:HOME\_vimrc"
+    Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" -Destination "$env:HOMEPATH\_vimrc"
     ```
   - GNU/Linux
     ```sh
