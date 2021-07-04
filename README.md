@@ -40,7 +40,8 @@
     ```
 * **Install plugins**
   ```vim
-  :PaqInstall
+  :PackerInstall
+  :PackerCompile
   ```
 * **opt.lua options (see [lua/core/opt.lua](lua/core/opt_example.lua))**
   - Essential:
@@ -53,7 +54,7 @@
       - `cloud`   -> Cloud drive directory
       - `desktop` -> Desktop directory
     - **tui** -> Tui
-      - `bg`       -> Tui background
+      - `bg`    -> Tui background
       - `theme` -> Style of color theme
   - Optional:
     - **gui** -> Gui (neovim-qt, fvim)
@@ -76,6 +77,15 @@
     - **plug** -> Built-in plugins
       - `matchit`    -> matchit.vim
       - `matchparen` -> matchparen.vim
+* **.vimrc(optional)**
+  - Windows
+    ```sh
+    Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" -Destination "$env:HOME\_vimrc"
+    ```
+  - GNU/Linux
+    ```sh
+    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim "${XDG_DATA_HOME:-$HOME}"/.vimrc
+    ```
 
 
 ## Modules
@@ -85,9 +95,8 @@
   - `internal`
     - Variables; Mappings; Commands.
   - `package`
-    - Paq-nvim managed plugins.
+    - packer.nvim managed plugins.
     - Configurations of plugins.
-    - UI configuration.
   - `utility`
     - Public function library.
 - VimL
