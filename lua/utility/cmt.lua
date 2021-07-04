@@ -22,6 +22,8 @@ local cmt_mark_tab_single = {
     vimwiki = "%% ",
     markdown = "> ",
     sshconfig = "#",
+    gitconfig = "#",
+    yaml = "#",
 }
 
 local cmt_mark_tab_multi = {
