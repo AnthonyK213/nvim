@@ -362,6 +362,53 @@ hi! link NvimTreeIndentMarker     Nano_Face_Faded
 hi! link NvimTreeGitDirty         Nano_Face_Popout
 hi! link NvimTreeGitStaged        Nano_Face_Salient
 hi! link NvimTreeGitNew           Nano_Face_Popout
+
+" Terminal
+if has("nvim")
+  "" Base
+  let g:terminal_color_0  = s:nano_color_foreground.gui
+  let g:terminal_color_8  = s:nano_color_background.gui
+  "" Red
+  let g:terminal_color_1  = s:nano_color_popout.gui
+  let g:terminal_color_9  = s:nano_color_critical.gui
+  "" Green
+  let g:terminal_color_2  = s:nano_color_foreground.gui
+  let g:terminal_color_10 = s:nano_color_faded.gui
+  "" Yellow
+  let g:terminal_color_3  = s:nano_color_strong.gui
+  let g:terminal_color_11 = s:nano_color_foreground.gui
+  "" Blue
+  let g:terminal_color_4  = s:nano_color_salient.gui
+  let g:terminal_color_12 = s:nano_color_foreground.gui
+  "" Magenta
+  let g:terminal_color_5  = s:nano_color_foreground.gui
+  let g:terminal_color_13 = s:nano_color_faded.gui
+  "" Cyan
+  let g:terminal_color_6  = s:nano_color_foreground.gui
+  let g:terminal_color_14 = s:nano_color_faded.gui
+  "" Gray
+  let g:terminal_color_7  = s:nano_color_faded.gui
+  let g:terminal_color_15 = s:nano_color_subtle.gui
+elseif exists('*term_setansicolors')
+  let g:terminal_ansi_colors = [
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_popout.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_strong.gui,
+        \ s:nano_color_salient.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_background.gui,
+        \ s:nano_color_critical.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_subtle.gui
+        \ ]
+endif
 " }}
 
 " StatusLine {{
