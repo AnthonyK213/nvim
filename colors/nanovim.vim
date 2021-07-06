@@ -5,7 +5,7 @@
 hi clear
 set laststatus=2
 set noshowmode
-if exists('syntax on') | syntax reset | endif
+if exists('g:syntax_on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
 " Colors {{
@@ -421,5 +421,7 @@ augroup nanovim_redrawstatus
   autocmd BufLeave,WinLeave * call nanovim#util#leave()
 augroup end
 " }}
+
+syntax on
 
 " vim: set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
