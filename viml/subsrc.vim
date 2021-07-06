@@ -105,7 +105,6 @@ ino <expr> <M-U> "<u></u>" . repeat(g:subrc_dir_l, 4)
 
 
 " Completion
-"" Key maps
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
       \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
@@ -130,3 +129,11 @@ ino <C-N> <C-\><C-O>gj
 ino <C-P> <C-\><C-O>gk
 ino <expr> <C-F> col('.') >= col('$') ? "<C-\><C-O>+" : g:subrc_dir_r
 ino <expr> <C-B> col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:subrc_dir_l
+
+
+" MISC
+nn <leader>bc :cd %:p:h<CR>:pwd<CR>
+nn <leader>bd :bd<CR>
+nn <leader>bg :call usr#misc#bg_toggle()<CR>
+nn <leader>bh :noh<CR>
+nn <leader>ot :term<CR>
