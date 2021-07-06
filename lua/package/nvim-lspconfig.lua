@@ -113,7 +113,4 @@ keymap('n', '<leader>gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>',  { norem
 keymap('n', '<leader>gw', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
 keymap('n', '<leader>g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
-
-
-local augroup = require("utility/lib").set_au_group
-augroup('lsp_diagnositic_on_hold', 'CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
+keymap('n', '<M-K>', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap = true, silent = true })
