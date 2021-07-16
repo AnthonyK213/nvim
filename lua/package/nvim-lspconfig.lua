@@ -22,6 +22,12 @@ if lsp_option.jedi_language_server then
         capabilities = capabilities
     }
 end
+--- pyright
+if lsp_option.pyright then
+    lspconfig.pyright.setup {
+        capabilities = capabilities
+    }
+end
 --- rls
 if lsp_option.rls then
     lspconfig.rls.setup {}

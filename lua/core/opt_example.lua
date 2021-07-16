@@ -22,6 +22,7 @@ return {
     lsp = {
         clangd = false,
         jedi_language_server = false,
+        pyright = false,
         omnisharp = false,
         rls = false,
         rust_analyzer = false,

@@ -2,7 +2,7 @@
 
 
 ## Requirements
-* [**Neovim**](https://github.com/neovim/neovim) nightly build
+* [**Neovim**](https://github.com/neovim/neovim) 0.5+
 * [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
   ```sh
   pip install pynvim
@@ -65,6 +65,7 @@
     - **lsp** -> Language Server Protocol
       - `clangd`
       - `jedi_language_server`
+      - `pyright`
       - `omnisharp`
       - `rls`
       - `rust_analyzer`
