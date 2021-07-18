@@ -40,6 +40,10 @@ require('packer').startup(function(use)
             'lukas-reineke/indent-blankline.nvim',
             config = function() require('package/indent-blankline') end
         };
+        {
+            'AnthonyK213/lua-pairs',
+            config = function() require('package/lua-pairs') end
+        };
     }
     -- File type support
     use {
