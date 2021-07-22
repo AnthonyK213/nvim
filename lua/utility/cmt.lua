@@ -64,11 +64,12 @@ function M.cmt_add_vis()
     elseif cmt_mark_single then
         local lnum_s = pos_s[2]
         local lnum_e = pos_e[2]
+        local cmt_mark_single_esc = lib.lua_reg_esc(cmt_mark_single)
         for i = lnum_s, lnum_e, 1 do
             local line_old = fn.getline(i)
             if not line_old:match("^%s*$") then
                 local line_new = line_old:gsub("^(%s*)(.*)$",
-                "%1"..cmt_mark_single.."%2")
+                "%1"..cmt_mark_single_esc.."%2")
                 fn.setline(i, line_new)
             end
         end
