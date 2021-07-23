@@ -101,8 +101,8 @@ end
 function M.print_todo_list()
     local content = vim.fn.getline(1, '$')
     for _, line in ipairs(content) do
-        local todo, date, item = line:match('(TODO(<.+>):%s(.+))$')
-        if todo then
+        local todo, date, item = line:match('(TODO(%b<>):%s+(.+))$')
+        if todo and not line:match('%[X%]') then
             print(item.." -> "..countdown(date))
         end
     end
