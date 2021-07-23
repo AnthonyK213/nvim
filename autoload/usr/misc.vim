@@ -46,7 +46,7 @@ function! usr#misc#show_toc()
       VimtexTocToggle
     endif
   else
-    echo 'Filetype' &ft 'does not support Toc.'
+    echo 'No Toc support for current filetype.'
   endif
 endfunction
 
