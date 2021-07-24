@@ -42,7 +42,13 @@ for i = 1, 10, 1 do
     keymap('i', '<M-'..tostring(tab_key)..'>', '<C-O>:tabn '..tostring(i)..'<CR>', { noremap = true, silent = true })
 end
 -- Command mode.
-keymap('c', '<M-BS>', '<C-W>', {})
+keymap('c', '<C-A>',  '<C-B>',     { noremap = true })
+keymap('c', '<C-B>',  '<LEFT>',    { noremap = true })
+keymap('c', '<C-F>',  '<RIGHT>',   { noremap = true })
+keymap('c', '<C-H>',  '<C-F>',     { noremap = true })
+keymap('c', '<M-b>',  '<C-LEFT>',  { noremap = true })
+keymap('c', '<M-f>',  '<C-RIGHT>', { noremap = true })
+keymap('c', '<M-BS>', '<C-W>',     { noremap = true })
 
 
 -- Windows shit.
