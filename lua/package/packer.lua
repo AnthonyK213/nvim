@@ -53,6 +53,7 @@ require('packer').startup(function(use)
         };
         {
             'vimwiki/vimwiki',
+            branch = 'dev',
             config = function() require('package/vimwiki') end
         };
         {
