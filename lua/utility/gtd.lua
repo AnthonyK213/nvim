@@ -103,7 +103,7 @@ function M.print_todo_list()
     for _, line in ipairs(content) do
         local todo, date, item = line:match('(TODO(%b<>):%s+(.+))$')
         if todo and not line:match('%[X%]') then
-            print(item.." -> "..countdown(date))
+            print(date == '<>' and item or item.." -> "..countdown(date))
         end
     end
 end
