@@ -41,7 +41,7 @@ if core_opt.gui then
     end
 end
 
--- Directional operation which won't mess up the history.
+-- Directional operation which won't break the history.
 vim.g.const_dir_l = rep_term("<C-G>U<Left>",  true, false, true)
 vim.g.const_dir_d = rep_term("<C-G>U<Down>",  true, false, true)
 vim.g.const_dir_u = rep_term("<C-G>U<Up>",    true, false, true)

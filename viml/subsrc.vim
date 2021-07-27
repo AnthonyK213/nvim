@@ -20,31 +20,22 @@ let g:netrw_browse_split = 4
 nn  <silent> <leader>op :20Lexplore<CR>
 
 
-" Meta key for vim
-"if !has("nvim")
-  "for s:i in range(65, 90) + range(97, 122)
-    "let s:char = nr2char(s:i)
-    "exe "set <M-" . s:char . ">=\e" . s:char
-  "endfor
-"endif
-
-
 " Navigate windows
 for s:direct in ['h', 'j', 'k', 'l', 'w']
-    exe 'nn'  '<M-' . s:direct . '>' '<C-W>' . s:direct
-    exe 'ino' '<M-' . s:direct . '>' '<ESC><C-W>' . s:direct
-    exe 'tno' '<M-' . s:direct . '>' '<C-\><C-N><C-W>' . s:direct
+  exe 'nn'  '<M-' . s:direct . '>' '<C-W>' . s:direct
+  exe 'ino' '<M-' . s:direct . '>' '<ESC><C-W>' . s:direct
+  exe 'tno' '<M-' . s:direct . '>' '<C-\><C-N><C-W>' . s:direct
 endfor
 
 
 " Pairs
-"" Directional operation which won't mess up the history.
-let g:subrc_dir_l = "\<C-g>U\<Left>"
-let g:subrc_dir_d = "\<C-g>U\<Down>"
-let g:subrc_dir_u = "\<C-g>U\<Up>"
-let g:subrc_dir_r = "\<C-g>U\<Right>"
+"" Directional operation which won't break the history.
+let g:subsrc_dir_l = "\<C-g>U\<Left>"
+let g:subsrc_dir_d = "\<C-g>U\<Down>"
+let g:subsrc_dir_u = "\<C-g>U\<Up>"
+let g:subsrc_dir_r = "\<C-g>U\<Right>"
 
-let g:subrc_pairs_dict = {
+let s:subsrc_pairs_dict = {
       \ "("  : ")",
       \ "["  : "]",
       \ "{"  : "}",
@@ -69,18 +60,29 @@ function! s:subsrc_get_context(arg) abort
   endif
 endfunction
 
-function! s:subrc_is_surrounded(match_list)
+function! s:subsrc_is_surrounded(match_list)
   return index(a:match_list, s:subsrc_get_context('l') . s:subsrc_get_context('n')) >= 0
 endfunction
 
-function! s:subrc_pairs_back()
+function! s:subsrc_pairs_backs()
+  if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
+    return g:subsrc_dir_r . "\<BS>\<BS>"
+  elseif s:subsrc_get_context('b') =~ '\v\{\s$' &&
+        \ s:subsrc_get_context('f') =~ '\v^\s\}'
+    return "\<C-\>\<C-O>diB"
+  else
+    return "\<BS>"
+  end
+endfunction
+
+function! s:subsrc_pairs_supbs()
   let l:back = s:subsrc_get_context('b')
   let l:fore = s:subsrc_get_context('f')
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
     return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
   endif
   let l:res = [0, 0, 0]
-  for [l:key, l:val] in items(g:subrc_pairs_dict)
+  for [l:key, l:val] in items(s:subsrc_pairs_dict)
     let l:key_esc = '\v' . escape(l:key, ' ()[]{}<>*') . '$'
     let l:val_esc = '\v^' . escape(l:val, ' ()[]{}<>*')
     if l:back =~ l:key_esc && l:fore =~ l:val_esc &&
@@ -91,46 +93,47 @@ function! s:subrc_pairs_back()
   return l:res[0] ?
         \ repeat("\<C-g>U\<Left>", l:res[1]) .
         \ "\<C-\>\<C-o>" . (l:res[1] + l:res[2]) . "x" :
-        \ "\<BS>"
+        \ "\<C-\>\<C-O>db"
 endfunction
 
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) <SID>subsrc_get_context('n') ==# ")" ? g:subrc_dir_r : ")"
-ino <expr> ] <SID>subsrc_get_context('n') ==# "]" ? g:subrc_dir_r : "]"
-ino <expr> } <SID>subsrc_get_context('n') ==# "}" ? g:subrc_dir_r : "}"
+ino <expr> ) <SID>subsrc_get_context('n') ==# ")" ? g:subsrc_dir_r : ")"
+ino <expr> ] <SID>subsrc_get_context('n') ==# "]" ? g:subsrc_dir_r : "]"
+ino <expr> } <SID>subsrc_get_context('n') ==# "}" ? g:subsrc_dir_r : "}"
 ino <expr> "
       \ <SID>subsrc_get_context('n') ==# "\"" ?
-      \ g:subrc_dir_r : or(<SID>subsrc_get_context('l') =~ '\v[\\''"]',
+      \ g:subsrc_dir_r : or(<SID>subsrc_get_context('l') =~ '\v[\\''"]',
       \ and(<SID>subsrc_get_context('b') =~ '\v^\s*$', &filetype == 'vim')) ?
-      \ '"' : '""' . g:subrc_dir_l
+      \ '"' : '""' . g:subsrc_dir_l
 ino <expr> '
       \ <SID>subsrc_get_context('n') ==# "'" ?
-      \ g:subrc_dir_r : <SID>subsrc_get_context('l') =~ '\v[''"]' ?
-      \ "'" : "''" . g:subrc_dir_l
+      \ g:subsrc_dir_r : <SID>subsrc_get_context('l') =~ '\v[''"]' ?
+      \ "'" : "''" . g:subsrc_dir_l
 ino <expr> <SPACE>
-      \ <SID>subrc_is_surrounded(['{}']) ?
-      \ "\<SPACE>\<SPACE>" . g:subrc_dir_l : "\<SPACE>"
-ino <expr> <BS> <SID>subrc_pairs_back()
+      \ <SID>subsrc_is_surrounded(['{}']) ?
+      \ "\<SPACE>\<SPACE>" . g:subsrc_dir_l : "\<SPACE>"
+ino <expr> <BS> <SID>subsrc_pairs_backs()
+ino <expr> <M-BS> <SID>subsrc_pairs_supbs()
 "" Markdown
-ino <expr> <M-P> "``" . g:subrc_dir_l
-ino <expr> <M-I> "**" . g:subrc_dir_l
-ino <expr> <M-B> "****" . repeat(g:subrc_dir_l, 2)
-ino <expr> <M-M> "******" . repeat(g:subrc_dir_l, 3)
-ino <expr> <M-U> "<u></u>" . repeat(g:subrc_dir_l, 4)
+ino <expr> <M-P> "``" . g:subsrc_dir_l
+ino <expr> <M-I> "**" . g:subsrc_dir_l
+ino <expr> <M-B> "****" . repeat(g:subsrc_dir_l, 2)
+ino <expr> <M-M> "******" . repeat(g:subsrc_dir_l, 3)
+ino <expr> <M-U> "<u></u>" . repeat(g:subsrc_dir_l, 4)
 
 
 " Completion
 ino <silent><expr> <CR>
       \ pumvisible() ? "\<C-y>" :
-      \ <SID>subrc_is_surrounded(['()', '[]', '{}']) ?
+      \ <SID>subsrc_is_surrounded(['()', '[]', '{}']) ?
       \ "\<CR>\<C-\>\<C-o>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
       \ or(<SID>subsrc_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
       \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-\>\<C-o>>>" . repeat(g:subrc_dir_r, &ts) : "\<TAB>"
+      \ "\<C-\>\<C-o>>>" . repeat(g:subsrc_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
@@ -150,8 +153,18 @@ vn  <C-N> gj
 vn  <C-P> gk
 ino <C-N> <C-\><C-O>gj
 ino <C-P> <C-\><C-O>gk
-ino <expr> <C-F> col('.') >= col('$') ? "<C-\><C-O>+" : g:subrc_dir_r
-ino <expr> <C-B> col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:subrc_dir_l
+ino <expr> <C-F> col('.') >= col('$') ? "<C-\><C-O>+" : g:subsrc_dir_r
+ino <expr> <C-B> col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:subsrc_dir_l
+
+
+" Command mode.
+cno <C-A>  <C-B>
+cno <C-B>  <LEFT>
+cno <C-F>  <RIGHT>
+cno <C-H>  <C-F>
+cno <M-b>  <C-LEFT>
+cno <M-f>  <C-RIGHT>
+cno <M-BS> <C-W>
 
 
 " MISC
