@@ -20,14 +20,6 @@ let g:netrw_browse_split = 4
 nn  <silent> <leader>op :20Lexplore<CR>
 
 
-" Navigate windows
-for s:direct in ['h', 'j', 'k', 'l', 'w']
-  exe 'nn'  '<M-' . s:direct . '>' '<C-W>' . s:direct
-  exe 'ino' '<M-' . s:direct . '>' '<ESC><C-W>' . s:direct
-  exe 'tno' '<M-' . s:direct . '>' '<C-\><C-N><C-W>' . s:direct
-endfor
-
-
 " Pairs
 "" Directional operation which won't break the history.
 let g:subsrc_dir_l = "\<C-g>U\<Left>"
@@ -90,10 +82,14 @@ function! s:subsrc_pairs_supbs()
       let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor
-  return l:res[0] ?
-        \ repeat("\<C-g>U\<Left>", l:res[1]) .
-        \ "\<C-\>\<C-o>" . (l:res[1] + l:res[2]) . "x" :
-        \ "\<C-\>\<C-O>db"
+  if l:res[0]
+    return repeat("\<C-G>U\<Left>", l:res[1]) .
+          \ "\<C-\>\<C-O>" . (l:res[1] + l:res[2]) . "x"
+  elseif l:back =~ '\v\{\s*$' && l:fore =~ '\v^\s*\}'
+    return "\<C-\>\<C-O>diB"
+  else
+    return "\<C-\>\<C-O>db"
+  endif
 endfunction
 
 ino ( ()<C-g>U<Left>
@@ -135,6 +131,14 @@ ino <silent><expr> <TAB>
       \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
       \ "\<C-\>\<C-o>>>" . repeat(g:subsrc_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+
+" Navigate windows
+for s:direct in ['h', 'j', 'k', 'l', 'w']
+  exe 'nn'  '<M-' . s:direct . '>' '<C-W>' . s:direct
+  exe 'ino' '<M-' . s:direct . '>' '<ESC><C-W>' . s:direct
+  exe 'tno' '<M-' . s:direct . '>' '<C-\><C-N><C-W>' . s:direct
+endfor
 
 
 " Emacs shit

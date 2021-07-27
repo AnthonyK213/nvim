@@ -83,6 +83,16 @@ function! s:gui_relative_number_toggle()
   if &nu == 1 | set invrnu | else | set nu rnu | endif
 endfunction
 
+function! s:gui_lock_background()
+  if g:lock_background == v:false
+    let g:lock_background = v:true
+    echom "Background locked."
+  else
+    let g:lock_background = v:false
+    echom "Background unlocked."
+  endif
+endfunction
+
 function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
@@ -173,3 +183,5 @@ nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 if exists(':GuiTreeviewToggle')
   nn <silent> <F3> :GuiTreeviewToggle<CR>
 endif
+"" Lock/unlock background
+nn <silent> <F4> :call <SID>gui_lock_background()<CR>
