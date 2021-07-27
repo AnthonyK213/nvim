@@ -20,6 +20,23 @@ let g:netrw_browse_split = 4
 nn  <silent> <leader>op :20Lexplore<CR>
 
 
+" Meta key for vim
+"if !has("nvim")
+  "for s:i in range(65, 90) + range(97, 122)
+    "let s:char = nr2char(s:i)
+    "exe "set <M-" . s:char . ">=\e" . s:char
+  "endfor
+"endif
+
+
+" Navigate windows
+for s:direct in ['h', 'j', 'k', 'l', 'w']
+    exe 'nn'  '<M-' . s:direct . '>' '<C-W>' . s:direct
+    exe 'ino' '<M-' . s:direct . '>' '<ESC><C-W>' . s:direct
+    exe 'tno' '<M-' . s:direct . '>' '<C-\><C-N><C-W>' . s:direct
+endfor
+
+
 " Pairs
 "" Directional operation which won't mess up the history.
 let g:subrc_dir_l = "\<C-g>U\<Left>"
@@ -67,7 +84,7 @@ function! s:subrc_pairs_back()
     let l:key_esc = '\v' . escape(l:key, ' ()[]{}<>*') . '$'
     let l:val_esc = '\v^' . escape(l:val, ' ()[]{}<>*')
     if l:back =~ l:key_esc && l:fore =~ l:val_esc &&
-     \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
+          \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
       let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor
@@ -118,6 +135,12 @@ ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
 " Emacs shit
+nn  <M-x> :
+ino <M-x> <C-\><C-O>:
+ino <M-b> <C-\><C-O>b
+ino <M-f> <C-\><C-O>e<Right>
+nn  <M-b> b
+nn  <M-f> e
 ino <C-A> <C-\><C-O>g0
 ino <C-E> <C-\><C-O>g$
 ino <C-K> <C-\><C-O>D
