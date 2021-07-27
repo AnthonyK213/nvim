@@ -120,6 +120,7 @@ endif
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
 elseif exists('g:colors_name') && g:colors_name ==# 'nanovim'
+  let g:lock_background = v:false
   lua require('utility/vis').time_background()
 endif
 

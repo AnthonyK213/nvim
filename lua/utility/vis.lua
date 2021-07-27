@@ -23,7 +23,8 @@ end
 --- Set background according to time.
 function M.time_background()
     local timer = vim.loop.new_timer()
-    timer:start(0, 60000, vim.schedule_wrap(function()
+    timer:start(0, 600, vim.schedule_wrap(function()
+        if vim.g.lock_background then return end
         local hour = tonumber(os.date('%H'))
         local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
         if vim.o.bg ~= bg then vim.o.bg = bg end
