@@ -184,4 +184,6 @@ if exists(':GuiTreeviewToggle')
   nn <silent> <F3> :GuiTreeviewToggle<CR>
 endif
 "" Lock/unlock background
-nn <silent> <F4> :call <SID>gui_lock_background()<CR>
+if exists('g:lock_background')
+  nn <silent> <F4> :call <SID>gui_lock_background()<CR>
+endif
