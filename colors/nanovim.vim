@@ -27,7 +27,7 @@ elseif &background ==# 'dark'
   let s:nano_color_salient    = { "gui": "#81A1C1", "cterm": "110" }
   let s:nano_color_highlight  = { "gui": "#3B4252", "cterm": "238" }
   let s:nano_color_subtle     = { "gui": "#434C5E", "cterm": "240" }
-  let s:nano_color_faded      = { "gui": "#616E87", "cterm": "244" }
+  let s:nano_color_faded      = { "gui": "#677691", "cterm": "244" }
   let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  }
 endif
 " }}
