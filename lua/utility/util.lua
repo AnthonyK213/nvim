@@ -75,7 +75,7 @@ function M.search_web(mode, site)
     if mode == 'n' then
         local del_list = {
             ".", ",", "'", "\"",
-            ";", "*", "~", "`",
+            ":", ";", "*", "~", "`",
             "(", ")", "[", "]", "{", "}"
         }
         search_obj = lib.encode_url(lib.get_clean_cWORD(del_list))
