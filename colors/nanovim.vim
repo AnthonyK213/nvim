@@ -417,7 +417,7 @@ set showtabline=0
 augroup nanovim_redrawstatus
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
-  autocmd BufEnter,VimEnter * call nanovim#util#enter()
+  autocmd BufEnter,WinEnter,VimEnter * call nanovim#util#enter()
   autocmd BufLeave,WinLeave * call nanovim#util#leave()
 augroup end
 " }}
