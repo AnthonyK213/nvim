@@ -3,6 +3,11 @@ set showmode
 let mapleader = "\<SPACE>"
 
 
+if !has("nvim")
+  set noeb vb t_vb=
+endif
+
+
 " Comments leader
 augroup subsrc_comments
   autocmd!
