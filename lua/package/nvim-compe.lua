@@ -32,6 +32,9 @@ local keymap = vim.api.nvim_set_keymap
 keymap('i', '<CR>',
 [[compe#confirm("<Plug>(lua_pairs_enter)")]],
 { noremap = false, silent = true, expr = true })
+keymap('i', '<ESC>',
+[[compe#close("<C-[>")]],
+{ noremap = true, silent = true, expr = true })
 keymap('i', '<TAB>',
 [[pumvisible() ? ]]..
 [["<C-n>" : luaeval("require('utility/lib').get_context('b')") =~ '\v^\s*(\+|-|*|\d+\.)\s$' ? ]]..
