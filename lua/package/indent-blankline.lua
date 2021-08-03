@@ -1,5 +1,5 @@
-vim.g.indent_blankline_char_list = { '¦' }
-vim.g.indent_blankline_use_treesitter = true
-vim.g.indent_blankline_buftype_exclude = {
-    'terminal', 'NvimTree'
+require("indent_blankline").setup {
+    char = "¦",
+    use_treesitter = true,
+    buftype_exclude = {"terminal", 'NvimTree'}
 }
