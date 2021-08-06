@@ -30,7 +30,7 @@ require('compe').setup {
 
 local keymap = vim.api.nvim_set_keymap
 keymap('i', '<CR>',
-[[compe#confirm("<Plug>(lua_pairs_enter)")]],
+[[compe#confirm({ 'keys': '<Plug>(lua_pairs_enter)', 'select': v:true })]],
 { noremap = false, silent = true, expr = true })
 keymap('i', '<ESC>',
 [[compe#close("<C-[>")]],
