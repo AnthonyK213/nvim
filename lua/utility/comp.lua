@@ -4,7 +4,7 @@ local lib = require('utility/lib')
 local pub = require('utility/pub')
 
 
---- LaTeX recipes
+-- LaTeX recipes
 local latex_step
 local latex_name
 
@@ -61,116 +61,145 @@ local function latex_xelatex_bib(prog)
     end
 end
 
---- Run code
----- Support list:
-----   1. C
-----   2. C++
-----   3. C#
-----   4. Python
-----   5. Rust
-----   6. Vim script
-----   7. Lua (Neovim)
-----   8. LaTeX
+-- Supported list:
+--   1. C
+--   2. C++
+--   3. C#
+--   4. Processing
+--   5. Python
+--   6. Ruby
+--   7. Rust
+--   8. Vim script
+--   9. Lua (Neovim)
+--   10. LaTeX
+local comp_c = function (tbl)
+    local cmd = {
+        ['']  = pub.ccomp..' '..tbl.file..' -o '..tbl.name..tbl.oute..' && '..tbl.exec..tbl.name,
+        check = pub.ccomp..' '..tbl.file..' -g -o '..tbl.name..tbl.oute,
+        build = pub.ccomp..' '..tbl.file..' -O2 -o '..tbl.name..tbl.oute
+    }
+    if cmd[tbl.optn] then
+        return true, cmd[tbl.optn]
+    else
+        print('Invalid argument.')
+        return false, nil
+    end
+end
+
+local comp_cpp = function (tbl)
+    return true, 'g++ '..tbl.file..' -o '..tbl.name..tbl.oute..' && '..tbl.exec..tbl.name
+end
+
+local comp_csharp = function (tbl)
+    if vim.fn.has("win32") ~= 1 then return end
+    local cmd = {
+        ['']    = 'csc '..tbl.file..' && '..tbl.exec..tbl.name,
+        exe     = 'csc /target:exe '..tbl.file,
+        winexe  = 'csc /target:winexe '..tbl.file,
+        library = 'csc /target:library '..tbl.file,
+        module  = 'csc /target:module '..tbl.file,
+    }
+    if cmd[tbl.optn] then
+        return true, cmd[tbl.optn]
+    else
+        print('Invalid argument.')
+        return false, nil
+    end
+end
+
+local comp_lua = function (tbl)
+    return false, 'luafile '..tbl.path
+end
+
+local comp_processing = function (tbl)
+    if vim.fn.exists(":RunProcessing") == 2 then
+        return false, "RunProcessing"
+    end
+    return false, nil
+end
+
+local comp_python = function (tbl)
+    return true, 'python '..tbl.file
+end
+
+local comp_ruby = function (tbl)
+    return true, 'ruby '..tbl.file
+end
+
+local comp_rust = function (tbl)
+    local cmd = {
+        ['']  = 'cargo run',
+        build = 'cargo build --release',
+        check = 'cargo check',
+        clean = 'cargo clean',
+        rustc = 'rustc '..tbl.file..' && '..tbl.exec..tbl.name,
+    }
+    if cmd[tbl.optn] then
+        return true, cmd[tbl.optn]
+    else
+        print('Invalid argument.')
+        return false, nil
+    end
+end
+
+local comp_latex = function (tbl)
+    latex_step = 1
+    latex_name = vim.fn.expand('%:p:r')
+    if tbl.optn == '' then
+        latex_xelatex()
+    elseif prog_table[tbl.optn] then
+        latex_xelatex_bib(tbl.optn)
+    else
+        print('Invalid argument.')
+    end
+    return false, nil
+end
+
+local comp_vim = function (tbl)
+    return false, 'source '..tbl.path
+end
+
+local comp_table = {
+    c = comp_c,
+    cpp = comp_cpp,
+    cs = comp_csharp,
+    lua = comp_lua,
+    processing = comp_processing,
+    python = comp_python,
+    ruby = comp_ruby,
+    rust = comp_rust,
+    tex = comp_latex,
+    vim = comp_vim
+}
+
 function M.run_or_compile(option)
     local gcwd = vim.fn.getcwd()
-    local size = 30
-    local cmdh = 'term'
-    local path = vim.fn.expand('%:p')
-    local file = vim.fn.expand('%:t')
-    local name = vim.fn.expand('%:r')
-    local exts = string.lower(vim.fn.expand('%:e'))
-    local exec, oute
-
-    if vim.fn.has('win32') == 1 then
-        exec = ''
-        oute = '.exe'
-    else
-        exec = './'
-        oute = ''
-    end
+    local tbl = {
+        exec = vim.fn.has("win32") == 1 and '' or './',
+        exts = string.lower(vim.fn.expand('%:e')),
+        file = vim.fn.expand('%:t'),
+        name = vim.fn.expand('%:r'),
+        optn = option,
+        oute = vim.fn.has("win32") == 1 and '.exe' or '',
+        path = vim.fn.expand('%:p'),
+    }
 
     vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
 
-    local term_cmd
-    local term_use = true
-    if exts == 'py' then
-        term_cmd = cmdh..' python '..file
-    elseif exts == 'rb' then
-        term_cmd = cmdh..' ruby '..file
-    elseif exts == 'c' then
-        if option == '' then
-            term_cmd = cmdh..' '..pub.ccomp..' '..
-            file..' -o '..name..oute..' && '..exec..name
-        elseif option == 'check' then
-            term_cmd = cmdh..' '..pub.ccomp..' '..
-            file..' -g -o '..name..oute
-        elseif option == 'build' then
-            term_cmd = cmdh..' '..pub.ccomp..' '..
-            file..' -O2 -o '..name..oute
-        else
-            print('Invalid argument.')
-            goto skip_exec
-        end
-    elseif exts == 'cpp' then
-        term_cmd = cmdh..' g++ '..file..' -o '..name..oute..' && '..exec..name
-    elseif exts == 'cs' then
-        if vim.fn.has("win32") ~= 1 then return end
-        if option == '' then
-            term_cmd = cmdh..' csc '..file..' && '..exec..name
-        elseif vim.fn.match(option, '\\v^b(exe|winexe|library|module)') >= 0 then
-            local target = option:match('^b(.+)$')
-            term_cmd = cmdh..' csc /target:'..target..' '..file
-        else
-            print('Invalid argument.')
-            goto skip_exec
-        end
-    elseif exts == 'rs' then
-        if option == '' then
-            term_cmd = cmdh..' cargo run'
-        elseif option == 'rustc' then
-            term_cmd = cmdh..' rustc '..file..' && '..exec..name
-        elseif option == 'clean' then
-            term_cmd = 'silent !cargo clean'
-            term_use = false
-        elseif option == 'check' then
-            term_cmd = cmdh..' cargo check'
-        elseif option == 'build' then
-            term_cmd = cmdh..' cargo build --release'
-        else
-            print('Invalid argument.')
-            goto skip_exec
-        end
-    elseif exts == 'vim' then
-        term_cmd = 'source '..path
-        term_use = false
-    elseif exts == 'lua' then
-        term_cmd = 'luafile '..path
-        term_use = false
-    elseif exts == 'tex' then
-        latex_step = 1
-        latex_name = vim.fn.expand('%:p:r')
-        if option == '' then
-            latex_xelatex()
-            return
-        elseif prog_table[option] then
-            latex_xelatex_bib(option)
-            return
-        else
-            print('Invalid argument.')
-            goto skip_exec
-        end
-    elseif exts == 'pde' then
-        if vim.fn.has(":RunProcessing") == 1 then
-            vim.cmd("RunProcessing")
-        end
-        return
+    local term_use, term_cmd
+
+    if comp_table[vim.o.ft] then
+        term_use, term_cmd = comp_table[vim.o.ft](tbl)
     else
-        print('Unknown file type: .'..exts)
+        print("File type not supported yet.")
         goto skip_exec
     end
 
-    if term_use then
-        lib.belowright_split(size)
+    if not term_cmd then
+        goto skip_exec
+    elseif term_use then
+        term_cmd = 'term '..term_cmd
+        lib.belowright_split(30)
     end
 
     vim.cmd(term_cmd)
