@@ -12,7 +12,7 @@ require('package/local')
 
 -- Color scheme
 vim.o.bg = require('core/opt').tui.bg or 'dark'
-local nvim_init_src = vim.g.nvim_init_src or vim.fn.expand('$NVIM_INIT_SRC')
+local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 
 vim.o.tgc = true
 if nvim_init_src == 'nano' then

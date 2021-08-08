@@ -4,8 +4,8 @@ local rep_term = vim.api.nvim_replace_termcodes
 
 vim.g.mapleader = " "
 
-vim.g.path_home = core_opt.path.home or fn.expand('$HOME')
-vim.g.path_cloud = core_opt.path.cloud or fn.expand('$ONEDRIVE')
+vim.g.path_home = core_opt.path.home or vim.env.HOME
+vim.g.path_cloud = core_opt.path.cloud or vim.env.ONEDRIVE or vim.g.path_home
 vim.g.path_desktop = core_opt.path.desktop or fn.expand(vim.g.path_home..'/Desktop')
 
 if fn.has("win32") == 1 then
