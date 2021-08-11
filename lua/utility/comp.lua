@@ -111,7 +111,7 @@ local comp_lua = function (tbl)
     return false, 'luafile '..tbl.path
 end
 
-local comp_processing = function (tbl)
+local comp_processing = function (_)
     if vim.fn.exists(":RunProcessing") == 2 then
         return false, "RunProcessing"
     end
