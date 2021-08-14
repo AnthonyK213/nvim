@@ -118,6 +118,8 @@
 * Visual(Optional)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
+    > Due to lualine.nvim did not update for a long time,
+    > switched to shadmansaleh/lualine.nvim.
   - [nvim-bufferline.lua](https://github.com/akinsho/nvim-bufferline.lua)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 * File system
