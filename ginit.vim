@@ -1,8 +1,6 @@
 """""""" Configuration for neovim GUI using ginit.vim
 
 " Variables
-if !has("nvim") | set guioptions=egrLt | endif
-
 let s:nvimqt_option_table = {
       \ 'GuiTabline'         : 0,
       \ 'GuiPopupmenu'       : 1,
@@ -85,6 +83,16 @@ function! s:gui_relative_number_toggle()
   if &nu == 1 | set invrnu | else | set nu rnu | endif
 endfunction
 
+function! s:gui_lock_background()
+  if g:lock_background == v:false
+    let g:lock_background = v:true
+    echom "Background locked."
+  else
+    let g:lock_background = v:false
+    echom "Background unlocked."
+  endif
+endfunction
+
 function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
@@ -122,7 +130,8 @@ endif
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
 elseif exists('g:colors_name') && g:colors_name ==# 'nanovim'
-  call usr#util#time_background()
+  let g:lock_background = v:false
+  call usr#misc#time_background()
 endif
 
 
@@ -173,4 +182,8 @@ nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 "" Toggle tree view
 if exists(':GuiTreeviewToggle')
   nn <silent> <F3> :GuiTreeviewToggle<CR>
+endif
+"" Lock/unlock background
+if exists('g:lock_background')
+  nn <silent> <F4> :call <SID>gui_lock_background()<CR>
 endif
