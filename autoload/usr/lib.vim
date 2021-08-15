@@ -1,6 +1,6 @@
 "" Create a below right split window.
 function! usr#lib#belowright_split(height)
-  let l:height = min([a:height, winheight(0) / 2])
+  let l:height = min([a:height, float2nr(winheight(0) * 0.382)])
   belowright split
   exe 'resize' l:height
 endfunction

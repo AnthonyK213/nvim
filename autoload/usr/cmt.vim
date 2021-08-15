@@ -12,9 +12,11 @@ let s:cmt_mark_tab_single = {
       \ 'tex'       : "%",
       \ 'vim'       : '"',
       \ 'vimwiki'   : "%% ",
-      \ 'sshconfig' : '#'
+      \ 'markdown'  : "> ",
+      \ 'sshconfig' : '#',
+      \ 'gitconfig' : '#',
+      \ 'yaml'      : '#',
       \ }
-
 
 let s:cmt_mark_tab_multi = {
       \ 'c'    : ["/*", "*/"],
