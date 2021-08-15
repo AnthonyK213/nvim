@@ -53,11 +53,24 @@ endfunction
 
 " nvim-tree open file with os default application.
 function! usr#misc#nvim_tree_os_open()
-lua <<EOF
+lua << EOF
   local node = require('nvim-tree.lib').get_node_at_cursor()
   if node then
     require('utility/util').open_file_or_url(node.absolute_path)
   end
+EOF
+endfunction
+
+" Set background according to time.
+function! usr#misc#time_background()
+lua << EOF
+  local timer = vim.loop.new_timer()
+  timer:start(0, 600, vim.schedule_wrap(function()
+  if vim.g.lock_background then return end
+    local hour = tonumber(os.date('%H'))
+    local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
+    if vim.o.bg ~= bg then vim.o.bg = bg end
+    end))
 EOF
 endfunction
 
