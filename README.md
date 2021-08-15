@@ -34,21 +34,20 @@
     git clone https://github.com/AnthonyK213/nvim.git "$env:LOCALAPPDATA\nvim" -b viml
     ```
     ```sh
-    Copy-Item "$env:LOCALAPPDATA\nvim\lua\core\opt_example.lua" -Destination "$env:LOCALAPPDATA\nvim\lua\core\opt.lua"
+    Copy-Item "$env:LOCALAPPDATA\nvim\init_expamle" -Destination "$env:LOCALAPPDATA\nvim\init.vim"
     ```
   - GNU/Linux
     ```sh
     git clone https://github.com/AnthonyK213/nvim.git "${XDG_DATA_HOME:-$HOME/.config}"/nvim -b viml
     ```
     ```sh
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt_example.lua \
-       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt.lua
+    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init_expamle \
+       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init.vim
     ```
 * **Install plugins**
   ```vim
   :Pluginstall
   ```
-* **Set [init.vim](/init_expamle.vim)**
 * **.vimrc(optional)**
   - Windows
     ```sh
