@@ -5,7 +5,7 @@
 hi clear
 set laststatus=2
 set noshowmode
-if exists('syntax on') | syntax reset | endif
+if exists('g:syntax_on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
 " Colors {{
@@ -27,7 +27,7 @@ elseif &background ==# 'dark'
   let s:nano_color_salient    = { "gui": "#81A1C1", "cterm": "110" }
   let s:nano_color_highlight  = { "gui": "#3B4252", "cterm": "238" }
   let s:nano_color_subtle     = { "gui": "#434C5E", "cterm": "240" }
-  let s:nano_color_faded      = { "gui": "#616E87", "cterm": "244" }
+  let s:nano_color_faded      = { "gui": "#677691", "cterm": "244" }
   let s:nano_color_foreground = { "gui": "#ECEFF4", "cterm": "15"  }
 endif
 " }}
@@ -362,31 +362,66 @@ hi! link NvimTreeIndentMarker     Nano_Face_Faded
 hi! link NvimTreeGitDirty         Nano_Face_Popout
 hi! link NvimTreeGitStaged        Nano_Face_Salient
 hi! link NvimTreeGitNew           Nano_Face_Popout
+
+" Terminal
+if has("nvim")
+  "" Base
+  let g:terminal_color_0  = s:nano_color_foreground.gui
+  let g:terminal_color_8  = s:nano_color_background.gui
+  "" Red
+  let g:terminal_color_1  = s:nano_color_popout.gui
+  let g:terminal_color_9  = s:nano_color_critical.gui
+  "" Green
+  let g:terminal_color_2  = s:nano_color_foreground.gui
+  let g:terminal_color_10 = s:nano_color_faded.gui
+  "" Yellow
+  let g:terminal_color_3  = s:nano_color_strong.gui
+  let g:terminal_color_11 = s:nano_color_foreground.gui
+  "" Blue
+  let g:terminal_color_4  = s:nano_color_salient.gui
+  let g:terminal_color_12 = s:nano_color_foreground.gui
+  "" Magenta
+  let g:terminal_color_5  = s:nano_color_foreground.gui
+  let g:terminal_color_13 = s:nano_color_faded.gui
+  "" Cyan
+  let g:terminal_color_6  = s:nano_color_foreground.gui
+  let g:terminal_color_14 = s:nano_color_faded.gui
+  "" Gray
+  let g:terminal_color_7  = s:nano_color_faded.gui
+  let g:terminal_color_15 = s:nano_color_subtle.gui
+elseif exists('*term_setansicolors')
+  let g:terminal_ansi_colors = [
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_popout.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_strong.gui,
+        \ s:nano_color_salient.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_background.gui,
+        \ s:nano_color_critical.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_foreground.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_faded.gui,
+        \ s:nano_color_subtle.gui
+        \ ]
+endif
 " }}
 
 " StatusLine {{
-" | MODE || file_name (file_type, git_branch)                     line:column |
 set showtabline=0
-function! s:nanovim_enter_special_buffer()
-  if index(['NvimTree', 'help', 'netrw', 'nerdtree'], &ft) >= 0
-    let &l:stl = "%#Nano_Face_Default# " .
-          \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
-  endif
-endfunction
-
-let &stl = "%#Nano_Face_Default# " .
-      \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#get_mode()}" .
-      \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#get_mode():''}" .
-      \ "%#Nano_Face_Header_Subtle#▌" .
-      \ "%#Nano_Face_Header_Strong# %{nanovim#util#get_file_name()}" .
-      \ "%#Nano_Face_Header_Default#  %{nanovim#util#filetype_and_branch()}" .
-      \ "%= %l:%c %#Nano_Face_Default# "
 
 augroup nanovim_redrawstatus
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
-  autocmd BufEnter * call <SID>nanovim_enter_special_buffer()
+  autocmd BufEnter,WinEnter,VimEnter * call nanovim#util#enter()
+  autocmd BufLeave,WinLeave * call nanovim#util#leave()
 augroup end
 " }}
+
+syntax on
 
 " vim: set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:

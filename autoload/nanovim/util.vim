@@ -1,20 +1,20 @@
 let s:nanovim_mode={
-      \ 'c'     : ' C ',
-      \ 'i'     : ' I ',
-      \ 'ic'    : ' I ',
-      \ 'ix'    : ' I ',
-      \ 'n'     : ' N ',
-      \ 'multi' : ' M ',
-      \ 'niI'   : ' Ĩ ',
-      \ 'no'    : ' N ',
-      \ 'R'     : ' R ',
-      \ 'Rv'    : ' R ',
-      \ 's'     : ' s ',
-      \ 'S'     : ' S ',
-      \ 't'     : ' T ',
-      \ 'v'     : ' v ',
-      \ 'V'     : ' V ',
-      \ ''    : ' B ',
+      \ 'c'     : ' CO ',
+      \ 'i'     : ' IN ',
+      \ 'ic'    : ' IC ',
+      \ 'ix'    : ' IX ',
+      \ 'n'     : ' NM ',
+      \ 'multi' : ' MU ',
+      \ 'niI'   : ' ĨN ',
+      \ 'no'    : ' OP ',
+      \ 'R'     : ' RP ',
+      \ 'Rv'    : ' RP ',
+      \ 's'     : ' SC ',
+      \ 'S'     : ' SL ',
+      \ 't'     : ' TM ',
+      \ 'v'     : ' VC ',
+      \ 'V'     : ' VL ',
+      \ ''    : ' VB ',
       \ }
 
 
@@ -54,13 +54,13 @@ endfunction
 " Autoload functions
 " Get mode.
 " It is better to use just one character to show the mode.
-function! nanovim#util#get_mode()
+function! nanovim#util#mode()
   return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
 endfunction
 
 " Get file name.
 " Shorten then file name when the window is too narrow.
-function! nanovim#util#get_file_name()
+function! nanovim#util#fname()
   let l:file_path = expand('%:p')
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
@@ -101,7 +101,34 @@ function! nanovim#util#get_file_name()
 endfunction
 
 " (filetype, branch)
-function! nanovim#util#filetype_and_branch()
+function! nanovim#util#misc_info()
   let l:ls = filter([s:cap_str_init(&ft), s:get_git_branch()], '!empty(v:val)')
   if len(l:ls) | return '(' . join(l:ls, ', ') .')' | else | return '' | endif
+endfunction
+
+" When enter/leave the buffer/window, set the status line.
+" Long:
+" | MODE || file_name (file_type, git_branch)                     line:column |
+" Short:
+" | file_name                                                                 |
+function! nanovim#util#enter()
+  if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) >= 0
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
+  else
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#mode()}" .
+          \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#mode():''}" .
+          \ "%#Nano_Face_Header_Strong# %{nanovim#util#fname()}" .
+          \ "%#Nano_Face_Header_Default#  %{nanovim#util#misc_info()}" .
+          \ "%= %l:%c %#Nano_Face_Default# "
+  endif
+endfunction
+
+function! nanovim#util#leave()
+  if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) < 0
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Subtle# %{nanovim#util#fname()}" .
+          \ "%= %#Nano_Face_Default# "
+  endif
 endfunction
