@@ -2,7 +2,7 @@
 set termguicolors
 set background=dark
 let g:tokyonight_style = 'storm'
-let g:tokyonight_enable_italic = 1
+let g:tokyonight_enable_italic = 0
 let g:airline_theme = 'tokyonight'
 colorscheme tokyonight
 
