@@ -22,6 +22,17 @@ if lsp_option.jedi_language_server then
         capabilities = capabilities
     }
 end
+--- powershell_es
+if lsp_option.powershell_es and lsp_option.powershell_es.enable then
+    if vim.fn.has("win32") ~= 1 then return end
+    pses_bundle_path = vim.fn.expand(
+    lsp_option.powershell_es.path or
+    "D:/Env/LSP/PowerShellEditorServices")
+    lspconfig.powershell_es.setup {
+        bundle_path = pses_bundle_path,
+        capabilities = capabilities
+    }
+end
 --- pyright
 if lsp_option.pyright then
     lspconfig.pyright.setup {

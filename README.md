@@ -65,6 +65,7 @@
     - **lsp** -> Language Server Protocol
       - `clangd`
       - `jedi_language_server`
+      - `powershell_es`
       - `pyright`
       - `omnisharp`
       - `rls`

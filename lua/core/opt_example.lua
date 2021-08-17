@@ -22,6 +22,10 @@ return {
     lsp = {
         clangd = false,
         jedi_language_server = false,
+        powershell_es = {
+            enable = true,
+            path = nil
+        },
         pyright = false,
         omnisharp = false,
         rls = false,

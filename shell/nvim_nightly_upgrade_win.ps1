@@ -25,7 +25,7 @@ if (Test-Path $nvim_dir) {
 }
 
 
-if ($proxy -eq $null) {
+if ($null -eq $proxy) {
     Write-Host "Using system proxy or no proxy."
     Invoke-WebRequest -Uri $source -OutFile $archive
 } elseif ($proxy -eq "default") {
