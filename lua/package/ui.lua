@@ -96,5 +96,5 @@ vim.cmd('command! ColorizerReset lua package.loaded["colorizer"] = nil require("
 
 
 -- Setting colorscheme.
-augroup('ui_refresh', 'ColorScheme * lua require("utility/vis").hi_extd()')
+augroup('highlight_extend', 'ColorScheme * lua require("utility/vis").hi_extd()')
 vim.cmd[[colorscheme tokyonight]]
