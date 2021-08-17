@@ -1,3 +1,9 @@
+if has('win32')
+  let s:snippet_dir = expand('$localappdata/nvim/snippet')
+elseif has('unix')
+  let s:snippet_dir = expand('$HOME/.config/nvim/snippet')
+endif
+
 if g:plug_def_comp ==# 'asyncomplete'
 
   let g:asyncomplete_auto_pop = 1
@@ -27,7 +33,18 @@ if g:plug_def_comp ==# 'asyncomplete'
         \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
   im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"
 
+  " vim-vsnip
+  let g:vsnip_snippet_dir = s:snippet_dir
+
+  smap <silent><expr> <TAB>   vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
+  smap <silent><expr> <S-TAB> vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
+
 elseif g:plug_def_comp ==# 'coc'
+  call coc#config('snippets', {
+        \ 'textmateSnippetsRoots': [
+        \   s:snippet_dir
+        \ ]
+        \ })
 
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -35,13 +52,15 @@ elseif g:plug_def_comp ==# 'coc'
   im <silent><expr> <TAB>
         \ pumvisible() ?
         \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-        \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ?
-        \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('l') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+        \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : coc#expandableOrJumpable() ?
+        \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ usr#lib#get_char('l') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ coc#refresh() : "\<TAB>"
   im  <silent><expr> <S-TAB>
         \ pumvisible() ?
-        \ "\<C-P>" : vsnip#jumpable(1) ?
-        \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
+        \ "\<C-P>" : coc#expandableOrJumpable() ?
+        \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ "\<S-TAB>"
 
   " Make <CR> auto-select the first completion item and notify coc.nvim to
   " format on enter, <cr> could be remapped by other vim plugin

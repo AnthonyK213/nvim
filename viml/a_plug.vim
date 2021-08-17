@@ -25,11 +25,11 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
   " Snippet; Completion
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'hrsh7th/vim-vsnip-integ'
 if g:plug_def_comp ==# 'asyncomplete'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
 elseif g:plug_def_comp ==# 'coc'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif

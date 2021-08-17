@@ -14,10 +14,11 @@
 "let g:default_complete = 'asyncomplete'
 
 let g:coc_global_extensions = [
-      \ 'coc-python',
+      \ 'coc-jedi',
       \ 'coc-rls',
       \ 'coc-vimlsp',
       \ 'coc-vimtex',
+      \ 'coc-snippets',
       \ ]
 
 

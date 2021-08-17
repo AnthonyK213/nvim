@@ -154,14 +154,3 @@ let g:pairs_usr_extd_map = {
       \ "<M-M>" : "***",
       \ "<M-U>" : "<u>"
       \ }
-
-
-" vim-vsnip & asyncomplete.vim
-if has('win32')
-  let g:vsnip_snippet_dir = expand('$localappdata/nvim/snippet')
-elseif has('unix')
-  let g:vsnip_snippet_dir = expand('$HOME/.config/nvim/snippet')
-endif
-
-smap <silent><expr> <TAB>   vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
-smap <silent><expr> <S-TAB> vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
