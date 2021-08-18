@@ -16,7 +16,6 @@ end
 
 local function on_read(err, data)
     if err then
-        outputs = {}
         on_collect(err)
     elseif data then
         on_collect(data)
@@ -26,7 +25,7 @@ end
 local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
-    Handle_push = uv.spawn('it', {
+    Handle_push = uv.spawn('fffkjit', {
         args = {'push', 'origin', b_arg, '--porcelain'},
         stdio = {stdout, stderr}
     },
