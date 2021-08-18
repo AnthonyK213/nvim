@@ -34,19 +34,19 @@
     git clone https://github.com/AnthonyK213/nvim.git "$env:LOCALAPPDATA\nvim" -b viml
     ```
     ```sh
-    Copy-Item "$env:LOCALAPPDATA\nvim\init_expamle" -Destination "$env:LOCALAPPDATA\nvim\init.vim"
+    Copy-Item "$env:LOCALAPPDATA\nvim\init_expamle.vim" -Destination "$env:LOCALAPPDATA\nvim\init.vim"
     ```
   - GNU/Linux
     ```sh
     git clone https://github.com/AnthonyK213/nvim.git "${XDG_DATA_HOME:-$HOME/.config}"/nvim -b viml
     ```
     ```sh
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init_expamle \
+    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init_example.vim \
        "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init.vim
     ```
 * **Install plugins**
   ```vim
-  :Pluginstall
+  :PlugInstall
   ```
 * **.vimrc(optional)**
   - Windows
