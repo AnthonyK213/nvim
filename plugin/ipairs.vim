@@ -135,12 +135,14 @@ function! s:ipairs_supbs()
   for [l:key, l:val] in items(b:pairs_buffer)
     let l:key_esc = '\v' . escape(l:key, g:pairs_esc_reg) . '$'
     let l:val_esc = '\v^' . escape(l:val, g:pairs_esc_reg)
-    if l:back =~ l:key_esc && l:fore =~ l:val_esc && len(l:key) + len(l:val) > l:res[1] + l:res[2]
+    if l:back =~ l:key_esc && l:fore =~ l:val_esc &&
+          \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
       let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor
   if l:res[0]
-    return repeat("\<C-G>U\<Left>", l:res[1]) . repeat("\<Del>", l:res[1] + l:res[2])
+    return repeat("\<C-G>U\<Left>", l:res[1]) .
+          \ repeat("\<Del>", l:res[1] + l:res[2])
   elseif l:back =~ '\v\{\s*$' && l:fore =~ '\v^\s*\}'
     return "\<C-\>\<C-O>diB"
   else
