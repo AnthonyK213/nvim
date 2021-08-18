@@ -50,8 +50,8 @@ endfunction
 "" b:pairs_map_list   -> list, [single_char_key]
 function! s:ipairs_clr_map()
   if exists('b:pairs_map_list')
-    for key in b:pairs_map_list
-      exe 'ino <buffer>' key key
+    for l:key in b:pairs_map_list
+      exe 'ino <buffer>' l:key l:key
     endfor
     unlet b:pairs_map_list
   end
@@ -87,15 +87,15 @@ function! s:ipairs_def_var()
     call extend(b:pairs_buffer, {'<':'>'})
   endif
 
-  for [key, val] in items(b:pairs_buffer) 
-    if key ==# val
-      if len(val) == 1
-        call extend(b:pairs_buffer_map, {key : "quote"})
+  for [l:key, l:val] in items(b:pairs_buffer) 
+    if l:key ==# l:val
+      if len(l:val) == 1
+        call extend(b:pairs_buffer_map, {l:key : "quote"})
       else
-        call extend(b:pairs_buffer_map, {key : "mates"})
+        call extend(b:pairs_buffer_map, {l:key : "mates"})
       endif
     else
-      call extend(b:pairs_buffer_map, {key : "mates", val : "close"})
+      call extend(b:pairs_buffer_map, {l:key : "mates", l:val : "close"})
     endif
   endfor
 endfunction
@@ -111,7 +111,7 @@ function! s:ipairs_enter()
   if s:ipairs_is_surrounded(b:pairs_buffer)
     return "\<CR>\<C-O>O"
   elseif s:ipairs_context.get('b') =~ '\v\{\s*$' &&
-       \ s:ipairs_context.get('f') =~ '\v^\s*\}'
+        \ s:ipairs_context.get('f') =~ '\v^\s*\}'
     return "\<C-O>\<C-O>diB\<CR>\<C-\>\<C-O>O"
   else
     return "\<CR>"
@@ -132,17 +132,16 @@ function! s:ipairs_supbs()
   let l:back = s:ipairs_context.get('b')
   let l:fore = s:ipairs_context.get('f')
   let l:res = [0, 0, 0]
-  for [key, val] in items(b:pairs_buffer)
-    let l:key_esc = '\v' . escape(key, g:pairs_esc_reg) . '$'
-    let l:val_esc = '\v^' . escape(val, g:pairs_esc_reg)
-    if l:back =~ l:key_esc && l:fore =~ l:val_esc && 
-     \ len(key) + len(val) > l:res[1] + l:res[2]
-      let l:res = [1, len(key), len(val)]
+  for [l:key, l:val] in items(b:pairs_buffer)
+    let l:key_esc = '\v' . escape(l:key, g:pairs_esc_reg) . '$'
+    let l:val_esc = '\v^' . escape(l:val, g:pairs_esc_reg)
+    if l:back =~ l:key_esc && l:fore =~ l:val_esc && len(l:key) + len(l:val) > l:res[1] + l:res[2]
+      let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor
   if l:res[0]
     return repeat("\<C-G>U\<Left>", l:res[1]) . repeat("\<Del>", l:res[1] + l:res[2])
-  elseif and(l:back =~ '\v\{\s*$', l:fore =~ '\v^\s*\}')
+  elseif l:back =~ '\v\{\s*$' && l:fore =~ '\v^\s*\}'
     return "\<C-\>\<C-O>diB"
   else
     return "\<C-\>\<C-O>db"
@@ -213,13 +212,13 @@ function! s:ipairs_def_all()
     call s:ipairs_def_map("<SPACE>", "<SPACE>")
   endif
 
-  for key in b:pairs_map_list
-    call s:ipairs_def_map(key, key)
+  for l:key in b:pairs_map_list
+    call s:ipairs_def_map(l:key, l:key)
   endfor
 
   if exists('g:pairs_usr_extd_map')
-    for [key, val] in items(g:pairs_usr_extd_map)
-      call s:ipairs_def_map(key, val)
+    for [l:key, l:val] in items(g:pairs_usr_extd_map)
+      call s:ipairs_def_map(l:key, l:val)
     endfor
   endif
 endfunction
