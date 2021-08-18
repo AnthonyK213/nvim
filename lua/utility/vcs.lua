@@ -5,21 +5,20 @@ local uv = vim.loop
 
 local outputs = {}
 
+local function on_collect(stream)
+    local vals = vim.split(stream, "\n")
+    for _, val in ipairs(vals) do
+        if val ~= "" then
+            table.insert(outputs, val)
+        end
+    end
+end
+
 local function on_read(err, data)
     if err then
+        on_collect(err)
     elseif data then
-        --[[
-        local vals = vim.split(data, "\n")
-        for _, val in ipairs(vals) do
-            if val ~= "" then
-                table.insert(outputs, val)
-            end
-        end
-        ]]
-        if data ~= "" then
-            table.insert(outputs, data)
-        end
-        --print(data)
+        on_collect(data)
     end
 end
 
