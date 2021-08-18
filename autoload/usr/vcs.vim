@@ -20,7 +20,7 @@ endfunction
 function! s:git_push_async(b_arg)
   let l:id = jobstart(
         \ ['git', 'push', 'origin', a:b_arg, '--porcelain'],
-        \ {'on_stdout': function('s:on_read')}
+        \ {'on_stdout': function('s:on_read'), 'stdout_buffered': v:true}
         \ )
   call chansend(l:id, "hello!")
 endfunction
