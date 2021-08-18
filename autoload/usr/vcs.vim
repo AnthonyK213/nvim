@@ -1,5 +1,5 @@
 function! s:on_read(id, data, event) dict
-  let l:str = join(a:data, "\n")
+  let l:str = join(a:data, " ")
   echom str
 endfunction
 
