@@ -83,6 +83,12 @@ ino <silent> <M-v> <C-R>=@+<CR>
 nn  <silent> <M-a> ggVG
 ino <silent> <M-a> <Esc>ggVG
 "" Command mode
+cm <C-A>  <C-B>
+cm <C-B>  <LEFT>
+cm <C-F>  <RIGHT>
+cm <C-H>  <C-F>
+cm <M-b>  <C-LEFT>
+cm <M-f>  <C-RIGHT>
 cm <M-BS> <C-W>
 
 
