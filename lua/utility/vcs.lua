@@ -26,7 +26,7 @@ end
 local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
-    Handle_push = uv.spawn('git', {
+    Handle_push = uv.spawn('it', {
         args = {'push', 'origin', b_arg, '--porcelain'},
         stdio = {stdout, stderr}
     },
