@@ -5,15 +5,18 @@ local uv = vim.loop
 
 local outputs = {}
 
-local function onread(err, data)
+local function on_read(err, data)
     if err then
     elseif data then
+        --[[
         local vals = vim.split(data, "\n")
         for _, val in ipairs(vals) do
             if val ~= "" then
                 table.insert(outputs, val)
             end
         end
+        ]]
+        outputs = data
     end
 end
 
@@ -33,8 +36,8 @@ local function git_push_async(b_arg)
         Handle_push:close()
     end))
     outputs = {}
-    stdout:read_start(vim.schedule_wrap(onread))
-    stderr:read_start(vim.schedule_wrap(onread))
+    stdout:read_start(vim.schedule_wrap(on_read))
+    stderr:read_start(vim.schedule_wrap(on_read))
 end
 
 local function git_commit_async(m_arg, b_arg)
