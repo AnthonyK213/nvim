@@ -1,10 +1,15 @@
 " Async test.
+function! s:on_read(id, data, event) dict
+  let l:str = join(a:data, "\n")
+  echom str
+endfunction
+
 function! s:on_push()
-  echo 'Done!'
+  echom 'Done!'
 endfunction
 
 function! s:on_commit(m_arg, b_arg)
-  echo 'Commit message:' a:m_arg
+  echom 'Commit message:' a:m_arg
   call s:git_push_async(a:b_arg)
 endfunction
 
@@ -13,13 +18,11 @@ function! s:on_add(m_arg, b_arg)
 endfunction
 
 function! s:git_push_async(b_arg)
-  call jobstart([
-    \ 'git',
-    \ 'push',
-    \ 'origin',
-    \ a:b_arg,
-    \ '--porcelain'
-    \ ], { 'on_exit':{-> s:on_push()} })
+  let l:id = jobstart(
+        \ ['git', 'push', 'origin', a:b_arg, '--porcelain'],
+        \ {'on_exit': {-> s:on_push()}, 'on_stdout': function('s:on_read')}
+        \ )
+  call chansend(l:id, "hello!")
 endfunction
 
 function! s:git_commit_async(m_arg, b_arg)
@@ -51,8 +54,6 @@ function! usr#vcs#git_push_all(...)
   endif
 
   if l:git_branch[0] == 1
-    echo "Root directory:" l:git_root[1]
-    echo "Current branch:" l:git_branch[1]
     exe 'cd' l:git_root[1]
   else
     echom "Not a valid git repository."
@@ -66,15 +67,11 @@ function! usr#vcs#git_push_all(...)
     if (l:m_index >= 0) && (l:m_index % 2 == 0)
       let l:m_arg = l:arg_list[l:m_index + 1]
     elseif l:m_index < 0
-      let l:time = strftime('%y%m%d')
-      let l:m_arg = l:time
+      let l:m_arg = strftime('%y%m%d')
     else
       echom "Invalid commit argument."
       return
     endif
-    "silent exe '!git add *'
-    "silent exe '!git commit -m' l:m_arg
-    "echom "Commit message:" l:m_arg
 
     if (l:b_index >= 0) && (l:b_index % 2 == 0)
       let l:b_arg = l:arg_list[l:b_index + 1]
@@ -83,7 +80,6 @@ function! usr#vcs#git_push_all(...)
     else
       echom "Invalid branch argument."
     endif
-    "exe '!git push origin' l:b_arg
     call s:git_push_all_async(l:m_arg, l:b_arg)
   else
     echom "Wrong number of arguments is given."
