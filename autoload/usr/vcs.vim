@@ -4,10 +4,6 @@ function! s:on_read(id, data, event) dict
   echom str
 endfunction
 
-function! s:on_push()
-  echom 'Done!'
-endfunction
-
 function! s:on_commit(m_arg, b_arg)
   echom 'Commit message:' a:m_arg
   call s:git_push_async(a:b_arg)
@@ -18,11 +14,11 @@ function! s:on_add(m_arg, b_arg)
 endfunction
 
 function! s:git_push_async(b_arg)
-  let l:id = jobstart(
+  call jobstart(
         \ ['git', 'push', 'origin', a:b_arg, '--porcelain'],
         \ {'on_stdout': function('s:on_read'), 'stdout_buffered': v:true}
         \ )
-  call chansend(l:id, "hello!")
+  "call chansend(l:id, "hello!")
 endfunction
 
 function! s:git_commit_async(m_arg, b_arg)
