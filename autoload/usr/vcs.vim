@@ -1,3 +1,44 @@
+" Async test.
+function! s:on_push()
+  echo 'Done!'
+endfunction
+
+function! s:on_commit(m_arg, b_arg)
+  echo 'Commit message:' a:m_arg
+  call s:git_push_async(a:b_arg)
+endfunction
+
+function! s:on_add(m_arg, b_arg)
+  call s:git_commit_async(a:m_arg, a:b_arg)
+endfunction
+
+function! s:git_push_async(b_arg)
+  call jobstart([
+    \ 'git',
+    \ 'push',
+    \ 'origin',
+    \ a:b_arg,
+    \ '--porcelain'
+    \ ], { 'on_exit':{-> s:on_push()} })
+endfunction
+
+function! s:git_commit_async(m_arg, b_arg)
+  call jobstart([
+    \ 'git',
+    \ 'commit',
+    \ '-m',
+    \ a:m_arg
+    \ ], { 'on_exit':{x, y -> s:on_commit(a:m_arg, a:b_arg)} })
+endfunction
+
+function! s:git_push_all_async(m_arg, b_arg)
+  call jobstart([
+    \ 'git',
+    \ 'add',
+    \ '*'
+    \ ], { 'on_exit':{x, y -> s:on_add(a:m_arg, a:b_arg)} })
+endfunction
+
 function! usr#vcs#git_push_all(...)
   let l:arg_list = a:000
   let l:git_root = usr#lib#get_git_root()
@@ -31,9 +72,9 @@ function! usr#vcs#git_push_all(...)
       echom "Invalid commit argument."
       return
     endif
-    silent exe '!git add *'
-    silent exe '!git commit -m' l:m_arg
-    echom "Commit message:" l:m_arg
+    "silent exe '!git add *'
+    "silent exe '!git commit -m' l:m_arg
+    "echom "Commit message:" l:m_arg
 
     if (l:b_index >= 0) && (l:b_index % 2 == 0)
       let l:b_arg = l:arg_list[l:b_index + 1]
@@ -42,7 +83,8 @@ function! usr#vcs#git_push_all(...)
     else
       echom "Invalid branch argument."
     endif
-    exe '!git push origin' l:b_arg
+    "exe '!git push origin' l:b_arg
+    call s:git_push_all_async(l:m_arg, l:b_arg)
   else
     echom "Wrong number of arguments is given."
   endif

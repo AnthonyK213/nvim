@@ -17,6 +17,21 @@ function! s:latex_biber()
   call s:latex_xelatex()
 endfunction
 
+"let s:latex_step = 0
+"let s:latex_name = ""
+
+"function! s:latex_xelatex(cb, cb_cb, cb_cb_cb)
+  "call jobstart([
+    "\ 'xelatex',
+    "\ '-synctex=1',
+    "\ '-interaction=nonstopmode',
+    "\ '-file-line-error',
+    "\ s:latex_name . '.tex'
+    "\ ],
+    "\ { 'on_exit':{a, b -> cb}(cb_cb, cb_cb_cb) }
+    "\ )
+"endfunction
+
 " Supported list:
 "   1. C
 "   2. C++
