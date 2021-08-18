@@ -16,6 +16,7 @@ end
 
 local function on_read(err, data)
     if err then
+        outputs = {}
         on_collect(err)
     elseif data then
         on_collect(data)
