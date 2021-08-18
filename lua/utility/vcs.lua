@@ -16,7 +16,9 @@ local function on_read(err, data)
             end
         end
         ]]
-        table.insert(outputs, data)
+        if data ~= "" then
+            table.insert(outputs, data)
+        end
         --print(data)
     end
 end
