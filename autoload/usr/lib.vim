@@ -91,5 +91,5 @@ function! usr#lib#str_escape(str, esc_dict)
 endfunction
 
 function! usr#lib#vim_reg_esc(str)
-  return escape(a:str, ' ()[]{}<>.+*^$')
+  return escape(a:str, '()[]{}<>.+*^$')
 endfunction
