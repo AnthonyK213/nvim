@@ -8,7 +8,6 @@ colorscheme tokyonight
 
 
 " FZF
-"let $FZF_DEFAULT_OPTS = "--layout=reverse"
 nn <silent> <leader>fb :Buffers<CR>
 nn <silent> <leader>ff :Files<CR>
 nn <silent> <leader>fg :Rg<CR>

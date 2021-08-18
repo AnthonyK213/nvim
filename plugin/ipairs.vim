@@ -25,7 +25,7 @@ if !exists('g:pairs_map_spc')
 endif
 
 let g:pairs_is_word = 'a-z_\u4e00-\u9fa5'
-let g:pairs_esc_reg = ' ()[]{}<>.*+\'
+let g:pairs_esc_reg = '()[]{}<>.*+\^$'
 
 
 " Functions
