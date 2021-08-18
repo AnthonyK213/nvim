@@ -28,7 +28,7 @@ endfunction
     "\ '-file-line-error',
     "\ s:latex_name . '.tex'
     "\ ],
-    "\ { 'on_exit':{a, b -> cb}(cb_cb, cb_cb_cb) }
+    "\ { 'on_exit':{a, b -> cb(a:cb_cb, a:cb_cb_cb)} }
     "\ )
 "endfunction
 
