@@ -1,4 +1,3 @@
-" Async test.
 function! s:on_read(id, data, event) dict
   let l:str = join(a:data, "\n")
   echom str
@@ -18,7 +17,6 @@ function! s:git_push_async(b_arg)
         \ ['git', 'push', 'origin', a:b_arg, '--porcelain'],
         \ {'on_stdout': function('s:on_read'), 'stdout_buffered': v:true}
         \ )
-  "call chansend(l:id, "hello!")
 endfunction
 
 function! s:git_commit_async(m_arg, b_arg)
