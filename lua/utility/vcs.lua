@@ -16,7 +16,8 @@ local function on_read(err, data)
             end
         end
         ]]
-        outputs = data
+        --outputs = data
+        print(table.concat(data, "\n"))
     end
 end
 
@@ -32,10 +33,10 @@ local function git_push_async(b_arg)
         stderr:read_stop()
         stdout:close()
         stderr:close()
-        print(table.concat(outputs, '  '))
+        --print(table.concat(outputs, '  '))
         Handle_push:close()
     end))
-    outputs = {}
+    --outputs = {}
     stdout:read_start(vim.schedule_wrap(on_read))
     stderr:read_start(vim.schedule_wrap(on_read))
 end
