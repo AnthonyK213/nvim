@@ -17,7 +17,7 @@ local function on_read(err, data)
         end
         ]]
         --outputs = data
-        print(table.concat(data, "\n"))
+        print(data)
     end
 end
 
