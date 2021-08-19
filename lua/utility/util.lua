@@ -44,6 +44,7 @@ function M.open_file_or_url(arg)
         args = {arg}
     },
     vim.schedule_wrap(function ()
+        print(pub.start, arg)
         Handle:close()
     end))
 end
