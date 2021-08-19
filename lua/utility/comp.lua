@@ -208,7 +208,7 @@ function M.run_or_compile(option)
     vim.api.nvim_set_current_dir(gcwd)
 end
 
-function M.msbuild_vs_solution()
+function M.build_or_make()
     local sln_root = lib.get_root("*.sln")
 
     if sln_root then
