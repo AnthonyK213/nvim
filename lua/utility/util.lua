@@ -39,14 +39,12 @@ function M.open_file_or_url(arg)
         arg:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
         return
     end
-    local cmd = pub.start
-    --[[
+    local cmd
     if vim.fn.has('win32') == 1 then
         cmd = pub.start..' ""'
     else
         cmd = pub.start
     end
-    ]]
     Handle = vim.loop.spawn(cmd, {
         args = {arg}
     },
