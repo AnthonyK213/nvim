@@ -65,7 +65,7 @@ end
 
 function M.git_push_all(...)
     local arg_list = {...}
-    local git_root = lib.get_git_root()
+    local git_root = lib.get_root(".git")
     local git_branch
 
     if git_root then

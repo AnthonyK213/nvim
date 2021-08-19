@@ -28,7 +28,7 @@ function M.edit_file(file_path, chdir)
         vim.cmd('tabnew '..path)
     end
     if chdir then
-        vim.cmd('cd %:p:h')
+        vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
     end
 end
 
@@ -39,14 +39,20 @@ function M.open_file_or_url(arg)
         arg:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
         return
     end
-    local arg_esc = vim.fn.shellescape(arg, 1)
-    local cmd
+    local cmd = pub.start
+    --[[
     if vim.fn.has('win32') == 1 then
         cmd = pub.start..' ""'
     else
         cmd = pub.start
     end
-    vim.fn.execute('!'..cmd..' '..arg_esc)
+    ]]
+    Handle = vim.loop.spawn(cmd, {
+        args = {arg}
+    },
+    vim.schedule_wrap(function ()
+        Handle:close()
+    end))
 end
 
 -- Match URL in string.

@@ -107,8 +107,8 @@ local comp_csharp = function (tbl)
     end
 end
 
-local comp_lua = function (tbl)
-    return false, 'luafile '..tbl.path
+local comp_lua = function (_)
+    return false, 'luafile %'
 end
 
 local comp_processing = function (_)
@@ -155,8 +155,8 @@ local comp_latex = function (tbl)
     return false, nil
 end
 
-local comp_vim = function (tbl)
-    return false, 'source '..tbl.path
+local comp_vim = function (_)
+    return false, 'source %'
 end
 
 local comp_table = {
@@ -177,11 +177,11 @@ function M.run_or_compile(option)
     local tbl = {
         exec = vim.fn.has("win32") == 1 and '' or './',
         exts = string.lower(vim.fn.expand('%:e')),
-        file = vim.fn.expand('%:t'),
-        name = vim.fn.expand('%:r'),
+        file = vim.fn.shellescape(vim.fn.expand('%:t'), 1),
+        name = vim.fn.shellescape(vim.fn.expand('%:r'), 1),
         optn = option,
         oute = vim.fn.has("win32") == 1 and '.exe' or '',
-        path = vim.fn.expand('%:p'),
+        path = vim.fn.shellescape(vim.fn.expand('%:p'), 1),
     }
 
     vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
@@ -206,6 +206,16 @@ function M.run_or_compile(option)
 
     ::skip_exec::
     vim.api.nvim_set_current_dir(gcwd)
+end
+
+function M.msbuild_vs_solution()
+    local sln_root = lib.get_root("*.sln")
+
+    if sln_root then
+        local cmd = 'term MSBuild.exe '..vim.fn.shellescape(sln_root, 1)
+        lib.belowright_split(30)
+        vim.cmd(cmd)
+    end
 end
 
 

@@ -21,11 +21,11 @@ function M.get_clean_cWORD(del_list)
     return table.concat(c_word)
 end
 
--- Find the root directory of .git.
-function M.get_git_root()
+-- Find the root directory contains pattern `pat`.
+function M.get_root(pat)
     local current_dir = vim.fn.expand('%:p:h')
     while true do
-        if vim.fn.globpath(current_dir, ".git", 1) ~= '' then
+        if vim.fn.globpath(current_dir, pat, 1) ~= '' then
             return current_dir
         end
         local temp_dir = current_dir
