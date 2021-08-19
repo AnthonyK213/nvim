@@ -40,7 +40,7 @@ function M.open_file_or_url(arg)
         return
     end
     Handle = vim.loop.spawn(pub.start, {
-        args = vim.fn.has('win32') == 1 and {'/k', 'start', arg} or {arg}
+        args = vim.fn.has('win32') == 1 and {'/c', 'start', '""', arg} or {arg}
     },
     vim.schedule_wrap(function ()
         Handle:close()
