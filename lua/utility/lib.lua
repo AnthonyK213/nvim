@@ -125,7 +125,7 @@ function M.reverse(tab)
     return tmp
 end
 
--- Mapping a function to table.
+-- Mapping a function to a table.
 function M.map(tab, func)
     local res = {}
     for key, val in pairs(tab) do res[key] = func(val) end

@@ -33,16 +33,31 @@ function M.edit_file(file_path, chdir)
 end
 
 -- Open file or url with system default browser.
-function M.open_file_or_url(arg)
-    if (not arg) or
-        (vim.fn.glob(arg) == '' and not
-        arg:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
+function M.open_file_or_url(obj)
+    if (not obj) or
+        (vim.fn.glob(obj) == '' and not
+        obj:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
         return
     end
-    Handle = vim.loop.spawn(pub.start, {
-        args = vim.fn.has('win32') == 1 and {'/c', 'start', '""', arg} or {arg}
-    },
-    vim.schedule_wrap(function ()
+    local cmd
+    local args = {}
+    if type(pub.start) == "table" then
+        cmd = pub.start[1]
+        if #(pub.start) >= 2 then
+            for i = 2, #(pub.start), 1 do
+                table.insert(args, pub.start[i])
+            end
+        end
+    elseif type(pub.start) == "string" then
+        cmd = pub.start
+    else
+        print('Invalid definition of `start`.')
+        return
+    end
+    table.insert(args, obj)
+    Handle = vim.loop.spawn(cmd, {
+        args = args
+    }, vim.schedule_wrap(function ()
         Handle:close()
     end))
 end
