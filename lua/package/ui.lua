@@ -49,7 +49,7 @@ require('lualine').setup {
 
 
 -- nvim-bufferline.lua
-vim.cmd('packadd nvim-bufferline.lua')
+vim.cmd('packadd bufferline.nvim')
 require('bufferline').setup {
     options = {
         numbers = "none",

@@ -6,7 +6,7 @@ require('packer').startup(function(use)
         {'folke/tokyonight.nvim',       opt = true};
         --{'hoob3rt/lualine.nvim',        opt = true};
         {'shadmansaleh/lualine.nvim',   opt = true};
-        {'akinsho/nvim-bufferline.lua', opt = true};
+        {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
     }
     -- File system
