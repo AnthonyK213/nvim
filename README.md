@@ -121,7 +121,7 @@
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
     > Due to lualine.nvim did not update for a long time,
     > switched to shadmansaleh/lualine.nvim.
-  - [nvim-bufferline.lua](https://github.com/akinsho/nvim-bufferline.lua)
+  - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
