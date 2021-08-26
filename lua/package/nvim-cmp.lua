@@ -29,18 +29,20 @@ cmp.setup {
     },
 
     mapping = {
-        ['<CR>'] = function ()
+        ['<CR>'] = function (fallback)
             if vim.fn.pumvisible() == 1 then
                 cmp.mapping.confirm({
                     behavior = cmp.ConfirmBehavior.Replace,
                     select = true,
                 })()
-            else
+            elseif vim.bo.bt ~= 'prompt' then
                 feedkeys('<Plug>(lua_pairs_enter)', '')
+            else
+                fallback()
             end
         end,
         ['<ESC>'] = cmp.mapping.abort(),
-        ['<TAB>'] = function ()
+        ['<TAB>'] = function (fallback)
             if vim.fn.pumvisible() == 1 then
                 feedkeys('<C-N>', 'n')
             elseif vim.fn.match(lib.get_context('b'),
@@ -50,10 +52,11 @@ cmp.setup {
                 string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
             elseif vim.fn['vsnip#jumpable'](1) == 1 then
                 feedkeys('<Plug>(vsnip-jump-next)', '')
-            elseif lib.get_context('b'):match('[%w._:]$') then
+            elseif lib.get_context('b'):match('[%w._:]$') and
+                vim.bo.bt ~= 'prompt' then
                 cmp.mapping.complete()()
             else
-                feedkeys('<TAB>', 'n')
+                fallback()
             end
         end
     },
