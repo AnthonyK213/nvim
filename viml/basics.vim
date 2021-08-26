@@ -36,7 +36,6 @@ set winaltkeys=no
 set history=500
 set updatetime=300
 set notimeout nottimeout
-set completeopt=menuone,noselect
 
 
 " Search

@@ -2,6 +2,7 @@ local lspconfig = require('lspconfig')
 local lsp_option = require('core/opt').lsp or {}
 -- Enable LSP snippets.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+--[[
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {
@@ -10,6 +11,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
         'additionalTextEdits',
     }
 }
+]]
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 --- clangd
 if lsp_option.clangd then
     lspconfig.clangd.setup {

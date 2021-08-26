@@ -143,7 +143,7 @@
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
 * Snippet; Completion; LSP; TreeSitter
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
-  - [nvim-compe](https://github.com/hrsh7th/nvim-compe)
+  - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * Games

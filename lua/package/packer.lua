@@ -70,10 +70,23 @@ require('packer').startup(function(use)
     }
     -- Snippet; Completion; LSP; Treesitter
     use {
+        --[[
         {
             'hrsh7th/nvim-compe',
             requires = {'hrsh7th/vim-vsnip'};
             config = function() require('package/nvim-compe') end
+        };
+        ]]
+        {
+            'hrsh7th/nvim-cmp',
+            requires = {
+                'hrsh7th/cmp-buffer',
+                'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-path',
+                'hrsh7th/vim-vsnip',
+                'hrsh7th/cmp-vsnip',
+            },
+            config = function() require('package/nvim-cmp') end
         };
         {
             'neovim/nvim-lspconfig',
