@@ -100,7 +100,7 @@ elseif g:plug_def_comp ==# 'coc'
   augroup usr_coc_group
     autocmd!
     " Highlight the symbol and its references when holding the cursor.
-    au CursorHold * silent call CocActionAsync('highlight')
+    "au CursorHold * silent call CocActionAsync('highlight')
     " Setup formatexpr specified filetype(s).
     au FileType typescript,json setl formatexpr=CocAction('formatSelected')
     " Update signature help on jump placeholder.
