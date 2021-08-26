@@ -135,6 +135,7 @@
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
+  - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
