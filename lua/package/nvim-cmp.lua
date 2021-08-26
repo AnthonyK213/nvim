@@ -46,7 +46,7 @@ cmp.setup {
             if vim.fn.pumvisible() == 1 then
                 feedkeys('<C-N>', 'n')
             elseif vim.fn.match(lib.get_context('b'),
-                '\\v^\\s*(\\+|-|*|\\d+\\.)\\s$') >= 0 then
+                [[\v^\s*(\+|-|*|\d+\.)\s$]]) >= 0 then
                 feedkeys('<C-\\><C-O>>>', 'n')
                 vim.api.nvim_feedkeys(
                 string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
