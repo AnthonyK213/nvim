@@ -70,13 +70,6 @@ require('packer').startup(function(use)
     }
     -- Snippet; Completion; LSP; Treesitter
     use {
-        --[[
-        {
-            'hrsh7th/nvim-compe',
-            requires = {'hrsh7th/vim-vsnip'};
-            config = function() require('package/nvim-compe') end
-        };
-        ]]
         {
             'hrsh7th/nvim-cmp',
             requires = {
