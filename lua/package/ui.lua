@@ -52,10 +52,6 @@ require('lualine').setup {
 vim.cmd('packadd bufferline.nvim')
 require('bufferline').setup {
     options = {
-        numbers = "none",
-        number_style = "",
-        mappings = false,
-
         buffer_close_icon= '×',
         modified_icon = '+',
         close_icon = '×',
