@@ -53,7 +53,7 @@ local function git_commit_async(m_arg, b_arg)
     end))
 end
 
-local function git_push_all_async(m_arg, b_arg)
+local function git_add_async(m_arg, b_arg)
     Handle_add = uv.spawn('git', {
         args = {'add', '*'}
     },
@@ -105,7 +105,7 @@ function M.git_push_all(...)
             return
         end
 
-        git_push_all_async(m_arg, b_arg)
+        git_add_async(m_arg, b_arg)
     else
         print("Wrong number of arguments is given.")
     end
