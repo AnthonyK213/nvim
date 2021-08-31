@@ -14,13 +14,15 @@ let s:nvimqt_option_table = {
 
 let s:fvim_option_table = {
       \ 'FVimUIPopupMenu'           : 'v:true',
+      \ 'FVimFontAntialias'         : 'v:true',
       \ 'FVimFontLigature'          : 'v:true',
       \ 'FVimFontLineHeight'        : '"+2.0"',
+      \ 'FVimFontNoBuiltInSymbols'  : 'v:true',
       \ 'FVimBackgroundOpacity'     : '0.92',
       \ 'FVimCursorSmoothMove'      : 'v:true',
-      \ 'FVimBackgroundComposition' : '"blur"',
-      \ 'FVimCustomTitleBar'        : 'v:true',
-      \ 'FVimFontAntialias'         : 'v:true',
+      \ 'FVimBackgroundComposition' : '"none"',
+      \ 'FVimCustomTitleBar'        : 'v:false',
+      \ 'FVimKeyAutoIme'            : 'v:true',
       \ }
 
 
