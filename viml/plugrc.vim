@@ -1,10 +1,9 @@
 " tokyonight-vim
 set termguicolors
 set background=dark
-let g:tokyonight_style = 'storm'
-let g:tokyonight_enable_italic = 0
-let g:airline_theme = 'tokyonight'
-colorscheme tokyonight
+let g:one_allow_italics = 1
+let g:airline_theme = 'one'
+colorscheme one
 
 
 " FZF

@@ -139,7 +139,7 @@ endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
-elseif exists('g:colors_name') && g:colors_name ==# 'nanovim'
+elseif exists('g:colors_name') && g:colors_name ==# 'nanovim' || exists('g:goneovim')
   let g:lock_background = v:false
   call usr#misc#time_background()
 endif
