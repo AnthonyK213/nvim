@@ -24,6 +24,7 @@ local cmt_mark_tab_single = {
     sshconfig = "#",
     gitconfig = "#",
     yaml = "#",
+    toml = "#",
 }
 
 local cmt_mark_tab_multi = {
