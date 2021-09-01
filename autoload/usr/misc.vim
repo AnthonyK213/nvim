@@ -1,4 +1,4 @@
-" Source .vim files.
+" Source vim files.
 function! usr#misc#vsource(file_list)
   if has("win32")
     let l:init_viml_path = expand("$localappdata/nvim/")
@@ -8,6 +8,16 @@ function! usr#misc#vsource(file_list)
   for l:file in a:file_list
     exe 'source' l:init_viml_path . 'viml/' . l:file . '.vim'
   endfor
+endfunction
+
+" Source vim file.
+function! usr#misc#vim_source(file) abort
+  if has("win32")
+    let l:init_viml_path = expand("$localappdata/nvim/")
+  elseif has("unix")
+    let l:init_viml_path = expand('~/.config/nvim/')
+  endif
+  exe 'source' l:init_viml_path .  a:file . '.vim'
 endfunction
 
 " Background toggle.

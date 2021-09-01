@@ -14,13 +14,15 @@ let s:nvimqt_option_table = {
 
 let s:fvim_option_table = {
       \ 'FVimUIPopupMenu'           : 'v:true',
+      \ 'FVimFontAntialias'         : 'v:true',
       \ 'FVimFontLigature'          : 'v:true',
       \ 'FVimFontLineHeight'        : '"+2.0"',
+      \ 'FVimFontNoBuiltInSymbols'  : 'v:true',
       \ 'FVimBackgroundOpacity'     : '0.92',
       \ 'FVimCursorSmoothMove'      : 'v:true',
-      \ 'FVimBackgroundComposition' : '"blur"',
-      \ 'FVimCustomTitleBar'        : 'v:true',
-      \ 'FVimFontAntialias'         : 'v:true',
+      \ 'FVimBackgroundComposition' : '"none"',
+      \ 'FVimCustomTitleBar'        : 'v:false',
+      \ 'FVimKeyAutoIme'            : 'v:true',
       \ }
 
 
@@ -110,6 +112,14 @@ function! s:gui_memo_lazy_save()
   endif
 endfunction
 
+function! s:gui_file_explorer()
+  if exists(':GuiTreeviewToggle')
+    GuiTreeviewToggle
+  elseif exists('g:goneovim')
+    GonvimFilerOpen
+  endif
+endfunction
+
 
 " Set behaviors
 if exists('g:path_desktop')
@@ -179,11 +189,13 @@ nn  <silent> <F11> :call <SID>gui_fullscreen_toggle()<CR>
 ino <silent> <F11> <C-\><C-o>:call <SID>gui_fullscreen_toggle()<CR>
 "" Lazy save the memo.
 nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
-"" Toggle tree view
-if exists(':GuiTreeviewToggle')
-  nn <silent> <F3> :GuiTreeviewToggle<CR>
-endif
+"" Toggle GUI built-in file explorer
+nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
 "" Lock/unlock background
 if exists('g:lock_background')
   nn <silent> <F4> :call <SID>gui_lock_background()<CR>
+endif
+"" Markdown viewer of goneovim
+if exists('g:goneovim')
+  nn <silent> <leader>mt :GonvimMarkdown<CR>
 endif
