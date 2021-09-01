@@ -74,6 +74,11 @@ lua << EOF
 EOF
 endfunction
 
+" Source vim file.
+function! usr#misc#vim_source(file) abort
+  call luaeval("require('utility/lib').vim_source('" . a:file . "')")
+endfunction
+
 " Neovim nightly update.
 function! usr#misc#nvim_nightly_upgrade(...)
   let l:proxy_args = a:0 == 0 ? "" : a:1
