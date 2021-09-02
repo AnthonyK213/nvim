@@ -1,25 +1,3 @@
-" Source vim files.
-function! usr#misc#vsource(file_list)
-  if has("win32")
-    let l:init_viml_path = expand("$localappdata/nvim/")
-  elseif has("unix")
-    let l:init_viml_path = expand('~/.config/nvim/')
-  endif
-  for l:file in a:file_list
-    exe 'source' l:init_viml_path . 'viml/' . l:file . '.vim'
-  endfor
-endfunction
-
-" Source vim file.
-function! usr#misc#vim_source(file) abort
-  if has("win32")
-    let l:init_viml_path = expand("$localappdata/nvim/")
-  elseif has("unix")
-    let l:init_viml_path = expand('~/.config/nvim/')
-  endif
-  exe 'source' l:init_viml_path .  a:file . '.vim'
-endfunction
-
 " Background toggle.
 function! usr#misc#bg_toggle()
   let &bg = &bg ==# 'dark' ? 'light' : 'dark'
@@ -51,21 +29,6 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   endif
 endfunction
 
-"" Set background according to time.
-function! s:background_checker(bg_timer)
-  let l:hour = str2nr(strftime('%H'))
-  let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
-  if &bg != l:bg | let &bg = l:bg | endif
-endfunction
-
-function! usr#misc#time_background()
-  let bg_timer = timer_start(
-        \ 60000,
-        \ function('<SID>background_checker'),
-        \ { 'repeat': -1 })
-  call s:background_checker(bg_timer)
-endfunction
-
 " vim-markdown toggle math display.
 function! usr#misc#vim_markdown_math_toggle()
   let g:vim_markdown_math = 1 - g:vim_markdown_math
@@ -86,4 +49,36 @@ function! usr#misc#show_toc()
   else
     echo 'No Toc support for current filetype.'
   endif
+endfunction
+
+"" Set background according to time.
+function! s:background_checker(bg_timer)
+  let l:hour = str2nr(strftime('%H'))
+  let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
+  if &bg != l:bg | let &bg = l:bg | endif
+endfunction
+
+function! usr#misc#time_background()
+  let bg_timer = timer_start(
+        \ 60000,
+        \ function('<SID>background_checker'),
+        \ { 'repeat': -1 })
+  call s:background_checker(bg_timer)
+endfunction
+
+" Source vim file.
+function! usr#misc#vim_source(file) abort
+  if has("win32")
+    let l:init_viml_path = expand("$localappdata/nvim/")
+  elseif has("unix")
+    let l:init_viml_path = expand('~/.config/nvim/')
+  endif
+  exe 'source' l:init_viml_path .  a:file . '.vim'
+endfunction
+
+" Source vim files.
+function! usr#misc#vim_source_list(file_list)
+  for l:file in a:file_list
+    call usr#misc#vim_source('viml/' . l:file)
+  endfor
 endfunction
