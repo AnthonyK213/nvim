@@ -53,6 +53,7 @@ endfunction
 
 "" Set background according to time.
 function! s:background_checker(bg_timer)
+  if g:lock_background | return | end
   let l:hour = str2nr(strftime('%H'))
   let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
   if &bg != l:bg | let &bg = l:bg | endif
