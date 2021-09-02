@@ -60,7 +60,7 @@ endfunction
 
 function! usr#misc#time_background()
   let bg_timer = timer_start(
-        \ 60000,
+        \ 600,
         \ function('<SID>background_checker'),
         \ { 'repeat': -1 })
   call s:background_checker(bg_timer)
