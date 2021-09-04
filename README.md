@@ -100,14 +100,16 @@
     - packer.nvim managed plugins.
     - Configurations of plugins.
   - `utility`
-    - Public function library.
-- VimL
+    - Function library.
+- Vim script
   - `basics.vim`
-    - Basic configuration without any dependencies.
+    - Basic vim options.
   - `subsrc.vim`
-    - When no plugins installed, this could be a simple substitute.
+    - Make vim/neovim a little handdier with no plugins.
+  - `vimrc.vim`
+    - Configuration for vim.
 - Snippet
-  - The same as vscode's.
+  - Visual studio code standard snippets.
 - Color scheme
   - `nanovim.vim`
     - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
@@ -120,7 +122,7 @@
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
     > Due to lualine.nvim did not update for a long time,
-    > switched to shadmansaleh/lualine.nvim.
+    > switched to [lualine.nvim](https://github.com/shadmansaleh/lualine.nvim).
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 * File system
@@ -180,15 +182,15 @@
 * **Emacs shit**
   - inv: <kbd>C-N</kbd>      -> Emacs next line.
   - inv: <kbd>C-P</kbd>      -> Emacs previous line.
-  - i:   <kbd>C-F</kbd>      -> Emacs move forward.
-  - i:   <kbd>C-B</kbd>      -> Emacs move backward.
-  - i:   <kbd>C-A</kbd>      -> Emacs line start.
-  - i:   <kbd>C-E</kbd>      -> Emacs line end.
+  - ci:  <kbd>C-F</kbd>      -> Emacs move forward.
+  - ci:  <kbd>C-B</kbd>      -> Emacs move backward.
+  - ci:  <kbd>C-A</kbd>      -> Emacs line start.
+  - ci:  <kbd>C-E</kbd>      -> Emacs line end.
   - i:   <kbd>C-K</kbd>      -> Emacs kill text on the right.
-  - in:  <kbd>M-f</kbd>      -> Emacs next word.
-  - in:  <kbd>M-b</kbd>      -> Emacs last word.
-  - in:  <kbd>M-x</kbd>      -> Command line.
+  - cin: <kbd>M-f</kbd>      -> Emacs next word.
+  - cin: <kbd>M-b</kbd>      -> Emacs last word.
   - i:   <kbd>M-d</kbd>      -> Emacs delete word.
+  - in:  <kbd>M-x</kbd>      -> Command line.
 * **Leader**
   > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd>     -> **Buffer**.
@@ -222,6 +224,7 @@
     - n:    <kbd>h</kbd>     -> `vim.lsp.buf.signature_help()`
     - n:    <kbd>i</kbd>     -> `vim.lsp.buf.implementation()`
     - n:    <kbd>m</kbd>     -> `vim.lsp.buf.formatting_sync()`
+    - n:    <kbd>n</kbd>     -> `vim.lsp.buf.rename()`
     - n:    <kbd>r</kbd>     -> `vim.lsp.buf.references()`
     - n:    <kbd>t</kbd>     -> `vim.lsp.buf.type_definition()`
     - n:    <kbd>w</kbd>     -> `vim.lsp.buf.workspace_symbol()`
@@ -268,9 +271,11 @@
 
 
 ## Commands
-- `CodeRun`   -> Run or compile the code in current buffer.
+- `CodeRun`   -> Run or compile the code of current buffer.
+- `CodeBuild` -> Build or make the project.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push all to the remote origin.
   - `-b`      -> branch, current branch default.
   - `-m`      -> comment, the date default.
+- `SshConfig` -> Open and edit ~/.ssh/config
 - `Time`      -> Echo date and time.

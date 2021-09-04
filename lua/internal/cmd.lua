@@ -11,6 +11,6 @@ vim.cmd('command! -nargs=* PushAll lua require("utility/vcs").git_push_all(<f-ar
 -- Neovim nightly upgrade.
 vim.cmd('command! -nargs=* NightlyUpgrade call usr#misc#nvim_nightly_upgrade(<f-args>)')
 -- Open ssh configuration.
-vim.cmd('command! SSHconifg lua require("utility/util").edit_file("$HOME/.ssh/config", false)')
+vim.cmd('command! SshConifg lua require("utility/util").edit_file("$HOME/.ssh/config", false)')
 -- Scroll off
 require('utility/lib').set_au_group('scroll_off', 'BufEnter * setlocal so=5', 'BufEnter *.md setlocal so=999')
