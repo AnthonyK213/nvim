@@ -112,7 +112,7 @@ function! s:ipairs_enter()
     return "\<CR>\<C-O>O"
   elseif s:ipairs_context.get('b') =~ '\v\{\s*$' &&
         \ s:ipairs_context.get('f') =~ '\v^\s*\}'
-    return "\<C-O>\<C-O>diB\<CR>\<C-\>\<C-O>O"
+    return "\<C-\>\<C-O>diB\<CR>\<C-\>\<C-O>O"
   else
     return "\<CR>"
   endif
