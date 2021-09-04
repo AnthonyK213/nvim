@@ -17,6 +17,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'Yggdroot/indentLine'
   Plug 'tpope/vim-speeddating'
   Plug 'dhruvasagar/vim-table-mode'
+  Plug 'AnthonyK213/vim-ipairs'
   " File type support
   Plug 'lervag/vimtex'
   Plug 'vimwiki/vimwiki'
