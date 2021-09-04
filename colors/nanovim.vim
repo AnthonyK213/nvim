@@ -316,12 +316,12 @@ hi! link markdownH5               Nano_Face_Default
 hi! link markdownH6               Nano_Face_Default
 hi! link markdownBold             Nano_Face_Strong
 hi! link markdownRule             Nano_Face_Faded
-hi! link markdownCode             Nano_Face_Popout
-hi! link markdownCodeBlock        Nano_Face_Faded
+hi! link markdownCode             Nano_Face_Default
+hi! link markdownCodeBlock        Nano_Face_Default
+hi! link markdownCodeDelimiter    Nano_Face_Default
 hi! link markdownBlockquote       Nano_Face_Faded
 hi! link markdownHeadingRule      Nano_Face_Faded
 hi! link markdownListMarker       Nano_Face_Salient
-hi! link markdownCodeDelimiter    Nano_Face_Salient
 hi! link markdownHeadingDelimiter Nano_Face_Salient
 
 hi! link yamlBlockMappingKey      Nano_Face_Salient
@@ -339,6 +339,10 @@ hi! link sqlKeyword               Nano_Face_Salient
 
 " vim-markdown
 hi! link mkdHeading               Nano_Face_Salient
+hi! link mkdBold                  Nano_Face_Subtle
+hi! link mkdItalic                Nano_Face_Subtle
+hi! link mkdBoldItalic            Nano_Face_Subtle
+hi! link mkdCodeDelimiter         Nano_Face_Popout
 
 " Signify, git-gutter
 hi! link SignifySignAdd           Nano_Face_Faded
