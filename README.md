@@ -97,8 +97,7 @@
   - `internal`
     - Variables; Mappings; Commands.
   - `package`
-    - packer.nvim managed plugins.
-    - Configurations of plugins.
+    - Plugins managed by packer.nvim and configurations.
   - `utility`
     - Function library.
 - Vim script
