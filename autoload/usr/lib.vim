@@ -32,7 +32,7 @@ endfunction
 
 "" Get the character around the cursor.
 function! usr#lib#get_char(num) abort
-  if a:num ==# 'l'
+  if a:num ==# 'p'
     return matchstr(getline('.'), '.\%' . col('.') . 'c')
   elseif a:num ==# 'n'
     return matchstr(getline('.'), '\%' . col('.') . 'c.')
@@ -40,8 +40,6 @@ function! usr#lib#get_char(num) abort
     return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
   elseif a:num ==# 'f'
     return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
-  else
-    echo 'Invalid argument.'
   endif
 endfunction
 

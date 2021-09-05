@@ -25,7 +25,7 @@ if g:plug_def_comp ==# 'asyncomplete'
         \ pumvisible() ?
         \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
         \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ?
-        \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('l') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+        \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
   im  <silent><expr> <S-TAB>
         \ pumvisible() ?
@@ -54,7 +54,7 @@ elseif g:plug_def_comp ==# 'coc'
         \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
         \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : coc#expandableOrJumpable() ?
         \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-        \ usr#lib#get_char('l') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+        \ usr#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ coc#refresh() : "\<TAB>"
   im  <silent><expr> <S-TAB>
         \ pumvisible() ?

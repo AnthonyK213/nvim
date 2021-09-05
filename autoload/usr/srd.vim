@@ -28,7 +28,7 @@ function! usr#srd#sur_add(mode, ...)
       exe "normal! Ea" . l:pair_b
     endif
     call setpos('.', l:org)
-    if usr#lib#get_char('l') =~ '\v\s' ||
+    if usr#lib#get_char('p') =~ '\v\s' ||
      \ usr#lib#get_char('b') =~ '\v^$'
       exe "normal! i" . l:pair_a
     else
