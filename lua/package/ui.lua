@@ -1,4 +1,4 @@
-local augroup = require("utility/lib").set_au_group
+local augroup = require("utility/lib").set_augroup
 
 
 -- material.nvim

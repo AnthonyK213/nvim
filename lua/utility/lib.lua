@@ -131,7 +131,7 @@ function M.map(tab, func)
 end
 
 -- Define auto command group.
-function M.set_au_group(name, ...)
+function M.set_augroup(name, ...)
     vim.cmd('augroup '..name)
     vim.cmd('autocmd!')
     for _, cmd in ipairs({...}) do

@@ -13,4 +13,4 @@ vim.cmd('command! -nargs=* NightlyUpgrade call usr#misc#nvim_nightly_upgrade(<f-
 -- Open ssh configuration.
 vim.cmd('command! SshConfig lua require("utility/util").edit_file("$HOME/.ssh/config", false)')
 -- Scroll off
-require('utility/lib').set_au_group('scroll_off', 'BufEnter * setlocal so=5', 'BufEnter *.md setlocal so=999')
+require('utility/lib').set_augroup('scroll_off', 'BufEnter * setlocal so=5', 'BufEnter *.md setlocal so=999')
