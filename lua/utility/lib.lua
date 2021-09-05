@@ -55,23 +55,21 @@ function M.get_git_branch(git_root)
 end
 
 -- Get characters around the cursor.
+local get_context_pat = {
+    p = { [[.\%]], [[c]] },
+    n = { [[\%]], [[c.]] },
+    b = { [[^.*\%]], 'c' },
+    f = { [[\%]], 'c.*$' }
+}
+
 function M.get_context(mode)
-    if mode == 'l' then
-        return vim.fn.matchstr(
-        vim.api.nvim_get_current_line(),
-        '.\\%'..vim.fn.col('.')..'c')
-    elseif mode == 'n' then
-        return vim.fn.matchstr(
-        vim.api.nvim_get_current_line(),
-        '\\%'..vim.fn.col('.')..'c.')
-    elseif mode == 'b' then
-        return vim.fn.matchstr(
-        vim.api.nvim_get_current_line(),
-        '^.*\\%'..vim.fn.col('.')..'c')
-    elseif mode == 'f' then
-        return vim.fn.matchstr(
-        vim.api.nvim_get_current_line(),
-        '\\%'..vim.fn.col('.')..'c.*$')
+    local pat = get_context_pat[mode]
+    local line = vim.api.nvim_get_current_line()
+    local s, e = vim.regex(pat[1]..vim.fn.col('.')..pat[2]):match_str(line)
+    if s then
+        return line:sub(s + 1, e)
+    else
+        return ""
     end
 end
 

@@ -46,7 +46,7 @@ let s:subsrc_pairs_dict = {
       \ }
 
 function! s:subsrc_get_context(arg) abort
-  if a:arg ==# 'l'
+  if a:arg ==# 'p'
     return matchstr(getline('.'), '.\%' . col('.') . 'c')
   elseif a:arg ==# 'n'
     return matchstr(getline('.'), '\%' . col('.') . 'c.')
@@ -58,7 +58,7 @@ function! s:subsrc_get_context(arg) abort
 endfunction
 
 function! s:subsrc_is_surrounded(match_list)
-  return index(a:match_list, s:subsrc_get_context('l') . s:subsrc_get_context('n')) >= 0
+  return index(a:match_list, s:subsrc_get_context('p') . s:subsrc_get_context('n')) >= 0
 endfunction
 
 function! s:subsrc_pairs_backs()
@@ -105,12 +105,12 @@ ino <expr> ] <SID>subsrc_get_context('n') ==# "]" ? g:subsrc_dir_r : "]"
 ino <expr> } <SID>subsrc_get_context('n') ==# "}" ? g:subsrc_dir_r : "}"
 ino <expr> "
       \ <SID>subsrc_get_context('n') ==# "\"" ?
-      \ g:subsrc_dir_r : or(<SID>subsrc_get_context('l') =~ '\v[\\''"]',
+      \ g:subsrc_dir_r : or(<SID>subsrc_get_context('p') =~ '\v[\\''"]',
       \ and(<SID>subsrc_get_context('b') =~ '\v^\s*$', &filetype == 'vim')) ?
       \ '"' : '""' . g:subsrc_dir_l
 ino <expr> '
       \ <SID>subsrc_get_context('n') ==# "'" ?
-      \ g:subsrc_dir_r : <SID>subsrc_get_context('l') =~ '\v[''"]' ?
+      \ g:subsrc_dir_r : <SID>subsrc_get_context('p') =~ '\v[''"]' ?
       \ "'" : "''" . g:subsrc_dir_l
 ino <expr> <SPACE>
       \ <SID>subsrc_is_surrounded(['{}']) ?
@@ -132,7 +132,7 @@ ino <silent><expr> <CR>
       \ "\<CR>\<C-\>\<C-o>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
-      \ or(<SID>subsrc_get_context('l') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
+      \ or(<SID>subsrc_get_context('p') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
       \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
       \ "\<C-\>\<C-o>>>" . repeat(g:subsrc_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"

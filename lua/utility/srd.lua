@@ -12,7 +12,7 @@ local function srd_pair(pair_a)
     if pair_a:match('^[%(%[{<%s《“]+$') then
         return table.concat(lib.map(lib.reverse(fn.split(pair_a, '\\zs')),
         function(x) return pairs[x] end))
-    elseif fn.matchstr(pair_a, '\\v^(\\<\\w{-}\\>)+$') ~= '' then
+    elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
         return '</'..table.concat(lib.reverse(fn.split(pair_a, '<')), '</')
     else
         return pair_a
@@ -91,7 +91,7 @@ function M.srd_add(mode, ...)
             vim.cmd('normal! Ea'..pair_b)
         end
         fn.setpos('.', origin)
-        if (lib.get_context('l'):match('%s') or
+        if (lib.get_context('p'):match('%s') or
             lib.get_context('b'):match('^$')) then
             vim.cmd('normal! i'..pair_a)
         else

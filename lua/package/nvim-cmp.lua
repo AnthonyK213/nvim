@@ -45,8 +45,9 @@ cmp.setup {
         ['<TAB>'] = function (fallback)
             if vim.fn.pumvisible() == 1 then
                 feedkeys('<C-N>', 'n')
-            elseif vim.fn.match(lib.get_context('b'),
-                [[\v^\s*(\+|-|*|\d+\.)\s$]]) >= 0 then
+            elseif vim.fn.index({'vimwiki', 'markdown'}, vim.bo.ft) >= 0 and
+                vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
+                match_str(lib.get_context('b')) then
                 feedkeys('<C-\\><C-O>>>', 'n')
                 vim.api.nvim_feedkeys(
                 string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
