@@ -3,16 +3,31 @@ local lsp_option = require('core/opt').lsp or {}
 -- Enable LSP snippets.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- aerial.nvim
+local aerial = require'aerial'
+local custom_attach = function(client)
+    aerial.on_attach(client)
+    -- Toggle the aerial window with <leader>a
+    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>mt', '<Cmd>AerialToggle!<CR>', {})
+    -- Jump forwards/backwards with '{' and '}'
+    vim.api.nvim_buf_set_keymap(0, 'n', '{', '<cmd>AerialPrev<CR>', {})
+    vim.api.nvim_buf_set_keymap(0, 'n', '}', '<cmd>AerialNext<CR>', {})
+    -- Jump up the tree with '[[' or ']]'
+    vim.api.nvim_buf_set_keymap(0, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(0, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+end
 --- clangd
 if lsp_option.clangd then
     lspconfig.clangd.setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- jedi_language_server
 if lsp_option.jedi_language_server then
     lspconfig.jedi_language_server.setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- powershell_es
@@ -29,17 +44,22 @@ end
 --- pyright
 if lsp_option.pyright then
     lspconfig.pyright.setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- rls
 if lsp_option.rls then
-    lspconfig.rls.setup {}
+    lspconfig.rls.setup {
+        capabilities = capabilities,
+        on_attach = custom_attach
+    }
 end
 --- rust_analyzer
 if lsp_option.rust_analyzer then
     lspconfig.rust_analyzer.setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- texlab
@@ -53,6 +73,8 @@ if lsp_option.omnisharp then
     local pid = vim.fn.getpid()
     lspconfig.omnisharp.setup {
         cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- sumneko_lua
@@ -78,6 +100,8 @@ if lsp_option.sumneko_lua and lsp_option.sumneko_lua.enable then
     "/bin/"..system_name.."/lua-language-server"
     lspconfig.sumneko_lua.setup {
         cmd = { sumneko_binary, '-E', sumneko_root_path.."/main.lua" };
+        capabilities = capabilities,
+        on_attach = custom_attach,
         settings = {
             Lua = {
                 runtime = {
@@ -100,7 +124,8 @@ end
 --- vim script
 if lsp_option.vimls then
     lspconfig.vimls.setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- Enable diagnostics

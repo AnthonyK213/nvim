@@ -85,6 +85,10 @@ require('packer').startup(function(use)
             config = function() require('package/nvim-lspconfig') end
         };
         {
+            'stevearc/aerial.nvim',
+            config = function() require('package/aerial') end
+        };
+        {
             'nvim-treesitter/nvim-treesitter',
             config = function() require('package/nvim-treesitter') end
         };
