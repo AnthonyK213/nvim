@@ -147,6 +147,7 @@
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+  - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
