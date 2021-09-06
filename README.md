@@ -9,7 +9,7 @@
   pip install neovim-remote
   ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
-  - Crazy fast search tool.
+  - Crazy fast searching.
 * [**packer.nvim**](https://github.com/wbthomason/packer.nvim)
   - Windows
     ```sh
