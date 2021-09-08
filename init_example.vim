@@ -27,14 +27,14 @@ if !exists('g:init_src')
 endif
 
 if g:init_src ==? 'nano'
-  call usr#misc#vsource([
+  call usr#misc#vim_source_list([
         \ 'basics', 'custom',
         \ 'fnutil', 'subsrc'
         \ ])
   set tgc bg=dark
   colorscheme nanovim
 elseif g:init_src == 'full'
-  call usr#misc#vsource([
+  call usr#misc#vim_source_list([
         \ 'a_plug', 'basics', 'custom',
         \ 'fnutil', 'plugrc', 'ps_opt'
         \ ])
