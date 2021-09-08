@@ -191,7 +191,7 @@ function M.run_or_compile(option)
     if comp_table[vim.o.ft] then
         term_use, term_cmd = comp_table[vim.o.ft](tbl)
     else
-        print("File type not supported yet.")
+        print("File type has not been supported yet.")
         goto skip_exec
     end
 
