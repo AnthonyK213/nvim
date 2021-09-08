@@ -5,16 +5,16 @@ vn  <silent> <F2> :<C-u>call      usr#misc#mouse_toggle()<CR>
 ino <silent> <F2> <C-\><C-o>:call usr#misc#mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-n>:call usr#misc#mouse_toggle()<CR>a
 "" Background toggle
-nn  <silent> <leader>bg :call usr#misc#bg_toggle()<CR>
+nn <silent> <leader>bg :call usr#misc#bg_toggle()<CR>
 "" Explorer
-nn  <silent> <leader>oe :call usr#util#open_file(expand("%:p:h"))<CR>
+nn <silent> <leader>oe :call usr#util#open_file(expand("%:p:h"))<CR>
 "" Terminal
-nn  <silent> <leader>ot :call usr#util#terminal()<CR>i
+nn <silent> <leader>ot :call usr#util#terminal()<CR>i
 "" Open with system default browser
-nn  <silent> <leader>ob :call usr#util#open_file(expand("%:p"))<CR>
+nn <silent> <leader>ob :call usr#util#open_file(expand("%:p"))<CR>
 "" Hanzi count
-nn  <silent> <leader>cc :call usr#note#hanzi_count("n")<CR>
-vn  <silent> <leader>cc :<C-u>call usr#note#hanzi_count("v")<CR>
+nn <silent> <leader>cc :call usr#note#hanzi_count("n")<CR>
+vn <silent> <leader>cc :<C-u>call usr#note#hanzi_count("v")<CR>
 "" Evaluate formula surrounded by `.
 nn <silent> <leader>ev :call usr#eval#text_eval()<CR>
 "" Surround
