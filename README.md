@@ -120,8 +120,7 @@
 * Visual(Optional)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
-    > Due to lualine.nvim has not update for a long time,
-    > switched to [lualine.nvim](https://github.com/shadmansaleh/lualine.nvim).
+    > Switched to [lualine.nvim](https://github.com/shadmansaleh/lualine.nvim).
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 * File system
@@ -266,7 +265,7 @@
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
   - <kbd>leader-w-</kbd>     -> **Vimwiki**.
 * **Miscellanea**
-  - v:      <kbd>*</kbd>     -> Search visual selection.
+  - v:      <kbd>*</kbd>     -> Search the visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
 
 
@@ -275,7 +274,7 @@
 - `CodeBuild` -> Build or make the project.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push all to the remote origin.
-  - `-b`      -> branch, current branch default.
-  - `-m`      -> comment, the date default.
+  - `-b`      -> branch, default -> current branch.
+  - `-m`      -> comment, default -> date.
 - `SshConfig` -> Open and edit ~/.ssh/config
 - `Time`      -> Echo date and time.
