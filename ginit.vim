@@ -99,14 +99,11 @@ function! s:gui_memo_lazy_save()
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
-    if exists('g:path_cloud')
-      silent exe 'w' g:path_cloud .
-            \ '/Documents/Agenda/diary/memo_' .
-            \ strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
-    else
-      silent exe 'w' g:path_desktop .
-            \ '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
-    end
+    let l:path = expand(g:path_cloud . '/Documents/Agenda/diary')
+    if empty(glob(l:path))
+      let l:path = g:path_desktop
+    endif
+    silent exe 'w' l:path . '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
   else
     exe 'w'
   endif
