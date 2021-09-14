@@ -31,13 +31,11 @@ for s:direct in ['h', 'j', 'k', 'l', 'w']
   exe 'tno <M-' . s:direct . '> <C-\><C-n><C-w>'  . s:direct
 endfor
 " Switch tab.
-let s:tab_num = 1
-while s:tab_num <= 10
+for s:tab_num in range(1, 10)
   let s:tab_key = s:tab_num == 10 ? 0 : s:tab_num
   exe 'nn  <silent> <M-' . s:tab_key . '>           :tabn' s:tab_num . '<CR>'
   exe 'ino <silent> <M-' . s:tab_key . '> <C-\><C-O>:tabn' s:tab_num . '<CR>'
-  let s:tab_num += 1
-endwhile
+endfor
 " Command mode
 cm <C-A>  <C-B>
 cm <C-B>  <LEFT>
