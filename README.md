@@ -98,7 +98,7 @@
   - `core`
     - Set up options.
   - `internal`
-    - Variables; Mappings; Commands.
+    - Variables; mappings; commands.
   - `packages`
     - Plugins managed by packer.nvim and configurations.
   - `utility`
