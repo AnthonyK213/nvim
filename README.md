@@ -3,13 +3,6 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) 0.5+
-* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
-  ```sh
-  pip install pynvim
-  pip install neovim-remote
-  ```
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep)
-  - Crazy fast searching.
 * [**packer.nvim**](https://github.com/wbthomason/packer.nvim)
   - Windows
     ```sh
@@ -19,6 +12,16 @@
     ```sh
     git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     ```
+* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
+  ```sh
+  pip install pynvim
+  pip install neovim-remote
+  ```
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (For [nvim-telescope](https://github.com/nvim-telescope/telescope.nvim))
+  - ripgrep recursively searches directories for a regex pattern while respecting your gitignore.
+* [**jq**](https://github.com/stedolan/jq) (For [nvim-jqx](https://github.com/gennaro-tedesco/nvim-jqx))
+  - Command-line JSON processor.
+  > To support yaml files, [yq](https://github.com/mikefarah/yq) is needed.
 
 
 ## Installation
@@ -132,6 +135,7 @@
 * Utilities
   - [popup.nvim](https://github.com/nvim-lua/popup.nvim)
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+  - [nvim-jqx](https://github.com/gennaro-tedesco/nvim-jqx)
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
@@ -168,7 +172,7 @@
   - inv: <kbd>M-l</kbd>      -> Jump to the window right.
   - nv:  <kbd>M-n</kbd>      -> Normal command.
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
-  - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
+  - inv: <kbd>M-w</kbd>      -> Jump to the window in turns.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
   - n:   <kbd>M-,</kbd>      -> Open `$MYVIMRC`.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
@@ -273,8 +277,8 @@
 - `CodeRun`   -> Run or compile the code of current buffer.
 - `CodeBuild` -> Build or make the project.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
-- `PushAll`   -> Just push all to the remote origin.
-  - `-b`      -> branch, default -> current branch.
+- `PushAll`   -> Just push everything to the remote origin.
+  - `-b`      -> branch,  default -> current branch.
   - `-m`      -> comment, default -> date.
 - `SshConfig` -> Open and edit ~/.ssh/config
 - `Time`      -> Echo date and time.
