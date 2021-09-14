@@ -111,13 +111,13 @@ keymap('n', '<leader>ev', '<Cmd>lua require("utility/eval").lua_eval()<CR>',  { 
 keymap('n', '<leader>el', '<Cmd>lua require("utility/eval").lisp_eval()<CR>', { noremap = true, silent = true })
 -- Append day of week after the date.
 keymap('n', '<leader>dd', ':lua require("utility/gtd").append_day_from_date()<CR>', { noremap = true, silent = true })
+-- Insert an timestamp after cursor.
+keymap('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
 -- Print TODO list.
 keymap("n", "<leader>dt", '<Cmd>lua require("utility/gtd").print_todo_list()<CR>', { noremap = true, silent = true })
 -- Hanzi count.
 keymap('n', '<leader>cc', '<Cmd>lua require("utility/note").hanzi_count("n")<CR>',  { noremap = true, silent = true })
 keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR>', { noremap = true, silent = true })
--- Insert an timestamp after cursor.
-keymap('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", { noremap = true, silent = true })
 -- List bullets.
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
