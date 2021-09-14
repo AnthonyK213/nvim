@@ -14,7 +14,7 @@
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     ```
-* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex)))
+* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
   ```sh
   pip install pynvim
   pip install neovim-remote
