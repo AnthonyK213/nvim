@@ -6,13 +6,12 @@ let g:airline_theme = 'one'
 colorscheme one
 
 
-" vim-airline
+" colorscheme
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled  = 1
-"" Symbols
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_symbols = {}
 let g:airline_symbols.branch = ''
-"" Mode abbr.
 let g:airline_mode_map = {
       \ '__'    : '-',
       \ 'c'     : 'C',
@@ -29,12 +28,10 @@ let g:airline_mode_map = {
       \ 'S'     : 'S',
       \ ''    : 'S',
       \ 't'     : 'T',
-      \ 'v'     : 'V',
-      \ 'V'     : 'Ṿ',
-      \ ''    : 'Ṽ',
+      \ 'v'     : 'v',
+      \ 'V'     : 'V',
+      \ ''    : 'B',
       \ }
-"" Tab
-let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 
 " NERDTree
@@ -55,12 +52,10 @@ nn <silent> <leader>fg :Rg<CR>
 
 
 " signify
-"" Signs
 let g:signify_sign_add               = '+'
 let g:signify_sign_delete            = '_'
 let g:signify_sign_delete_first_line = '‾'
 let g:signify_sign_change            = '~'
-"" Disable the numbers disctracting
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
 nmap <silent> <leader>hj <plug>(signify-next-hunk)
@@ -161,7 +156,6 @@ elseif has('unix')
 endif
 
 if g:plug_def_comp ==# 'asyncomplete'
-
   let g:asyncomplete_auto_pop = 1
   let g:asyncomplete_auto_completeopt = 0
   let g:asyncomplete_min_chars = 2
