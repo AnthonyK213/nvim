@@ -133,7 +133,6 @@
   - [vim-fugitive](https://github.com/tpope/vim-fugitive)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 * Utilities
-  - [popup.nvim](https://github.com/nvim-lua/popup.nvim)
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
   - [nvim-jqx](https://github.com/gennaro-tedesco/nvim-jqx)
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
