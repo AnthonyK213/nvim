@@ -9,7 +9,7 @@ call plug#begin(stdpath('data') . '/plugged')
   " FZF
   Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
   Plug 'junegunn/fzf.vim'
-  " Git utilities
+  " VCS utilities
   Plug 'tpope/vim-fugitive'
   Plug 'mhinz/vim-signify'
   Plug 'Xuyuanp/nerdtree-git-plugin'

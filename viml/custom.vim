@@ -65,6 +65,7 @@ nn <expr><silent> <leader>bd
       \ len(getbufinfo({'buflisted':1})) <= 2 ?
       \ ":bd<CR>" : ":bp\|bd#<CR>"
 nn <silent> <leader>bh :noh<CR>
+nn <silent> <leader>bl :ls<CR>
 nn <silent> <leader>bn :bn<CR>
 nn <silent> <leader>bp :bp<CR>
 """ Toggle spell check

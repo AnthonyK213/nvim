@@ -3,17 +3,6 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim)
-* [**Python**](https://www.python.org/) (for [VimTeX](https://github.com/lervag/vimtex)))
-  ```sh
-  pip install pynvim
-  pip install neovim-remote
-  ```
-* [**Node.js**](https://nodejs.org) (for [coc.nvim](https://github.com/neoclide/coc.nvim))
-  ```sh
-  npm install neovim -g
-  ```
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep)
-  - Crazy fast search tool.
 * [**vim-plug**](https://github.com/junegunn/vim-plug)
   - Windows
     ```sh
@@ -25,6 +14,17 @@
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     ```
+* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex)))
+  ```sh
+  pip install pynvim
+  pip install neovim-remote
+  ```
+* [**Node.js**](https://nodejs.org) (For [coc.nvim](https://github.com/neoclide/coc.nvim))
+  ```sh
+  npm install neovim -g
+  ```
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (For [fzf.vim](https://github.com/junegunn/fzf.vim))
+  - ripgrep recursively searches directories for a regex pattern while respecting your gitignore.
 
 
 ## Installation
@@ -62,27 +62,60 @@
 ## Modules
 - Basics
   - `basics.vim`
-    - Basic configuration without any dependencies.
+    - Basic vim options.
   - `custom.vim`
     - Global variables and key maps.
 - Utilities
   - `fnutil.vim`
   - `subsrc.vim`
-    - When don't want to use any plug-ins, this can be a simple substitute.
-    - Include:
-      - Netrw configuration
-      - Build-in completion
-      - Simple auto-pairing
-- Plug-ins
+    - Make vim/neovim a little handdier with no plugins.
+  - `vimrc.vim`
+    - Configuration for vim.
+- Plugin
   - `a_plug.vim`
     - Vim-plug load plug-ins.
   - `plugrc.vim`
     - Configurations of plug-ins.(source init_plugin at first)
-  - `ps_opt.vim`      
+  - `ps_opt.vim`
     - Optional configurations of plugins.
-- Color schemes
+- Snippet
+  - Visual studio code standard snippets.
+- Color scheme
   - `nanovim.vim`
     - Based on [nano-emacs](https://github.com/rougier/nano-emacs)
+
+
+## Packages
+* Package manager
+  - [vim-plug](https://github.com/junegunn/vim-plug)
+* Visual
+  - [vim-one](https://github.com/rakr/vim-one)
+  - [vim-airline](https://github.com/vim-airline/vim-airline)
+* File system
+  - [nerdtree](https://github.com/preservim/nerdtree)
+  - [fzf](https://github.com/junegunn/fzf)
+  - [fzf.vim](https://github.com/junegunn/fzf.vim)
+* VCS utilities
+  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
+  - [vim-signify](https://github.com/mhinz/vim-signify)
+  - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
+* Utilities
+  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
+  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
+  - [indentLine](https://github.com/Yggdroot/indentLine)
+  - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
+* File type support
+  - [VimTeX](https://github.com/lervag/vimtex)
+  - [vimwiki](https://github.com/vimwiki/vimwiki)
+  - [vim-markdown](https://github.com/plasticboy/vim-markdown)
+  - [vim-processing](https://github.com/sophacles/vim-processing)
+  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+* Snippet; Completion
+  - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
+  - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
+  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+  - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
+  - [coc.nvim](https://github.com/neoclide/coc.nvim)
 
 
 ## Key bindings
@@ -111,19 +144,18 @@
   - inv: <kbd>M-M</kbd>      -> Markdown bold_italic: ***bold_italic***
   - inv: <kbd>M-P</kbd>      -> Markdown block: `block`
   - inv: <kbd>M-U</kbd>      -> Markdown/HTML underscore: <u>bold</u>
-
 * **Emacs shit**
-  - inv: <kbd>C-N</kbd>      -> Emacs next.
-  - inv: <kbd>C-P</kbd>      -> Emacs previous.
-  - i:   <kbd>C-F</kbd>      -> Emacs forward.
-  - i:   <kbd>C-B</kbd>      -> Emacs backward.
-  - i:   <kbd>C-A</kbd>      -> Emacs line start.
-  - i:   <kbd>C-E</kbd>      -> Emacs line end.
+  - inv: <kbd>C-N</kbd>      -> Emacs next line.
+  - inv: <kbd>C-P</kbd>      -> Emacs previous line.
+  - ci:  <kbd>C-F</kbd>      -> Emacs forward.
+  - ci:  <kbd>C-B</kbd>      -> Emacs backward.
+  - ci:  <kbd>C-A</kbd>      -> Emacs line start.
+  - ci:  <kbd>C-E</kbd>      -> Emacs line end.
   - i:   <kbd>C-K</kbd>      -> Emacs kill test on the right.
-  - i:   <kbd>M-f</kbd>      -> Emacs next word.
-  - i:   <kbd>M-b</kbd>      -> Emacs last word.
-  - in:  <kbd>M-x</kbd>      -> Command line.
+  - cin: <kbd>M-f</kbd>      -> Emacs next word.
+  - cin: <kbd>M-b</kbd>      -> Emacs last word.
   - i:   <kbd>M-d</kbd>      -> Emacs delete word.
+  - in:  <kbd>M-x</kbd>      -> Command line.
 * **Leader**
   > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd>     -> **Buffer**.
@@ -132,6 +164,7 @@
     - n:    <kbd>d</kbd>     -> Delete buffer.
     - n:    <kbd>g</kbd>     -> Toggle background.
     - n:    <kbd>h</kbd>     -> Turn off highlights.
+    - n:    <kbd>l</kbd>     -> List buffers.
     - n:    <kbd>n</kbd>     -> Next buffer.
     - n:    <kbd>p</kbd>     -> Previous buffer.
   - <kbd>leader-c-</kbd>     -> **Check**.
@@ -193,7 +226,8 @@
 ## Commands
 - `CodeRun`   -> Run code of current buffer.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
-- `PushAll`   -> Just push all to the remote origin.
-  - `-b`      -> branch, current branch default.
-  - `-m`      -> comment, the date default.
+- `PushAll`   -> Just push everything to the remote origin.
+  - `-b`      -> branch,  default -> current branch.
+  - `-m`      -> comment, default -> date.
+- `SshConfig` -> Open and edit ~/.ssh/config
 - `Time`      -> Echo date and time.

@@ -118,7 +118,6 @@ function! s:gui_file_explorer()
 endfunction
 
 
-" Set behaviors
 if exists('g:path_desktop')
   exe 'cd' g:path_desktop
 endif
