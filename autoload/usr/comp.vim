@@ -4,7 +4,7 @@ function! s:latex_xelatex()
   exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
 endfunction
 
-function! s:latex_xelatex2()
+function! s:latex_xelatex_2()
   call s:latex_xelatex()
   call s:latex_xelatex()
 endfunction
@@ -16,21 +16,6 @@ function! s:latex_biber()
   call s:latex_xelatex()
   call s:latex_xelatex()
 endfunction
-
-"let s:latex_step = 0
-"let s:latex_name = ""
-
-"function! s:latex_xelatex(cb, cb_cb, cb_cb_cb)
-  "call jobstart([
-    "\ 'xelatex',
-    "\ '-synctex=1',
-    "\ '-interaction=nonstopmode',
-    "\ '-file-line-error',
-    "\ s:latex_name . '.tex'
-    "\ ],
-    "\ { 'on_exit':{a, b -> cb(a:cb_cb, a:cb_cb_cb)} }
-    "\ )
-"endfunction
 
 " Supported list:
 "   1. C
@@ -124,7 +109,7 @@ endfunction
 
 function! s:comp_latex(tbl)
   if empty(a:tbl.optn)
-    call s:latex_xelatex()
+    call s:latex_xelatex_2()
   elseif a:tbl.optn ==# 'biber'
     call s:latex_biber()
   else
