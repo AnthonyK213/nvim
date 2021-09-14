@@ -23,7 +23,8 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'vimwiki/vimwiki'
   Plug 'plasticboy/vim-markdown'
   Plug 'sophacles/vim-processing'
-  Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
+  Plug 'iamcco/markdown-preview.nvim',
+        \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
   " Snippet; Completion
 if g:plug_def_comp ==# 'asyncomplete'
   Plug 'prabirshrestha/asyncomplete.vim'

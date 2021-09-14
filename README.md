@@ -34,15 +34,15 @@
     git clone https://github.com/AnthonyK213/nvim.git "$env:LOCALAPPDATA\nvim" -b viml
     ```
     ```sh
-    Copy-Item "$env:LOCALAPPDATA\nvim\init_expamle.vim" -Destination "$env:LOCALAPPDATA\nvim\init.vim"
+    Copy-Item "$env:LOCALAPPDATA\nvim\viml\core\opt_example.vim" -Destination "$env:LOCALAPPDATA\nvim\viml\core\opt.vim"
     ```
   - GNU/Linux
     ```sh
     git clone https://github.com/AnthonyK213/nvim.git "${XDG_DATA_HOME:-$HOME/.config}"/nvim -b viml
     ```
     ```sh
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init_example.vim \
-       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/init.vim
+    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt_example.vim \
+       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt.vim
     ```
 * **Install plugins**
   ```vim
@@ -60,24 +60,19 @@
 
 
 ## Modules
-- Basics
+- Vim script
+  - `core`
+    - Set up options.
+  - `internal`
+    - Variables; mappings; commands.
+  - `packages`
+    - Plugins managed by vim-plug and configurations.
   - `basics.vim`
     - Basic vim options.
-  - `custom.vim`
-    - Global variables and key maps.
-- Utilities
-  - `fnutil.vim`
   - `subsrc.vim`
     - Make vim/neovim a little handdier with no plugins.
   - `vimrc.vim`
     - Configuration for vim.
-- Plugin
-  - `a_plug.vim`
-    - Vim-plug load plug-ins.
-  - `plugrc.vim`
-    - Configurations of plug-ins.(source init_plugin at first)
-  - `ps_opt.vim`
-    - Optional configurations of plugins.
 - Snippet
   - Visual studio code standard snippets.
 - Color scheme
