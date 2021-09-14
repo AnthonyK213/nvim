@@ -54,6 +54,10 @@ local prog_table = {
     bibtex = latex_bibtex,
 }
 
+local function latex_xelatex_2()
+    latex_xelatex(latex_xelatex)
+end
+
 local function latex_xelatex_bib(prog)
     local f = prog_table[prog]
     if f then
@@ -146,7 +150,7 @@ local comp_latex = function (tbl)
     latex_step = 1
     latex_name = vim.fn.expand('%:p:r')
     if tbl.optn == '' then
-        latex_xelatex()
+        latex_xelatex_2()
     elseif prog_table[tbl.optn] then
         latex_xelatex_bib(tbl.optn)
     else
