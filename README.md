@@ -99,7 +99,7 @@
     - Set up options.
   - `internal`
     - Variables; Mappings; Commands.
-  - `package`
+  - `packages`
     - Plugins managed by packer.nvim and configurations.
   - `utility`
     - Function library.

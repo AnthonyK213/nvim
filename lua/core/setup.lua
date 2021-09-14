@@ -7,8 +7,7 @@ require('internal/map')
 require('internal/cmd')
 
 -- Package configurations
-require('package/packer')
-require('package/local')
+require('packages')
 
 -- Color scheme
 vim.o.bg = require('core/opt').tui.bg or 'dark'
@@ -18,5 +17,5 @@ vim.o.tgc = true
 if nvim_init_src == 'nano' then
     vim.cmd('colorscheme nanovim')
 else
-    require('package/ui')
+    require('packages/ui')
 end
