@@ -91,11 +91,11 @@ elseif g:plug_def_comp ==# 'coc'
   endfunction
 
   " Symbol renaming.
-  nmap <leader>rn <Plug>(coc-rename)
+  nmap <leader>gn <Plug>(coc-rename)
 
   " Formatting selected code.
-  xmap <leader>rf  <Plug>(coc-format-selected)
-  nmap <leader>rf  <Plug>(coc-format-selected)
+  xmap <leader>gm  <Plug>(coc-format-selected)
+  nmap <leader>gm  <Plug>(coc-format-selected)
 
   augroup usr_coc_group
     autocmd!

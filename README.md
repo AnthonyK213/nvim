@@ -184,6 +184,8 @@
     - n:    <kbd>d</kbd>     -> *coc.nvim*, declaration.
     - n:    <kbd>f</kbd>     -> *coc.nvim*, definition.
     - n:    <kbd>i</kbd>     -> *coc.nvim*, implementation.
+    - n:    <kbd>m</kbd>     -> *coc.nvim*, format selection.
+    - n:    <kbd>n</kbd>     -> *coc.nvim*, rename.
     - n:    <kbd>q</kbd>     -> *coc.nvim*, autofix.
     - n:    <kbd>r</kbd>     -> *coc.nvim*, references.
     - n:    <kbd>t</kbd>     -> *coc.nvim*, type definition.
