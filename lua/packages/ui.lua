@@ -1,7 +1,7 @@
 local augroup = require("utility/lib").set_augroup
 
 
--- material.nvim
+-- colorscheme
 vim.cmd('packadd tokyonight.nvim')
 vim.g.tokyonight_style = require('core/opt').tui.theme or 'storm'
 vim.g.tokyonight_italic_keywords = false
