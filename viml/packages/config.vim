@@ -1,4 +1,4 @@
-" tokyonight-vim
+" colorscheme
 set termguicolors
 set background=dark
 let g:one_allow_italics = 1
@@ -6,7 +6,7 @@ let g:airline_theme = 'one'
 colorscheme one
 
 
-" colorscheme
+" vim-airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled  = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -64,6 +64,62 @@ nmap <silent> <leader>hJ 9999<plug>(signify-next-hunk)
 nmap <silent> <leader>hK 9999<plug>(signify-prev-hunk)
 
 
+" IndentLine
+let g:indentLine_char = '¦'
+let g:indentLine_setConceal = 1
+
+
+" vim-table-mode
+nn <silent> <leader>ta :TableAddFormula<CR>
+nn <silent> <leader>tf :TableModeRealign<CR>
+nn <silent> <leader>tc :TableEvalFormulaLine<CR>
+
+
+" vim-ipairs
+let g:pairs_map_ret = 0
+let g:pairs_map_bak = 1
+let g:pairs_map_spc = 1
+let g:pairs_usr_extd = {
+      \ "$"  : "$",
+      \ "`"  : "`",
+      \ "*"  : "*",
+      \ "**" : "**",
+      \ "***": "***",
+      \ "<u>": "</u>"
+      \ }
+let g:pairs_usr_extd_map = {
+      \ "<M-P>" : "`",
+      \ "<M-I>" : "*",
+      \ "<M-B>" : "**",
+      \ "<M-M>" : "***",
+      \ "<M-U>" : "<u>"
+      \ }
+
+
+" vimtex
+let g:tex_flavor = 'latex'
+if has("win32")
+  let g:vimtex_view_general_viewer = 'SumatraPDF'
+  let g:vimtex_view_general_options
+        \ = '-reuse-instance -forward-search @tex @line @pdf'
+elseif has("unix")
+  let g:vimtex_view_general_viewer = 'zathura'
+endif
+let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+let g:vimtex_compiler_progname = 'nvr'
+
+
+" vimwiki
+let g:vimwiki_list = [{
+      \ 'path' : expand(g:path_cloud . '/Documents/Agenda/'),
+      \ 'path_html' : expand(g:path_cloud . '/Documents/Agenda/html/'),
+      \ 'syntax' : 'default',
+      \ 'ext' : '.wiki'
+      \ }]
+let g:vimwiki_folding = 'syntax'
+let g:vimwiki_ext2syntax = { '.wikimd' : 'markdown' }
+
+
 " vim-markdown
 let g:vim_markdown_math = 0
 let g:vim_markdown_conceal = 0
@@ -93,62 +149,7 @@ let g:mkdp_preview_options = {
       \ }
 
 
-" vim-table-mode
-nn <silent> <leader>ta :TableAddFormula<CR>
-nn <silent> <leader>tf :TableModeRealign<CR>
-nn <silent> <leader>tc :TableEvalFormulaLine<CR>
-
-
-" vimtex
-let g:tex_flavor = 'latex'
-if has("win32")
-  let g:vimtex_view_general_viewer = 'SumatraPDF'
-  let g:vimtex_view_general_options
-        \ = '-reuse-instance -forward-search @tex @line @pdf'
-elseif has("unix")
-  let g:vimtex_view_general_viewer = 'zathura'
-endif
-let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-let g:vimtex_compiler_progname = 'nvr'
-
-
-" vimwiki
-let g:vimwiki_list = [{
-      \ 'path' : expand(g:path_cloud . '/Documents/Agenda/'),
-      \ 'path_html' : expand(g:path_cloud . '/Documents/Agenda/html/'),
-      \ 'syntax' : 'default',
-      \ 'ext' : '.wiki'
-      \ }]
-let g:vimwiki_folding = 'syntax'
-let g:vimwiki_ext2syntax = { '.wikimd' : 'markdown' }
-
-
-" IndentLine
-let g:indentLine_char = '¦'
-let g:indentLine_setConceal = 1
-
-
-" vim-ipairs
-let g:pairs_map_ret = 0
-let g:pairs_map_bak = 1
-let g:pairs_map_spc = 1
-let g:pairs_usr_extd = {
-      \ "$"  : "$",
-      \ "`"  : "`",
-      \ "*"  : "*",
-      \ "**" : "**",
-      \ "***": "***",
-      \ "<u>": "</u>"
-      \ }
-let g:pairs_usr_extd_map = {
-      \ "<M-P>" : "`",
-      \ "<M-I>" : "*",
-      \ "<M-B>" : "**",
-      \ "<M-M>" : "***",
-      \ "<M-U>" : "<u>"
-      \ }
-
-
+" Snippet; Completion
 if has('win32')
   let s:snippet_dir = expand('$localappdata/nvim/snippet')
 elseif has('unix')
