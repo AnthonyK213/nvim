@@ -20,7 +20,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'AnthonyK213/vim-ipairs'
   " File type support
   Plug 'lervag/vimtex'
-  Plug 'vimwiki/vimwiki'
+  Plug 'vimwiki/vimwiki', {'branch': 'dev'}
   Plug 'plasticboy/vim-markdown'
   Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim',
