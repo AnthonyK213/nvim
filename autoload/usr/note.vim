@@ -171,9 +171,8 @@ function! usr#note#md_insert_bullet()
     endwhile
     let l:count_d = len(l:move_record) == 0 ? 0 : l:move_record[0]
     let l:nbullet = l:detect == 2 ? (l:bullet + 1) . '. ' : l:bullet . ' '
-    call feedkeys(repeat("\<C-g>U\<Down>", l:count_d) .
-          \ "\<C-\>\<C-o>o\<C-\>\<C-o>0" .
-          \ repeat("\<space>", l:indent) . l:nbullet)
+    call feedkeys(repeat("\<C-G>U\<Down>", l:count_d) .
+          \ "\<C-O>o\<C-O>i" . repeat("\<SPACE>", l:indent) . l:nbullet)
   endif
 endfunction
 
