@@ -1,11 +1,11 @@
-"" Create a below right split window.
+" Create a below right split window.
 function! usr#lib#belowright_split(height)
   let l:height = min([a:height, float2nr(winheight(0) * 0.382)])
   belowright split
   exe 'resize' l:height
 endfunction
 
-"" Find the root directory of .git
+" Find the root directory of .git
 function! usr#lib#get_git_root()
   let l:dir = expand('%:p:h')
   while 1
@@ -16,7 +16,7 @@ function! usr#lib#get_git_root()
   return [0, '']
 endfunction
 
-"" Get the branch name without git
+" Get the branch name without git
 function! usr#lib#get_git_branch(git_root)
   if a:git_root[0] == 0
     return [0, '']
@@ -30,7 +30,7 @@ function! usr#lib#get_git_branch(git_root)
   endif
 endfunction
 
-"" Get the character around the cursor.
+" Get the character around the cursor.
 function! usr#lib#get_char(num) abort
   if a:num ==# 'p'
     return matchstr(getline('.'), '.\%' . col('.') . 'c')
@@ -43,14 +43,14 @@ function! usr#lib#get_char(num) abort
   endif
 endfunction
 
-"" Determines if a character is a Chinese character.
-"" Why is this faster than regex?
+" Determines if a character is a Chinese character.
+" Why is this faster than regex?
 function! usr#lib#is_hanzi(char)
   let l:code = char2nr(a:char)
   return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
 
-"" Return the <cWORD> without the noisy characters.
+" Return the <cWORD> without the noisy characters.
 function! usr#lib#get_clean_cWORD(del_list)
   let l:c_word = expand("<cWORD>")
   while index(a:del_list, l:c_word[(len(l:c_word) - 1)]) >= 0 &&
@@ -63,7 +63,7 @@ function! usr#lib#get_clean_cWORD(del_list)
   return l:c_word
 endfunction
 
-"" Return the selections as string.
+" Return the selections as string.
 function! usr#lib#get_visual_selection()
   try
     let l:a_save = @a
@@ -74,8 +74,8 @@ function! usr#lib#get_visual_selection()
   endtry
 endfunction
 
-"" Replace chars in a string according to a dictionary.
-"" Probably function escape() is more useful in most situations.
+" Replace chars in a string according to a dictionary.
+" Probably function escape() is more useful in most situations.
 function! usr#lib#str_escape(str, esc_dict)
   let l:str_lst = split(a:str, '.\zs')
   let l:i = 0
@@ -90,4 +90,13 @@ endfunction
 
 function! usr#lib#vim_reg_esc(str)
   return escape(a:str, '()[]{}<>.+*^$')
+endfunction
+
+" Define highlight group.
+function! usr#lib#set_hi(group, fg, bg, attr)
+  let l:cmd = "highlight " . a:group
+  if !empty(a:fg)   | let l:cmd = l:cmd . " guifg=" . a:fg | endif
+  if !empty(a:bg)   | let l:cmd = l:cmd . " guibg=" . a:bg | endif
+  if !empty(a:attr) | let l:cmd = l:cmd . " gui=" . a:attr | endif
+  exe l:cmd
 endfunction

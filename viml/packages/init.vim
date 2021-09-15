@@ -2,7 +2,7 @@ let g:plug_def_comp = get(g:, 'default_complete', '')
 " Load plug-ins
 call plug#begin(stdpath('data') . '/plugged')
   " UI
-  Plug 'rakr/vim-one'
+  Plug 'morhetz/gruvbox'
   Plug 'vim-airline/vim-airline'
   " Tree manager
   Plug 'preservim/nerdtree'

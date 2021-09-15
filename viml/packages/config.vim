@@ -1,9 +1,12 @@
 " colorscheme
 set termguicolors
 set background=dark
-let g:one_allow_italics = 1
-let g:airline_theme = 'one'
-colorscheme one
+let g:airline_theme = 'gruvbox'
+augroup highlight_extend
+  autocmd!
+  au ColorScheme * call usr#vis#hi_extd()
+augroup end
+colorscheme gruvbox
 
 
 " vim-airline
