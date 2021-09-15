@@ -84,7 +84,7 @@
 * Package manager
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Visual
-  - [vim-one](https://github.com/rakr/vim-one)
+  - [gruvbox](https://github.com/morhetz/gruvbox)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
 * File system
   - [nerdtree](https://github.com/preservim/nerdtree)
