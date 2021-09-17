@@ -91,7 +91,16 @@ local comp_c = function (tbl)
 end
 
 local comp_cpp = function (tbl)
-    return true, 'g++ '..tbl.file..' -o '..tbl.name..tbl.oute..' && '..tbl.exec..tbl.name
+    local cc = {
+        gcc = 'g++',
+        clang = 'clang++'
+    }
+    if cc[pub.ccomp] then
+        return true, cc[pub.ccomp]..' '..tbl.file..' -o '..tbl.name..tbl.oute..
+        ' && '..tbl.exec..tbl.name
+    else
+        return false, nil
+    end
 end
 
 local comp_csharp = function (tbl)
