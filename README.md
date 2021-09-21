@@ -31,14 +31,14 @@
 * **Clone source code and setup**
   - Windows
     ```sh
-    git clone https://github.com/AnthonyK213/nvim.git "$env:LOCALAPPDATA\nvim" -b viml
+    git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git "$env:LOCALAPPDATA\nvim"
     ```
     ```sh
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\core\opt_example.vim" -Destination "$env:LOCALAPPDATA\nvim\viml\core\opt.vim"
     ```
   - GNU/Linux
     ```sh
-    git clone https://github.com/AnthonyK213/nvim.git "${XDG_DATA_HOME:-$HOME/.config}"/nvim -b viml
+    git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
     ```sh
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt_example.vim \
