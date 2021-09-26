@@ -14,7 +14,7 @@ set laststatus=2
 set colorcolumn=80
 set shortmess=catI
 set noshowmode showcmd
-set list listchars=tab:>-,trail:·
+set list listchars=tab:>-,space:·
 
 
 " Language, encode
