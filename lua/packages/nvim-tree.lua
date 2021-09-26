@@ -74,7 +74,7 @@ vim.g.nvim_tree_bindings = {
     { key = "o",      cb = ":call usr#misc#nvim_tree_os_open()<CR>" },
 }
 
-require'nvim-tree'.setup {
+require('nvim-tree').setup {
     disable_netrw       = true,
     hijack_netrw        = true,
     open_on_setup       = false,
