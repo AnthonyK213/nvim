@@ -42,6 +42,7 @@ vim.g.nvim_tree_icons = {
         error = "E",
     }
 }
+
 local tree_cb = require('nvim-tree.config').nvim_tree_callback
 vim.g.nvim_tree_bindings = {
     { key = {"<CR>", "<2-LeftMouse>"}, cb = tree_cb("edit") },
@@ -71,6 +72,26 @@ vim.g.nvim_tree_bindings = {
     { key = "u",      cb = tree_cb("dir_up") },
     { key = "q",      cb = tree_cb("close") },
     { key = "o",      cb = ":call usr#misc#nvim_tree_os_open()<CR>" },
+}
+
+require'nvim-tree'.setup {
+    disable_netrw       = true,
+    hijack_netrw        = true,
+    open_on_setup       = false,
+    ignore_ft_on_setup  = {},
+    auto_close          = false,
+    open_on_tab         = false,
+    hijack_cursor       = true,
+    update_cwd          = false,
+    update_focused_file = {
+        enable      = false,
+        update_cwd  = false,
+        ignore_list = {}
+    },
+    system_open = {
+        cmd  = nil,
+        args = {}
+    },
 }
 
 
