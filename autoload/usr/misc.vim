@@ -80,7 +80,7 @@ endfunction
 
 " Source vim file.
 function! usr#misc#vim_source(file) abort
-  call luaeval("require('utility/lib').vim_source('" . a:file . "')")
+  call v:lua.require('utility/lib').vim_source(a:file)
 endfunction
 
 " Neovim nightly update.
