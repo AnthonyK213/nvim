@@ -1,3 +1,8 @@
+# Configuration for goneovim
+# File path:
+#   GNU/Linux -> $HOME/.config/goneovim/settings.toml
+#   Windows   -> $HOMEPATH/.goneovim/settings.toml
+
 [Editor]
 BorderlessWindow = false
 ExtCmdline   = true
