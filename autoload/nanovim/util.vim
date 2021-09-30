@@ -1,4 +1,4 @@
-let s:nanovim_mode={
+let s:nanovim_mode = {
       \ 'c'     : ' CO ',
       \ 'i'     : ' IN ',
       \ 'ic'    : ' IC ',
@@ -16,6 +16,11 @@ let s:nanovim_mode={
       \ 'V'     : ' VL ',
       \ ''    : ' VB ',
       \ }
+let s:nanovim_short_ft = [
+      \ 'NvimTree', 'help', 'netrw',
+      \ 'nerdtree', 'qf',
+      \ '__GonvimMarkdownPreview__',
+      \ ]
 
 
 " Local functions
@@ -108,11 +113,11 @@ endfunction
 
 " When enter/leave the buffer/window, set the status line.
 " Long:
-" | MODE || file_name (file_type, git_branch)                     line:column |
+" | MODE | file_name (file_type, git_branch)                      line:column |
 " Short:
 " | file_name                                                                 |
 function! nanovim#util#enter()
-  if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) >= 0
+  if index(s:nanovim_short_ft, &ft) >= 0
     let &l:stl = "%#Nano_Face_Default# " .
           \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
   else
@@ -126,7 +131,7 @@ function! nanovim#util#enter()
 endfunction
 
 function! nanovim#util#leave()
-  if index(['NvimTree', 'help', 'netrw', 'nerdtree', 'qf'], &ft) < 0
+  if index(s:nanovim_short_ft, &ft) < 0
     let &l:stl = "%#Nano_Face_Default# " .
           \ "%#Nano_Face_Header_Subtle# %{nanovim#util#fname()}" .
           \ "%= %#Nano_Face_Default# "
