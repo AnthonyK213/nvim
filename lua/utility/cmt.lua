@@ -6,25 +6,24 @@ local M = {}
 
 local cmt_mark_tab_single = {
     c = "//",
+    cmake = "#",
     cpp = "//",
     cs = "//",
+    gitconfig = "#",
     java = "//",
-    lua = "--",
-    rust = "//",
-    -- No multiline comment marks;
-    -- Or something stupid like python.
     lisp = ";",
+    lua = "--",
+    markdown = "> ",
+    rust = "//",
     perl = "#",
     python = "#",
     sh = "#",
+    sshconfig = "#",
     tex = "%",
+    toml = "#",
     vim = '"',
     vimwiki = "%% ",
-    markdown = "> ",
-    sshconfig = "#",
-    gitconfig = "#",
     yaml = "#",
-    toml = "#",
 }
 
 local cmt_mark_tab_multi = {
