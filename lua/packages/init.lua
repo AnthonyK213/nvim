@@ -4,7 +4,6 @@ require('packer').startup(function(use)
     -- Visual
     use {
         {'folke/tokyonight.nvim',       opt = true};
-        --{'hoob3rt/lualine.nvim',        opt = true};
         {'shadmansaleh/lualine.nvim',   opt = true};
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
@@ -22,7 +21,10 @@ require('packer').startup(function(use)
     }
     -- VCS utilities
     use {
-        'tpope/vim-fugitive';
+        {
+            'TimUntersberger/neogit',
+            config = function() require('packages/neogit') end
+        };
         {
             'lewis6991/gitsigns.nvim',
             config = function() require('packages/gitsigns') end
