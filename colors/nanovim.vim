@@ -367,6 +367,31 @@ hi! link NvimTreeGitDirty         Nano_Face_Popout
 hi! link NvimTreeGitStaged        Nano_Face_Salient
 hi! link NvimTreeGitNew           Nano_Face_Popout
 
+" Neogit
+call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
+call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
+call s:h("NeogitNotificationInfo", { "fg": s:nano_color_critical })
+call s:h("NeogitDiffAddHighlight", {
+      \ "fg": s:nano_color_salient,
+      \ "bg": s:nano_color_subtle
+      \ })
+call s:h("NeogitDiffDeleteHighlight", {
+      \ "fg": s:nano_color_popout,
+      \ "bg": s:nano_color_subtle
+      \ })
+call s:h("NeogitDiffContextHighlight", {
+      \ "fg": s:nano_color_strong,
+      \ "bg": s:nano_color_highlight
+      \ })
+call s:h("NeogitHunkHeader", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_highlight
+      \ })
+call s:h("NeogitHunkHeaderHighlight", {
+      \ "fg": s:nano_color_faded,
+      \ "bg": s:nano_color_highlight
+      \ })
+
 " Terminal
 if has("nvim")
   "" Base
