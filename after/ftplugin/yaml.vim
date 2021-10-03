@@ -1,1 +1,1 @@
-setlocal nowrap nolinebreak
+setlocal textwidth=0 nowrap nolinebreak

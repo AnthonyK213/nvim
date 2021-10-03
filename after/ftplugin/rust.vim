@@ -1,1 +1,1 @@
-setlocal ts=4 sw=4 sts=4
+setlocal tabstop=4 shiftwidth=4 softtabstop=4
