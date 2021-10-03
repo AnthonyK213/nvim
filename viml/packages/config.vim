@@ -69,7 +69,10 @@ nmap <silent> <leader>hK 9999<plug>(signify-prev-hunk)
 
 " IndentLine
 let g:indentLine_char = '¦'
-let g:indentLine_setConceal = 1
+augroup indentLine_set_conceal
+  autocmd!
+  au FileType markdown,vimwiki let b:indentLine_enabled=0
+augroup end
 
 
 " vim-table-mode
