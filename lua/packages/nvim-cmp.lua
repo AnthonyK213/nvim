@@ -30,7 +30,7 @@ cmp.setup {
 
     mapping = {
         ['<CR>'] = function (fallback)
-            if vim.fn.pumvisible() == 1 then
+            if cmp.visible() then
                 cmp.mapping.confirm({
                     behavior = cmp.ConfirmBehavior.Replace,
                     select = true,
@@ -43,8 +43,8 @@ cmp.setup {
         end,
         ['<ESC>'] = cmp.mapping.abort(),
         ['<TAB>'] = function (fallback)
-            if vim.fn.pumvisible() == 1 then
-                feedkeys('<C-N>', 'n')
+            if cmp.visible() then
+                cmp.select_next_item()
             elseif vim.fn.index({'vimwiki', 'markdown'}, vim.bo.ft) >= 0 and
                 vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
                 match_str(lib.get_context('b')) then
@@ -56,6 +56,15 @@ cmp.setup {
             elseif lib.get_context('b'):match('[%w._:]$') and
                 vim.bo.bt ~= 'prompt' then
                 cmp.mapping.complete()()
+            else
+                fallback()
+            end
+        end,
+        ['<S-TAB>'] = function (fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif vim.fn['vsnip#jumpable'](1) == 1 then
+                feedkeys('<Plug>(vsnip-jump-prev)', '')
             else
                 fallback()
             end
@@ -73,11 +82,6 @@ cmp.setup {
 local keymap = vim.api.nvim_set_keymap
 keymap('s', '<TAB>',
 [[vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"]],
-{ noremap = false, silent = true, expr = true })
-keymap('i', '<S-TAB>',
-[[pumvisible() ? ]]..
-[["<C-p>" : vsnip#jumpable(1) ? ]]..
-[["<Plug>(vsnip-jump-prev)" : "<S-TAB>"]],
 { noremap = false, silent = true, expr = true })
 keymap('s', '<S-TAB>',
 [[vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"]],
