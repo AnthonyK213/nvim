@@ -63,7 +63,7 @@ cmp.setup {
         ['<S-TAB>'] = function (fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif vim.fn['vsnip#jumpable'](1) == 1 then
+            elseif vim.fn['vsnip#jumpable'](-1) == 1 then
                 feedkeys('<Plug>(vsnip-jump-prev)', '')
             else
                 fallback()
