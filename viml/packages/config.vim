@@ -186,15 +186,15 @@ if g:plug_def_comp ==# 'asyncomplete'
         \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
   im  <silent><expr> <S-TAB>
         \ pumvisible() ?
-        \ "\<C-P>" : vsnip#jumpable(1) ?
+        \ "\<C-P>" : vsnip#jumpable(-1) ?
         \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
   im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"
 
   " vim-vsnip
   let g:vsnip_snippet_dir = s:snippet_dir
 
-  smap <silent><expr> <TAB>   vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
-  smap <silent><expr> <S-TAB> vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
+  smap <silent><expr> <TAB>   vsnip#jumpable(1)  ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
+  smap <silent><expr> <S-TAB> vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
 
 elseif g:plug_def_comp ==# 'coc'
   call coc#config('snippets', {
