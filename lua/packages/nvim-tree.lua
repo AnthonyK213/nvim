@@ -9,7 +9,8 @@ vim.g.nvim_tree_window_picker_exclude = {
 vim.g.nvim_tree_show_icons = {
     git = 1,
     folders = 1,
-    files = 1
+    files = 1,
+    folder_arrows = 0
 }
 vim.g.nvim_tree_icons = {
     default = '▪ ',
@@ -30,12 +31,6 @@ vim.g.nvim_tree_icons = {
         empty_open = "*",
         symlink = "@",
         symlink_open = "@",
-    },
-    lsp = {
-        hint = "H",
-        info = "I",
-        warning = "W",
-        error = "E",
     }
 }
 
@@ -54,7 +49,10 @@ require('nvim-tree').setup {
     },
     hijack_cursor       = true,
     update_cwd          = false,
-    lsp_diagnostics     = false,
+    diagnostics = {
+        enable = false,
+        icons = {}
+    },
     update_focused_file = {
         enable      = true,
         update_cwd  = false,
@@ -66,6 +64,7 @@ require('nvim-tree').setup {
     },
     view = {
         width = 30,
+        height = 30,
         side = 'left',
         auto_resize = false,
         mappings = {
