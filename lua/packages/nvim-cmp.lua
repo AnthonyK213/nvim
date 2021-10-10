@@ -72,10 +72,10 @@ cmp.setup {
     },
 
     sources = {
-        { name = 'buffer' },
         { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        { name = 'buffer' },
         { name = 'path' },
-        { name = 'vsnip' }
     }
 }
 
