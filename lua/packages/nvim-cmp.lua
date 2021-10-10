@@ -31,17 +31,17 @@ cmp.setup {
     mapping = {
         ['<CR>'] = function (fallback)
             if cmp.visible() then
-                cmp.mapping.confirm({
+                cmp.confirm {
                     behavior = cmp.ConfirmBehavior.Replace,
                     select = true,
-                })()
+                }
             elseif vim.bo.bt ~= 'prompt' then
                 feedkeys('<Plug>(lua_pairs_enter)', '')
             else
                 fallback()
             end
         end,
-        ['<ESC>'] = cmp.mapping.abort(),
+        ['<ESC>'] = cmp.mapping.close(),
         ['<TAB>'] = function (fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -55,7 +55,7 @@ cmp.setup {
                 feedkeys('<Plug>(vsnip-jump-next)', '')
             elseif lib.get_context('b'):match('[%w._:]$') and
                 vim.bo.bt ~= 'prompt' then
-                cmp.mapping.complete()()
+                cmp.complete()
             else
                 fallback()
             end
