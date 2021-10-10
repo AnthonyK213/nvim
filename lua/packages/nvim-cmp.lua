@@ -84,5 +84,5 @@ keymap('s', '<TAB>',
 [[vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<Nul>"]],
 { noremap = false, silent = true, expr = true })
 keymap('s', '<S-TAB>',
-[[vsnip#jumpable(1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"]],
+[[vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<Nul>"]],
 { noremap = false, silent = true, expr = true })
