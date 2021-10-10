@@ -96,7 +96,7 @@ require('nvim-tree').setup {
                 { key = "hj",     cb = tree_cb("next_git_item") },
                 { key = "u",      cb = tree_cb("dir_up") },
                 { key = "q",      cb = tree_cb("close") },
-                { key = "o",      cb = ":call usr#misc#nvim_tree_os_open()<CR>" },
+                { key = "o",      cb = ":call usr#misc#nvim_tree_sys_open()<CR>" },
             }
         }
     }

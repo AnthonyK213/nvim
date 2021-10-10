@@ -56,7 +56,7 @@ function! usr#misc#show_toc()
 endfunction
 
 " nvim-tree open file with os default application.
-function! usr#misc#nvim_tree_os_open()
+function! usr#misc#nvim_tree_sys_open()
 lua << EOF
   local node = require('nvim-tree.lib').get_node_at_cursor()
   if node then
