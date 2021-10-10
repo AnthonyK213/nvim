@@ -41,7 +41,7 @@ cmp.setup {
                 fallback()
             end
         end,
-        ['<ESC>'] = cmp.mapping.close(),
+        ['<ESC>'] = cmp.mapping.abort(),
         ['<TAB>'] = function (fallback)
             if cmp.visible() then
                 cmp.select_next_item()
