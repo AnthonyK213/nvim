@@ -13,7 +13,7 @@ let s:esc_url = {
 
 
 " Functions
-"" Open terminal and launch shell
+"" Open terminal and launch shell.
 function! usr#util#terminal()
   call usr#lib#belowright_split(15)
   silent exe 'terminal' usr#pub#var().shell
@@ -43,7 +43,7 @@ function! usr#util#open_file(file_path)
   silent exe '!' . l:cmd l:file_path_esc
 endfunction
 
-"" Search web
+"" Search web.
 function! usr#util#search_web(mode, site)
   let l:del_list = [
         \ ".", ",", "'", "\"",
