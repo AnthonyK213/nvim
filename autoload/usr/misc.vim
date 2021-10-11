@@ -40,7 +40,7 @@ function! usr#misc#show_toc()
   if &ft ==? 'markdown'
     if exists(':Tocv')
       Tocv
-      vertical resize 50
+      vertical resize 30
     endif
   elseif &ft ==? 'tex'
     if exists(':VimtexTocToggle')
