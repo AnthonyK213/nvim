@@ -24,7 +24,7 @@ if lsp_option.powershell_es and lsp_option.powershell_es.enable then
     if vim.fn.has("win32") ~= 1 then return end
     local pses_bundle_path = vim.fn.expand(
     lsp_option.powershell_es.path or
-    "D:/Env/LSP/PowerShellEditorServices")
+    vim.g.path_bin.."/LSP/PowerShellEditorServices")
     lspconfig.powershell_es.setup {
         bundle_path = pses_bundle_path,
         capabilities = capabilities
@@ -68,20 +68,15 @@ if lsp_option.omnisharp then
 end
 --- sumneko_lua
 if lsp_option.sumneko_lua and lsp_option.sumneko_lua.enable then
-    local system_name, sumneko_root_path
+    local system_name
+    local sumneko_root_path = vim.fn.expand(lsp_option.sumneko_lua.path) or
+    vim.fn.expand(vim.g.path_bin.."/LSP/lua-language-server")
     if vim.fn.has("mac") == 1 then
         system_name = "macOS"
-        sumneko_root_path = "path"
     elseif vim.fn.has("unix") == 1 then
         system_name = "Linux"
-        sumneko_root_path = vim.fn.expand(
-        lsp_option.sumneko_lua.path or
-        "$HOME/.local/bin/lua-language-server")
     elseif vim.fn.has('win32') == 1 then
         system_name = "Windows"
-        sumneko_root_path = vim.fn.expand(
-        lsp_option.sumneko_lua.path or
-        "D:/Env/LSP/lua-language-server")
     else
         print("Unsupported system for sumneko.")
     end

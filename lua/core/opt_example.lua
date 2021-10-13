@@ -8,6 +8,7 @@ return {
         home = nil,
         cloud = nil,
         desktop = nil,
+        bin = nil,
     },
     tui = {
         --bg = 'dark',

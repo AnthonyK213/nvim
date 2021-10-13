@@ -7,6 +7,7 @@ vim.g.mapleader = " "
 vim.g.path_home = core_opt.path.home or vim.env.HOME
 vim.g.path_cloud = core_opt.path.cloud or vim.env.ONEDRIVE or vim.g.path_home
 vim.g.path_desktop = core_opt.path.desktop or fn.expand(vim.g.path_home..'/Desktop')
+vim.g.path_bin = core_opt.path.bin or fn.expand(vim.g.path_home..'/bin')
 
 if fn.has("win32") == 1 then
     vim.g.python3_host_prog =
