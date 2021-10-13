@@ -218,7 +218,22 @@
     - n:    <kbd>b</kbd>     -> *telescope.nvim*, buffers.
     - n:    <kbd>f</kbd>     -> *telescope.nvim*, find_files.
     - n:    <kbd>g</kbd>     -> *telescope.nvim*, live_grep.
-  - <kbd>leader-g-</kbd>     -> **LSP**
+  - <kbd>leader-g-</kbd>     -> **VCS**.
+    - n:    <kbd>b</kbd>     -> *gitsigns.nvim*, blame line.
+    - n:    <kbd>j</kbd>     -> *gitsigns.nvim*, next hunk.
+    - n:    <kbd>k</kbd>     -> *gitsigns.nvim*, previous hunk.
+    - n:    <kbd>p</kbd>     -> *gitsigns.nvim*, preview hunk.
+    - n:    <kbd>n</kbd>     -> *neogit*, open neogit status window.
+    - n:    <kbd>s</kbd>     -> Git status.
+  - <kbd>leader-h-</kbd>     -> **Search text in web browser**.
+    - nv:   <kbd>b</kbd>     -> Baidu
+    - nv:   <kbd>g</kbd>     -> Google
+    - nv:   <kbd>h</kbd>     -> Github
+    - nv:   <kbd>y</kbd>     -> Youdao
+  - <kbd>leader-k-</kbd>     -> **Comment**.
+    - nv:   <kbd>c</kbd>     -> Comment line/block.
+    - nv:   <kbd>u</kbd>     -> Un-comment line/block.
+  - <kbd>leader-l-</kbd>     -> **LSP**
     - n:    <kbd>0</kbd>     -> `vim.lsp.buf.document_symbol()`
     - n:    <kbd>a</kbd>     -> `vim.lsp.buf.code_action()`
     - n:    <kbd>d</kbd>     -> `vim.lsp.buf.declaration()`
@@ -232,20 +247,6 @@
     - n:    <kbd>w</kbd>     -> `vim.lsp.buf.workspace_symbol()`
     - n:    <kbd>[</kbd>     -> `vim.lsp.diagnostic.goto_prev()`
     - n:    <kbd>]</kbd>     -> `vim.lsp.diagnostic.goto_next()`
-  - <kbd>leader-h-</kbd>     -> **VCS**.
-    - n:    <kbd>j</kbd>     -> *gitsigns.nvim*, next hunk.
-    - n:    <kbd>k</kbd>     -> *gitsigns.nvim*, previous hunk.
-    - n:    <kbd>p</kbd>     -> *gitsigns.nvim*, preview hunk.
-    - n:    <kbd>b</kbd>     -> *gitsigns.nvim*, blame line.
-    - n:    <kbd>h</kbd>     -> Git status.
-  - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
-    - nv:   <kbd>b</kbd>     -> Baidu
-    - nv:   <kbd>g</kbd>     -> Google
-    - nv:   <kbd>h</kbd>     -> Github
-    - nv:   <kbd>y</kbd>     -> Youdao
-  - <kbd>leader-l-</kbd>     -> **Comment**.
-    - nv:   <kbd>a</kbd>     -> Comment line/block.
-    - nv:   <kbd>d</kbd>     -> Un-comment line/block.
   - <kbd>leader-m-</kbd>     -> **Markdown**
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.

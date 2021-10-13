@@ -122,7 +122,7 @@ keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  { noremap = true, silent = true })
 keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', { noremap = true, silent = true })
 -- Echo git status.
-keymap('n', '<leader>hh', ':!git status<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>gs', ':!git status<CR>', { noremap = true, silent = true })
 -- Search cword in web browser.
 local web_list = {
     b = "https://www.baidu.com/s?wd=",
@@ -131,8 +131,8 @@ local web_list = {
     y = "https://dict.youdao.com/w/eng/"
 }
 for key, val in pairs(web_list) do
-    keymap('n', '<leader>k'..key, '<Cmd>lua require("utility/util").search_web("n", "'..val..'")<CR>',  { noremap = true, silent = true })
-    keymap('v', '<leader>k'..key, ':<C-U>lua require("utility/util").search_web("v", "'..val..'")<CR>', { noremap = true, silent = true })
+    keymap('n', '<leader>h'..key, '<Cmd>lua require("utility/util").search_web("n", "'..val..'")<CR>',  { noremap = true, silent = true })
+    keymap('v', '<leader>h'..key, ':<C-U>lua require("utility/util").search_web("v", "'..val..'")<CR>', { noremap = true, silent = true })
 end
 -- Surround
 keymap('n', '<leader>sa', '<Cmd>lua require("utility/srd").srd_add("n")<CR>',  { noremap = true, silent = true })
@@ -144,7 +144,7 @@ for key, val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
     keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/srd").srd_add("v","'..val..'")<CR>', { noremap = true, silent = true })
 end
 -- Comment
-keymap("n", "<leader>la", '<Cmd>lua require("utility/cmt").cmt_add_norm()<CR>', { noremap = true, silent = true })
-keymap("v", "<leader>la", ':<C-U>lua require("utility/cmt").cmt_add_vis()<CR>', { noremap = true, silent = true })
-keymap("n", "<leader>ld", '<Cmd>lua require("utility/cmt").cmt_del_norm()<CR>', { noremap = true, silent = true })
-keymap("v", "<leader>ld", ':<C-U>lua require("utility/cmt").cmt_del_vis()<CR>', { noremap = true, silent = true })
+keymap("n", "<leader>kc", '<Cmd>lua require("utility/cmt").cmt_add_norm()<CR>', { noremap = true, silent = true })
+keymap("v", "<leader>kc", ':<C-U>lua require("utility/cmt").cmt_add_vis()<CR>', { noremap = true, silent = true })
+keymap("n", "<leader>ku", '<Cmd>lua require("utility/cmt").cmt_del_norm()<CR>', { noremap = true, silent = true })
+keymap("v", "<leader>ku", ':<C-U>lua require("utility/cmt").cmt_del_vis()<CR>', { noremap = true, silent = true })

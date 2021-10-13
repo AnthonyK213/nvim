@@ -36,10 +36,10 @@ require('gitsigns').setup {
     keymaps = {
         noremap = true,
         buffer = true,
-        ['n <leader>hj'] = '<cmd>lua require("gitsigns").next_hunk()<CR>',
-        ['n <leader>hk'] = '<cmd>lua require("gitsigns").prev_hunk()<CR>',
-        ['n <leader>hp'] = '<cmd>lua require("gitsigns").preview_hunk()<CR>',
-        ['n <leader>hb'] = '<cmd>lua require("gitsigns").blame_line()<CR>',
+        ['n <leader>gj'] = '<cmd>lua require("gitsigns").next_hunk()<CR>',
+        ['n <leader>gk'] = '<cmd>lua require("gitsigns").prev_hunk()<CR>',
+        ['n <leader>gp'] = '<cmd>lua require("gitsigns").preview_hunk()<CR>',
+        ['n <leader>gb'] = '<cmd>lua require("gitsigns").blame_line()<CR>',
         ['o ih'] = ':<C-U>lua require("gitsigns").select_hunk()<CR>',
         ['x ih'] = ':<C-U>lua require("gitsigns").select_hunk()<CR>'
     },
