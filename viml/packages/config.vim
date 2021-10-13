@@ -61,10 +61,10 @@ let g:signify_sign_delete_first_line = '‾'
 let g:signify_sign_change            = '~'
 let g:signify_sign_show_count = 0
 let g:signify_sign_show_text  = 1
-nmap <silent> <leader>hj <plug>(signify-next-hunk)
-nmap <silent> <leader>hk <plug>(signify-prev-hunk)
-nmap <silent> <leader>hJ 9999<plug>(signify-next-hunk)
-nmap <silent> <leader>hK 9999<plug>(signify-prev-hunk)
+nmap <silent> <leader>gj <plug>(signify-next-hunk)
+nmap <silent> <leader>gk <plug>(signify-prev-hunk)
+nmap <silent> <leader>gJ 9999<plug>(signify-next-hunk)
+nmap <silent> <leader>gK 9999<plug>(signify-prev-hunk)
 
 
 " IndentLine
@@ -225,14 +225,14 @@ elseif g:plug_def_comp ==# 'coc'
         \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
   " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-  nmap <silent> <leader>g[ <Plug>(coc-diagnostic-prev)
-  nmap <silent> <leader>g] <Plug>(coc-diagnostic-next)
+  nmap <silent> <leader>l[ <Plug>(coc-diagnostic-prev)
+  nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
 
   " GoTo code navigation.
-  nmap <silent> <leader>gf <Plug>(coc-definition)
-  nmap <silent> <leader>gt <Plug>(coc-type-definition)
-  nmap <silent> <leader>gi <Plug>(coc-implementation)
-  nmap <silent> <leader>gr <Plug>(coc-references)
+  nmap <silent> <leader>lf <Plug>(coc-definition)
+  nmap <silent> <leader>lt <Plug>(coc-type-definition)
+  nmap <silent> <leader>li <Plug>(coc-implementation)
+  nmap <silent> <leader>lr <Plug>(coc-references)
 
   " Use K to show documentation in preview window.
   nn <silent> K :call <SID>show_documentation()<CR>
@@ -248,11 +248,11 @@ elseif g:plug_def_comp ==# 'coc'
   endfunction
 
   " Symbol renaming.
-  nmap <leader>gn <Plug>(coc-rename)
+  nmap <leader>ln <Plug>(coc-rename)
 
   " Formatting selected code.
-  xmap <leader>gm  <Plug>(coc-format-selected)
-  nmap <leader>gm  <Plug>(coc-format-selected)
+  xmap <leader>lm  <Plug>(coc-format-selected)
+  nmap <leader>lm  <Plug>(coc-format-selected)
 
   augroup usr_coc_group
     autocmd!
@@ -266,13 +266,13 @@ elseif g:plug_def_comp ==# 'coc'
 
   " Applying codeAction to the selected region.
   " Example: `<leader>aap` for current paragraph
-  xmap <leader>ga  <Plug>(coc-codeaction-selected)
-  nmap <leader>ga  <Plug>(coc-codeaction-selected)
+  xmap <leader>la  <Plug>(coc-codeaction-selected)
+  nmap <leader>la  <Plug>(coc-codeaction-selected)
 
   " Remap keys for applying codeAction to the current buffer.
-  nmap <leader>gc  <Plug>(coc-codeaction)
+  nmap <leader>lc  <Plug>(coc-codeaction)
   " Apply AutoFix to problem on the current line.
-  nmap <leader>gq  <Plug>(coc-fix-current)
+  nmap <leader>lq  <Plug>(coc-fix-current)
 
   " Map function and class text objects
   " NOTE: Requires 'textDocument.documentSymbol' support from the language server.

@@ -104,7 +104,7 @@ vn <silent> <leader>cc :<C-u>call usr#note#hanzi_count("v")<CR>
 ino <silent> <M-CR> <C-\><C-o>:call usr#note#md_insert_bullet()<CR>
 nn  <silent> <leader>ml :call usr#note#md_sort_num_bullet()<CR>
 " Echo git status.
-nn <silent> <leader>hh :!git status<CR>
+nn <silent> <leader>gs :!git status<CR>
 " Search cword in web browser.
 let s:web_list = {
       \ "b" : "https://www.baidu.com/s?wd=",
@@ -113,8 +113,8 @@ let s:web_list = {
       \ "y" : "https://dict.youdao.com/w/eng/"
       \ }
 for [s:key, s:val] in items(s:web_list)
-  exe 'nn <silent> <leader>k' . s:key ':call usr#util#search_web("n", "' . s:val . '")<CR>'
-  exe 'vn <silent> <leader>k' . s:key ':<C-u>call usr#util#search_web("v", "' . s:val . '")<CR>'
+  exe 'nn <silent> <leader>h' . s:key ':call usr#util#search_web("n", "' . s:val . '")<CR>'
+  exe 'vn <silent> <leader>h' . s:key ':<C-u>call usr#util#search_web("v", "' . s:val . '")<CR>'
 endfor
 " Surround
 nn <silent> <leader>sa :call usr#srd#sur_add('n')<CR>
@@ -128,7 +128,7 @@ for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
   endfor
 endfor
 " Comment
-nn  <leader>la :call usr#cmt#cmt_add_norm()<CR>
-vn  <leader>la :<C-u>call usr#cmt#cmt_add_vis()<CR>
-nn  <leader>ld :call usr#cmt#cmt_del_norm()<CR>
-vn  <leader>ld :<C-u>call usr#cmt#cmt_del_vis()<CR>
+nn  <leader>kc :call usr#cmt#cmt_add_norm()<CR>
+vn  <leader>kc :<C-u>call usr#cmt#cmt_add_vis()<CR>
+nn  <leader>ku :call usr#cmt#cmt_del_norm()<CR>
+vn  <leader>ku :<C-u>call usr#cmt#cmt_del_vis()<CR>

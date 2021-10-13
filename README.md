@@ -154,7 +154,6 @@
 * **Leader**
   > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd>     -> **Buffer**.
-    - n:    <kbd>b</kbd>     -> *nvim-bufferline.lua*, BufferLinePick.
     - n:    <kbd>c</kbd>     -> Set directory to the current buffer.
     - n:    <kbd>d</kbd>     -> Delete buffer.
     - n:    <kbd>g</kbd>     -> Toggle background.
@@ -170,11 +169,25 @@
     - n:    <kbd>d</kbd>     -> Append day of week to yyyy-mm-dd.
   - <kbd>leader-e-</kbd>     -> **Evaluate**
     - n:    <kbd>v</kbd>     -> Evaluate viml chunk surrounded by backquote.
-  - <kbd>leader-f-</kbd>     -> **FZF**.
+  - <kbd>leader-f-</kbd>     -> **Find**.
     - n:    <kbd>b</kbd>     -> *fzf.vim*, switch buffer using fzf.
     - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd>     -> *fzf.vim*, ripgrep (:Rg)
-  - <kbd>leader-g-</kbd>     -> **LSP**.
+  - <kbd>leader-g-</kbd>     -> **VCS**.
+    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
+    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
+    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
+    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
+    - n:    <kbd>s</kbd>     -> Git status.
+  - <kbd>leader-h-</kbd>     -> **Search text in web browser**.
+    - nv:   <kbd>b</kbd>     -> Baidu
+    - nv:   <kbd>g</kbd>     -> Google
+    - nv:   <kbd>h</kbd>     -> Github
+    - nv:   <kbd>y</kbd>     -> Youdao
+  - <kbd>leader-k-</kbd>     -> **Comment**.
+    - nv:   <kbd>c</kbd>     -> Comment line/block.
+    - nv:   <kbd>u</kbd>     -> Un-comment line/block.
+  - <kbd>leader-l-</kbd>     -> **LSP**.
     - n:    <kbd>a</kbd>     -> *coc.nvim*, code action.
     - n:    <kbd>d</kbd>     -> *coc.nvim*, declaration.
     - n:    <kbd>f</kbd>     -> *coc.nvim*, definition.
@@ -186,17 +199,6 @@
     - n:    <kbd>t</kbd>     -> *coc.nvim*, type definition.
     - n:    <kbd>[</kbd>     -> *coc.nvim*, previous diagnostic.
     - n:    <kbd>]</kbd>     -> *coc.nvim*, next diagnostic.
-  - <kbd>leader-h-</kbd>     -> **VCS**.
-    - n:    <kbd>j</kbd>     -> *vim-signify*, Next hunk.
-    - n:    <kbd>k</kbd>     -> *vim-signify*, Previous hunk.
-    - n:    <kbd>J</kbd>     -> *vim-signify*, Last hunk.
-    - n:    <kbd>K</kbd>     -> *vim-signify*, First hunk.
-    - n:    <kbd>h</kbd>     -> Git status.
-  - <kbd>leader-k-</kbd>     -> **Search text in web browser**.
-    - nv:   <kbd>b</kbd>     -> Baidu
-    - nv:   <kbd>g</kbd>     -> Google
-    - nv:   <kbd>h</kbd>     -> Github
-    - nv:   <kbd>y</kbd>     -> Youdao
   - <kbd>leader-m-</kbd>     -> **Markdown**.
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
@@ -215,6 +217,7 @@
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
+  - <kbd>leader-w-</kbd>     -> **Vimwiki**.
 * **Miscellanea**
   - v:      <kbd>*</kbd>     -> Search visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
