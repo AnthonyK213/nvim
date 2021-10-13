@@ -128,7 +128,7 @@ for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
   endfor
 endfor
 " Comment
-nn  <leader>kc :call usr#cmt#cmt_add_norm()<CR>
-vn  <leader>kc :<C-u>call usr#cmt#cmt_add_vis()<CR>
-nn  <leader>ku :call usr#cmt#cmt_del_norm()<CR>
-vn  <leader>ku :<C-u>call usr#cmt#cmt_del_vis()<CR>
+nn <silent> <leader>kc :call usr#cmt#cmt_add_norm()<CR>
+vn <silent> <leader>kc :<C-u>call usr#cmt#cmt_add_vis()<CR>
+nn <silent> <leader>ku :call usr#cmt#cmt_del_norm()<CR>
+vn <silent> <leader>ku :<C-u>call usr#cmt#cmt_del_vis()<CR>
