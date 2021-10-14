@@ -56,6 +56,7 @@
       - `home`    -> Home directory
       - `cloud`   -> Cloud drive directory
       - `desktop` -> Desktop directory
+      - `bin`     -> Binaries directory
     - **tui** -> Tui
       - `bg`    -> Tui background
       - `theme` -> Style of color theme
