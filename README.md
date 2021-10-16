@@ -17,8 +17,9 @@
   pip install pynvim
   pip install neovim-remote
   ```
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (For [nvim-telescope](https://github.com/nvim-telescope/telescope.nvim))
-  - ripgrep recursively searches directories for a regex pattern while respecting your gitignore.
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep) & [**fd**](https://github.com/sharkdp/fd) (For [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim))
+  - `ripgrep` recursively searches directories for a regex pattern while respecting your gitignore.
+  - `fd` is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to `find`.
 * [**jq**](https://github.com/stedolan/jq) (For [nvim-jqx](https://github.com/gennaro-tedesco/nvim-jqx))
   - Command-line JSON processor.
   > To support yaml files, [yq](https://github.com/mikefarah/yq) is needed.
@@ -129,7 +130,7 @@
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
-  - [nvim-telescope](https://github.com/nvim-telescope/telescope.nvim)
+  - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 * VCS utilities
   - [Neogit](https://github.com/TimUntersberger/neogit)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
