@@ -367,6 +367,14 @@ hi! link NvimTreeGitDirty         Nano_Face_Popout
 hi! link NvimTreeGitStaged        Nano_Face_Salient
 hi! link NvimTreeGitNew           Nano_Face_Popout
 
+" nvim-cmp
+call s:h("CmpItemAbbr", { "fg": s:nano_color_faded })
+call s:h("CmpItemAbbrDeprecated", { "fg": s:nano_color_subtle })
+call s:h("CmpItemAbbrMatch", { "fg": s:nano_color_salient })
+call s:h("CmpItemAbbrMatchFuzzy", { "fg": s:nano_color_foreground })
+call s:h("CmpItemKind", { "fg": s:nano_color_popout })
+call s:h("CmpItemMenu", { "fg": s:nano_color_popout })
+
 " Neogit
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
