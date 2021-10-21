@@ -86,11 +86,14 @@ nn <silent> <leader>bg :call usr#misc#bg_toggle()<CR>
 " Open init file.
 nn <silent> <M-,> :call usr#util#edit_file("$MYVIMRC", 1)<CR>
 " Explorer.
-nn <silent> <leader>oe :call usr#util#open_file(expand("%:p:h"))<CR>
+nn <silent> <leader>oe :call usr#util#open_file_or_url(expand("%:p:h"))<CR>
 " Terminal.
 nn <silent> <leader>ot :call usr#util#terminal()<CR>i
 " Open with system default browser.
-nn <silent> <leader>ob :call usr#util#open_file(expand("%:p"))<CR>
+nn <silent> <leader>ob :call usr#util#open_file_or_url(expand("%:p"))<CR>
+" Open url under the cursor or in the selection.
+nn <silent> <leader>ou :call usr#util#open_file_or_url(usr#util#match_url(expand("<cWORD>")))<CR>
+vn <silent> <leader>ou :<C-U>call usr#util#open_file_or_url(usr#util#match_url(usr#lib#get_visual_selection()))<CR>
 " Evaluate formula surrounded by `.
 nn <silent> <leader>ev :call usr#eval#text_eval()<CR>
 " Append day of week after the date.
