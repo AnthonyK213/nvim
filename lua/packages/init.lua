@@ -4,7 +4,7 @@ require('packer').startup(function(use)
     -- Visual
     use {
         {'folke/tokyonight.nvim',       opt = true};
-        {'shadmansaleh/lualine.nvim',   opt = true};
+        {'nvim-lualine/lualine.nvim',   opt = true};
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
     }
