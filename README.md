@@ -124,8 +124,7 @@
   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * Visual(Optional)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
-  - [lualine.nvim](https://github.com/hoob3rt/lualine.nvim)
-    > Switched to [lualine.nvim](https://github.com/shadmansaleh/lualine.nvim).
+  - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim).
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 * File system
