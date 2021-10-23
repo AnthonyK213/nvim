@@ -68,16 +68,16 @@
       - `font_full` -> See `guifontwide`
       - `font_size` -> Gui font size
     - **lsp** -> Language Server Protocol
-      - `clangd`
-      - `jedi_language_server`
-      - `powershell_es`
-      - `pyright`
-      - `omnisharp`
-      - `rls`
-      - `rust_analyzer`
-      - `sumneko_lua`
-      - `texlab`
-      - `vimls`
+      - [clangd](https://github.com/clangd/clangd)
+      - [jedi_language_server](https://github.com/pappasam/jedi-language-server)
+      - [powershell_es](https://github.com/PowerShell/PowerShellEditorServices)
+      - [pyright](https://github.com/microsoft/pyright)
+      - [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)
+      - [rls](https://github.com/rust-lang/rls)
+      - [rust_analyzer](https://github.com/rust-analyzer/rust-analyzer)
+      - [sumneko_lua](https://github.com/sumneko/lua-language-server)
+      - [texlab](https://github.com/latex-lsp/texlab)
+      - [vimls](https://github.com/iamcco/vim-language-server)
     - **ts** -> Treesitter
       - `ensure`     -> Parsers to install automatically
       - `hi_disable` -> File type to disable treesitter highlight
