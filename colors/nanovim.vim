@@ -249,7 +249,7 @@ hi! link Debug                    Nano_Face_Default
 hi! link Define                   Nano_Face_Default
 hi! link Macro                    Nano_Face_Default
 hi! link PreCondit                Nano_Face_Default
-hi! link LineNr                   Nano_Face_Faded
+hi! link LineNr                   Nano_Face_Subtle
 hi! link CursorLineNr             Nano_Face_Faded
 hi! link FoldColumn               Nano_Face_Faded
 hi! link SignColumn               Nano_Face_Faded
