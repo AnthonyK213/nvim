@@ -249,7 +249,7 @@ hi! link Debug                    Nano_Face_Default
 hi! link Define                   Nano_Face_Default
 hi! link Macro                    Nano_Face_Default
 hi! link PreCondit                Nano_Face_Default
-hi! link LineNr                   Nano_Face_Faded
+hi! link LineNr                   Nano_Face_Subtle
 hi! link CursorLineNr             Nano_Face_Faded
 hi! link FoldColumn               Nano_Face_Faded
 hi! link SignColumn               Nano_Face_Faded
@@ -337,61 +337,6 @@ hi! link ALEInfoSign              Nano_Face_Subtle
 hi! link sqlStatement             Nano_Face_Salient
 hi! link sqlKeyword               Nano_Face_Salient
 
-" vim-markdown
-hi! link mkdHeading               Nano_Face_Salient
-hi! link mkdBold                  Nano_Face_Subtle
-hi! link mkdItalic                Nano_Face_Subtle
-hi! link mkdBoldItalic            Nano_Face_Subtle
-hi! link mkdCodeDelimiter         Nano_Face_Popout
-
-" Signify, git-gutter
-hi! link SignifySignAdd           Nano_Face_Faded
-hi! link SignifySignDelete        Nano_Face_Faded
-hi! link SignifySignChange        Nano_Face_Faded
-hi! link GitGutterAdd             Nano_Face_Faded
-hi! link GitGutterDelete          Nano_Face_Faded
-hi! link GitGutterChange          Nano_Face_Faded
-hi! link GitGutterChangeDelete    Nano_Face_Faded
-
-" nvim-tree
-hi! link NvimTreeSymlink          Nano_Face_Subtle
-hi! link NvimTreeFolderName       Nano_Face_Faded
-hi! link NvimTreeRootFolder       Nano_Face_Salient
-hi! link NvimTreeFolderIcon       Nano_Face_Faded
-hi! link NvimTreeEmptyFolderName  Nano_Face_Subtle
-hi! link NvimTreeOpenedFolderName Nano_Face_Strong
-hi! link NvimTreeExecFile         Nano_Face_Salient
-hi! link NvimTreeMarkdownFile     StatusLineWarning
-hi! link NvimTreeIndentMarker     Nano_Face_Faded
-hi! link NvimTreeGitDirty         Nano_Face_Popout
-hi! link NvimTreeGitStaged        Nano_Face_Salient
-hi! link NvimTreeGitNew           Nano_Face_Popout
-
-" Neogit
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_critical })
-call s:h("NeogitDiffAddHighlight", {
-      \ "fg": s:nano_color_salient,
-      \ "bg": s:nano_color_subtle
-      \ })
-call s:h("NeogitDiffDeleteHighlight", {
-      \ "fg": s:nano_color_popout,
-      \ "bg": s:nano_color_subtle
-      \ })
-call s:h("NeogitDiffContextHighlight", {
-      \ "fg": s:nano_color_strong,
-      \ "bg": s:nano_color_highlight
-      \ })
-call s:h("NeogitHunkHeader", {
-      \ "fg": s:nano_color_foreground,
-      \ "bg": s:nano_color_highlight
-      \ })
-call s:h("NeogitHunkHeaderHighlight", {
-      \ "fg": s:nano_color_faded,
-      \ "bg": s:nano_color_highlight
-      \ })
-
 " Terminal
 if has("nvim")
   "" Base
@@ -438,6 +383,71 @@ elseif exists('*term_setansicolors')
         \ s:nano_color_subtle.gui
         \ ]
 endif
+" }}
+
+" Plugins {{
+" vim-markdown
+hi! link mkdHeading               Nano_Face_Salient
+hi! link mkdBold                  Nano_Face_Subtle
+hi! link mkdItalic                Nano_Face_Subtle
+hi! link mkdBoldItalic            Nano_Face_Subtle
+hi! link mkdCodeDelimiter         Nano_Face_Popout
+
+" Signify, git-gutter
+hi! link SignifySignAdd           Nano_Face_Faded
+hi! link SignifySignDelete        Nano_Face_Faded
+hi! link SignifySignChange        Nano_Face_Faded
+hi! link GitGutterAdd             Nano_Face_Faded
+hi! link GitGutterDelete          Nano_Face_Faded
+hi! link GitGutterChange          Nano_Face_Faded
+hi! link GitGutterChangeDelete    Nano_Face_Faded
+
+" nvim-tree
+hi! link NvimTreeSymlink          Nano_Face_Subtle
+hi! link NvimTreeFolderName       Nano_Face_Faded
+hi! link NvimTreeRootFolder       Nano_Face_Salient
+hi! link NvimTreeFolderIcon       Nano_Face_Faded
+hi! link NvimTreeEmptyFolderName  Nano_Face_Subtle
+hi! link NvimTreeOpenedFolderName Nano_Face_Strong
+hi! link NvimTreeExecFile         Nano_Face_Salient
+hi! link NvimTreeMarkdownFile     StatusLineWarning
+hi! link NvimTreeIndentMarker     Nano_Face_Faded
+hi! link NvimTreeGitDirty         Nano_Face_Popout
+hi! link NvimTreeGitStaged        Nano_Face_Salient
+hi! link NvimTreeGitNew           Nano_Face_Popout
+
+" nvim-cmp
+call s:h("CmpItemAbbr", { "fg": s:nano_color_faded })
+call s:h("CmpItemAbbrDeprecated", { "fg": s:nano_color_subtle })
+call s:h("CmpItemAbbrMatch", { "fg": s:nano_color_salient })
+call s:h("CmpItemAbbrMatchFuzzy", { "fg": s:nano_color_foreground })
+call s:h("CmpItemKind", { "fg": s:nano_color_popout })
+call s:h("CmpItemMenu", { "fg": s:nano_color_popout })
+
+" Neogit
+call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
+call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
+call s:h("NeogitNotificationInfo", { "fg": s:nano_color_critical })
+call s:h("NeogitDiffAddHighlight", {
+      \ "fg": s:nano_color_salient,
+      \ "bg": s:nano_color_subtle
+      \ })
+call s:h("NeogitDiffDeleteHighlight", {
+      \ "fg": s:nano_color_popout,
+      \ "bg": s:nano_color_subtle
+      \ })
+call s:h("NeogitDiffContextHighlight", {
+      \ "fg": s:nano_color_strong,
+      \ "bg": s:nano_color_highlight
+      \ })
+call s:h("NeogitHunkHeader", {
+      \ "fg": s:nano_color_foreground,
+      \ "bg": s:nano_color_highlight
+      \ })
+call s:h("NeogitHunkHeaderHighlight", {
+      \ "fg": s:nano_color_faded,
+      \ "bg": s:nano_color_highlight
+      \ })
 " }}
 
 " StatusLine {{
