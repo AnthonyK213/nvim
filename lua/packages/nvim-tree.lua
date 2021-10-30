@@ -1,7 +1,5 @@
 vim.g.nvim_tree_indent_markers = 1
-vim.g.nvim_tree_hide_dotfiles = 1
 vim.g.nvim_tree_git_hl = 1
-vim.g.nvim_tree_ignore = { '.git', '.cache' }
 vim.g.nvim_tree_window_picker_exclude = {
     filetype = { 'qf', 'help' },
     buftype  = { 'terminal' }
@@ -43,12 +41,12 @@ require('nvim-tree').setup {
     ignore_ft_on_setup  = {},
     auto_close          = false,
     open_on_tab         = false,
+    hijack_cursor       = true,
+    update_cwd          = false,
     update_to_buf_dir   = {
         enable = true,
         auto_open = true,
     },
-    hijack_cursor       = true,
-    update_cwd          = false,
     diagnostics = {
         enable = false,
         icons = {}
@@ -62,9 +60,14 @@ require('nvim-tree').setup {
         cmd  = nil,
         args = {}
     },
+    filters = {
+        dotfiles = false,
+        custom = { '.git', '.cache' }
+    },
     view = {
         width = 30,
         height = 30,
+        hide_root_folder = false,
         side = 'left',
         auto_resize = false,
         mappings = {
