@@ -112,7 +112,7 @@ function! usr#srd#sur_sub(...)
     let l:pat = usr#lib#vim_reg_esc(l:pair_a)
     if l:back =~# '\v.*\zs' . l:pat && l:fore =~# '\v' . l:pat
       let l:back_new = substitute(l:back, '\v.*\zs' . l:pat, l:pair_a_new, '')
-      let l:fore_new = substitute(l:back, '\v' . l:pat, l:pair_b_new, '')
+      let l:fore_new = substitute(l:fore, '\v' . l:pat, l:pair_b_new, '')
       call setline(line('.'), l:back_new . l:fore_new)
     endif
   else
