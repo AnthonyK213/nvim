@@ -36,25 +36,24 @@ cmp.setup {
             end
         end,
         ['<ESC>'] = cmp.mapping.close(),
-        --['<TAB>'] = function (fallback)
-        --    if cmp.visible() then
-        --        cmp.select_next_item()
-        --    elseif vim.fn.index({'vimwiki', 'markdown'}, vim.bo.ft) >= 0 and
-        --        vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
-        --        match_str(lib.get_context('b')) then
-        --        feedkeys('<C-\\><C-O>>>', 'n')
-        --        vim.api.nvim_feedkeys(
-        --        string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
-        --    elseif vim.fn['vsnip#jumpable'](1) == 1 then
-        --        feedkeys('<Plug>(vsnip-jump-next)', '')
-        --    elseif lib.get_context('b'):match('[%w._:]$') and
-        --        vim.bo.bt ~= 'prompt' then
-        --        cmp.complete()
-        --    else
-        --        fallback()
-        --    end
-        --end,
-        ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i' }),
+        ['<TAB>'] = function (fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif vim.fn.index({'vimwiki', 'markdown'}, vim.bo.ft) >= 0 and
+                vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
+                match_str(lib.get_context('b')) then
+                feedkeys('<C-\\><C-O>>>', 'n')
+                vim.api.nvim_feedkeys(
+                string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
+            elseif vim.fn['vsnip#jumpable'](1) == 1 then
+                feedkeys('<Plug>(vsnip-jump-next)', '')
+            elseif lib.get_context('b'):match('[%w._:]$') and
+                vim.bo.bt ~= 'prompt' then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end,
         ['<S-TAB>'] = function (fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
