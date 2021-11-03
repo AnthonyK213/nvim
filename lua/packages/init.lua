@@ -81,6 +81,7 @@ require('packer').startup(function(use)
                 'hrsh7th/vim-vsnip',
                 'hrsh7th/cmp-vsnip',
             },
+            commit = '3b4d3ceab1cc1ea3ad009288c0e2e059092ce324',
             config = function() require('packages/nvim-cmp') end
         };
         {
