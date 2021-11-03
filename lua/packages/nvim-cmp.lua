@@ -5,7 +5,6 @@ elseif vim.fn.has('unix') == 1 then
 end
 
 local cmp = require('cmp')
-local types = require('cmp.types')
 local lib = require('utility/lib')
 local feedkeys = function (key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,
@@ -14,12 +13,7 @@ end
 
 cmp.setup {
     completion = {
-      autocomplete = {
-        types.cmp.TriggerEvent.TextChanged,
-      },
-      completeopt = 'menu,menuone,noselect',
-      keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
-      keyword_length = 2,
+        keyword_length = 2,
     },
 
     snippet = {
@@ -42,24 +36,25 @@ cmp.setup {
             end
         end,
         ['<ESC>'] = cmp.mapping.close(),
-        ['<TAB>'] = function (fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif vim.fn.index({'vimwiki', 'markdown'}, vim.bo.ft) >= 0 and
-                vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
-                match_str(lib.get_context('b')) then
-                feedkeys('<C-\\><C-O>>>', 'n')
-                vim.api.nvim_feedkeys(
-                string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
-            elseif vim.fn['vsnip#jumpable'](1) == 1 then
-                feedkeys('<Plug>(vsnip-jump-next)', '')
-            elseif lib.get_context('b'):match('[%w._:]$') and
-                vim.bo.bt ~= 'prompt' then
-                cmp.complete()
-            else
-                fallback()
-            end
-        end,
+        --['<TAB>'] = function (fallback)
+        --    if cmp.visible() then
+        --        cmp.select_next_item()
+        --    elseif vim.fn.index({'vimwiki', 'markdown'}, vim.bo.ft) >= 0 and
+        --        vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
+        --        match_str(lib.get_context('b')) then
+        --        feedkeys('<C-\\><C-O>>>', 'n')
+        --        vim.api.nvim_feedkeys(
+        --        string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
+        --    elseif vim.fn['vsnip#jumpable'](1) == 1 then
+        --        feedkeys('<Plug>(vsnip-jump-next)', '')
+        --    elseif lib.get_context('b'):match('[%w._:]$') and
+        --        vim.bo.bt ~= 'prompt' then
+        --        cmp.complete()
+        --    else
+        --        fallback()
+        --    end
+        --end,
+        ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i' }),
         ['<S-TAB>'] = function (fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
@@ -71,13 +66,27 @@ cmp.setup {
         end
     },
 
-    sources = {
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'vsnip' },
-        { name = 'buffer' },
         { name = 'path' },
-    }
+    }, {
+        { name = 'buffer' }
+    })
 }
+
+cmp.setup.cmdline('/', {
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+        { name = 'path' }
+    })
+})
+
 
 local keymap = vim.api.nvim_set_keymap
 keymap('s', '<TAB>',
