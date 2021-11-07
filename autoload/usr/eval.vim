@@ -3,8 +3,7 @@ function! usr#eval#text_eval()
   exe 'normal! F`'
   let l:back = usr#lib#get_char('b')
   let l:fore = usr#lib#get_char('f')
-  let l:expr = substitute(l:fore, '\v^`(.{-})`.*$', '\=submatch(1)', '')
-  echo l:expr
+  let l:expr = matchlist(l:fore, '\v^`(.{-})`.*$')[1]
 
   try
     let l:result = eval(l:expr)

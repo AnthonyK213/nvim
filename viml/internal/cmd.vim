@@ -1,5 +1,5 @@
 " Echo time(May be useful in full screen?)
-command! Time :echo strftime('%Y-%m-%d %a %T')
+command! Time :echo strftime("%Y-%m-%d\n%a\n%T")
 " Open pdf file, useful when finish the compilation of tex file.
 command! PDF :call usr#util#open_file_or_url(expand("%:p:r") . ".pdf")
 " Run or compile.
