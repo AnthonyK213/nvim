@@ -23,18 +23,30 @@ cmp.setup {
     },
 
     mapping = {
-        ['<CR>'] = function (fallback)
-            if cmp.visible() then
-                cmp.confirm {
-                    behavior = cmp.ConfirmBehavior.Replace,
-                    select = true,
-                }
-            elseif vim.bo.bt ~= 'prompt' then
-                feedkeys('<Plug>(lua_pairs_enter)', '')
-            else
-                fallback()
+        ['<CR>'] = cmp.mapping({
+            i = function (fallback)
+                if cmp.visible() then
+                    cmp.confirm {
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    }
+                elseif vim.bo.bt ~= 'prompt' then
+                    feedkeys('<Plug>(lua_pairs_enter)', '')
+                else
+                    fallback()
+                end
+            end,
+            c = function (fallback)
+                if cmp.visible() then
+                    cmp.confirm({
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    })
+                else
+                    fallback()
+                end
             end
-        end,
+        }),
         ['<ESC>'] = cmp.mapping.close(),
         ['<Tab>'] = cmp.mapping({
             i = function (fallback)
@@ -62,6 +74,15 @@ cmp.setup {
                     fallback()
                 end
             end,
+            c = function ()
+                if cmp.visible() then
+                    cmp.select_next_item({
+                        behavior = cmp.SelectBehavior.Insert
+                    })
+                else
+                    cmp.complete()
+                end
+            end
         }),
         ['<S-Tab>'] = cmp.mapping({
             i = function (fallback)
@@ -80,6 +101,15 @@ cmp.setup {
                     fallback()
                 end
             end,
+            c = function ()
+                if cmp.visible() then
+                    cmp.select_prev_item({
+                        behavior = cmp.SelectBehavior.Insert
+                    })
+                else
+                    cmp.complete()
+                end
+            end
         })
     },
 
