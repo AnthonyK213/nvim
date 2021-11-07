@@ -76,12 +76,12 @@ require('packer').startup(function(use)
             'hrsh7th/nvim-cmp',
             requires = {
                 'hrsh7th/cmp-buffer',
+                'hrsh7th/cmp-cmdline',
                 'hrsh7th/cmp-nvim-lsp',
                 'hrsh7th/cmp-path',
                 'hrsh7th/vim-vsnip',
                 'hrsh7th/cmp-vsnip',
             },
-            commit = '3b4d3ceab1cc1ea3ad009288c0e2e059092ce324',
             config = function() require('packages/nvim-cmp') end
         };
         {

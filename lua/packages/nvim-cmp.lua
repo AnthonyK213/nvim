@@ -36,7 +36,7 @@ cmp.setup {
             end
         end,
         ['<ESC>'] = cmp.mapping.close(),
-        ['<TAB>'] = cmp.mapping({
+        ['<Tab>'] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
@@ -61,9 +61,9 @@ cmp.setup {
                 else
                     fallback()
                 end
-            end
+            end,
         }),
-        ['<S-TAB>'] = cmp.mapping({
+        ['<S-Tab>'] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
@@ -79,7 +79,7 @@ cmp.setup {
                 else
                     fallback()
                 end
-            end
+            end,
         })
     },
 
@@ -101,5 +101,7 @@ cmp.setup.cmdline('/', {
 cmp.setup.cmdline(':', {
     sources = cmp.config.sources({
         { name = 'path' }
+    }, {
+        { name = 'cmdline' }
     })
 })
