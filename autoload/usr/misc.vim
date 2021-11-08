@@ -1,6 +1,10 @@
 " Background toggle.
 function! usr#misc#bg_toggle()
-  let &bg = &bg ==# 'dark' ? 'light' : 'dark'
+  if exists("g:lock_background") && g:lock_background
+    return
+  else
+    let &bg = &bg ==# 'dark' ? 'light' : 'dark'
+  endif
 endfunction
 
 " Mouse toggle.
@@ -70,7 +74,7 @@ function! usr#misc#time_background()
 lua << EOF
   local timer = vim.loop.new_timer()
   timer:start(0, 600, vim.schedule_wrap(function()
-    if vim.g.lock_background then return end
+    if not vim.g.lock_background then return end
     local hour = tonumber(os.date('%H'))
     local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
     if vim.o.bg ~= bg then vim.o.bg = bg end

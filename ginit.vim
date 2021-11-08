@@ -85,13 +85,13 @@ function! s:gui_relative_number_toggle()
   if &nu == 1 | set invrnu | else | set nu rnu | endif
 endfunction
 
-function! s:gui_lock_background()
-  if g:lock_background == v:false
-    let g:lock_background = v:true
-    echom "Background locked."
-  else
+function! s:gui_toggle_background_lock()
+  if g:lock_background == v:true
     let g:lock_background = v:false
     echom "Background unlocked."
+  else
+    let g:lock_background = v:true
+    echom "Background locked."
   endif
 endfunction
 
@@ -136,7 +136,7 @@ endif
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
 elseif exists('g:colors_name') && g:colors_name ==# 'nanovim' || exists('g:goneovim')
-  let g:lock_background = v:false
+  let g:lock_background = v:true
   call usr#misc#time_background()
 endif
 
@@ -189,7 +189,7 @@ nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
 "" Lock/unlock background
 if exists('g:lock_background')
-  nn <silent> <F4> :call <SID>gui_lock_background()<CR>
+  nn <silent> <F4> :call <SID>gui_toggle_background_lock()<CR>
 endif
 "" Markdown viewer of goneovim
 if exists('g:goneovim')
