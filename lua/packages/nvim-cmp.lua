@@ -36,16 +36,6 @@ cmp.setup {
                     fallback()
                 end
             end,
-            c = function (fallback)
-                if cmp.visible() then
-                    cmp.confirm({
-                        behavior = cmp.ConfirmBehavior.Replace,
-                        select = true,
-                    })
-                else
-                    fallback()
-                end
-            end
         }),
         ['<ESC>'] = cmp.mapping.close(),
         ['<Tab>'] = cmp.mapping({
