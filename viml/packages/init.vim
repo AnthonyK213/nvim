@@ -34,5 +34,6 @@ if g:plug_def_comp ==# 'asyncomplete'
 elseif g:plug_def_comp ==# 'coc'
   call usr#lsp#setup()
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'liuchengxu/vista.vim'
 endif
 call plug#end()
