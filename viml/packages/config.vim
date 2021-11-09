@@ -197,11 +197,14 @@ if g:plug_def_comp ==# 'asyncomplete'
   smap <silent><expr> <S-TAB> vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
 
 elseif g:plug_def_comp ==# 'coc'
-  call coc#config('snippets', {
-        \ 'textmateSnippetsRoots': [
-        \   s:snippet_dir
-        \ ]
-        \ })
+  call extend(g:coc_config_table, {
+      \ 'snippets.textmateSnippetsRoots' : [s:snippet_dir],
+      \ 'snippets.ultisnips.enable' : v:false,
+      \ 'snippets.snipmate.enable' : v:false,
+      \ })
+  for [s:key, s:val] in items(g:coc_config_table)
+    call coc#config(s:key, s:val)
+  endfor
 
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by

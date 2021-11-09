@@ -13,10 +13,12 @@
 
 "let g:default_complete = 'asyncomplete'
 
-let g:coc_global_extensions = [
-      \ 'coc-jedi',
-      \ 'coc-rls',
-      \ 'coc-vimlsp',
-      \ 'coc-vimtex',
-      \ 'coc-snippets',
-      \ ]
+let g:default_lsp_table = {
+      \ 'clangd' : v:false,
+      \ 'jedi_language_server' : v:false,
+      \ 'powershell_es' : { 'enable' : v:false, 'path' : v:null },
+      \ 'omnisharp' : { 'enable' : v:false, 'path' : v:null },
+      \ 'rls' : v:false,
+      \ 'texlab' : v:false,
+      \ 'vimls' : v:false,
+      \ }

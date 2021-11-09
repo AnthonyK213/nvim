@@ -1,9 +1,8 @@
 "" Calculate the day of week from a date(yyyy-mm-dd).
 function! s:zeller(str)
-  if a:str =~ '\v^.*\d{4}-\d{2}-\d{2}.*$' 
-    let l:str_date = substitute(a:str,
-          \ '\v^.*(\d{4}-\d{2}-\d{2}).*$',
-          \ '\=submatch(1)', '')
+  let l:matches = matchlist(a:str, '\v^.*(\d{4}-\d{2}-\d{2}).*$')
+  if !empty(l:matches)
+    let l:str_date = l:matches[1]
     let l:str_to_list = split(l:str_date, '-')
     let l:a = l:str_to_list[0]
     let l:m = l:str_to_list[1]
@@ -105,14 +104,14 @@ function! s:md_check_line(lnum)
   let l:detect = 0
   let l:bullet = 0
   let l:indent = strlen(matchstr(l:lstr, '\v^(\s*)')) 
-  if l:lstr =~ '\v^\s*(\+|-|*)\s+.*$'
+  let l:matches1 = matchlist(l:lstr, '\v^\s*(\+|-|*)\s+.*$')
+  let l:matches2 = matchlist(l:lstr, '\v^\s*(\d+)\.\s+.*$')
+  if !empty(l:matches1)
     let l:detect = 1
-    let l:bullet = substitute(l:lstr,
-          \ '\v^\s*(.)\s+.*$', '\=submatch(1)', '')
-  elseif l:lstr =~ '\v^\s*(\d+)\.\s+.*$'
+    let l:bullet = l:matches1[1]
+  elseif !empty(l:matches2)
     let l:detect = 2
-    let l:bullet = substitute(l:lstr,
-          \ '\v^\s*(\d+)\.\s+.*$', '\=submatch(1)', '')
+    let l:bullet = l:matches2[1]
   endif
   return [l:detect, l:lstr, l:bullet, l:indent]
 endfunction

@@ -32,6 +32,7 @@ if g:plug_def_comp ==# 'asyncomplete'
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
 elseif g:plug_def_comp ==# 'coc'
+  call usr#lsp#setup()
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
 call plug#end()
