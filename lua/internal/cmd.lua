@@ -5,7 +5,7 @@ vim.cmd('command! PDF lua require("utility/util").open_file_or_url(vim.fn.expand
 -- Run or compile
 vim.cmd('command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun lua require("utility/comp").run_or_compile(<q-args>)')
 -- Build or make
-vim.cmd('comman! CodeBuild lua require("utility/comp").build_or_make()')
+vim.cmd('command! CodeBuild lua require("utility/comp").build_or_make()')
 -- Git push all
 vim.cmd('command! -nargs=* PushAll lua require("utility/vcs").git_push_all(<f-args>)')
 -- Neovim nightly upgrade.
