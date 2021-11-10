@@ -111,6 +111,7 @@
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
   - [coc.nvim](https://github.com/neoclide/coc.nvim)
+  - [vista.vim](https://github.com/liuchengxu/vista.vim)
 
 
 ## Key bindings
@@ -224,7 +225,8 @@
 
 
 ## Commands
-- `CodeRun`   -> Run code of current buffer.
+- `CodeRun`   -> Run or compile the code of current buffer.
+- `CodeBuild` -> Build or make the project.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push everything to the remote origin.
   - `-b`      -> branch,  default -> current branch.

@@ -167,3 +167,13 @@ function! usr#comp#run_or_compile(option)
 
   exe l:term_cmd
 endfunction
+
+function usr#comp#build_or_make()
+  let l:sln_root = usr#lib#get_root('*.sln')
+
+  if l:sln_root != v:null
+    let l:cmd = 'term MSBuild.exe ' . shellescape(l:sln_root, 1)
+    call usr#lib#belowright_split(30)
+    exe l:cmd
+  endif
+endfunction
