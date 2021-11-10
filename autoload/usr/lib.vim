@@ -5,27 +5,27 @@ function! usr#lib#belowright_split(height)
   exe 'resize' l:height
 endfunction
 
-" Find the root directory of .git
-function! usr#lib#get_git_root()
+" Find the root directory contains patter `pat`.
+function! usr#lib#get_root(pat)
   let l:dir = expand('%:p:h')
   while 1
-    if !empty(globpath(l:dir, ".git", 1)) | return [1, l:dir] | endif
+    if !empty(globpath(l:dir, a:pat, 1)) | return l:dir | endif
     let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
     if l:current == l:dir | break | endif
   endwhile
-  return [0, '']
+  return v:null
 endfunction
 
-" Get the branch name without git
+" Get the branch name.
 function! usr#lib#get_git_branch(git_root)
-  if a:git_root[0] == 0
-    return [0, '']
+  if a:git_root == v:null
+    return v:null
   else
     try
-      let l:content = readfile(a:git_root[1] . '/.git/HEAD')
-      return [1, split(l:content[0], '/')[-1]]
+      let l:content = readfile(a:git_root . '/.git/HEAD')
+      return split(l:content[0], '/')[-1]
     catch
-      return [0, '']
+      return v:null
     endtry
   endif
 endfunction

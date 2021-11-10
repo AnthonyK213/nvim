@@ -38,17 +38,17 @@ endfunction
 
 function! usr#vcs#git_push_all(...)
   let l:arg_list = a:000
-  let l:git_root = usr#lib#get_git_root()
+  let l:git_root = usr#lib#get_root('.git')
 
-  if l:git_root[0] == 1
+  if l:git_root != v:null
     let l:git_branch = usr#lib#get_git_branch(l:git_root)
   else
     echom "Not a git repository."
     return
   endif
 
-  if l:git_branch[0] == 1
-    exe 'cd' l:git_root[1]
+  if l:git_branch != v:null
+    exe 'cd' l:git_root
   else
     echom "Not a valid git repository."
     return
@@ -70,7 +70,7 @@ function! usr#vcs#git_push_all(...)
     if (l:b_index >= 0) && (l:b_index % 2 == 0)
       let l:b_arg = l:arg_list[l:b_index + 1]
     elseif l:b_index < 0
-      let l:b_arg = l:git_branch[1]
+      let l:b_arg = l:git_branch
     else
       echom "Invalid branch argument."
     endif
