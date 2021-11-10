@@ -24,7 +24,7 @@ return {
         clangd = false,
         jedi_language_server = false,
         powershell_es = {
-            enable = true,
+            enable = false,
             path = nil
         },
         pyright = false,
