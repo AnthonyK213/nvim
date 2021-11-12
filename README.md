@@ -170,6 +170,7 @@
     - n:    <kbd>d</kbd>     -> Append day of week to yyyy-mm-dd.
   - <kbd>leader-e-</kbd>     -> **Evaluate**
     - n:    <kbd>v</kbd>     -> Evaluate viml chunk surrounded by backquote.
+    - n:    <kbd>l</kbd>     -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd>     -> **Find**.
     - n:    <kbd>b</kbd>     -> *fzf.vim*, switch buffer using fzf.
     - n:    <kbd>f</kbd>     -> *fzf.vim*, fzf  (:Files)
