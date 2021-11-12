@@ -95,7 +95,8 @@ nn <silent> <leader>ob :call usr#util#open_file_or_url(expand("%:p"))<CR>
 nn <silent> <leader>ou :call usr#util#open_file_or_url(usr#util#match_url(expand("<cWORD>")))<CR>
 vn <silent> <leader>ou :<C-U>call usr#util#open_file_or_url(usr#util#match_url(usr#lib#get_visual_selection()))<CR>
 " Evaluate formula surrounded by `.
-nn <silent> <leader>ev :call usr#eval#text_eval()<CR>
+nn <silent> <leader>ev :call usr#eval#vim_eval()<CR>
+nn <silent> <leader>el :call usr#eval#lisp_eval()<CR>
 " Append day of week after the date.
 nn <silent> <leader>dd :call usr#note#append_day_from_date()<CR>
 " Insert an timestamp after cursor.
