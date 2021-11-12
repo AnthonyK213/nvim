@@ -61,14 +61,10 @@ local divide = function(args)
         return 1 / result
     else
         for i = 2, #args, 1 do
-            if args[i] ~= 0 then
-                result = result / args[i]
-            else
-                error("Fick, fick, fick! Mathematik!")
-            end
+            result = result / args[i]
         end
+        return result
     end
-    return result
 end
 
 local power = function(args)
