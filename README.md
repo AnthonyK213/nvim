@@ -122,7 +122,7 @@
 ## Packages
 * Package manager
   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
-* Visual(Optional)
+* Display(Optional)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
@@ -130,7 +130,7 @@
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-* VCS utilities
+* VCS
   - [Neogit](https://github.com/TimUntersberger/neogit)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 * Utilities

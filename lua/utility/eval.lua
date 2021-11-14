@@ -1,4 +1,3 @@
--- Evaluate formula surrounded by backquote.
 local M = {}
 local lib = require("utility/lib")
 local mlib = require("utility/mlib")
@@ -20,8 +19,6 @@ local function text_eval(f)
         print('No valid expression was found.')
     end
 end
-
--------------------- Lisp --------------------
 
 local add = function(args)
     local result = 0
@@ -153,8 +150,6 @@ end
 local function lisp_str_eval(str)
     return lisp_tree_eval(lisp_tree(str))
 end
-
--------------------- Lisp --------------------
 
 -- Evaluate Lua chunk surrounded by `.
 function M.lua_eval()

@@ -1,7 +1,7 @@
 require('packer').startup(function(use)
     -- Package manager
     use 'wbthomason/packer.nvim'
-    -- Visual
+    -- Display
     use {
         {'folke/tokyonight.nvim',       opt = true};
         {'nvim-lualine/lualine.nvim',   opt = true};
@@ -19,7 +19,7 @@ require('packer').startup(function(use)
             config = function() require('packages/telescope') end
         };
     }
-    -- VCS utilities
+    -- VCS
     use {
         {
             'TimUntersberger/neogit',
