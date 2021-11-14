@@ -83,14 +83,14 @@
 ## Packages
 * Package manager
   - [vim-plug](https://github.com/junegunn/vim-plug)
-* Visual
+* Display
   - [gruvbox](https://github.com/morhetz/gruvbox)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
 * File system
   - [nerdtree](https://github.com/preservim/nerdtree)
   - [fzf](https://github.com/junegunn/fzf)
   - [fzf.vim](https://github.com/junegunn/fzf.vim)
-* VCS utilities
+* VCS
   - [vim-fugitive](https://github.com/tpope/vim-fugitive)
   - [vim-signify](https://github.com/mhinz/vim-signify)
   - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)

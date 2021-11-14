@@ -1,7 +1,7 @@
 let g:plug_def_comp = get(g:, 'default_complete', '')
 " Load plug-ins
 call plug#begin(stdpath('data') . '/plugged')
-  " UI
+  " Display
   Plug 'morhetz/gruvbox'
   Plug 'vim-airline/vim-airline'
   " Tree manager
@@ -9,7 +9,7 @@ call plug#begin(stdpath('data') . '/plugged')
   " FZF
   Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
   Plug 'junegunn/fzf.vim'
-  " VCS utilities
+  " VCS
   Plug 'tpope/vim-fugitive'
   Plug 'mhinz/vim-signify'
   Plug 'Xuyuanp/nerdtree-git-plugin'
