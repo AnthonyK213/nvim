@@ -30,7 +30,7 @@ function M.hanzi_count(mode)
     end
 
     if h_count == 0 then
-        print("No Chinese characters found.")
+        print("No Chinese characters was found.")
     else
         print("The number of Chinese characters is "..tostring(h_count)..'.')
     end

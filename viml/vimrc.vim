@@ -20,6 +20,6 @@ try
   endif
   colorscheme nanovim
 catch
-  echom "Neovim configuration not found."
+  echom "Maybe there is no neovim configuration."
   echom "Please check out https://github.com/AnthonyK213/nvim"
 endtry

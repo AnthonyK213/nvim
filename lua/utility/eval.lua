@@ -17,7 +17,7 @@ local function text_eval(f)
         vim.api.nvim_set_current_line(back..fore_new)
     else
         vim.fn.setpos('.', origin_pos)
-        print('No valid expression found.')
+        print('No valid expression was found.')
     end
 end
 
