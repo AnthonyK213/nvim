@@ -92,7 +92,7 @@ function! usr#note#hanzi_count(mode)
   endfor
 
   if l:h_count == 0
-    echo 'No Chinese characters found.'
+    echo 'No Chinese characters was found.'
   else
     echo 'The number of Chinese characters is' l:h_count . '.'
   endif

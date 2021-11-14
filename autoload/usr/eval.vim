@@ -3,14 +3,14 @@ function! s:text_eval(f)
   exe 'normal! F`'
   let l:back = usr#lib#get_char('b')
   let l:fore = usr#lib#get_char('f')
-  let l:expr = matchlist(l:fore, '\v^`(.{-})`.*$')[1]
   try
+    let l:expr = matchlist(l:fore, '\v^`(.{-})`.*$')[1]
     let l:result = a:f(l:expr)
     let l:fore_new = substitute(fore, '\v^`(.{-}`)', string(l:result), '')
     call setline('.', back . fore_new)
   catch
     call setpos('.', l:origin_pos)
-    echo 'No valid expression found.'
+    echo 'No valid expression was found.'
   endtry
 endfunction
 
