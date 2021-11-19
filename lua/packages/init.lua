@@ -96,6 +96,10 @@ require('packer').startup(function(use)
             'nvim-treesitter/nvim-treesitter',
             config = function() require('packages/nvim-treesitter') end
         };
+        {
+            'SmiteshP/nvim-gps',
+            config = function() require('packages/nvim-gps') end
+        };
     }
     -- Games
     use 'alec-gibson/nvim-tetris'

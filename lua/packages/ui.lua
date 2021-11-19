@@ -1,4 +1,5 @@
 local augroup = require("utility/lib").set_augroup
+local gps = require("nvim-gps")
 
 
 -- colorscheme
@@ -31,7 +32,11 @@ require('lualine').setup {
             return mode_alias[vim.api.nvim_get_mode().mode] or '_'
         end},
         lualine_b = {'branch'},
-        lualine_c = {{'filename', path=2}, 'diff'},
+        lualine_c = {
+            {'filename', path=2},
+            {gps.get_location, cond=gps.is_available},
+            'diff'
+        },
         lualine_x = {{'diagnostics', sources={'nvim_lsp'}}, 'filetype'},
         lualine_y = {'encoding', 'fileformat'},
         lualine_z = {'progress', 'location'},
