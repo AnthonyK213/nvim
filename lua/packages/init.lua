@@ -100,6 +100,9 @@ require('packer').startup(function(use)
             'SmiteshP/nvim-gps',
             config = function() require('packages/nvim-gps') end
         };
+        {
+            'andymass/vim-matchup'
+        };
     }
     -- Games
     use 'alec-gibson/nvim-tetris'
