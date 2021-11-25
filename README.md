@@ -44,8 +44,7 @@
     ```
 * **Install plugins**
   ```vim
-  :PackerInstall
-  :PackerCompile
+  :PackerSync
   ```
 * **opt.lua options (see [lua/core/opt.lua](lua/core/opt_example.lua))**
   - Essential:
@@ -152,6 +151,7 @@
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [vim-matchup](https://github.com/andymass/vim-matchup)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
 
