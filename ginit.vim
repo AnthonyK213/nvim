@@ -88,10 +88,10 @@ endfunction
 function! s:gui_toggle_background_lock()
   if g:lock_background == v:true
     let g:lock_background = v:false
-    echom "Background unlocked."
+    echom "Background unlocked"
   else
     let g:lock_background = v:true
-    echom "Background locked."
+    echom "Background locked"
   endif
 endfunction
 
