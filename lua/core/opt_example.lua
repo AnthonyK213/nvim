@@ -16,7 +16,7 @@ return {
     },
     gui = {
         font_half = 'Consolas',
-        font_full = '黑体',
+        font_full = 'Microsoft Yahei',
         font_size = 12,
         --bg = 'light',
     },
@@ -39,11 +39,11 @@ return {
         vimls = false,
     },
     ts = {
-        ensure = { "c", "rust", "python", "lua" },
+        ensure = { "c" },
         --hi_disable = { "c" },
     },
     plug = {
-        matchit = true,
-        matchparen = true,
+        matchit = false,
+        matchparen = false,
     }
 }
