@@ -151,6 +151,7 @@
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [nvim-gps](https://github.com/SmiteshP/nvim-gps)
   - [vim-matchup](https://github.com/andymass/vim-matchup)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
@@ -283,3 +284,5 @@
   - `-m`      -> comment, default -> date.
 - `SshConfig` -> Open and edit ~/.ssh/config
 - `Time`      -> Echo date and time.
+
+> vim:set wrap:
