@@ -69,6 +69,7 @@ require('packer').startup(function(use)
             run = function() vim.fn['mkdp#util#install'](0) end,
             config = function() require('packages/markdown-preview') end
         };
+        'sotte/presenting.vim';
     }
     -- Snippet; Completion; LSP; Treesitter
     use {
