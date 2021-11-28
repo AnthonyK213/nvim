@@ -11,7 +11,6 @@ set hidden
 set cursorline
 set cmdheight=1
 set laststatus=2
-set showtabline=2
 set colorcolumn=80
 set shortmess+=c
 set noshowmode showcmd
