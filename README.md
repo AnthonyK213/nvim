@@ -145,6 +145,7 @@
   - [vim-markdown](https://github.com/plasticboy/vim-markdown)
   - [vim-processing](https://github.com/sophacles/vim-processing)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+  - [presenting.vim](https://github.com/sotte/presenting.vim)
 * Snippet; Completion; LSP; TreeSitter
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
