@@ -64,6 +64,11 @@ require('nvim-tree').setup {
         dotfiles = true,
         custom = { '.git', '.cache' }
     },
+    git = {
+        enable = true,
+        ignore = true,
+        timeout = 500
+    },
     view = {
         width = 30,
         height = 30,
