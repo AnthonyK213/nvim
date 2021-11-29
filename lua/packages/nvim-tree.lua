@@ -66,7 +66,7 @@ require('nvim-tree').setup {
     },
     git = {
         enable = true,
-        ignore = true,
+        ignore = false,
         timeout = 500
     },
     view = {
@@ -106,7 +106,13 @@ require('nvim-tree').setup {
                 { key = "q",      cb = tree_cb("close") },
                 { key = "o",      cb = ":call usr#misc#nvim_tree_sys_open()<CR>" },
             }
-        }
+        },
+        number = false,
+        relativenumber = false
+    },
+    trash = {
+        cmd = "trash",
+        require_confirm = true
     }
 }
 

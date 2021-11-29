@@ -1,4 +1,8 @@
-"""""""" Configuration for neovim GUI using ginit.vim
+" GUI Configuration.
+" Supported GUIs:
+"   - [neovim-qt](https://github.com/equalsraf/neovim-qt)
+"   - [fvim](https://github.com/yatli/fvim)
+"   - [goneovim](https://github.com/akiyosi/goneovim)
 
 " Variables
 let s:nvimqt_option_table = {
@@ -135,7 +139,9 @@ endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
-elseif exists('g:colors_name') && g:colors_name ==# 'nanovim' || exists('g:goneovim')
+elseif exists('g:colors_name') &&
+      \ g:colors_name ==# 'nanovim' ||
+      \ exists('g:goneovim')
   let g:lock_background = v:true
   call usr#misc#time_background()
 endif
