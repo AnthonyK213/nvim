@@ -1,10 +1,11 @@
 local aerial = require'aerial'
 require('telescope').load_extension('aerial')
 
-local M = {}
+vim.g.aerial = {
+    backends = { "lsp", "treesitter", "markdown" }
+}
 
-function M.aerial_on_attach(client)
-    aerial.on_attach(client)
+aerial.register_attach_cb(function(bufnr)
     -- Toggle the aerial window with <leader>a
     vim.api.nvim_buf_set_keymap(0, 'n', '<leader>mv', '<Cmd>AerialToggle!<CR>', {})
     -- Jump forwards/backwards with '{' and '}'
@@ -13,6 +14,4 @@ function M.aerial_on_attach(client)
     -- Jump up the tree with '[[' or ']]'
     vim.api.nvim_buf_set_keymap(0, 'n', '[[', '<Cmd>AerialPrevUp<CR>', {})
     vim.api.nvim_buf_set_keymap(0, 'n', ']]', '<Cmd>AerialNextUp<CR>', {})
-end
-
-return M
+end)

@@ -4,7 +4,7 @@ local lsp_option = require('core/opt').lsp or {}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 -- aerial.nvim
-local custom_attach = require('packages/aerial').aerial_on_attach
+local custom_attach = require('aerial').on_attach
 --- clangd
 if lsp_option.clangd then
     lspconfig.clangd.setup {
