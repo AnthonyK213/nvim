@@ -87,6 +87,15 @@ function! usr#misc#vim_source(file) abort
   call v:lua.require('utility/lib').vim_source(a:file)
 endfunction
 
+" Open opt.lua.
+function! usr#misc#open_opt()
+lua << EOF
+  local myvimrc_dir = vim.fn.fnamemodify(vim.fn.expand("$MYVIMRC"), ":p:h")
+  require("utility/util").edit_file(myvimrc_dir.."/lua/core/opt.lua", false)
+  vim.api.nvim_set_current_dir(myvimrc_dir)
+EOF
+endfunction
+
 " Neovim nightly update.
 function! usr#misc#nvim_nightly_upgrade(...)
   let l:proxy_args = a:0 == 0 ? "" : a:1

@@ -7,6 +7,7 @@ require('packer').startup(function(use)
         {'nvim-lualine/lualine.nvim',   opt = true};
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
+        {'goolord/alpha-nvim',          opt = true};
     }
     -- File system
     use {
@@ -46,6 +47,10 @@ require('packer').startup(function(use)
         {
             'AnthonyK213/lua-pairs',
             config = function() require('packages/lua-pairs') end
+        };
+        {
+            'Shatur/neovim-session-manager',
+            config = function() require('packages/neovim-session-manager') end
         };
     }
     -- File type support

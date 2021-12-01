@@ -7,11 +7,11 @@ vim.g.aerial = {
 
 aerial.register_attach_cb(function(bufnr)
     -- Toggle the aerial window with <leader>a
-    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>mv', '<Cmd>AerialToggle!<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>mv', '<Cmd>AerialToggle!<CR>', {})
     -- Jump forwards/backwards with '{' and '}'
-    vim.api.nvim_buf_set_keymap(0, 'n', '{', '<Cmd>AerialPrev<CR>', {})
-    vim.api.nvim_buf_set_keymap(0, 'n', '}', '<Cmd>AerialNext<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<Cmd>AerialPrev<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<Cmd>AerialNext<CR>', {})
     -- Jump up the tree with '[[' or ']]'
-    vim.api.nvim_buf_set_keymap(0, 'n', '[[', '<Cmd>AerialPrevUp<CR>', {})
-    vim.api.nvim_buf_set_keymap(0, 'n', ']]', '<Cmd>AerialNextUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<Cmd>AerialPrevUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<Cmd>AerialNextUp<CR>', {})
 end)

@@ -94,11 +94,7 @@ keymap('t', '<F2>', '<C-\\><C-N><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
 -- Background toggle.
 keymap('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', ntst)
 -- Open opt file.
-keymap('n', '<M-,>',
-[[<Cmd>lua local myvimrc_dir = vim.fn.fnamemodify(vim.fn.expand("$MYVIMRC"), ":p:h")]]..
-[[require("utility/util").edit_file(myvimrc_dir.."/lua/core/opt.lua", false) ]]..
-[[vim.api.nvim_set_current_dir(myvimrc_dir)<CR>]],
-ntst)
+keymap('n', '<M-,>', '<Cmd>call usr#misc#open_opt()<CR>', ntst)
 -- Explorer.
 keymap('n', '<leader>oe', '<Cmd>lua require("utility/util").open_file_or_url(vim.fn.expand("%:p:h"))<CR>', ntst)
 -- Terminal.

@@ -97,6 +97,31 @@ require('colorizer').setup()
 vim.cmd('command! ColorizerReset lua package.loaded["colorizer"] = nil require("colorizer").setup() require("colorizer").attach_to_buffer(0)')
 
 
+-- alpha-nvim
+vim.cmd('packadd alpha-nvim')
+local alpha = require('alpha')
+local dashboard = require('alpha.themes.dashboard')
+dashboard.section.header.val = {
+    [[                                                    ]],
+    [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+    [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+    [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+    [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+    [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+    [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+    [[                                                    ]],
+}
+dashboard.section.buttons.val = {
+    dashboard.button("e", "  New File" ,    ":enew<CR>"),
+    dashboard.button("s", "  Load Session", ":Telescope sessions<CR>"),
+    dashboard.button("f", "⊕  Find File",    ":Telescope find_files<CR>"),
+    dashboard.button("p", "⟲  Packer Sync",  ":PackerSync<CR>"),
+    dashboard.button(",", "⚙  Options",      ":call usr#misc#open_opt()<CR>"),
+    dashboard.button("q", "⊗  Quit Nvim",    ":qa<CR>"),
+}
+alpha.setup(dashboard.opts)
+
+
 -- Setting colorscheme.
 augroup('highlight_extend', 'ColorScheme * lua require("utility/vis").hi_extd()')
 vim.cmd[[colorscheme tokyonight]]
