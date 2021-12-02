@@ -1,6 +1,5 @@
 local M = {}
 local api = vim.api
-local lib = require("utility/lib")
 
 
 local cmt_mark_tab_single = {
@@ -30,7 +29,6 @@ local cmt_mark_tab_multi = {
     cpp = { "/*", "*/" },
     cs = { "/*", "*/" },
     java = { "/*", "*/" },
-    lua = { "--[[", "]]" },
     rust = { "/*", "*/" },
 }
 
@@ -63,7 +61,7 @@ function M.cmt_add_vis()
     elseif cmt_mark_single then
         local lnum_s = pos_s[1]
         local lnum_e = pos_e[1]
-        local cmt_mark_single_esc = lib.lua_reg_esc(cmt_mark_single)
+        local cmt_mark_single_esc = vim.pesc(cmt_mark_single)
         for i = lnum_s, lnum_e, 1 do
             local line_old = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
             if not line_old:match("^%s*$") then
@@ -81,7 +79,7 @@ local function is_cmt_line(lnum)
     local line = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
     if cmt_mark then
-        local esc_cmt_mark = lib.lua_reg_esc(cmt_mark)
+        local esc_cmt_mark = vim.pesc(cmt_mark)
         if line:match("^%s*"..esc_cmt_mark..".*$") then
             local l, r = line:match("^(%s*)"..esc_cmt_mark.."(.*)$")
             return true, l..r
@@ -98,8 +96,8 @@ local function del_cmt_block()
 
     local cmt_mark_a = cmt_mark[1]
     local cmt_mark_b = cmt_mark[2]
-    local lua_cmt_mark_a = lib.lua_reg_esc(cmt_mark_a)
-    local lua_cmt_mark_b = lib.lua_reg_esc(cmt_mark_b)
+    local lua_cmt_mark_a = vim.pesc(cmt_mark_a)
+    local lua_cmt_mark_b = vim.pesc(cmt_mark_b)
 
     for i = lnum_c - 1, 1, -1 do
         local line_p = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
@@ -126,8 +124,8 @@ local function del_cmt_block()
         end
     end
 
-    for i = lnum_c + 1, api.nvim_buf_line_count(), 1 do
-        local line_n = api.nvim_buf_get_lines(0, i - 1, i, true)
+    for i = lnum_c + 1, api.nvim_buf_line_count(0), 1 do
+        local line_n = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
         if line_n:match(lua_cmt_mark_b..".*$") then
             local pos_b = line_n:find(lua_cmt_mark_b..".*$")
             if line_n:match(lua_cmt_mark_a..".*$") then
@@ -149,7 +147,7 @@ end
 
 function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
-    local cmt_line, line_new = is_cmt_line('.')
+    local cmt_line, line_new = is_cmt_line(api.nvim_win_get_cursor(0)[1])
     if cmt_line then
         vim.api.nvim_set_current_line(line_new)
         return

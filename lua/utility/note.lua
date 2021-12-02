@@ -9,7 +9,7 @@ function M.hanzi_count(mode)
     if mode == "n" then
         content = api.nvim_buf_get_lines(0, 0, -1, false)
     elseif mode == "v" then
-        content = vim.fn.split(lib.get_visual_selection(), "\n")
+        content = lib.str_explode(lib.get_visual_selection())
     end
 
     local h_count = 0
@@ -21,7 +21,7 @@ function M.hanzi_count(mode)
             line:match('^%s*!?%[.+%]%(.+%)'))) or
             (vim.bo.filetype == 'tex' and
             (line:match('^%s*%%')))) then
-            for _, char in ipairs(vim.fn.split(line, "\\zs")) do
+            for _, char in ipairs(lib.str_explode(line)) do
                 local code = vim.fn.char2nr(char)
                 if code >= 0x4E00 and code <= 0x9FA5 then
                     h_count = h_count + 1

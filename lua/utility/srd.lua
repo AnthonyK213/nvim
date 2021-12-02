@@ -10,10 +10,12 @@ local function srd_pair(pair_a)
         ["《"]="》", ["“"]="”",
     }
     if pair_a:match('^[%(%[{<%s《“]+$') then
-        return table.concat(lib.map(lib.reverse(vim.fn.split(pair_a, '\\zs')),
+        return table.concat(lib.map(lib.reverse(lib.str_explode(pair_a)),
         function(x) return pairs[x] end))
     elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
-        return '</'..table.concat(lib.reverse(vim.fn.split(pair_a, '<')), '</')
+        return '</'..table.concat(lib.reverse(vim.tbl_filter(function (str)
+            return str ~= ""
+        end, vim.split(pair_a, '<'))), '</')
     else
         return pair_a
     end
@@ -23,11 +25,11 @@ end
 -- If pair_a then -1, if pair_b then 1.
 local function srd_collect(str, pair_a, pair_b)
     local tab_pair = {}
-    for pos in str:gmatch('()'..lib.lua_reg_esc(pair_a)) do
+    for pos in str:gmatch('()'..vim.pesc(pair_a)) do
         tab_pair[tostring(pos)] = -1
     end
 
-    for pos in str:gmatch('()'..lib.lua_reg_esc(pair_b)) do
+    for pos in str:gmatch('()'..vim.pesc(pair_b)) do
         tab_pair[tostring(pos)] = 1
     end
     return tab_pair
@@ -125,7 +127,7 @@ function M.srd_sub(...)
     local back_new, fore_new
 
     if pair_a == pair_b then
-        local pat = lib.lua_reg_esc(pair_a)
+        local pat = vim.pesc(pair_a)
         if (back:match('^.*'..pat) and
             fore:match(pat)) then
             back_new = back:gsub('^(.*)'..pat, '%1'..pair_a_new, 1)

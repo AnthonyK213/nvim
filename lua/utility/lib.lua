@@ -11,7 +11,7 @@ end
 
 -- Return the <cWORD> without the noisy characters.
 function M.get_clean_cWORD(del_list)
-    local c_word = vim.fn.split(vim.fn.expand("<cWORD>"), "\\zs")
+    local c_word = M.str_explode(vim.fn.expand("<cWORD>"))
     while vim.tbl_contains(del_list, c_word[#c_word]) and #c_word >= 2 do
         table.remove(c_word, #c_word)
     end
@@ -76,7 +76,7 @@ end
 
 -- Replace chars in a string according to a dictionary.
 function M.str_escape(str, esc_table)
-    local str_list = vim.fn.split(str, '\\zs')
+    local str_list = M.str_explode(str)
     for i, v in ipairs(str_list) do
         if esc_table[v] then
             str_list[i] = esc_table[v]
@@ -85,20 +85,25 @@ function M.str_escape(str, esc_table)
     return table.concat(str_list)
 end
 
--- Escape lua regex special characters in a string by '%'.
-function M.lua_reg_esc(str)
-    local str_list = vim.fn.split(str, '\\zs')
-    local esc_table = {
-        '(', ')', '[', ']',
-        '+', '-', '*', '?',
-        '.', '%', '^', '$'
-    }
-    for i, v in ipairs(str_list) do
-        if vim.tbl_contains(esc_table, v) then
-            str_list[i] = '%'..v
+-- Split string at '\zs'.
+function M.str_explode(str)
+    if str:len() == 1 then return { str } end
+    local result = {}
+    while true do
+        ::str_explode_loop::
+        local len = str:len()
+        for i = 1, len, 1 do
+            local u_index = vim.str_utfindex(str, i)
+            if u_index ~= 1 then
+                table.insert(result, str:sub(1, i - 1))
+                str = str:sub(i)
+                goto str_explode_loop
+            end
         end
+        table.insert(result, str)
+        break
     end
-    return table.concat(str_list)
+    return result
 end
 
 -- Escape vim regex(magic) special characters in a string by '\'.
@@ -116,10 +121,10 @@ function M.get_visual_selection()
 end
 
 -- Reverse a ipairs table.
-function M.reverse(tab)
+function M.reverse(tbl)
     local tmp = {}
-    for i = #tab, 1, -1 do
-        table.insert(tmp, tab[i])
+    for i = #tbl, 1, -1 do
+        table.insert(tmp, tbl[i])
     end
     return tmp
 end
