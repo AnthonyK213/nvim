@@ -1,5 +1,5 @@
 local M = {}
-local fn  = vim.fn
+local api = vim.api
 local lib = require("utility/lib")
 
 
@@ -10,10 +10,10 @@ local function srd_pair(pair_a)
         ["《"]="》", ["“"]="”",
     }
     if pair_a:match('^[%(%[{<%s《“]+$') then
-        return table.concat(lib.map(lib.reverse(fn.split(pair_a, '\\zs')),
+        return table.concat(lib.map(lib.reverse(vim.fn.split(pair_a, '\\zs')),
         function(x) return pairs[x] end))
     elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
-        return '</'..table.concat(lib.reverse(fn.split(pair_a, '<')), '</')
+        return '</'..table.concat(lib.reverse(vim.fn.split(pair_a, '<')), '</')
     else
         return pair_a
     end
@@ -78,31 +78,32 @@ function M.srd_add(mode, ...)
     if #arg_list > 0 then
         pair_a = arg_list[1]
     else
-        pair_a = fn.input("Surrounding add: ")
+        pair_a = vim.fn.input("Surrounding add: ")
     end
     local pair_b = srd_pair(pair_a)
 
     if mode == 'n' then
-        local origin = fn.getpos('.')
+        local origin = api.nvim_win_get_cursor(0)
         if (lib.get_context('f'):match('^.%s') or
             lib.get_context('f'):match('^.$')) then
             vim.cmd('normal! a'..pair_b)
         else
             vim.cmd('normal! Ea'..pair_b)
         end
-        fn.setpos('.', origin)
+        api.nvim_win_set_cursor(0, origin)
         if (lib.get_context('p'):match('%s') or
             lib.get_context('b'):match('^$')) then
             vim.cmd('normal! i'..pair_a)
         else
             vim.cmd('normal! Bi'..pair_a)
         end
+        api.nvim_win_set_cursor(0, origin)
     elseif mode == 'v' then
-        local stt_pos = fn.getpos("'<")
-        local end_pos = fn.getpos("'>")
-        fn.setpos('.', end_pos)
+        local stt_pos = api.nvim_buf_get_mark(0, "<")
+        local end_pos = api.nvim_buf_get_mark(0, ">")
+        api.nvim_win_set_cursor(0, end_pos)
         vim.cmd('normal! a'..pair_b)
-        fn.setpos('.', stt_pos)
+        api.nvim_win_set_cursor(0, stt_pos)
         vim.cmd('normal! i'..pair_a)
     end
 end
@@ -111,13 +112,13 @@ function M.srd_sub(...)
     local arg_list = {...}
     local back = lib.get_context('b')
     local fore = lib.get_context('f')
-    local pair_a = fn.input("Surrounding delete: ")
+    local pair_a = vim.fn.input("Surrounding delete: ")
     local pair_b = srd_pair(pair_a)
     local pair_a_new
     if #arg_list > 0 then
         pair_a_new = arg_list[1]
     else
-        pair_a_new = fn.input("Change to: ")
+        pair_a_new = vim.fn.input("Change to: ")
     end
     local pair_b_new = srd_pair(pair_a_new)
 

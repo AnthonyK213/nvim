@@ -1,4 +1,5 @@
 local M = {}
+local api = vim.api
 
 
 -- Calculate the day of week from a date(yyyy-mm-dd).
@@ -44,8 +45,8 @@ local function zeller(year, month, date)
 end
 
 function M.append_day_from_date()
-    local line = vim.api.nvim_get_current_line()
-    local col = vim.fn.col('.')
+    local line = api.nvim_get_current_line()
+    local col = api.nvim_win_get_cursor(0)[2]
 
     local y, m, d, insert_pos
     for pos_s, date, year, month, day, pos_e
@@ -64,7 +65,7 @@ function M.append_day_from_date()
     if not insert_pos then return end
     local day_of_week = zeller(y, m, d)
     if not day_of_week then return end
-    vim.fn.setpos('.', {0, vim.fn.line('.'), insert_pos})
+    api.nvim_win_set_cursor(0, {api.nvim_win_get_cursor(0)[1], insert_pos - 1})
     vim.cmd('normal! a '..day_of_week)
 end
 
@@ -99,7 +100,7 @@ end
 
 -- Print TODO list.
 function M.print_todo_list()
-    local content = vim.fn.getline(1, '$')
+    local content = api.nvim_buf_get_lines(0, 0, -1, false)
     for _, line in ipairs(content) do
         local todo, date, item = line:match('(TODO(%b<>):%s+(.+))$')
         if todo and not line:match('%[X%]') then

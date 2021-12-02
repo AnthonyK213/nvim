@@ -12,7 +12,7 @@ end
 
 -- Show documents.
 function M.show_doc()
-    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+    if vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
         vim.cmd('h '..vim.fn.expand('<cword>'))
     else
         vim.lsp.buf.hover()

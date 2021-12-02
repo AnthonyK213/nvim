@@ -1,4 +1,5 @@
 local M = {}
+local api = vim.api
 local lib = require('utility/lib')
 
 
@@ -6,7 +7,7 @@ local lib = require('utility/lib')
 function M.hanzi_count(mode)
     local content
     if mode == "n" then
-        content = vim.fn.getline(1, '$')
+        content = api.nvim_buf_get_lines(0, 0, -1, false)
     elseif mode == "v" then
         content = vim.fn.split(lib.get_visual_selection(), "\n")
     end
@@ -38,7 +39,7 @@ end
 
 -- Markdown number bullet
 local function md_check_line(lnum)
-    local lstr = vim.fn.getline(lnum)
+    local lstr = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
     local bullet
@@ -53,8 +54,8 @@ local function md_check_line(lnum)
 end
 
 function M.md_insert_bullet()
-    local c_num = vim.fn.line('.')
-    local c_det, _, c_bul, c_ind = md_check_line('.')
+    local c_num = api.nvim_win_get_cursor(0)[1]
+    local c_det, _, c_bul, c_ind = md_check_line(c_num)
     local l_det = 0
     local l_bul, l_ind
 
@@ -77,26 +78,26 @@ function M.md_insert_bullet()
     end
 
     if (l_det == 0) then
-        vim.api.nvim_input('<C-O>o')
+        api.nvim_input('<C-O>o')
     else
         local f_num = c_num + 1
         local move_stp = 0
         local move_rec = {}
-        while (f_num <= vim.fn.line('$')) do
+        while (f_num <= api.nvim_buf_line_count(0)) do
             local f_det, f_str, f_bul, f_ind = md_check_line(f_num)
             if (f_det == l_det and f_ind == l_ind) then
                 table.insert(move_rec, move_stp)
                 if (l_det == 1) then
                     break
                 elseif (l_det == 2 and f_det == 2) then
-                    local f_new = f_str:gsub(
-                    tostring(f_bul), tostring(f_bul + 1), 1)
-                    vim.fn.setline(f_num, f_new)
+                    local f_new = f_str:gsub(tostring(f_bul),
+                    tostring(f_bul + 1), 1)
+                    api.nvim_buf_set_lines(0, f_num - 1, f_num, true, {f_new})
                 end
             elseif (f_ind <= l_ind) then
                 table.insert(move_rec, move_stp)
                 break
-            elseif (f_num == vim.fn.line('$')) then
+            elseif (f_num == api.nvim_buf_line_count(0)) then
                 table.insert(move_rec, move_stp + 1)
                 break
             end
@@ -114,16 +115,16 @@ function M.md_insert_bullet()
         else
             l_bul_new = l_bul.." "
         end
-        local feed_string = vim.api.nvim_replace_termcodes(string.rep('<Down>',
+        local feed_string = api.nvim_replace_termcodes(string.rep('<Down>',
         count_d)..'<C-O>o<C-O>i'..string.rep('<SPACE>', l_ind)..l_bul_new,
         true, false, true)
-        vim.api.nvim_feedkeys(feed_string, 'in', true)
+        api.nvim_feedkeys(feed_string, 'in', true)
     end
 end
 
 function M.md_sort_num_bullet()
-    local c_num = vim.fn.line('.')
-    local c_det, _, _, c_ind = md_check_line('.')
+    local c_num = api.nvim_win_get_cursor(0)[1]
+    local c_det, _, _, c_ind = md_check_line(c_num)
 
     if (c_det == 2) then
         local b_num_list = { c_num }
@@ -145,7 +146,7 @@ function M.md_sort_num_bullet()
         end
 
         local f_num = c_num + 1
-        while (f_num <= vim.fn.line('$')) do
+        while (f_num <= api.nvim_buf_line_count(0)) do
             local f_det, _, _, f_ind = md_check_line(f_num)
             if (f_det == 2) then
                 if (f_ind == c_ind) then
@@ -161,14 +162,15 @@ function M.md_sort_num_bullet()
 
         local b_len = #b_num_list
         for i, u in ipairs(b_num_list) do
-            local lb_new = vim.fn.getline(u):gsub(
+            local lb_new = api.nvim_buf_get_lines(0, u - 1, u, true)[1]:gsub(
             '%d+', tostring(b_len - i + 1), 1)
-            vim.fn.setline(u, lb_new)
+            api.nvim_buf_set_lines(0, u - 1, u, true, {lb_new})
         end
 
         for j, v in ipairs(f_num_list) do
-            local lf_new = vim.fn.getline(v):gsub('%d+', tostring(j + b_len), 1)
-            vim.fn.setline(v, lf_new)
+            local lf_new = api.nvim_buf_get_lines(0, v - 1, v, true)[1]:gsub(
+            '%d+', tostring(j + b_len), 1)
+            api.nvim_buf_set_lines(0, v - 1, v, true, {lf_new})
         end
     else
         print("Not in a line of any numbered lists.")

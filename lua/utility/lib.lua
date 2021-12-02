@@ -12,10 +12,10 @@ end
 -- Return the <cWORD> without the noisy characters.
 function M.get_clean_cWORD(del_list)
     local c_word = vim.fn.split(vim.fn.expand("<cWORD>"), "\\zs")
-    while vim.fn.index(del_list, c_word[#c_word]) >= 0 and #c_word >= 2 do
+    while vim.tbl_contains(del_list, c_word[#c_word]) and #c_word >= 2 do
         table.remove(c_word, #c_word)
     end
-    while vim.fn.index(del_list, c_word[1]) >= 0 and #c_word >= 2 do
+    while vim.tbl_contains(del_list, c_word[1]) and #c_word >= 2 do
         table.remove(c_word, 1)
     end
     return table.concat(c_word)
@@ -65,7 +65,8 @@ local get_context_pat = {
 function M.get_context(mode)
     local pat = get_context_pat[mode]
     local line = vim.api.nvim_get_current_line()
-    local s, e = vim.regex(pat[1]..vim.fn.col('.')..pat[2]):match_str(line)
+    local s, e = vim.regex(
+    pat[1]..(vim.api.nvim_win_get_cursor(0)[2] + 1)..pat[2]):match_str(line)
     if s then
         return line:sub(s + 1, e)
     else
@@ -93,7 +94,7 @@ function M.lua_reg_esc(str)
         '.', '%', '^', '$'
     }
     for i, v in ipairs(str_list) do
-        if vim.fn.index(esc_table, v) >= 0 then
+        if vim.tbl_contains(esc_table, v) then
             str_list[i] = '%'..v
         end
     end
