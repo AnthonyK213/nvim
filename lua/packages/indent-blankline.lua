@@ -16,5 +16,5 @@ require("indent_blankline").setup {
         'arguments',
     },
     buftype_exclude = {"terminal", 'NvimTree'},
-    filetype_exclude = {"alpha"}
+    filetype_exclude = {"alpha", "markdown", "presenting_markdown"}
 }
