@@ -87,7 +87,6 @@ end
 
 -- Split string at '\zs'.
 function M.str_explode(str)
-    if str:len() == 1 then return { str } end
     local result = {}
     while true do
         ::str_explode_loop::
@@ -121,19 +120,12 @@ function M.get_visual_selection()
 end
 
 -- Reverse a ipairs table.
-function M.reverse(tbl)
+function M.tbl_reverse(tbl)
     local tmp = {}
     for i = #tbl, 1, -1 do
         table.insert(tmp, tbl[i])
     end
     return tmp
-end
-
--- Mapping a function to a table.
-function M.map(tab, func)
-    local res = {}
-    for key, val in pairs(tab) do res[key] = func(val) end
-    return res
 end
 
 -- Define auto command group.
@@ -172,6 +164,15 @@ function M.encode_url(str)
         return string.format("%%%02X", string.byte(x))
     end):gsub(" ", "%%20")
     return res
+end
+
+-- For testing.
+function M.t(label, f, ...)
+    local s = os.clock()
+    local result = f(...)
+    local e = os.clock()
+    print(string.format("test_%s: { duration: %f, result: %s }",
+    label, e - s, vim.inspect(result)))
 end
 
 

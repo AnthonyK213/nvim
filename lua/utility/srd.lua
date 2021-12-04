@@ -10,10 +10,10 @@ local function srd_pair(pair_a)
         ["《"]="》", ["“"]="”",
     }
     if pair_a:match('^[%(%[{<%s《“]+$') then
-        return table.concat(lib.map(lib.reverse(lib.str_explode(pair_a)),
-        function(x) return pairs[x] end))
+        return table.concat(vim.tbl_map(function(x) return pairs[x] end,
+        lib.tbl_reverse(lib.str_explode(pair_a))))
     elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
-        return '</'..table.concat(lib.reverse(vim.tbl_filter(function (str)
+        return '</'..table.concat(lib.tbl_reverse(vim.tbl_filter(function (str)
             return str ~= ""
         end, vim.split(pair_a, '<'))), '</')
     else
