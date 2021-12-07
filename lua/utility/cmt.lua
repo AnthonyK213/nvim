@@ -156,8 +156,8 @@ function M.cmt_del_norm()
 end
 
 function M.cmt_del_vis()
-    local lnum_s = api.nvim_buf_get_mark("<")[1]
-    local lnum_e = api.nvim_buf_get_mark(">")[1]
+    local lnum_s = api.nvim_buf_get_mark(0, "<")[1]
+    local lnum_e = api.nvim_buf_get_mark(0, ">")[1]
     for i = lnum_s, lnum_e, 1 do
         local cmt_line, line_new = is_cmt_line(i)
         if cmt_line then
