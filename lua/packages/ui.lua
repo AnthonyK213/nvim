@@ -40,7 +40,7 @@ require('lualine').setup {
             {gps.get_location, cond=gps.is_available},
             'diff'
         },
-        lualine_x = {{'diagnostics', sources={'nvim_lsp'}}, 'filetype'},
+        lualine_x = {{'diagnostics', sources={'nvim_diagnostic'}}, 'filetype'},
         lualine_y = {'encoding', 'fileformat'},
         lualine_z = {'progress', 'location'},
     },
