@@ -7,6 +7,7 @@ local cmt_mark_tab_single = {
     cmake = "#",
     cpp = "//",
     cs = "//",
+    dosbatch = "::",
     gitconfig = "#",
     java = "//",
     lisp = ";",
