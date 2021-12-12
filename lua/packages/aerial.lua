@@ -14,4 +14,5 @@ aerial.register_attach_cb(function(bufnr)
     -- Jump up the tree with '[[' or ']]'
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<Cmd>AerialPrevUp<CR>', {})
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<Cmd>AerialNextUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>fa', '<Cmd>Telescope aerial<CR>', {})
 end)
