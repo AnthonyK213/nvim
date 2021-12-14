@@ -166,14 +166,5 @@ function M.encode_url(str)
     return res
 end
 
--- For testing.
-function M.t(label, f, ...)
-    local s = os.clock()
-    local result = f(...)
-    local e = os.clock()
-    print(string.format("test_%s: { duration: %f, result: %s }",
-    label, e - s, vim.inspect(result)))
-end
-
 
 return M
