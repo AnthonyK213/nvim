@@ -64,16 +64,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- UTF8-tail   = %x80-BF
 --
 
-local byte    = string.byte
-local char    = string.char
-local dump    = string.dump
-local find    = string.find
-local format  = string.format
-local len     = string.len
-local lower   = string.lower
-local rep     = string.rep
-local sub     = string.sub
-local upper   = string.upper
+local byte   = string.byte
+local char   = string.char
+local dump   = string.dump
+local find   = string.find
+local format = string.format
+local len    = string.len
+local lower  = string.lower
+local rep    = string.rep
+local sub    = string.sub
+local upper  = string.upper
 
 -- returns the number of bytes used by the UTF-8 character at byte i in s
 -- also doubles as a UTF-8 character validator
@@ -231,8 +231,8 @@ local function utf8sub (s, i, j)
         end
     end
 
-    if startChar > length then startByte = bytes+1   end
-    if endChar   < 1      then endByte   = 0         end
+    if startChar > length then startByte = bytes+1 end
+    if endChar < 1 then endByte = 0 end
 
     return sub(s, startByte, endByte)
 end
@@ -427,6 +427,7 @@ local function binsearch(sortedTable, item, comp)
         return false
     end
 end
+
 local function classMatchGenerator(class, plain)
     local codes = {}
     local ranges = {}
@@ -602,12 +603,10 @@ local function utf8subWithBytes (s, i, j, sb)
 end
 ]]
 
-local cache = setmetatable({},{
-    __mode = 'kv'
-})
-local cachePlain = setmetatable({},{
-    __mode = 'kv'
-})
+local cache = setmetatable({},{ __mode = 'kv' })
+
+local cachePlain = setmetatable({},{ __mode = 'kv' })
+
 local function matcherGenerator(regex, plain)
     local matcher = {
         functions = {},
@@ -618,6 +617,7 @@ local function matcherGenerator(regex, plain)
     else
         cachePlain[regex] = matcher
     end
+
     local function simple(func)
         return function(cC)
             if func(cC) then
@@ -628,6 +628,7 @@ local function matcherGenerator(regex, plain)
             end
         end
     end
+
     local function star(func)
         return function(cC)
             if func(cC) then
@@ -638,6 +639,7 @@ local function matcherGenerator(regex, plain)
             end
         end
     end
+
     local function minus(func)
         return function(cC)
             if func(cC) then
@@ -646,6 +648,7 @@ local function matcherGenerator(regex, plain)
             matcher:nextFunc()
         end
     end
+
     local function question(func)
         return function(cC)
             if func(cC) then
@@ -671,12 +674,14 @@ local function matcherGenerator(regex, plain)
             end
         end
     end
+
     local function captureStart(id)
         return function(_)
             matcher.captures[id][1] = matcher.str
             matcher:nextFunc()
         end
     end
+
     local function captureStop(id)
         return function(_)
             matcher.captures[id][2] = matcher.str - 1
@@ -851,12 +856,10 @@ local function matcherGenerator(regex, plain)
         end
     end)
 
-    matcher.nextFunc = function(self)
-        self.func = self.func + 1
-    end
-    matcher.nextStr = function(self)
-        self.str = self.str + 1
-    end
+    matcher.nextFunc = function(self) self.func = self.func + 1 end
+
+    matcher.nextStr = function(self) self.str = self.str + 1 end
+
     matcher.strReset = function(self)
         local oldReset = self.reset
         local str = self.str
@@ -865,6 +868,7 @@ local function matcherGenerator(regex, plain)
             s.reset = oldReset
         end
     end
+
     matcher.fullResetOnNextFunc = function(self)
         local oldReset = self.reset
         local func = self.func +1
@@ -875,6 +879,7 @@ local function matcherGenerator(regex, plain)
             s.reset = oldReset
         end
     end
+
     matcher.fullResetOnNextStr = function(self)
         local oldReset = self.reset
         local str = self.str + 1
@@ -887,7 +892,6 @@ local function matcherGenerator(regex, plain)
     end
 
     matcher.process = function(self, str, start)
-
         self.func = 1
         start = start or 1
         self.startStr = (start >= 0) and start or utf8len(str) + start + 1
@@ -896,10 +900,7 @@ local function matcherGenerator(regex, plain)
         self.stringLen = utf8len(str) + 1
         self.string = str
         self.stop = false
-
-        self.reset = function(s)
-            s.func = 1
-        end
+        self.reset = function(s) s.func = 1 end
 
         -- local lastPos = self.str
         -- local lastByte
@@ -1006,6 +1007,7 @@ local function replace(repl, args)
     end
     return ret
 end
+
 -- string.gsub
 local function utf8gsub(str, regex, repl, limit)
     limit = limit or -1
