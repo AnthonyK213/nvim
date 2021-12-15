@@ -77,7 +77,7 @@ local upper  = string.upper
 
 -- returns the number of bytes used by the UTF-8 character at byte i in s
 -- also doubles as a UTF-8 character validator
-local function utf8charbytes (s, i)
+local function utf8charbytes(s, i)
     -- argument defaults
     i = i or 1
 
@@ -174,10 +174,12 @@ local function utf8charbytes (s, i)
 end
 
 -- returns the number of characters in a UTF-8 string
-local function utf8len (s)
+local function utf8len(s)
     -- argument checking
     if type(s) ~= "string" then
-        for k,v in pairs(s) do print('"',tostring(k),'"',tostring(v),'"') end
+        for k, v in pairs(s) do
+            print('"',tostring(k),'"',tostring(v),'"')
+        end
         error("bad argument #1 to 'utf8len' (string expected, got ".. type(s).. ")")
     end
 
@@ -195,7 +197,7 @@ end
 
 -- functions identically to string.sub except that i and j are UTF-8 characters
 -- instead of bytes
-local function utf8sub (s, i, j)
+local function utf8sub(s, i, j)
     -- argument defaults
     j = j or -1
 
