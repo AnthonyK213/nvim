@@ -280,7 +280,7 @@ end
 ]]
 
 -- identical to string.reverse except that it supports UTF-8
-local function utf8reverse (s)
+local function utf8reverse(s)
     -- argument checking
     if type(s) ~= "string" then
         error("bad argument #1 to 'utf8reverse' (string expected, got ".. type(s).. ")")
