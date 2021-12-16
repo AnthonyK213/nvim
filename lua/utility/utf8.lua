@@ -20,36 +20,34 @@
 -- All functions behave as their non UTF-8 aware counterparts with the exception
 -- that UTF-8 characters are used instead of bytes for all units.
 
---[[
-Copyright (c) 2006-2007, Kyle Smith
-All rights reserved.
-
-Contributors:
-Alimov Stepan
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-* Neither the name of the author nor the names of its contributors may be
-used to endorse or promote products derived from this software without
-specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
---]]
+-- Copyright (c) 2006-2007, Kyle Smith
+-- All rights reserved.
+-- 
+-- Contributors:
+-- Alimov Stepan
+-- 
+-- Redistribution and use in source and binary forms, with or without
+-- modification, are permitted provided that the following conditions are met:
+-- 
+-- * Redistributions of source code must retain the above copyright notice,
+-- this list of conditions and the following disclaimer.
+-- * Redistributions in binary form must reproduce the above copyright
+-- notice, this list of conditions and the following disclaimer in the
+-- documentation and/or other materials provided with the distribution.
+-- * Neither the name of the author nor the names of its contributors may be
+-- used to endorse or promote products derived from this software without
+-- specific prior written permission.
+-- 
+-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+-- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+-- DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+-- FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+-- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+-- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+-- CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+-- OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+-- OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -- ABNF from RFC 3629
 --
@@ -62,7 +60,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
 --               %xF4 %x80-8F 2( UTF8-tail )
 -- UTF8-tail   = %x80-BF
---
+
 
 local byte   = string.byte
 local char   = string.char
@@ -80,47 +78,37 @@ local upper  = string.upper
 local function utf8charbytes(s, i)
     -- argument defaults
     i = i or 1
-
     -- argument checking
     if type(s) ~= "string" then
-        error("bad argument #1 to 'utf8charbytes' (string expected, got ".. type(s).. ")")
+        error("bad argument #1 to 'utf8charbytes' (string expected, got "..type(s)..")")
     end
     if type(i) ~= "number" then
-        error("bad argument #2 to 'utf8charbytes' (number expected, got ".. type(i).. ")")
+        error("bad argument #2 to 'utf8charbytes' (number expected, got "..type(i)..")")
     end
-
     local c = byte(s, i)
-
     -- determine bytes needed for character, based on RFC 3629
     -- validate byte 1
     if c > 0 and c <= 127 then
         -- UTF8-1
         return 1
-
     elseif c >= 194 and c <= 223 then
         -- UTF8-2
         local c2 = byte(s, i + 1)
-
         if not c2 then
             error("UTF-8 string terminated early")
         end
-
         -- validate byte 2
         if c2 < 128 or c2 > 191 then
             error("Invalid UTF-8 character")
         end
-
         return 2
-
     elseif c >= 224 and c <= 239 then
         -- UTF8-3
         local c2 = byte(s, i + 1)
         local c3 = byte(s, i + 2)
-
         if not c2 or not c3 then
             error("UTF-8 string terminated early")
         end
-
         -- validate byte 2
         if c == 224 and (c2 < 160 or c2 > 191) then
             error("Invalid UTF-8 character")
@@ -129,24 +117,19 @@ local function utf8charbytes(s, i)
         elseif c2 < 128 or c2 > 191 then
             error("Invalid UTF-8 character")
         end
-
         -- validate byte 3
         if c3 < 128 or c3 > 191 then
             error("Invalid UTF-8 character")
         end
-
         return 3
-
     elseif c >= 240 and c <= 244 then
         -- UTF8-4
         local c2 = byte(s, i + 1)
         local c3 = byte(s, i + 2)
         local c4 = byte(s, i + 3)
-
         if not c2 or not c3 or not c4 then
             error("UTF-8 string terminated early")
         end
-
         -- validate byte 2
         if c == 240 and (c2 < 144 or c2 > 191) then
             error("Invalid UTF-8 character")
@@ -155,19 +138,15 @@ local function utf8charbytes(s, i)
         elseif c2 < 128 or c2 > 191 then
             error("Invalid UTF-8 character")
         end
-
         -- validate byte 3
         if c3 < 128 or c3 > 191 then
             error("Invalid UTF-8 character")
         end
-
         -- validate byte 4
         if c4 < 128 or c4 > 191 then
             error("Invalid UTF-8 character")
         end
-
         return 4
-
     else
         error("Invalid UTF-8 character")
     end
@@ -178,9 +157,9 @@ local function utf8len(s)
     -- argument checking
     if type(s) ~= "string" then
         for k, v in pairs(s) do
-            print('"',tostring(k),'"',tostring(v),'"')
+            print('"', tostring(k), '"', tostring(v), '"')
         end
-        error("bad argument #1 to 'utf8len' (string expected, got ".. type(s).. ")")
+        error("bad argument #1 to 'utf8len' (string expected, got "..type(s)..")")
     end
 
     local pos = 1
@@ -200,24 +179,19 @@ end
 local function utf8sub(s, i, j)
     -- argument defaults
     j = j or -1
-
     local pos = 1
     local bytes = len(s)
     local length = 0
-
     -- only set l if i or j is negative
     local l = (i >= 0 and j >= 0) or utf8len(s)
     local startChar = (i >= 0) and i or l + i + 1
-    local endChar   = (j >= 0) and j or l + j + 1
-
+    local endChar = (j >= 0) and j or l + j + 1
     -- can't have start before end!
     if startChar > endChar then
         return ""
     end
-
     -- byte offsets to pass to string.sub
-    local startByte,endByte = 1,bytes
-
+    local startByte, endByte = 1, bytes
     while pos <= bytes do
         length = length + 1
 
@@ -232,58 +206,17 @@ local function utf8sub(s, i, j)
             break
         end
     end
-
-    if startChar > length then startByte = bytes+1 end
+    if startChar > length then startByte = bytes + 1 end
     if endChar < 1 then endByte = 0 end
 
     return sub(s, startByte, endByte)
 end
 
---[[
--- replace UTF-8 characters based on a mapping table
-local function utf8replace (s, mapping)
-    -- argument checking
-    if type(s) ~= "string" then
-        error("bad argument #1 to 'utf8replace' (string expected, got ".. type(s).. ")")
-    end
-    if type(mapping) ~= "table" then
-        error("bad argument #2 to 'utf8replace' (table expected, got ".. type(mapping).. ")")
-    end
-
-    local pos = 1
-    local bytes = len(s)
-    local charbytes
-    local newstr = ""
-
-    while pos <= bytes do
-        charbytes = utf8charbytes(s, pos)
-        local c = sub(s, pos, pos + charbytes - 1)
-
-        newstr = newstr .. (mapping[c] or c)
-
-        pos = pos + charbytes
-    end
-
-    return newstr
-end
-
-
--- identical to string.upper except it knows about unicode simple case conversions
-local function utf8upper (s)
-    return utf8replace(s, utf8_lc_uc)
-end
-
--- identical to string.lower except it knows about unicode simple case conversions
-local function utf8lower (s)
-    return utf8replace(s, utf8_uc_lc)
-end
-]]
-
 -- identical to string.reverse except that it supports UTF-8
 local function utf8reverse(s)
     -- argument checking
     if type(s) ~= "string" then
-        error("bad argument #1 to 'utf8reverse' (string expected, got ".. type(s).. ")")
+        error("bad argument #1 to 'utf8reverse' (string expected, got "..type(s)..")")
     end
 
     local bytes = len(s)
@@ -300,7 +233,7 @@ local function utf8reverse(s)
 
         charbytes = utf8charbytes(s, pos)
 
-        newstr = newstr .. sub(s, pos, pos + charbytes - 1)
+        newstr = newstr..sub(s, pos, pos + charbytes - 1)
 
         pos = pos - 1
     end
@@ -328,13 +261,13 @@ local function utf8char(unicode)
 
     if (unicode <= 0x10FFFF) then
         local code = unicode
-        local Byte3= 0x80 + (code % 0x40);
-        code       = math.floor(code / 0x40)
-        local Byte2= 0x80 + (code % 0x40);
-        code       = math.floor(code / 0x40)
-        local Byte1= 0x80 + (code % 0x40);
-        code       = math.floor(code / 0x40)
-        local Byte0= 0xF0 + code;
+        local Byte3 = 0x80 + (code % 0x40);
+        code = math.floor(code / 0x40)
+        local Byte2 = 0x80 + (code % 0x40);
+        code = math.floor(code / 0x40)
+        local Byte1 = 0x80 + (code % 0x40);
+        code = math.floor(code / 0x40)
+        local Byte0 = 0xF0 + code;
 
         return char(Byte0, Byte1, Byte2, Byte3);
     end;
@@ -342,9 +275,9 @@ local function utf8char(unicode)
     error 'Unicode cannot be greater than U+10FFFF!'
 end
 
-local shift_6  = 2^6
-local shift_12 = 2^12
-local shift_18 = 2^18
+local shift_6  = 2 ^ 6
+local shift_12 = 2 ^ 12
+local shift_18 = 2 ^ 18
 
 local utf8unicode
 utf8unicode = function(str, i, j, byte_pos)
@@ -353,64 +286,64 @@ utf8unicode = function(str, i, j, byte_pos)
 
     if i > j then return end
 
-    local ch,bytes
+    local ch, bytes
 
     if byte_pos then
-        bytes = utf8charbytes(str,byte_pos)
-        ch  = sub(str,byte_pos,byte_pos-1+bytes)
+        bytes = utf8charbytes(str, byte_pos)
+        ch = sub(str, byte_pos, byte_pos-1+bytes)
     else
-        ch,byte_pos = utf8sub(str,i,i), 0
-        bytes       = #ch
+        ch, byte_pos = utf8sub(str, i, i), 0
+        bytes = #ch
     end
 
     local unicode
 
     if bytes == 1 then unicode = byte(ch) end
     if bytes == 2 then
-        local byte0,byte1 = byte(ch,1,2)
-        local code0,code1 = byte0-0xC0,byte1-0x80
-        unicode = code0*shift_6 + code1
+        local byte0, byte1 = byte(ch, 1, 2)
+        local code0, code1 = byte0 - 0xC0, byte1 - 0x80
+        unicode = code0 * shift_6 + code1
     end
     if bytes == 3 then
-        local byte0,byte1,byte2 = byte(ch,1,3)
-        local code0,code1,code2 = byte0-0xE0,byte1-0x80,byte2-0x80
-        unicode = code0*shift_12 + code1*shift_6 + code2
+        local byte0, byte1, byte2 = byte(ch, 1, 3)
+        local code0, code1, code2 = byte0 - 0xE0, byte1 - 0x80, byte2 - 0x80
+        unicode = code0 * shift_12 + code1 * shift_6 + code2
     end
     if bytes == 4 then
-        local byte0,byte1,byte2,byte3 = byte(ch,1,4)
-        local code0,code1,code2,code3 = byte0-0xF0,byte1-0x80,byte2-0x80,byte3-0x80
-        unicode = code0*shift_18 + code1*shift_12 + code2*shift_6 + code3
+        local byte0, byte1, byte2, byte3 = byte(ch, 1, 4)
+        local code0, code1, code2, code3 = byte0 - 0xF0, byte1 - 0x80, byte2 - 0x80, byte3 - 0x80
+        unicode = code0 * shift_18 + code1 * shift_12 + code2 * shift_6 + code3
     end
 
-    return unicode,utf8unicode(str, i+1, j, byte_pos+bytes)
+    return unicode, utf8unicode(str, i + 1, j, byte_pos + bytes)
 end
 
 -- Returns an iterator which returns the next substring and its byte interval
 local function utf8gensub(str, sub_len)
-    sub_len        = sub_len or 1
+    sub_len = sub_len or 1
     local byte_pos = 1
-    local length   = #str
+    local length = #str
     return function(skip)
         if skip then byte_pos = byte_pos + skip end
         local char_count = 0
-        local start      = byte_pos
+        local start = byte_pos
         repeat
             if byte_pos > length then return end
-            char_count  = char_count + 1
-            local bytes = utf8charbytes(str,byte_pos)
-            byte_pos    = byte_pos+bytes
+            char_count = char_count + 1
+            local bytes = utf8charbytes(str, byte_pos)
+            byte_pos = byte_pos+bytes
 
         until char_count == sub_len
 
-        local last  = byte_pos-1
-        local slice = sub(str,start,last)
+        local last = byte_pos-1
+        local slice = sub(str, start, last)
         return slice, start, last
     end
 end
 
 local function binsearch(sortedTable, item, comp)
     local head, tail = 1, #sortedTable
-    local mid = math.floor((head + tail)/2)
+    local mid = math.floor((head + tail) / 2)
     if not comp then
         while (tail - head) > 1 do
             if sortedTable[tonumber(mid)] > item then
@@ -418,7 +351,7 @@ local function binsearch(sortedTable, item, comp)
             else
                 head = mid
             end
-            mid = math.floor((head + tail)/2)
+            mid = math.floor((head + tail) / 2)
         end
     end
     if sortedTable[tonumber(head)] == item then
@@ -542,7 +475,7 @@ local function classMatchGenerator(class, plain)
     table.sort(codes)
 
     local function inRanges(charCode)
-        for _,r in ipairs(ranges) do
+        for _, r in ipairs(ranges) do
             if r[1] <= charCode and charCode <= r[2] then
                 return true
             end
@@ -560,54 +493,10 @@ local function classMatchGenerator(class, plain)
     end
 end
 
---[[
--- utf8sub with extra argument, and extra result value
-local function utf8subWithBytes (s, i, j, sb)
-    -- argument defaults
-    j = j or -1
 
-    local pos = sb or 1
-    local bytes = len(s)
-    local length = 0
+local cache = setmetatable({}, { __mode = 'kv' })
 
-    -- only set l if i or j is negative
-    local l = (i >= 0 and j >= 0) or utf8len(s)
-    local startChar = (i >= 0) and i or l + i + 1
-    local endChar   = (j >= 0) and j or l + j + 1
-
-    -- can't have start before end!
-    if startChar > endChar then
-        return ""
-    end
-
-    -- byte offsets to pass to string.sub
-    local startByte,endByte = 1,bytes
-
-    while pos <= bytes do
-        length = length + 1
-
-        if length == startChar then
-            startByte = pos
-        end
-
-        pos = pos + utf8charbytes(s, pos)
-
-        if length == endChar then
-            endByte = pos - 1
-            break
-        end
-    end
-
-    if startChar > length then startByte = bytes+1   end
-    if endChar   < 1      then endByte   = 0         end
-
-    return sub(s, startByte, endByte), endByte + 1
-end
-]]
-
-local cache = setmetatable({},{ __mode = 'kv' })
-
-local cachePlain = setmetatable({},{ __mode = 'kv' })
+local cachePlain = setmetatable({}, { __mode = 'kv' })
 
 local function matcherGenerator(regex, plain)
     local matcher = {
@@ -615,7 +504,7 @@ local function matcherGenerator(regex, plain)
         captures = {}
     }
     if not plain then
-        cache[regex] =  matcher
+        cache[regex] = matcher
     else
         cachePlain[regex] = matcher
     end
@@ -758,7 +647,7 @@ local function matcherGenerator(regex, plain)
                     b, skip = balancer(sub(regex, be + 1, be + 9))
                     table.insert(matcher.functions, b)
                 else
-                    lastFunc = classMatchGenerator('%' .. c)
+                    lastFunc = classMatchGenerator('%'..c)
                 end
                 ignore = false
             else
@@ -767,7 +656,7 @@ local function matcherGenerator(regex, plain)
                         table.insert(matcher.functions, star(lastFunc))
                         lastFunc = nil
                     else
-                        error('invalid regex after ' .. sub(regex, 1, bs))
+                        error('invalid regex after '..sub(regex, 1, bs))
                     end
                 elseif c == '+' then
                     if lastFunc then
@@ -775,33 +664,33 @@ local function matcherGenerator(regex, plain)
                         table.insert(matcher.functions, star(lastFunc))
                         lastFunc = nil
                     else
-                        error('invalid regex after ' .. sub(regex, 1, bs))
+                        error('invalid regex after '..sub(regex, 1, bs))
                     end
                 elseif c == '-' then
                     if lastFunc then
                         table.insert(matcher.functions, minus(lastFunc))
                         lastFunc = nil
                     else
-                        error('invalid regex after ' .. sub(regex, 1, bs))
+                        error('invalid regex after '..sub(regex, 1, bs))
                     end
                 elseif c == '?' then
                     if lastFunc then
                         table.insert(matcher.functions, question(lastFunc))
                         lastFunc = nil
                     else
-                        error('invalid regex after ' .. sub(regex, 1, bs))
+                        error('invalid regex after '..sub(regex, 1, bs))
                     end
                 elseif c == '^' then
                     if bs == 1 then
                         matcher.fromStart = true
                     else
-                        error('invalid regex after ' .. sub(regex, 1, bs))
+                        error('invalid regex after '..sub(regex, 1, bs))
                     end
                 elseif c == '$' then
                     if be == len(regex) then
                         matcher.toEnd = true
                     else
-                        error('invalid regex after ' .. sub(regex, 1, bs))
+                        error('invalid regex after '..sub(regex, 1, bs))
                     end
                 elseif c == '[' then
                     if lastFunc then
@@ -873,7 +762,7 @@ local function matcherGenerator(regex, plain)
 
     matcher.fullResetOnNextFunc = function(self)
         local oldReset = self.reset
-        local func = self.func +1
+        local func = self.func + 1
         local str = self.str
         self.reset = function(s)
             s.func = func
@@ -909,37 +798,28 @@ local function matcherGenerator(regex, plain)
         local ch
         while not self.stop do
             if self.str < self.stringLen then
-                --[[ if lastPos < self.str then
-                print('last byte', lastByte)
-                ch, lastByte = utf8subWithBytes(str, 1, self.str - lastPos - 1, lastByte)
-                ch, lastByte = utf8subWithBytes(str, 1, 1, lastByte)
-                lastByte = lastByte - 1
+                ch = utf8sub(str, self.str, self.str)
+                --print('char', ch, utf8unicode(ch))
+                self.functions[self.func](utf8unicode(ch))
             else
-                ch, lastByte = utf8subWithBytes(str, self.str, self.str)
+                self.functions[self.func](-1)
             end
-            lastPos = self.str ]]
-            ch = utf8sub(str, self.str,self.str)
-            --print('char', ch, utf8unicode(ch))
-            self.functions[self.func](utf8unicode(ch))
-        else
-            self.functions[self.func](-1)
+        end
+
+        if self.seqStart then
+            local captures = {}
+            for _, pair in pairs(self.captures) do
+                if pair.empty then
+                    table.insert(captures, pair[1])
+                else
+                    table.insert(captures, utf8sub(str, pair[1], pair[2]))
+                end
+            end
+            return self.seqStart, self.str - 1, unpack(captures)
         end
     end
 
-    if self.seqStart then
-        local captures = {}
-        for _,pair in pairs(self.captures) do
-            if pair.empty then
-                table.insert(captures, pair[1])
-            else
-                table.insert(captures, utf8sub(str, pair[1], pair[2]))
-            end
-        end
-        return self.seqStart, self.str - 1, unpack(captures)
-    end
-end
-
-return matcher
+    return matcher
 end
 
 -- string.find
@@ -962,7 +842,7 @@ end
 
 -- string.gmatch
 local function utf8gmatch(str, regex, all)
-    regex = (utf8sub(regex,1,1) ~= '^') and regex or '%' .. regex
+    regex = (utf8sub(regex, 1, 1) ~= '^') and regex or '%'..regex
     local lastChar = 1
     return function()
         local found = {utf8find(str, regex, lastChar)}
@@ -986,14 +866,14 @@ local function replace(repl, args)
                 if c == '%' then
                     ignore = true
                 else
-                    ret = ret .. c
+                    ret = ret..c
                 end
             else
                 num = tonumber(c)
                 if num then
-                    ret = ret .. args[num]
+                    ret = ret..args[num]
                 else
-                    ret = ret .. c
+                    ret = ret..c
                 end
                 ignore = false
             end
@@ -1020,30 +900,30 @@ local function utf8gsub(str, regex, repl, limit)
     local n = 0
     while #found > 0 and limit ~= n do
         local args = {[0] = utf8sub(str, found[1], found[2]), unpack(found, 3)}
-        ret = ret .. utf8sub(str, prevEnd, found[1] - 1)
-        .. replace(repl, args)
+        ret = ret..utf8sub(str, prevEnd, found[1] - 1)
+        ..replace(repl, args)
         prevEnd = found[2] + 1
         n = n + 1
         found = {it()}
     end
-    return ret .. utf8sub(str, prevEnd), n
+    return ret..utf8sub(str, prevEnd), n
 end
 
-local utf8 = {}
-utf8.len = utf8len
-utf8.sub = utf8sub
-utf8.reverse = utf8reverse
-utf8.char = utf8char
-utf8.unicode = utf8unicode
-utf8.gensub = utf8gensub
-utf8.byte = utf8unicode
-utf8.find    = utf8find
-utf8.match   = utf8match
-utf8.gmatch  = utf8gmatch
-utf8.gsub    = utf8gsub
-utf8.dump    = dump
-utf8.format = format
-utf8.lower = lower
-utf8.upper = upper
-utf8.rep     = rep
-return utf8
+return {
+    len = utf8len,
+    sub = utf8sub,
+    reverse = utf8reverse,
+    char = utf8char,
+    unicode = utf8unicode,
+    gensub = utf8gensub,
+    byte = utf8unicode,
+    find = utf8find,
+    match = utf8match,
+    gmatch = utf8gmatch,
+    gsub = utf8gsub,
+    dump = dump,
+    format = format,
+    lower = lower,
+    upper = upper,
+    rep = rep
+}
