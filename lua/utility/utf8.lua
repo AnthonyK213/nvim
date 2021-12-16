@@ -793,13 +793,10 @@ local function matcherGenerator(regex, plain)
         self.stop = false
         self.reset = function(s) s.func = 1 end
 
-        -- local lastPos = self.str
-        -- local lastByte
         local ch
         while not self.stop do
             if self.str < self.stringLen then
                 ch = utf8sub(str, self.str, self.str)
-                --print('char', ch, utf8unicode(ch))
                 self.functions[self.func](utf8unicode(ch))
             else
                 self.functions[self.func](-1)
