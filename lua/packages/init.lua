@@ -64,10 +64,6 @@ require('packer').startup(function(use)
             branch = 'dev',
             config = function() require('packages/vimwiki') end
         };
-        {
-            'plasticboy/vim-markdown',
-            config = function() require('packages/vim-markdown') end
-        };
         'sophacles/vim-processing';
         {
             'iamcco/markdown-preview.nvim',

@@ -33,20 +33,9 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   endif
 endfunction
 
-" vim-markdown toggle math display.
-function! usr#misc#vim_markdown_math_toggle()
-  let g:vim_markdown_math = 1 - g:vim_markdown_math
-  syntax off | syntax on
-endfunction
-
 " Show table of contents.
 function! usr#misc#show_toc()
-  if &ft ==? 'markdown'
-    if exists(':Tocv')
-      Tocv
-      vertical resize 30
-    endif
-  elseif &ft ==? 'tex'
+  if &ft ==? 'tex'
     if exists(':VimtexTocToggle')
       VimtexTocToggle
     endif
