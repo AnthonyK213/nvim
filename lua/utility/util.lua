@@ -32,11 +32,37 @@ function M.edit_file(file_path, chdir)
     end
 end
 
--- Open file or url with system default browser.
-function M.open_file_or_url(obj)
+-- Match path or url in string.
+function M.match_path_or_url(str)
+    local protocols = {
+        [''] = 0,
+        ['http://'] = 0,
+        ['https://'] = 0,
+        ['ftp://'] = 0
+    }
+
+    local url, prot, dom, colon, port, slash, path =
+    str:match'((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
+
+    if (url and
+        not (dom..'.'):find('%W%W') and
+        protocols[prot:lower()] == (1 - #slash) * #path and
+        (colon == '' or port ~= '' and port + 0 < 65536)) then
+        return url
+    end
+
+    local s, e = vim.regex'\\v(\\u:|\\.{1,2}|\\~)?[/\\\\]([^\\/*?"<>:|]+[/\\\\])*([^\\/*?"<>:|]*\\.\\w+)?':match_str(str)
+    if s then return vim.fn.expand(vim.trim(str:sub(s + 1, e))) end
+end
+
+-- Open path or url with system default browser.
+function M.open_path_or_url(obj)
+    local gcwd = vim.fn.getcwd()
+    vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
     if (not obj) or
         (vim.fn.glob(obj) == '' and not
         obj:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
+        vim.api.nvim_set_current_dir(gcwd)
         return
     end
     local cmd
@@ -58,28 +84,9 @@ function M.open_file_or_url(obj)
     Handle = vim.loop.spawn(cmd, {
         args = args
     }, vim.schedule_wrap(function ()
+        vim.api.nvim_set_current_dir(gcwd)
         Handle:close()
     end))
-end
-
--- Match URL in string.
-function M.match_url(str)
-    local protocols = {
-        [''] = 0,
-        ['http://'] = 0,
-        ['https://'] = 0,
-        ['ftp://'] = 0
-    }
-
-    local url, prot, dom, colon, port, slash, path =
-    str:match'((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
-
-    if (url and
-        not (dom..'.'):find('%W%W') and
-        protocols[prot:lower()] == (1 - #slash) * #path and
-        (colon == '' or port ~= '' and port + 0 < 65536)) then
-        return url
-    end
 end
 
 -- Search web.
@@ -96,7 +103,7 @@ function M.search_web(mode, site)
         search_obj = lib.encode_url(lib.get_visual_selection())
     end
 
-    M.open_file_or_url(site..search_obj)
+    M.open_path_or_url(site..search_obj)
 end
 
 
