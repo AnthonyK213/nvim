@@ -5,6 +5,22 @@
 "   - [goneovim](https://github.com/akiyosi/goneovim)
 
 " Variables
+if !exists('g:gui_font_half')
+  let g:gui_font_half = 'Monospace'
+endif
+
+if !exists('g:gui_font_full')
+  let g:gui_font_full = 'Monospace'
+endif
+
+if !exists('g:gui_font_size')
+  let g:gui_font_size = 10
+endif
+
+if !exists('g:gui_opacity')
+  let g:gui_opacity = 1.0
+endif
+
 let s:nvimqt_option_table = {
       \ 'GuiTabline'         : 0,
       \ 'GuiPopupmenu'       : 1,
@@ -12,7 +28,7 @@ let s:nvimqt_option_table = {
       \ 'GuiScrollBar'       : 1,
       \ 'GuiRenderLigatures' : 1,
       \ 'GuiAdaptiveColor'   : 1,
-      \ 'GuiWindowOpacity'   : '0.92',
+      \ 'GuiWindowOpacity'   : string(g:gui_opacity),
       \ 'GuiAdaptiveStyle'   : 'Fusion',
       \ }
 
@@ -22,7 +38,7 @@ let s:fvim_option_table = {
       \ 'FVimFontLigature'          : 'v:true',
       \ 'FVimFontLineHeight'        : '"+2.0"',
       \ 'FVimFontNoBuiltInSymbols'  : 'v:true',
-      \ 'FVimBackgroundOpacity'     : '0.92',
+      \ 'FVimBackgroundOpacity'     : string(g:gui_opacity),
       \ 'FVimCursorSmoothMove'      : 'v:true',
       \ 'FVimBackgroundComposition' : '"none"',
       \ 'FVimCustomTitleBar'        : 'v:false',
@@ -148,18 +164,6 @@ endif
 
 
 " Font
-if !exists('g:gui_font_half')
-  let g:gui_font_half = 'Monospace'
-endif
-
-if !exists('g:gui_font_full')
-  let g:gui_font_full = 'Monospace'
-endif
-
-if !exists('g:gui_font_size')
-  let g:gui_font_size = 10
-endif
-
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
 call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)

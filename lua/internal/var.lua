@@ -37,6 +37,9 @@ if core_opt.gui then
     if core_opt.gui.bg then
         vim.g.gui_background = core_opt.gui.bg
     end
+    if core_opt.gui.opacity then
+        vim.g.gui_opacity = core_opt.gui.opacity
+    end
 end
 
 -- Directional operation which won't break the history.

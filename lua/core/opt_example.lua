@@ -19,6 +19,7 @@ return {
         font_full = 'Microsoft Yahei',
         font_size = 12,
         --bg = 'light',
+        --opacity = 0.96,
     },
     lsp = {
         clangd = false,
