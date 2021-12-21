@@ -271,9 +271,11 @@
     - n:    <kbd>a</kbd>     -> *vim-table-mode*, Add formula.
     - n:    <kbd>c</kbd>     -> *vim-table-mode*, Evaluate formula.
     - n:    <kbd>f</kbd>     -> *vim-table-mode*, Re-align.
+  - <kbd>leader-v-</kbd>     -> **Visual**
+    - n:    <kbd>s</kbd>     -> Show highlight information.
   - <kbd>leader-w-</kbd>     -> **Vimwiki**.
 * **Miscellanea**
-  - v:      <kbd>*</kbd>     -> Search the visual selection.
+  - v:      <kbd>\*</kbd>    -> Search for the visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
 
 

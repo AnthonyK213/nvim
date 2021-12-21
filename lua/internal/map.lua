@@ -152,3 +152,5 @@ keymap("n", "<leader>kc", '<Cmd>lua require("utility/cmt").cmt_add_norm()<CR>', 
 keymap("v", "<leader>kc", ':<C-U>lua require("utility/cmt").cmt_add_vis()<CR>', ntst)
 keymap("n", "<leader>ku", '<Cmd>lua require("utility/cmt").cmt_del_norm()<CR>', ntst)
 keymap("v", "<leader>ku", ':<C-U>lua require("utility/cmt").cmt_del_vis()<CR>', ntst)
+-- Show highlight information.
+keymap("n", "<leader>vs", '<Cmd>lua require("utility/vis").show_hl_captures()<CR>', ntst)
