@@ -66,6 +66,7 @@
       - `font_half` -> See `guifont`
       - `font_full` -> See `guifontwide`
       - `font_size` -> Gui font size
+      - `opacity`   -> Window opacity
     - **lsp** -> Language Server Protocol
       - [clangd](https://github.com/clangd/clangd)
       - [jedi_language_server](https://github.com/pappasam/jedi-language-server)
