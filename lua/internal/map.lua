@@ -125,6 +125,7 @@ keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR
 -- List bullets.
 keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  ntst)
 keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', ntst)
+keymap('n', '<leader>mv', ':call usr#misc#show_toc()<CR>', ntst)
 -- Echo git status.
 keymap('n', '<leader>gs', ':!git status<CR>', ntst)
 -- Search cword in web browser.
