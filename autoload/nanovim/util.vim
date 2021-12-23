@@ -79,20 +79,23 @@ function! nanovim#util#fname()
     let l:path_sepr = "\\"
   endif
 
-  if strlen(l:file_path) > winwidth(0) * 0.7
+  let l:file_path_str_width = strdisplaywidth(l:file_path)
+
+  if l:file_path_str_width > winwidth(0) * 0.7
     return l:file_name
   endif
 
-  if strlen(l:file_path) > winwidth(0) * 0.4
+  if l:file_path_str_width > winwidth(0) * 0.4
     let l:path_list = split(l:file_dir, l:path_sepr)
     let l:path_head = "/"
     if has('win32')
       let l:path_head = remove(l:path_list, 0) . "\\"
     endif
-    for l:dir in l:path_list
+    for l:d in l:path_list
+      let l:dir = split(l:d, '\zs')
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
-      elseif strlen(l:dir) > 1
+      elseif len(l:dir) > 1
         let l:dir_short = l:dir[0:1]
       else
         let l:dir_short = '.'
