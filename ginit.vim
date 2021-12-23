@@ -123,7 +123,8 @@ function! s:gui_memo_lazy_save()
     if empty(glob(l:path))
       let l:path = g:path_desktop
     endif
-    silent exe 'w' l:path . '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
+    let l:save_path = l:path . strftime("/%Y-%m-%d_%H%M%S.wiki")
+    silent exe 'w' l:save_path '| e!'
   else
     exe 'w'
   endif
