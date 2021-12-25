@@ -42,6 +42,7 @@ local function md_check_line(lnum)
     local lstr = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
+    if lstr:match('^%s*$') then indent = 1000 end
     local bullet
     if (lstr:match('^%s*[%+%-%*]%s+.*$')) then
         detect = 1
