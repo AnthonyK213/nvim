@@ -96,7 +96,7 @@ function! nanovim#util#fname()
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
       elseif len(l:dir) > 1
-        let l:dir_short = l:dir[0:1]
+        let l:dir_short = l:dir[0] . l:dir[1]
       else
         let l:dir_short = '.'
       endif
