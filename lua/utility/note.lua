@@ -1,6 +1,7 @@
 local M = {}
 local api = vim.api
 local lib = require('utility/lib')
+local vis = require('utility/vis')
 
 
 -- Hanzi count.
@@ -38,11 +39,45 @@ function M.hanzi_count(mode)
 end
 
 -- Markdown number bullet
+local function md_get_syntax_stack(row)
+    local buf = vim.api.nvim_get_current_buf()
+    local lines = {}
+
+    local syntax_stack_append = function(matches)
+        for _, line in ipairs(matches) do
+            local syn = line:match('%*%*(%w-)%*%*$')
+            if syn then
+                table.insert(lines, syn)
+            end
+        end
+    end
+
+    if vim.treesitter.highlighter.active[buf] then
+        local matches = vis.get_treesitter_hl(row, 0)
+        syntax_stack_append(matches)
+    end
+
+    if vim.b.current_syntax then
+        local matches = vis.get_syntax_hl(row, 0)
+        syntax_stack_append(matches)
+    end
+
+    return lines
+end
+
 local function md_check_line(lnum)
     local lstr = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
-    if lstr:match('^%s*$') then indent = 1000 end
+    if lstr:match('^%s*$') then
+        local syn_stack = md_get_syntax_stack(lnum)
+        for _, syn in ipairs(syn_stack) do
+            if syn:match('TSLiteral') or syn:match('markdownCode') then
+                indent = 1000
+                break
+            end
+        end
+    end
     local bullet
     if (lstr:match('^%s*[%+%-%*]%s+.*$')) then
         detect = 1

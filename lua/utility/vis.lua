@@ -34,9 +34,8 @@ end
 
 -- Get syntax/treesitter highlight information.
 -- https://github.com/nvim-treesitter/playground
-function M.get_treesitter_hl()
+function M.get_treesitter_hl(row, col)
     local buf = vim.api.nvim_get_current_buf()
-    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     row = row - 1
 
     local self = highlighter.active[buf]
@@ -91,11 +90,9 @@ function M.get_treesitter_hl()
     return matches
 end
 
-function M.get_syntax_hl()
-    local line = vim.fn.line "."
-    local col = vim.fn.col "."
+function M.get_syntax_hl(row, col)
     local matches = {}
-    for _, i1 in ipairs(vim.fn.synstack(line, col)) do
+    for _, i1 in ipairs(vim.fn.synstack(row, col + 1)) do
         local i2 = vim.fn.synIDtrans(i1)
         local n1 = vim.fn.synIDattr(i1, "name")
         local n2 = vim.fn.synIDattr(i2, "name")
@@ -106,9 +103,10 @@ end
 
 function M.show_hl_captures()
     local buf = vim.api.nvim_get_current_buf()
+    local pos = vim.api.nvim_win_get_cursor(0)
     local lines = {}
 
-    local function show_matches(matches)
+    local show_matches = function(matches)
         if #matches == 0 then
             table.insert(lines, "* No highlight groups found")
         end
@@ -120,13 +118,13 @@ function M.show_hl_captures()
 
     if highlighter.active[buf] then
         table.insert(lines, "# Treesitter")
-        local matches = M.get_treesitter_hl()
+        local matches = M.get_treesitter_hl(unpack(pos))
         show_matches(matches)
     end
 
     if vim.b.current_syntax then
         table.insert(lines, "# Syntax")
-        local matches = M.get_syntax_hl()
+        local matches = M.get_syntax_hl(unpack(pos))
         show_matches(matches)
     end
 
