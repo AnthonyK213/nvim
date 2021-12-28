@@ -1,7 +1,6 @@
 local M = {}
 local api = vim.api
 local lib = require('utility/lib')
-local vis = require('utility/vis')
 
 
 -- Hanzi count.
@@ -38,45 +37,37 @@ function M.hanzi_count(mode)
     end
 end
 
--- Markdown number bullet
-local function md_get_syntax_stack(row)
-    local buf = vim.api.nvim_get_current_buf()
-    local lines = {}
-
-    local syntax_stack_append = function(matches)
-        for _, line in ipairs(matches) do
-            local syn = line:match('%*%*(%w-)%*%*$')
-            if syn then
-                table.insert(lines, syn)
+local function match_syntax(row, col, match_table)
+    local check_syntax = function(syntax_table)
+        for _, syntax in ipairs(syntax_table) do
+            for _, pat in ipairs(match_table) do
+                if syntax:name():match(vim.pesc(pat)) then
+                    return true
+                end
             end
         end
+        return false
     end
 
-    if vim.treesitter.highlighter.active[buf] then
-        local matches = vis.get_treesitter_hl(row, 0)
-        syntax_stack_append(matches)
+    if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] then
+        if check_syntax(lib.get_treesitter_info(row, col)) then return true end
     end
 
     if vim.b.current_syntax then
-        local matches = vis.get_syntax_hl(row, 0)
-        syntax_stack_append(matches)
+        if check_syntax(lib.get_syntax_stack(row, col)) then return true end
     end
 
-    return lines
+    return false
 end
 
+-- Markdown number bullet
 local function md_check_line(lnum)
     local lstr = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
-    if lstr:match('^%s*$') then
-        local syn_stack = md_get_syntax_stack(lnum)
-        for _, syn in ipairs(syn_stack) do
-            if syn:match('TSLiteral') or syn:match('markdownCode') then
-                indent = 1000
-                break
-            end
-        end
+    if lstr:match('^%s*$') and
+        match_syntax(lnum, 0, {'TSLiteral', 'markdownCode'}) then
+        indent = 1000
     end
     local bullet
     if (lstr:match('^%s*[%+%-%*]%s+.*$')) then

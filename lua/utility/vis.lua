@@ -1,7 +1,5 @@
 local M = {}
 local lib = require('utility/lib')
-local highlighter = require "vim.treesitter.highlighter"
-local ts_utils = require "nvim-treesitter.ts_utils"
 
 
 -- Extend highlight groups.
@@ -32,103 +30,32 @@ function M.hi_extd()
     set_hi('markdownTSURI',           vim.g.terminal_color_4, nil, nil)
 end
 
--- Get syntax/treesitter highlight information.
--- https://github.com/nvim-treesitter/playground
-function M.get_treesitter_hl(row, col)
-    local buf = vim.api.nvim_get_current_buf()
-    row = row - 1
-
-    local self = highlighter.active[buf]
-
-    if not self then
-        return {}
-    end
-
-    local matches = {}
-
-    self.tree:for_each_tree(function(tstree, tree)
-        if not tstree then
-            return
-        end
-
-        local root = tstree:root()
-        local root_start_row, _, root_end_row, _ = root:range()
-
-        -- Only worry about trees within the line range
-        if root_start_row > row or root_end_row < row then
-            return
-        end
-
-        local query = self:get_query(tree:lang())
-
-        -- Some injected languages may not have highlight queries.
-        if not query:query() then
-            return
-        end
-
-        local iter = query:query():iter_captures(root, self.bufnr, row, row + 1)
-
-        for capture, node, metadata in iter do
-            local hl = query.hl_cache[capture]
-
-            if hl and ts_utils.is_in_node_range(node, row, col) then
-                local c = query._query.captures[capture] -- name of the capture in the query
-                if c ~= nil then
-                    local general_hl = query:_get_hl_from_capture(capture)
-                    local line = "* **@"..c.."** -> "..hl
-                    if general_hl ~= hl then
-                        line = line.." -> **"..general_hl.."**"
-                    end
-                    if metadata.priority then
-                        line = line.." *(priority "..metadata.priority..")*"
-                    end
-                    table.insert(matches, line)
-                end
-            end
-        end
-    end, true)
-    return matches
-end
-
-function M.get_syntax_hl(row, col)
-    local matches = {}
-    for _, i1 in ipairs(vim.fn.synstack(row, col + 1)) do
-        local i2 = vim.fn.synIDtrans(i1)
-        local n1 = vim.fn.synIDattr(i1, "name")
-        local n2 = vim.fn.synIDattr(i2, "name")
-        table.insert(matches, "* "..n1.." -> **"..n2.."**")
-    end
-    return matches
-end
-
 function M.show_hl_captures()
-    local buf = vim.api.nvim_get_current_buf()
     local pos = vim.api.nvim_win_get_cursor(0)
     local lines = {}
 
-    local show_matches = function(matches)
-        if #matches == 0 then
+    local show_matches = function(syntax_table)
+        if #syntax_table == 0 then
             table.insert(lines, "* No highlight groups found")
         end
-        for _, line in ipairs(matches) do
-            table.insert(lines, line)
+        for _, syntax in ipairs(syntax_table) do
+            table.insert(lines, syntax:show())
         end
         table.insert(lines, "")
     end
 
-    if highlighter.active[buf] then
+    if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] then
         table.insert(lines, "# Treesitter")
-        local matches = M.get_treesitter_hl(unpack(pos))
-        show_matches(matches)
+        show_matches(lib.get_treesitter_info(unpack(pos)))
     end
 
     if vim.b.current_syntax then
         table.insert(lines, "# Syntax")
-        local matches = M.get_syntax_hl(unpack(pos))
-        show_matches(matches)
+        show_matches(lib.get_syntax_stack(unpack(pos)))
     end
 
-    vim.lsp.util.open_floating_preview(lines, "markdown", { border = "single", pad_left = 4, pad_right = 4 })
+    vim.lsp.util.open_floating_preview(
+    lines, "markdown", { border = "single", pad_left = 4, pad_right = 4 })
 end
 
 
