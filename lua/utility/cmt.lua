@@ -31,6 +31,7 @@ local cmt_mark_tab_multi = {
     cs = { "/*", "*/" },
     java = { "/*", "*/" },
     rust = { "/*", "*/" },
+    lua = { "--[[", "]]" }
 }
 
 function M.cmt_add_norm()
@@ -46,20 +47,10 @@ function M.cmt_add_norm()
 end
 
 function M.cmt_add_vis()
-    local cmt_mark_single = cmt_mark_tab_single[vim.bo.filetype]
-    local cmt_mark_multi  = cmt_mark_tab_multi[vim.bo.filetype]
     local pos_s = api.nvim_buf_get_mark(0, "<")
     local pos_e = api.nvim_buf_get_mark(0, ">")
-    if cmt_mark_multi then
-        local cmd_s = api.nvim_replace_termcodes(
-        "O"..cmt_mark_multi[1], true, false, true)
-        local cmd_e = api.nvim_replace_termcodes(
-        "o"..cmt_mark_multi[2], true, false, true)
-        api.nvim_win_set_cursor(0, pos_e)
-        api.nvim_feedkeys(cmd_e, 'xn', true)
-        api.nvim_win_set_cursor(0, pos_s)
-        api.nvim_feedkeys(cmd_s, 'xn', true)
-    elseif cmt_mark_single then
+    local cmt_mark_single = cmt_mark_tab_single[vim.bo.filetype]
+    if cmt_mark_single then
         local lnum_s = pos_s[1]
         local lnum_e = pos_e[1]
         local cmt_mark_single_esc = vim.pesc(cmt_mark_single)
@@ -83,10 +74,10 @@ local function is_cmt_line(lnum)
         local esc_cmt_mark = vim.pesc(cmt_mark)
         if line:match("^%s*"..esc_cmt_mark..".*$") then
             local l, r = line:match("^(%s*)"..esc_cmt_mark.."(.*)$")
-            return true, l..r
+            return l..r
         end
     end
-    return false, line
+    return nil
 end
 
 local function del_cmt_block()
@@ -148,8 +139,8 @@ end
 
 function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
-    local cmt_line, line_new = is_cmt_line(api.nvim_win_get_cursor(0)[1])
-    if cmt_line then
+    local line_new = is_cmt_line(api.nvim_win_get_cursor(0)[1])
+    if line_new then
         vim.api.nvim_set_current_line(line_new)
         return
     end
@@ -160,8 +151,8 @@ function M.cmt_del_vis()
     local lnum_s = api.nvim_buf_get_mark(0, "<")[1]
     local lnum_e = api.nvim_buf_get_mark(0, ">")[1]
     for i = lnum_s, lnum_e, 1 do
-        local cmt_line, line_new = is_cmt_line(i)
-        if cmt_line then
+        local line_new = is_cmt_line(i)
+        if line_new then
             api.nvim_buf_set_lines(0, i - 1, i, true, {line_new})
         end
     end
