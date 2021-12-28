@@ -31,5 +31,12 @@
       "${0}"
     ],
     "description": "Insert formula."
+  },
+  "Insert image": {
+    "prefix": "img",
+    "body": [
+      "<a href=\"${1:caption}\"><img src=\"${2:path}\" height=\"${3:height}\" width=\"${4:width}\"></a>${0}"
+    ],
+    "description": "Insert image."
   }
 }
