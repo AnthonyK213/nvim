@@ -2,7 +2,8 @@ local aerial = require'aerial'
 require('telescope').load_extension('aerial')
 
 vim.g.aerial = {
-    backends = { "lsp", "treesitter", "markdown" }
+    backends = { "lsp", "treesitter", "markdown" },
+    manage_folds = false,
 }
 
 aerial.register_attach_cb(function(bufnr)
