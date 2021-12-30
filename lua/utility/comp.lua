@@ -79,6 +79,16 @@ local function latex_xelatex_bib(prog)
     end
 end
 
+local function vim_error(err)
+    vim.notify(err, vim.log.levels.ERROR, nil)
+end
+
+local function exists_exec(exe)
+    if vim.fn.executable(exe) == 1 then return true end
+    vim_error('Executable '..exe..' is not found.')
+    return false
+end
+
 local function on_event(arg_tbl, cb)
     return function (...)
         cb(arg_tbl, {...})
@@ -93,6 +103,8 @@ local function cb_run_bin(arg_tbl, cb_args)
 end
 
 local comp_c = function (tbl)
+    if not exists_exec(pub.ccomp) then return nil, nil end
+
     local cmd_tbl = {
         ['']  = { pub.ccomp, tbl.file, '-o', tbl.name..tbl.oute },
         check = { pub.ccomp, tbl.file, '-g', '-o', tbl.name..tbl.oute },
@@ -112,6 +124,8 @@ local comp_c = function (tbl)
 end
 
 local comp_clisp = function (tbl)
+    if not exists_exec('sbcl') then return nil, nil end
+
     local cmd_tbl = {
         ['']  = { 'sbcl', '--noinform', '--load', tbl.file, '--eval', '(exit)' },
         build = {
@@ -130,12 +144,15 @@ local comp_clisp = function (tbl)
 end
 
 local comp_cpp = function (tbl)
-    local cc = {
+    local cc_tbl = {
         gcc = 'g++',
         clang = 'clang++'
     }
-    if cc[pub.ccomp] then
-        return cb_run_bin, { cc[pub.ccomp], tbl.file, '-o', tbl.name..tbl.oute }
+
+    local cc = cc_tbl[pub.ccomp]
+    if cc then
+        if not exists_exec(cc) then return nil, nil end
+        return cb_run_bin, { cc_tbl[pub.ccomp], tbl.file, '-o', tbl.name..tbl.oute }
     else
         return false, nil
     end
@@ -146,8 +163,11 @@ local comp_csharp = function (tbl)
     local sln_root = lib.get_root("*.sln")
 
     if sln_root then
+        if not exists_exec('MSBuild') then return nil, nil end
         return nil, { 'MSBuild.exe', sln_root }
     end
+
+    if not exists_exec('csc') then return nil, nil end
 
     local cmd_tbl = {
         ['']    = { 'csc', tbl.file },
@@ -181,14 +201,17 @@ local comp_processing = function (_)
 end
 
 local comp_python = function (tbl)
+    if not exists_exec('python') then return nil, nil end
     return nil, { 'python', tbl.file }
 end
 
 local comp_ruby = function (tbl)
+    if not exists_exec('ruby') then return nil, nil end
     return nil, { 'ruby', tbl.file }
 end
 
 local comp_rust = function (tbl)
+    if not exists_exec('rustc') then return nil, nil end
     local cmd_tbl = {
         ['']  = { 'cargo', 'run' },
         build = { 'cargo', 'build', '--release' },
