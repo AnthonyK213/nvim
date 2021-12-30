@@ -23,6 +23,7 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
         \ 'cs'   : "exe\nwinexe\nlibrary\nmodule",
+        \ 'lisp' : "build",
         \ 'rust' : "build\nclean\ncheck\nrustc",
         \ 'tex'  : "biber\nbibtex",
         \ }

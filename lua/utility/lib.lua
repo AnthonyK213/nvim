@@ -5,8 +5,8 @@ local M = {}
 function M.belowright_split(height)
     local term_h = math.min(height,
     math.floor(vim.api.nvim_win_get_height(0) * 0.382))
-    vim.cmd('belowright split')
-    vim.cmd('resize '..tostring(term_h))
+    vim.cmd('belowright new')
+    vim.api.nvim_win_set_height(0, term_h)
 end
 
 --- Get the <cWORD> without the noisy characters.

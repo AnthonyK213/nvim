@@ -67,26 +67,53 @@ end
 
 -- Supported list:
 --   1. C
---   2. C++
---   3. C#
---   4. Processing
---   5. Python
---   6. Ruby
---   7. Rust
---   8. Vim script
---   9. Lua (Neovim)
---   10. LaTeX
+--   2. Common Lisp
+--   3. C++
+--   4. C#
+--   5. Processing
+--   6. Python
+--   7. Ruby
+--   8. Rust
+--   9. Vim script
+--   10. Lua (Neovim)
+--   11. LaTeX
 local comp_c = function (tbl)
-    local cmd = {
-        ['']  = pub.ccomp..' '..tbl.file..' -o '..tbl.name..tbl.oute..' && '..tbl.exec..tbl.name,
-        check = pub.ccomp..' '..tbl.file..' -g -o '..tbl.name..tbl.oute,
-        build = pub.ccomp..' '..tbl.file..' -O2 -o '..tbl.name..tbl.oute
+    local cmd_tbl = {
+        -- TODO: exec
+        ['']  = { pub.ccomp, tbl.file, '-o', tbl.name..tbl.oute },
+        check = { pub.ccomp, tbl.file, '-g', '-o', tbl.name..tbl.oute },
+        build = { pub.ccomp, tbl.file, '-O2', '-o', tbl.name..tbl.oute },
     }
-    if cmd[tbl.optn] then
-        return true, cmd[tbl.optn]
+    local cmd = cmd_tbl[tbl.optn]
+    if cmd then
+        if tbl.optn == '' then
+            return function ()
+                return nil
+            end, cmd
+        else
+            return nil, cmd
+        end
     else
         print('Invalid argument.')
-        return false, nil
+        return nil, nil
+    end
+end
+
+local comp_clisp = function (tbl)
+    local cmd_tbl = {
+        ['']  = { 'sbcl', '--noinform', '--load', tbl.file, '--eval', '(exit)' },
+        build = {
+            'sbcl', '--noinform', '--load', tbl.file, '--eval',
+            [[(sb-ext:save-lisp-and-die "]]..tbl.name..tbl.oute
+            ..[[" :toplevel (quote main) :executable t)]],
+        },
+    }
+    local cmd = cmd_tbl[tbl.optn]
+    if cmd then
+        return nil, cmd
+    else
+        print('Invalid argument.')
+        return nil, nil
     end
 end
 
@@ -96,8 +123,10 @@ local comp_cpp = function (tbl)
         clang = 'clang++'
     }
     if cc[pub.ccomp] then
-        return true, cc[pub.ccomp]..' '..tbl.file..' -o '..tbl.name..tbl.oute..
-        ' && '..tbl.exec..tbl.name
+        -- TODO: exec
+        return function ()
+            return nil
+        end, { cc[pub.ccomp], tbl.file, '-o', tbl.name..tbl.oute }
     else
         return false, nil
     end
@@ -105,53 +134,69 @@ end
 
 local comp_csharp = function (tbl)
     if vim.fn.has("win32") ~= 1 then return end
-    local cmd = {
-        ['']    = 'csc '..tbl.file..' && '..tbl.exec..tbl.name,
-        exe     = 'csc /target:exe '..tbl.file,
-        winexe  = 'csc /target:winexe '..tbl.file,
-        library = 'csc /target:library '..tbl.file,
-        module  = 'csc /target:module '..tbl.file,
+    local cmd_tbl = {
+        -- TODO: exec
+        ['']    = { 'csc', tbl.file },
+        exe     = { 'csc', '/target:exe', tbl.file },
+        winexe  = { 'csc', '/target:winexe', tbl.file },
+        library = { 'csc', '/target:library', tbl.file },
+        module  = { 'csc', '/target:module', tbl.file },
     }
-    if cmd[tbl.optn] then
-        return true, cmd[tbl.optn]
+    local cmd = cmd_tbl[tbl.optn]
+    if cmd then
+        if tbl.optn == '' then
+            return function ()
+                return nil
+            end, cmd
+        else
+            return nil, cmd
+        end
     else
         print('Invalid argument.')
-        return false, nil
+        return nil, nil
     end
 end
 
 local comp_lua = function (_)
-    return false, 'luafile %'
+    return nil, 'luafile %'
 end
 
 local comp_processing = function (_)
     if vim.fn.exists(":RunProcessing") == 2 then
-        return false, "RunProcessing"
+        return nil, "RunProcessing"
     end
-    return false, nil
+    return nil, nil
 end
 
 local comp_python = function (tbl)
-    return true, 'python '..tbl.file
+    return nil, { 'python', tbl.file }
 end
 
 local comp_ruby = function (tbl)
-    return true, 'ruby '..tbl.file
+    return nil, { 'ruby', tbl.file }
 end
 
 local comp_rust = function (tbl)
-    local cmd = {
-        ['']  = 'cargo run',
-        build = 'cargo build --release',
-        check = 'cargo check',
-        clean = 'cargo clean',
-        rustc = 'rustc '..tbl.file..' && '..tbl.exec..tbl.name,
+    local cmd_tbl = {
+        ['']  = { 'cargo', 'run' },
+        build = { 'cargo', 'build', '--release' },
+        check = { 'cargo', 'check' },
+        clean = { 'cargo', 'clean' },
+        -- TODO: exec
+        rustc = { 'rustc', tbl.file },
     }
-    if cmd[tbl.optn] then
-        return true, cmd[tbl.optn]
+    local cmd = cmd_tbl[tbl.optn]
+    if cmd then
+        if tbl.optn == 'rustc' then
+            return function ()
+                return nil
+            end, cmd
+        else
+            return nil, cmd
+        end
     else
         print('Invalid argument.')
-        return false, nil
+        return nil, nil
     end
 end
 
@@ -165,17 +210,18 @@ local comp_latex = function (tbl)
     else
         print('Invalid argument.')
     end
-    return false, nil
+    return nil, nil
 end
 
 local comp_vim = function (_)
-    return false, 'source %'
+    return nil, 'source %'
 end
 
 local comp_table = {
     c = comp_c,
     cpp = comp_cpp,
     cs = comp_csharp,
+    lisp = comp_clisp,
     lua = comp_lua,
     processing = comp_processing,
     python = comp_python,
@@ -190,32 +236,39 @@ function M.run_or_compile(option)
     local tbl = {
         exec = vim.fn.has("win32") == 1 and '' or './',
         exts = string.lower(vim.fn.expand('%:e')),
-        file = vim.fn.shellescape(vim.fn.expand('%:t'), 1),
-        name = vim.fn.shellescape(vim.fn.expand('%:r'), 1),
+        file = vim.fn.expand('%:t'),
+        name = vim.fn.expand('%:r'),
+        path = vim.fn.expand('%:p'),
         optn = option,
         oute = vim.fn.has("win32") == 1 and '.exe' or '',
-        path = vim.fn.shellescape(vim.fn.expand('%:p'), 1),
     }
 
     vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
 
-    local term_use, term_cmd
+    local term_cb, term_cmd
 
     if comp_table[vim.o.ft] then
-        term_use, term_cmd = comp_table[vim.o.ft](tbl)
+        term_cb, term_cmd = comp_table[vim.o.ft](tbl)
     else
         print("File type has not been supported yet.")
         goto skip_exec
     end
 
-    if not term_cmd then
-        goto skip_exec
-    elseif term_use then
-        term_cmd = 'term '..term_cmd
-        lib.belowright_split(30)
+    if term_cmd then
+        if type(term_cmd) == 'table' then
+            lib.belowright_split(30)
+            if term_cb then
+                vim.fn.termopen(term_cmd, { on_exit = function ()
+                    lib.belowright_split(30)
+                    vim.fn.termopen({tbl.exec..tbl.name})
+                end })
+            else
+                vim.fn.termopen(term_cmd)
+            end
+        else
+            vim.cmd(term_cmd)
+        end
     end
-
-    vim.cmd(term_cmd)
 
     ::skip_exec::
     vim.api.nvim_set_current_dir(gcwd)
