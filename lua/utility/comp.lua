@@ -4,6 +4,20 @@ local lib = require('utility/lib')
 local pub = require('utility/pub')
 
 
+-- Supported language list:
+--   1. C
+--   2. Common Lisp
+--   3. C++
+--   4. C#
+--   5. Processing
+--   6. Python
+--   7. Ruby
+--   8. Rust
+--   9. Vim script
+--   10. Lua (Neovim)
+--   11. LaTeX
+
+
 -- LaTeX recipes
 local latex_step
 local latex_name
@@ -65,21 +79,21 @@ local function latex_xelatex_bib(prog)
     end
 end
 
--- Supported list:
---   1. C
---   2. Common Lisp
---   3. C++
---   4. C#
---   5. Processing
---   6. Python
---   7. Ruby
---   8. Rust
---   9. Vim script
---   10. Lua (Neovim)
---   11. LaTeX
+local function on_event(arg_tbl, cb)
+    return function (...)
+        cb(arg_tbl, {...})
+    end
+end
+
+local function cb_run_bin(arg_tbl, cb_args)
+    if cb_args[2] == 0 then
+        vim.cmd(':vertical new')
+        vim.fn.termopen({arg_tbl.name}, { cwd = arg_tbl.fcwd })
+    end
+end
+
 local comp_c = function (tbl)
     local cmd_tbl = {
-        -- TODO: exec
         ['']  = { pub.ccomp, tbl.file, '-o', tbl.name..tbl.oute },
         check = { pub.ccomp, tbl.file, '-g', '-o', tbl.name..tbl.oute },
         build = { pub.ccomp, tbl.file, '-O2', '-o', tbl.name..tbl.oute },
@@ -87,9 +101,7 @@ local comp_c = function (tbl)
     local cmd = cmd_tbl[tbl.optn]
     if cmd then
         if tbl.optn == '' then
-            return function ()
-                return nil
-            end, cmd
+            return cb_run_bin, cmd
         else
             return nil, cmd
         end
@@ -123,10 +135,7 @@ local comp_cpp = function (tbl)
         clang = 'clang++'
     }
     if cc[pub.ccomp] then
-        -- TODO: exec
-        return function ()
-            return nil
-        end, { cc[pub.ccomp], tbl.file, '-o', tbl.name..tbl.oute }
+        return cb_run_bin, { cc[pub.ccomp], tbl.file, '-o', tbl.name..tbl.oute }
     else
         return false, nil
     end
@@ -134,8 +143,13 @@ end
 
 local comp_csharp = function (tbl)
     if vim.fn.has("win32") ~= 1 then return end
+    local sln_root = lib.get_root("*.sln")
+
+    if sln_root then
+        return nil, { 'MSBuild.exe', sln_root }
+    end
+
     local cmd_tbl = {
-        -- TODO: exec
         ['']    = { 'csc', tbl.file },
         exe     = { 'csc', '/target:exe', tbl.file },
         winexe  = { 'csc', '/target:winexe', tbl.file },
@@ -145,9 +159,7 @@ local comp_csharp = function (tbl)
     local cmd = cmd_tbl[tbl.optn]
     if cmd then
         if tbl.optn == '' then
-            return function ()
-                return nil
-            end, cmd
+            return cb_run_bin, cmd
         else
             return nil, cmd
         end
@@ -182,15 +194,12 @@ local comp_rust = function (tbl)
         build = { 'cargo', 'build', '--release' },
         check = { 'cargo', 'check' },
         clean = { 'cargo', 'clean' },
-        -- TODO: exec
         rustc = { 'rustc', tbl.file },
     }
     local cmd = cmd_tbl[tbl.optn]
     if cmd then
         if tbl.optn == 'rustc' then
-            return function ()
-                return nil
-            end, cmd
+            return cb_run_bin, cmd
         else
             return nil, cmd
         end
@@ -232,55 +241,39 @@ local comp_table = {
 }
 
 function M.run_or_compile(option)
-    local gcwd = vim.fn.getcwd()
     local tbl = {
-        exec = vim.fn.has("win32") == 1 and '' or './',
-        exts = string.lower(vim.fn.expand('%:e')),
+        --exec = vim.fn.has("win32") == 1 and '' or './',
+        --exts = string.lower(vim.fn.expand('%:e')),
+        --path = vim.fn.expand('%:p'),
         file = vim.fn.expand('%:t'),
         name = vim.fn.expand('%:r'),
-        path = vim.fn.expand('%:p'),
+        bcwd = vim.fn.getcwd(),
+        fcwd = vim.fn.expand('%:p:h'),
         optn = option,
         oute = vim.fn.has("win32") == 1 and '.exe' or '',
     }
 
-    vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
-
-    local term_cb, term_cmd
-
     if comp_table[vim.o.ft] then
-        term_cb, term_cmd = comp_table[vim.o.ft](tbl)
-    else
-        print("File type has not been supported yet.")
-        goto skip_exec
-    end
-
-    if term_cmd then
+        local term_cb, term_cmd = comp_table[vim.o.ft](tbl)
         if type(term_cmd) == 'table' then
             lib.belowright_split(30)
             if term_cb then
-                vim.fn.termopen(term_cmd, { on_exit = function ()
-                    lib.belowright_split(30)
-                    vim.fn.termopen({tbl.exec..tbl.name})
-                end })
+                vim.fn.termopen(term_cmd, {
+                    cwd = tbl.fcwd,
+                    on_exit = on_event(tbl, term_cb),
+                })
             else
-                vim.fn.termopen(term_cmd)
+                vim.fn.termopen(term_cmd, {
+                    cwd = tbl.fcwd,
+                })
             end
-        else
+        elseif type(term_cmd) == 'string' then
+            vim.api.nvim_set_current_dir(tbl.fcwd)
             vim.cmd(term_cmd)
+            vim.api.nvim_set_current_dir(tbl.bcwd)
         end
-    end
-
-    ::skip_exec::
-    vim.api.nvim_set_current_dir(gcwd)
-end
-
-function M.build_or_make()
-    local sln_root = lib.get_root("*.sln")
-
-    if sln_root then
-        local cmd = 'term MSBuild.exe '..vim.fn.shellescape(sln_root, 1)
-        lib.belowright_split(30)
-        vim.cmd(cmd)
+    else
+        print("File type has not been supported yet.")
     end
 end
 

@@ -281,8 +281,7 @@
 
 
 ## Commands
-- `CodeRun`   -> Run or compile the code of current buffer.
-- `CodeBuild` -> Build or make the project.
+- `CodeRun`   -> Run or compile the code.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push everything to the remote origin.
   - `-b`      -> branch,  default -> current branch.
