@@ -91,6 +91,8 @@ keymap('n', '<F2>', '<Cmd>call usr#misc#mouse_toggle()<CR>',            ntst)
 keymap('v', '<F2>', ':<C-U>call usr#misc#mouse_toggle()<CR>',           ntst)
 keymap('i', '<F2>', '<C-\\><C-O><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
 keymap('t', '<F2>', '<C-\\><C-N><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
+-- Run code.
+keymap('n', '<F5>', '<Cmd>lua require("utility/comp").run_or_compile("")<CR>', ntst)
 -- Background toggle.
 keymap('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', ntst)
 -- Open opt file.
