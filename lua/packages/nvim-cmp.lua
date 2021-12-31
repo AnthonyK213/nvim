@@ -5,7 +5,7 @@ elseif vim.fn.has('unix') == 1 then
 end
 
 local cmp = require('cmp')
-local lib = require('utility/lib')
+local lib = require('utility.lib')
 local feedkeys = function (key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,
     true, true, true), mode, true)

@@ -1,6 +1,6 @@
 local M = {}
 local api = vim.api
-local lib = require("utility/lib")
+local lib = require("utility.lib")
 
 
 local function srd_pair(pair_a)
@@ -21,8 +21,12 @@ local function srd_pair(pair_a)
     end
 end
 
--- Collect pairs in hashtable `tab_pair`.
--- If pair_a then -1, if pair_b then 1.
+---Collect pairs in hashtable `tab_pair`.
+---If pair_a then -1, if pair_b then 1.
+---@param str string
+---@param pair_a string
+---@param pair_b string
+---@return table result
 local function srd_collect(str, pair_a, pair_b)
     local tab_pair = {}
     for pos in str:gmatch('()'..vim.pesc(pair_a)) do
@@ -35,9 +39,9 @@ local function srd_collect(str, pair_a, pair_b)
     return tab_pair
 end
 
--- Locate surrounding pair in direction `dir`
--- @param int dir -1 or 1, -1 for backward, 1 for forward.
--- FIXME: If there are imbalanced pairs in string, how to get this work?
+--Locate surrounding pair in direction `dir`
+--FIXME: If there are imbalanced pairs in string, how to get this work?
+---@param dir integer (-1|1) -1 for backward, 1 for forward.
 local function srd_locate(str, pair_a, pair_b, dir)
     local tab_pair = srd_collect(str, pair_a, pair_b)
     local list_pos = {}
@@ -80,8 +84,9 @@ function M.srd_add(mode, ...)
     if #arg_list > 0 then
         pair_a = arg_list[1]
     else
-        pair_a = vim.fn.input("Surrounding add: ")
+        vim.ui.input("Surrounding add: ", function (input) pair_a = input end)
     end
+    if not pair_a then return end
     local pair_b = srd_pair(pair_a)
 
     if mode == 'n' then
@@ -114,14 +119,19 @@ function M.srd_sub(...)
     local arg_list = {...}
     local back = lib.get_context('b')
     local fore = lib.get_context('f')
-    local pair_a = vim.fn.input("Surrounding delete: ")
+
+    local pair_a
+    vim.ui.input("Surrounding delete: ", function (input) pair_a = input end)
+    if not pair_a then return end
+
     local pair_b = srd_pair(pair_a)
     local pair_a_new
     if #arg_list > 0 then
         pair_a_new = arg_list[1]
     else
-        pair_a_new = vim.fn.input("Change to: ")
+        vim.ui.input("Change to: ", function (input) pair_a_new = input end)
     end
+    if not pair_a_new then return end
     local pair_b_new = srd_pair(pair_a_new)
 
     local back_new, fore_new

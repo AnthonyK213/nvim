@@ -1,5 +1,6 @@
 local lspconfig = require('lspconfig')
-local lsp_option = require('core/opt').lsp or {}
+local lsp_option = require('core.opt').lsp or {}
+-- nvim-cmp
 -- Enable LSP snippets.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -27,7 +28,8 @@ if lsp_option.powershell_es and lsp_option.powershell_es.enable then
     vim.g.path_bin.."/LSP/PowerShellEditorServices")
     lspconfig.powershell_es.setup {
         bundle_path = pses_bundle_path,
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- pyright
@@ -68,26 +70,11 @@ if lsp_option.omnisharp then
 end
 --- sumneko_lua
 if lsp_option.sumneko_lua then
-    --local system_name
-    --local sumneko_root_path = vim.fn.expand(lsp_option.sumneko_lua.path) or
-    --vim.fn.expand(vim.g.path_bin.."/LSP/lua-language-server")
-    --if vim.fn.has("mac") == 1 then
-        --system_name = "macOS"
-    --elseif vim.fn.has("unix") == 1 then
-        --system_name = "Linux"
-    --elseif vim.fn.has('win32') == 1 then
-        --system_name = "Windows"
-    --else
-        --print("Unsupported system for sumneko.")
-    --end
-    --local sumneko_binary = sumneko_root_path..
-    --"/bin/"..system_name.."/lua-language-server"
     local runtime_path = vim.split(package.path, ';')
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
     lspconfig.sumneko_lua.setup {
-        --cmd = { sumneko_binary, '-E', sumneko_root_path.."/main.lua" };
-        --capabilities = capabilities,
+        capabilities = capabilities,
         on_attach = custom_attach,
         settings = {
             Lua = {
@@ -122,19 +109,19 @@ vim.lsp.diagnostic.on_publish_diagnostics,
 
 
 local keymap = vim.api.nvim_set_keymap
-local option = { noremap = true, silent = true }
-keymap('n', 'K', '<cmd>lua require("utility/util").show_doc()<CR>',      option)
-keymap('n', '<leader>l0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  option)
-keymap('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>',      option)
-keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.declaration()<CR>',      option)
-keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.definition()<CR>',       option)
-keymap('n', '<leader>lh', '<cmd>lua vim.lsp.buf.signature_help()<CR>',   option)
-keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<CR>',   option)
-keymap('n', '<leader>lm', '<cmd>lua vim.lsp.buf.formatting_sync()<CR>',  option)
-keymap('n', '<leader>ln', '<cmd>lua vim.lsp.buf.rename()<CR>',           option)
-keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>',       option)
-keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<CR>',  option)
-keymap('n', '<leader>lw', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', option)
-keymap('n', '<leader>l[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', option)
-keymap('n', '<leader>l]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', option)
-keymap('n', '<M-K>', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', option)
+local ntst = { noremap = true, silent = true }
+keymap('n', 'K', '<cmd>lua require("utility.util").show_doc()<CR>',      ntst)
+keymap('n', '<leader>l0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>',  ntst)
+keymap('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>',      ntst)
+keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.declaration()<CR>',      ntst)
+keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.definition()<CR>',       ntst)
+keymap('n', '<leader>lh', '<cmd>lua vim.lsp.buf.signature_help()<CR>',   ntst)
+keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<CR>',   ntst)
+keymap('n', '<leader>lm', '<cmd>lua vim.lsp.buf.formatting_sync()<CR>',  ntst)
+keymap('n', '<leader>ln', '<cmd>lua vim.lsp.buf.rename()<CR>',           ntst)
+keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>',       ntst)
+keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<CR>',  ntst)
+keymap('n', '<leader>lw', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', ntst)
+keymap('n', '<leader>l[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', ntst)
+keymap('n', '<leader>l]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', ntst)
+keymap('n', '<M-K>', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', ntst)

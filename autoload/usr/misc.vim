@@ -54,7 +54,7 @@ function! usr#misc#nvim_tree_sys_open()
 lua << EOF
   local node = require('nvim-tree.lib').get_node_at_cursor()
   if node then
-    require('utility/util').open_path_or_url(node.absolute_path)
+    require('utility.util').open_path_or_url(node.absolute_path)
   end
 EOF
 endfunction
@@ -74,14 +74,14 @@ endfunction
 
 " Source vim file.
 function! usr#misc#vim_source(file) abort
-  call v:lua.require('utility/lib').vim_source(a:file)
+  call v:lua.require('utility.lib').vim_source(a:file)
 endfunction
 
 " Open opt.lua.
 function! usr#misc#open_opt()
 lua << EOF
   local myvimrc_dir = vim.fn.fnamemodify(vim.fn.expand("$MYVIMRC"), ":p:h")
-  require("utility/util").edit_file(myvimrc_dir.."/lua/core/opt.lua", false)
+  require("utility.util").edit_file(myvimrc_dir.."/lua/core/opt.lua", false)
   vim.api.nvim_set_current_dir(myvimrc_dir)
 EOF
 endfunction
@@ -93,12 +93,12 @@ function! usr#misc#nvim_nightly_upgrade(...)
   if has('win32')
     let l:cmd = expand("$LOCALAPPDATA") . '/nvim/shell/' .
           \ l:script_name . '_win.ps1 -proxy ' . l:proxy_args
-    lua require('utility/lib').belowright_split(30)
+    lua require('utility.lib').belowright_split(30)
     exe 'term powershell' l:cmd
   elseif has('unix')
     let l:cmd = expand("$HOME/.config") . '/nvim/shell/' .
           \ l:script_name . '_linux.sh ' . l:proxy_args
-    lua require('utility/lib').belowright_split(30)
+    lua require('utility.lib').belowright_split(30)
     exe 'term bash' l:cmd
   endif
 endfunction

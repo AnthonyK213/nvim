@@ -46,7 +46,7 @@
   ```vim
   :PackerSync
   ```
-* **opt.lua options (see [lua/core/opt.lua](lua/core/opt_example.lua))**
+* **opt.lua options (see [opt.lua](./lua/core/opt_example.lua))**
   - Essential:
     - **dep** -> Dependencies
       - `cc`  -> C compiler

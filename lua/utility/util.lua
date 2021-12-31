@@ -1,16 +1,16 @@
 local M = {}
-local lib = require('utility/lib')
-local pub = require('utility/pub')
+local lib = require('utility.lib')
+local pub = require('utility.pub')
 
 
--- Open terminal and launch shell.
+---Open terminal and launch shell.
 function M.terminal()
     lib.belowright_split(15)
-    vim.cmd('terminal '..pub.shell)
-    vim.cmd('setl nonu')
+    vim.api.nvim_win_set_option(0, 'number', false)
+    vim.fn.termopen({pub.shell})
 end
 
--- Show documents.
+---Show documents.
 function M.show_doc()
     if vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
         local cword = vim.fn.expand('<cword>')
@@ -18,27 +18,31 @@ function M.show_doc()
         if not ok then
             local msg = err:match('(E%d+:%s.+)$')
             if not msg then msg = 'No help for '..cword end
-            vim.notify(msg, vim.log.levels.ERROR, nil)
+            lib.notify_err(msg)
         end
     else
         vim.lsp.buf.hover()
     end
 end
 
--- Open and edit text file in vim.
+---Open and edit text file in vim.
+---@param file_path string File path.
+---@param chdir boolean True to change cwd automatically.
 function M.edit_file(file_path, chdir)
     local path = vim.fn.expand(file_path)
     if vim.fn.expand("%:t") == '' then
-        vim.cmd('e '..path)
+        vim.cmd('silent e '..path)
     else
-        vim.cmd('tabnew '..path)
+        vim.cmd('silent tabnew '..path)
     end
     if chdir then
         vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
     end
 end
 
--- Match path or url in string.
+---Match path or url in string.
+---@param str string
+---@return string result Match result.
 function M.match_path_or_url(str)
     local protocols = {
         [''] = 0,
@@ -61,14 +65,16 @@ function M.match_path_or_url(str)
     if s then return vim.fn.expand(vim.trim(str:sub(s + 1, e))) end
 end
 
--- Open path or url with system default browser.
+---Open path or url with system default browser.
+---@param obj string
 function M.open_path_or_url(obj)
-    local gcwd = vim.fn.getcwd()
-    vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
+    local bcwd = vim.loop.cwd()
+    local fcwd = vim.fn.expand('%:p:h')
+    vim.api.nvim_set_current_dir(fcwd)
     if (not obj) or
         (vim.fn.glob(obj) == '' and not
         obj:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
-        vim.api.nvim_set_current_dir(gcwd)
+        vim.api.nvim_set_current_dir(bcwd)
         return
     end
     local cmd
@@ -83,19 +89,21 @@ function M.open_path_or_url(obj)
     elseif type(pub.start) == "string" then
         cmd = pub.start
     else
-        print('Invalid definition of `start`.')
+        lib.notify_err('Invalid definition of `start`.')
         return
     end
     table.insert(args, obj)
     Handle = vim.loop.spawn(cmd, {
         args = args
     }, vim.schedule_wrap(function ()
-        vim.api.nvim_set_current_dir(gcwd)
+        vim.api.nvim_set_current_dir(bcwd)
         Handle:close()
     end))
 end
 
--- Search web.
+---Search web.
+---@param mode string
+---@param site string
 function M.search_web(mode, site)
     local search_obj
     if mode == 'n' then

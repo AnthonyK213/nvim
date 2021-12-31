@@ -1,5 +1,5 @@
 local M = {}
-local lib = require('utility/lib')
+local lib = require('utility.lib')
 local uv = vim.loop
 
 
@@ -71,14 +71,14 @@ function M.git_push_all(...)
     if git_root then
         git_branch = lib.get_git_branch(git_root)
     else
-        print("Not a git repository.")
+        lib.notify_err("Not a git repository.")
         return
     end
 
     if git_branch then
         vim.api.nvim_set_current_dir(git_root)
     else
-        print("Not a valid git repository.")
+        lib.notify_err("Not a valid git repository.")
         return
     end
 
@@ -92,7 +92,7 @@ function M.git_push_all(...)
         elseif m_idx == 0 then
             m_arg = os.date('%y%m%d')
         else
-            print("Invalid commit argument.")
+            lib.notify_err("Invalid commit argument.")
             return
         end
 
@@ -101,13 +101,13 @@ function M.git_push_all(...)
         elseif b_idx == 0 then
             b_arg = git_branch
         else
-            print("Invalid branch argument.")
+            lib.notify_err("Invalid branch argument.")
             return
         end
 
         git_add_async(m_arg, b_arg)
     else
-        print("Wrong number of arguments is given.")
+        lib.notify_err("Wrong number of arguments is given.")
     end
 end
 

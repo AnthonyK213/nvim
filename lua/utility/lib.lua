@@ -1,7 +1,7 @@
 local M = {}
 
---- Create a below right split window.
---- @param height number Window height.
+---Create a below right split window.
+---@param height number Window height.
 function M.belowright_split(height)
     local term_h = math.min(height,
     math.floor(vim.api.nvim_win_get_height(0) * 0.382))
@@ -9,9 +9,9 @@ function M.belowright_split(height)
     vim.api.nvim_win_set_height(0, term_h)
 end
 
---- Get the <cWORD> without the noisy characters.
---- @param del_list table Strings to trim from both sides of <cWORD>.
---- @return string result Trimmed <cWORD>.
+---Get the <cWORD> without the noisy characters.
+---@param del_list table Strings to trim from both sides of <cWORD>.
+---@return string result Trimmed <cWORD>.
 function M.get_clean_cWORD(del_list)
     local c_word = M.str_explode(vim.fn.expand("<cWORD>"))
     while vim.tbl_contains(del_list, c_word[#c_word]) and #c_word >= 2 do
@@ -23,9 +23,9 @@ function M.get_clean_cWORD(del_list)
     return table.concat(c_word)
 end
 
---- Find the root directory contains pattern `pat`.
---- @param pat string Root pattern.
---- @return string result Root directory path.
+---Find the root directory contains pattern `pat`.
+---@param pat string Root pattern.
+---@return string result Root directory path.
 function M.get_root(pat)
     local current_dir = vim.fn.expand('%:p:h')
     while true do
@@ -39,9 +39,9 @@ function M.get_root(pat)
     return nil
 end
 
---- Get the branch name.
---- @param git_root string Git repository root directory.
---- @return string result Current branch name.
+---Get the branch name.
+---@param git_root string Git repository root directory.
+---@return string result Current branch name.
 function M.get_git_branch(git_root)
     if not git_root then return false end
 
@@ -67,13 +67,13 @@ local get_context_pat = {
     f = { [[\%]], 'c.*$' }
 }
 
---- Get characters around the cursor by `mode`.
---- @param mode string Four modes to get the context.
----   - *p* -> Return the character before cursor (previous);
----   - *n* -> Return the character after cursor  (next);
----   - *b* -> Return the half line before cursor (backward);
----   - *f* -> Return the half line after cursor  (forward).
---- @return string context Characters around the cursor.
+---Get characters around the cursor by `mode`.
+---@param mode string Four modes to get the context.
+---  - *p* -> Return the character before cursor (previous);
+---  - *n* -> Return the character after cursor  (next);
+---  - *b* -> Return the half line before cursor (backward);
+---  - *f* -> Return the half line after cursor  (forward).
+---@return string context Characters around the cursor.
 function M.get_context(mode)
     local pat = get_context_pat[mode]
     local line = vim.api.nvim_get_current_line()
@@ -86,10 +86,10 @@ function M.get_context(mode)
     end
 end
 
---- Replace chars in a string according to a dictionary.
---- @param str string String to replace.
---- @param esc_table table Replace dictionary.
---- @return string result Replaced string.
+---Replace chars in a string according to a dictionary.
+---@param str string String to replace.
+---@param esc_table table Replace dictionary.
+---@return string result Replaced string.
 function M.str_replace(str, esc_table)
     local str_list = M.str_explode(str)
     for i, v in ipairs(str_list) do
@@ -100,9 +100,9 @@ function M.str_replace(str, esc_table)
     return table.concat(str_list)
 end
 
---- Split string at `\zs`.
---- @param str string String to explode.
---- @return table result Exploded string.
+---Split string at `\zs`.
+---@param str string String to explode.
+---@return table result Exploded string.
 function M.str_explode(str)
     local result = {}
     while true do
@@ -122,15 +122,15 @@ function M.str_explode(str)
     return result
 end
 
---- Escape vim regex(magic) special characters in a string by `backslash`.
---- @param str string String of vim regex to escape.
---- @return string result Escaped vim regex.
+---Escape vim regex(magic) special characters in a string by `backslash`.
+---@param str string String of vim regex to escape.
+---@return string result Escaped vim regex.
 function M.vim_reg_esc(str)
     return vim.fn.escape(str, ' ()[]{}<>.+*^$')
 end
 
---- Get the visual selections.
---- @return string result Visual selection.
+---Get the visual selections.
+---@return string result Visual selection.
 function M.get_visual_selection()
     local a_bak = vim.fn.getreg('a', 1)
     vim.cmd('silent normal! gv"ay')
@@ -139,9 +139,9 @@ function M.get_visual_selection()
     return a_val
 end
 
---- Reverse a ipairs table.
---- @param tbl table Table to reverse.
---- @return table result Reversed table.
+---Reverse a ipairs table.
+---@param tbl table Table to reverse.
+---@return table result Reversed table.
 function M.tbl_reverse(tbl)
     local tmp = {}
     for i = #tbl, 1, -1 do
@@ -150,8 +150,8 @@ function M.tbl_reverse(tbl)
     return tmp
 end
 
---- Define auto command group.
---- @param name string Autocmd group name.
+---Define auto command group.
+---@param name string Autocmd group name.
 function M.set_augroup(name, ...)
     vim.cmd('augroup '..name)
     vim.cmd('autocmd!')
@@ -161,11 +161,11 @@ function M.set_augroup(name, ...)
     vim.cmd('augroup end')
 end
 
---- Define highlight group.
---- @param group string Group name.
---- @param fg string Foreground color.
---- @param bg string Background color.
---- @param attr string Attribute('bold', 'italic', 'underline', ...)
+---Define highlight group.
+---@param group string Group name.
+---@param fg string Foreground color.
+---@param bg string Background color.
+---@param attr string Attribute('bold', 'italic', 'underline', ...)
 function M.set_highlight_group(group, fg, bg, attr)
     local cmd = "highlight! "..group
     if fg   then cmd = cmd.." guifg="..fg end
@@ -174,8 +174,8 @@ function M.set_highlight_group(group, fg, bg, attr)
     vim.cmd(cmd)
 end
 
---- Source a vim file.
---- @param file string Vim script path.
+---Source a vim file.
+---@param file string Vim script path.
 function M.vim_source(file)
     local init_viml_path
     if vim.fn.has("win32") == 1 then
@@ -186,9 +186,9 @@ function M.vim_source(file)
     vim.cmd('source '..init_viml_path..file..'.vim')
 end
 
---- Encode URL.
---- @param str string URL string to encode.
---- @return string result Encoded url.
+---Encode URL.
+---@param str string URL string to encode.
+---@return string result Encoded url.
 function M.encode_url(str)
     local res = str:gsub("([^%w%.%-%s])", function(x)
         return string.format("%%%02X", string.byte(x))
@@ -196,24 +196,24 @@ function M.encode_url(str)
     return res
 end
 
---- Syntax structure.
---- @class Syntax
---- @field prov string
---- @field data table
+---Syntax structure.
+---@class Syntax
+---@field prov string
+---@field data table
 local Syntax = {}
 
---- Constructor.
---- @param provider string Provider name.
---- @param data table Data table.
---- @return table
+---Constructor.
+---@param provider string Provider name.
+---@param data table Data table.
+---@return table
 function Syntax:new(provider, data)
     local o = { prov = provider, data = data }
     setmetatable(o, { __index = self })
     return o
 end
 
---- Get hilight group name.
---- @return string name Hilight group name.
+---Get hilight group name.
+---@return string name Hilight group name.
 function Syntax:name()
     if self.prov == 'syn' then
         return vim.fn.synIDattr(self.data[2], "name")
@@ -224,8 +224,8 @@ function Syntax:name()
     end
 end
 
---- Show syntax information.
---- @return string result Markdown style information.
+---Show syntax information.
+---@return string result Markdown style information.
 function Syntax:show()
     if self.prov == 'syn' then
         local n1 = vim.fn.synIDattr(self.data[1], "name")
@@ -246,10 +246,10 @@ function Syntax:show()
     end
 end
 
---- Get syntax stack.
---- @param row number 1-based row number.
---- @param col number 0-based column number.
---- @return table result Syntax table.
+---Get syntax stack.
+---@param row number 1-based row number.
+---@param col number 0-based column number.
+---@return table result Syntax table.
 function M.get_syntax_stack(row, col)
     local syntax_table = {}
     for _, i1 in ipairs(vim.fn.synstack(row, col + 1)) do
@@ -259,11 +259,11 @@ function M.get_syntax_stack(row, col)
     return syntax_table
 end
 
---- Get treesitter information.
---- https://github.com/nvim-treesitter/playground
---- @param row number 1-based row number.
---- @param col number 0-based column number.
---- @return table result Syntax table.
+---Get treesitter information.
+---https://github.com/nvim-treesitter/playground
+---@param row number 1-based row number.
+---@param col number 0-based column number.
+---@return table result Syntax table.
 function M.get_treesitter_info(row, col)
     local buf = vim.api.nvim_get_current_buf()
     local row_0 = row - 1
@@ -322,6 +322,12 @@ function M.get_treesitter_info(row, col)
         end
     end, true)
     return syntax_table
+end
+
+---Notify the error message to neovim.
+---@param err string Error message.
+function M.notify_err(err)
+    vim.notify(err, vim.log.levels.ERROR, nil)
 end
 
 

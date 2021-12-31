@@ -1,10 +1,10 @@
-local augroup = require("utility/lib").set_augroup
+local augroup = require("utility.lib").set_augroup
 local gps = require("nvim-gps")
 
 
 -- colorscheme
 vim.cmd('packadd tokyonight.nvim')
-vim.g.tokyonight_style = require('core/opt').tui.theme or 'storm'
+vim.g.tokyonight_style = require('core.opt').tui.theme or 'storm'
 vim.g.tokyonight_italic_keywords = false
 vim.g.tokyonight_sidebars = {
     "help", "qf", "terminal",
@@ -126,5 +126,5 @@ alpha.setup(dashboard.opts)
 
 
 -- Setting colorscheme.
-augroup('highlight_extend', 'ColorScheme * lua require("utility/vis").hi_extd()')
+augroup('highlight_extend', 'ColorScheme * lua require("utility.vis").hi_extd()')
 vim.cmd[[colorscheme tokyonight]]

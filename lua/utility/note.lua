@@ -1,9 +1,10 @@
 local M = {}
 local api = vim.api
-local lib = require('utility/lib')
+local lib = require('utility.lib')
 
 
--- Hanzi count.
+---Hanzi count, ignore comments.
+---@param mode string Mode: **n** -> **Normal**; **v** -> **Visual**
 function M.hanzi_count(mode)
     local content
     if mode == "n" then
@@ -200,7 +201,7 @@ function M.md_sort_num_bullet()
             api.nvim_buf_set_lines(0, v - 1, v, true, {lf_new})
         end
     else
-        print("Not in a line of any numbered lists.")
+        lib.notify_err("Not in a line of any numbered lists.")
     end
 end
 

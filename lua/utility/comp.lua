@@ -1,7 +1,7 @@
 local M = {}
 local uv = vim.loop
-local lib = require('utility/lib')
-local pub = require('utility/pub')
+local lib = require('utility.lib')
+local pub = require('utility.pub')
 
 
 -- Supported language list:
@@ -79,13 +79,9 @@ local function latex_xelatex_bib(prog)
     end
 end
 
-local function vim_error(err)
-    vim.notify(err, vim.log.levels.ERROR, nil)
-end
-
 local function exists_exec(exe)
     if vim.fn.executable(exe) == 1 then return true end
-    vim_error('Executable '..exe..' is not found.')
+    lib.notify_err('Executable '..exe..' is not found.')
     return false
 end
 
@@ -118,7 +114,7 @@ local comp_c = function (tbl)
             return nil, cmd
         end
     else
-        print('Invalid argument.')
+        lib.notify_err('Invalid argument.')
         return nil, nil
     end
 end
@@ -138,7 +134,7 @@ local comp_clisp = function (tbl)
     if cmd then
         return nil, cmd
     else
-        print('Invalid argument.')
+        lib.notify_err('Invalid argument.')
         return nil, nil
     end
 end
@@ -184,7 +180,7 @@ local comp_csharp = function (tbl)
             return nil, cmd
         end
     else
-        print('Invalid argument.')
+        lib.notify_err('Invalid argument.')
         return nil, nil
     end
 end
@@ -227,7 +223,7 @@ local comp_rust = function (tbl)
             return nil, cmd
         end
     else
-        print('Invalid argument.')
+        lib.notify_err('Invalid argument.')
         return nil, nil
     end
 end
@@ -240,7 +236,7 @@ local comp_latex = function (tbl)
     elseif prog_table[tbl.optn] then
         latex_xelatex_bib(tbl.optn)
     else
-        print('Invalid argument.')
+        lib.notify_err('Invalid argument.')
     end
     return nil, nil
 end
@@ -270,7 +266,7 @@ function M.run_or_compile(option)
         --path = vim.fn.expand('%:p'),
         file = vim.fn.expand('%:t'),
         name = vim.fn.expand('%:r'),
-        bcwd = vim.fn.getcwd(),
+        bcwd = uv.cwd(),
         fcwd = vim.fn.expand('%:p:h'),
         optn = option,
         oute = vim.fn.has("win32") == 1 and '.exe' or '',
@@ -296,7 +292,7 @@ function M.run_or_compile(option)
             vim.api.nvim_set_current_dir(tbl.bcwd)
         end
     else
-        print("File type has not been supported yet.")
+        lib.notify_err("File type is not supported yet.")
     end
 end
 

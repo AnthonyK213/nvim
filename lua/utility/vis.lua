@@ -1,5 +1,5 @@
 local M = {}
-local lib = require('utility/lib')
+local lib = require('utility.lib')
 
 
 -- Extend highlight groups.

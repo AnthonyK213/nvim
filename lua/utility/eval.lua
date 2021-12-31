@@ -1,9 +1,11 @@
 local M = {}
 local api = vim.api
-local lib = require("utility/lib")
-local mlib = require("utility/mlib")
+local lib = require("utility.lib")
+local mlib = require("utility.mlib")
 
 
+---Evaluate text.
+---@param f function Method to evaluate the text.
 local function text_eval(f)
     local origin_pos = api.nvim_win_get_cursor(0)
     vim.cmd('normal! F`')
@@ -17,7 +19,7 @@ local function text_eval(f)
         api.nvim_set_current_line(back..fore_new)
     else
         api.nvim_win_set_cursor(0, origin_pos)
-        print('No valid expression was found.')
+        lib.notify_err('No valid expression was found.')
     end
 end
 
@@ -110,6 +112,10 @@ local func_map = {
     tan   = function(args) return math.tan(args[1]) end,
 }
 
+---Insert a node to a tree.
+---@param tree table A tree.
+---@param var any A node to insert.
+---@param level integer Insert level.
 local function tree_insert(tree, var, level)
     local temp_node = tree
     for _ = 1, level, 1 do
@@ -118,6 +124,9 @@ local function tree_insert(tree, var, level)
     table.insert(temp_node, var)
 end
 
+---Parse a lisp chunk to a tree.
+---@param str string Lisp chunk.
+---@return table Parsed tree.
 local function lisp_tree(str)
     local tree_level = 0
     local pre_parse  = str:gsub('[%(%)]', function(s) return ' '..s..' ' end)
@@ -141,6 +150,9 @@ local function lisp_tree(str)
     return tree_table[1]
 end
 
+---Evaluate tree recursively.
+---@param arg any
+---@return any
 local function lisp_tree_eval(arg)
     if type(arg) == 'number' then return arg end
     local func = func_map[arg[1]]
@@ -148,16 +160,19 @@ local function lisp_tree_eval(arg)
     return func(vim.tbl_map(lisp_tree_eval, arg))
 end
 
+---Evaluate lisp chunk.
+---@param str string Lisp chunk.
+---@return number result Calculation result.
 local function lisp_str_eval(str)
     return lisp_tree_eval(lisp_tree(str))
 end
 
--- Evaluate Lua chunk surrounded by `.
+---Evaluate Lua chunk surrounded by `.
 function M.lua_eval()
     text_eval(vim.fn.luaeval)
 end
 
--- Evaluate Lisp chunk(math) surrounded by `.
+---Evaluate Lisp chunk(math) surrounded by `.
 function M.lisp_eval()
     text_eval(lisp_str_eval)
 end

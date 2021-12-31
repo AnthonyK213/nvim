@@ -1,6 +1,8 @@
 local M = {}
 
--- Factorial
+---Factorial
+---@param x integer
+---@return integer result
 function M.factorial(x)
     local result = 1
     if x == 0 then
@@ -12,7 +14,9 @@ function M.factorial(x)
     return result
 end
 
--- Gamma function
+---Gamma function
+---@param x number
+---@return number result
 function M.gamma(x)
     assert(x > 0, "Invalid input")
 
@@ -113,6 +117,9 @@ function M.gamma(x)
     return math.exp(M.log_gamma(x))
 end
 
+---Log gamma.
+---@param x number
+---@return number result
 function M.log_gamma(x)
     assert(x > 0, "Invalid input")
 

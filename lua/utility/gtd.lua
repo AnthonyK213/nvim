@@ -1,11 +1,16 @@
 local M = {}
 local api = vim.api
+local lib = require('utility.lib')
 
 
--- Calculate the day of week from a date(yyyy-mm-dd).
+-- Get the day of week from a date(yyyy-mm-dd).
+---@param year integer Year.
+---@param month integer Month.
+---@param date integer Date.
+---@return string result The day of week.
 local function zeller(year, month, date)
     if (month < 1 or month > 12) then
-        print("Not a valid month.")
+        lib.notify_err("Not a valid month.")
         return
     end
 
@@ -24,7 +29,7 @@ local function zeller(year, month, date)
     end
 
     if (date < 1 or date > month_days_count) then
-        print("Not a valid date.")
+        lib.notify_err("Not a valid date.")
         return
     end
 
@@ -44,6 +49,7 @@ local function zeller(year, month, date)
     return days_list[z]
 end
 
+---Append the day of week after a time stamp(yyyy-mm-dd).
 function M.append_day_from_date()
     local line = api.nvim_get_current_line()
     local col = api.nvim_win_get_cursor(0)[2]
@@ -69,7 +75,9 @@ function M.append_day_from_date()
     vim.cmd('normal! a '..day_of_week)
 end
 
--- Count down to a timestamp(<%Y-%m-%d %a %H:%M>).
+---Count down to a timestamp.
+---@param date integer Timestamp(<YYYY-MM-DD A hh:mm>).
+---@return string result Countdown information.
 local function countdown(date)
     local now = os.time()
     local ts, year, month, day, hour, minute =
@@ -98,7 +106,7 @@ local function countdown(date)
     end
 end
 
--- Print TODO list.
+---Print TODO list.
 function M.print_todo_list()
     local content = api.nvim_buf_get_lines(0, 0, -1, false)
     for _, line in ipairs(content) do

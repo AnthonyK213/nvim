@@ -1,4 +1,4 @@
-local core_opt = require('core/opt')
+local core_opt = require('core.opt')
 
 vim.g.mapleader = " "
 

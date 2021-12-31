@@ -85,48 +85,48 @@ end
 
 
 -- Search visual selection.
-keymap('v', '*', [[<ESC>/\V<C-r>=luaeval('require("utility/lib").get_visual_selection()')<CR><CR>]], ntst)
+keymap('v', '*', [[<ESC>/\V<C-r>=luaeval('require("utility.lib").get_visual_selection()')<CR><CR>]], ntst)
 -- Mouse toggle.
 keymap('n', '<F2>', '<Cmd>call usr#misc#mouse_toggle()<CR>',            ntst)
 keymap('v', '<F2>', ':<C-U>call usr#misc#mouse_toggle()<CR>',           ntst)
 keymap('i', '<F2>', '<C-\\><C-O><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
 keymap('t', '<F2>', '<C-\\><C-N><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
 -- Run code.
-keymap('n', '<F5>', '<Cmd>lua require("utility/comp").run_or_compile("")<CR>', ntst)
+keymap('n', '<F5>', '<Cmd>lua require("utility.comp").run_or_compile("")<CR>', ntst)
 -- Background toggle.
 keymap('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', ntst)
 -- Open opt file.
 keymap('n', '<M-,>', '<Cmd>call usr#misc#open_opt()<CR>', ntst)
 -- Explorer.
-keymap('n', '<leader>oe', '<Cmd>lua require("utility/util").open_path_or_url(vim.fn.expand("%:p:h"))<CR>', ntst)
+keymap('n', '<leader>oe', '<Cmd>lua require("utility.util").open_path_or_url(vim.fn.expand("%:p:h"))<CR>', ntst)
 -- Terminal.
-keymap('n', '<leader>ot', '<Cmd>lua require("utility/util").terminal()<CR>i',    ntst)
+keymap('n', '<leader>ot', '<Cmd>lua require("utility.util").terminal()<CR>i',    ntst)
 -- Open file of current buffer with system default browser.
-keymap('n', '<leader>ob', '<Cmd>lua require("utility/util").open_path_or_url(vim.fn.expand("%:p"))<CR>', ntst)
+keymap('n', '<leader>ob', '<Cmd>lua require("utility.util").open_path_or_url(vim.fn.expand("%:p"))<CR>', ntst)
 -- Open path or url under the cursor or in the selection.
 keymap('n', '<leader>ou',
-[[<Cmd>lua local util = require("utility/util") ]]..
+[[<Cmd>lua local util = require("utility.util") ]]..
 [[util.open_path_or_url(util.match_path_or_url(vim.fn.expand("<cWORD>")))<CR>]],
 ntst)
 keymap('v', '<leader>ou',
-[[:<C-u>lua local util = require("utility/util") ]]..
-[[util.open_path_or_url(util.match_path_or_url(require("utility/lib").get_visual_selection()))<CR>]],
+[[:<C-u>lua local util = require("utility.util") ]]..
+[[util.open_path_or_url(util.match_path_or_url(require("utility.lib").get_visual_selection()))<CR>]],
 ntst)
 -- Evaluate formula surrounded by `.
-keymap('n', '<leader>ev', '<Cmd>lua require("utility/eval").lua_eval()<CR>',  ntst)
-keymap('n', '<leader>el', '<Cmd>lua require("utility/eval").lisp_eval()<CR>', ntst)
+keymap('n', '<leader>ev', '<Cmd>lua require("utility.eval").lua_eval()<CR>',  ntst)
+keymap('n', '<leader>el', '<Cmd>lua require("utility.eval").lisp_eval()<CR>', ntst)
 -- Append day of week after the date.
-keymap('n', '<leader>dd', ':lua require("utility/gtd").append_day_from_date()<CR>', ntst)
+keymap('n', '<leader>dd', ':lua require("utility.gtd").append_day_from_date()<CR>', ntst)
 -- Insert an timestamp after cursor.
 keymap('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", ntst)
 -- Print TODO list.
-keymap("n", "<leader>dt", '<Cmd>lua require("utility/gtd").print_todo_list()<CR>', ntst)
+keymap("n", "<leader>dt", '<Cmd>lua require("utility.gtd").print_todo_list()<CR>', ntst)
 -- Hanzi count.
-keymap('n', '<leader>cc', '<Cmd>lua require("utility/note").hanzi_count("n")<CR>',  ntst)
-keymap('v', '<leader>cc', ':<C-u>lua require("utility/note").hanzi_count("v")<CR>', ntst)
+keymap('n', '<leader>cc', '<Cmd>lua require("utility.note").hanzi_count("n")<CR>',  ntst)
+keymap('v', '<leader>cc', ':<C-u>lua require("utility.note").hanzi_count("v")<CR>', ntst)
 -- List bullets.
-keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility/note").md_insert_bullet()<CR>',  ntst)
-keymap('n', '<leader>ml', ':lua require("utility/note").md_sort_num_bullet()<CR>', ntst)
+keymap('i', '<M-CR>', '<C-\\><C-O>:lua require("utility.note").md_insert_bullet()<CR>',  ntst)
+keymap('n', '<leader>ml', ':lua require("utility.note").md_sort_num_bullet()<CR>', ntst)
 keymap('n', '<leader>mv', ':call usr#misc#show_toc()<CR>', ntst)
 -- Echo git status.
 keymap('n', '<leader>gs', ':!git status<CR>', ntst)
@@ -138,22 +138,22 @@ local web_list = {
     y = "https://dict.youdao.com/w/eng/"
 }
 for key, val in pairs(web_list) do
-    keymap('n', '<leader>h'..key, '<Cmd>lua require("utility/util").search_web("n", "'..val..'")<CR>',  ntst)
-    keymap('v', '<leader>h'..key, ':<C-U>lua require("utility/util").search_web("v", "'..val..'")<CR>', ntst)
+    keymap('n', '<leader>h'..key, '<Cmd>lua require("utility.util").search_web("n", "'..val..'")<CR>',  ntst)
+    keymap('v', '<leader>h'..key, ':<C-U>lua require("utility.util").search_web("v", "'..val..'")<CR>', ntst)
 end
 -- Surround
-keymap('n', '<leader>sa', '<Cmd>lua require("utility/srd").srd_add("n")<CR>',  ntst)
-keymap('v', '<leader>sa', ':<C-U>lua require("utility/srd").srd_add("v")<CR>', ntst)
-keymap('n', '<leader>sd', '<Cmd>lua require("utility/srd").srd_sub("")<CR>',   ntst)
-keymap('n', '<leader>sc', '<Cmd>lua require("utility/srd").srd_sub()<CR>',     ntst)
+keymap('n', '<leader>sa', '<Cmd>lua require("utility.srd").srd_add("n")<CR>',  ntst)
+keymap('v', '<leader>sa', ':<C-U>lua require("utility.srd").srd_add("v")<CR>', ntst)
+keymap('n', '<leader>sd', '<Cmd>lua require("utility.srd").srd_sub("")<CR>',   ntst)
+keymap('n', '<leader>sc', '<Cmd>lua require("utility.srd").srd_sub()<CR>',     ntst)
 for key, val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
-    keymap('n', '<M-'..key..'>', '<Cmd>lua require("utility/srd").srd_add("n","'..val..'")<CR>',  ntst)
-    keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility/srd").srd_add("v","'..val..'")<CR>', ntst)
+    keymap('n', '<M-'..key..'>', '<Cmd>lua require("utility.srd").srd_add("n","'..val..'")<CR>',  ntst)
+    keymap('v', '<M-'..key..'>', ':<C-U>lua require("utility.srd").srd_add("v","'..val..'")<CR>', ntst)
 end
 -- Comment
-keymap("n", "<leader>kc", '<Cmd>lua require("utility/cmt").cmt_add_norm()<CR>', ntst)
-keymap("v", "<leader>kc", ':<C-U>lua require("utility/cmt").cmt_add_vis()<CR>', ntst)
-keymap("n", "<leader>ku", '<Cmd>lua require("utility/cmt").cmt_del_norm()<CR>', ntst)
-keymap("v", "<leader>ku", ':<C-U>lua require("utility/cmt").cmt_del_vis()<CR>', ntst)
+keymap("n", "<leader>kc", '<Cmd>lua require("utility.cmt").cmt_add_norm()<CR>', ntst)
+keymap("v", "<leader>kc", ':<C-U>lua require("utility.cmt").cmt_add_vis()<CR>', ntst)
+keymap("n", "<leader>ku", '<Cmd>lua require("utility.cmt").cmt_del_norm()<CR>', ntst)
+keymap("v", "<leader>ku", ':<C-U>lua require("utility.cmt").cmt_del_vis()<CR>', ntst)
 -- Show highlight information.
-keymap("n", "<leader>vs", '<Cmd>lua require("utility/vis").show_hl_captures()<CR>', ntst)
+keymap("n", "<leader>vs", '<Cmd>lua require("utility.vis").show_hl_captures()<CR>', ntst)

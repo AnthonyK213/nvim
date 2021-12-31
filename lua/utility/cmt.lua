@@ -1,5 +1,6 @@
 local M = {}
 local api = vim.api
+local lib = require('utility.lib')
 
 
 local cmt_mark_tab_single = {
@@ -34,6 +35,7 @@ local cmt_mark_tab_multi = {
     lua = { "--[[", "]]" }
 }
 
+---Comment current line in normal mode.
 function M.cmt_add_norm()
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
     if cmt_mark then
@@ -42,10 +44,11 @@ function M.cmt_add_norm()
         api.nvim_feedkeys(cmd, 'xn', true)
         api.nvim_win_set_cursor(0, pos)
     else
-        print("Have no idea how to comment "..vim.bo.filetype.." file.")
+        lib.notify_err("File type "..vim.bo.filetype.." is not supported yet.")
     end
 end
 
+---Comment selected lines in visual mode.
 function M.cmt_add_vis()
     local pos_s = api.nvim_buf_get_mark(0, "<")
     local pos_e = api.nvim_buf_get_mark(0, ">")
@@ -67,19 +70,21 @@ function M.cmt_add_vis()
     end
 end
 
+---Check if line(lnum) is a commented line.
+---@param lnum integer Line number.
+---@return string result The un-commented line it is commented, else nil.
 local function is_cmt_line(lnum)
     local line = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
     if cmt_mark then
         local esc_cmt_mark = vim.pesc(cmt_mark)
-        if line:match("^%s*"..esc_cmt_mark..".*$") then
-            local l, r = line:match("^(%s*)"..esc_cmt_mark.."(.*)$")
-            return l..r
-        end
+        local matched, l, r = line:match("^((%s*)"..esc_cmt_mark.."(.*))$")
+        if matched then return l..r end
     end
     return nil
 end
 
+---Un-comment code block.
 local function del_cmt_block()
     local lnum_c = api.nvim_win_get_cursor(0)[1]
     local cmt_mark = cmt_mark_tab_multi[vim.bo.filetype]
@@ -137,6 +142,7 @@ local function del_cmt_block()
     end
 end
 
+---Un-comment current line in normal mode.
 function M.cmt_del_norm()
     if not cmt_mark_tab_single[vim.bo.filetype] then return end
     local line_new = is_cmt_line(api.nvim_win_get_cursor(0)[1])
@@ -147,6 +153,7 @@ function M.cmt_del_norm()
     del_cmt_block()
 end
 
+---Un-comment selected lines in visual mode.
 function M.cmt_del_vis()
     local lnum_s = api.nvim_buf_get_mark(0, "<")[1]
     local lnum_e = api.nvim_buf_get_mark(0, ">")[1]

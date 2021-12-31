@@ -1,7 +1,10 @@
 local M = {}
 
 
--- Performance.
+---Performance test.
+---@param label string Label of the test.
+---@param f function Function to test.
+---@param ... any Arguments for `f`.
 function M.p(label, f, ...)
     local s = os.clock()
     local result = f(...)
@@ -10,7 +13,9 @@ function M.p(label, f, ...)
     label, e - s, vim.inspect(result)))
 end
 
--- Reload module.
+---Reload module.
+---@param module string Module name.
+---@return tablelib module.
 function M.r(module)
     if package.loaded[module] then
         package.loaded[module] = nil
