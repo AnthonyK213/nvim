@@ -32,10 +32,7 @@ return {
         omnisharp = false,
         rls = false,
         rust_analyzer = false,
-        sumneko_lua = {
-            enable = false,
-            path = nil
-        },
+        sumneko_lua = false,
         texlab = false,
         vimls = false,
     },

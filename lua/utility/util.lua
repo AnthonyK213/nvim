@@ -16,7 +16,7 @@ function M.show_doc()
         local cword = vim.fn.expand('<cword>')
         local ok, err = pcall(function () vim.cmd('h '..cword) end)
         if not ok then
-            msg = err:match('(E%d+:%s.+)$')
+            local msg = err:match('(E%d+:%s.+)$')
             if not msg then msg = 'No help for '..cword end
             vim.notify(msg, vim.log.levels.ERROR, nil)
         end

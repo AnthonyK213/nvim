@@ -36,7 +36,7 @@ local function zeller(year, month, date)
     local c = math.floor(year / 100)
     local y = year - c * 100
     local x = math.floor(c / 4) + y + math.floor(y / 4) +
-              math.floor(26 * (month + 1) / 10) + date - 2 * c - 1
+              math.floor(13 * (month + 1) / 5) + date - 2 * c - 1
     local z = x % 7
     if (z <= 0) then z = z + 7 end
     local days_list = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
