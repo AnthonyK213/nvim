@@ -13,7 +13,13 @@ end
 -- Show documents.
 function M.show_doc()
     if vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
-        vim.cmd('h '..vim.fn.expand('<cword>'))
+        local cword = vim.fn.expand('<cword>')
+        local ok, err = pcall(function () vim.cmd('h '..cword) end)
+        if not ok then
+            msg = err:match('(E%d+:%s.+)$')
+            if not msg then msg = 'No help for '..cword end
+            vim.notify(msg, vim.log.levels.ERROR, nil)
+        end
     else
         vim.lsp.buf.hover()
     end
