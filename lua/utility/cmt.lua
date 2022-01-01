@@ -66,7 +66,7 @@ function M.cmt_add_vis()
             end
         end
     else
-        print("Have no idea how to comment "..vim.bo.filetype.." file.")
+        lib.notify_err("File type "..vim.bo.filetype.." is not supported yet.")
     end
 end
 

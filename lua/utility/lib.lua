@@ -25,7 +25,7 @@ end
 
 ---Find the root directory contains pattern `pat`.
 ---@param pat string Root pattern.
----@return string result Root directory path.
+---@return string|nil result Root directory path.
 function M.get_root(pat)
     local current_dir = vim.fn.expand('%:p:h')
     while true do
@@ -41,7 +41,7 @@ end
 
 ---Get the branch name.
 ---@param git_root string Git repository root directory.
----@return string result Current branch name.
+---@return string|nil result Current branch name.
 function M.get_git_branch(git_root)
     if not git_root then return false end
 
@@ -328,6 +328,12 @@ end
 ---@param err string Error message.
 function M.notify_err(err)
     vim.notify(err, vim.log.levels.ERROR, nil)
+end
+
+---Check if os is `Windows`.
+---@return boolean result
+function M.has_win32()
+    return vim.fn.has('win32') == 1
 end
 
 

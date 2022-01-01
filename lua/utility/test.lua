@@ -15,7 +15,7 @@ end
 
 ---Reload module.
 ---@param module string Module name.
----@return tablelib module.
+---@return table module
 function M.r(module)
     if package.loaded[module] then
         package.loaded[module] = nil

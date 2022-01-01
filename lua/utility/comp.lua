@@ -85,16 +85,18 @@ local function exists_exec(exe)
     return false
 end
 
-local function on_event(arg_tbl, cb)
+local function on_event(cb, arg_tbl)
     return function (...)
         cb(arg_tbl, {...})
     end
 end
 
 local function cb_run_bin(arg_tbl, cb_args)
-    if cb_args[2] == 0 then
+    if cb_args[2] == 0 and cb_args[3] == 'exit' then
         vim.cmd(':vertical new')
-        vim.fn.termopen({arg_tbl.name}, { cwd = arg_tbl.fcwd })
+        vim.fn.termopen({arg_tbl.fwd..'/'..arg_tbl.bin}, {
+            cwd = arg_tbl.fwd
+        })
     end
 end
 
@@ -102,13 +104,13 @@ local comp_c = function (tbl)
     if not exists_exec(pub.ccomp) then return nil, nil end
 
     local cmd_tbl = {
-        ['']  = { pub.ccomp, tbl.file, '-o', tbl.name..tbl.oute },
-        check = { pub.ccomp, tbl.file, '-g', '-o', tbl.name..tbl.oute },
-        build = { pub.ccomp, tbl.file, '-O2', '-o', tbl.name..tbl.oute },
+        ['']  = { pub.ccomp, tbl.fnm, '-o', tbl.bin },
+        check = { pub.ccomp, tbl.fnm, '-g', '-o', tbl.bin },
+        build = { pub.ccomp, tbl.fnm, '-O2', '-o', tbl.bin },
     }
-    local cmd = cmd_tbl[tbl.optn]
+    local cmd = cmd_tbl[tbl.opt]
     if cmd then
-        if tbl.optn == '' then
+        if tbl.opt == '' then
             return cb_run_bin, cmd
         else
             return nil, cmd
@@ -123,14 +125,14 @@ local comp_clisp = function (tbl)
     if not exists_exec('sbcl') then return nil, nil end
 
     local cmd_tbl = {
-        ['']  = { 'sbcl', '--noinform', '--load', tbl.file, '--eval', '(exit)' },
+        ['']  = { 'sbcl', '--noinform', '--load', tbl.fnm, '--eval', '(exit)' },
         build = {
-            'sbcl', '--noinform', '--load', tbl.file, '--eval',
-            [[(sb-ext:save-lisp-and-die "]]..tbl.name..tbl.oute
+            'sbcl', '--noinform', '--load', tbl.fnm, '--eval',
+            [[(sb-ext:save-lisp-and-die "]]..tbl.bin
             ..[[" :toplevel (quote main) :executable t)]],
         },
     }
-    local cmd = cmd_tbl[tbl.optn]
+    local cmd = cmd_tbl[tbl.opt]
     if cmd then
         return nil, cmd
     else
@@ -148,14 +150,14 @@ local comp_cpp = function (tbl)
     local cc = cc_tbl[pub.ccomp]
     if cc then
         if not exists_exec(cc) then return nil, nil end
-        return cb_run_bin, { cc_tbl[pub.ccomp], tbl.file, '-o', tbl.name..tbl.oute }
+        return cb_run_bin, { cc_tbl[pub.ccomp], tbl.fnm, '-o', tbl.bin }
     else
         return false, nil
     end
 end
 
 local comp_csharp = function (tbl)
-    if vim.fn.has("win32") ~= 1 then return end
+    if not lib.has_win32() then return end
     local sln_root = lib.get_root("*.sln")
 
     if sln_root then
@@ -166,15 +168,15 @@ local comp_csharp = function (tbl)
     if not exists_exec('csc') then return nil, nil end
 
     local cmd_tbl = {
-        ['']    = { 'csc', tbl.file },
-        exe     = { 'csc', '/target:exe', tbl.file },
-        winexe  = { 'csc', '/target:winexe', tbl.file },
-        library = { 'csc', '/target:library', tbl.file },
-        module  = { 'csc', '/target:module', tbl.file },
+        ['']    = { 'csc', tbl.fnm },
+        exe     = { 'csc', '/target:exe', tbl.fnm },
+        winexe  = { 'csc', '/target:winexe', tbl.fnm },
+        library = { 'csc', '/target:library', tbl.fnm },
+        module  = { 'csc', '/target:module', tbl.fnm },
     }
-    local cmd = cmd_tbl[tbl.optn]
+    local cmd = cmd_tbl[tbl.opt]
     if cmd then
-        if tbl.optn == '' then
+        if tbl.opt == '' then
             return cb_run_bin, cmd
         else
             return nil, cmd
@@ -198,12 +200,12 @@ end
 
 local comp_python = function (tbl)
     if not exists_exec('python') then return nil, nil end
-    return nil, { 'python', tbl.file }
+    return nil, { 'python', tbl.fnm }
 end
 
 local comp_ruby = function (tbl)
     if not exists_exec('ruby') then return nil, nil end
-    return nil, { 'ruby', tbl.file }
+    return nil, { 'ruby', tbl.fnm }
 end
 
 local comp_rust = function (tbl)
@@ -213,11 +215,11 @@ local comp_rust = function (tbl)
         build = { 'cargo', 'build', '--release' },
         check = { 'cargo', 'check' },
         clean = { 'cargo', 'clean' },
-        rustc = { 'rustc', tbl.file },
+        rustc = { 'rustc', tbl.fnm },
     }
-    local cmd = cmd_tbl[tbl.optn]
+    local cmd = cmd_tbl[tbl.opt]
     if cmd then
-        if tbl.optn == 'rustc' then
+        if tbl.opt == 'rustc' then
             return cb_run_bin, cmd
         else
             return nil, cmd
@@ -231,10 +233,10 @@ end
 local comp_latex = function (tbl)
     latex_step = 1
     latex_name = vim.fn.expand('%:p:r')
-    if tbl.optn == '' then
+    if tbl.opt == '' then
         latex_xelatex_2()
-    elseif prog_table[tbl.optn] then
-        latex_xelatex_bib(tbl.optn)
+    elseif prog_table[tbl.opt] then
+        latex_xelatex_bib(tbl.opt)
     else
         lib.notify_err('Invalid argument.')
     end
@@ -261,15 +263,11 @@ local comp_table = {
 
 function M.run_or_compile(option)
     local tbl = {
-        --exec = vim.fn.has("win32") == 1 and '' or './',
-        --exts = string.lower(vim.fn.expand('%:e')),
-        --path = vim.fn.expand('%:p'),
-        file = vim.fn.expand('%:t'),
-        name = vim.fn.expand('%:r'),
-        bcwd = uv.cwd(),
-        fcwd = vim.fn.expand('%:p:h'),
-        optn = option,
-        oute = vim.fn.has("win32") == 1 and '.exe' or '',
+        bin = '_'..vim.fn.expand('%:t:r')..(lib.has_win32() and '.exe' or ''),
+        bwd = uv.cwd(),
+        fnm = vim.fn.expand('%:t'),
+        fwd = vim.fn.expand('%:p:h'),
+        opt = option,
     }
 
     if comp_table[vim.o.ft] then
@@ -278,18 +276,18 @@ function M.run_or_compile(option)
             lib.belowright_split(30)
             if term_cb then
                 vim.fn.termopen(term_cmd, {
-                    cwd = tbl.fcwd,
-                    on_exit = on_event(tbl, term_cb),
+                    cwd = tbl.fwd,
+                    on_exit = on_event(term_cb, tbl),
                 })
             else
                 vim.fn.termopen(term_cmd, {
-                    cwd = tbl.fcwd,
+                    cwd = tbl.fwd,
                 })
             end
         elseif type(term_cmd) == 'string' then
-            vim.api.nvim_set_current_dir(tbl.fcwd)
+            vim.api.nvim_set_current_dir(tbl.fwd)
             vim.cmd(term_cmd)
-            vim.api.nvim_set_current_dir(tbl.bcwd)
+            vim.api.nvim_set_current_dir(tbl.bwd)
         end
     else
         lib.notify_err("File type is not supported yet.")
