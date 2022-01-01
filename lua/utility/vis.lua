@@ -2,7 +2,7 @@ local M = {}
 local lib = require('utility.lib')
 
 
--- Extend highlight groups.
+---Extend highlight groups.
 function M.hi_extd()
     local set_hi = lib.set_highlight_group
     set_hi('SpellBad',                vim.g.terminal_color_1, nil, 'underline')
@@ -30,6 +30,7 @@ function M.hi_extd()
     set_hi('markdownTSURI',           vim.g.terminal_color_4, nil, nil)
 end
 
+---Show syntax information under the cursor.
 function M.show_hl_captures()
     local pos = vim.api.nvim_win_get_cursor(0)
     local lines = {}

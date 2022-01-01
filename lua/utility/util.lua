@@ -3,6 +3,9 @@ local lib = require('utility.lib')
 local pub = require('utility.pub')
 
 
+local lua_url_pat  = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
+local vim_path_pat = vim.regex('\\v(\\u:|\\.{1,2}|\\~)?[/\\\\]([^\\/*?"<>:|]+[/\\\\])*([^\\/*?"<>:|]*\\.\\w+)?')
+
 ---Open terminal and launch shell.
 function M.terminal()
     lib.belowright_split(15)
@@ -51,8 +54,7 @@ function M.match_path_or_url(str)
         ['ftp://'] = 0
     }
 
-    local url, prot, dom, colon, port, slash, path =
-    str:match'((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
+    local url, prot, dom, colon, port, slash, path = str:match(lua_url_pat)
 
     if (url and
         not (dom..'.'):find('%W%W') and
@@ -61,20 +63,20 @@ function M.match_path_or_url(str)
         return url
     end
 
-    local s, e = vim.regex'\\v(\\u:|\\.{1,2}|\\~)?[/\\\\]([^\\/*?"<>:|]+[/\\\\])*([^\\/*?"<>:|]*\\.\\w+)?':match_str(str)
+    local s, e = vim_path_pat:match_str(str)
     if s then return vim.fn.expand(vim.trim(str:sub(s + 1, e))) end
 end
 
 ---Open path or url with system default browser.
 ---@param obj string
 function M.open_path_or_url(obj)
-    local bcwd = vim.loop.cwd()
-    local fcwd = vim.fn.expand('%:p:h')
-    vim.api.nvim_set_current_dir(fcwd)
+    local bwd = vim.loop.cwd()
+    local fwd = vim.fn.expand('%:p:h')
+    vim.api.nvim_set_current_dir(fwd)
     if (not obj) or
         (vim.fn.glob(obj) == '' and not
-        obj:match'^%f[%w]%a+://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*$') then
-        vim.api.nvim_set_current_dir(bcwd)
+        obj:match(lua_url_pat)) then
+        vim.api.nvim_set_current_dir(bwd)
         return
     end
     local cmd
@@ -96,7 +98,7 @@ function M.open_path_or_url(obj)
     Handle = vim.loop.spawn(cmd, {
         args = args
     }, vim.schedule_wrap(function ()
-        vim.api.nvim_set_current_dir(bcwd)
+        vim.api.nvim_set_current_dir(bwd)
         Handle:close()
     end))
 end
