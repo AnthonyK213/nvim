@@ -61,7 +61,7 @@ if lsp_option.texlab then
 end
 --- omnisharp
 if lsp_option.omnisharp then
-    local pid = vim.fn.getpid()
+    local pid = vim.loop.getpid()
     lspconfig.omnisharp.setup {
         cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
         capabilities = capabilities,
