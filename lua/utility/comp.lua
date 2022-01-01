@@ -215,7 +215,7 @@ local comp_rust = function (tbl)
         build = { 'cargo', 'build', '--release' },
         check = { 'cargo', 'check' },
         clean = { 'cargo', 'clean' },
-        rustc = { 'rustc', tbl.fnm },
+        rustc = { 'rustc', tbl.fnm, '-o', tbl.bin },
     }
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
