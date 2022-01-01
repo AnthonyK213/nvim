@@ -60,7 +60,7 @@ endfunction
 " Get mode.
 " It is better to use just one character to show the mode.
 function! nanovim#util#mode()
-  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
+  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : ' _ '
 endfunction
 
 " Get file name.
@@ -70,7 +70,7 @@ function! nanovim#util#fname()
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
   
-  if empty(l:file_name)
+  if l:file_name->empty()
     return "[No Name]"
   endif
 
@@ -93,6 +93,7 @@ function! nanovim#util#fname()
     endif
     for l:d in l:path_list
       let l:dir = split(l:d, '\zs')
+      if l:dir->empty() | return "" | endif
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
       elseif len(l:dir) > 1
