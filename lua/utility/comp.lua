@@ -209,25 +209,26 @@ local comp_ruby = function (tbl)
 end
 
 local comp_rust = function (tbl)
-    if not exists_exec('rustc') then return nil, nil end
-    local cmd_tbl = {
-        ['']  = { 'cargo', 'run' },
-        build = { 'cargo', 'build', '--release' },
-        check = { 'cargo', 'check' },
-        clean = { 'cargo', 'clean' },
-        rustc = { 'rustc', tbl.fnm, '-o', tbl.bin },
-    }
-    local cmd = cmd_tbl[tbl.opt]
-    if cmd then
-        if tbl.opt == 'rustc' then
-            return cb_run_bin, cmd
-        else
+    if not exists_exec('cargo') then return nil, nil end
+    local cargo_root = lib.get_root('Cargo.toml')
+
+    if cargo_root then
+        local cmd_tbl = {
+            ['']  = { 'cargo', 'run' },
+            build = { 'cargo', 'build', '--release' },
+            check = { 'cargo', 'check' },
+            clean = { 'cargo', 'clean' },
+        }
+        local cmd = cmd_tbl[tbl.opt]
+        if cmd then
             return nil, cmd
+        else
+            lib.notify_err('Invalid argument.')
+            return nil, nil
         end
-    else
-        lib.notify_err('Invalid argument.')
-        return nil, nil
     end
+
+    return cb_run_bin, { 'rustc', tbl.fnm, '-o', tbl.bin }
 end
 
 local comp_latex = function (tbl)
