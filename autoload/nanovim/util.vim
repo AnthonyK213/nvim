@@ -4,6 +4,7 @@ let s:nanovim_mode = {
       \ 'ic'    : ' IC ',
       \ 'ix'    : ' IX ',
       \ 'n'     : ' NM ',
+      \ 'nt'    : ' TN ',
       \ 'multi' : ' MU ',
       \ 'niI'   : ' ĨN ',
       \ 'no'    : ' OP ',
@@ -129,7 +130,7 @@ function! nanovim#util#enter()
           \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#mode()}" .
           \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#mode():''}" .
           \ "%#Nano_Face_Header_Strong# %{nanovim#util#fname()}%<" .
-          \ "%#Nano_Face_Header_Default#  %{nanovim#util#misc_info()}" .
+          \ "%#Nano_Face_Header_Default#  %{&bt=='terminal'?'':nanovim#util#misc_info()}" .
           \ "%= %l:%c %#Nano_Face_Default# "
   endif
 endfunction
