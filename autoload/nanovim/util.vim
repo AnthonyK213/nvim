@@ -18,7 +18,7 @@ let s:nanovim_mode = {
       \ }
 let s:nanovim_short_ft = [
       \ 'NvimTree', 'help', 'netrw',
-      \ 'nerdtree', 'qf',
+      \ 'nerdtree', 'qf', 'aerial',
       \ '__GonvimMarkdownPreview__',
       \ ]
 
