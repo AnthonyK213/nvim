@@ -25,7 +25,8 @@ end
 local function git_push_async(b_arg)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
-    Handle_push = uv.spawn('git', {
+    local handle
+    handle, _ = uv.spawn('git', {
         args = {'push', 'origin', b_arg, '--porcelain'},
         stdio = {stdout, stderr}
     },
@@ -35,7 +36,7 @@ local function git_push_async(b_arg)
         stdout:close()
         stderr:close()
         print(table.concat(outputs, '  '))
-        Handle_push:close()
+        handle:close()
     end))
     outputs = {}
     stdout:read_start(vim.schedule_wrap(on_read))
@@ -43,22 +44,24 @@ local function git_push_async(b_arg)
 end
 
 local function git_commit_async(m_arg, b_arg)
-    Handle_commit = uv.spawn('git', {
+    local handle
+    handle, _ = uv.spawn('git', {
         args = {'commit', '-m', m_arg}
     },
     vim.schedule_wrap(function ()
         print("Commit message: "..m_arg)
-        Handle_commit:close()
+        handle:close()
         git_push_async(b_arg)
     end))
 end
 
 local function git_add_async(m_arg, b_arg)
-    Handle_add = uv.spawn('git', {
+    local handle
+    handle, _ = uv.spawn('git', {
         args = {'add', '*'}
     },
     vim.schedule_wrap(function ()
-        Handle_add:close()
+        handle:close()
         git_commit_async(m_arg, b_arg)
     end))
 end

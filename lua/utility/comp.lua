@@ -23,7 +23,8 @@ local latex_step
 local latex_name
 
 local function latex_xelatex(cb, cb_cb, cb_cb_cb)
-    Handle_latex = uv.spawn('xelatex', {
+    local handle
+    handle, _ = uv.spawn('xelatex', {
         args = {
             '-synctex=1',
             '-interaction=nonstopmode',
@@ -34,31 +35,33 @@ local function latex_xelatex(cb, cb_cb, cb_cb_cb)
     vim.schedule_wrap(function()
         print(latex_step.." -> Xelatex")
         latex_step = latex_step + 1
-        Handle_latex:close()
+        handle:close()
         if cb then cb(cb_cb, cb_cb_cb) end
     end))
 end
 
 local function latex_biber(cb, cb_cb)
-    Handle_biber = uv.spawn('biber', {
+    local handle
+    handle = uv.spawn('biber', {
         args = { latex_name..'.bcf' }
     },
     vim.schedule_wrap(function()
         print(latex_step.." -> Biber")
         latex_step = latex_step + 1
-        Handle_biber:close()
+        handle:close()
         if cb then cb(cb_cb) end
     end))
 end
 
 local function latex_bibtex(cb, cb_cb)
-    Handle_bibtex = uv.spawn('bibtex', {
+    local handle
+    handle, _ = uv.spawn('bibtex', {
         args = { latex_name..'.aux' }
     },
     vim.schedule_wrap(function()
         print(latex_step.." -> Bibtex")
         latex_step = latex_step + 1
-        Handle_bibtex:close()
+        handle:close()
         if cb then cb(cb_cb) end
     end))
 end

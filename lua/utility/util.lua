@@ -95,11 +95,12 @@ function M.open_path_or_url(obj)
         return
     end
     table.insert(args, obj)
-    Handle = vim.loop.spawn(cmd, {
+    local handle
+    handle, _ = vim.loop.spawn(cmd, {
         args = args
     }, vim.schedule_wrap(function ()
         vim.api.nvim_set_current_dir(bwd)
-        Handle:close()
+        handle:close()
     end))
 end
 
