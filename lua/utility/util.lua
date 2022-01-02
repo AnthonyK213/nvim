@@ -4,7 +4,7 @@ local pub = require('utility.pub')
 
 
 local lua_url_pat  = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
-local vim_path_pat = vim.regex('\\v(\\u:|\\.{1,2}|\\~)?[/\\\\]([^\\/*?"<>:|]+[/\\\\])*([^\\/*?"<>:|]*\\.\\w+)?')
+local vim_path_pat = vim.regex([[\v(\u:|\.{1,2}|\~)?[\/]([^\/*?"<>:|]+[\/])*([^\/*?"<>:|]*\.\w+)?]])
 
 ---Open terminal and launch shell.
 function M.terminal()
