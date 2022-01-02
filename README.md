@@ -12,11 +12,6 @@
     ```sh
     git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     ```
-* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
-  ```sh
-  pip install pynvim
-  pip install neovim-remote
-  ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) & [**fd**](https://github.com/sharkdp/fd) (For [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim))
   - `ripgrep` recursively searches directories for a regex pattern while respecting your gitignore.
   - `fd` is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to `find`.
@@ -278,6 +273,7 @@
 * **Miscellanea**
   - v:      <kbd>\*</kbd>    -> Search for the visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
+  - n:      <kbd>F5</kbd>    -> `:CodeRun`
 
 
 ## Commands
