@@ -15,7 +15,9 @@ end
 
 ---Show documents.
 function M.show_doc()
-    if vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
+    if not vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
+        vim.lsp.buf.hover()
+    elseif vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
         local cword = vim.fn.expand('<cword>')
         local ok, err = pcall(function () vim.cmd('h '..cword) end)
         if not ok then
@@ -23,8 +25,6 @@ function M.show_doc()
             if not msg then msg = 'No help for '..cword end
             lib.notify_err(msg)
         end
-    else
-        vim.lsp.buf.hover()
     end
 end
 
