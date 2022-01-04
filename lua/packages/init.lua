@@ -64,7 +64,6 @@ require('packer').startup(function(use)
             branch = 'dev',
             config = function() require('packages.vimwiki') end
         };
-        'sophacles/vim-processing';
         {
             'iamcco/markdown-preview.nvim',
             run = function() vim.fn['mkdp#util#install'](0) end,

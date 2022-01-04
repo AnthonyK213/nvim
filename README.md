@@ -140,7 +140,6 @@
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [vim-processing](https://github.com/sophacles/vim-processing)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
 * Snippet; Completion; LSP; TreeSitter

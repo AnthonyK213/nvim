@@ -24,6 +24,7 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
         \ 'c'    : "build\ncheck",
         \ 'cs'   : "exe\nwinexe\nlibrary\nmodule",
         \ 'lisp' : "build",
+        \ 'lua'  : "nojit",
         \ 'rust' : "build\nclean\ncheck",
         \ 'tex'  : "biber\nbibtex",
         \ }

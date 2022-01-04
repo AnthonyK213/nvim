@@ -14,7 +14,7 @@ local pub = require('utility.pub')
 --   7. Ruby
 --   8. Rust
 --   9. Vim script
---   10. Lua (Neovim)
+--   10. Lua
 --   11. LaTeX
 
 
@@ -190,15 +190,34 @@ local comp_csharp = function (tbl)
     end
 end
 
-local comp_lua = function (_)
-    return nil, 'luafile %'
+local comp_lua = function (tbl)
+    if tbl.opt == '' then
+        return nil, 'luafile %'
+    elseif tbl.opt == 'nojit' then
+        if not exists_exec('lua') then return nil, nil end
+        return nil, { 'lua', tbl.fnm }
+    else
+        lib.notify_err('Invalid arguments.')
+        return nil, nil
+    end
 end
 
-local comp_processing = function (_)
-    if vim.fn.exists(":RunProcessing") == 2 then
-        return nil, "RunProcessing"
+local comp_processing = function (tbl)
+    if not exists_exec('processing-java') then return nil, nil end
+    local output_dir
+    local sketch_name = vim.fn.expand('%:p:h:t')
+    if lib.has_win32() then
+        output_dir = vim.env.TEMP..'\\nvim_processing\\'..sketch_name
+    else
+        output_dir = '/tmp/nvim_processing/'..sketch_name
     end
-    return nil, nil
+    return nil, {
+        'processing-java',
+        '--sketch='..tbl.fwd,
+        '--output='..output_dir,
+        '--force',
+        '--run'
+    }
 end
 
 local comp_python = function (tbl)
@@ -252,12 +271,12 @@ local comp_vim = function (_)
 end
 
 local comp_table = {
+    arduino = comp_processing,
     c = comp_c,
     cpp = comp_cpp,
     cs = comp_csharp,
     lisp = comp_clisp,
     lua = comp_lua,
-    processing = comp_processing,
     python = comp_python,
     ruby = comp_ruby,
     rust = comp_rust,
