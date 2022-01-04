@@ -20,6 +20,15 @@ local function on_err(func, args)
     end
 end
 
+---Get the word around the cursor.
+local function get_word()
+    local b = lib.get_context('b')
+    local f = lib.get_context('f')
+    local p_a = b:match('([%w%d_-]+)$') or ''
+    local p_b = f:match('^([%w%d_-]+)') or ''
+    return p_a..p_b == '' and lib.get_context('n') or p_a..p_b
+end
+
 ---Open terminal and launch shell.
 function M.terminal()
     local exec
@@ -47,8 +56,7 @@ function M.show_doc()
     if not vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
         vim.lsp.buf.hover()
     elseif vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
-        local cword = vim.fn.expand('<cword>')
-        on_err(vim.cmd, { 'h '..cword })
+        on_err(vim.cmd, { 'h '..get_word() })
     end
 end
 
@@ -134,12 +142,7 @@ end
 function M.search_web(mode, site)
     local search_obj
     if mode == 'n' then
-        local del_list = {
-            ".", ",", "'", "\"",
-            ":", ";", "*", "~", "`",
-            "(", ")", "[", "]", "{", "}"
-        }
-        search_obj = lib.encode_url(lib.get_clean_cWORD(del_list))
+        search_obj = lib.encode_url(get_word())
     elseif mode == 'v' then
         search_obj = lib.encode_url(lib.get_visual_selection())
     end

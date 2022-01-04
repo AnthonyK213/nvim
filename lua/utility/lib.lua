@@ -1,26 +1,30 @@
 local M = {}
 
----Create a below right split window.
----@param height number Window height.
-function M.belowright_split(height)
-    local term_h = math.min(height,
-    math.floor(vim.api.nvim_win_get_height(0) * 0.382))
-    vim.cmd('belowright new')
-    vim.api.nvim_win_set_height(0, term_h)
-end
 
----Get the <cWORD> without the noisy characters.
----@param del_list table Strings to trim from both sides of <cWORD>.
----@return string result Trimmed <cWORD>.
-function M.get_clean_cWORD(del_list)
-    local c_word = M.str_explode(vim.fn.expand("<cWORD>"))
-    while vim.tbl_contains(del_list, c_word[#c_word]) and #c_word >= 2 do
-        table.remove(c_word, #c_word)
+local get_context_pat = {
+    p = { [[.\%]], [[c]] },
+    n = { [[\%]], [[c.]] },
+    b = { [[^.*\%]], 'c' },
+    f = { [[\%]], 'c.*$' }
+}
+
+---Get characters around the cursor by `mode`.
+---@param mode string Four modes to get the context.
+---  - *p* -> Return the character before cursor (previous);
+---  - *n* -> Return the character after cursor  (next);
+---  - *b* -> Return the half line before cursor (backward);
+---  - *f* -> Return the half line after cursor  (forward).
+---@return string context Characters around the cursor.
+function M.get_context(mode)
+    local pat = get_context_pat[mode]
+    local line = vim.api.nvim_get_current_line()
+    local s, e = vim.regex(
+    pat[1]..(vim.api.nvim_win_get_cursor(0)[2] + 1)..pat[2]):match_str(line)
+    if s then
+        return line:sub(s + 1, e)
+    else
+        return ""
     end
-    while vim.tbl_contains(del_list, c_word[1]) and #c_word >= 2 do
-        table.remove(c_word, 1)
-    end
-    return table.concat(c_word)
 end
 
 ---Find the root directory contains pattern `pat`.
@@ -60,30 +64,14 @@ function M.get_git_branch(git_root)
     end
 end
 
-local get_context_pat = {
-    p = { [[.\%]], [[c]] },
-    n = { [[\%]], [[c.]] },
-    b = { [[^.*\%]], 'c' },
-    f = { [[\%]], 'c.*$' }
-}
-
----Get characters around the cursor by `mode`.
----@param mode string Four modes to get the context.
----  - *p* -> Return the character before cursor (previous);
----  - *n* -> Return the character after cursor  (next);
----  - *b* -> Return the half line before cursor (backward);
----  - *f* -> Return the half line after cursor  (forward).
----@return string context Characters around the cursor.
-function M.get_context(mode)
-    local pat = get_context_pat[mode]
-    local line = vim.api.nvim_get_current_line()
-    local s, e = vim.regex(
-    pat[1]..(vim.api.nvim_win_get_cursor(0)[2] + 1)..pat[2]):match_str(line)
-    if s then
-        return line:sub(s + 1, e)
-    else
-        return ""
-    end
+---Get the visual selections.
+---@return string result Visual selection.
+function M.get_visual_selection()
+    local a_bak = vim.fn.getreg('a', 1)
+    vim.cmd('silent normal! gv"ay')
+    local a_val = vim.fn.getreg('a')
+    vim.fn.setreg('a', a_bak)
+    return a_val
 end
 
 ---Replace chars in a string according to a dictionary.
@@ -122,23 +110,6 @@ function M.str_explode(str)
     return result
 end
 
----Escape vim regex(magic) special characters in a string by `backslash`.
----@param str string String of vim regex to escape.
----@return string result Escaped vim regex.
-function M.vim_reg_esc(str)
-    return vim.fn.escape(str, ' ()[]{}<>.+*^$')
-end
-
----Get the visual selections.
----@return string result Visual selection.
-function M.get_visual_selection()
-    local a_bak = vim.fn.getreg('a', 1)
-    vim.cmd('silent normal! gv"ay')
-    local a_val = vim.fn.getreg('a')
-    vim.fn.setreg('a', a_bak)
-    return a_val
-end
-
 ---Reverse a ipairs table.
 ---@param tbl table Table to reverse.
 ---@return table result Reversed table.
@@ -172,6 +143,13 @@ function M.set_highlight_group(group, fg, bg, attr)
     if bg   then cmd = cmd.." guibg="..bg end
     if attr then cmd = cmd.." gui="..attr end
     vim.cmd(cmd)
+end
+
+---Escape vim regex(magic) special characters in a string by `backslash`.
+---@param str string String of vim regex to escape.
+---@return string result Escaped vim regex.
+function M.vim_reg_esc(str)
+    return vim.fn.escape(str, ' ()[]{}<>.+*^$')
 end
 
 ---Source a vim file.
@@ -322,6 +300,15 @@ function M.get_treesitter_info(row, col)
         end
     end, true)
     return syntax_table
+end
+
+---Create a below right split window.
+---@param height number Window height.
+function M.belowright_split(height)
+    local term_h = math.min(height,
+    math.floor(vim.api.nvim_win_get_height(0) * 0.382))
+    vim.cmd('belowright new')
+    vim.api.nvim_win_set_height(0, term_h)
 end
 
 ---Notify the error message to neovim.
