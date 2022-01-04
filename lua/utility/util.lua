@@ -6,11 +6,40 @@ local pub = require('utility.pub')
 local lua_url_pat  = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
 local vim_path_pat = vim.regex([[\v(\u:|\.{1,2}|\~)?[\/]([^\/*?"<>:|]+[\/])*([^\/*?"<>:|]*\.\w+)?]])
 
+
+---Use `pcall()` to catch error and display it.
+---@param func function The function to test.
+---@param args table Function arguments as a table.
+local function on_err(func, args)
+    local ok, err = pcall(function ()
+        func(unpack(args))
+    end)
+    if not ok then
+        local msg = err:match('(E%d+:%s.+)$')
+        lib.notify_err(msg and msg or "Error occured!")
+    end
+end
+
 ---Open terminal and launch shell.
 function M.terminal()
+    local exec
+    if type(pub.shell) == "table" and #(pub.shell) > 0 then
+        exec = pub.shell[1]
+    elseif type(pub.shell) == "string" then
+        exec = pub.shell
+    else
+        lib.notify_err("The shell is invalid, please check `opt.lua`.")
+        return
+    end
+
+    if vim.fn.executable(exec) ~= 1 then
+        lib.notify_err(exec.." is not a valid shell.")
+        return
+    end
+
     lib.belowright_split(15)
     vim.api.nvim_win_set_option(0, 'number', false)
-    vim.fn.termopen({pub.shell})
+    vim.fn.termopen(vim.tbl_flatten({pub.shell}))
 end
 
 ---Show documents.
@@ -19,12 +48,7 @@ function M.show_doc()
         vim.lsp.buf.hover()
     elseif vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
         local cword = vim.fn.expand('<cword>')
-        local ok, err = pcall(function () vim.cmd('h '..cword) end)
-        if not ok then
-            local msg = err:match('(E%d+:%s.+)$')
-            if not msg then msg = 'No help for '..cword end
-            lib.notify_err(msg)
-        end
+        on_err(vim.cmd, { 'h '..cword })
     end
 end
 
