@@ -24,8 +24,10 @@ end
 local function get_word()
     local b = lib.get_context('b')
     local f = lib.get_context('f')
-    local p_a = b:match('([%w%d_-]+)$') or ''
-    local p_b = f:match('^([%w%d_-]+)') or ''
+    local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
+    local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
+    local p_a = s_a and b:sub(s_a + 1) or ''
+    local p_b = e_b and f:sub(1, e_b) or ''
     return p_a..p_b == '' and lib.get_context('n') or p_a..p_b
 end
 
