@@ -240,6 +240,7 @@ local comp_rust = function (tbl)
             build = { 'cargo', 'build', '--release' },
             check = { 'cargo', 'check' },
             clean = { 'cargo', 'clean' },
+            test  = { 'cargo', 'test' }
         }
         local cmd = cmd_tbl[tbl.opt]
         if cmd then

@@ -25,7 +25,7 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
         \ 'cs'   : "exe\nwinexe\nlibrary\nmodule",
         \ 'lisp' : "build",
         \ 'lua'  : "nojit",
-        \ 'rust' : "build\nclean\ncheck",
+        \ 'rust' : "build\ncheck\nclean\ntest",
         \ 'tex'  : "biber\nbibtex",
         \ }
   if has_key(l:option_table, &filetype)
