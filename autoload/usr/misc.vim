@@ -22,7 +22,7 @@ endfunction
 function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
-        \ 'cs'   : "exe\nwinexe\nlibrary\nmodule",
+        \ 'cs'   : "lib\nmod\nwin",
         \ 'lisp' : "build",
         \ 'lua'  : "nojit",
         \ 'rust' : "build\ncheck\nclean\ntest",

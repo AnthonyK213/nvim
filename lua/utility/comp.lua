@@ -171,11 +171,10 @@ local comp_csharp = function (tbl)
     if not exists_exec('csc') then return nil, nil end
 
     local cmd_tbl = {
-        ['']    = { 'csc', tbl.fnm },
-        exe     = { 'csc', '/target:exe', tbl.fnm },
-        winexe  = { 'csc', '/target:winexe', tbl.fnm },
-        library = { 'csc', '/target:library', tbl.fnm },
-        module  = { 'csc', '/target:module', tbl.fnm },
+        [''] = { 'csc', '/target:exe', tbl.fnm, '/out:'..tbl.bin },
+        lib  = { 'csc', '/target:library', tbl.fnm },
+        mod  = { 'csc', '/target:module', tbl.fnm },
+        win  = { 'csc', '/target:winexe', tbl.fnm },
     }
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
