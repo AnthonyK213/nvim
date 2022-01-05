@@ -3,6 +3,7 @@ local ntst = { noremap = true, silent = true }
 
 require'aerial'.setup {
     backends = { "lsp", "treesitter", "markdown" },
+    close_behavior = 'close',
     manage_folds = false,
     on_attach = function (bufnr)
         keymap(bufnr, 'n', '<leader>mv', '<Cmd>AerialToggle!<CR>', ntst)
