@@ -160,7 +160,7 @@ local comp_cpp = function (tbl)
 end
 
 local comp_csharp = function (tbl)
-    if not lib.has_win32() then return end
+    if not lib.has_windows() then return end
     local sln_root = lib.get_root("*.sln")
 
     if sln_root then
@@ -205,7 +205,7 @@ local comp_processing = function (tbl)
     if not exists_exec('processing-java') then return nil, nil end
     local output_dir
     local sketch_name = vim.fn.expand('%:p:h:t')
-    if lib.has_win32() then
+    if lib.has_windows() then
         output_dir = vim.env.TEMP..'\\nvim_processing\\'..sketch_name
     else
         output_dir = '/tmp/nvim_processing/'..sketch_name
@@ -286,7 +286,7 @@ local comp_table = {
 
 function M.run_or_compile(option)
     local tbl = {
-        bin = '_'..vim.fn.expand('%:t:r')..(lib.has_win32() and '.exe' or ''),
+        bin = '_'..vim.fn.expand('%:t:r')..(lib.has_windows() and '.exe' or ''),
         bwd = uv.cwd(),
         fnm = vim.fn.expand('%:t'),
         fwd = vim.fn.expand('%:p:h'),

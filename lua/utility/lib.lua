@@ -47,10 +47,10 @@ end
 ---@param git_root string Git repository root directory.
 ---@return string|nil result Current branch name.
 function M.get_git_branch(git_root)
-    if not git_root then return false end
+    if not git_root then return nil end
 
     local content, branch
-    if vim.fn.glob(git_root..'/.git/HEAD', 1) ~= '' then
+    if M.file_exists(git_root..'/.git/HEAD') then
         content = vim.fn.readfile(git_root..'/.git/HEAD')
     else
         return nil
@@ -311,16 +311,24 @@ function M.belowright_split(height)
     vim.api.nvim_win_set_height(0, term_h)
 end
 
----Notify the error message to neovim.
----@param err string Error message.
-function M.notify_err(err)
-    vim.notify(err, vim.log.levels.ERROR, nil)
+---Check if file/directory exists.
+---@param path string File/directory path.
+---@return boolean
+function M.file_exists(path)
+    local stat = vim.loop.fs_stat(path)
+    return (stat and stat.type) or false
 end
 
 ---Check if os is `Windows`.
 ---@return boolean result
-function M.has_win32()
-    return vim.fn.has('win32') == 1
+function M.has_windows()
+    return vim.loop.os_uname().sysname == 'Windows_NT'
+end
+
+---Notify the error message to neovim.
+---@param err string Error message.
+function M.notify_err(err)
+    vim.notify(err, vim.log.levels.ERROR, nil)
 end
 
 
