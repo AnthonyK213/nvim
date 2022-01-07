@@ -24,7 +24,7 @@ local latex_name
 
 local function latex_xelatex(cb, cb_cb, cb_cb_cb)
     local handle
-    handle, _ = uv.spawn('xelatex', {
+    handle = uv.spawn('xelatex', {
         args = {
             '-synctex=1',
             '-interaction=nonstopmode',
@@ -55,7 +55,7 @@ end
 
 local function latex_bibtex(cb, cb_cb)
     local handle
-    handle, _ = uv.spawn('bibtex', {
+    handle = uv.spawn('bibtex', {
         args = { latex_name..'.aux' }
     },
     vim.schedule_wrap(function()
