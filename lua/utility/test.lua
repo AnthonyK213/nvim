@@ -1,16 +1,25 @@
 local M = {}
 
 
----Performance test.
+---Performance test for a function.
 ---@param label string Label of the test.
 ---@param f function Function to test.
 ---@param ... any Arguments for `f`.
 function M.p(label, f, ...)
     local s = os.clock()
-    local result = f(...)
+    local result_table = { f(...) }
     local e = os.clock()
-    print(string.format("test_%s: { duration: %f, result: %s }",
-    label, e - s, vim.inspect(result)))
+    local result
+    if #result_table == 0 then
+        result = 'None'
+    elseif #result_table == 1 then
+        result = vim.inspect(result_table[1])
+    else
+        result = vim.inspect(result_table)
+        result = "[\n    "..result:sub(2, #result - 1).."\n  ]"
+    end
+    print(string.format("test_%s: {\n  duration: %f,\n  result: %s\n}",
+    label, e - s, result))
 end
 
 ---Reload module.
