@@ -90,21 +90,10 @@ function M.srd_add(mode, ...)
     local pair_b = srd_pair(pair_a)
 
     if mode == 'n' then
-        local origin = api.nvim_win_get_cursor(0)
-        if (lib.get_context('f'):match('^.%s') or
-            lib.get_context('f'):match('^.$')) then
-            vim.cmd('normal! a'..pair_b)
-        else
-            vim.cmd('normal! Ea'..pair_b)
-        end
-        api.nvim_win_set_cursor(0, origin)
-        if (lib.get_context('p'):match('%s') or
-            lib.get_context('b'):match('^$')) then
-            vim.cmd('normal! i'..pair_a)
-        else
-            vim.cmd('normal! Bi'..pair_a)
-        end
-        api.nvim_win_set_cursor(0, origin)
+        local word, s, e = lib.get_word()
+        local line = api.nvim_get_current_line()
+        local line_new = line:sub(1, s)..pair_a..word..pair_b..line:sub(e + 1)
+        api.nvim_set_current_line(line_new)
     elseif mode == 'v' then
         local stt_pos = api.nvim_buf_get_mark(0, "<")
         local end_pos = api.nvim_buf_get_mark(0, ">")

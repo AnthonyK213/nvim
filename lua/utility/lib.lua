@@ -74,6 +74,29 @@ function M.get_visual_selection()
     return a_val
 end
 
+---Get the word around the cursor.
+---@return string word Word under the cursor.
+---@return integer start Start index of the line (0-based, included).
+---@return integer end End index of the line (0-based, not included).
+function M.get_word()
+    local b = M.get_context('b')
+    local f = M.get_context('f')
+    local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
+    local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
+    local p_a = ''
+    local p_b = ''
+    if e_b then
+        p_a = s_a and b:sub(s_a + 1) or ''
+        p_b = f:sub(1, e_b)
+    end
+    local word = p_a..p_b
+    if word == '' then
+        word = M.get_context('n')
+        p_b = word
+    end
+    return word, #b - #p_a, #b + #p_b
+end
+
 ---Replace chars in a string according to a dictionary.
 ---@param str string String to replace.
 ---@param esc_table table Replace dictionary.
