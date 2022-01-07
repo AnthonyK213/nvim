@@ -107,7 +107,8 @@ function M.open_path_or_url(obj)
     local bwd = vim.loop.cwd()
     local fwd = vim.fn.expand('%:p:h')
     vim.api.nvim_set_current_dir(fwd)
-    if not (obj or lib.file_exists(obj) or obj:match(lua_url_pat)) then
+    if type(obj) ~= "string"
+        or not (lib.file_exists(obj) or obj:match(lua_url_pat)) then
         vim.api.nvim_set_current_dir(bwd)
         return
     end
