@@ -178,13 +178,7 @@ end
 ---Source a vim file.
 ---@param file string Vim script path.
 function M.vim_source(file)
-    local init_viml_path
-    if vim.fn.has("win32") == 1 then
-        init_viml_path = vim.fn.expand("$LOCALAPPDATA/nvim/")
-    elseif vim.fn.has("unix") == 1 then
-        init_viml_path = vim.fn.expand('$HOME/.config/nvim/')
-    end
-    vim.cmd('source '..init_viml_path..file..'.vim')
+    vim.cmd('source '..vim.fn.stdpath('config')..'/'..file..'.vim')
 end
 
 ---Encode URL.
@@ -352,6 +346,15 @@ end
 ---@param err string Error message.
 function M.notify_err(err)
     vim.notify(err, vim.log.levels.ERROR, nil)
+end
+
+---Check if executable exists.
+---@param exe string Executable name.
+---@return boolean
+function M.executable(exe)
+    if vim.fn.executable(exe) == 1 then return true end
+    M.notify_err('Executable '..exe..' is not found.')
+    return false
 end
 
 

@@ -6,8 +6,8 @@ vim.cmd('command! PDF lua require("utility.util").open_path_or_url(vim.fn.expand
 vim.cmd('command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun lua require("utility.comp").run_or_compile(<q-args>)')
 -- Git push all
 vim.cmd('command! -nargs=* PushAll lua require("utility.vcs").git_push_all(<f-args>)')
--- Neovim nightly upgrade.
-vim.cmd('command! -nargs=* NightlyUpgrade call usr#misc#nvim_nightly_upgrade(<f-args>)')
+-- Neovim upgrade.
+vim.cmd('command! -nargs=* -complete=custom,usr#misc#nvim_upgrade_option NvimUpgrade lua require("utility.util").nvim_upgrade(<f-args>)')
 -- Open ssh configuration.
 vim.cmd('command! SshConfig lua require("utility.util").edit_file("$HOME/.ssh/config", false)')
 -- Scroll off

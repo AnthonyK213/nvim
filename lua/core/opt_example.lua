@@ -3,6 +3,7 @@ return {
         --sh = 'zsh',
         --cc = 'clang',
         --py3 = '/usr/bin/python3',
+        --proxy = nil,
     },
     path = {
         home = nil,

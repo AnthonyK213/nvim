@@ -18,7 +18,7 @@ function! usr#misc#mouse_toggle()
   endif
 endfunction
 
-" Run code complete option list.
+" `CodeRun` complete option list.
 function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
@@ -33,6 +33,11 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   else
     return ''
   endif
+endfunction
+
+" `NvimUpgrade` complete option list.
+function! usr#misc#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
+  return "stable\nnightly"
 endfunction
 
 " Show table of contents.
@@ -85,21 +90,4 @@ lua << EOF
   require("utility.util").edit_file(myvimrc_dir.."/lua/core/opt.lua", false)
   vim.api.nvim_set_current_dir(myvimrc_dir)
 EOF
-endfunction
-
-" Neovim nightly update.
-function! usr#misc#nvim_nightly_upgrade(...)
-  let l:proxy_args = a:0 == 0 ? "" : a:1
-  let l:script_name = "nvim_nightly_upgrade"
-  if has('win32')
-    let l:cmd = expand("$LOCALAPPDATA") . '/nvim/shell/' .
-          \ l:script_name . '_win.ps1 -proxy ' . l:proxy_args
-    lua require('utility.lib').belowright_split(30)
-    exe 'term powershell' l:cmd
-  elseif has('unix')
-    let l:cmd = expand("$HOME/.config") . '/nvim/shell/' .
-          \ l:script_name . '_linux.sh ' . l:proxy_args
-    lua require('utility.lib').belowright_split(30)
-    exe 'term bash' l:cmd
-  endif
 endfunction

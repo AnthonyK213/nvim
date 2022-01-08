@@ -1,6 +1,7 @@
 local M = {}
 local lib = require('utility.lib')
 local pub = require('utility.pub')
+local core_opt = require('core.opt')
 
 
 local lua_url_pat  = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
@@ -140,6 +141,108 @@ function M.search_web(mode, site)
     end
 
     M.open_path_or_url(site..search_obj)
+end
+
+---Upgrade neovim.
+---@param channel string|nil Upgrade channel, "stable" or "nightly".
+function M.nvim_upgrade(channel)
+    local proxy = core_opt.dep.proxy
+
+    channel = channel or 'stable'
+    if channel ~= "stable" and channel ~= "nightly" then
+        lib.notify_err('Invalid neovim release channel.')
+        return
+    end
+
+    local Path = require('plenary.path')
+    local archive
+    if lib.has_windows() then
+        archive = 'nvim-win64.zip'
+    elseif vim.fn.has("unix") == 1 then
+        archive = 'nvim-linux64.tar.gz'
+    else
+        return
+    end
+
+    local nvim_path = Path:new(vim.loop.exepath()):parent():parent()
+    local bin_path = nvim_path:parent()
+    local archive_path = bin_path:joinpath(archive)
+    local backup_path = bin_path:joinpath('nvim_bak')
+    local source = 'https://github.com/neovim/neovim/releases/download/'
+    ..channel..'/'..archive
+
+    if not backup_path:exists() then backup_path:mkdir() end
+
+    if nvim_path:exists() then
+        local time_stamp = os.date('%y%m%d%H%M%S_')
+        local version = vim.api.nvim_exec('version', true)
+        local tag, build = version:match('NVIM%sv([%d.]+)(.-)\n')
+        local index = build:match('^%-dev%+(%d+)%-.+$')
+        local name = time_stamp..tag..(index and '_dev'..index or '')
+        nvim_path:copy {
+            recursive = true,
+            override = true,
+            destination = backup_path:joinpath(name).filename
+        }
+        nvim_path:rm {
+            recursive = true,
+        }
+    end
+
+    local extract = function ()
+        local ex_handle
+        ex_handle = vim.loop.spawn('tar', {
+            args = {
+                '-xf', archive_path.filename,
+                '-C', bin_path.filename
+            }
+        }, vim.schedule_wrap(function ()
+            if not nvim_path:exists() then
+                bin_path:joinpath(archive:match('^(.-)%..+$')):rename {
+                    new_name = nvim_path.filename
+                }
+            end
+            archive_path:rm()
+            print("Neovim has been upgrade to "..channel.." channel.")
+            ex_handle:close()
+        end))
+
+    end
+
+    local use_proxy = type(proxy) == "string"
+
+    local dl_handle, dl_exec, dl_args
+    if lib.has_windows() then
+        dl_exec = "Invoke-WebRequest"
+        dl_args = use_proxy and {
+            '-Uri', source,
+            '-OutFile', archive_path.filename,
+            '-Proxy', proxy,
+        } or {
+            '-Uri', source,
+            '-OutFile', archive_path.filename,
+        }
+    elseif vim.fn.has("unix") == 1 then
+        if not lib.executable('curl') then return end
+        dl_exec = "curl"
+        dl_args = use_proxy and {
+            '-L', source,
+            '-o', archive_path.filename,
+            '-x', proxy
+        } or {
+            '-L', source,
+            '-o', archive_path.filename,
+        }
+    else
+        lib.notify_err('Unsupported OS.')
+    end
+
+    dl_handle = vim.loop.spawn(dl_exec, {
+        args = dl_args
+    }, vim.schedule_wrap(function ()
+        extract()
+        dl_handle:close()
+    end))
 end
 
 

@@ -1,8 +1,4 @@
-if vim.fn.has('win32') == 1 then
-    vim.g.vsnip_snippet_dir = vim.fn.expand('$LOCALAPPDATA/nvim/snippet')
-elseif vim.fn.has('unix') == 1 then
-    vim.g.vsnip_snippet_dir = vim.fn.expand('$HOME/.config/nvim/snippet')
-end
+vim.g.vsnip_snippet_dir = vim.fn.stdpath('config')..'/snippet'
 
 local cmp = require('cmp')
 local lib = require('utility.lib')

@@ -82,12 +82,6 @@ local function latex_xelatex_bib(prog)
     end
 end
 
-local function exists_exec(exe)
-    if vim.fn.executable(exe) == 1 then return true end
-    lib.notify_err('Executable '..exe..' is not found.')
-    return false
-end
-
 local function on_event(cb, arg_tbl)
     return function (...)
         cb(arg_tbl, {...})
@@ -104,7 +98,7 @@ local function cb_run_bin(arg_tbl, cb_args)
 end
 
 local comp_c = function (tbl)
-    if not exists_exec(pub.ccomp) then return nil, nil end
+    if not lib.executable(pub.ccomp) then return nil, nil end
 
     local cmd_tbl = {
         ['']  = { pub.ccomp, tbl.fnm, '-o', tbl.bin },
@@ -125,7 +119,7 @@ local comp_c = function (tbl)
 end
 
 local comp_clisp = function (tbl)
-    if not exists_exec('sbcl') then return nil, nil end
+    if not lib.executable('sbcl') then return nil, nil end
 
     local cmd_tbl = {
         ['']  = { 'sbcl', '--noinform', '--load', tbl.fnm, '--eval', '(exit)' },
@@ -152,7 +146,7 @@ local comp_cpp = function (tbl)
 
     local cc = cc_tbl[pub.ccomp]
     if cc then
-        if not exists_exec(cc) then return nil, nil end
+        if not lib.executable(cc) then return nil, nil end
         return cb_run_bin, { cc_tbl[pub.ccomp], tbl.fnm, '-o', tbl.bin }
     else
         return false, nil
@@ -164,11 +158,11 @@ local comp_csharp = function (tbl)
     local sln_root = lib.get_root("*.sln")
 
     if sln_root then
-        if not exists_exec('MSBuild') then return nil, nil end
+        if not lib.executable('MSBuild') then return nil, nil end
         return nil, { 'MSBuild.exe', sln_root }
     end
 
-    if not exists_exec('csc') then return nil, nil end
+    if not lib.executable('csc') then return nil, nil end
 
     local cmd_tbl = {
         [''] = { 'csc', '/target:exe', tbl.fnm, '/out:'..tbl.bin },
@@ -193,7 +187,7 @@ local comp_lua = function (tbl)
     if tbl.opt == '' then
         return nil, 'luafile %'
     elseif tbl.opt == 'nojit' then
-        if not exists_exec('lua') then return nil, nil end
+        if not lib.executable('lua') then return nil, nil end
         return nil, { 'lua', tbl.fnm }
     else
         lib.notify_err('Invalid arguments.')
@@ -202,7 +196,7 @@ local comp_lua = function (tbl)
 end
 
 local comp_processing = function (tbl)
-    if not exists_exec('processing-java') then return nil, nil end
+    if not lib.executable('processing-java') then return nil, nil end
     local output_dir
     local sketch_name = vim.fn.expand('%:p:h:t')
     if lib.has_windows() then
@@ -220,17 +214,17 @@ local comp_processing = function (tbl)
 end
 
 local comp_python = function (tbl)
-    if not exists_exec('python') then return nil, nil end
+    if not lib.executable('python') then return nil, nil end
     return nil, { 'python', tbl.fnm }
 end
 
 local comp_ruby = function (tbl)
-    if not exists_exec('ruby') then return nil, nil end
+    if not lib.executable('ruby') then return nil, nil end
     return nil, { 'ruby', tbl.fnm }
 end
 
 local comp_rust = function (tbl)
-    if not exists_exec('cargo') then return nil, nil end
+    if not lib.executable('cargo') then return nil, nil end
     local cargo_root = lib.get_root('Cargo.toml')
 
     if cargo_root then
