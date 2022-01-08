@@ -50,7 +50,7 @@ function M.get_git_branch(git_root)
     if not git_root then return nil end
 
     local content, branch
-    if M.file_exists(git_root..'/.git/HEAD') then
+    if M.path_exists(git_root..'/.git/HEAD') then
         content = vim.fn.readfile(git_root..'/.git/HEAD')
     else
         return nil
@@ -330,8 +330,20 @@ end
 
 ---Check if file/directory exists.
 ---@param path string File/directory path.
+---@param cwd string|nil The working directory.
 ---@return boolean
-function M.file_exists(path)
+function M.path_exists(path, cwd)
+    local is_rel = true
+    if M.has_windows() then
+        if path:match('^%a:[\\/]') then is_rel = false end
+    else
+        if path:match('^/') then is_rel = false end
+    end
+    if is_rel then
+        cwd = cwd or vim.loop.cwd()
+        cwd = cwd:gsub('[\\/]$', '')
+        path = cwd..'/'..path
+    end
     local stat = vim.loop.fs_stat(path)
     return (stat and stat.type) or false
 end

@@ -89,7 +89,14 @@ function M.match_path_or_url(str)
     end
 
     local s, e = vim_path_pat:match_str(str)
-    if s then return vim.fn.expand(vim.trim(str:sub(s + 1, e))) end
+    if s then
+        local sys_path = vim.trim(str:sub(s + 1, e))
+        if lib.path_exists(sys_path, vim.fn.expand('%:p:h')) then
+            return sys_path
+        end
+    end
+
+    return nil
 end
 
 ---Open path or url with system default browser.
@@ -99,7 +106,7 @@ function M.open_path_or_url(obj)
     local fwd = vim.fn.expand('%:p:h')
     vim.api.nvim_set_current_dir(fwd)
     if type(obj) ~= "string"
-        or not (lib.file_exists(obj) or obj:match(lua_url_pat)) then
+        or not (lib.path_exists(obj) or obj:match(lua_url_pat)) then
         vim.api.nvim_set_current_dir(bwd)
         return
     end
@@ -235,6 +242,7 @@ function M.nvim_upgrade(channel)
         }
     else
         lib.notify_err('Unsupported OS.')
+        return
     end
 
     local extract = function ()
