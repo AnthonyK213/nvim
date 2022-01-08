@@ -184,43 +184,32 @@ function M.nvim_upgrade(channel)
             override = true,
             destination = backup_path:joinpath(name).filename
         }
-        nvim_path:rm {
-            recursive = true,
-        }
-    end
-
-    local extract = function ()
-        local ex_handle
-        ex_handle = vim.loop.spawn('tar', {
-            args = {
-                '-xf', archive_path.filename,
-                '-C', bin_path.filename
-            }
-        }, vim.schedule_wrap(function ()
-            if not nvim_path:exists() then
-                bin_path:joinpath(archive:match('^(.-)%..+$')):rename {
-                    new_name = nvim_path.filename
-                }
-            end
-            archive_path:rm()
-            print("Neovim has been upgrade to "..channel.." channel.")
-            ex_handle:close()
-        end))
-
+        nvim_path:rm { recursive = true }
     end
 
     local use_proxy = type(proxy) == "string"
 
-    local dl_handle, dl_exec, dl_args
+    local dl_handle, dl_exec, dl_args, ex_exec, ex_args
     if lib.has_windows() then
-        dl_exec = "Invoke-WebRequest"
+        dl_exec = "powershell.exe"
         dl_args = use_proxy and {
-            '-Uri', source,
-            '-OutFile', archive_path.filename,
-            '-Proxy', proxy,
+            '-c',
+            'Invoke-WebRequest'
+            ..' -Uri '..source
+            ..' -OutFile '..archive_path.filename
+            ..' -Proxy '..proxy
         } or {
-            '-Uri', source,
-            '-OutFile', archive_path.filename,
+            '-c',
+            'Invoke-WebRequest'
+            ..' -Uri '..source
+            ..' -OutFile '..archive_path.filename
+        }
+        ex_exec = "powershell.exe"
+        ex_args = {
+            '-c',
+            'Expand-Archive'
+            ..' -Path '..archive_path.filename
+            ..' -DestinationPath '..bin_path.filename
         }
     elseif vim.fn.has("unix") == 1 then
         if not lib.executable('curl') then return end
@@ -233,13 +222,36 @@ function M.nvim_upgrade(channel)
             '-L', source,
             '-o', archive_path.filename,
         }
+        ex_exec = "tar"
+        ex_args = {
+            '-xf', archive_path.filename,
+            '-C', bin_path.filename
+        }
     else
         lib.notify_err('Unsupported OS.')
     end
 
+    local extract = function ()
+        local ex_handle
+        ex_handle = vim.loop.spawn(ex_exec, {
+            args = ex_args
+        }, vim.schedule_wrap(function ()
+            if not nvim_path:exists() then
+                bin_path:joinpath(archive:match('^(.-)%..+$')):rename {
+                    new_name = nvim_path.filename
+                }
+            end
+            archive_path:rm()
+            print("Neovim has been upgrade to "..channel.." channel.")
+            ex_handle:close()
+        end))
+    end
+
+    print('Downloading...')
     dl_handle = vim.loop.spawn(dl_exec, {
         args = dl_args
     }, vim.schedule_wrap(function ()
+        print('Package downloaded. Installing...')
         extract()
         dl_handle:close()
     end))
