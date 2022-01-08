@@ -55,6 +55,18 @@ function! usr#misc#show_toc()
   endif
 endfunction
 
+" Source vim file.
+function! usr#misc#vim_source(file) abort
+  call v:lua.require('utility.lib').vim_source(a:file)
+endfunction
+
+" Open opt.lua.
+function! usr#misc#open_opt()
+  let l:cfg = stdpath("config")
+  call v:lua.require("utility.util").edit_file(l:cfg.."/lua/core/opt.lua", v:false)
+  call nvim_set_current_dir(l:cfg)
+endfunction
+
 " nvim-tree open file with os default application.
 function! usr#misc#nvim_tree_sys_open()
 lua << EOF
@@ -75,19 +87,5 @@ lua << EOF
     local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
     if vim.o.bg ~= bg then vim.o.bg = bg end
   end))
-EOF
-endfunction
-
-" Source vim file.
-function! usr#misc#vim_source(file) abort
-  call v:lua.require('utility.lib').vim_source(a:file)
-endfunction
-
-" Open opt.lua.
-function! usr#misc#open_opt()
-lua << EOF
-  local myvimrc_dir = vim.fn.fnamemodify(vim.fn.expand("$MYVIMRC"), ":p:h")
-  require("utility.util").edit_file(myvimrc_dir.."/lua/core/opt.lua", false)
-  vim.api.nvim_set_current_dir(myvimrc_dir)
 EOF
 endfunction
