@@ -148,8 +148,13 @@ end
 function M.nvim_upgrade(channel)
     local proxy = core_opt.dep.proxy
 
-    channel = channel or 'stable'
-    if channel ~= "stable" and channel ~= "nightly" then
+    local version = vim.api.nvim_exec('version', true)
+    local tag, build = version:match('NVIM%sv([%d.]+)(.-)\n')
+    local index = build:match('^%-dev%+(%d+)%-.+$')
+
+    if not channel then
+        channel = index and 'nightly' or 'stable'
+    elseif channel ~= "stable" and channel ~= "nightly" then
         lib.notify_err('Invalid neovim release channel.')
         return
     end
@@ -175,42 +180,38 @@ function M.nvim_upgrade(channel)
 
     if nvim_path:exists() then
         local time_stamp = os.date('%y%m%d%H%M%S_')
-        local version = vim.api.nvim_exec('version', true)
-        local tag, build = version:match('NVIM%sv([%d.]+)(.-)\n')
-        local index = build:match('^%-dev%+(%d+)%-.+$')
         local name = time_stamp..tag..(index and '_dev'..index or '')
         nvim_path:copy {
             recursive = true,
             override = true,
             destination = backup_path:joinpath(name).filename
         }
-        nvim_path:rm { recursive = true }
     end
 
     local use_proxy = type(proxy) == "string"
 
     local dl_handle, dl_exec, dl_args, ex_exec, ex_args
     if lib.has_windows() then
-        dl_exec = "powershell.exe"
-        dl_args = use_proxy and {
-            '-c',
-            'Invoke-WebRequest'
-            ..' -Uri '..source
-            ..' -OutFile '..archive_path.filename
-            ..' -Proxy '..proxy
-        } or {
-            '-c',
-            'Invoke-WebRequest'
-            ..' -Uri '..source
-            ..' -OutFile '..archive_path.filename
-        }
-        ex_exec = "powershell.exe"
-        ex_args = {
-            '-c',
-            'Expand-Archive'
-            ..' -Path '..archive_path.filename
-            ..' -DestinationPath '..bin_path.filename
-        }
+        local rm_cmd = 'Remove-Item'
+        ..' -Path '..nvim_path.filename
+        ..' -Recurse'
+
+        local dl_cmd = 'Invoke-WebRequest'
+        ..' -Uri '..source
+        ..' -OutFile '..archive_path.filename
+        if use_proxy then dl_cmd = dl_cmd..' -Proxy '..proxy end
+
+        local ex_cmd = 'Expand-Archive'
+        ..' -Path '..archive_path.filename
+        ..' -DestinationPath '..bin_path.filename
+
+        local cl_cmd = 'Remove-Item'
+        ..' -Path '..archive_path.filename
+
+        local pwsh_cmd = table.concat({ rm_cmd, dl_cmd, ex_cmd, cl_cmd }, ';')
+
+        vim.fn.jobstart({ 'powershell.exe', '-c', pwsh_cmd }, { detatch = true })
+        return
     elseif vim.fn.has("unix") == 1 then
         if not lib.executable('curl') then return end
         dl_exec = "curl"
@@ -236,11 +237,10 @@ function M.nvim_upgrade(channel)
         ex_handle = vim.loop.spawn(ex_exec, {
             args = ex_args
         }, vim.schedule_wrap(function ()
-            if not nvim_path:exists() then
-                bin_path:joinpath(archive:match('^(.-)%..+$')):rename {
-                    new_name = nvim_path.filename
-                }
-            end
+            nvim_path:rm { recursive = true }
+            bin_path:joinpath(archive:match('^(.-)%..+$')):rename {
+                new_name = nvim_path.filename
+            }
             archive_path:rm()
             print("Neovim has been upgrade to "..channel.." channel.")
             ex_handle:close()
