@@ -192,25 +192,30 @@ function M.nvim_upgrade(channel)
 
     local dl_handle, dl_exec, dl_args, ex_exec, ex_args
     if lib.has_windows() then
-        local rm_cmd = 'Remove-Item'
-        ..' -Path '..nvim_path.filename
-        ..' -Recurse'
-
         local dl_cmd = 'Invoke-WebRequest'
         ..' -Uri '..source
         ..' -OutFile '..archive_path.filename
         if use_proxy then dl_cmd = dl_cmd..' -Proxy '..proxy end
 
+        local rm_cmd = 'Remove-Item'
+        ..' -Path '..nvim_path.filename
+        ..' -Recurse'
+
         local ex_cmd = 'Expand-Archive'
         ..' -Path '..archive_path.filename
         ..' -DestinationPath '..bin_path.filename
 
+        local rn_cmd = 'Rename-Item'
+        ..' -Path '..bin_path:joinpath('Neovim').filename
+        ..' -NewName '..nvim_path.filename
+
         local cl_cmd = 'Remove-Item'
         ..' -Path '..archive_path.filename
 
-        local pwsh_cmd = table.concat({ rm_cmd, dl_cmd, ex_cmd, cl_cmd }, ';')
+        local pwsh_cmd = table.concat({ dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd }, ';')
 
-        vim.fn.jobstart({ 'powershell.exe', '-c', pwsh_cmd }, { detatch = true })
+        vim.fn.jobstart('powershell.exe -c '..pwsh_cmd, { detach = true })
+        vim.cmd('xa!')
         return
     elseif vim.fn.has("unix") == 1 then
         if not lib.executable('curl') then return end
