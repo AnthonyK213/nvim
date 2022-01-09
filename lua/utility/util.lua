@@ -198,7 +198,9 @@ function M.nvim_upgrade(channel)
         local cl_cmd = 'Remove-Item'
         ..' -Path '..archive_path.filename
 
-        local pwsh_cmd = table.concat({ dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd }, ';')
+        local pwsh_cmd = table.concat({
+            dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd
+        }, ';')
 
         vim.fn.jobstart('powershell.exe -c '..pwsh_cmd, { detach = true })
         vim.cmd('xa!')
