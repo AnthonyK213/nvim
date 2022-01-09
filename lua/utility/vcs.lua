@@ -86,7 +86,7 @@ function M.git_push_all(...)
             stderr:read_stop()
             stdout:close()
             stderr:close()
-            print(table.concat(outputs, '  '):gsub('\t', ' '))
+            print(table.concat(outputs, ' '):gsub('\t', ' '))
             git_push_handle:close()
         end))
         outputs = {}

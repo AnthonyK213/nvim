@@ -276,12 +276,13 @@
 
 
 ## Commands
-- `CodeRun`   -> Run or compile the code.
-- `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
-- `PushAll`   -> Just push everything to the remote origin.
-  - `-b`      -> branch,  default -> current branch.
-  - `-m`      -> comment, default -> date.
-- `SshConfig` -> Open and edit ~/.ssh/config
-- `Time`      -> Echo date and time.
+- `CodeRun`     -> Run or compile the code.
+- `NvimUpgrade` -> Upgrade neovim by channel input.
+- `PDF`         -> Open pdf with the same name of the buffer file in the same directory.
+- `PushAll`     -> Just push everything to the remote origin.
+  - `-b`        -> branch,  default -> current branch.
+  - `-m`        -> comment, default -> date.
+- `SshConfig`   -> Open and edit ~/.ssh/config
+- `Time`        -> Echo date and time.
 
 > vim:set wrap:
