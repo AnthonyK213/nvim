@@ -105,10 +105,7 @@ cmp.setup {
         { name = 'path' },
     }, {
         { name = 'buffer' },
-        {
-            name = 'omni',
-            keyword_pattern = { vim.g["vimtex#re#neocomplete"] }
-        }
+        { name = 'omni' },
     })
 }
 
