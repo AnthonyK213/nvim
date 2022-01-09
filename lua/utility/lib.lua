@@ -8,6 +8,7 @@ local get_context_pat = {
     f = { [[\%]], 'c.*$' }
 }
 
+
 ---Get characters around the cursor by `mode`.
 ---@param mode string Four modes to get the context.
 ---  - *p* -> Return the character before cursor (previous);
@@ -191,6 +192,31 @@ function M.encode_url(str)
     return res
 end
 
+---Match URL in a string.
+---@param str string
+---@return boolean is_url True if the input `str` is a URL itself.
+---@return string url Matched URL.
+function M.match_url(str)
+    local url_pat = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
+    local protocols = {
+        [''] = 0,
+        ['http://'] = 0,
+        ['https://'] = 0,
+        ['ftp://'] = 0
+    }
+
+    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
+
+    if (url
+        and not (dom..'.'):find('%W%W')
+        and protocols[prot:lower()] == (1 - #slash) * #path
+        and (colon == '' or port ~= '' and port + 0 < 65536)) then
+        return #url == #str, url
+    end
+
+    return false, nil
+end
+
 ---Syntax structure.
 ---@class Syntax
 ---@field prov string
@@ -334,7 +360,7 @@ end
 ---@return boolean
 function M.path_exists(path, cwd)
     local is_rel = true
-    path = vim.fn.expand(path, true)
+    path = vim.fn.expand(path)
     if M.has_windows() then
         if path:match('^%a:[\\/]') then is_rel = false end
     else

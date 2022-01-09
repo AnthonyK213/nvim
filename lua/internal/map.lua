@@ -98,20 +98,15 @@ keymap('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', ntst)
 -- Open opt file.
 keymap('n', '<M-,>', '<Cmd>call usr#misc#open_opt()<CR>', ntst)
 -- Explorer.
-keymap('n', '<leader>oe', '<Cmd>lua require("utility.util").open_path_or_url(vim.fn.expand("%:p:h"))<CR>', ntst)
+keymap('n', '<leader>oe', '<Cmd>lua require("utility.util").sys_open(vim.fn.expand("%:p:h"))<CR>', ntst)
 -- Terminal.
-keymap('n', '<leader>ot', '<Cmd>lua require("utility.util").terminal()<CR>i',    ntst)
+keymap('n', '<leader>ot', '<Cmd>lua require("utility.util").terminal()<CR>i', ntst)
 -- Open file of current buffer with system default browser.
-keymap('n', '<leader>ob', '<Cmd>lua require("utility.util").open_path_or_url(vim.fn.expand("%:p"))<CR>', ntst)
+keymap('n', '<leader>ob', '<Cmd>lua require("utility.util").sys_open(vim.fn.expand("%:p"))<CR>', ntst)
 -- Open path or url under the cursor or in the selection.
 keymap('n', '<leader>ou',
 [[<Cmd>lua local util = require("utility.util") ]]..
-[[util.open_path_or_url(util.match_path_or_url(vim.fn.expand("<cWORD>")))<CR>]],
-ntst)
-keymap('v', '<leader>ou',
-[[:<C-u>lua local util = require("utility.util") ]]..
-[[util.open_path_or_url(util.match_path_or_url(require("utility.lib").get_visual_selection()))<CR>]],
-ntst)
+[[util.sys_open(util.match_path_or_url_under_cursor(), true)<CR>]], ntst)
 -- Evaluate formula surrounded by `.
 keymap('n', '<leader>ev', '<Cmd>lua require("utility.eval").lua_eval()<CR>',  ntst)
 keymap('n', '<leader>el', '<Cmd>lua require("utility.eval").lisp_eval()<CR>', ntst)

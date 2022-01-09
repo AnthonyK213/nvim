@@ -72,7 +72,7 @@ function! usr#misc#nvim_tree_sys_open()
 lua << EOF
   local node = require('nvim-tree.lib').get_node_at_cursor()
   if node then
-    require('utility.util').open_path_or_url(node.absolute_path)
+    require('utility.util').sys_open(node.absolute_path)
   end
 EOF
 endfunction

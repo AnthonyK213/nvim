@@ -4,10 +4,6 @@ local pub = require('utility.pub')
 local core_opt = require('core.opt')
 
 
-local lua_url_pat  = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
-local vim_path_pat = vim.regex([[\v(\a:|\.{1,2}|\~)?[\/]([^\/*?"<>:|]+[\/])*([^\/*?"<>:|]*\.\w+)?]])
-
-
 ---Use `pcall()` to catch error and display it.
 ---@param func function The function to test.
 ---@param args table Function arguments as a table.
@@ -68,47 +64,29 @@ function M.edit_file(file_path, chdir)
     end
 end
 
----Match path or url in string.
----@param str string
----@return string result Match result.
-function M.match_path_or_url(str)
-    local protocols = {
-        [''] = 0,
-        ['http://'] = 0,
-        ['https://'] = 0,
-        ['ftp://'] = 0
-    }
+---Match path or URL under the cursor.
+---@return string result|nil
+function M.match_path_or_url_under_cursor()
+    local _, url = lib.match_url(vim.fn.expand('<cWORD>'))
+    if url then return url end
 
-    local url, prot, dom, colon, port, slash, path = str:match(lua_url_pat)
-
-    if (url and
-        not (dom..'.'):find('%W%W') and
-        protocols[prot:lower()] == (1 - #slash) * #path and
-        (colon == '' or port ~= '' and port + 0 < 65536)) then
-        return url
-    end
-
-    local s, e = vim_path_pat:match_str(str)
-    if s then
-        local sys_path = vim.trim(str:sub(s + 1, e))
-        if lib.path_exists(sys_path, vim.fn.expand('%:p:h')) then
-            return vim.fn.expand(sys_path)
-        end
+    local path = vim.fn.expand('<cfile>')
+    if lib.path_exists(path, vim.fn.expand('%:p:h')) then
+        return vim.fn.expand(path)
     end
 
     return nil
 end
 
----Open path or url with system default browser.
----For a path input, the environment variables should be already expanded.
+---Open path or url with system default application.
+---The environment variables should be expanded already.
 ---@param obj string
-function M.open_path_or_url(obj)
-    local bwd = vim.loop.cwd()
-    local fwd = vim.fn.expand('%:p:h')
-    vim.api.nvim_set_current_dir(fwd)
+---@param use_local boolean|nil Use current file directory as cwd.
+function M.sys_open(obj, use_local)
+    local cwd = use_local and vim.fn.expand('%:p:h') or vim.loop.cwd()
     if type(obj) ~= "string"
-        or not (lib.path_exists(obj) or obj:match(lua_url_pat)) then
-        vim.api.nvim_set_current_dir(bwd)
+        or not (lib.path_exists(obj, cwd) or lib.match_url(obj)) then
+        lib.notify_err('Nothing found.')
         return
     end
     local cmd
@@ -129,9 +107,9 @@ function M.open_path_or_url(obj)
     table.insert(args, obj)
     local handle
     handle = vim.loop.spawn(cmd, {
-        args = args
+        args = args,
+        cwd = cwd,
     }, vim.schedule_wrap(function ()
-        vim.api.nvim_set_current_dir(bwd)
         handle:close()
     end))
 end
@@ -148,7 +126,7 @@ function M.search_web(mode, site)
         search_obj = lib.encode_url(lib.get_visual_selection())
     end
 
-    M.open_path_or_url(site..search_obj)
+    M.sys_open(site..search_obj)
 end
 
 ---Upgrade neovim.
