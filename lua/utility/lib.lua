@@ -334,6 +334,7 @@ end
 ---@return boolean
 function M.path_exists(path, cwd)
     local is_rel = true
+    path = vim.fn.expand(path, true)
     if M.has_windows() then
         if path:match('^%a:[\\/]') then is_rel = false end
     else

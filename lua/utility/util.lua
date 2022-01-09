@@ -5,7 +5,7 @@ local core_opt = require('core.opt')
 
 
 local lua_url_pat  = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
-local vim_path_pat = vim.regex([[\v(\u:|\.{1,2}|\~)?[\/]([^\/*?"<>:|]+[\/])*([^\/*?"<>:|]*\.\w+)?]])
+local vim_path_pat = vim.regex([[\v(\a:|\.{1,2}|\~)?[\/]([^\/*?"<>:|]+[\/])*([^\/*?"<>:|]*\.\w+)?]])
 
 
 ---Use `pcall()` to catch error and display it.
@@ -92,7 +92,7 @@ function M.match_path_or_url(str)
     if s then
         local sys_path = vim.trim(str:sub(s + 1, e))
         if lib.path_exists(sys_path, vim.fn.expand('%:p:h')) then
-            return sys_path
+            return vim.fn.expand(sys_path)
         end
     end
 
@@ -100,6 +100,7 @@ function M.match_path_or_url(str)
 end
 
 ---Open path or url with system default browser.
+---For a path input, the environment variables should be already expanded.
 ---@param obj string
 function M.open_path_or_url(obj)
     local bwd = vim.loop.cwd()
