@@ -233,19 +233,19 @@
     - nv:   <kbd>c</kbd>     -> Comment line/block.
     - nv:   <kbd>u</kbd>     -> Un-comment line/block.
   - <kbd>leader-l-</kbd>     -> **LSP**
-    - n:    <kbd>0</kbd>     -> `vim.lsp.buf.document_symbol()`
-    - n:    <kbd>a</kbd>     -> `vim.lsp.buf.code_action()`
-    - n:    <kbd>d</kbd>     -> `vim.lsp.buf.declaration()`
-    - n:    <kbd>f</kbd>     -> `vim.lsp.buf.definition()`
-    - n:    <kbd>h</kbd>     -> `vim.lsp.buf.signature_help()`
-    - n:    <kbd>i</kbd>     -> `vim.lsp.buf.implementation()`
-    - n:    <kbd>m</kbd>     -> `vim.lsp.buf.formatting_sync()`
-    - n:    <kbd>n</kbd>     -> `vim.lsp.buf.rename()`
-    - n:    <kbd>r</kbd>     -> `vim.lsp.buf.references()`
-    - n:    <kbd>t</kbd>     -> `vim.lsp.buf.type_definition()`
-    - n:    <kbd>w</kbd>     -> `vim.lsp.buf.workspace_symbol()`
-    - n:    <kbd>[</kbd>     -> `vim.lsp.diagnostic.goto_prev()`
-    - n:    <kbd>]</kbd>     -> `vim.lsp.diagnostic.goto_next()`
+    - n:    <kbd>0</kbd>     -> Document symbol.
+    - n:    <kbd>a</kbd>     -> Code action.
+    - n:    <kbd>d</kbd>     -> Jump to declaration.
+    - n:    <kbd>f</kbd>     -> Jump to definition.
+    - n:    <kbd>h</kbd>     -> Signature help.
+    - n:    <kbd>i</kbd>     -> Implementation.
+    - n:    <kbd>m</kbd>     -> Format.
+    - n:    <kbd>n</kbd>     -> Rename.
+    - n:    <kbd>r</kbd>     -> References.
+    - n:    <kbd>t</kbd>     -> Type definition.
+    - n:    <kbd>w</kbd>     -> Work space symbol.
+    - n:    <kbd>[</kbd>     -> Jump to previous diagnostic mark.
+    - n:    <kbd>]</kbd>     -> Jump to next diagnostic mark.
   - <kbd>leader-m-</kbd>     -> **Markdown**
     - n:    <kbd>l</kbd>     -> Sort number list.
     - n:    <kbd>m</kbd>     -> *vim-markdown*, Toggle math syntax.
@@ -272,7 +272,7 @@
 * **Miscellanea**
   - v:      <kbd>\*</kbd>    -> Search for the visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
-  - n:      <kbd>F5</kbd>    -> `:CodeRun`
+  - n:      <kbd>F5</kbd>    -> `CodeRun`
 
 
 ## Commands
