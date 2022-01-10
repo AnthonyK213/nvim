@@ -75,7 +75,7 @@ function M.get_visual_selection()
     return a_val
 end
 
----Get the word around the cursor.
+---Get the word and its position under the cursor.
 ---@return string word Word under the cursor.
 ---@return integer start Start index of the line (0-based, included).
 ---@return integer end End index of the line (0-based, not included).
@@ -188,7 +188,7 @@ end
 function M.encode_url(str)
     local res = str:gsub("([^%w%.%-%s])", function(x)
         return string.format("%%%02X", string.byte(x))
-    end):gsub(" ", "%%20")
+    end):gsub("[\n\r\t%s]", "%%20")
     return res
 end
 
