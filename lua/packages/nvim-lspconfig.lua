@@ -7,7 +7,6 @@ local ntst = { noremap = true, silent = true }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local custom_attach = function (client)
-    keymap(0, 'n', 'K', '<Cmd>lua require("utility.util").show_doc()<CR>',      ntst)
     keymap(0, 'n', '<leader>l0', '<Cmd>lua vim.lsp.buf.document_symbol()<CR>',  ntst)
     keymap(0, 'n', '<leader>la', '<Cmd>lua vim.lsp.buf.code_action()<CR>',      ntst)
     keymap(0, 'n', '<leader>ld', '<Cmd>lua vim.lsp.buf.declaration()<CR>',      ntst)
