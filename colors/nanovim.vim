@@ -325,6 +325,7 @@ hi! link markdownTSEmphasis       Nano_Face_Salient
 hi! link markdownTSLiteral        Nano_Face_Popout
 hi! link markdownTSNone           Nano_Face_Faded
 hi! link markdownTSPunctSpecial   Nano_Face_Salient
+hi! link markdownTSPunctDelimiter Nano_Face_Subtle
 hi! link markdownTSStringEscape   Nano_Face_Salient
 hi! link markdownTSStrong         Nano_Face_Strong
 hi! link markdownTSTextReference  Nano_Face_Popout
