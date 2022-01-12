@@ -116,7 +116,7 @@ dashboard.section.header.val = {
 }
 dashboard.section.buttons.val = {
     dashboard.button("e", "  New File" ,    ":enew<CR>"),
-    dashboard.button("s", "  Load Session", ":Telescope sessions<CR>"),
+    --dashboard.button("s", "  Load Session", ":Telescope sessions<CR>"),
     dashboard.button("f", "⊕  Find File",    ":Telescope find_files<CR>"),
     dashboard.button("p", "⟲  Packer Sync",  ":PackerSync<CR>"),
     dashboard.button(",", "⚙  Options",      ":call usr#misc#open_opt()<CR>"),
