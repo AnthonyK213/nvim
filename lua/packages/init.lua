@@ -17,9 +17,6 @@ require('packer').startup(function(use)
         };
         {
             'nvim-telescope/telescope.nvim',
-            requires = {
-                'nvim-telescope/telescope-ui-select.nvim',
-            },
             config = function() require('packages.telescope') end
         };
     }
