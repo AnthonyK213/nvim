@@ -8,6 +8,10 @@ require('packer').startup(function(use)
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
         {'goolord/alpha-nvim',          opt = true};
+        {
+            'stevearc/dressing.nvim',
+            config = function() require('packages.dressing') end
+        }
     }
     -- File system
     use {

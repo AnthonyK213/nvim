@@ -16,5 +16,9 @@ require('lua-pairs').setup {
         ["<M-B>"] = "**",
         ["<M-M>"] = "***",
         ["<M-U>"] = "<u>"
-    }
+    },
+    exclude = {
+        --buftype = { "prompt" },
+        filetype = { "DressingInput" },
+    },
 }

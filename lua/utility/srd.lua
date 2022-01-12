@@ -78,76 +78,79 @@ local function srd_locate(str, pair_a, pair_b, dir)
     return pair_pos
 end
 
-function M.srd_add(mode, ...)
-    local arg_list = {...}
-    local pair_a
-    if #arg_list > 0 then
-        pair_a = arg_list[1]
-    else
-        vim.ui.input("Surrounding add: ", function (input) pair_a = input end)
-    end
-    if not pair_a then return end
-    local pair_b = srd_pair(pair_a)
+function M.srd_add(mode, pair_a)
+    local add = function (p_a)
+        if not p_a then return end
+        local p_b = srd_pair(p_a)
 
-    if mode == 'n' then
-        local word, s, e = lib.get_word()
-        local line = api.nvim_get_current_line()
-        local line_new = line:sub(1, s)..pair_a..word..pair_b..line:sub(e + 1)
-        api.nvim_set_current_line(line_new)
-    elseif mode == 'v' then
-        local stt_pos = api.nvim_buf_get_mark(0, "<")
-        local end_pos = api.nvim_buf_get_mark(0, ">")
-        api.nvim_win_set_cursor(0, end_pos)
-        vim.cmd('normal! a'..pair_b)
-        api.nvim_win_set_cursor(0, stt_pos)
-        vim.cmd('normal! i'..pair_a)
+        if mode == 'n' then
+            local word, s, e = lib.get_word()
+            local line = api.nvim_get_current_line()
+            local line_new = line:sub(1, s)..p_a..word..p_b..line:sub(e + 1)
+            api.nvim_set_current_line(line_new)
+        elseif mode == 'v' then
+            local stt_pos = api.nvim_buf_get_mark(0, "<")
+            local end_pos = api.nvim_buf_get_mark(0, ">")
+            api.nvim_win_set_cursor(0, end_pos)
+            vim.cmd('normal! a'..p_b)
+            api.nvim_win_set_cursor(0, stt_pos)
+            vim.cmd('normal! i'..p_a)
+        end
+    end
+
+    if pair_a then
+        add(pair_a)
+    else
+        vim.ui.input("Surrounding add: ", function (input)
+            add(input)
+        end)
     end
 end
 
-function M.srd_sub(...)
-    local arg_list = {...}
-    local back = lib.get_context('b')
-    local fore = lib.get_context('f')
+function M.srd_sub(pair_a_new)
+    local sub = function (p_a, p_a_n)
+        local back = lib.get_context('b')
+        local fore = lib.get_context('f')
+        local p_b = srd_pair(p_a)
+        local p_b_n = srd_pair(p_a_n)
+        local back_new, fore_new
 
-    local pair_a
-    vim.ui.input("Surrounding delete: ", function (input) pair_a = input end)
-    if not pair_a then return end
-
-    local pair_b = srd_pair(pair_a)
-    local pair_a_new
-    if #arg_list > 0 then
-        pair_a_new = arg_list[1]
-    else
-        vim.ui.input("Change to: ", function (input) pair_a_new = input end)
-    end
-    if not pair_a_new then return end
-    local pair_b_new = srd_pair(pair_a_new)
-
-    local back_new, fore_new
-
-    if pair_a == pair_b then
-        local pat = vim.pesc(pair_a)
-        if (back:match('^.*'..pat) and
-            fore:match(pat)) then
-            back_new = back:gsub('^(.*)'..pat, '%1'..pair_a_new, 1)
-            fore_new = fore:gsub(pat, pair_b_new, 1)
+        if p_a == p_b then
+            local pat = vim.pesc(p_a)
+            if (back:match('^.*'..pat) and
+                fore:match(pat)) then
+                back_new = back:gsub('^(.*)'..pat, '%1'..p_a_n, 1)
+                fore_new = fore:gsub(pat, p_b_n, 1)
+            end
+        else
+            local pos_a = srd_locate(back, p_a, p_b, -1)
+            local pos_b = srd_locate(fore, p_a, p_b, 1)
+            if pos_a and pos_b then
+                back_new = back:sub(1, pos_a - 1)
+                ..p_a_n
+                ..back:sub(pos_a + p_a:len())
+                fore_new = fore:sub(1, pos_b - 1)
+                ..p_b_n
+                ..fore:sub(pos_b + p_b:len())
+            end
         end
-    else
-        local pos_a = srd_locate(back, pair_a, pair_b, -1)
-        local pos_b = srd_locate(fore, pair_a, pair_b, 1)
-        if pos_a and pos_b then
-            back_new = back:sub(1, pos_a - 1)..
-            pair_a_new..
-            back:sub(pos_a + pair_a:len())
-            fore_new = fore:sub(1, pos_b - 1)..
-            pair_b_new..
-            fore:sub(pos_b + pair_b:len())
+
+        if back_new and fore_new then
+            vim.api.nvim_set_current_line(back_new..fore_new)
         end
     end
 
-    if back_new and fore_new then
-        vim.api.nvim_set_current_line(back_new..fore_new)
-    end
+    vim.ui.input("Surrounding delete: ", function (pair_a)
+        if not pair_a then return end
+        if pair_a_new then
+            sub(pair_a, pair_a_new)
+        else
+            vim.ui.input("Change to: ", function (input)
+                if not input then return end
+                sub(pair_a, input)
+            end)
+        end
+    end)
 end
 
 
