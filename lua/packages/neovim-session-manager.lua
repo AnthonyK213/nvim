@@ -1,5 +1,4 @@
 local path = require('plenary.path')
---require('telescope').load_extension('sessions')
 
 require('session_manager').setup {
     sessions_dir = path:new(vim.fn.stdpath('data'), 'sessions'),
