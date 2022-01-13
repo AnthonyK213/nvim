@@ -16,9 +16,6 @@ keymap('t', '<M-d>', '<C-\\><C-N>:bd!<CR>', ntst)
 -- Find and replace.
 keymap('n', '<M-g>', ':%s/', nt)
 keymap('v', '<M-g>', ':s/',  nt)
--- Normal command.
-keymap('n', '<M-n>', ':%normal ', nt)
-keymap('v', '<M-n>', ':normal ',  nt)
 -- Buffer.
 keymap('n', '<leader>bc', '<Cmd>cd %:p:h<CR>:pwd<CR>', nt)
 keymap('n', '<leader>bd',
@@ -83,10 +80,10 @@ for key, val in pairs({n='j', p='k'}) do
     keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, ntst)
 end
 -- Move line.
-keymap('n', '<M-Up>',   '<Cmd>exe "move" max([line(".") - 2, 0])<CR>', ntst)
-keymap('n', '<M-Down>', '<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>', ntst)
-keymap('v', '<M-Up>',   [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]], ntst)
-keymap('v', '<M-Down>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]], ntst)
+keymap('n', '<M-p>',   '<Cmd>exe "move" max([line(".") - 2, 0])<CR>', ntst)
+keymap('n', '<M-n>', '<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>', ntst)
+keymap('v', '<M-p>',   [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]], ntst)
+keymap('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]], ntst)
 
 
 -- Search visual selection.

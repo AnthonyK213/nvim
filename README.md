@@ -168,7 +168,8 @@
   - inv: <kbd>M-j</kbd>      -> Jump to the window below.
   - inv: <kbd>M-k</kbd>      -> Jump to the window above.
   - inv: <kbd>M-l</kbd>      -> Jump to the window right.
-  - nv:  <kbd>M-n</kbd>      -> Normal command.
+  - nv:  <kbd>M-n</kbd>      -> Move line(s) down.
+  - nv:  <kbd>M-p</kbd>      -> Move line(s) up.
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>      -> Jump to the window in turns.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
