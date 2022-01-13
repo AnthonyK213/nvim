@@ -82,6 +82,11 @@ for key, val in pairs({n='j', p='k'}) do
     keymap('v', '<C-'..key..'>', 'g'..val,            ntst)
     keymap('i', '<C-'..key..'>', '<C-\\><C-O>g'..val, ntst)
 end
+-- Move line.
+keymap('n', '<M-Up>',   '<Cmd>exe "move" max([line(".") - 2, 0])<CR>', ntst)
+keymap('n', '<M-Down>', '<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>', ntst)
+keymap('v', '<M-Up>',   [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]], ntst)
+keymap('v', '<M-Down>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]], ntst)
 
 
 -- Search visual selection.
