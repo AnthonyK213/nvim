@@ -1,7 +1,7 @@
 require('dressing').setup {
     input = {
         default_prompt = "> ",
-        insert_only = false,
+        insert_only = true,
         anchor = "SW",
         relative = "cursor",
         row = 0,
