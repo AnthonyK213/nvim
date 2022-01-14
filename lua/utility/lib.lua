@@ -117,19 +117,10 @@ end
 ---@return table result Exploded string.
 function M.str_explode(str)
     local result = {}
-    while true do
-        ::str_explode_loop::
-        local len = str:len()
-        for i = 1, len, 1 do
-            local u_index = vim.str_utfindex(str, i)
-            if u_index ~= 1 then
-                table.insert(result, str:sub(1, i - 1))
-                str = str:sub(i)
-                goto str_explode_loop
-            end
-        end
-        table.insert(result, str)
-        break
+    while str:len() > 0 do
+        local b_index = vim.str_byteindex(str, 1)
+        table.insert(result, str:sub(1, b_index))
+        str = str:sub(b_index + 1)
     end
     return result
 end
