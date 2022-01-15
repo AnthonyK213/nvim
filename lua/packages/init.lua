@@ -35,7 +35,6 @@ require('packer').startup(function(use)
     use {
         'nvim-lua/plenary.nvim';
         'tpope/vim-speeddating';
-        'gennaro-tedesco/nvim-jqx';
         {
             'dhruvasagar/vim-table-mode',
             config = function() require('packages.vim-table-mode') end

@@ -15,9 +15,6 @@
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) & [**fd**](https://github.com/sharkdp/fd) (For [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim))
   - `ripgrep` recursively searches directories for a regex pattern while respecting your gitignore.
   - `fd` is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to `find`.
-* [**jq**](https://github.com/stedolan/jq) (For [nvim-jqx](https://github.com/gennaro-tedesco/nvim-jqx))
-  - Command-line JSON processor.
-  > To support yaml files, [yq](https://github.com/mikefarah/yq) is needed.
 
 
 ## Installation
@@ -43,10 +40,11 @@
   ```
 * **opt.lua options (see [opt.lua](./lua/core/opt_example.lua))**
   - Essential:
-    - **dep** -> Dependencies
-      - `cc`  -> C compiler
-      - `sh`  -> Shell
-      - `py3` -> Python3 executable path
+    - **dep**   -> Dependencies
+      - `cc`    -> C compiler
+      - `sh`    -> Shell
+      - `py3`   -> Python3 executable path
+      - `proxy` -> Proxy
     - **path** -> Path
       - `home`    -> Home directory
       - `cloud`   -> Cloud drive directory
@@ -56,7 +54,7 @@
       - `bg`    -> Tui background
       - `theme` -> Style of color theme
   - Optional:
-    - **gui** -> Gui (neovim-qt, fvim)
+    - **gui** -> Gui (neovim-qt, fvim, goneovim)
       - `bg`        -> Gui background
       - `font_half` -> See `guifont`
       - `font_full` -> See `guifontwide`
@@ -131,7 +129,6 @@
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 * Utilities
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-  - [nvim-jqx](https://github.com/gennaro-tedesco/nvim-jqx)
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)

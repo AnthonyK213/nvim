@@ -46,10 +46,6 @@ function! usr#misc#show_toc()
     if exists(':VimtexTocToggle')
       VimtexTocToggle
     endif
-  elseif &ft ==? 'json'
-    if exists(':JqxList')
-      JqxList
-    endif
   else
     echo 'No Toc support for current filetype.'
   endif
