@@ -8,10 +8,6 @@ require('packer').startup(function(use)
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
         {'goolord/alpha-nvim',          opt = true};
-        {
-            'stevearc/dressing.nvim',
-            config = function() require('packages.dressing') end
-        }
     }
     -- File system
     use {
@@ -55,6 +51,10 @@ require('packer').startup(function(use)
         {
             'Shatur/neovim-session-manager',
             config = function() require('packages.neovim-session-manager') end
+        };
+        {
+            'stevearc/dressing.nvim',
+            config = function() require('packages.dressing') end
         };
     }
     -- File type support
