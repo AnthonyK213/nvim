@@ -87,7 +87,7 @@ keymap('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR
 
 
 -- Search visual selection.
-keymap('v', '*', [[<ESC>/\V<C-r>=luaeval('require("utility.lib").get_visual_selection()')<CR><CR>]], ntst)
+keymap('v', '*', [[<ESC>/\V<C-r>=v:lua.require("utility.lib").get_visual_selection()<CR><CR>]], ntst)
 -- Mouse toggle.
 keymap('n', '<F2>', '<Cmd>call usr#misc#mouse_toggle()<CR>',            ntst)
 keymap('v', '<F2>', ':<C-U>call usr#misc#mouse_toggle()<CR>',           ntst)
