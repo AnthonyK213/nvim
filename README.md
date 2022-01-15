@@ -137,6 +137,7 @@
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
   - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
   - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
+  - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
