@@ -21,7 +21,7 @@ local custom_attach = function (client)
     buf_keymap(0, 'n', '<leader>lw', '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>', ntst)
     buf_keymap(0, 'n', '<leader>l[', '<Cmd>lua vim.diagnostic.goto_prev()<CR>',     ntst)
     buf_keymap(0, 'n', '<leader>l]', '<Cmd>lua vim.diagnostic.goto_next()<CR>',     ntst)
-    buf_keymap(0, 'n', '<M-K>', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', ntst)
+    buf_keymap(0, 'n', '<M-K>',      '<Cmd>lua vim.diagnostic.open_float()<CR>',    ntst)
     -- aerial.nvim
     require('aerial').on_attach(client)
 end
