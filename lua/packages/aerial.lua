@@ -1,4 +1,4 @@
-local keymap = vim.api.nvim_buf_set_keymap
+local kbd = vim.api.nvim_buf_set_keymap
 local ntst = { noremap = true, silent = true }
 
 require'aerial'.setup {
@@ -6,12 +6,12 @@ require'aerial'.setup {
     close_behavior = 'close',
     manage_folds = false,
     on_attach = function (bufnr)
-        keymap(bufnr, 'n', '<leader>mv', '<Cmd>AerialToggle!<CR>', ntst)
-        keymap(bufnr, 'n', '{', '<Cmd>AerialPrev<CR>', ntst)
-        keymap(bufnr, 'n', '}', '<Cmd>AerialNext<CR>', ntst)
-        keymap(bufnr, 'n', '[[', '<Cmd>AerialPrevUp<CR>', ntst)
-        keymap(bufnr, 'n', ']]', '<Cmd>AerialNextUp<CR>', ntst)
-        keymap(bufnr, 'n', '<leader>fa', '<Cmd>Telescope aerial<CR>', ntst)
+        kbd(bufnr, 'n', '{',          '<Cmd>AerialPrev<CR>', ntst)
+        kbd(bufnr, 'n', '}',          '<Cmd>AerialNext<CR>', ntst)
+        kbd(bufnr, 'n', '[[',         '<Cmd>AerialPrevUp<CR>', ntst)
+        kbd(bufnr, 'n', ']]',         '<Cmd>AerialNextUp<CR>', ntst)
+        kbd(bufnr, 'n', '<leader>mv', '<Cmd>AerialToggle!<CR>', ntst)
+        kbd(bufnr, 'n', '<leader>fa', '<Cmd>Telescope aerial<CR>', ntst)
     end
 }
 

@@ -14,7 +14,7 @@ vim.g.mkdp_preview_options = {
 }
 
 
-local keymap = vim.api.nvim_set_keymap
-keymap('n', '<leader>mt',
+local kbd = vim.api.nvim_set_keymap
+kbd('n', '<leader>mt',
 'exists(":MarkdownPreviewToggle") ? ":MarkdownPreviewToggle<CR>" : "<ESC>"',
 { expr = true, noremap = true, silent = true })
