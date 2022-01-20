@@ -16,12 +16,12 @@ function M.hanzi_count(mode)
     local h_count = 0
     for _, line in ipairs(content) do
         if not
-            ((vim.bo.filetype == 'markdown' and
-            (line:match('^%s*>%s') or
-            line:match('^#+%s') or
-            line:match('^%s*!?%[.+%]%(.+%)'))) or
-            (vim.bo.filetype == 'tex' and
-            (line:match('^%s*%%')))) then
+            ((vim.bo.filetype == 'markdown'
+            and (line:match('^%s*>%s')
+            or line:match('^#+%s')
+            or line:match('^%s*!?%[.+%]%(.+%)')))
+            or (vim.bo.filetype == 'tex'
+            and (line:match('^%s*%%')))) then
             for _, char in ipairs(lib.str_explode(line)) do
                 local code = vim.fn.char2nr(char)
                 if code >= 0x4E00 and code <= 0x9FA5 then
@@ -66,8 +66,8 @@ local function md_check_line(lnum)
     local lstr = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
-    if lstr:match('^%s*$') and
-        match_syntax(lnum, 0, {'TSLiteral', 'markdownCode'}) then
+    if lstr:match('^%s*$')
+        and match_syntax(lnum, 0, {'TSLiteral', 'markdownCode'}) then
         indent = 1000
     end
     local bullet

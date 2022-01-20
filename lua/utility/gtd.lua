@@ -22,8 +22,8 @@ local function zeller(year, month, date)
         end
     else
         month_days_count = 30
-        if ((month <= 7 and month % 2 == 1) or
-            (month >= 8 and month % 2 == 0)) then
+        if (month <= 7 and month % 2 == 1)
+            or (month >= 8 and month % 2 == 0) then
             month_days_count = month_days_count + 1
         end
     end
@@ -57,9 +57,9 @@ function M.append_day_from_date()
     local y, m, d, insert_pos
     for pos_s, date, year, month, day, pos_e
         in line:gmatch('()((%d%d%d%d)%-(%d%d)%-(%d%d))()') do
-        if (pos_s <= col + 1 and
-            pos_e >= col + 1 and
-            date) then
+        if pos_s <= col + 1
+            and pos_e >= col + 1
+            and date then
             y = tonumber(year)
             m = tonumber(month)
             d = tonumber(day)

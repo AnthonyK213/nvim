@@ -38,16 +38,16 @@ cmp.setup {
             i = function (fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
-                elseif vim.tbl_contains({'vimwiki', 'markdown'}, vim.bo.ft) and
-                    vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
+                elseif vim.tbl_contains({'vimwiki', 'markdown'}, vim.bo.ft)
+                    and vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
                     match_str(lib.get_context('b')) then
                     feedkeys('<C-\\><C-O>>>', 'n')
                     vim.api.nvim_feedkeys(
                     string.rep(vim.g.const_dir_r, vim.bo.ts), 'n', true)
                 elseif vim.fn['vsnip#jumpable'](1) == 1 then
                     feedkeys('<Plug>(vsnip-jump-next)', '')
-                elseif lib.get_context('b'):match('[%w._:]$') and
-                    vim.bo.bt ~= 'prompt' then
+                elseif lib.get_context('b'):match('[%w._:]$')
+                    and vim.bo.bt ~= 'prompt' then
                     cmp.complete()
                 else
                     fallback()

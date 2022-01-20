@@ -98,8 +98,8 @@ local function del_cmt_block()
 
     for i = lnum_c - 1, 1, -1 do
         local line_p = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
-        if (line_p:match(lua_cmt_mark_b..".-$") and not
-            line_p:match(lua_cmt_mark_a..".-$")) then
+        if line_p:match(lua_cmt_mark_b..".-$")
+            and not line_p:match(lua_cmt_mark_a..".-$") then
             return
         end
         if line_p:match(lua_cmt_mark_a..".-$") then

@@ -8,8 +8,8 @@ vim.g.path_desktop = core_opt.path.desktop or vim.fn.expand(vim.g.path_home..'/D
 vim.g.path_bin = core_opt.path.bin or vim.fn.expand(vim.g.path_home..'/bin')
 
 if vim.fn.has("win32") == 1 then
-    vim.g.python3_host_prog = core_opt.dep.py3 or
-    vim.fn.expand('$LOCALAPPDATA/Programs/Python/Python38/python')
+    vim.g.python3_host_prog = core_opt.dep.py3
+    or vim.fn.expand('$LOCALAPPDATA/Programs/Python/Python38/python')
     vim.o.wildignore = vim.o.wildignore..
     "*.o,*.obj,*.bin,*.dll,*.exe,"..
     "*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**,"..

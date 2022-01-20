@@ -117,8 +117,8 @@ function M.srd_sub(pair_a_new)
 
         if p_a == p_b then
             local pat = vim.pesc(p_a)
-            if (back:match('^.*'..pat) and
-                fore:match(pat)) then
+            if back:match('^.*'..pat)
+                and fore:match(pat) then
                 back_new = back:gsub('^(.*)'..pat, '%1'..p_a_n, 1)
                 fore_new = fore:gsub(pat, p_b_n, 1)
             end
