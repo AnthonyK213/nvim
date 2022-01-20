@@ -75,7 +75,7 @@ require('bufferline').setup {
 
         custom_filter = function(buf_number)
             local bt = vim.bo[buf_number].bt
-            if vim.tbl_contains({ 'terminal', 'quickfix' }, bt) then
+            if not vim.tbl_contains({ 'terminal', 'quickfix' }, bt) then
                 return true
             end
         end,
