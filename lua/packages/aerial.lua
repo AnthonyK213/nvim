@@ -2,7 +2,7 @@ local kbd_b = vim.api.nvim_buf_set_keymap
 local ntst = { noremap = true, silent = true }
 
 require'aerial'.setup {
-    backends = { "lsp", "markdown" },
+    backends = { "lsp", "treesitter", "markdown" },
     close_behavior = 'close',
     manage_folds = false,
     on_attach = function (bufnr)
