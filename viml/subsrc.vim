@@ -64,8 +64,8 @@ endfunction
 function! s:subsrc_pairs_backs()
   if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
     return g:subsrc_dir_r . "\<BS>\<BS>"
-  elseif s:subsrc_get_context('b') =~ '\v\{\s$' &&
-        \ s:subsrc_get_context('f') =~ '\v^\s\}'
+  elseif s:subsrc_get_context('b') =~ '\v\{\s$'
+        \ && s:subsrc_get_context('f') =~ '\v^\s\}'
     return "\<C-\>\<C-O>diB"
   else
     return "\<BS>"

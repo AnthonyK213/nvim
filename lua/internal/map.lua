@@ -19,8 +19,8 @@ kbd('v', '<M-g>', ':s/',  nt)
 -- Buffer.
 kbd('n', '<leader>bc', '<Cmd>cd %:p:h<CR>:pwd<CR>', nt)
 kbd('n', '<leader>bd',
-[[index(['help', 'terminal', 'nofile', 'quickfix'], &buftype) >= 0 ||]]
-..[[len(getbufinfo({'buflisted':1})) <= 2 ?]]
+[[index(['help', 'terminal', 'nofile', 'quickfix'], &buftype) >= 0 ]]
+..[[|| len(getbufinfo({'buflisted':1})) <= 2 ?]]
 ..[[":bd<CR>" : ":bp|bd#<CR>"]], ntstet)
 kbd('n', '<leader>bh', '<Cmd>noh<CR>', ntst)
 kbd('n', '<leader>bl', '<Cmd>ls<CR>',  ntst)
