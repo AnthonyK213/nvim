@@ -1,6 +1,26 @@
-"""""""" Configuration for neovim GUI using ginit.vim
+" GUI Configuration.
+" Supported GUIs:
+"   - [neovim-qt](https://github.com/equalsraf/neovim-qt)
+"   - [fvim](https://github.com/yatli/fvim)
+"   - [goneovim](https://github.com/akiyosi/goneovim)
 
 " Variables
+if !exists('g:gui_font_half')
+  let g:gui_font_half = 'Monospace'
+endif
+
+if !exists('g:gui_font_full')
+  let g:gui_font_full = 'Monospace'
+endif
+
+if !exists('g:gui_font_size')
+  let g:gui_font_size = 10
+endif
+
+if !exists('g:gui_opacity')
+  let g:gui_opacity = 1.0
+endif
+
 let s:nvimqt_option_table = {
       \ 'GuiTabline'         : 0,
       \ 'GuiPopupmenu'       : 1,
@@ -8,7 +28,7 @@ let s:nvimqt_option_table = {
       \ 'GuiScrollBar'       : 1,
       \ 'GuiRenderLigatures' : 1,
       \ 'GuiAdaptiveColor'   : 1,
-      \ 'GuiWindowOpacity'   : '0.92',
+      \ 'GuiWindowOpacity'   : string(g:gui_opacity),
       \ 'GuiAdaptiveStyle'   : 'Fusion',
       \ }
 
@@ -18,7 +38,7 @@ let s:fvim_option_table = {
       \ 'FVimFontLigature'          : 'v:true',
       \ 'FVimFontLineHeight'        : '"+2.0"',
       \ 'FVimFontNoBuiltInSymbols'  : 'v:true',
-      \ 'FVimBackgroundOpacity'     : '0.92',
+      \ 'FVimBackgroundOpacity'     : string(g:gui_opacity),
       \ 'FVimCursorSmoothMove'      : 'v:true',
       \ 'FVimBackgroundComposition' : '"none"',
       \ 'FVimCustomTitleBar'        : 'v:false',
@@ -88,10 +108,10 @@ endfunction
 function! s:gui_toggle_background_lock()
   if g:lock_background == v:true
     let g:lock_background = v:false
-    echom "Background unlocked."
+    echom "Background unlocked"
   else
     let g:lock_background = v:true
-    echom "Background locked."
+    echom "Background locked"
   endif
 endfunction
 
@@ -100,10 +120,11 @@ function! s:gui_memo_lazy_save()
     return
   elseif empty(expand('%:t'))
     let l:path = expand(g:path_cloud . '/Documents/Agenda/diary')
-    if empty(glob(l:path))
+    if glob(l:path)->empty()
       let l:path = g:path_desktop
     endif
-    silent exe 'w' l:path . '/memo_' . strftime("%Y-%m-%d_%H%M") . '.wiki | e!'
+    let l:save_path = l:path . strftime("/%Y-%m-%d_%H%M%S.wiki")
+    silent exe 'w' l:save_path '| e!'
   else
     exe 'w'
   endif
@@ -135,25 +156,15 @@ endif
 "" Background
 if exists('g:gui_background') && !empty(g:gui_background)
   let &bg = g:gui_background
-elseif exists('g:colors_name') && g:colors_name ==# 'nanovim' || exists('g:goneovim')
+elseif exists('g:colors_name')
+      \ && g:colors_name ==# 'nanovim'
+      \ || exists('g:goneovim')
   let g:lock_background = v:true
   call usr#misc#time_background()
 endif
 
 
 " Font
-if !exists('g:gui_font_half')
-  let g:gui_font_half = 'Monospace'
-endif
-
-if !exists('g:gui_font_full')
-  let g:gui_font_full = 'Monospace'
-endif
-
-if !exists('g:gui_font_size')
-  let g:gui_font_size = 10
-endif
-
 let s:gui_font_step = 2
 let g:gui_font_size_origin = g:gui_font_size
 call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)

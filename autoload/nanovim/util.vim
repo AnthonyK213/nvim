@@ -4,6 +4,7 @@ let s:nanovim_mode = {
       \ 'ic'    : ' IC ',
       \ 'ix'    : ' IX ',
       \ 'n'     : ' NM ',
+      \ 'nt'    : ' TN ',
       \ 'multi' : ' MU ',
       \ 'niI'   : ' ĨN ',
       \ 'no'    : ' OP ',
@@ -18,7 +19,7 @@ let s:nanovim_mode = {
       \ }
 let s:nanovim_short_ft = [
       \ 'NvimTree', 'help', 'netrw',
-      \ 'nerdtree', 'qf',
+      \ 'nerdtree', 'qf', 'aerial',
       \ '__GonvimMarkdownPreview__',
       \ ]
 
@@ -60,7 +61,7 @@ endfunction
 " Get mode.
 " It is better to use just one character to show the mode.
 function! nanovim#util#mode()
-  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : '_'
+  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : ' _ '
 endfunction
 
 " Get file name.
@@ -70,7 +71,7 @@ function! nanovim#util#fname()
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
   
-  if empty(l:file_name)
+  if l:file_name->empty()
     return "[No Name]"
   endif
 
@@ -79,21 +80,25 @@ function! nanovim#util#fname()
     let l:path_sepr = "\\"
   endif
 
-  if strlen(l:file_path) > winwidth(0) * 0.7
+  let l:file_path_str_width = strdisplaywidth(l:file_path)
+
+  if l:file_path_str_width > winwidth(0) * 0.7
     return l:file_name
   endif
 
-  if strlen(l:file_path) > winwidth(0) * 0.4
+  if l:file_path_str_width > winwidth(0) * 0.4
     let l:path_list = split(l:file_dir, l:path_sepr)
     let l:path_head = "/"
     if has('win32')
       let l:path_head = remove(l:path_list, 0) . "\\"
     endif
-    for l:dir in l:path_list
+    for l:d in l:path_list
+      let l:dir = split(l:d, '\zs')
+      if l:dir->empty() | return "" | endif
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
-      elseif strlen(l:dir) > 1
-        let l:dir_short = l:dir[0:1]
+      elseif len(l:dir) > 1
+        let l:dir_short = l:dir[0] . l:dir[1]
       else
         let l:dir_short = '.'
       endif
@@ -125,7 +130,7 @@ function! nanovim#util#enter()
           \ "%#Nano_Face_Header_Faded#%{&modified?'':nanovim#util#mode()}" .
           \ "%#Nano_Face_Header_Popout#%{&modified?nanovim#util#mode():''}" .
           \ "%#Nano_Face_Header_Strong# %{nanovim#util#fname()}%<" .
-          \ "%#Nano_Face_Header_Default#  %{nanovim#util#misc_info()}" .
+          \ "%#Nano_Face_Header_Default#  %{&bt=='terminal'?'':nanovim#util#misc_info()}" .
           \ "%= %l:%c %#Nano_Face_Default# "
   endif
 endfunction

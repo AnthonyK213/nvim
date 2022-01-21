@@ -311,18 +311,26 @@ hi! link xmlAttrib                Nano_Face_Salient
 hi! link markdownH1               Nano_Face_Salient
 hi! link markdownH2               Nano_Face_Salient
 hi! link markdownH3               Nano_Face_Salient
-hi! link markdownH4               Nano_Face_Default
-hi! link markdownH5               Nano_Face_Default
-hi! link markdownH6               Nano_Face_Default
+hi! link markdownH4               Nano_Face_Salient
+hi! link markdownH5               Nano_Face_Salient
+hi! link markdownH6               Nano_Face_Salient
+hi! link markdownUrl              Nano_Face_Faded
 hi! link markdownBold             Nano_Face_Strong
-hi! link markdownRule             Nano_Face_Faded
-hi! link markdownCode             Nano_Face_Default
-hi! link markdownCodeBlock        Nano_Face_Default
-hi! link markdownCodeDelimiter    Nano_Face_Default
-hi! link markdownBlockquote       Nano_Face_Faded
-hi! link markdownHeadingRule      Nano_Face_Faded
-hi! link markdownListMarker       Nano_Face_Salient
-hi! link markdownHeadingDelimiter Nano_Face_Salient
+hi! link markdownCode             Nano_Face_Popout
+hi! link markdownBoldDelimiter    Nano_Face_Subtle
+hi! link markdownCodeDelimiter    Nano_Face_Subtle
+hi! link markdownItalicDelimiter  Nano_Face_Subtle
+hi! link markdownLinkText         Nano_Face_Popout
+hi! link markdownTSEmphasis       Nano_Face_Salient
+hi! link markdownTSLiteral        Nano_Face_Popout
+hi! link markdownTSNone           Nano_Face_Faded
+hi! link markdownTSPunctSpecial   Nano_Face_Salient
+hi! link markdownTSPunctDelimiter Nano_Face_Subtle
+hi! link markdownTSStringEscape   Nano_Face_Salient
+hi! link markdownTSStrong         Nano_Face_Strong
+hi! link markdownTSTextReference  Nano_Face_Popout
+hi! link markdownTSTitle          Nano_Face_Salient
+hi! link markdownTSURI            Nano_Face_Salient
 
 hi! link yamlBlockMappingKey      Nano_Face_Salient
 hi! link pythonOperator           Nano_Face_Salient
@@ -460,7 +468,5 @@ augroup nanovim_redrawstatus
   autocmd BufLeave,WinLeave * call nanovim#util#leave()
 augroup end
 " }}
-
-syntax on
 
 " vim: set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:

@@ -19,14 +19,14 @@ function! s:zeller(str)
 
   if l:m == 2
     let l:month_days_count = 28
-    if (l:a % 100 != 0 && l:a % 4 == 0) ||
-     \ (l:a % 100 == 0 && l:a % 400 == 0)
+    if (l:a % 100 != 0 && l:a % 4 == 0)
+          \ || (l:a % 100 == 0 && l:a % 400 == 0)
       let l:month_days_count += 1
     endif
   else
     let l:month_days_count = 30
-    if (l:m <= 7 && l:m % 2 == 1) ||
-     \ (l:m >= 8 && l:m % 2 == 0)
+    if (l:m <= 7 && l:m % 2 == 1)
+          \ || (l:m >= 8 && l:m % 2 == 0)
       let l:month_days_count += 1
     endif
   endif
@@ -58,8 +58,8 @@ function! usr#note#append_day_from_date()
   let l:match_start = 0
   while 1
     let l:match_cword = matchstrpos(l:line, l:str, l:match_start)[1:]
-    if l:match_cword[0] <= l:cursor_pos &&
-     \ l:match_cword[1] >= l:cursor_pos
+    if l:match_cword[0] <= l:cursor_pos
+          \ && l:match_cword[1] >= l:cursor_pos
       break
     endif
     let l:match_start = l:match_cword[1]

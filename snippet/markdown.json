@@ -1,37 +1,42 @@
 {
-    "Insert picture": {
-        "prefix": "pix",
-        "body": [
-            "![${1:caption}](${2:path})",
-            "${0}"
-        ],
-        "description": "Insert picture"
-    },
-    "Insert link": {
-        "prefix": "link",
-        "body": [
-            "[${1:caption}](${2:link})",
-            "${0}"
-        ],
-        "description": "Insert link"
-    },
-    "Insert code block": {
-        "prefix": "block",
-        "body": [
-            "``` ${1:language}",
-            "${0}",
-            "```"
-        ],
-        "description": "Insert code block"
-    },
-    "formula": {
-        "prefix": "formula",
-        "body": [
-            "\\$\\$",
-            "${1}",
-            "\\$\\$",
-            "${0}"
-        ],
-        "description": "Insert formula"
-    }
+  "Insert picture": {
+    "prefix": "pix",
+    "body": [
+      "![${1:caption}](${2:path})${0}"
+    ],
+    "description": "Insert picture."
+  },
+  "Insert link": {
+    "prefix": "lnk",
+    "body": [
+      "[${1:caption}](${2:link})${0}"
+    ],
+    "description": "Insert link."
+  },
+  "Insert code block": {
+    "prefix": "blk",
+    "body": [
+      "``` ${1:language}",
+      "${0}",
+      "```"
+    ],
+    "description": "Insert code block."
+  },
+  "Insert formula": {
+    "prefix": "fml",
+    "body": [
+      "\\$\\$",
+      "${1}",
+      "\\$\\$",
+      "${0}"
+    ],
+    "description": "Insert formula."
+  },
+  "Insert image": {
+    "prefix": "img",
+    "body": [
+      "<a href=\"${1:caption}\"><img src=\"${2:path}\" height=\"${3:height}\" width=\"${4:width}\"></a>${0}"
+    ],
+    "description": "Insert image."
+  }
 }

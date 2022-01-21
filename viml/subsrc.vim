@@ -64,8 +64,8 @@ endfunction
 function! s:subsrc_pairs_backs()
   if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
     return g:subsrc_dir_r . "\<BS>\<BS>"
-  elseif s:subsrc_get_context('b') =~ '\v\{\s$' &&
-        \ s:subsrc_get_context('f') =~ '\v^\s\}'
+  elseif s:subsrc_get_context('b') =~ '\v\{\s$'
+        \ && s:subsrc_get_context('f') =~ '\v^\s\}'
     return "\<C-\>\<C-O>diB"
   else
     return "\<BS>"
@@ -82,8 +82,9 @@ function! s:subsrc_pairs_supbs()
   for [l:key, l:val] in items(s:subsrc_pairs_dict)
     let l:key_esc = '\v' . escape(l:key, ' ()[]{}<>*') . '$'
     let l:val_esc = '\v^' . escape(l:val, ' ()[]{}<>*')
-    if l:back =~ l:key_esc && l:fore =~ l:val_esc &&
-          \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
+    if l:back =~ l:key_esc
+          \ && l:fore =~ l:val_esc
+          \ && len(l:key) + len(l:val) > l:res[1] + l:res[2]
       let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor

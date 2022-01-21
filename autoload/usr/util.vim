@@ -36,9 +36,9 @@ endfunction
 
 "" Open file with system default browser.
 function! usr#util#open_file_or_url(obj)
-  if empty(a:obj) ||
-        \ (empty(glob(a:obj)) &&
-        \ !(a:obj =~ '\v^\a+://\w[-.0-9A-Za-z_]*:?\d*/?[0-9A-Za-z_.~!*:@&+$/?%#=-]*$'))
+  if empty(a:obj)
+        \ || (empty(glob(a:obj))
+        \ && !(a:obj =~ '\v^\a+://\w[-.0-9A-Za-z_]*:?\d*/?[0-9A-Za-z_.~!*:@&+$/?%#=-]*$'))
     return
   end
   let l:obj_esc = '"' . escape(expand(a:obj), '%#') . '"'
@@ -63,10 +63,10 @@ function usr#util#match_url(str)
     let l:port  = l:match_res[4]
     let l:slash = l:match_res[5]
     let l:path  = l:match_res[6]
-    if !empty(url) &&
-          \ dom !~ '\W\W' &&
-          \ l:protocols[tolower(l:prot)] == (1 - len(l:slash)) * len(l:path) &&
-          \ (empty(l:colon) || !empty(port) && str2nr(port) < 65536)
+    if !empty(url)
+          \ && dom !~ '\W\W'
+          \ && l:protocols[tolower(l:prot)] == (1 - len(l:slash)) * len(l:path)
+          \ && (empty(l:colon) || !empty(port) && str2nr(port) < 65536)
       return url
     endif
   endif

@@ -53,8 +53,8 @@ endfunction
 " Return the <cWORD> without the noisy characters.
 function! usr#lib#get_clean_cWORD(del_list)
   let l:c_word = expand("<cWORD>")
-  while index(a:del_list, l:c_word[(len(l:c_word) - 1)]) >= 0 &&
-        \ len(l:c_word) >= 2
+  while index(a:del_list, l:c_word[(len(l:c_word) - 1)]) >= 0
+        \ && len(l:c_word) >= 2
     let l:c_word = l:c_word[:(len(l:c_word) - 2)]
   endwhile
   while index(a:del_list, l:c_word[0]) >= 0 && len(l:c_word) >= 2

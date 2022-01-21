@@ -94,8 +94,8 @@ function! s:del_cmt_block() abort
 
   for l:i in range(l:lnum_c - 1, 1, -1)
     let l:line_p = getline(l:i)
-    if (l:line_p =~ '\v' . l:vim_cmt_mark_b . '.{-}$') &&
-          \ (l:line_p !~ '\v' . l:vim_cmt_mark_a . '.{-}$')
+    if (l:line_p =~ '\v' . l:vim_cmt_mark_b . '.{-}$')
+          \ && (l:line_p !~ '\v' . l:vim_cmt_mark_a . '.{-}$')
       return
     endif
     if l:line_p =~ '\v' . l:vim_cmt_mark_a . '.{-}$'
