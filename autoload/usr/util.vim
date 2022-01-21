@@ -1,26 +1,26 @@
-"" Escape string for URL.
-let s:esc_url = {
-      \ " " : "\\\%20", "!" : "\\\%21", '"' : "\\\%22",
-      \ "#" : "\\\%23", "$" : "\\\%24", "%" : "\\\%25",
-      \ "&" : "\\\%26", "'" : "\\\%27", "(" : "\\\%28",
-      \ ")" : "\\\%29", "*" : "\\\%2A", "+" : "\\\%2B",
-      \ "," : "\\\%2C", "/" : "\\\%2F", ":" : "\\\%3A",
-      \ ";" : "\\\%3B", "<" : "\\\%3C", "=" : "\\\%3D",
-      \ ">" : "\\\%3E", "?" : "\\\%3F", "@" : "\\\%40",
-      \ "\\": "\\\%5C", "|" : "\\\%7C", "\n": "\\\%20",
-      \ "\r": "\\\%20", "\t": "\\\%20"
-      \ }
-
-
-" Functions
-"" Open terminal and launch shell.
+" Open terminal and launch shell.
 function! usr#util#terminal()
+  let l:shell = usr#pub#var('shell')
+  if type(l:shell) == v:t_list && !empty(l:shell)
+    let l:exec = l:shell[0]
+    let l:cmd = l:shell
+  elseif type(l:shell) == v:t_string
+    let l:exec = l:shell
+    let l:cmd = [l:shell]
+  else
+    echo "The shell is invalid, please check `opt.vim`."
+    return
+  endif
+  if !executable(l:exec)
+    echo l:exec "is no a valid shell."
+    return
+  endif
   call usr#lib#belowright_split(15)
-  silent exe 'terminal' usr#pub#var().shell
   setl nonu
+  call termopen(l:cmd)
 endfunction
 
-"" Open and edit test file in vim.
+" Open and edit test file in vim.
 function! usr#util#edit_file(file_path, chdir)
   let l:path = expand(a:file_path)
   if empty(expand("%:t"))
@@ -33,60 +33,46 @@ function! usr#util#edit_file(file_path, chdir)
   endif
 endfunction
 
-
-"" Open file with system default browser.
-function! usr#util#open_file_or_url(obj)
-  if empty(a:obj)
-        \ || (empty(glob(a:obj))
-        \ && !(a:obj =~ '\v^\a+://\w[-.0-9A-Za-z_]*:?\d*/?[0-9A-Za-z_.~!*:@&+$/?%#=-]*$'))
-    return
-  end
-  let l:obj_esc = '"' . escape(expand(a:obj), '%#') . '"'
-  let l:cmd = has("win32") ? usr#pub#var().start . ' ""' : usr#pub#var().start
-  silent exe '!' . l:cmd l:obj_esc
-endfunction
-
-"" Match URL in string.
-function usr#util#match_url(str)
-  let l:protocols = {
-        \ '' : 0,
-        \ 'http://' : 0,
-        \ 'https://' : 0,
-        \ 'ftp://' : 0
-        \ }
-  let l:match_res = matchlist(a:str, '\v(\a+://)(\w[-.0-9A-Za-z_]*)(:?)(\d*)(/?)([0-9A-Za-z_.~!*:@&+$/?%#=-]*)')
-  if !empty(l:match_res)
-    let l:url   = l:match_res[0]
-    let l:prot  = l:match_res[1]
-    let l:dom   = l:match_res[2]
-    let l:colon = l:match_res[3]
-    let l:port  = l:match_res[4]
-    let l:slash = l:match_res[5]
-    let l:path  = l:match_res[6]
-    if !empty(url)
-          \ && dom !~ '\W\W'
-          \ && l:protocols[tolower(l:prot)] == (1 - len(l:slash)) * len(l:path)
-          \ && (empty(l:colon) || !empty(port) && str2nr(port) < 65536)
-      return url
-    endif
+function! usr#util#match_path_or_url_under_cursor()
+  let l:url = usr#lib#match_url(expand('<cWORD>'))[1]
+  if l:url != v:null
+    return l:url
+  endif
+  let l:path = expand('<cfile>')
+  if usr#lib#path_exists(l:path, expand('%:p:h'))
+    return expand(l:path)
   endif
   return v:null
 endfunction
 
-"" Search web.
-function! usr#util#search_web(mode, site)
-  let l:del_list = [
-        \ ".", ",", "'", "\"",
-        \ ";", "*", "~", "`", 
-        \ "(", ")", "[", "]", "{", "}"
-        \ ]
-  if a:mode ==? "n"
-    let l:search_obj = usr#lib#str_escape(usr#lib#get_clean_cWORD(l:del_list), s:esc_url)
-  elseif a:mode ==? "v"
-    let l:search_obj = usr#lib#str_escape(usr#lib#get_visual_selection(), s:esc_url)
+function! usr#util#sys_open(obj, use_local=v:false)
+  let l:cwd = a:use_local ? expand('%:p:h') : getcwd()
+  if type(a:obj) != v:t_string
+        \ || !(usr#lib#path_exists(a:obj, l:cwd) || usr#lib#match_url(a:obj)[0])
+    echoerr 'Nothing found.'
+    return
   endif
-  let l:url_raw = a:site . l:search_obj
-  let l:url_arg = has("win32") ? l:url_raw : '"' . l:url_raw . '"'
-  silent exe '!' . usr#pub#var().start l:url_arg
-  redraw
+  let l:cmd = []
+  let l:start = usr#pub#var('start')
+  if type(l:start) == v:t_list
+    let l:cmd += l:start
+  elseif type(l:start) == v:t_string
+    call add(l:cmd, l:start)
+  else
+    echoerr 'Invalid definition of `start`.'
+    return
+  endif
+  call add(l:cmd, a:obj)
+  call jobstart(l:cmd, { 'cwd': l:cwd })
+endfunction
+
+" Search web.
+function! usr#util#search_web(mode, site)
+  if a:mode ==? "n"
+    let l:search_obj = usr#lib#encode_url(usr#lib#get_word()[0])
+  elseif a:mode ==? "v"
+    let l:search_obj = usr#lib#encode_url(usr#lib#get_visual_selection())
+  endif
+  echo a:site . l:search_obj
+  call usr#util#sys_open(a:site . l:search_obj, v:false)
 endfunction

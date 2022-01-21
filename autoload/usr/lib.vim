@@ -1,8 +1,14 @@
-" Create a below right split window.
-function! usr#lib#belowright_split(height)
-  let l:height = min([a:height, float2nr(winheight(0) * 0.382)])
-  belowright split
-  exe 'resize' l:height
+" Get the character around the cursor.
+function! usr#lib#get_char(num) abort
+  if a:num ==# 'p'
+    return matchstr(getline('.'), '.\%' . col('.') . 'c')
+  elseif a:num ==# 'n'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.')
+  elseif a:num ==# 'b'
+    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
+  elseif a:num ==# 'f'
+    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
+  endif
 endfunction
 
 " Find the root directory contains patter `pat`.
@@ -30,39 +36,6 @@ function! usr#lib#get_git_branch(git_root)
   endif
 endfunction
 
-" Get the character around the cursor.
-function! usr#lib#get_char(num) abort
-  if a:num ==# 'p'
-    return matchstr(getline('.'), '.\%' . col('.') . 'c')
-  elseif a:num ==# 'n'
-    return matchstr(getline('.'), '\%' . col('.') . 'c.')
-  elseif a:num ==# 'b'
-    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
-  elseif a:num ==# 'f'
-    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
-  endif
-endfunction
-
-" Determines if a character is a Chinese character.
-" Why is this faster than regex?
-function! usr#lib#is_hanzi(char)
-  let l:code = char2nr(a:char)
-  return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
-endfunction
-
-" Return the <cWORD> without the noisy characters.
-function! usr#lib#get_clean_cWORD(del_list)
-  let l:c_word = expand("<cWORD>")
-  while index(a:del_list, l:c_word[(len(l:c_word) - 1)]) >= 0
-        \ && len(l:c_word) >= 2
-    let l:c_word = l:c_word[:(len(l:c_word) - 2)]
-  endwhile
-  while index(a:del_list, l:c_word[0]) >= 0 && len(l:c_word) >= 2
-    let l:c_word = l:c_word[1:]
-  endwhile
-  return l:c_word
-endfunction
-
 " Return the selections as string.
 function! usr#lib#get_visual_selection()
   try
@@ -72,6 +45,30 @@ function! usr#lib#get_visual_selection()
   finally
     let @a = l:a_save
   endtry
+endfunction
+
+" Determines if a character is a Chinese character.
+" Why is this faster than regex?
+function! usr#lib#is_hanzi(char)
+  let l:code = char2nr(a:char)
+  return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
+endfunction
+
+" Get the word and its position under the cursor.
+function! usr#lib#get_word()
+  let l:b = usr#lib#get_char('b')
+  let l:f = usr#lib#get_char('f')
+  let l:p_a = matchstr(l:b, '\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$')
+  let l:p_b = matchstr(l:f, '\v^([\u4e00-\u9fff0-9a-zA-Z_-])+')
+  let l:word = ''
+  if !empty(l:p_b)
+    let l:word = l:p_a . l:p_b
+  endif
+  if l:word->empty()
+    let l:word = usr#lib#get_char('n')
+    let l:p_b = word
+  endif
+  return [l:word, len(l:b) - len(l:p_a), len(l:b) + len(l:p_b)]
 endfunction
 
 " Replace chars in a string according to a dictionary.
@@ -88,10 +85,6 @@ function! usr#lib#str_escape(str, esc_dict)
   return join(l:str_lst, '')
 endfunction
 
-function! usr#lib#vim_reg_esc(str)
-  return escape(a:str, '()[]{}<>.+*^$')
-endfunction
-
 " Define highlight group.
 function! usr#lib#set_hi(group, fg, bg, attr)
   let l:cmd = "highlight " . a:group
@@ -99,4 +92,81 @@ function! usr#lib#set_hi(group, fg, bg, attr)
   if !empty(a:bg)   | let l:cmd = l:cmd . " guibg=" . a:bg | endif
   if !empty(a:attr) | let l:cmd = l:cmd . " gui=" . a:attr | endif
   exe l:cmd
+endfunction
+
+function! usr#lib#vim_reg_esc(str)
+  return escape(a:str, ' ()[]{}<>.+*^$')
+endfunction
+
+function! usr#lib#encode_url(str)
+  let l:res = ""
+  for l:char in split(a:str, '.\zs')
+    if l:char =~ '\v(\w|\.|-)'
+      let l:res .= l:char
+    else
+      let l:res .= printf("%%%02x", char2nr(l:char))
+    endif
+  endfor
+  return l:res
+endfunction
+
+function! usr#lib#match_url(str)
+  let l:protocols = {
+        \ '' : 0,
+        \ 'http://' : 0,
+        \ 'https://' : 0,
+        \ 'ftp://' : 0
+        \ }
+  let l:match_res = matchlist(a:str, '\v(\a+://)(\w[-.0-9A-Za-z_]*)(:?)(\d*)(/?)([0-9A-Za-z_.~!*:@&+$/?%#=-]*)')
+  if !empty(l:match_res)
+    let l:url   = l:match_res[0]
+    let l:prot  = l:match_res[1]
+    let l:dom   = l:match_res[2]
+    let l:colon = l:match_res[3]
+    let l:port  = l:match_res[4]
+    let l:slash = l:match_res[5]
+    let l:path  = l:match_res[6]
+    if !empty(url)
+          \ && dom !~ '\W\W'
+          \ && l:protocols[tolower(l:prot)] == (1 - len(l:slash)) * len(l:path)
+          \ && (empty(l:colon) || !empty(port) && str2nr(port) < 65536)
+      return [len(l:url) == len(a:str), url]
+    endif
+  endif
+  return [v:false, v:null]
+endfunction
+
+" Create a below right split window.
+function! usr#lib#belowright_split(height)
+  let l:term_h = min([a:height, float2nr(winheight(0) * 0.382)])
+  belowright new
+  exe 'resize' l:term_h
+endfunction
+
+function! usr#lib#path_exists(path, ...)
+  let l:is_rel = v:true
+  let l:path = expand(a:path)
+  if has('win32')
+    if path =~ '\v^\a:[\\/]'
+      let l:is_rel = v:false
+    endif
+  else
+    if path =~ '\v^/'
+      let l:is_rel = v:false
+    endif
+  endif
+  if l:is_rel
+    if a:0 == 0
+      let l:cwd = getcwd()
+    else
+      let l:cwd = a:1
+    endif
+    let l:cwd = substitute(l:cwd, '\v[\\/]$', '', '')
+    let l:path = l:cwd . '/' . l:path
+  endif
+  if l:path->glob()->empty()
+    return v:false
+  else
+    return v:true
+  endif
 endfunction

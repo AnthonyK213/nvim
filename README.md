@@ -14,15 +14,7 @@
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     ```
-* [**Python**](https://www.python.org/) (For [VimTeX](https://github.com/lervag/vimtex))
-  ```sh
-  pip install pynvim
-  pip install neovim-remote
-  ```
 * [**Node.js**](https://nodejs.org) (For [coc.nvim](https://github.com/neoclide/coc.nvim))
-  ```sh
-  npm install neovim -g
-  ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) (For [fzf.vim](https://github.com/junegunn/fzf.vim))
   - ripgrep recursively searches directories for a regex pattern while respecting your gitignore.
 
@@ -86,6 +78,7 @@
 * Display
   - [gruvbox](https://github.com/morhetz/gruvbox)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
+  - [vim-startify](https://github.com/mhinz/vim-startify)
 * File system
   - [nerdtree](https://github.com/preservim/nerdtree)
   - [fzf](https://github.com/junegunn/fzf)
@@ -99,12 +92,13 @@
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [indentLine](https://github.com/Yggdroot/indentLine)
   - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
+  - [vim-matchup](https://github.com/andymass/vim-matchup)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [vim-markdown](https://github.com/plasticboy/vim-markdown)
-  - [vim-processing](https://github.com/sophacles/vim-processing)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+  - [presenting.vim](https://github.com/sotte/presenting.vim)
 * Snippet; Completion
   - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
   - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
@@ -223,14 +217,16 @@
 * **Miscellanea**
   - v:      <kbd>*</kbd>     -> Search visual selection.
   - invt:   <kbd>F2</kbd>    -> Toggle mouse status.
+  - n:      <kbd>F5</kbd>    -> `CodeRun`
 
 
 ## Commands
-- `CodeRun`   -> Run or compile the code of current buffer.
-- `CodeBuild` -> Build or make the project.
+- `CodeRun`   -> Run or compile the code.
 - `PDF`       -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`   -> Just push everything to the remote origin.
   - `-b`      -> branch,  default -> current branch.
   - `-m`      -> comment, default -> date.
 - `SshConfig` -> Open and edit ~/.ssh/config
 - `Time`      -> Echo date and time.
+
+> vim:set wrap:

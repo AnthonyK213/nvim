@@ -4,6 +4,7 @@ call plug#begin(stdpath('data') . '/plugged')
   " Display
   Plug 'morhetz/gruvbox'
   Plug 'vim-airline/vim-airline'
+  Plug 'mhinz/vim-startify'
   " Tree manager
   Plug 'preservim/nerdtree'
   " FZF
@@ -18,6 +19,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'tpope/vim-speeddating'
   Plug 'dhruvasagar/vim-table-mode'
   Plug 'AnthonyK213/vim-ipairs'
+  Plug 'andymass/vim-matchup'
   " File type support
   Plug 'lervag/vimtex'
   Plug 'vimwiki/vimwiki', {'branch': 'dev'}
@@ -25,6 +27,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim',
         \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
+  Plug 'sotte/presenting.vim'
   " Snippet; Completion
 if g:plug_def_comp ==# 'asyncomplete'
   Plug 'prabirshrestha/asyncomplete.vim'
