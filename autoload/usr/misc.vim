@@ -63,16 +63,6 @@ function! usr#misc#open_opt()
   call nvim_set_current_dir(l:cfg)
 endfunction
 
-" nvim-tree open file with os default application.
-function! usr#misc#nvim_tree_sys_open()
-lua << EOF
-  local node = require('nvim-tree.lib').get_node_at_cursor()
-  if node then
-    require('utility.util').sys_open(node.absolute_path)
-  end
-EOF
-endfunction
-
 " Set background according to time.
 function! usr#misc#time_background()
 lua << EOF
