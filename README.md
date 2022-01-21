@@ -133,6 +133,7 @@
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
   - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
+  - [vim-matchup](https://github.com/andymass/vim-matchup)
   - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
   - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 * File type support
@@ -147,7 +148,6 @@
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [nvim-gps](https://github.com/SmiteshP/nvim-gps)
-  - [vim-matchup](https://github.com/andymass/vim-matchup)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
 

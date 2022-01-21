@@ -48,6 +48,9 @@ require('packer').startup(function(use)
             config = function() require('packages.lua-pairs') end
         };
         {
+            'andymass/vim-matchup'
+        };
+        {
             'Shatur/neovim-session-manager',
             config = function() require('packages.neovim-session-manager') end
         };
@@ -104,9 +107,6 @@ require('packer').startup(function(use)
         {
             'SmiteshP/nvim-gps',
             config = function() require('packages.nvim-gps') end
-        };
-        {
-            'andymass/vim-matchup'
         };
     }
     -- Games
