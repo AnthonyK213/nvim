@@ -116,11 +116,11 @@
 * Package manager
   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * Display(Optional)
+  - [alpha-nvim](https://github.com/goolord/alpha-nvim)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
-  - [alpha-nvim](https://github.com/goolord/alpha-nvim)
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
@@ -141,12 +141,12 @@
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
-* Snippet; Completion; LSP; TreeSitter
-  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+* Completion; Snippet; LSP; TreeSitter
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-  - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-gps](https://github.com/SmiteshP/nvim-gps)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
@@ -171,7 +171,7 @@
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>      -> Jump to the window in turns.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>      -> Open `$MYVIMRC`.
+  - n:   <kbd>M-,</kbd>      -> Open `opt.lua`.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - inv: <kbd>M-B</kbd>      -> Markdown **bold**.

@@ -3,11 +3,11 @@ require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     -- Display
     use {
+        {'goolord/alpha-nvim',          opt = true};
         {'folke/tokyonight.nvim',       opt = true};
         {'nvim-lualine/lualine.nvim',   opt = true};
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
-        {'goolord/alpha-nvim',          opt = true};
     }
     -- File system
     use {
@@ -77,7 +77,7 @@ require('packer').startup(function(use)
         };
         'sotte/presenting.vim';
     }
-    -- Snippet; Completion; LSP; Treesitter
+    -- Completion; Snippet; LSP; Treesitter
     use {
         {
             'hrsh7th/nvim-cmp',
@@ -97,12 +97,12 @@ require('packer').startup(function(use)
             config = function() require('packages.nvim-lspconfig') end
         };
         {
-            'stevearc/aerial.nvim',
-            config = function() require('packages.aerial') end
-        };
-        {
             'nvim-treesitter/nvim-treesitter',
             config = function() require('packages.nvim-treesitter') end
+        };
+        {
+            'stevearc/aerial.nvim',
+            config = function() require('packages.aerial') end
         };
         {
             'SmiteshP/nvim-gps',
