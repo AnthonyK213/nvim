@@ -10,5 +10,3 @@ vim.cmd('command! -nargs=* PushAll lua require("utility.vcs").git_push_all(<f-ar
 vim.cmd('command! -nargs=* -complete=custom,usr#misc#nvim_upgrade_option NvimUpgrade lua require("utility.util").nvim_upgrade(<f-args>)')
 -- Open ssh configuration.
 vim.cmd('command! SshConfig lua require("utility.util").edit_file("$HOME/.ssh/config", false)')
--- Scroll off
-require('utility.lib').set_augroup('scroll_off', 'BufEnter * setlocal so=5', 'BufEnter *.md setlocal so=999')

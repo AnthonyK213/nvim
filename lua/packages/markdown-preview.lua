@@ -6,15 +6,10 @@ vim.g.mkdp_preview_options = {
     uml                 = {},
     maid                = {},
     disable_sync_scroll = 0,
-    sync_scroll_type    = 'middle',
+    sync_scroll_type    = 'relative',
     hide_yaml_meta      = 1,
     sequence_diagrams   = {},
     flowchart_diagrams  = {},
-    content_editable    = false
+    content_editable    = false,
+    disable_filename    = 0
 }
-
-
-local kbd = vim.api.nvim_set_keymap
-kbd('n', '<leader>mt',
-'exists(":MarkdownPreviewToggle") ? ":MarkdownPreviewToggle<CR>" : "<ESC>"',
-{ expr = true, noremap = true, silent = true })
