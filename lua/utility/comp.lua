@@ -147,7 +147,7 @@ local comp_cpp = function (tbl)
     local cc = cc_tbl[pub.ccomp]
     if cc then
         if not lib.executable(cc) then return nil, nil end
-        return cb_run_bin, { cc_tbl[pub.ccomp], tbl.fnm, '-o', tbl.bin }
+        return cb_run_bin, { cc, tbl.fnm, '-o', tbl.bin }
     else
         return false, nil
     end
