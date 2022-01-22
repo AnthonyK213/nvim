@@ -33,16 +33,6 @@ require('gitsigns').setup {
     },
     numhl = false,
     linehl = false,
-    keymaps = {
-        noremap = true,
-        buffer = true,
-        ['n <leader>gj'] = '<cmd>lua require("gitsigns").next_hunk()<CR>',
-        ['n <leader>gk'] = '<cmd>lua require("gitsigns").prev_hunk()<CR>',
-        ['n <leader>gp'] = '<cmd>lua require("gitsigns").preview_hunk()<CR>',
-        ['n <leader>gb'] = '<cmd>lua require("gitsigns").blame_line()<CR>',
-        ['o ih'] = ':<C-U>lua require("gitsigns").select_hunk()<CR>',
-        ['x ih'] = ':<C-U>lua require("gitsigns").select_hunk()<CR>'
-    },
     watch_gitdir = {
         interval = 1000
     },
@@ -51,3 +41,11 @@ require('gitsigns').setup {
     update_debounce = 100,
     status_formatter = nil,
 }
+
+
+local kbd = vim.api.nvim_set_keymap
+local ntst = { noremap = true, silent = true }
+kbd('n', '<leader>gj', '<Cmd>lua require("gitsigns").next_hunk()<CR>', ntst)
+kbd('n', '<leader>gk', '<Cmd>lua require("gitsigns").prev_hunk()<CR>', ntst)
+kbd('n', '<leader>gp', '<Cmd>lua require("gitsigns").preview_hunk()<CR>', ntst)
+kbd('n', '<leader>gb', '<Cmd>lua require("gitsigns").blame_line()<CR>', ntst)
