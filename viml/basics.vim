@@ -10,6 +10,7 @@ set number
 set hidden
 set cursorline
 set cmdheight=1
+set scrolloff=5
 set laststatus=2
 set colorcolumn=80
 set shortmess+=c

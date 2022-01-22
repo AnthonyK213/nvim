@@ -76,17 +76,15 @@
 * Package manager
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Display
+  - [vim-startify](https://github.com/mhinz/vim-startify)
   - [gruvbox](https://github.com/morhetz/gruvbox)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
-  - [vim-startify](https://github.com/mhinz/vim-startify)
 * File system
-  - [nerdtree](https://github.com/preservim/nerdtree)
   - [fzf](https://github.com/junegunn/fzf)
   - [fzf.vim](https://github.com/junegunn/fzf.vim)
 * VCS
   - [vim-fugitive](https://github.com/tpope/vim-fugitive)
   - [vim-signify](https://github.com/mhinz/vim-signify)
-  - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
 * Utilities
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
@@ -99,11 +97,14 @@
   - [vim-markdown](https://github.com/plasticboy/vim-markdown)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
-* Snippet; Completion
+* Completion; Snippet (Provide by pure vim script)
   - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
   - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
+  - [nerdtree](https://github.com/preservim/nerdtree)
+  - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
+* Completion; Snippet; LSP (Provide by coc.nvim)
   - [coc.nvim](https://github.com/neoclide/coc.nvim)
   - [vista.vim](https://github.com/liuchengxu/vista.vim)
 
@@ -116,7 +117,7 @@
   - in:  <kbd>M-a</kbd>      -> Select all.
   - v:   <kbd>M-c</kbd>      -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>      -> Close the terminal.
-  - int: <kbd>M-e</kbd>      -> *nerdtree*, NERDTree focus.
+  - int: <kbd>M-e</kbd>      -> File explorer focus.
   - nv:  <kbd>M-g</kbd>      -> Find and replace.
   - inv: <kbd>M-h</kbd>      -> Jump to the window left.
   - inv: <kbd>M-j</kbd>      -> Jump to the window below.
@@ -126,7 +127,7 @@
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>      -> Open `$MYVIMRC`.
+  - n:   <kbd>M-,</kbd>      -> Open `opt.vim`.
   - i:   <kbd>M-CR</kbd>     -> Auto insert bullet.
   - in:  <kbd>M-Number</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - inv: <kbd>M-B</kbd>      -> Markdown bold: **bold** 

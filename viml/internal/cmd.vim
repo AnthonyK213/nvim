@@ -8,11 +8,3 @@ command! -nargs=? -complete=custom,usr#misc#run_code_option CodeRun :call usr#co
 command! -nargs=* PushAll :call usr#vcs#git_push_all(<f-args>)
 " Open ssh configuration.
 command! SshConfig :call usr#util#edit_file("$HOME/.ssh/config", v:false)
-
-
-" Scroll off
-augroup scroll_off
-  autocmd!
-  au BufEnter * setlocal so=5
-  au BufEnter *.md setlocal so=999
-augroup end

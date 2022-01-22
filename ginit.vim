@@ -202,7 +202,3 @@ nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
 if exists('g:lock_background')
   nn <silent> <F4> :call <SID>gui_toggle_background_lock()<CR>
 endif
-"" Markdown viewer of goneovim
-if exists('g:goneovim')
-  nn <silent> <leader>mt :GonvimMarkdown<CR>
-endif
