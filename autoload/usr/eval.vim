@@ -6,8 +6,8 @@ function! s:text_eval(f)
   try
     let l:expr = matchlist(l:fore, '\v^`(.{-})`.*$')[1]
     let l:result = a:f(l:expr)
-    let l:fore_new = substitute(fore, '\v^`(.{-}`)', string(l:result), '')
-    call setline('.', back . fore_new)
+    let l:fore_new = substitute(l:fore, '\v^`(.{-}`)', string(l:result), '')
+    call setline('.', l:back . l:fore_new)
   catch
     call setpos('.', l:origin_pos)
     echo 'No valid expression was found.'
@@ -19,7 +19,7 @@ function! s:add(args)
   for l:arg in a:args
     let l:result += l:arg
   endfor
-  return result
+  return l:result
 endfunction
 
 function! s:subtract(args)
@@ -41,7 +41,7 @@ function! s:multiply(args)
   for l:arg in a:args
     let l:result *= l:arg
   endfor
-  return result
+  return l:result
 endfunction
 
 function! s:divide(args)

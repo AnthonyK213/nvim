@@ -204,7 +204,8 @@
     - n:    <kbd>b</kbd>     -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd>     -> Open system file manager.
     - n:    <kbd>t</kbd>     -> Open terminal.
-    - nt:   <kbd>p</kbd>     -> *nerdtree*, NERDTree toggle.
+    - n:    <kbd>p</kbd>     -> File explorer toggle.
+    - n:    <kbd>u</kbd>     -> Open path or url under the cursor.
   - <kbd>leader-s-</kbd>     -> **Surrounding**.
     - nv:   <kbd>a</kbd>     -> Surrounding add.
     - n:    <kbd>c</kbd>     -> Surrounding change.
