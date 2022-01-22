@@ -154,7 +154,9 @@ local comp_cpp = function (tbl)
 end
 
 local comp_csharp = function (tbl)
-    if not lib.has_windows() then return end
+    if not lib.has_windows() then
+        return nil, nil
+    end
     local sln_root = lib.get_root("*.sln")
 
     if sln_root then
