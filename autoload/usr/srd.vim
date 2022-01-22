@@ -76,20 +76,11 @@ function! usr#srd#sur_add(mode, ...)
   let l:pair_b = s:sur_pair(l:pair_a)
 
   if a:mode ==# 'n'
-    let l:org = getpos('.')
-    if usr#lib#get_char('f') =~ '\v^.\s' ||
-     \ usr#lib#get_char('f') =~ '\v^.$'
-      exe "normal! a" . l:pair_b
-    else
-      exe "normal! Ea" . l:pair_b
-    endif
-    call setpos('.', l:org)
-    if usr#lib#get_char('p') =~ '\v\s' ||
-     \ usr#lib#get_char('b') =~ '\v^$'
-      exe "normal! i" . l:pair_a
-    else
-      exe "normal! Bi" . l:pair_a
-    endif
+    let [l:word, l:s, l:e] = usr#lib#get_word()
+    let l:line = getline('.')
+    let l:l_a = l:s == 0 ? '' : l:line[0:(l:s - 1)]
+    let l:line_new = l:l_a . l:pair_a . l:word . l:pair_b . l:line[(l:e):]
+    call setline('.', l:line_new)
   elseif a:mode ==# 'v'
     let l:stt = [0] + getpos("'<")[1:2]
     let l:end = [0] + getpos("'>")[1:2]

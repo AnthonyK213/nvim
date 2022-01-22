@@ -1,19 +1,16 @@
-let g:plug_def_comp = get(g:, 'default_complete', '')
+let g:plug_use_coc = get(g:, 'default_coc', v:false)
 " Load plug-ins
 call plug#begin(stdpath('data') . '/plugged')
   " Display
   Plug 'morhetz/gruvbox'
   Plug 'vim-airline/vim-airline'
   Plug 'mhinz/vim-startify'
-  " Tree manager
-  Plug 'preservim/nerdtree'
   " FZF
   Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
   Plug 'junegunn/fzf.vim'
   " VCS
   Plug 'tpope/vim-fugitive'
   Plug 'mhinz/vim-signify'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
   " Utilities
   Plug 'Yggdroot/indentLine'
   Plug 'tpope/vim-speeddating'
@@ -24,19 +21,19 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'lervag/vimtex'
   Plug 'vimwiki/vimwiki', {'branch': 'dev'}
   Plug 'plasticboy/vim-markdown'
-  Plug 'sophacles/vim-processing'
   Plug 'iamcco/markdown-preview.nvim',
         \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
   Plug 'sotte/presenting.vim'
   " Snippet; Completion
-if g:plug_def_comp ==# 'asyncomplete'
+if g:plug_use_coc
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'liuchengxu/vista.vim'
+else
+  Plug 'preservim/nerdtree'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
-elseif g:plug_def_comp ==# 'coc'
-  call usr#lsp#setup()
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'liuchengxu/vista.vim'
 endif
 call plug#end()

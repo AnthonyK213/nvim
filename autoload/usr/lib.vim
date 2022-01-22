@@ -63,6 +63,8 @@ function! usr#lib#get_word()
   let l:word = ''
   if !empty(l:p_b)
     let l:word = l:p_a . l:p_b
+  else
+    let l:p_a = ''
   endif
   if l:word->empty()
     let l:word = usr#lib#get_char('n')
@@ -143,6 +145,12 @@ function! usr#lib#belowright_split(height)
   exe 'resize' l:term_h
 endfunction
 
+function! usr#lib#notify_err(err)
+  echohl ErrorMsg
+  echomsg a:err
+  echohl None
+endfunction
+
 function! usr#lib#path_exists(path, ...)
   let l:is_rel = v:true
   let l:path = expand(a:path)
@@ -169,4 +177,12 @@ function! usr#lib#path_exists(path, ...)
   else
     return v:true
   endif
+endfunction
+
+function! usr#lib#executable(name)
+  if executable(a:name)
+    return v:true
+  endif
+  call usr#lib#notify_err('Executable ' . a:name . ' is not found.')
+  return v:false
 endfunction

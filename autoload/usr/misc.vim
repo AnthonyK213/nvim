@@ -18,12 +18,14 @@ function! usr#misc#mouse_toggle()
   endif
 endfunction
 
-" Run code complete option list.
+" `CodeRun` complete option list.
 function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
-        \ 'cs'   : "exe\nwinexe\nlibrary\nmodule",
-        \ 'rust' : "build\nclean\ncheck\nrustc",
+        \ 'cs'   : "lib\nmod\nwin",
+        \ 'lisp' : "build",
+        \ 'lua'  : "nojit",
+        \ 'rust' : "build\ncheck\nclean\ntest",
         \ 'tex'  : "biber\nbibtex",
         \ }
   if has_key(l:option_table, &filetype)
@@ -55,6 +57,30 @@ function! usr#misc#show_toc()
   endif
 endfunction
 
+" Source vim file.
+function! usr#misc#vim_source(file) abort
+  if has("win32")
+    let l:init_viml_path = expand("$LOCALAPPDATA/nvim/")
+  elseif has("unix")
+    let l:init_viml_path = expand('$HOME/.config/nvim/')
+  endif
+  exe 'source' l:init_viml_path .  a:file . '.vim'
+endfunction
+
+" Source vim files.
+function! usr#misc#vim_source_list(file_list)
+  for l:file in a:file_list
+    call usr#misc#vim_source('viml/' . l:file)
+  endfor
+endfunction
+
+" Open opt.vim. Neovim only.
+function! usr#misc#open_opt()
+  let l:cfg = stdpath("config")
+  call usr#util#edit_file(l:cfg.."/viml/core/opt.vim", v:false)
+  call nvim_set_current_dir(l:cfg)
+endfunction
+
 "" Set background according to time.
 function! s:background_checker(bg_timer)
   if !g:lock_background | return | end
@@ -69,21 +95,4 @@ function! usr#misc#time_background()
         \ function('<SID>background_checker'),
         \ { 'repeat': -1 })
   call s:background_checker(bg_timer)
-endfunction
-
-" Source vim file.
-function! usr#misc#vim_source(file) abort
-  if has("win32")
-    let l:init_viml_path = expand("$localappdata/nvim/")
-  elseif has("unix")
-    let l:init_viml_path = expand('~/.config/nvim/')
-  endif
-  exe 'source' l:init_viml_path .  a:file . '.vim'
-endfunction
-
-" Source vim files.
-function! usr#misc#vim_source_list(file_list)
-  for l:file in a:file_list
-    call usr#misc#vim_source('viml/' . l:file)
-  endfor
 endfunction

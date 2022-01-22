@@ -37,17 +37,6 @@ let g:airline_mode_map = {
       \ }
 
 
-" NERDTree
-let g:NERDTreeDirArrowExpandable  = '+'
-let g:NERDTreeDirArrowCollapsible = '-'
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-nn  <silent> <leader>op :NERDTreeToggle<CR>
-nn  <silent> <M-e> :NERDTreeFocus<CR>
-ino <silent> <M-e> <Esc>:NERDTreeFocus<CR>
-tno <silent> <M-e> <C-\><C-N>:NERDTreeFocus<CR>
-
-
 " FZF
 nn <silent> <leader>fb :Buffers<CR>
 nn <silent> <leader>ff :Files<CR>
@@ -155,56 +144,76 @@ let g:mkdp_preview_options = {
       \ }
 
 
-" Snippet; Completion
 if has('win32')
-  let s:snippet_dir = expand('$localappdata/nvim/snippet')
+  let s:snippet_dir = expand('$LOCALAPPDATA/nvim/snippet')
 elseif has('unix')
   let s:snippet_dir = expand('$HOME/.config/nvim/snippet')
 endif
 
-if g:plug_def_comp ==# 'asyncomplete'
-  let g:asyncomplete_auto_pop = 1
-  let g:asyncomplete_auto_completeopt = 0
-  let g:asyncomplete_min_chars = 2
-  let g:asyncomplete_buffer_clear_cache = 1
+if g:plug_use_coc
+  " coc.nvim
+  let g:coc_global_extensions = [
+        \ 'coc-explorer',
+        \ 'coc-snippets',
+        \ ]
+  let g:coc_config_table = {}
 
-  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-        \ 'name': 'buffer',
-        \ 'allowlist': ['*'],
-        \ 'blocklist': [],
-        \ 'completor': function('asyncomplete#sources#buffer#completor'),
-        \ 'config': {
-        \   'max_buffer_size': 5000000,
-        \ },
-        \ }))
+  function s:check(key, extension, config='') abort
+    if has_key(g:default_lsp_table, a:key)
+      let l:val = g:default_lsp_table[a:key]
+      if type(l:val) == 6
+        if l:val
+          call add(g:coc_global_extensions, a:extension)
+        endif
+      elseif type(l:val) == v:t_dict
+        if l:val['enable']
+          call add(g:coc_global_extensions, a:extension)
+          if l:val['path'] != v:null
+            let g:coc_config_table[a:config] = l:val['path']
+          endif
+        endif
+      else
+        echoerr("Please check `g:default_lsp_table` at key '" . a:key . "'.")
+      endif
+    endif
+  endfunction
 
-  im  <silent><expr> <TAB>
-        \ pumvisible() ?
-        \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-        \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ?
-        \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
-        \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
-  im  <silent><expr> <S-TAB>
-        \ pumvisible() ?
-        \ "\<C-P>" : vsnip#jumpable(-1) ?
-        \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
-  im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"
+  call s:check('clangd', 'coc-clangd')
+  call s:check('jedi_language_server', 'coc-jedi')
+  call s:check('powershell_es', 'coc-powershell')
+  call s:check('omnisharp', 'coc-omnisharp', 'omnisharp.path')
+  call s:check('rls', 'coc-rls')
+  call s:check('texlab', 'coc-texlab')
+  call s:check('vimls', 'coc-vimlsp')
 
-  " vim-vsnip
-  let g:vsnip_snippet_dir = s:snippet_dir
-
-  smap <silent><expr> <TAB>   vsnip#jumpable(1)  ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
-  smap <silent><expr> <S-TAB> vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
-
-elseif g:plug_def_comp ==# 'coc'
   call extend(g:coc_config_table, {
-      \ 'snippets.textmateSnippetsRoots' : [s:snippet_dir],
-      \ 'snippets.ultisnips.enable' : v:false,
-      \ 'snippets.snipmate.enable' : v:false,
-      \ })
+        \ 'snippets.textmateSnippetsRoots' : [s:snippet_dir],
+        \ 'snippets.ultisnips.enable' : v:false,
+        \ 'snippets.snipmate.enable' : v:false,
+        \ 'explorer.keyMappings.global' : {
+          \ 's' : 'open:vsplit',
+          \ 'i' : 'open:split',
+          \ 'o' : 'systemExecute',
+          \ 'u' : ['wait', 'gotoParent'],
+          \ 'C' : ["wait", "expandable?", "cd", "open"],
+          \ 'D' : ["delete"],
+          \ 'H' : ["toggleHidden"],
+          \ '<cr>' : [
+            \    "expandable?",
+            \    ["expanded?", "collapse", "expand"],
+            \    "open"
+            \ ],
+          \ },
+        \ })
   for [s:key, s:val] in items(g:coc_config_table)
     call coc#config(s:key, s:val)
   endfor
+
+  " Coc-explorer
+  nn  <silent> <leader>op :CocCommand explorer<CR>
+  nn  <silent> <M-e> :CocCommand explorer<CR>
+  ino <silent> <M-e> <Esc>:CocCommand explorer<CR>
+  tno <silent> <M-e> <C-\><C-N>:CocCommand explorer<CR>
 
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -238,15 +247,18 @@ elseif g:plug_def_comp ==# 'coc'
   nmap <silent> <leader>lr <Plug>(coc-references)
 
   " Use K to show documentation in preview window.
-  nn <silent> K :call <SID>show_documentation()<CR>
+  nn <silent> K :call <SID>show_doc()<CR>
 
-  function! s:show_documentation()
+  function! s:show_doc()
     if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
+      let l:word = usr#lib#get_word()[0]
+      try
+        exe 'h' l:word
+      catch
+        echo "No help for '" . l:word . "'"
+      endtry
     elseif (coc#rpc#ready())
       call CocActionAsync('doHover')
-    else
-      execute '!' . &keywordprg . " " . expand('<cword>')
     endif
   endfunction
 
@@ -309,5 +321,48 @@ elseif g:plug_def_comp ==# 'coc'
   " NOTE: Please see `:h coc-status` for integrations with external plugins that
   " provide custom statusline: lightline.vim, vim-airline.
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+else
+  " NERDTree
+  let g:NERDTreeDirArrowExpandable  = '+'
+  let g:NERDTreeDirArrowCollapsible = '-'
+  let NERDTreeMinimalUI = 1
+  let NERDTreeDirArrows = 1
+  nn  <silent> <leader>op :NERDTreeToggle<CR>
+  nn  <silent> <M-e> :NERDTreeFocus<CR>
+  ino <silent> <M-e> <Esc>:NERDTreeFocus<CR>
+  tno <silent> <M-e> <C-\><C-N>:NERDTreeFocus<CR>
 
+  " asyncomplete.vim
+  let g:asyncomplete_auto_pop = 1
+  let g:asyncomplete_auto_completeopt = 0
+  let g:asyncomplete_min_chars = 2
+  let g:asyncomplete_buffer_clear_cache = 1
+
+  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+        \ 'name': 'buffer',
+        \ 'allowlist': ['*'],
+        \ 'blocklist': [],
+        \ 'completor': function('asyncomplete#sources#buffer#completor'),
+        \ 'config': {
+          \   'max_buffer_size': 5000000,
+          \ },
+          \ }))
+
+  im  <silent><expr> <TAB>
+        \ pumvisible() ?
+        \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+        \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ?
+        \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+        \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
+  im  <silent><expr> <S-TAB>
+        \ pumvisible() ?
+        \ "\<C-P>" : vsnip#jumpable(-1) ?
+        \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
+  im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"
+
+  " vim-vsnip
+  let g:vsnip_snippet_dir = s:snippet_dir
+
+  smap <silent><expr> <TAB>   vsnip#jumpable(1)  ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
+  smap <silent><expr> <S-TAB> vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"
 endif

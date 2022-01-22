@@ -11,7 +11,7 @@
 "let g:gui_font_full = 'Monospace'
 "let g:gui_font_size = 12
 
-"let g:default_complete = 'asyncomplete'
+"let g:default_coc = v:false
 
 let g:default_lsp_table = {
       \ 'clangd' : v:false,

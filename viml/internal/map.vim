@@ -83,10 +83,12 @@ nn  <silent> <F2> :call           usr#misc#mouse_toggle()<CR>
 vn  <silent> <F2> :<C-U>call      usr#misc#mouse_toggle()<CR>
 ino <silent> <F2> <C-\><C-O>:call usr#misc#mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-N>:call usr#misc#mouse_toggle()<CR>a
+" Run code.
+nn <silent> <F5> :call usr#comp#run_or_compile("")<CR>
 " Background toggle.
 nn <silent> <leader>bg :call usr#misc#bg_toggle()<CR>
 " Open init file.
-nn <silent> <M-,> :call usr#util#edit_file("$MYVIMRC", 1)<CR>
+nn <silent> <M-,> :call usr#misc#open_opt()<CR>
 " Explorer.
 nn <silent> <leader>oe :call usr#util#sys_open(expand("%:p:h"))<CR>
 " Terminal.
