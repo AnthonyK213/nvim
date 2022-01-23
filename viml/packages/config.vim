@@ -271,6 +271,7 @@ if g:plug_use_coc
   nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
 
   " GoTo code navigation.
+  nmap <silent> <F12>      <Plug>(coc-definition)
   nmap <silent> <leader>lf <Plug>(coc-definition)
   nmap <silent> <leader>lt <Plug>(coc-type-definition)
   nmap <silent> <leader>li <Plug>(coc-implementation)

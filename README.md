@@ -14,10 +14,11 @@
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     ```
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep) (For [fzf.vim](https://github.com/junegunn/fzf.vim))
-  - ripgrep recursively searches directories for a regex pattern while respecting your gitignore.
+* [**ripgrep**](https://github.com/BurntSushi/ripgrep) & [**fd**](https://github.com/sharkdp/fd) (For [vim-clap](https://github.com/liuchengxu/vim-clap))
+  - `ripgrep` recursively searches directories for a regex pattern while respecting your gitignore.
+  - `fd` is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to `find`.
 * [**Node.js**](https://nodejs.org) (For [coc.nvim](https://github.com/neoclide/coc.nvim))
-  - Optional. To use `coc.nvim`, in [opt.vim](./viml/core/opt_example.vim)
+  - Optional. To use *coc.nvim*, in [opt.vim](./viml/core/opt_example.vim)
     ```vim
     let g:default_coc = v:true
     ```
@@ -127,7 +128,8 @@
   - inv: <kbd>M-j</kbd>      -> Jump to the window below.
   - inv: <kbd>M-k</kbd>      -> Jump to the window above.
   - inv: <kbd>M-l</kbd>      -> Jump to the window right.
-  - nv:  <kbd>M-n</kbd>      -> Normal command.
+  - nv:  <kbd>M-n</kbd>      -> Move line(s) down.
+  - nv:  <kbd>M-p</kbd>      -> Move line(s) up.
   - inv: <kbd>M-v</kbd>      -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>      -> Jump to the window in turn.
   - v:   <kbd>M-x</kbd>      -> Cut to system clipboard.
