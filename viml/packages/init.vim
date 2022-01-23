@@ -3,12 +3,11 @@ let g:plug_use_coc = get(g:, 'default_coc', v:false)
 call plug#begin(stdpath('data') . '/plugged')
 
 " Display
-Plug 'mhinz/vim-startify'
+Plug 'glepnir/dashboard-nvim'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 " FZF
-Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
-Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }
 " VCS
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
@@ -18,6 +17,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'AnthonyK213/vim-ipairs'
 Plug 'andymass/vim-matchup'
+Plug 'skanehira/vsession'
 " File type support
 Plug 'lervag/vimtex'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}

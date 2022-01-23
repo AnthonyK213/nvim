@@ -9,6 +9,35 @@ augroup end
 colorscheme gruvbox
 
 
+" dashboard.nvim
+let g:dashboard_default_executive ='clap'
+let g:dashboard_custom_header = [
+      \ '                                                    ',
+      \ ' ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
+      \ ' ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
+      \ ' ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
+      \ ' ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
+      \ ' ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
+      \ ' ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
+      \ '                                                    ',
+      \ ]
+function! s:d(item, kbd, length)
+  let l:spc_count = a:length - strdisplaywidth(a:item . a:kbd)
+  if l:spc_count <= 0
+    let l:spc_count = 1
+  endif
+  return a:item . repeat(" ", l:spc_count) . a:kbd
+endfunction
+let g:dashboard_custom_section = {
+      \ 'new_file':     { 'description': [s:d(' New File',     'e', 50)], 'command': 'enew' },
+      \ 'load_session': { 'description': [s:d(' Load Session', 's', 50)], 'command': 'LoadSession' },
+      \ 'find_files':   { 'description': [s:d('⊕ Find File',    'f', 50)], 'command': 'Clap files' },
+      \ 'plug_update':  { 'description': [s:d('⟲ Plug Update',  'p', 50)], 'command': 'PlugUpdate' },
+      \ 'options':      { 'description': [s:d('⚙ Options',      ',', 50)], 'command': function('usr#misc#open_opt') },
+      \ 'quit_vim':     { 'description': [s:d('⊗ Quit Vim',     'q', 50)], 'command': 'qa' },
+      \ }
+
+
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled  = 1
@@ -37,10 +66,10 @@ let g:airline_mode_map = {
       \ }
 
 
-" FZF
-nn <silent> <leader>fb :Buffers<CR>
-nn <silent> <leader>ff :Files<CR>
-nn <silent> <leader>fg :Rg<CR>
+" vim-clap
+nn <silent> <leader>fb :Clap buffers<CR>
+nn <silent> <leader>ff :Clap files<CR>
+nn <silent> <leader>fg :Clap grep<CR>
 
 
 " signify
@@ -57,11 +86,8 @@ nmap <silent> <leader>gK 9999<plug>(signify-prev-hunk)
 
 
 " IndentLine
-let g:indentLine_char = '¦'
-augroup indentLine_set_conceal
-  autocmd!
-  au FileType markdown,vimwiki let b:indentLine_enabled=0
-augroup end
+let g:indentLine_char = '▏'
+let g:indentLine_fileTypeExclude = ['dashboard', 'markdown', 'vimwiki']
 
 
 " vim-table-mode
@@ -89,6 +115,11 @@ let g:pairs_usr_extd_map = {
       \ "<M-M>" : "***",
       \ "<M-U>" : "<u>"
       \ }
+
+
+" vsession
+let g:vsession_path = stdpath('data') . '/sessions'
+let g:vsession_save_last_on_leave = 1
 
 
 " VimTeX
