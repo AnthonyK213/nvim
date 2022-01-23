@@ -10,7 +10,7 @@ colorscheme gruvbox
 
 
 " dashboard.nvim
-let g:dashboard_default_executive ='clap'
+let g:dashboard_default_executive = 'clap'
 let g:dashboard_custom_header = [
       \ '                                                    ',
       \ ' ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
@@ -29,11 +29,11 @@ function! s:d(item, kbd, length)
   return a:item . repeat(" ", l:spc_count) . a:kbd
 endfunction
 let g:dashboard_custom_section = {
-      \ 'new_file':     { 'description': [s:d(' New File',     'e', 50)], 'command': 'enew' },
-      \ 'load_session': { 'description': [s:d(' Load Session', 's', 50)], 'command': 'LoadSession' },
+      \ 'new_file':     { 'description': [s:d(' Empty File',   'e', 50)], 'command': 'enew' },
       \ 'find_files':   { 'description': [s:d('⊕ Find File',    'f', 50)], 'command': 'Clap files' },
-      \ 'plug_update':  { 'description': [s:d('⟲ Plug Update',  'p', 50)], 'command': 'PlugUpdate' },
+      \ 'load_session': { 'description': [s:d(' Load Session', 's', 50)], 'command': 'LoadSession' },
       \ 'options':      { 'description': [s:d('⚙ Options',      ',', 50)], 'command': function('usr#misc#open_opt') },
+      \ 'plug_update':  { 'description': [s:d('⟲ Plug Update',  'p', 50)], 'command': 'PlugUpdate' },
       \ 'quit_vim':     { 'description': [s:d('⊗ Quit Vim',     'q', 50)], 'command': 'qa' },
       \ }
 
@@ -351,6 +351,10 @@ if g:plug_use_coc
   " NOTE: Please see `:h coc-status` for integrations with external plugins that
   " provide custom statusline: lightline.vim, vim-airline.
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+  " vista.vim
+  let g:vista_default_executive = 'coc'
+  nn <silent> <leader>fa :Clap tags<CR>
 else
   " NERDTree
   let g:NERDTreeDirArrowExpandable  = '+'

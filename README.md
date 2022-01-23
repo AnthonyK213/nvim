@@ -80,12 +80,11 @@
 * Package manager
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Display
-  - [vim-startify](https://github.com/mhinz/vim-startify)
+  - [dashboard.nvim](https://github.com/glepnir/dashboard-nvim)
   - [gruvbox](https://github.com/morhetz/gruvbox)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
 * File system
-  - [fzf](https://github.com/junegunn/fzf)
-  - [fzf.vim](https://github.com/junegunn/fzf.vim)
+  - [vim-clap](https://github.com/liuchengxu/vim-clap)
 * VCS
   - [vim-fugitive](https://github.com/tpope/vim-fugitive)
   - [vim-signify](https://github.com/mhinz/vim-signify)
@@ -95,6 +94,7 @@
   - [indentLine](https://github.com/Yggdroot/indentLine)
   - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
   - [vim-matchup](https://github.com/andymass/vim-matchup)
+  - [vsession](https://github.com/skanehira/vsession)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)

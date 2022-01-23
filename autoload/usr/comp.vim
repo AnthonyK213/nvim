@@ -100,7 +100,7 @@ function! s:comp_cpp(tbl)
     let l:cppc = l:cc_tbl[l:cc]
     if !usr#lib#executable(cc)
       return [v:null, v:null]
-    end
+    endif
     return [function('s:cb_run_bin'), [l:cppc, a:tbl['fnm'], '-o', a:tbl['bin']]]
   else
     return [v:null, v:null]
@@ -112,13 +112,12 @@ function! s:comp_csharp(tbl)
     return [v:null, v:null]
   endif
   let l:sln_root = usr#lib#get_root("*.sln")
-
   if l:sln_root != v:null
     if !usr#lib#executable('MSBuild')
       return [v:null, v:null]
     endif
     return [v:null, ['MSBuild.exe', l:sln_root]]
-  end
+  endif
   if !usr#lib#executable('csc')
     return [v:null, v:null]
   endif
@@ -135,11 +134,11 @@ function! s:comp_csharp(tbl)
       return [function('s:cb_run_bin'), l:cmd]
     else
       return [v:null, l:cmd]
-    end
+    endif
   else
     call usr#lib#notify_err('Invalid argument.')
     return [v:null, v:null]
-  end
+  endif
 endfunction
 
 function! s:comp_lua(tbl)
@@ -165,7 +164,7 @@ function! s:comp_processing(tbl)
     l:output_dir = expand('$TEMP') . '\\nvim_processing\\' . l:sketch_name
   else
     l:output_dir = '/tmp/nvim_processing/' . l:sketch_name
-  end
+  endif
   return [v:null, [
         \ 'processing-java',
         \ '--sketch=' . a:tbl['fwd'],
@@ -192,9 +191,8 @@ endfunction
 function! s:comp_rust(tbl)
   if !usr#lib#executable('cargo')
     return [v:null, v:null]
-  end
+  endif
   let l:cargo_root = usr#lib#get_root('Cargo.toml')
-
   if l:cargo_root != v:null
     let l:cmd_tbl = {
           \ ''      : ['cargo', 'run'],
@@ -211,8 +209,7 @@ function! s:comp_rust(tbl)
       call usr#lib#notify_err('Invalid argument.')
       return [v:null, v:null]
     endif
-  end
-
+  endif
   return [function('s:cb_run_bin'), ['rustc', a:tbl['fnm'], '-o', a:tbl['bin']]]
 endfunction
 
