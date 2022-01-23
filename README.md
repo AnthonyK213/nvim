@@ -14,9 +14,13 @@
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     ```
-* [**Node.js**](https://nodejs.org) (For [coc.nvim](https://github.com/neoclide/coc.nvim))
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep) (For [fzf.vim](https://github.com/junegunn/fzf.vim))
   - ripgrep recursively searches directories for a regex pattern while respecting your gitignore.
+* [**Node.js**](https://nodejs.org) (For [coc.nvim](https://github.com/neoclide/coc.nvim))
+  - Optional. To use `coc.nvim`, in [opt.vim](./viml/core/opt_example.vim)
+    ```vim
+    let g:default_coc = v:true
+    ```
 
 
 ## Installation
