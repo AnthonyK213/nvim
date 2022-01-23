@@ -11,12 +11,10 @@ function! s:zeller(str)
     echom 'Not a valid date expression.'
     return ['']
   endif
-
   if l:m < 1 || l:m > 12
     echom 'Not a valid month.'
     return ['']
   endif
-
   if l:m == 2
     let l:month_days_count = 28
     if (l:a % 100 != 0 && l:a % 4 == 0)
@@ -30,17 +28,14 @@ function! s:zeller(str)
       let l:month_days_count += 1
     endif
   endif
-
   if l:d < 1 || l:d > l:month_days_count
     echom 'Not a valid date.'
     return ['']
   endif
-
   if m == 1 || m == 2
     let l:a -= 1
     let l:m += 12
   endif
-
   let l:c = l:a / 100
   let l:y = l:a - l:c * 100
   let l:x = (c / 4) + y + (y / 4) + 26 * (m + 1) / 10 + d - 2 * c - 1
@@ -65,7 +60,6 @@ function! usr#note#append_day_from_date()
     let l:match_start = l:match_cword[1]
   endwhile
   let l:stt = l:match_cword[0]
-
   let l:day = s:zeller(l:str)
   if l:day[0] !=? ''
     let l:end = matchstrpos(l:line, l:day[1], l:stt)[2]
@@ -83,14 +77,12 @@ function! usr#note#hanzi_count(mode)
   else
     return
   endif
-
   let l:h_count = 0
   for l:line in l:content
     for l:char in split(l:line, '.\zs')
       if usr#lib#is_hanzi(l:char) | let l:h_count += 1 | endif
     endfor
   endfor
-
   if l:h_count == 0
     echo 'No Chinese character was found.'
   else
@@ -119,11 +111,9 @@ endfunction
 function! usr#note#md_insert_bullet()
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
-
   let l:detect = 0
   let l:bullet = 0
   let l:indent = 0
-
   if l:linf_c[0] == 0
     let l:lnum_b = l:lnum - 1
     while l:lnum_b > 0
@@ -141,7 +131,6 @@ function! usr#note#md_insert_bullet()
     let l:bullet = l:linf_c[2]
     let l:indent = l:linf_c[3]
   endif
-
   if l:detect == 0
     call feedkeys("\<C-\>\<C-O>o")
   else
@@ -178,11 +167,9 @@ endfunction
 function usr#note#md_sort_num_bullet()
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
-
   if l:linf_c[0] == 2
     let l:num_lb = [l:lnum]
     let l:num_lf = []
-
     let l:lnum_b = l:lnum - 1
     while l:lnum_b > 0
       let l:linf_b = s:md_check_line(l:lnum_b)
@@ -197,7 +184,6 @@ function usr#note#md_sort_num_bullet()
       endif
       let l:lnum_b -= 1
     endwhile
-
     let l:lnum_f = l:lnum + 1
     while l:lnum_f <= line('$')
       let l:linf_f = s:md_check_line(l:lnum_f)
@@ -212,9 +198,7 @@ function usr#note#md_sort_num_bullet()
       endif
       let l:lnum_f += 1
     endwhile
-
     let l:num_la = reverse(l:num_lb) + l:num_lf
-
     let l:i = 1
     for l:item in l:num_la
       call setline(l:item, substitute(getline(l:item),

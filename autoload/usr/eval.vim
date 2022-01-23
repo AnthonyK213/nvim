@@ -150,10 +150,10 @@ function! s:lisp_str_eval(str)
   return s:lisp_tree_eval(s:lisp_tree(a:str))
 endfunction
 
-function! usr#eval#vim_eval()
+function! usr#eval#vim_eval() abort
   call s:text_eval({s -> eval(s)})
 endfunction
 
-function! usr#eval#lisp_eval()
+function! usr#eval#lisp_eval() abort
   call s:text_eval({s -> s:lisp_str_eval(s)})
 endfunction

@@ -1,5 +1,6 @@
-" Open terminal and launch shell.
-function! usr#util#terminal()
+" Open terminal and launch shell. [Incompatible]
+function! usr#util#terminal() abort
+  if usr#lib#incompat() | return | endif
   let l:shell = usr#pub#var('shell')
   if type(l:shell) == v:t_list && !empty(l:shell)
     let l:exec = l:shell[0]
@@ -45,7 +46,8 @@ function! usr#util#match_path_or_url_under_cursor()
   return v:null
 endfunction
 
-function! usr#util#sys_open(obj, use_local=v:false)
+function! usr#util#sys_open(obj, use_local=v:false) abort
+  if usr#lib#incompat() | return | endif
   let l:cwd = a:use_local ? expand('%:p:h') : getcwd()
   if type(a:obj) != v:t_string
         \ || !(usr#lib#path_exists(a:obj, l:cwd) || usr#lib#match_url(a:obj)[0])
@@ -67,7 +69,7 @@ function! usr#util#sys_open(obj, use_local=v:false)
 endfunction
 
 " Search web.
-function! usr#util#search_web(mode, site)
+function! usr#util#search_web(mode, site) abort
   if a:mode ==? "n"
     let l:search_obj = usr#lib#encode_url(usr#lib#get_word()[0])
   elseif a:mode ==? "v"

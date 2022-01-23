@@ -242,7 +242,8 @@ let s:comp_table = {
       \ "vim" : function('s:comp_vim')
       \ }
 
-function! usr#comp#run_or_compile(option)
+function! usr#comp#run_or_compile(option) abort
+  if usr#lib#incompat() | return | endif
   let l:tbl = {
         \ "bin" : '_' . expand('%:t:r') . (has("win32") ? '.exe' : ''),
         \ "bwd" : getcwd(),

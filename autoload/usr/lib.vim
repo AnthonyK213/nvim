@@ -186,3 +186,13 @@ function! usr#lib#executable(name)
   call usr#lib#notify_err('Executable ' . a:name . ' is not found.')
   return v:false
 endfunction
+
+function! usr#lib#incompat() abort
+  if has("nvim")
+    return 0
+  endif
+  echohl WarningMsg
+  echomsg "Incompatible invocation. Aborted."
+  echohl None
+  return 1
+endfunction

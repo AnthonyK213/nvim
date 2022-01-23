@@ -78,8 +78,9 @@ function! usr#misc#vim_source_list(file_list)
   endfor
 endfunction
 
-" Open opt.vim. Neovim only.
-function! usr#misc#open_opt()
+" Open opt.vim. [Incompatible]
+function! usr#misc#open_opt() abort
+  if usr#lib#incompat() | return | endif
   let l:cfg = stdpath("config")
   call usr#util#edit_file(l:cfg.."/viml/core/opt.vim", v:false)
   call nvim_set_current_dir(l:cfg)
