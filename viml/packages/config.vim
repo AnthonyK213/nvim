@@ -91,7 +91,7 @@ let g:pairs_usr_extd_map = {
       \ }
 
 
-" vimtex
+" VimTeX
 let g:tex_flavor = 'latex'
 if has("win32")
   let g:vimtex_view_general_viewer = 'SumatraPDF'
@@ -100,8 +100,6 @@ if has("win32")
 elseif has("unix")
   let g:vimtex_view_general_viewer = 'zathura'
 endif
-let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-let g:vimtex_compiler_progname = 'nvr'
 
 
 " vimwiki
@@ -174,7 +172,7 @@ if g:plug_use_coc
           endif
         endif
       else
-        echoerr("Please check `g:default_lsp_table` at key '" . a:key . "'.")
+        call usr#lib#notify_err("Please check `g:default_lsp_table` at key '" . a:key . "'.")
       endif
     endif
   endfunction
@@ -204,8 +202,8 @@ if g:plug_use_coc
             \    ["expanded?", "collapse", "expand"],
             \    "open"
             \ ],
-          \ },
-        \ })
+            \ },
+            \ })
   for [s:key, s:val] in items(g:coc_config_table)
     call coc#config(s:key, s:val)
   endfor

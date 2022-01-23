@@ -49,7 +49,7 @@ function! usr#util#sys_open(obj, use_local=v:false)
   let l:cwd = a:use_local ? expand('%:p:h') : getcwd()
   if type(a:obj) != v:t_string
         \ || !(usr#lib#path_exists(a:obj, l:cwd) || usr#lib#match_url(a:obj)[0])
-    echoerr 'Nothing found.'
+    call usr#lib#notify_err('Nothing found.')
     return
   endif
   let l:cmd = []
