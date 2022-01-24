@@ -54,7 +54,7 @@ function! usr#misc#show_toc()
     endif
   else
     try
-      Vista coc
+      Vista!!
     catch
       echo 'No Toc support for current filetype.'
     endtry
