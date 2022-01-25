@@ -33,7 +33,7 @@ cmp.setup {
                 end
             end,
         }),
-        ['<ESC>'] = cmp.mapping.close(),
+        --['<ESC>'] = cmp.mapping.close(),
         ['<Tab>'] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
