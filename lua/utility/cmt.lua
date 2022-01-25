@@ -31,8 +31,8 @@ local cmt_mark_tab_multi = {
     cpp = { "/*", "*/" },
     cs = { "/*", "*/" },
     java = { "/*", "*/" },
+    lua = { "--[[", "]]" },
     rust = { "/*", "*/" },
-    lua = { "--[[", "]]" }
 }
 
 ---Comment current line in normal mode.
