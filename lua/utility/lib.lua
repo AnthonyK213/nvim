@@ -50,16 +50,42 @@ end
 function M.get_git_branch(git_root)
     if not git_root then return nil end
 
-    local content, branch
-    if M.path_exists(git_root..'/.git/HEAD') then
-        content = vim.fn.readfile(git_root..'/.git/HEAD')
+    git_root = git_root:gsub('[\\/]$', '')
+
+    local head_file
+    local dot_git = git_root..'/.git'
+    local dot_git_stat = vim.loop.fs_stat(dot_git)
+
+    if dot_git_stat.type == "directory" then
+        head_file = git_root..'/.git/HEAD'
+    elseif dot_git_stat.type == "file" then
+        local gitdir_line = vim.fn.readfile(dot_git)[1]
+        if gitdir_line then
+            local gitdir = gitdir_line:match('^gitdir:%s(.+)$')
+            if gitdir then
+                head_file = vim.fn.expand(git_root..'/'..gitdir..'/HEAD')
+            else
+                return nil
+            end
+        else
+            return nil
+        end
     else
         return nil
     end
 
-    if #content > 0 then
-        branch = content[1]:match('^ref:%s.+/(.-)$')
-        if branch ~= '' then return branch else return nil end
+    if M.path_exists(head_file) then
+        local ref_line = vim.fn.readfile(head_file)[1]
+        if ref_line then
+            local branch = ref_line:match('^ref:%s.+/(.-)$')
+            if branch and branch ~= '' then
+                return branch
+            else
+                return nil
+            end
+        else
+            return nil
+        end
     else
         return nil
     end
