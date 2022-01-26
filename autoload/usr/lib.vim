@@ -12,7 +12,7 @@ function! usr#lib#get_char(num) abort
 endfunction
 
 " Find the root directory contains patter `pat`.
-function! usr#lib#get_root(pat)
+function! usr#lib#get_root(pat) abort
   let l:dir = expand('%:p:h')
   while 1
     if !empty(globpath(l:dir, a:pat, 1)) | return l:dir | endif
@@ -23,13 +23,43 @@ function! usr#lib#get_root(pat)
 endfunction
 
 " Get the branch name.
-function! usr#lib#get_git_branch(git_root)
+function! usr#lib#get_git_branch(git_root) abort
   if a:git_root == v:null
     return v:null
   else
+    let l:git_root = substitute(a:git_root, '\v[\\/]$', '', '')
+    let l:dot_git = l:git_root . '/.git'
+    if isdirectory(l:dot_git)
+      let l:head_file = l:git_root . './git/HEAD'
+    else
+      try
+        let l:gitdir_line = readfile(l:dot_git)[0]
+        let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
+        if l:gitdir_matches->len() > 0
+          let l:gitdir = l:gitdir_matches[1]
+          let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
+        else
+          return v:null
+        endif
+      catch
+        return v:null
+      endtry
+    endif
+    echo l:head_file
     try
-      let l:content = readfile(a:git_root . '/.git/HEAD')
-      return split(l:content[0], '/')[-1]
+      let l:ref_line = readfile(l:head_file)[0]
+      let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
+      echo l:ref_matches
+      if l:ref_matches->len() > 0
+        let l:branch = l:ref_matches[1]
+        if !empty(l:branch)
+          return l:branch
+        else
+          return v:null
+        endif
+      else
+        return v:null
+      endif
     catch
       return v:null
     endtry
