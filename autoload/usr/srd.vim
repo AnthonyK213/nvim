@@ -1,5 +1,5 @@
 "" Surround
-function! s:sur_pair(pair_a)
+function! s:sur_pair(pair_a) abort
   let l:pairs = {
         \ "(": ")", "[": "]", "{": "}",
         \ "<": ">", " ": " ",
@@ -17,7 +17,7 @@ endfunction
 
 " Collect pairs in hashtable `tab_pair`.
 " If pair_a then -1, if pair_b then 1.
-function! s:srd_collect(str, pair_a, pair_b)
+function! s:srd_collect(str, pair_a, pair_b) abort
   let l:tab_pair = []
   for l:i in range(strlen(a:str))
     call add(l:tab_pair, 0)
@@ -50,7 +50,7 @@ endfunction
 " Locate surrounding pair in direction `dir`
 " @param int dir -1 or 1, -1 for backward, 1 for forward.
 " FIXME: If there are imbalanced pairs in string, how to get this work?
-function! s:srd_locate(str, pair_a, pair_b, dir)
+function! s:srd_locate(str, pair_a, pair_b, dir) abort
   let l:tab_pair = s:srd_collect(a:str, a:pair_a, a:pair_b)
   let l:list_pos = []
   let l:res = []
@@ -71,7 +71,7 @@ function! s:srd_locate(str, pair_a, pair_b, dir)
   return -1
 endfunction
 
-function! usr#srd#sur_add(mode, ...)
+function! usr#srd#sur_add(mode, ...) abort
   let l:pair_a = a:0 ? a:1 : input("Surrounding add: ")
   let l:pair_b = s:sur_pair(l:pair_a)
 
@@ -91,7 +91,7 @@ function! usr#srd#sur_add(mode, ...)
   endif
 endfunction
 
-function! usr#srd#sur_sub(...)
+function! usr#srd#sur_sub(...) abort
   let l:back = usr#lib#get_char('b')
   let l:fore = usr#lib#get_char('f')
   let l:pair_a = input("Surrounding delete: ")

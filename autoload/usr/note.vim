@@ -1,5 +1,5 @@
 "" Calculate the day of week from a date(yyyy-mm-dd).
-function! s:zeller(str)
+function! s:zeller(str) abort
   let l:matches = matchlist(a:str, '\v^.*(\d{4}-\d{2}-\d{2}).*$')
   if !empty(l:matches)
     let l:str_date = l:matches[1]
@@ -45,7 +45,7 @@ function! s:zeller(str)
   return [l:days_list[l:z], l:str_date]
 endfunction
 
-function! usr#note#append_day_from_date()
+function! usr#note#append_day_from_date() abort
   let l:line = getline('.')
   let l:str = expand("<cWORD>")
   if l:str =~ '^$' | return | endif
@@ -69,7 +69,7 @@ function! usr#note#append_day_from_date()
 endfunction
 
 "" Hanzi count.
-function! usr#note#hanzi_count(mode)
+function! usr#note#hanzi_count(mode) abort
   if a:mode ==# 'n'
     let l:content = getline(1, '$')
   elseif a:mode ==# 'v'
@@ -91,7 +91,7 @@ function! usr#note#hanzi_count(mode)
 endfunction
 
 "" Markdown number bullet
-function! s:md_check_line(lnum)
+function! s:md_check_line(lnum) abort
   let l:lstr = getline(a:lnum)
   let l:detect = 0
   let l:bullet = 0
@@ -108,7 +108,7 @@ function! s:md_check_line(lnum)
   return [l:detect, l:lstr, l:bullet, l:indent]
 endfunction
 
-function! usr#note#md_insert_bullet()
+function! usr#note#md_insert_bullet() abort
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
   let l:detect = 0

@@ -22,7 +22,7 @@ function! usr#util#terminal() abort
 endfunction
 
 " Open and edit test file in vim.
-function! usr#util#edit_file(file_path, chdir)
+function! usr#util#edit_file(file_path, chdir) abort
   let l:path = expand(a:file_path)
   if empty(expand("%:t"))
     silent exe 'e' l:path
@@ -34,7 +34,7 @@ function! usr#util#edit_file(file_path, chdir)
   endif
 endfunction
 
-function! usr#util#match_path_or_url_under_cursor()
+function! usr#util#match_path_or_url_under_cursor() abort
   let l:url = usr#lib#match_url(expand('<cWORD>'))[1]
   if l:url != v:null
     return l:url

@@ -65,7 +65,7 @@ function! usr#lib#get_git_branch(git_root) abort
 endfunction
 
 " Return the selections as string.
-function! usr#lib#get_visual_selection()
+function! usr#lib#get_visual_selection() abort
   try
     let l:a_save = @a
     silent normal! gv"ay
@@ -77,13 +77,13 @@ endfunction
 
 " Determines if a character is a Chinese character.
 " Why is this faster than regex?
-function! usr#lib#is_hanzi(char)
+function! usr#lib#is_hanzi(char) abort
   let l:code = char2nr(a:char)
   return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
 
 " Get the word and its position under the cursor.
-function! usr#lib#get_word()
+function! usr#lib#get_word() abort
   let l:b = usr#lib#get_char('b')
   let l:f = usr#lib#get_char('f')
   let l:p_a = matchstr(l:b, '\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$')
@@ -103,7 +103,7 @@ endfunction
 
 " Replace chars in a string according to a dictionary.
 " Probably function escape() is more useful in most situations.
-function! usr#lib#str_escape(str, esc_dict)
+function! usr#lib#str_escape(str, esc_dict) abort
   let l:str_lst = split(a:str, '.\zs')
   let l:i = 0
   for l:char in l:str_lst
@@ -116,7 +116,7 @@ function! usr#lib#str_escape(str, esc_dict)
 endfunction
 
 " Define highlight group.
-function! usr#lib#set_hi(group, fg, bg, attr)
+function! usr#lib#set_hi(group, fg, bg, attr) abort
   let l:cmd = "highlight " . a:group
   if !empty(a:fg)   | let l:cmd = l:cmd . " guifg=" . a:fg | endif
   if !empty(a:bg)   | let l:cmd = l:cmd . " guibg=" . a:bg | endif
@@ -124,11 +124,11 @@ function! usr#lib#set_hi(group, fg, bg, attr)
   exe l:cmd
 endfunction
 
-function! usr#lib#vim_reg_esc(str)
+function! usr#lib#vim_reg_esc(str) abort
   return escape(a:str, ' ()[]{}<>.+*^$')
 endfunction
 
-function! usr#lib#encode_url(str)
+function! usr#lib#encode_url(str) abort
   let l:res = ""
   for l:char in split(a:str, '.\zs')
     if l:char =~ '\v(\w|\.|-)'
@@ -140,7 +140,7 @@ function! usr#lib#encode_url(str)
   return l:res
 endfunction
 
-function! usr#lib#match_url(str)
+function! usr#lib#match_url(str) abort
   let l:protocols = {
         \ '' : 0,
         \ 'http://' : 0,
@@ -167,19 +167,19 @@ function! usr#lib#match_url(str)
 endfunction
 
 " Create a below right split window.
-function! usr#lib#belowright_split(height)
+function! usr#lib#belowright_split(height) abort
   let l:term_h = min([a:height, float2nr(winheight(0) * 0.382)])
   belowright new
   exe 'resize' l:term_h
 endfunction
 
-function! usr#lib#notify_err(err)
+function! usr#lib#notify_err(err) abort
   echohl ErrorMsg
   echomsg a:err
   echohl None
 endfunction
 
-function! usr#lib#path_exists(path, ...)
+function! usr#lib#path_exists(path, ...) abort
   let l:is_rel = v:true
   let l:path = expand(a:path)
   if has('win32')
@@ -207,7 +207,7 @@ function! usr#lib#path_exists(path, ...)
   endif
 endfunction
 
-function! usr#lib#executable(name)
+function! usr#lib#executable(name) abort
   if executable(a:name)
     return v:true
   endif

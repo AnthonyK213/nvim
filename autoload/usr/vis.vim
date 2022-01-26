@@ -1,4 +1,4 @@
-function! usr#vis#hi_extd()
+function! usr#vis#hi_extd() abort
   call usr#lib#set_hi('SpellBad',         g:terminal_color_1,  '', 'underline')
   call usr#lib#set_hi('SpellCap',         g:terminal_color_3,  '', 'underline')
   call usr#lib#set_hi('mkdBold',          g:terminal_color_8,  '', '')

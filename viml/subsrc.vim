@@ -57,11 +57,11 @@ function! s:subsrc_get_context(arg) abort
   endif
 endfunction
 
-function! s:subsrc_is_surrounded(match_list)
+function! s:subsrc_is_surrounded(match_list) abort
   return index(a:match_list, s:subsrc_get_context('p') . s:subsrc_get_context('n')) >= 0
 endfunction
 
-function! s:subsrc_pairs_backs()
+function! s:subsrc_pairs_backs() abort
   if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
     return g:subsrc_dir_r . "\<BS>\<BS>"
   elseif s:subsrc_get_context('b') =~ '\v\{\s$'
@@ -72,7 +72,7 @@ function! s:subsrc_pairs_backs()
   end
 endfunction
 
-function! s:subsrc_pairs_supbs()
+function! s:subsrc_pairs_supbs() abort
   let l:back = s:subsrc_get_context('b')
   let l:fore = s:subsrc_get_context('f')
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
@@ -82,9 +82,8 @@ function! s:subsrc_pairs_supbs()
   for [l:key, l:val] in items(s:subsrc_pairs_dict)
     let l:key_esc = '\v' . escape(l:key, ' ()[]{}<>*') . '$'
     let l:val_esc = '\v^' . escape(l:val, ' ()[]{}<>*')
-    if l:back =~ l:key_esc
-          \ && l:fore =~ l:val_esc
-          \ && len(l:key) + len(l:val) > l:res[1] + l:res[2]
+    if l:back =~ l:key_esc && l:fore =~ l:val_esc &&
+          \ len(l:key) + len(l:val) > l:res[1] + l:res[2]
       let l:res = [1, len(l:key), len(l:val)]
     endif
   endfor

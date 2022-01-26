@@ -13,17 +13,17 @@
 
 
 " LaTeX recipes
-function! s:latex_xelatex()
+function! s:latex_xelatex() abort
   let l:name = expand('%:r')
   exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
 endfunction
 
-function! s:latex_xelatex_2()
+function! s:latex_xelatex_2() abort
   call s:latex_xelatex()
   call s:latex_xelatex()
 endfunction
 
-function! s:latex_biber()
+function! s:latex_biber() abort
   let l:name = expand('%:r')
   call s:latex_xelatex()
   exe '!biber' l:name . '.bcf'
@@ -31,11 +31,11 @@ function! s:latex_biber()
   call s:latex_xelatex()
 endfunction
 
-function! s:on_event(cb, arg_tbl)
+function! s:on_event(cb, arg_tbl) abort
   return {id, data, event -> a:cb(a:arg_tbl, [id, data, event])}
 endfunction
 
-function! s:cb_run_bin(arg_tbl, cb_args)
+function! s:cb_run_bin(arg_tbl, cb_args) abort
   if a:cb_args[1] == 0 && a:cb_args[2] == 'exit'
     vertical new
     call termopen([a:arg_tbl['fwd'] . '/' . a:arg_tbl['bin']], {
@@ -44,7 +44,7 @@ function! s:cb_run_bin(arg_tbl, cb_args)
   endif
 endfunction
 
-function! s:comp_c(tbl)
+function! s:comp_c(tbl) abort
   let l:cc = usr#pub#var('ccomp')
   let l:opt = a:tbl['opt']
   if !usr#lib#executable(l:cc)
@@ -68,7 +68,7 @@ function! s:comp_c(tbl)
   endif
 endfunction
 
-function! s:comp_clisp(tbl)
+function! s:comp_clisp(tbl) abort
   if !usr#lib#executable('sbcl')
     return [v:null, v:null]
   endif
@@ -90,7 +90,7 @@ function! s:comp_clisp(tbl)
   endif
 endfunction
 
-function! s:comp_cpp(tbl)
+function! s:comp_cpp(tbl) abort
   let l:cc = usr#pub#var('ccomp')
   let l:cc_tbl = {
         \ 'gcc' : 'g++',
@@ -107,7 +107,7 @@ function! s:comp_cpp(tbl)
   endif
 endfunction
 
-function! s:comp_csharp(tbl)
+function! s:comp_csharp(tbl) abort
   if !has("win32")
     return [v:null, v:null]
   endif
@@ -141,7 +141,7 @@ function! s:comp_csharp(tbl)
   endif
 endfunction
 
-function! s:comp_lua(tbl)
+function! s:comp_lua(tbl) abort
   if a:tbl['opt'] == ''
     return [v:null, 'luafile %']
   elseif a:tbl['opt'] == 'nojit'
@@ -155,7 +155,7 @@ function! s:comp_lua(tbl)
   endif
 endfunction
 
-function! s:comp_processing(tbl)
+function! s:comp_processing(tbl) abort
   if !usr#lib#executable('processing-java')
     return [v:null, v:null]
   endif
@@ -174,21 +174,21 @@ function! s:comp_processing(tbl)
         \ ]]
 endfunction
 
-function! s:comp_python(tbl)
+function! s:comp_python(tbl) abort
   if !usr#lib#executable('python')
     return [v:null, v:null]
   endif
   return [v:null, ['python', a:tbl["fnm"]]]
 endfunction
 
-function! s:comp_ruby(tbl)
+function! s:comp_ruby(tbl) abort
   if !usr#lib#executable('ruby')
     return [v:null, v:null]
   endif
   return [v:null, ['ruby', a:tbl["fnm"]]]
 endfunction
 
-function! s:comp_rust(tbl)
+function! s:comp_rust(tbl) abort
   if !usr#lib#executable('cargo')
     return [v:null, v:null]
   endif
@@ -213,7 +213,7 @@ function! s:comp_rust(tbl)
   return [function('s:cb_run_bin'), ['rustc', a:tbl['fnm'], '-o', a:tbl['bin']]]
 endfunction
 
-function! s:comp_latex(tbl)
+function! s:comp_latex(tbl) abort
   if a:tbl['opt']->empty()
     call s:latex_xelatex_2()
   elseif a:a:tbl['opt'] ==# 'biber'
@@ -224,7 +224,7 @@ function! s:comp_latex(tbl)
   return [v:null, v:null]
 endfunction
 
-function! s:comp_vim(_)
+function! s:comp_vim(_) abort
   return [v:null, 'source %']
 endfunction
 

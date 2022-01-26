@@ -21,7 +21,7 @@ let g:dashboard_custom_header = [
       \ ' ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
       \ '                                                    ',
       \ ]
-function! s:d(item, kbd, length)
+function! s:d(item, kbd, length) abort
   let l:spc_count = a:length - strdisplaywidth(a:item . a:kbd)
   if l:spc_count <= 0
     let l:spc_count = 1
@@ -292,7 +292,7 @@ if g:plug_use_coc
   " Use K to show documentation in preview window.
   nn <silent> K :call <SID>show_doc()<CR>
 
-  function! s:show_doc()
+  function! s:show_doc() abort
     if (index(['vim','help'], &filetype) >= 0)
       let l:word = usr#lib#get_word()[0]
       try

@@ -1,4 +1,4 @@
-function! s:text_eval(f)
+function! s:text_eval(f) abort
   let l:origin_pos = getpos('.')
   exe 'normal! F`'
   let l:back = usr#lib#get_char('b')
@@ -14,7 +14,7 @@ function! s:text_eval(f)
   endtry
 endfunction
 
-function! s:add(args)
+function! s:add(args) abort
   let l:result = 0
   for l:arg in a:args
     let l:result += l:arg
@@ -22,7 +22,7 @@ function! s:add(args)
   return l:result
 endfunction
 
-function! s:subtract(args)
+function! s:subtract(args) abort
   let l:result = a:args[0]
   if empty(a:args)
     echoerr "Wrong number of arguments."
@@ -36,7 +36,7 @@ function! s:subtract(args)
   endif
 endfunction
 
-function! s:multiply(args)
+function! s:multiply(args) abort
   let l:result = 1
   for l:arg in a:args
     let l:result *= l:arg
@@ -44,7 +44,7 @@ function! s:multiply(args)
   return l:result
 endfunction
 
-function! s:divide(args)
+function! s:divide(args) abort
   let l:result = a:args[0]
   if empty(a:args)
     echoerr "Wrong number of arguments."
@@ -58,7 +58,7 @@ function! s:divide(args)
   endif
 endfunction
 
-function! s:power(args)
+function! s:power(args) abort
   let l:pow_res = 1
   for l:i in range(1, len(a:args) - 1, 1)
     let l:pow_res *= a:args[l:i]
@@ -66,7 +66,7 @@ function! s:power(args)
   return pow(a:args[0], l:pow_res)
 endfunction
 
-function! s:expow(args)
+function! s:expow(args) abort
   if empty(a:args)
     return exp(1)
   elseif len(a:args) == 1
@@ -102,7 +102,7 @@ let s:func_map = {
       \ 'tan'   : {args -> tan(args[0])},
       \ }
 
-function! s:tree_insert(tree, var, level)
+function! s:tree_insert(tree, var, level) abort
   let l:temp_node = a:tree
   for l:i in range(a:level)
     let l:temp_node = l:temp_node[-1]
@@ -110,7 +110,7 @@ function! s:tree_insert(tree, var, level)
   call add(l:temp_node, a:var)
 endfunction
 
-function! s:lisp_tree(str)
+function! s:lisp_tree(str) abort
   let l:tree_level = 0
   let l:pre_parse = substitute(a:str, '\v([\(\)])', '\=" ".submatch(1)." "', 'g')
   let l:elem_table = split(l:pre_parse, '\s')
@@ -137,7 +137,7 @@ function! s:lisp_tree(str)
   return l:tree_table[0]
 endfunction
 
-function! s:lisp_tree_eval(arg)
+function! s:lisp_tree_eval(arg) abort
   if type(a:arg) == 5
     return a:arg
   endif
@@ -146,7 +146,7 @@ function! s:lisp_tree_eval(arg)
   return s:func_map[l:func](map(a:arg, {_, val -> s:lisp_tree_eval(val)}))
 endfunction
 
-function! s:lisp_str_eval(str)
+function! s:lisp_str_eval(str) abort
   return s:lisp_tree_eval(s:lisp_tree(a:str))
 endfunction
 

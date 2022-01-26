@@ -13,6 +13,6 @@ elseif has("mac")
   let s:var["ccomp"] = get(g:, 'default_c_compiler', 'clang')
 endif
 
-function! usr#pub#var(arg)
+function! usr#pub#var(arg) abort
   return s:var[a:arg]
 endfunction

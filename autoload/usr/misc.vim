@@ -1,5 +1,5 @@
 " Background toggle.
-function! usr#misc#bg_toggle()
+function! usr#misc#bg_toggle() abort
   if exists("g:lock_background") && g:lock_background
     return
   else
@@ -8,7 +8,7 @@ function! usr#misc#bg_toggle()
 endfunction
 
 " Mouse toggle.
-function! usr#misc#mouse_toggle()
+function! usr#misc#mouse_toggle() abort
   if &mouse ==# 'a'
     let &mouse = ''
     echom "Mouse disabled"
@@ -36,13 +36,13 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
 endfunction
 
 " vim-markdown toggle math display.
-function! usr#misc#vim_markdown_math_toggle()
+function! usr#misc#vim_markdown_math_toggle() abort
   let g:vim_markdown_math = 1 - g:vim_markdown_math
   syntax off | syntax on
 endfunction
 
 " Show table of contents.
-function! usr#misc#show_toc()
+function! usr#misc#show_toc() abort
   if &ft ==? 'markdown'
     if exists(':Tocv')
       Tocv
@@ -72,7 +72,7 @@ function! usr#misc#vim_source(file) abort
 endfunction
 
 " Source vim files.
-function! usr#misc#vim_source_list(file_list)
+function! usr#misc#vim_source_list(file_list) abort
   for l:file in a:file_list
     call usr#misc#vim_source('viml/' . l:file)
   endfor
@@ -87,14 +87,14 @@ function! usr#misc#open_opt() abort
 endfunction
 
 "" Set background according to time.
-function! s:background_checker(bg_timer)
+function! s:background_checker(bg_timer) abort
   if !g:lock_background | return | end
   let l:hour = str2nr(strftime('%H'))
   let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
   if &bg != l:bg | let &bg = l:bg | endif
 endfunction
 
-function! usr#misc#time_background()
+function! usr#misc#time_background() abort
   let bg_timer = timer_start(
         \ 600,
         \ function('<SID>background_checker'),

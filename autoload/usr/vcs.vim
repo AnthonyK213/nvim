@@ -3,23 +3,23 @@ function! s:on_read(id, data, event) dict
   echom str
 endfunction
 
-function! s:on_commit(m_arg, b_arg)
+function! s:on_commit(m_arg, b_arg) abort
   echom 'Commit message:' a:m_arg
   call s:git_push_async(a:b_arg)
 endfunction
 
-function! s:on_add(m_arg, b_arg)
+function! s:on_add(m_arg, b_arg) abort
   call s:git_commit_async(a:m_arg, a:b_arg)
 endfunction
 
-function! s:git_push_async(b_arg)
+function! s:git_push_async(b_arg) abort
   call jobstart(
         \ ['git', 'push', 'origin', a:b_arg, '--porcelain'],
         \ {'on_stdout': function('s:on_read'), 'stdout_buffered': v:true}
         \ )
 endfunction
 
-function! s:git_commit_async(m_arg, b_arg)
+function! s:git_commit_async(m_arg, b_arg) abort
   call jobstart([
     \ 'git',
     \ 'commit',
@@ -28,7 +28,7 @@ function! s:git_commit_async(m_arg, b_arg)
     \ ], { 'on_exit':{x, y -> s:on_commit(a:m_arg, a:b_arg)} })
 endfunction
 
-function! s:git_push_all_async(m_arg, b_arg)
+function! s:git_push_all_async(m_arg, b_arg) abort
   call jobstart([
     \ 'git',
     \ 'add',
