@@ -57,11 +57,11 @@ function! s:subsrc_get_context(arg) abort
   endif
 endfunction
 
-function! s:subsrc_is_surrounded(match_list)
+function! s:subsrc_is_surrounded(match_list) abort
   return index(a:match_list, s:subsrc_get_context('p') . s:subsrc_get_context('n')) >= 0
 endfunction
 
-function! s:subsrc_pairs_backs()
+function! s:subsrc_pairs_backs() abort
   if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
     return g:subsrc_dir_r . "\<BS>\<BS>"
   elseif s:subsrc_get_context('b') =~ '\v\{\s$'
@@ -72,7 +72,7 @@ function! s:subsrc_pairs_backs()
   end
 endfunction
 
-function! s:subsrc_pairs_supbs()
+function! s:subsrc_pairs_supbs() abort
   let l:back = s:subsrc_get_context('b')
   let l:fore = s:subsrc_get_context('f')
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'

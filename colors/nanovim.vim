@@ -34,7 +34,7 @@ endif
 
 " Faces {{
 " Define highlight groups
-function! s:h(group, style)
+function! s:h(group, style) abort
   execute "highlight" a:group
         \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
         \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")

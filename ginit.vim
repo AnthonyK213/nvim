@@ -47,7 +47,7 @@ let s:fvim_option_table = {
 
 
 " Functions
-function! s:gui_font_set(half, full, size)
+function! s:gui_font_set(half, full, size) abort
   if exists(':GuiFont')
     exe 'GuiFont!' a:half . ':h' . a:size
   else
@@ -56,22 +56,22 @@ function! s:gui_font_set(half, full, size)
   let &gfw = a:full . ':h' . a:size
 endfunction
 
-function! s:gui_font_expand()
+function! s:gui_font_expand() abort
   let g:gui_font_size += s:gui_font_step
   call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 endfunction
 
-function! s:gui_font_shrink()
+function! s:gui_font_shrink() abort
   let g:gui_font_size = max([g:gui_font_size - s:gui_font_step, 3])
   call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 endfunction
 
-function! s:gui_font_origin()
+function! s:gui_font_origin() abort
   let g:gui_font_size = g:gui_font_size_origin
   call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
 endfunction
 
-function! s:gui_fullscreen_toggle()
+function! s:gui_fullscreen_toggle() abort
   if exists('*GuiWindowFullScreen')
     if g:GuiWindowFullScreen == 0
       call GuiWindowFullScreen(1)
@@ -89,7 +89,7 @@ function! s:gui_fullscreen_toggle()
   endif
 endfunction
 
-function! s:gui_set_option_table(option_table)
+function! s:gui_set_option_table(option_table) abort
   for [l:opt, l:arg] in items(a:option_table)
     if exists(':' . l:opt)
       silent exe l:opt l:arg
@@ -97,15 +97,15 @@ function! s:gui_set_option_table(option_table)
   endfor
 endfunction
 
-function! s:gui_number_toggle()
+function! s:gui_number_toggle() abort
   if &rnu == 1 | set nornu | endif | set invnu
 endfunction
 
-function! s:gui_relative_number_toggle()
+function! s:gui_relative_number_toggle() abort
   if &nu == 1 | set invrnu | else | set nu rnu | endif
 endfunction
 
-function! s:gui_toggle_background_lock()
+function! s:gui_toggle_background_lock() abort
   if g:lock_background == v:true
     let g:lock_background = v:false
     echom "Background unlocked"
@@ -115,7 +115,7 @@ function! s:gui_toggle_background_lock()
   endif
 endfunction
 
-function! s:gui_memo_lazy_save()
+function! s:gui_memo_lazy_save() abort
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
@@ -130,7 +130,7 @@ function! s:gui_memo_lazy_save()
   endif
 endfunction
 
-function! s:gui_file_explorer()
+function! s:gui_file_explorer() abort
   if exists(':GuiTreeviewToggle')
     GuiTreeviewToggle
   elseif exists('g:goneovim')

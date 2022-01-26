@@ -1,5 +1,5 @@
 " Background toggle.
-function! usr#misc#bg_toggle()
+function! usr#misc#bg_toggle() abort
   if exists("g:lock_background") && g:lock_background
     return
   else
@@ -8,7 +8,7 @@ function! usr#misc#bg_toggle()
 endfunction
 
 " Mouse toggle.
-function! usr#misc#mouse_toggle()
+function! usr#misc#mouse_toggle() abort
   if &mouse ==# 'a'
     let &mouse = ''
     echom 'Mouse disabled'
@@ -41,7 +41,7 @@ function! usr#misc#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
 endfunction
 
 " Show table of contents.
-function! usr#misc#show_toc()
+function! usr#misc#show_toc() abort
   if &ft ==? 'tex'
     if exists(':VimtexTocToggle')
       VimtexTocToggle
@@ -57,14 +57,14 @@ function! usr#misc#vim_source(file) abort
 endfunction
 
 " Open opt.lua.
-function! usr#misc#open_opt()
+function! usr#misc#open_opt() abort
   let l:cfg = stdpath("config")
   call v:lua.require("utility.util").edit_file(l:cfg.."/lua/core/opt.lua", v:false)
   call nvim_set_current_dir(l:cfg)
 endfunction
 
 " Set background according to time.
-function! usr#misc#time_background()
+function! usr#misc#time_background() abort
 lua << EOF
   local timer = vim.loop.new_timer()
   timer:start(0, 600, vim.schedule_wrap(function()

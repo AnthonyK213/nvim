@@ -26,7 +26,7 @@ let s:nanovim_short_ft = [
 
 " Local functions
 " Get the branch
-function! s:get_git_branch()
+function! s:get_git_branch() abort
   let l:current_dir = expand('%:p:h')
   let l:is_git_repo = 0
   while 1
@@ -40,16 +40,47 @@ function! s:get_git_branch()
       break
     endif
   endwhile
-  if !l:is_git_repo | return '' | end
-  try
-    let l:content = readfile(l:current_dir . '/.git/HEAD')
-    return '#' . split(l:content[0], '/')[-1]
-  catch
+  if !l:is_git_repo
     return ''
-  endtry
+  else
+    let l:git_root = substitute(l:current_dir, '\v[\\/]$', '', '')
+    let l:dot_git = l:git_root . '/.git'
+    if isdirectory(l:dot_git)
+      let l:head_file = l:git_root . '/.git/HEAD'
+    else
+      try
+        let l:gitdir_line = readfile(l:dot_git)[0]
+        let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
+        if l:gitdir_matches->len() > 0
+          let l:gitdir = l:gitdir_matches[1]
+          let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
+        else
+          return ''
+        endif
+      catch
+        return ''
+      endtry
+    endif
+    try
+      let l:ref_line = readfile(l:head_file)[0]
+      let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
+      if l:ref_matches->len() > 0
+        let l:branch = l:ref_matches[1]
+        if !empty(l:branch)
+          return l:branch
+        else
+          return ''
+        endif
+      else
+        return ''
+      endif
+    catch
+      return ''
+    endtry
+  endif
 endfunction
 
-function! s:cap_str_init(str)
+function! s:cap_str_init(str) abort
   if !empty(a:str)
     return toupper(a:str[0]) . a:str[1:]
   endif
@@ -60,13 +91,13 @@ endfunction
 " Autoload functions
 " Get mode.
 " It is better to use just one character to show the mode.
-function! nanovim#util#mode()
+function! nanovim#util#mode() abort
   return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : ' _ '
 endfunction
 
 " Get file name.
 " Shorten then file name when the window is too narrow.
-function! nanovim#util#fname()
+function! nanovim#util#fname() abort
   let l:file_path = expand('%:p')
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
@@ -111,7 +142,7 @@ function! nanovim#util#fname()
 endfunction
 
 " (filetype, branch)
-function! nanovim#util#misc_info()
+function! nanovim#util#misc_info() abort
   let l:ls = filter([s:cap_str_init(&ft), s:get_git_branch()], '!empty(v:val)')
   if len(l:ls) | return '(' . join(l:ls, ', ') .')' | else | return '' | endif
 endfunction
@@ -121,7 +152,7 @@ endfunction
 " | MODE | file_name (file_type, git_branch)                      line:column |
 " Short:
 " | file_name                                                                 |
-function! nanovim#util#enter()
+function! nanovim#util#enter() abort
   if index(s:nanovim_short_ft, &ft) >= 0
     let &l:stl = "%#Nano_Face_Default# " .
           \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
@@ -135,7 +166,7 @@ function! nanovim#util#enter()
   endif
 endfunction
 
-function! nanovim#util#leave()
+function! nanovim#util#leave() abort
   if index(s:nanovim_short_ft, &ft) < 0
     let &l:stl = "%#Nano_Face_Default# " .
           \ "%#Nano_Face_Header_Subtle# %{nanovim#util#fname()}" .
