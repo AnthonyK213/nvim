@@ -223,6 +223,7 @@ if g:plug_use_coc
   call s:check('jedi_language_server', 'coc-jedi')
   call s:check('powershell_es', 'coc-powershell')
   call s:check('omnisharp', 'coc-omnisharp', 'omnisharp.path')
+  call s:check('sumneko_lua', 'coc-sumneko-lua')
   call s:check('rls', 'coc-rls')
   call s:check('texlab', 'coc-texlab')
   call s:check('vimls', 'coc-vimlsp')
@@ -357,7 +358,7 @@ if g:plug_use_coc
   command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
   " Add `:OR` command for organize imports of the current buffer.
-  command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
+  command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
   " Add (Neo)Vim's native statusline support.
   " NOTE: Please see `:h coc-status` for integrations with external plugins that

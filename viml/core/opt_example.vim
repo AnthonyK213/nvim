@@ -18,6 +18,7 @@ let g:default_lsp_table = {
       \ 'jedi_language_server' : v:false,
       \ 'powershell_es' : { 'enable' : v:false, 'path' : v:null },
       \ 'omnisharp' : { 'enable' : v:false, 'path' : v:null },
+      \ 'sumneko_lua' : v:false,
       \ 'rls' : v:false,
       \ 'texlab' : v:false,
       \ 'vimls' : v:false,
