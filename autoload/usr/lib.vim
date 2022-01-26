@@ -30,7 +30,7 @@ function! usr#lib#get_git_branch(git_root) abort
     let l:git_root = substitute(a:git_root, '\v[\\/]$', '', '')
     let l:dot_git = l:git_root . '/.git'
     if isdirectory(l:dot_git)
-      let l:head_file = l:git_root . './git/HEAD'
+      let l:head_file = l:git_root . '/.git/HEAD'
     else
       try
         let l:gitdir_line = readfile(l:dot_git)[0]
@@ -45,11 +45,9 @@ function! usr#lib#get_git_branch(git_root) abort
         return v:null
       endtry
     endif
-    echo l:head_file
     try
       let l:ref_line = readfile(l:head_file)[0]
       let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      echo l:ref_matches
       if l:ref_matches->len() > 0
         let l:branch = l:ref_matches[1]
         if !empty(l:branch)
