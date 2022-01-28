@@ -37,20 +37,14 @@ function! usr#cmt#cmt_add_norm() abort
     call feedkeys("I" . l:cmt_mark, 'xn')
     call setpos('.', l:pos)
   else
-    echo "Have no idea how to comment" &ft "file."
+    call usr#lib#notify_err("File type " . &ft . " is not supported yet.")
   endif
 endfunction
 
 function! usr#cmt#cmt_add_vis() abort
   let l:pos_s = getpos("'<")
   let l:pos_e = getpos("'>")
-  if has_key(s:cmt_mark_tab_multi, &ft)
-    let l:cmt_mark_multi = s:cmt_mark_tab_multi[&ft]
-    call setpos('.', l:pos_e)
-    call feedkeys("o" . l:cmt_mark_multi[1], 'xn')
-    call setpos('.', l:pos_s)
-    call feedkeys("O" . l:cmt_mark_multi[0], 'xn')
-  elseif has_key(s:cmt_mark_tab_single, &ft)
+  if has_key(s:cmt_mark_tab_single, &ft)
     let l:cmt_mark_single = s:cmt_mark_tab_single[&ft]
     let l:lnum_s = pos_s[1]
     let l:lnum_e = pos_e[1]
@@ -63,7 +57,7 @@ function! usr#cmt#cmt_add_vis() abort
       endif
     endfor
   else
-    echo "Have no idea how to comment" &ft "file."
+    call usr#lib#notify_err("File type " . &ft . " is not supported yet.")
   endif
 endfunction
 
