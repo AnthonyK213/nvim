@@ -123,7 +123,7 @@ function M.search_web(mode, site)
         local word, _, _ = lib.get_word()
         search_obj = lib.encode_url(word)
     elseif mode == 'v' then
-        search_obj = lib.encode_url(lib.get_visual_selection())
+        search_obj = lib.encode_url(lib.get_visual_selection(true))
     end
 
     M.sys_open(site..search_obj)

@@ -10,7 +10,7 @@ function M.hanzi_count(mode)
     if mode == "n" then
         content = api.nvim_buf_get_lines(0, 0, -1, false)
     elseif mode == "v" then
-        content = vim.split(lib.get_visual_selection(), '\\n')
+        content = vim.split(lib.get_visual_selection(true), '\\n')
     end
 
     local h_count = 0

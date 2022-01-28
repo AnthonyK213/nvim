@@ -93,9 +93,9 @@ end
 
 ---Get the visual selections.
 ---@return string result Visual selection.
-function M.get_visual_selection()
+function M.get_visual_selection(use_current)
     local a_bak = vim.fn.getreg('a', 1)
-    vim.cmd('silent normal! gv"ay')
+    vim.cmd('silent normal! '..(use_current and '' or 'gv')..'"ay')
     local a_val = vim.fn.getreg('a')
     vim.fn.setreg('a', a_bak)
     return a_val

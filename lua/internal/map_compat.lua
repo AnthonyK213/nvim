@@ -1,24 +1,9 @@
-local kbd = vim.keymap.set
+local kbd = vim.api.nvim_set_keymap
 
 local nt = { noremap = true }
 local ntst = { noremap = true, silent = true }
 local ntstet = { noremap = true, silent = true, expr = true }
 
-local get_mode = function ()
-    local m = vim.fn.mode()
-    if m == 'n' then
-        return m
-    elseif vim.tbl_contains({'v', 'V', ''}, m) then
-        return 'v'
-    else
-        return nil
-    end
-end
-
-local to_norm = function ()
-    local esc = vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, false, true)
-    vim.api.nvim_feedkeys(esc, 'n', true)
-end
 
 -- Adjust window size.
 kbd('n', '<C-UP>',    '<C-W>-', nt)
@@ -33,14 +18,10 @@ kbd('n', '<M-g>', ':%s/', nt)
 kbd('v', '<M-g>', ':s/',  nt)
 -- Buffer.
 kbd('n', '<leader>bc', '<Cmd>cd %:p:h<CR>:pwd<CR>', nt)
-kbd('n', '<leader>bd', function ()
-    if vim.tbl_contains({'help', 'terminal', 'nofile', 'quickfix'}, vim.bo.bt)
-        or #(vim.fn.getbufinfo({buflisted = 1})) <= 2 then
-        return ':bd<CR>'
-    else
-        return ':bp|bd#<CR>'
-    end
-end, ntstet)
+kbd('n', '<leader>bd',
+[[index(['help', 'terminal', 'nofile', 'quickfix'], &buftype) >= 0 ]]
+..[[|| len(getbufinfo({'buflisted':1})) <= 2 ?]]
+..[[":bd<CR>" : ":bp|bd#<CR>"]], ntstet)
 kbd('n', '<leader>bh', '<Cmd>noh<CR>', ntst)
 kbd('n', '<leader>bl', '<Cmd>ls<CR>',  ntst)
 kbd('n', '<leader>bn', '<Cmd>bn<CR>',  ntst)
@@ -68,6 +49,7 @@ kbd('c', '<C-H>',  '<C-F>',     nt)
 kbd('c', '<M-b>',  '<C-LEFT>',  nt)
 kbd('c', '<M-f>',  '<C-RIGHT>', nt)
 kbd('c', '<M-BS>', '<C-W>',     nt)
+
 
 -- Windows shit.
 kbd('n', '<C-S>', ':w<CR>',             ntst)
@@ -102,63 +84,47 @@ kbd('n', '<M-n>', '<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>', ntst)
 kbd('v', '<M-p>', [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]], ntst)
 kbd('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]], ntst)
 
+
 -- Search visual selection.
-kbd('v', '*', [[<ESC>/\V<C-r>=v:lua.require("utility.lib")
-.get_visual_selection()<CR><CR>]], ntst)
+kbd('v', '*', [[<ESC>/\V<C-r>=v:lua.require("utility.lib").get_visual_selection()<CR><CR>]], ntst)
 -- Mouse toggle.
-kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['usr#misc#mouse_toggle'], ntst)
+kbd('n', '<F2>', '<Cmd>call usr#misc#mouse_toggle()<CR>',            ntst)
+kbd('v', '<F2>', ':<C-U>call usr#misc#mouse_toggle()<CR>',           ntst)
+kbd('i', '<F2>', '<C-\\><C-O><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
+kbd('t', '<F2>', '<C-\\><C-N><Cmd>call usr#misc#mouse_toggle()<CR>', ntst)
 -- Run code.
-kbd('n', '<F5>', function ()
-    require('utility.util').run_or_compile('')
-end, ntst)
+kbd('n', '<F5>', '<Cmd>lua require("utility.comp").run_or_compile("")<CR>', ntst)
 -- Show document.
-kbd('n', 'K', function () require('utility.util').show_doc() end, ntst)
+kbd('n', 'K', '<Cmd>lua require("utility.util").show_doc()<CR>', ntst)
 -- Background toggle.
-kbd('n', '<leader>bg', vim.fn['usr#misc#bg_toggle'], ntst)
+kbd('n', '<leader>bg', '<Cmd>call usr#misc#bg_toggle()<CR>', ntst)
 -- Open opt file.
-kbd('n', '<M-,>', vim.fn['usr#misc#open_opt'], ntst)
+kbd('n', '<M-,>', '<Cmd>call usr#misc#open_opt()<CR>', ntst)
 -- Explorer.
-kbd('n', '<leader>oe', function ()
-    require('utility.util').sys_open(vim.fn.expand('%:p:h'))
-end, ntst)
--- Terminal
-kbd('n', '<leader>ot', function () require('utility.util').terminal() end, ntst)
+kbd('n', '<leader>oe', '<Cmd>lua require("utility.util").sys_open(vim.fn.expand("%:p:h"))<CR>', ntst)
+-- Terminal.
+kbd('n', '<leader>ot', '<Cmd>lua require("utility.util").terminal()<CR>i', ntst)
 -- Open file of current buffer with system default browser.
-kbd('n', '<leader>ob', function ()
-    require('utility.util').sys_open(vim.fn.expand('%:p'))
-end, ntst)
+kbd('n', '<leader>ob', '<Cmd>lua require("utility.util").sys_open(vim.fn.expand("%:p"))<CR>', ntst)
 -- Open path or url under the cursor or in the selection.
-kbd('n', '<leader>ou', function ()
-    local util = require('utility.util')
-    util.sys_open(util.match_path_or_url_under_cursor(), true)
-end, ntst)
+kbd('n', '<leader>ou',
+[[<Cmd>lua local util = require("utility.util") ]]..
+[[util.sys_open(util.match_path_or_url_under_cursor(), true)<CR>]], ntst)
 -- Evaluate formula surrounded by `.
-kbd('n', '<leader>ev', function () require('utility.eval').lua_eval() end, ntst)
-kbd('n', '<leader>el', function () require('utility.eval').lisp_eval() end, ntst)
+kbd('n', '<leader>ev', '<Cmd>lua require("utility.eval").lua_eval()<CR>',  ntst)
+kbd('n', '<leader>el', '<Cmd>lua require("utility.eval").lisp_eval()<CR>', ntst)
 -- Append day of week after the date.
-kbd('n', '<leader>dd', function ()
-    require('utility.gtd').append_day_from_date()
-end, ntst)
+kbd('n', '<leader>dd', ':lua require("utility.gtd").append_day_from_date()<CR>', ntst)
 -- Insert an timestamp after cursor.
-kbd('n', '<leader>ds',  "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", ntst)
+kbd('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>", ntst)
 -- Print TODO list.
-kbd('n', '<leader>dt', function ()
-    require('utility.gtd').print_todo_list()
-end, ntst)
+kbd("n", "<leader>dt", '<Cmd>lua require("utility.gtd").print_todo_list()<CR>', ntst)
 -- Hanzi count.
-kbd({'n', 'v'}, '<leader>cc', function ()
-    local mode = get_mode()
-    if mode then
-        require('utility.note').hanzi_count(mode)
-    end
-end, ntst)
+kbd('n', '<leader>cc', '<Cmd>lua require("utility.note").hanzi_count("n")<CR>',  ntst)
+kbd('v', '<leader>cc', ':<C-u>lua require("utility.note").hanzi_count("v")<CR>', ntst)
 -- List bullets.
-kbd('i', '<M-CR>', function ()
-    require('utility.note').md_insert_bullet()
-end, ntst)
-kbd('n', '<leader>ml', function ()
-    require('utility.note').md_sort_num_bullet()
-end, ntst)
+kbd('i', '<M-CR>', '<C-\\><C-O>:lua require("utility.note").md_insert_bullet()<CR>',  ntst)
+kbd('n', '<leader>ml', ':lua require("utility.note").md_sort_num_bullet()<CR>', ntst)
 -- Echo git status.
 kbd('n', '<leader>gs', ':!git status<CR>', ntst)
 -- Search cword in web browser.
@@ -169,49 +135,22 @@ local web_list = {
     y = "https://dict.youdao.com/w/eng/"
 }
 for key, val in pairs(web_list) do
-    kbd({'n', 'v'}, '<leader>h'..key, function ()
-        local mode = get_mode()
-        if mode then
-            require("utility.util").search_web(mode, val)
-        end
-    end, ntst)
+    kbd('n', '<leader>h'..key, '<Cmd>lua require("utility.util").search_web("n", "'..val..'")<CR>',  ntst)
+    kbd('v', '<leader>h'..key, ':<C-U>lua require("utility.util").search_web("v", "'..val..'")<CR>', ntst)
 end
 -- Surround
-kbd({'n', 'v'}, '<leader>sa', function ()
-    local mode = get_mode()
-    if mode then
-        to_norm()
-        require('utility.srd').srd_add(mode)
-    end
-end, ntst)
-kbd('n', '<leader>sd', function ()
-    require('utility.srd').srd_sub('')
-end, ntst)
-kbd('n', '<leader>sc', function ()
-    require('utility.srd').srd_sub()
-end, ntst)
+kbd('n', '<leader>sa', '<Cmd>lua require("utility.srd").srd_add("n")<CR>',  ntst)
+kbd('v', '<leader>sa', ':<C-U>lua require("utility.srd").srd_add("v")<CR>', ntst)
+kbd('n', '<leader>sd', '<Cmd>lua require("utility.srd").srd_sub("")<CR>',   ntst)
+kbd('n', '<leader>sc', '<Cmd>lua require("utility.srd").srd_sub()<CR>',     ntst)
 for key, val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
-    kbd('n', '<M-'..key..'>', function ()
-        local mode = get_mode()
-        if mode then
-            require("utility.srd").srd_add(mode, val)
-        end
-    end,  ntst)
+    kbd('n', '<M-'..key..'>', '<Cmd>lua require("utility.srd").srd_add("n","'..val..'")<CR>',  ntst)
+    kbd('v', '<M-'..key..'>', ':<C-U>lua require("utility.srd").srd_add("v","'..val..'")<CR>', ntst)
 end
 -- Comment
-kbd('n', '<leader>kc', function ()
-    require('utility.cmt').cmt_add_norm()
-end, ntst)
-kbd('v', '<leader>kc', function ()
-    require('utility.cmt').cmt_add_vis()
-end, ntst)
-kbd('n', '<leader>ku', function ()
-    require('utility.cmt').cmt_del_norm()
-end, ntst)
-kbd('v', '<leader>ku', function ()
-    require('utility.cmt').cmt_del_vis()
-end, ntst)
+kbd("n", "<leader>kc", '<Cmd>lua require("utility.cmt").cmt_add_norm()<CR>', ntst)
+kbd("v", "<leader>kc", ':<C-U>lua require("utility.cmt").cmt_add_vis()<CR>', ntst)
+kbd("n", "<leader>ku", '<Cmd>lua require("utility.cmt").cmt_del_norm()<CR>', ntst)
+kbd("v", "<leader>ku", ':<C-U>lua require("utility.cmt").cmt_del_vis()<CR>', ntst)
 -- Show highlight information.
-kbd('n', '<leader>vs', function ()
-    require('utility.vis').show_hl_captures()
-end, ntst)
+kbd("n", "<leader>vs", '<Cmd>lua require("utility.vis").show_hl_captures()<CR>', ntst)
