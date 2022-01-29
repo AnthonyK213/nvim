@@ -114,21 +114,6 @@ function M.sys_open(obj, use_local)
     end))
 end
 
----Search web.
----@param mode string
----@param site string
-function M.search_web(mode, site)
-    local search_obj
-    if mode == 'n' then
-        local word, _, _ = lib.get_word()
-        search_obj = lib.encode_url(word)
-    elseif mode == 'v' then
-        search_obj = lib.encode_url(lib.get_visual_selection(true))
-    end
-
-    M.sys_open(site..search_obj)
-end
-
 ---Upgrade neovim.
 ---@param channel string|nil Upgrade channel, "stable" or "nightly".
 function M.nvim_upgrade(channel)

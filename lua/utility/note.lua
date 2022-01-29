@@ -4,17 +4,16 @@ local lib = require('utility.lib')
 
 
 ---Hanzi count, ignore comments.
----@param mode string Mode: **n** -> **Normal**; **v** -> **Visual**
-function M.hanzi_count(mode)
-    local content
-    if mode == "n" then
-        content = api.nvim_buf_get_lines(0, 0, -1, false)
-    elseif mode == "v" then
-        content = vim.split(lib.get_visual_selection(true), '\\n')
+---@param txt string|table Text input.
+function M.hanzi_count(txt)
+    if type(txt) == "string" then
+        txt = vim.split(txt, '\\n')
+    elseif type(txt) ~= "table" then
+        return
     end
 
     local h_count = 0
-    for _, line in ipairs(content) do
+    for _, line in ipairs(txt) do
         if not
             ((vim.bo.filetype == 'markdown'
             and (line:match('^%s*>%s')

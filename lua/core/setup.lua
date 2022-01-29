@@ -3,11 +3,7 @@ require('utility.lib').vim_source('viml/basics')
 
 -- Internal settings
 require('internal.var')
-if vim.fn.has("nvim-0.7") == 1 then
-    require('internal.map')
-else
-    require('internal.map_compat')
-end
+require('internal.map')
 require('internal.cmd')
 
 -- Package configurations
