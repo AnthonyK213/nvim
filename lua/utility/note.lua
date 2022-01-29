@@ -7,7 +7,7 @@ local lib = require('utility.lib')
 ---@param txt string|table Text input.
 function M.hanzi_count(txt)
     if type(txt) == "string" then
-        txt = vim.split(txt, '\\n')
+        txt = vim.split(txt, '\n')
     elseif type(txt) ~= "table" then
         return
     end

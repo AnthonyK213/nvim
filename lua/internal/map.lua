@@ -16,11 +16,6 @@ local get_mode = function ()
     end
 end
 
-local to_norm = function ()
-    local esc = vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, false, true)
-    vim.api.nvim_feedkeys(esc, 'n', true)
-end
-
 -- Adjust window size.
 kbd('n', '<C-UP>',    '<C-W>-', nt)
 kbd('n', '<C-DOWN>',  '<C-W>+', nt)
@@ -207,7 +202,9 @@ if has_new_keymap then
     kbd({'n', 'v'}, '<leader>sa', function ()
         local mode = get_mode()
         if mode then
-            to_norm()
+            vim.api.nvim_feedkeys(
+            vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, false, true),
+            'n', true)
             require('utility.srd').srd_add(mode)
         end
     end, ntst)
@@ -219,20 +216,17 @@ if has_new_keymap then
     end, ntst)
     for key, val in pairs({P='`', I='*', B='**', M='***', U='<u>'}) do
         kbd('n', '<M-'..key..'>', function ()
-            local mode = get_mode()
-            if mode then
-                require("utility.srd").srd_add(mode, val)
-            end
+            require("utility.srd").srd_add('n', val)
         end,  ntst)
     end
     -- Comment
     kbd('n', '<leader>kc', function ()
         require('utility.cmt').cmt_add_norm()
     end, ntst)
-    kbd('v', '<leader>kc', [[:<C-U>lua require('utility.cmt').cmt_add_vis()<CR>]], ntst)
     kbd('n', '<leader>ku', function ()
         require('utility.cmt').cmt_del_norm()
     end, ntst)
+    kbd('v', '<leader>kc', [[:<C-U>lua require('utility.cmt').cmt_add_vis()<CR>]], ntst)
     kbd('v', '<leader>ku', [[:<C-U>lua require('utility.cmt').cmt_del_vis()<CR>]], ntst)
     -- Show highlight information.
     kbd('n', '<leader>vs', function ()
