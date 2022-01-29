@@ -1,6 +1,6 @@
-local has_nightly = vim.fn.has('nvim-0.7') == 1
+local has_new_keymap = vim.fn.has('nvim-0.7') == 1
 
-local kbd = has_nightly and vim.keymap.set or vim.api.nvim_set_keymap
+local kbd = has_new_keymap and vim.keymap.set or vim.api.nvim_set_keymap
 local nt = { noremap = true }
 local ntst = { noremap = true, silent = true }
 local ntstet = { noremap = true, silent = true, expr = true }
@@ -95,7 +95,7 @@ kbd('n', '<M-n>', '<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>', ntst)
 kbd('v', '<M-p>', [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]], ntst)
 kbd('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]], ntst)
 
-if has_nightly then
+if has_new_keymap then
     -- Mouse toggle.
     kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['usr#misc#mouse_toggle'], ntst)
     -- Run code.
