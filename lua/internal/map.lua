@@ -122,7 +122,8 @@ if has_new_keymap then
         vim.cmd('pwd')
     end, nt)
     kbd('n', '<leader>bd', function ()
-        if vim.tbl_contains({'help', 'terminal', 'nofile', 'quickfix'}, vim.bo.bt)
+        if vim.tbl_contains({ 'help', 'terminal',
+            'nofile', 'quickfix' }, vim.bo.bt)
             or #(vim.fn.getbufinfo({buflisted = 1})) <= 2 then
             return ':bd<CR>'
         else
@@ -232,8 +233,10 @@ if has_new_keymap then
     kbd('n', '<leader>ku', function ()
         require('utility.cmt').cmt_del_norm()
     end, ntst)
-    kbd('v', '<leader>kc', [[:<C-U>lua require('utility.cmt').cmt_add_vis()<CR>]], ntst)
-    kbd('v', '<leader>ku', [[:<C-U>lua require('utility.cmt').cmt_del_vis()<CR>]], ntst)
+    kbd('v', '<leader>kc', [[:<C-U>lua ]]
+    ..[[require('utility.cmt').cmt_add_vis()<CR>]], ntst)
+    kbd('v', '<leader>ku', [[:<C-U>lua ]]
+    ..[[require('utility.cmt').cmt_del_vis()<CR>]], ntst)
     -- Show highlight information.
     kbd('n', '<leader>vs', function ()
         require('utility.vis').show_hl_captures()
@@ -283,7 +286,7 @@ else
     ..[[require("utility.note").hanzi_count(txt)<CR>]],  ntst)
     kbd('v', '<leader>cc', [[:<C-u>lua ]]
     ..[[local txt = require('utility.lib').get_visual_selection(true) ]]
-    ..[[require("utility.note").hanzi_count("v")<CR>]], ntst)
+    ..[[require("utility.note").hanzi_count(txt)<CR>]], ntst)
     -- List bullets.
     kbd('i', '<M-CR>', '<C-\\><C-O>:lua require("utility.note").md_insert_bullet()<CR>',  ntst)
     kbd('n', '<leader>ml', ':lua require("utility.note").md_sort_num_bullet()<CR>', ntst)
