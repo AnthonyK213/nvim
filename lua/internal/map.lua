@@ -281,7 +281,7 @@ else
     kbd('n', '<leader>cc', [[<Cmd>lua ]]
     ..[[local txt = vim.api.nvim_buf_get_lines(0, 0, -1, false) ]]
     ..[[require("utility.note").hanzi_count(txt)<CR>]],  ntst)
-    kbd('v', '<leader>cc', [[:<C-u>lua]]
+    kbd('v', '<leader>cc', [[:<C-u>lua ]]
     ..[[local txt = require('utility.lib').get_visual_selection(true) ]]
     ..[[require("utility.note").hanzi_count("v")<CR>]], ntst)
     -- List bullets.
