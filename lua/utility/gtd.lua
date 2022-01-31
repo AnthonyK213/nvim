@@ -72,7 +72,7 @@ function M.append_day_from_date()
     local day_of_week = zeller(y, m, d)
     if not day_of_week then return end
     api.nvim_win_set_cursor(0, {api.nvim_win_get_cursor(0)[1], insert_pos - 1})
-    vim.cmd('normal! a '..day_of_week)
+    vim.paste({' '..day_of_week}, -1)
 end
 
 ---Count down to a timestamp.

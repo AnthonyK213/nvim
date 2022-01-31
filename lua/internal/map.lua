@@ -46,8 +46,6 @@ kbd('n', '<leader>bn', '<Cmd>bn<CR>',  ntst)
 kbd('n', '<leader>bp', '<Cmd>bp<CR>',  ntst)
 -- Toggle spell check status.
 kbd('n', '<leader>cs', '<Cmd>setlocal spell! spelllang=en_us<CR>', ntst)
--- Insert an timestamp after cursor.
-kbd('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><ESC>", ntst)
 -- Navigate windows.
 for _, direct in ipairs({'h', 'j', 'k', 'l', 'w'}) do
     kbd('n', '<M-'..direct..'>', '<C-W>'..direct,            ntst)
@@ -157,6 +155,10 @@ if has_new_keymap then
     end, ntst)
     kbd('n', '<leader>el', function ()
         require('utility.eval').lisp_eval()
+    end, ntst)
+    -- Insert an timestamp after cursor.
+    kbd('n', '<leader>ds', function ()
+        vim.paste({os.date('<%Y-%m-%d %a %H:%M>')}, -1)
     end, ntst)
     -- Append day of week after the date.
     kbd('n', '<leader>dd', function ()
@@ -276,6 +278,8 @@ else
     -- Evaluate formula surrounded by `.
     kbd('n', '<leader>ev', '<Cmd>lua require("utility.eval").lua_eval()<CR>',  ntst)
     kbd('n', '<leader>el', '<Cmd>lua require("utility.eval").lisp_eval()<CR>', ntst)
+    -- Insert an timestamp after cursor.
+    kbd('n', '<leader>ds', "a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><ESC>", ntst)
     -- Append day of week after the date.
     kbd('n', '<leader>dd', ':lua require("utility.gtd").append_day_from_date()<CR>', ntst)
     -- Print TODO list.
