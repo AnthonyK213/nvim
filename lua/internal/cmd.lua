@@ -21,6 +21,8 @@ if has_nightly then
     end, { nargs = '?' })
     -- Neovim upgrade.
     cmd('NvimUpgrade', function (tbl)
+        local arg = tbl.args
+        if arg == '' then arg = nil end
         require("utility.util").nvim_upgrade(tbl.args)
     end, { nargs = '?', complete = vim.fn['usr#misc#nvim_upgrade_option'] })
     -- Open ssh configuration.
@@ -33,7 +35,7 @@ else
     -- Open pdf file, useful when finish the compilation of tex file.
     vim.cmd('command! PDF lua require("utility.util").sys_open(vim.fn.expand("%:p:r")..".pdf")')
     -- Run or compile
-    vim.cmd('command! -nargs=? -complete=customlist,usr#misc#run_code_option CodeRun lua require("utility.comp").run_or_compile(<q-args>)')
+    vim.cmd('command! -nargs=* -complete=customlist,usr#misc#run_code_option CodeRun lua require("utility.comp").run_or_compile({<q-args>})')
     -- Git push all
     vim.cmd('command! -nargs=? PushAll lua require("utility.vcs").git_push_all(<q-args>)')
     -- Neovim upgrade.
