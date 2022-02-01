@@ -3,10 +3,7 @@ local lib = require('utility.lib')
 local uv = vim.loop
 
 
-function M.git_push_all(arg_str)
-    local arg_list = vim.split(vim.trim(arg_str), '%s+')
-    arg_list = vim.tbl_filter(function (s) return s ~= '' end, arg_list)
-
+function M.git_push_all(arg_list)
     -- Check git status.
     if not lib.executable('git') then return end
 

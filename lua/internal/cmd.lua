@@ -15,7 +15,9 @@ if has_nightly then
     end, { nargs = '?', complete = vim.fn['usr#misc#run_code_option'] })
     -- Git push all
     cmd('PushAll', function (tbl)
-        require("utility.vcs").git_push_all(tbl.args)
+        local arg_list = vim.split(vim.trim(tbl.args), '%s+')
+        arg_list = vim.tbl_filter(function (s) return s ~= '' end, arg_list)
+        require("utility.vcs").git_push_all(arg_list)
     end, { nargs = '?' })
     -- Neovim upgrade.
     cmd('NvimUpgrade', function (tbl)
