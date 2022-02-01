@@ -123,7 +123,7 @@ function M.nvim_upgrade(channel)
     local tag, build = version:match('NVIM%sv([%d.]+)(.-)\n')
     local index = build:match('^%-dev%+(%d+)%-.+$')
 
-    if not channel then
+    if (not channel) or channel == '' then
         channel = index and 'nightly' or 'stable'
     elseif channel ~= "stable" and channel ~= "nightly" then
         lib.notify_err('Invalid neovim release channel.')

@@ -29,15 +29,15 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
         \ 'tex'  : "biber\nbibtex",
         \ }
   if has_key(l:option_table, &filetype)
-    return l:option_table[&filetype]
+    return split(l:option_table[&filetype], "\n")
   else
-    return ''
+    return []
   endif
 endfunction
 
 " `NvimUpgrade` complete option list.
 function! usr#misc#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
-  return "stable\nnightly"
+  return ['stable', 'nightly']
 endfunction
 
 " Show table of contents.
