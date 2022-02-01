@@ -277,7 +277,7 @@
 ## Commands
 - `CodeRun`     -> Run or compile the code.
 - `NvimUpgrade` -> Upgrade neovim by channel input.
-- `PDF`         -> Open pdf with the same name of the buffer file in the same directory.
+- `Pdf`         -> Open pdf with the same name of the buffer file in the same directory.
 - `PushAll`     -> Just push everything to the remote origin.
   - `-b`        -> branch,  default -> current branch.
   - `-m`        -> comment, default -> date.
