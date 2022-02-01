@@ -1,6 +1,6 @@
 local has_nightly = vim.fn.has('nvim-0.7') == 1
 
-if not has_nightly then
+if has_nightly then
     local cmd = vim.api.nvim_add_user_command
 
     -- Echo time(May be useful in full screen?)
