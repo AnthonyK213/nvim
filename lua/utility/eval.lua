@@ -130,7 +130,7 @@ end
 local function lisp_tree(str)
     local tree_level = 0
     local pre_parse  = str:gsub('[%(%)]', function(s) return ' '..s..' ' end)
-    local elem_table = vim.split(pre_parse, '%s')
+    local elem_table = vim.split(vim.trim(pre_parse), '%s+')
     local tree_table = {}
 
     for _, elem in ipairs(elem_table) do
