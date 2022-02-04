@@ -105,7 +105,7 @@ if has_nightly then
     kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['usr#misc#mouse_toggle'], ntst)
     -- Run code.
     kbd('n', '<F5>', function ()
-        require('utility.util').run_or_compile('')
+        require('utility.comp').run_or_compile('')
     end, ntst)
     -- Show document.
     kbd('n', 'K', function () require('utility.util').show_doc() end, ntst)
