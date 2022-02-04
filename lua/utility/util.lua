@@ -78,9 +78,9 @@ function M.match_path_or_url_under_cursor()
     return nil
 end
 
----Open path or url with system default application.
+---Open path or URL with system default application.
 ---The environment variables should be expanded already.
----@param obj string
+---@param obj string Path or URL to open.
 ---@param use_local boolean|nil Use current file directory as cwd.
 function M.sys_open(obj, use_local)
     local cwd = use_local and vim.fn.expand('%:p:h') or vim.loop.cwd()
