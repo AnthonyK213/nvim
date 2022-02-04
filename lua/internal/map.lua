@@ -18,7 +18,7 @@ local srd_md = {
 }
 
 local get_mode = function ()
-    local m = vim.fn.mode()
+    local m = vim.api.nvim_get_mode().mode
     if m == 'n' then
         return m
     elseif vim.tbl_contains({'v', 'V', ''}, m) then

@@ -94,7 +94,7 @@ end
 ---Get the visual selections.
 ---@return string result Visual selection.
 function M.get_visual_selection()
-    local mode = vim.fn.mode()
+    local mode = vim.api.nvim_get_mode().mode
     local in_vis = vim.tbl_contains({'v', 'V', ''}, mode)
     local a_bak = vim.fn.getreg('a', 1)
     vim.cmd('silent normal! '..(in_vis and '' or 'gv')..'"ay')
