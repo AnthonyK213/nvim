@@ -139,6 +139,7 @@ if has_nightly then
     -- Terminal
     kbd('n', '<leader>ot', function ()
         require('utility.util').terminal()
+        vim.api.nvim_feedkeys('i', 'n', true)
     end, ntst)
     -- Open file of current buffer with system default browser.
     kbd('n', '<leader>ob', function ()
