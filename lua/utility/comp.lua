@@ -281,7 +281,7 @@ local comp_table = {
 }
 
 ---Run or compile the code.
----@param option string Cption.
+---@param option string Option as string.
 function M.run_or_compile(option)
     local tbl = {
         bin = '_'..vim.fn.expand('%:t:r')..(lib.has_windows() and '.exe' or ''),
