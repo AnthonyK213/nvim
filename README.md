@@ -253,9 +253,7 @@
     - n:    <kbd>]</kbd> -> Jump to next diagnostic mark.
   - <kbd>leader-m-</kbd> -> **Markdown**
     - n:    <kbd>l</kbd> -> Sort number list.
-    - n:    <kbd>m</kbd> -> *vim-markdown*, Toggle math syntax.
-    - n:    <kbd>h</kbd> -> *vim-markdown*, Toc horizontal.
-    - n:    <kbd>v</kbd> -> *vim-markdown*, Toc vertical.
+    - n:    <kbd>v</kbd> -> *aerial.nvim*, Toc vertical.
     - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle.
   - <kbd>leader-o-</kbd> -> **Open**.
     - n:    <kbd>b</kbd> -> Open file of buffer with system default browser.
