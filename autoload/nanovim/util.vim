@@ -51,7 +51,7 @@ function! s:get_git_branch() abort
       try
         let l:gitdir_line = readfile(l:dot_git)[0]
         let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-        if l:gitdir_matches->len() > 0
+        if len(l:gitdir_matches) > 0
           let l:gitdir = l:gitdir_matches[1]
           let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
         else
@@ -64,7 +64,7 @@ function! s:get_git_branch() abort
     try
       let l:ref_line = readfile(l:head_file)[0]
       let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      if l:ref_matches->len() > 0
+      if len(l:ref_matches) > 0
         let l:branch = l:ref_matches[1]
         if !empty(l:branch)
           return l:branch
@@ -102,7 +102,7 @@ function! nanovim#util#fname() abort
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
   
-  if l:file_name->empty()
+  if empty(l:file_name)
     return "[No Name]"
   endif
 
@@ -125,7 +125,7 @@ function! nanovim#util#fname() abort
     endif
     for l:d in l:path_list
       let l:dir = split(l:d, '\zs')
-      if l:dir->empty() | return "" | endif
+      if empty(l:dir) | return "" | endif
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
       elseif len(l:dir) > 1
