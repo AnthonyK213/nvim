@@ -102,7 +102,7 @@ function! nanovim#util#fname() abort
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
   
-  if l:file_name->empty()
+  if empty(l:file_name)
     return "[No Name]"
   endif
 
@@ -125,7 +125,7 @@ function! nanovim#util#fname() abort
     endif
     for l:d in l:path_list
       let l:dir = split(l:d, '\zs')
-      if l:dir->empty() | return "" | endif
+      if empty(l:dir) | return "" | endif
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
       elseif len(l:dir) > 1

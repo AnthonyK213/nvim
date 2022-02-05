@@ -120,7 +120,7 @@ function! s:gui_memo_lazy_save() abort
     return
   elseif empty(expand('%:t'))
     let l:path = expand(g:path_cloud . '/Documents/Agenda/diary')
-    if glob(l:path)->empty()
+    if empty(glob(l:path))
       let l:path = g:path_desktop
     endif
     let l:save_path = l:path . strftime("/%Y-%m-%d_%H%M%S.wiki")

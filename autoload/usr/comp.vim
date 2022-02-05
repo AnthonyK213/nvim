@@ -57,7 +57,7 @@ function! s:comp_c(tbl) abort
         \ }
   if l:cmd_tbl->has_key(l:opt)
     let l:cmd = l:cmd_tbl[l:opt]
-    if l:opt->empty()
+    if empty(l:opt)
       return [function('s:cb_run_bin'), l:cmd]
     else
       return [v:null, l:cmd]
@@ -130,7 +130,7 @@ function! s:comp_csharp(tbl) abort
   let l:opt = a:tbl['opt']
   if l:cmd_tbl->has_key(l:opt)
     let l:cmd = l:cmd_tbl[l:opt]
-    if l:opt->empty()
+    if empty(l:opt)
       return [function('s:cb_run_bin'), l:cmd]
     else
       return [v:null, l:cmd]
@@ -214,7 +214,7 @@ function! s:comp_rust(tbl) abort
 endfunction
 
 function! s:comp_latex(tbl) abort
-  if a:tbl['opt']->empty()
+  if empty(a:tbl['opt'])
     call s:latex_xelatex_2()
   elseif a:a:tbl['opt'] ==# 'biber'
     call s:latex_biber()

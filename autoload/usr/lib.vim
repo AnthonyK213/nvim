@@ -94,7 +94,7 @@ function! usr#lib#get_word() abort
   else
     let l:p_a = ''
   endif
-  if l:word->empty()
+  if empty(l:word)
     let l:word = usr#lib#get_char('n')
     let l:p_b = word
   endif
@@ -200,7 +200,7 @@ function! usr#lib#path_exists(path, ...) abort
     let l:cwd = substitute(l:cwd, '\v[\\/]$', '', '')
     let l:path = l:cwd . '/' . l:path
   endif
-  if l:path->glob()->empty()
+  if empty(glob(l:path))
     return v:false
   else
     return v:true
