@@ -51,7 +51,7 @@ function! s:get_git_branch() abort
       try
         let l:gitdir_line = readfile(l:dot_git)[0]
         let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-        if l:gitdir_matches->len() > 0
+        if len(l:gitdir_matches) > 0
           let l:gitdir = l:gitdir_matches[1]
           let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
         else
@@ -64,7 +64,7 @@ function! s:get_git_branch() abort
     try
       let l:ref_line = readfile(l:head_file)[0]
       let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      if l:ref_matches->len() > 0
+      if len(l:ref_matches) > 0
         let l:branch = l:ref_matches[1]
         if !empty(l:branch)
           return l:branch
