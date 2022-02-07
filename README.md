@@ -178,7 +178,7 @@
     - n:    <kbd>v</kbd> -> Evaluate viml chunk surrounded by backquote.
     - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd> -> **Find**.
-    - n:    <kbd>b</kbd> -> *fzf.vim*, switch buffer using fzf.
+    - n:    <kbd>b</kbd> -> *fzf.vim*, switch buffer.
     - n:    <kbd>f</kbd> -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd> -> *fzf.vim*, ripgrep (:Rg)
   - <kbd>leader-g-</kbd> -> **VCS**.
@@ -228,7 +228,7 @@
     - n:    <kbd>f</kbd> -> *vim-table-mode*, Re-align.
   - <kbd>leader-w-</kbd> -> **Vimwiki**.
 * **Miscellanea**
-  - v:    <kbd>*</kbd>   -> Search visual selection.
+  - v:    <kbd>\*</kbd>  -> Search visual selection.
   - invt: <kbd>F2</kbd>  -> Toggle mouse status.
   - n:    <kbd>F5</kbd>  -> `CodeRun`
 
