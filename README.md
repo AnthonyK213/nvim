@@ -104,7 +104,7 @@
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [vim-markdown](https://github.com/plasticboy/vim-markdown)
+  - [vim-markdown](https://github.com/preservim/vim-markdown)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
 * Completion; Snippet (Provide by pure vim script)
