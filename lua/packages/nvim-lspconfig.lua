@@ -75,7 +75,8 @@ end
 --- texlab
 if lsp_option.texlab then
     lspconfig.texlab.setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = custom_attach
     }
 end
 --- omnisharp
@@ -122,10 +123,10 @@ if lsp_option.vimls then
     }
 end
 --- Diagnostics
-vim.diagnostic.config({
+vim.diagnostic.config {
     virtual_text = true,
     signs = true,
     underline = true,
     update_in_insert = false,
     severity_sort = false,
-})
+}
