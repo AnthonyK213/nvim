@@ -3,7 +3,7 @@ local opt = {
         sh = 'bash',
         cc = 'gcc',
         py3 = '/usr/bin/python3',
-        proxy = 'http://127.0.0.1:1080',
+        proxy = nil,
     },
     path = {
         home = vim.env.HOME,
