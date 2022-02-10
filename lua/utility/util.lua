@@ -1,7 +1,6 @@
 local M = {}
 local lib = require('utility.lib')
 local pub = require('utility.pub')
-local core_opt = require('core.opt')
 
 
 ---Use `pcall()` to catch error and display it.
