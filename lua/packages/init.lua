@@ -115,8 +115,17 @@ end)
 
 
 -- Built-in plugins.
-local core_opt = require('core.opt')
 if core_opt.plug then
     if not core_opt.plug.matchit then vim.g.loaded_matchit = 1 end
     if not core_opt.plug.matchparen then vim.g.loaded_matchparen = 1 end
+end
+
+-- Color scheme
+vim.o.tgc = true
+vim.o.bg = core_opt.tui.bg or 'dark'
+local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
+if nvim_init_src == 'nano' then
+    vim.cmd('colorscheme nanovim')
+else
+    require('packages.ui')
 end

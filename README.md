@@ -2,7 +2,7 @@
 
 
 ## Requirements
-* [**Neovim**](https://github.com/neovim/neovim) 0.6+
+* [**Neovim**](https://github.com/neovim/neovim) 0.7+
 * [**packer.nvim**](https://github.com/wbthomason/packer.nvim)
   - Windows
     ```powershell
@@ -29,22 +29,19 @@
     ```powershell
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
                         "$env:LOCALAPPDATA\nvim"
-    Copy-Item "$env:LOCALAPPDATA\nvim\lua\core\opt_example.lua" `
-              -Destination "$env:LOCALAPPDATA\nvim\lua\core\opt.lua"
     ```
   - GNU/Linux
     ```sh
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt_example.lua \
-       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/lua/core/opt.lua
     ```
 * **Install plugins**
   ```vim
   :PackerSync
   ```
-* **opt.lua options (see [opt.lua](./lua/core/opt_example.lua))**
-  - Essential:
+* **opt.json**
+  - In the same directory as **init.lua**
+  - Options
     - **dep**   -> Dependencies
       - `cc`    -> C compiler
       - `sh`    -> Shell
@@ -58,7 +55,6 @@
     - **tui** -> Tui
       - `bg`    -> Tui background
       - `theme` -> Style of color theme
-  - Optional:
     - **gui** -> Gui (neovim-qt, fvim, goneovim)
       - `bg`        -> Gui background
       - `font_half` -> See `guifont`
@@ -180,10 +176,10 @@
   - n:   <kbd>M-,</kbd>  -> Open `opt.lua`.
   - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
   - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
-  - inv: <kbd>M-B</kbd>  -> Markdown **bold**.
-  - inv: <kbd>M-I</kbd>  -> Markdown *italic*.
-  - inv: <kbd>M-M</kbd>  -> Markdown ***bold_italic***.
-  - inv: <kbd>M-P</kbd>  -> Markdown `block`.
+  - in:  <kbd>M-B</kbd>  -> Markdown **bold**.
+  - in:  <kbd>M-I</kbd>  -> Markdown *italic*.
+  - in:  <kbd>M-M</kbd>  -> Markdown ***bold_italic***.
+  - in:  <kbd>M-P</kbd>  -> Markdown `block`.
   - inv: <kbd>M-U</kbd>  -> Markdown/HTML <u>underscore</u>.
 * **Emacs shit**
   - inv: <kbd>C-N</kbd>  -> Emacs next line.

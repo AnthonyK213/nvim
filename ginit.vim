@@ -154,13 +154,17 @@ if exists('g:fvim_loaded')
   call s:gui_set_option_table(s:fvim_option_table)
 endif
 "" Background
-if exists('g:gui_background') && !empty(g:gui_background)
-  let &bg = g:gui_background
-elseif exists('g:colors_name')
-      \ && g:colors_name ==# 'nanovim'
-      \ || exists('g:goneovim')
-  let g:lock_background = v:true
-  call usr#misc#time_background()
+if exists('g:gui_background')
+  if g:gui_background == 'light'
+        \ || g:gui_background == 'dark'
+    let &bg = g:gui_background
+  elseif g:gui_background == 'auto'
+        \ && exists('g:colors_name')
+        \ && g:colors_name ==# 'nanovim'
+        \ || exists('g:goneovim')
+    let g:lock_background = v:true
+    call usr#misc#time_background()
+  endif
 endif
 
 

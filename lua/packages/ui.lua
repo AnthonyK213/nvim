@@ -4,7 +4,7 @@ local gps = require("nvim-gps")
 
 -- colorscheme
 vim.cmd('packadd tokyonight.nvim')
-vim.g.tokyonight_style = require('core.opt').tui.theme or 'storm'
+vim.g.tokyonight_style = core_opt.tui.theme or 'storm'
 vim.g.tokyonight_italic_keywords = false
 vim.g.tokyonight_sidebars = {
     "help", "qf", "terminal",

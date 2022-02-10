@@ -59,7 +59,13 @@ endfunction
 " Open opt.lua.
 function! usr#misc#open_opt() abort
   let l:cfg = stdpath("config")
-  call v:lua.require("utility.util").edit_file(l:cfg.."/lua/core/opt.lua", v:false)
+  let l:opt = l:cfg . "/opt.json"
+  if empty(glob(l:opt))
+    exe 'e' l:opt
+    call nvim_paste("{}", v:true, -1)
+  else
+    call v:lua.require("utility.util").edit_file(l:opt, v:false)
+  endif
   call nvim_set_current_dir(l:cfg)
 endfunction
 

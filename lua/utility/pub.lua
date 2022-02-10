@@ -1,5 +1,4 @@
 local M = {}
-local core_opt = require('core.opt')
 
 
 if vim.fn.has("win32") == 1 then
