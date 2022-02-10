@@ -9,8 +9,9 @@ require("telescope").setup {
     },
 }
 
-local kbd = vim.api.nvim_set_keymap
+local builtin = require("telescope.builtin")
+local kbd = vim.keymap.set
 local ntst = { noremap = true, silent = true }
-kbd('n', '<leader>fb', ':lua require("telescope.builtin").buffers()<CR>',    ntst)
-kbd('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<CR>', ntst)
-kbd('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<CR>',  ntst)
+kbd('n', '<leader>fb', function () builtin.buffers() end,    ntst)
+kbd('n', '<leader>ff', function () builtin.find_files() end, ntst)
+kbd('n', '<leader>fg', function () builtin.live_grep() end,  ntst)

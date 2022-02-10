@@ -90,13 +90,19 @@ require('bufferline').setup {
         sort_by = 'extension'
     }
 }
-vim.api.nvim_set_keymap('n', '<leader>bb', '<cmd>BufferLinePick<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bb', function ()
+    vim.cmd('BufferLinePick')
+end, { noremap = true, silent = true })
 
 
 -- nvim-colorizer
 vim.cmd('packadd nvim-colorizer.lua')
 require('colorizer').setup()
-vim.cmd('command! ColorizerReset lua package.loaded["colorizer"] = nil require("colorizer").setup() require("colorizer").attach_to_buffer(0)')
+vim.api.nvim_add_user_command('ColorizerReset', function (_)
+    package.loaded["colorizer"] = nil
+    require("colorizer").setup()
+    require("colorizer").attach_to_buffer(0)
+end, {})
 
 
 -- alpha-nvim

@@ -1,4 +1,6 @@
-require('gitsigns').setup {
+local gitsigns = require('gitsigns')
+
+gitsigns.setup {
     signs = {
         add = {
             hl     = 'GitSignsAdd',
@@ -43,9 +45,9 @@ require('gitsigns').setup {
 }
 
 
-local kbd = vim.api.nvim_set_keymap
+local kbd = vim.keymap.set
 local ntst = { noremap = true, silent = true }
-kbd('n', '<leader>gj', '<Cmd>lua require("gitsigns").next_hunk()<CR>', ntst)
-kbd('n', '<leader>gk', '<Cmd>lua require("gitsigns").prev_hunk()<CR>', ntst)
-kbd('n', '<leader>gp', '<Cmd>lua require("gitsigns").preview_hunk()<CR>', ntst)
-kbd('n', '<leader>gb', '<Cmd>lua require("gitsigns").blame_line()<CR>', ntst)
+kbd('n', '<leader>gj', function () gitsigns.next_hunk() end , ntst)
+kbd('n', '<leader>gk', function () gitsigns.prev_hunk() end, ntst)
+kbd('n', '<leader>gp', function () gitsigns.preview_hunk() end, ntst)
+kbd('n', '<leader>gb', function () gitsigns.blame_line() end, ntst)
