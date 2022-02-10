@@ -1,27 +1,27 @@
 local lspconfig = require('lspconfig')
 local lsp_option = core_opt.lsp or {}
-local kbd_b = vim.api.nvim_buf_set_keymap
-local ntst = { noremap = true, silent = true }
+local kbd = vim.keymap.set
+local ntst = { noremap = true, silent = true, buffer = true }
 -- nvim-cmp
 -- Enable LSP snippets.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local custom_attach = function (client)
-    kbd_b(0, 'n', '<leader>l0', ':lua vim.lsp.buf.document_symbol()<CR>',  ntst)
-    kbd_b(0, 'n', '<leader>la', ':lua vim.lsp.buf.code_action()<CR>',      ntst)
-    kbd_b(0, 'n', '<leader>ld', ':lua vim.lsp.buf.declaration()<CR>',      ntst)
-    kbd_b(0, 'n', '<leader>lf', ':lua vim.lsp.buf.definition()<CR>',       ntst)
-    kbd_b(0, 'n', '<F12>',      ':lua vim.lsp.buf.definition()<CR>',       ntst)
-    kbd_b(0, 'n', '<leader>lh', ':lua vim.lsp.buf.signature_help()<CR>',   ntst)
-    kbd_b(0, 'n', '<leader>li', ':lua vim.lsp.buf.implementation()<CR>',   ntst)
-    kbd_b(0, 'n', '<leader>lm', ':lua vim.lsp.buf.formatting_sync()<CR>',  ntst)
-    kbd_b(0, 'n', '<leader>ln', ':lua vim.lsp.buf.rename()<CR>',           ntst)
-    kbd_b(0, 'n', '<leader>lr', ':lua vim.lsp.buf.references()<CR>',       ntst)
-    kbd_b(0, 'n', '<leader>lt', ':lua vim.lsp.buf.type_definition()<CR>',  ntst)
-    kbd_b(0, 'n', '<leader>lw', ':lua vim.lsp.buf.workspace_symbol()<CR>', ntst)
-    kbd_b(0, 'n', '<leader>l[', ':lua vim.diagnostic.goto_prev()<CR>',     ntst)
-    kbd_b(0, 'n', '<leader>l]', ':lua vim.diagnostic.goto_next()<CR>',     ntst)
-    kbd_b(0, 'n', '<M-K>',      ':lua vim.diagnostic.open_float()<CR>',    ntst)
+    kbd('n', '<leader>l0', function () vim.lsp.buf.document_symbol() end,  ntst)
+    kbd('n', '<leader>la', function () vim.lsp.buf.code_action() end,      ntst)
+    kbd('n', '<leader>ld', function () vim.lsp.buf.declaration() end,      ntst)
+    kbd('n', '<leader>lf', function () vim.lsp.buf.definition() end,       ntst)
+    kbd('n', '<F12>',      function () vim.lsp.buf.definition() end,       ntst)
+    kbd('n', '<leader>lh', function () vim.lsp.buf.signature_help() end,   ntst)
+    kbd('n', '<leader>li', function () vim.lsp.buf.implementation() end,   ntst)
+    kbd('n', '<leader>lm', function () vim.lsp.buf.formatting_sync() end,  ntst)
+    kbd('n', '<leader>ln', function () vim.lsp.buf.rename() end,           ntst)
+    kbd('n', '<leader>lr', function () vim.lsp.buf.references() end,       ntst)
+    kbd('n', '<leader>lt', function () vim.lsp.buf.type_definition() end,  ntst)
+    kbd('n', '<leader>lw', function () vim.lsp.buf.workspace_symbol() end, ntst)
+    kbd('n', '<leader>l[', function () vim.diagnostic.goto_prev() end,     ntst)
+    kbd('n', '<leader>l]', function () vim.diagnostic.goto_next() end,     ntst)
+    kbd('n', '<M-K>',      function () vim.diagnostic.open_float() end,    ntst)
     -- aerial.nvim
     require('aerial').on_attach(client)
 end

@@ -124,8 +124,8 @@ require('nvim-tree').setup {
 }
 
 
-local kbd = vim.api.nvim_set_keymap
+local kbd = vim.keymap.set
 local ntst = { noremap = true, silent = true }
-kbd('n', '<leader>op', ':NvimTreeToggle<CR>',              ntst)
-kbd('n', '<M-e>',      ':NvimTreeFindFile<CR>',            ntst)
-kbd('i', '<M-e>',      '<ESC>:NvimTreeFindFile<CR>',       ntst)
+kbd('n', '<leader>op', ':NvimTreeToggle<CR>',        ntst)
+kbd('n', '<M-e>',      ':NvimTreeFindFile<CR>',      ntst)
+kbd('i', '<M-e>',      '<ESC>:NvimTreeFindFile<CR>', ntst)
