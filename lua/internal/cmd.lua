@@ -23,7 +23,7 @@ if has_nightly then
     cmd('NvimUpgrade', function (tbl)
         local arg = tbl.args
         if arg == '' then arg = nil end
-        require("utility.util").nvim_upgrade(tbl.args)
+        require("utility.util").nvim_upgrade(arg)
     end, { nargs = '?', complete = vim.fn['usr#misc#nvim_upgrade_option'] })
     -- Open ssh configuration.
     cmd('SshConfig', function (_)
