@@ -129,4 +129,3 @@ local ntst = { noremap = true, silent = true }
 kbd('n', '<leader>op', ':NvimTreeToggle<CR>',              ntst)
 kbd('n', '<M-e>',      ':NvimTreeFindFile<CR>',            ntst)
 kbd('i', '<M-e>',      '<ESC>:NvimTreeFindFile<CR>',       ntst)
-kbd('t', '<M-e>',      '<C-\\><C-N>:NvimTreeFindFile<CR>', ntst)

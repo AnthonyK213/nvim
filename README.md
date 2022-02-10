@@ -162,7 +162,7 @@
   - in:  <kbd>M-a</kbd>  -> Select all.
   - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>  -> Close the terminal.
-  - int: <kbd>M-e</kbd>  -> *nvim-tree.lua*, nvim-tree find file.
+  - in:  <kbd>M-e</kbd>  -> *nvim-tree.lua*, nvim-tree find file.
   - nv:  <kbd>M-g</kbd>  -> Find and replace.
   - inv: <kbd>M-h</kbd>  -> Jump to the window left.
   - inv: <kbd>M-j</kbd>  -> Jump to the window below.
