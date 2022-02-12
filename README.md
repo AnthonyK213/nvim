@@ -24,7 +24,7 @@
 
 
 ## Installation
-* **Clone source code and setup**
+* **Clone repo**
   - Windows
     ```powershell
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
@@ -40,7 +40,7 @@
   :PackerSync
   ```
 * **opt.json**
-  - In the same directory as **init.lua**
+  - In the same directory as `init.lua`
   - Options
     - **dep**   -> Dependencies
       - `cc`    -> (string) C compiler
