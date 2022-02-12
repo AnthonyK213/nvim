@@ -1,12 +1,12 @@
 " colorscheme
 set termguicolors
 set background=dark
-let g:airline_theme = 'gruvbox'
+let g:airline_theme = 'onedark'
 augroup highlight_extend
   autocmd!
   au ColorScheme * call usr#vis#hi_extd()
 augroup end
-colorscheme gruvbox
+colorscheme onedark
 
 
 " dashboard.nvim

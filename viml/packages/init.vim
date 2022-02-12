@@ -4,7 +4,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
 " Display
 Plug 'glepnir/dashboard-nvim'
-Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
 Plug 'vim-airline/vim-airline'
 " FZF
 Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }

@@ -87,7 +87,7 @@
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Display
   - [dashboard.nvim](https://github.com/glepnir/dashboard-nvim)
-  - [gruvbox](https://github.com/morhetz/gruvbox)
+  - [onedark.vim](https://github.com/joshdick/onedark.vim)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
 * File system
   - [vim-clap](https://github.com/liuchengxu/vim-clap)
