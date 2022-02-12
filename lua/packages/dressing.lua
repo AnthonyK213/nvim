@@ -11,7 +11,7 @@ require('dressing').setup {
         max_width = nil,
         min_width = 20,
         winblend = 10,
-        winhighlight = "",
+        winhighlight = "NormalFloat:Normal",
         get_config = nil,
     },
     select = {

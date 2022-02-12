@@ -23,6 +23,7 @@ require('onedark').setup  {
     },
     colors = {},
     highlights = {
+        FloatBorder = { fg = '$cyan' },
         SpellBad = { fg = '$red', fmt = 'underline' },
         SpellCap = { fg = '$yellow', fmt = 'underline' },
         markdownH1 =               { fg = '$red', fmt = 'bold' },
