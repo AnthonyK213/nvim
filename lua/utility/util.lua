@@ -7,9 +7,7 @@ local pub = require('utility.pub')
 ---@param func function The function to test.
 ---@param args table Function arguments as a table.
 local function on_err(func, args)
-    local ok, err = pcall(function ()
-        func(unpack(args))
-    end)
+    local ok, err = pcall(func, unpack(args))
     if not ok then
         local msg = err:match('(E%d+:%s.+)$')
         lib.notify_err(msg and msg or "Error occured!")

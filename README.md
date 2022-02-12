@@ -3,17 +3,6 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) 0.7+
-* [**packer.nvim**](https://github.com/wbthomason/packer.nvim)
-  - Windows
-    ```powershell
-    git clone https://github.com/wbthomason/packer.nvim `
-              "$env:LOCALAPPDATA\nvim-data\site\pack\packer\start\packer.nvim"
-    ```
-  - GNU/Linux
-    ```sh
-    git clone https://github.com/wbthomason/packer.nvim \
-              ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-    ```
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
   (For [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim))
@@ -24,7 +13,7 @@
 
 
 ## Installation
-* **Clone repo**
+* **Clone repository**
   - Windows
     ```powershell
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
@@ -35,13 +24,8 @@
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-* **Install plugins**
-  ```vim
-  :PackerSync
-  ```
-* **opt.json**
-  - In the same directory as `init.lua`
-  - Options
+* **Customize options (optional)**
+  - `opt.json`(in the same directory as `init.lua`)
     - **dep**   -> Dependencies
       - `cc`    -> (string) C compiler
       - `sh`    -> (string|table) Shell
@@ -79,9 +63,9 @@
     - **plug** -> Built-in plugins
       - `matchit`    -> (boolean) Enable matchit.vim
       - `matchparen` -> (boolean) Enable matchparen.vim
-* **.vimrc(optional)**
+* **Set .vimrc (optional)**
   - Windows
-    ```sh
+    ```powershell
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
               -Destination "$env:HOMEPATH\_vimrc"
     ```

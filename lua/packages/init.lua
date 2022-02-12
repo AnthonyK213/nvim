@@ -1,4 +1,22 @@
-require('packer').startup(function(use)
+local packer_bootstrap = nil
+local packer_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
+    if vim.fn.executable('git') > 0 then
+        packer_bootstrap = vim.fn.system {
+            'git',
+            'clone',
+            '--depth', '1',
+            'https://github.com/wbthomason/packer.nvim',
+            packer_path
+        }
+        vim.cmd[[packadd packer.nvim]]
+    else
+        vim.notify('Executable git is not found.', vim.log.levels.WARN, nil)
+        return
+    end
+end
+
+require('packer').startup(function (use)
     -- Package manager
     use 'wbthomason/packer.nvim'
     -- Display
@@ -13,22 +31,22 @@ require('packer').startup(function(use)
     use {
         {
             'kyazdani42/nvim-tree.lua',
-            config = function() require('packages.nvim-tree') end
+            config = function () require('packages.nvim-tree') end
         };
         {
             'nvim-telescope/telescope.nvim',
-            config = function() require('packages.telescope') end
+            config = function () require('packages.telescope') end
         };
     }
     -- VCS
     use {
         {
             'TimUntersberger/neogit',
-            config = function() require('packages.neogit') end
+            config = function () require('packages.neogit') end
         };
         {
             'lewis6991/gitsigns.nvim',
-            config = function() require('packages.gitsigns') end
+            config = function () require('packages.gitsigns') end
         };
     }
     -- Utilities
@@ -37,43 +55,43 @@ require('packer').startup(function(use)
         'tpope/vim-speeddating';
         {
             'dhruvasagar/vim-table-mode',
-            config = function() require('packages.vim-table-mode') end
+            config = function () require('packages.vim-table-mode') end
         };
         {
             'lukas-reineke/indent-blankline.nvim',
-            config = function() require('packages.indent-blankline') end
+            config = function () require('packages.indent-blankline') end
         };
         {
             'AnthonyK213/lua-pairs',
-            config = function() require('packages.lua-pairs') end
+            config = function () require('packages.lua-pairs') end
         };
         {
             'andymass/vim-matchup'
         };
         {
             'Shatur/neovim-session-manager',
-            config = function() require('packages.neovim-session-manager') end
+            config = function () require('packages.neovim-session-manager') end
         };
         {
             'stevearc/dressing.nvim',
-            config = function() require('packages.dressing') end
+            config = function () require('packages.dressing') end
         };
     }
     -- File type support
     use {
         {
             'lervag/vimtex',
-            config = function() require('packages.vimtex') end
+            config = function () require('packages.vimtex') end
         };
         {
             'vimwiki/vimwiki',
             branch = 'dev',
-            config = function() require('packages.vimwiki') end
+            config = function () require('packages.vimwiki') end
         };
         {
             'iamcco/markdown-preview.nvim',
-            run = function() vim.fn['mkdp#util#install'](0) end,
-            config = function() require('packages.markdown-preview') end
+            run = function () vim.fn['mkdp#util#install'](0) end,
+            config = function () require('packages.markdown-preview') end
         };
         'sotte/presenting.vim';
     }
@@ -90,27 +108,31 @@ require('packer').startup(function(use)
                 'hrsh7th/vim-vsnip',
                 'hrsh7th/cmp-vsnip',
             },
-            config = function() require('packages.nvim-cmp') end
+            config = function () require('packages.nvim-cmp') end
         };
         {
             'neovim/nvim-lspconfig',
-            config = function() require('packages.nvim-lspconfig') end
+            config = function () require('packages.nvim-lspconfig') end
         };
         {
             'nvim-treesitter/nvim-treesitter',
-            config = function() require('packages.nvim-treesitter') end
+            config = function () require('packages.nvim-treesitter') end
         };
         {
             'stevearc/aerial.nvim',
-            config = function() require('packages.aerial') end
+            config = function () require('packages.aerial') end
         };
         {
             'SmiteshP/nvim-gps',
-            config = function() require('packages.nvim-gps') end
+            config = function () require('packages.nvim-gps') end
         };
     }
     -- Games
     use 'alec-gibson/nvim-tetris'
+
+    if packer_bootstrap then
+        require('packer').sync()
+    end
 end)
 
 
