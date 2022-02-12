@@ -25,17 +25,18 @@ function M.terminal()
         exec = pub.shell
     else
         lib.notify_err("The shell is invalid, please check `opt.lua`.")
-        return
+        return false
     end
 
     if vim.fn.executable(exec) ~= 1 then
         lib.notify_err(exec.." is not a valid shell.")
-        return
+        return false
     end
 
     lib.belowright_split(15)
     vim.api.nvim_win_set_option(0, 'number', false)
     vim.fn.termopen(vim.tbl_flatten({pub.shell}))
+    return true
 end
 
 ---Show documents.
