@@ -242,5 +242,5 @@ kbd('v', '<leader>ku', [[:<C-U>lua ]]
 ..[[require('utility.cmt').cmt_del_vis()<CR>]], ntst)
 -- Show highlight information.
 kbd('n', '<leader>vs', function ()
-    require('utility.vis').show_hl_captures()
+    require('utility.util').show_hl()
 end, ntst)
