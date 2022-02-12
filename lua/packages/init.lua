@@ -4,7 +4,7 @@ require('packer').startup(function(use)
     -- Display
     use {
         {'goolord/alpha-nvim',          opt = true};
-        {'folke/tokyonight.nvim',       opt = true};
+        {'navarasu/onedark.nvim',       opt = true};
         {'nvim-lualine/lualine.nvim',   opt = true};
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
@@ -122,7 +122,7 @@ end
 
 -- Color scheme
 vim.o.tgc = true
-vim.o.bg = core_opt.tui.bg or 'dark'
+vim.o.bg = core_opt.tui.theme or 'dark'
 local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 if nvim_init_src == 'nano' then
     vim.cmd('colorscheme nanovim')

@@ -43,24 +43,25 @@
   - In the same directory as **init.lua**
   - Options
     - **dep**   -> Dependencies
-      - `cc`    -> C compiler
-      - `sh`    -> Shell
-      - `py3`   -> Python3 executable path
-      - `proxy` -> Proxy
+      - `cc`    -> (string) C compiler
+      - `sh`    -> (string|table) Shell
+      - `py3`   -> (string) Python3 executable path
+      - `proxy` -> (string) Proxy
     - **path** -> Path
-      - `home`    -> Home directory
-      - `cloud`   -> Cloud drive directory
-      - `desktop` -> Desktop directory
-      - `bin`     -> Binaries directory
+      - `home`    -> (string) Home directory
+      - `cloud`   -> (string) Cloud drive directory
+      - `desktop` -> (string) Desktop directory
+      - `bin`     -> (string) Binaries directory
     - **tui** -> Tui
-      - `bg`    -> Tui background
-      - `theme` -> Style of color theme
+      - `theme`       -> (string) Tui background theme
+      - `style`       -> (string) Style of color scheme
+      - `transparent` -> (boolean) Make background transparent
     - **gui** -> Gui (neovim-qt, fvim, goneovim)
-      - `bg`        -> Gui background
-      - `font_half` -> See `guifont`
-      - `font_full` -> See `guifontwide`
-      - `font_size` -> Gui font size
-      - `opacity`   -> Window opacity
+      - `theme`     -> (string) Gui background theme
+      - `opacity`   -> (number) Window opacity
+      - `font_half` -> (number) See `guifont`
+      - `font_full` -> (string) See `guifontwide`
+      - `font_size` -> (string) Gui font size
     - **lsp** -> Language Server Protocol
       - [clangd](https://github.com/clangd/clangd)
       - [jedi_language_server](https://github.com/pappasam/jedi-language-server)
@@ -73,11 +74,11 @@
       - [texlab](https://github.com/latex-lsp/texlab)
       - [vimls](https://github.com/iamcco/vim-language-server)
     - **ts** -> Treesitter
-      - `ensure`     -> Parsers to install automatically
-      - `hi_disable` -> File type to disable treesitter highlight
+      - `ensure`     -> (table) Parsers to install automatically
+      - `hi_disable` -> (table) File type to disable treesitter highlight
     - **plug** -> Built-in plugins
-      - `matchit`    -> matchit.vim
-      - `matchparen` -> matchparen.vim
+      - `matchit`    -> (boolean) Enable matchit.vim
+      - `matchparen` -> (boolean) Enable matchparen.vim
 * **.vimrc(optional)**
   - Windows
     ```sh
@@ -119,7 +120,7 @@
   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * Display(Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
-  - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
+  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)

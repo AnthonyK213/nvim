@@ -12,15 +12,16 @@ local opt = {
         bin = vim.fn.expand(vim.env.HOME..'/bin'),
     },
     tui = {
-        bg = 'dark',
-        theme = 'night',
+        theme = 'dark',
+        style = 'dark',
+        transparent = false,
     },
     gui = {
+        theme = 'auto',
+        opacity = 0.98,
+        font_size = 13,
         font_half = 'Monospace',
         font_full = 'Monospace',
-        font_size = 13,
-        bg = 'auto',
-        opacity = 0.98,
     },
     lsp = {
         clangd = false,

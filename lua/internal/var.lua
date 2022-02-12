@@ -25,7 +25,7 @@ end
 vim.g.gui_font_half  = core_opt.gui.font_half
 vim.g.gui_font_full  = core_opt.gui.font_full
 vim.g.gui_font_size  = core_opt.gui.font_size
-vim.g.gui_background = core_opt.gui.bg
+vim.g.gui_background = core_opt.gui.theme
 vim.g.gui_opacity    = core_opt.gui.opacity
 
 -- Directional operation which won't break the history.
