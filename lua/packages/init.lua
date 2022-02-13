@@ -148,6 +148,6 @@ vim.o.bg = core_opt.tui.theme or 'dark'
 local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 if nvim_init_src == 'nano' then
     vim.cmd('colorscheme nanovim')
-else
+elseif packer_bootstrap == nil then
     require('packages.ui')
 end
