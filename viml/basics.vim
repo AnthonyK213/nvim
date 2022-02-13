@@ -15,7 +15,7 @@ set laststatus=2
 set colorcolumn=80
 set shortmess+=c
 set noshowmode showcmd
-set list listchars=tab:>-,space:·
+set list listchars=tab:>-,trail:·
 
 
 " Language, encode
@@ -28,7 +28,7 @@ set formatoptions+=mB
 " Behavior
 set autoindent smartindent
 set tabstop=2 shiftwidth=2 softtabstop=2
-set wrap linebreak showbreak=>
+set wrap linebreak showbreak=^
 set expandtab smarttab
 set backspace=2
 set splitbelow splitright

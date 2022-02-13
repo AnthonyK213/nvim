@@ -8,7 +8,6 @@ else
   let s:init_src = ""
 endif
 
-set tgc
 if s:init_src ==? 'nano'
   set bg=light
   call usr#misc#vim_source_list([
