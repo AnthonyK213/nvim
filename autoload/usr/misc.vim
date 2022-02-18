@@ -40,17 +40,6 @@ function! usr#misc#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
   return ['stable', 'nightly']
 endfunction
 
-" Show table of contents.
-function! usr#misc#show_toc() abort
-  if &ft ==? 'tex'
-    if exists(':VimtexTocToggle')
-      VimtexTocToggle
-    endif
-  else
-    echo 'No Toc support for current filetype.'
-  endif
-endfunction
-
 " Source vim file.
 function! usr#misc#vim_source(file) abort
   call v:lua.require('utility.lib').vim_source(a:file)

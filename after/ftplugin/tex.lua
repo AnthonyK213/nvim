@@ -16,3 +16,8 @@ require('cmp').setup.buffer {
         { name = 'path' },
     },
 }
+
+vim.keymap.set('n', '<leader>mv', '<Cmd>VimtexTocToggle<CR>', {
+    noremap = true,
+    silent = true
+})
