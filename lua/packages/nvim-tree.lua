@@ -1,9 +1,5 @@
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_git_hl = 1
-vim.g.nvim_tree_window_picker_exclude = {
-    filetype = { 'qf', 'help' },
-    buftype  = { 'terminal' }
-}
 vim.g.nvim_tree_show_icons = {
     git = 1,
     folders = 1,
@@ -119,6 +115,19 @@ require('nvim-tree').setup {
         },
         open_file = {
             quit_on_open = false,
+            window_picker = {
+                enable = true,
+                chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+                exclude = {
+                    filetype = {
+                        "notify", "qf", "help",
+                        "packer", "aerial"
+                    },
+                    buftype = {
+                        "terminal"
+                    }
+                }
+            }
         }
     }
 }
