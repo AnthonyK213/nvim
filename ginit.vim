@@ -166,6 +166,11 @@ if exists('g:gui_background')
     call usr#misc#time_background()
   endif
 endif
+"" statusline
+if exists('g:goneovim')
+  set laststatus=0
+  set statusline=
+endif
 
 
 " Font
