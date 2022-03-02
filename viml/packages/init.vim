@@ -6,6 +6,7 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'glepnir/dashboard-nvim'
 Plug 'rakr/vim-one'
 Plug 'vim-airline/vim-airline'
+Plug 'chrisbra/Colorizer'
 " FZF
 Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }
 " VCS
