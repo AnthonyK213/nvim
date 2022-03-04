@@ -217,6 +217,11 @@ call s:h("SpellBad", {
       \ "fg": s:nano_color_popout,
       \ "gui": "underline"
       \ })
+" __EndOfBuffer__
+call s:h("EndOfBuffer", {
+      \ "fg": s:nano_color_background,
+      \ "bg": s:nano_color_background
+      \ })
 " }}
 
 " Links {{
