@@ -164,17 +164,6 @@ function M.tbl_reverse(tbl)
     return tmp
 end
 
----Define auto command group.
----@param name string Autocmd group name.
-function M.set_augroup(name, ...)
-    vim.cmd('augroup '..name)
-    vim.cmd('autocmd!')
-    for _, cmd in ipairs({...}) do
-        vim.cmd('au '..cmd)
-    end
-    vim.cmd('augroup end')
-end
-
 ---Define highlight group.
 ---@param group string Group name.
 ---@param fg string Foreground color.
