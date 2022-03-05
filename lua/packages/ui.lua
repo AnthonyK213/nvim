@@ -1,6 +1,3 @@
-local gps = require("nvim-gps")
-
-
 -- colorscheme
 vim.cmd('packadd onedark.nvim')
 require('onedark').setup  {
@@ -81,10 +78,7 @@ require('lualine').setup {
             return mode_alias[vim.api.nvim_get_mode().mode] or '_'
         end},
         lualine_b = {'branch'},
-        lualine_c = {
-            {'filename', path=2},
-            {gps.get_location, cond=gps.is_available},
-            'diff'
+        lualine_c = {{'filename', path=2}, {'aerial', sep=' >> '}, 'diff'
         },
         lualine_x = {{'diagnostics', sources={'nvim_diagnostic'}}, 'filetype'},
         lualine_y = {'encoding', 'fileformat'},

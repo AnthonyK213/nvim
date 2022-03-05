@@ -5,6 +5,24 @@ require'aerial'.setup {
     backends = { "lsp", "treesitter", "markdown" },
     close_behavior = 'close',
     manage_folds = false,
+    filter_kind = {
+        ['_'] = {
+            "Class",
+            "Constructor",
+            "Enum",
+            "Function",
+            "Interface",
+            "Module",
+            "Method",
+            "Struct",
+        },
+        lua = {
+            "Function",
+            "Method",
+            "Variable",
+        },
+    },
+    highlight_closest = false,
     on_attach = function (bufnr)
         kbd_b(bufnr, 'n', '{',          '<Cmd>AerialPrev<CR>', ntst)
         kbd_b(bufnr, 'n', '}',          '<Cmd>AerialNext<CR>', ntst)

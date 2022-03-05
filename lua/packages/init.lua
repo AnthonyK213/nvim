@@ -122,10 +122,6 @@ require('packer').startup(function (use)
             'stevearc/aerial.nvim',
             config = function () require('packages.aerial') end
         };
-        {
-            'SmiteshP/nvim-gps',
-            config = function () require('packages.nvim-gps') end
-        };
     }
     -- Games
     use 'alec-gibson/nvim-tetris'

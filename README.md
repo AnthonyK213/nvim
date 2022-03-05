@@ -134,7 +134,6 @@
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
-  - [nvim-gps](https://github.com/SmiteshP/nvim-gps)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
 
