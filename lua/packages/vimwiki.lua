@@ -6,5 +6,5 @@ vim.g.vimwiki_list = {{
 }}
 vim.g.vimwiki_folding = 'syntax'
 vim.g.vimwiki_ext2syntax = {
-    ['.wikimd'] = 'markdown'
+    ['.wiki'] = 'markdown'
 }
