@@ -204,7 +204,7 @@ function M.nvim_upgrade(channel)
         ..' -DestinationPath '..bin_path.filename
 
         local rn_cmd = 'Rename-Item'
-        ..' -Path '..bin_path:joinpath('Neovim').filename
+        ..' -Path '..bin_path:joinpath('nvim-win64').filename
         ..' -NewName '..nvim_path.filename
 
         local cl_cmd = 'Remove-Item'
