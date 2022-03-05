@@ -184,13 +184,13 @@ endif
 
 " vimwiki
 let g:vimwiki_list = [{
-      \ 'path' : expand(g:path_cloud . '/Documents/Agenda/'),
-      \ 'path_html' : expand(g:path_cloud . '/Documents/Agenda/html/'),
-      \ 'syntax' : 'default',
+      \ 'path' : expand(g:path_cloud . '/Notes/'),
+      \ 'path_html' : expand(g:path_cloud . '/Notes/html/'),
+      \ 'syntax' : 'markdown',
       \ 'ext' : '.wiki'
       \ }]
 let g:vimwiki_folding = 'syntax'
-let g:vimwiki_ext2syntax = { '.wikimd' : 'markdown' }
+let g:vimwiki_ext2syntax = { '.wiki' : 'markdown' }
 
 
 " vim-markdown

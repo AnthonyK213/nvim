@@ -1,8 +1,8 @@
 " Leader key
 let g:mapleader = "\<Space>"
 " Directories
-let g:path_home = get(g:, 'default_home', expand('$HOME'))
-let g:path_cloud = get(g:, 'default_cloud', expand('$ONEDRIVE'))
+let g:path_home = get(g:, 'default_home', getenv('HOME'))
+let g:path_cloud = get(g:, 'default_cloud', has_key(environ(), 'ONEDRIVE') ? getenv('ONEDRIVE') : g:path_home)
 let g:path_desktop = get(g:, 'default_desktop', expand(g:path_home . '/Desktop'))
 " OS
 if has("win32")
