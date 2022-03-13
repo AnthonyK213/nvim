@@ -138,10 +138,6 @@ function! s:gui_file_explorer() abort
   endif
 endfunction
 
-function s:gui_hide_statusline() abort
-  set laststatus=0 statusline=
-endfunction
-
 
 if exists('g:path_desktop')
   exe 'cd' g:path_desktop
@@ -170,13 +166,10 @@ if exists('g:gui_background')
     call usr#misc#time_background()
   endif
 endif
-"" statusline
+"" tabline
 if exists('g:goneovim')
-  call s:gui_hide_statusline()
-  augroup GoneovimHideStl
-    autocmd!
-    autocmd OptionSet background call <SID>gui_hide_statusline()
-  augroup END
+  set laststatus=0
+  set showtabline=2
 endif
 
 

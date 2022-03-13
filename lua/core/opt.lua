@@ -12,6 +12,7 @@ local opt = {
         bin = vim.fn.expand(vim.env.HOME..'/bin'),
     },
     tui = {
+        scheme = 'onedark',
         theme = 'dark',
         style = 'dark',
         transparent = false,

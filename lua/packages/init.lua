@@ -22,10 +22,15 @@ require('packer').startup(function (use)
     -- Display
     use {
         {'goolord/alpha-nvim',          opt = true};
-        {'navarasu/onedark.nvim',       opt = true};
         {'nvim-lualine/lualine.nvim',   opt = true};
         {'akinsho/bufferline.nvim',     opt = true};
         {'norcalli/nvim-colorizer.lua', opt = true};
+    }
+    -- Color scheme
+    use {
+        {'navarasu/onedark.nvim',    opt = true};
+        {'folke/tokyonight.nvim',    opt = true};
+        {'ellisonleao/gruvbox.nvim', opt = true};
     }
     -- File system
     use {
@@ -139,11 +144,25 @@ if core_opt.plug then
 end
 
 -- Color scheme
+local colorscheme_list = { 'onedark', 'tokyonight', 'gruvbox' }
+local colorscheme = core_opt.tui.scheme
 vim.o.tgc = true
 vim.o.bg = core_opt.tui.theme or 'dark'
 local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 if nvim_init_src == 'nano' then
     vim.cmd('colorscheme nanovim')
 elseif packer_bootstrap == nil then
-    require('packages.ui')
+    require('packages.alpha-nvim')
+    require('packages.nvim-colorizer')
+    if vim.tbl_contains(colorscheme_list, colorscheme) then
+        require('packages.'..colorscheme)
+    else
+        if not pcall(vim.cmd, 'colorscheme '..colorscheme) then
+            vim.notify('Color sheme was not found.', vim.log.levels.WARN, nil)
+        end
+    end
+    if nvim_init_src ~= 'defaultlines' then
+        require('packages.bufferline')
+        require('packages.lualine')
+    end
 end

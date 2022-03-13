@@ -37,6 +37,7 @@
       - `desktop` -> (string) Desktop directory
       - `bin`     -> (string) Binaries directory
     - **tui** -> Tui
+      - `scheme`      -> (string) Color scheme
       - `theme`       -> (string) Tui background theme
       - `style`       -> (string) Style of color scheme
       - `transparent` -> (boolean) Make background transparent
@@ -104,10 +105,13 @@
   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * Display(Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
-  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
+* Color scheme(Optional)
+  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
+  - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
+  - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
