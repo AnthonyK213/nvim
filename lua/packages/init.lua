@@ -158,7 +158,7 @@ elseif packer_bootstrap == nil then
         require('packages.'..colorscheme)
     else
         if not pcall(vim.cmd, 'colorscheme '..colorscheme) then
-            vim.notify('Color sheme was not found.', vim.log.levels.WARN, nil)
+            vim.notify('Color scheme was not found.', vim.log.levels.WARN, nil)
         end
     end
     if nvim_init_src ~= 'defaultlines' then
