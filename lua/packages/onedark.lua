@@ -1,5 +1,6 @@
 vim.cmd('packadd onedark.nvim')
 
+
 require('onedark').setup  {
     style = core_opt.tui.style,
     transparent = core_opt.tui.transparent,
@@ -53,5 +54,6 @@ require('onedark').setup  {
         background = true,
     },
 }
+
 
 require('onedark').load()

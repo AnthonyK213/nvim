@@ -1,6 +1,7 @@
 vim.o.showtabline = 2
 vim.cmd('packadd bufferline.nvim')
 
+
 require('bufferline').setup {
     options = {
         buffer_close_icon= '×',
@@ -32,6 +33,8 @@ require('bufferline').setup {
         sort_by = 'extension'
     }
 }
+
+
 vim.keymap.set('n', '<leader>bb', function ()
     vim.cmd('BufferLinePick')
 end, { noremap = true, silent = true })

@@ -25,8 +25,8 @@ require('lualine').setup {
         },
         lualine_b = { 'branch' },
         lualine_c = {
-            { 'filename', path=2 },
-            { 'aerial', sep=' >> ' },
+            { 'filename', path = 2 },
+            { 'aerial', sep = ' >> ' },
             'diff'
         },
         lualine_x = {
