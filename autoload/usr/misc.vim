@@ -62,7 +62,7 @@ endfunction
 function! usr#misc#time_background() abort
 lua << EOF
   local timer = vim.loop.new_timer()
-  timer:start(0, 600, vim.schedule_wrap(function()
+  timer:start(0, 600, vim.schedule_wrap(function ()
     if not vim.g.lock_background then return end
     local hour = tonumber(os.date('%H'))
     local bg = (hour > 6 and hour < 18) and 'light' or 'dark'

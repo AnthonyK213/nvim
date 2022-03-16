@@ -79,7 +79,7 @@ function M.git_push_all(arg_list)
             cwd = git_root,
             stdio = {stdout, stderr},
         },
-        vim.schedule_wrap(function()
+        vim.schedule_wrap(function ()
             stdout:read_stop()
             stderr:read_stop()
             stdout:close()

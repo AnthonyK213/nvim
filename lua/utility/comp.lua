@@ -32,7 +32,7 @@ local function latex_xelatex(cb, cb_cb, cb_cb_cb)
             latex_name..'.tex'
         }
     },
-    vim.schedule_wrap(function()
+    vim.schedule_wrap(function ()
         print(latex_step.." -> Xelatex")
         latex_step = latex_step + 1
         handle:close()
@@ -45,7 +45,7 @@ local function latex_biber(cb, cb_cb)
     handle = uv.spawn('biber', {
         args = { latex_name..'.bcf' }
     },
-    vim.schedule_wrap(function()
+    vim.schedule_wrap(function ()
         print(latex_step.." -> Biber")
         latex_step = latex_step + 1
         handle:close()
@@ -58,7 +58,7 @@ local function latex_bibtex(cb, cb_cb)
     handle = uv.spawn('bibtex', {
         args = { latex_name..'.aux' }
     },
-    vim.schedule_wrap(function()
+    vim.schedule_wrap(function ()
         print(latex_step.." -> Bibtex")
         latex_step = latex_step + 1
         handle:close()
