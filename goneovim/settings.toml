@@ -18,25 +18,20 @@ DrawShadowForFloatWindow = true
 ClickEffect = false
 Ginitvim = "call usr#misc#vim_source('ginit')"
 
-
 [Cursor]
 SmoothMove = true
-
 
 [Palette]
 AreaRatio = 0.5
 MaxNumberOfResultItems = 30
 Transparent = 0.92
 
-
 [Message]
 Transparent = 0.92
-
 
 [Tabline]
 Visible = true
 ShowIcon = true
-
 
 [Popupmenu]
 ShowDetail = true
@@ -46,25 +41,25 @@ InfoWidth = 1
 DetailWidth = 250
 ShowDigit = false
 
-
 [ScrollBar]
 Visible = false
-
 
 [MiniMap]
 Disable = false
 Visible = true
 Width = 100
 
-
 [Markdown]
 Disable = false
 CodeHlStyle = "github"
 
-
 [FileExplore]
-MaxDisplayItems = 30
+MaxDisplayItems = 15
 
+[Statusline]
+Visible = true
+Left = [ "mode", "filepath", "filename" ]
+Right = [ "message", "git", "fileformat", "fileencoding", "filetype" ]
 
 [Workspace]
 PathStyle = "minimum"

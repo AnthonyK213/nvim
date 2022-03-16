@@ -119,11 +119,11 @@ function! s:gui_memo_lazy_save() abort
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
-    let l:path = expand(g:path_cloud . '/Documents/Agenda/diary')
+    let l:path = expand(g:path_cloud . '/Notes/diary')
     if empty(glob(l:path))
       let l:path = g:path_desktop
     endif
-    let l:save_path = l:path . strftime("/%Y-%m-%d_%H%M%S.wiki")
+    let l:save_path = expand(l:path . strftime("/%Y-%m-%d_%H%M%S.wiki"))
     silent exe 'w' l:save_path '| e!'
   else
     exe 'w'
@@ -165,6 +165,11 @@ if exists('g:gui_background')
     let g:lock_background = v:true
     call usr#misc#time_background()
   endif
+endif
+"" tabline
+if exists('g:goneovim')
+  set laststatus=0
+  set showtabline=2
 endif
 
 

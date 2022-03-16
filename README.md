@@ -35,6 +35,8 @@
     ```powershell
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git `
                                 "$env:LOCALAPPDATA\nvim"
+    ```
+    ```powershell
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\core\opt_example.vim" `
               -Destination "$env:LOCALAPPDATA\nvim\viml\core\opt.vim"
     ```
@@ -42,6 +44,8 @@
     ```sh
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git \
                                 "${XDG_DATA_HOME:-$HOME/.config}"/nvim
+    ```
+    ```sh
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt_example.vim \
        "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt.vim
     ```
