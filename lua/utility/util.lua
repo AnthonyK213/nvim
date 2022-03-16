@@ -144,7 +144,7 @@ end
 ---Upgrade neovim.
 ---@param channel string|nil Upgrade channel, "stable" or "nightly".
 function M.nvim_upgrade(channel)
-    local proxy = core_opt.dep.proxy
+    local proxy = _my_core_opt.dep.proxy
 
     local version = vim.api.nvim_exec('version', true)
     local tag, build = version:match('NVIM%sv([%d.]+)(.-)\n')

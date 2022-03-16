@@ -60,4 +60,4 @@ if vim.fn.empty(vim.fn.glob(opt_file)) == 0 then
     end
 end
 
-_G.core_opt = opt
+_G._my_core_opt = opt

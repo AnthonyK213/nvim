@@ -1,5 +1,5 @@
 local lspconfig = require('lspconfig')
-local lsp_option = core_opt.lsp or {}
+local lsp_option = _my_core_opt.lsp or {}
 local kbd = vim.keymap.set
 local ntst = { noremap = true, silent = true, buffer = true }
 -- nvim-cmp

@@ -2,8 +2,8 @@ vim.cmd('packadd onedark.nvim')
 
 
 require('onedark').setup  {
-    style = core_opt.tui.style,
-    transparent = core_opt.tui.transparent,
+    style = _my_core_opt.tui.style,
+    transparent = _my_core_opt.tui.transparent,
     term_colors = true,
     ending_tildes = false,
     toggle_style_key = '<leader>bs',
