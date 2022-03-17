@@ -129,12 +129,6 @@ nn <silent> <leader>sa :call usr#srd#sur_add('n')<CR>
 vn <silent> <leader>sa :<C-U>call usr#srd#sur_add('v')<CR>
 nn <silent> <leader>sd :call usr#srd#sur_sub('')<CR>
 nn <silent> <leader>sc :call usr#srd#sur_sub()<CR>
-for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
-  for s:mod_item in ['n', 'v']
-    exe s:mod_item . 'n' '<silent> <M-' . s:key . '>'
-          \ ':call usr#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
-  endfor
-endfor
 " Comment
 nn <silent> <leader>kc :call usr#cmt#cmt_add_norm()<CR>
 vn <silent> <leader>kc :<C-U>call usr#cmt#cmt_add_vis()<CR>

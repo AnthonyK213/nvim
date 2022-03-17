@@ -101,3 +101,15 @@ function! usr#misc#time_background() abort
         \ { 'repeat': -1 })
   call s:background_checker(bg_timer)
 endfunction
+
+" Set markdown surrounding keymaps.
+function! usr#misc#md_kbd() abort
+  for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
+    for s:mod_item in ['n', 'v']
+      exe s:mod_item . 'n' '<buffer><silent> <M-' . s:key . '>'
+            \ ':call usr#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
+    endfor
+  endfor
+  nnoremap <buffer><silent> <F5> <Cmd>PresentingStart<CR>
+  nnoremap <buffer><silent> <leader>mt <Cmd>MarkdownPreviewToggle<CR>
+endfunction
