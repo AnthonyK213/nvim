@@ -8,13 +8,6 @@ local web_list = {
     h = "https://github.com/search?q=",
     y = "https://dict.youdao.com/w/eng/"
 }
-local srd_md = {
-    P = '`',
-    I = '*',
-    B = '**',
-    M = '***',
-    U = '<u>',
-}
 
 local get_mode = function ()
     local m = vim.api.nvim_get_mode().mode
@@ -224,11 +217,6 @@ end, ntst)
 kbd('n', '<leader>sc', function ()
     require('utility.srd').srd_sub()
 end, ntst)
-for key, val in pairs(srd_md) do
-    kbd('n', '<M-'..key..'>', function ()
-        require("utility.srd").srd_add('n', val)
-    end,  ntst)
-end
 -- Comment
 kbd('n', '<leader>kc', function ()
     require('utility.cmt').cmt_add_norm()

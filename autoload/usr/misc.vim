@@ -70,3 +70,35 @@ lua << EOF
   end))
 EOF
 endfunction
+
+" Set markdown surrounding keymaps.
+function! usr#misc#md_kbd() abort
+  let l:srd_md = {
+        \ "P" : "`",
+        \ "I" : "*",
+        \ "B" : "**",
+        \ "M" : "***",
+        \ "U" : "<u>"
+        \ }
+
+  for [l:key, l:val] in items(l:srd_md)
+    call nvim_buf_set_keymap(0, 'n',
+          \ '<M-' . l:key . '>',
+          \ '<Cmd>lua require("utility.srd").srd_add("n","' . l:val . '")<CR>',
+          \ { "noremap" : v:true, "silent" : v:true })
+    call nvim_buf_set_keymap(0, 'v',
+          \ '<M-' . l:key . '>',
+          \ ':<C-U>lua require("utility.srd").srd_add("v","' . l:val . '")<CR>',
+          \ { "noremap" : v:true, "silent" : v:true })
+  endfor
+
+  call nvim_buf_set_keymap(0, 'n',
+        \ '<F5>',
+        \ '<Cmd>PresentingStart<CR>',
+        \ { "noremap" : v:true, "silent" : v:true })
+
+  call nvim_buf_set_keymap(0, 'n',
+        \ '<leader>mt',
+        \ '<Cmd>MarkdownPreviewToggle<CR>',
+        \ { "noremap" : v:true, "silent" : v:true })
+endfunction

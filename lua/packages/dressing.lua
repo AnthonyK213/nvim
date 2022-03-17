@@ -11,9 +11,6 @@ require('dressing').setup {
     },
     select = {
         backend = { "telescope" },
-        telescope = {
-            theme = "dropdown",
-        },
         format_item_override = {},
         get_config = nil,
     },
