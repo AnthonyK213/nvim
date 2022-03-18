@@ -1,6 +1,6 @@
 " Background toggle.
 function! usr#misc#bg_toggle() abort
-  if exists("g:lock_background") && g:lock_background
+  if exists("g:_my_lock_background") && g:_my_lock_background
     return
   else
     let &bg = &bg ==# 'dark' ? 'light' : 'dark'
@@ -63,7 +63,7 @@ function! usr#misc#time_background() abort
 lua << EOF
   local timer = vim.loop.new_timer()
   timer:start(0, 600, vim.schedule_wrap(function ()
-    if not vim.g.lock_background then return end
+    if not vim.g._my_lock_background then return end
     local hour = tonumber(os.date('%H'))
     local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
     if vim.o.bg ~= bg then vim.o.bg = bg end

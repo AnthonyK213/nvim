@@ -5,20 +5,20 @@
 "   - [goneovim](https://github.com/akiyosi/goneovim)
 
 " Variables
-if !exists('g:gui_font_half')
-  let g:gui_font_half = 'Monospace'
+if !exists('g:_my_gui_font_half')
+  let g:_my_gui_font_half = 'Monospace'
 endif
 
-if !exists('g:gui_font_full')
-  let g:gui_font_full = 'Monospace'
+if !exists('g:_my_gui_font_full')
+  let g:_my_gui_font_full = 'Monospace'
 endif
 
-if !exists('g:gui_font_size')
-  let g:gui_font_size = 10
+if !exists('g:_my_gui_font_size')
+  let g:_my_gui_font_size = 10
 endif
 
-if !exists('g:gui_opacity')
-  let g:gui_opacity = 1.0
+if !exists('g:_my_gui_opacity')
+  let g:_my_gui_opacity = 1.0
 endif
 
 let s:nvimqt_option_table = {
@@ -28,7 +28,7 @@ let s:nvimqt_option_table = {
       \ 'GuiScrollBar'       : 1,
       \ 'GuiRenderLigatures' : 1,
       \ 'GuiAdaptiveColor'   : 1,
-      \ 'GuiWindowOpacity'   : string(g:gui_opacity),
+      \ 'GuiWindowOpacity'   : string(g:_my_gui_opacity),
       \ 'GuiAdaptiveStyle'   : 'Fusion',
       \ }
 
@@ -38,7 +38,7 @@ let s:fvim_option_table = {
       \ 'FVimFontLigature'          : 'v:true',
       \ 'FVimFontLineHeight'        : '"+2.0"',
       \ 'FVimFontNoBuiltInSymbols'  : 'v:true',
-      \ 'FVimBackgroundOpacity'     : string(g:gui_opacity),
+      \ 'FVimBackgroundOpacity'     : string(g:_my_gui_opacity),
       \ 'FVimCursorSmoothMove'      : 'v:true',
       \ 'FVimBackgroundComposition' : '"none"',
       \ 'FVimCustomTitleBar'        : 'v:false',
@@ -57,18 +57,24 @@ function! s:gui_font_set(half, full, size) abort
 endfunction
 
 function! s:gui_font_expand() abort
-  let g:gui_font_size += s:gui_font_step
-  call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
+  let g:_my_gui_font_size += s:gui_font_step
+  call s:gui_font_set(g:_my_gui_font_half,
+                    \ g:_my_gui_font_full,
+                    \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_font_shrink() abort
-  let g:gui_font_size = max([g:gui_font_size - s:gui_font_step, 3])
-  call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
+  let g:_my_gui_font_size = max([g:_my_gui_font_size - s:gui_font_step, 3])
+  call s:gui_font_set(g:_my_gui_font_half,
+                    \ g:_my_gui_font_full,
+                    \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_font_origin() abort
-  let g:gui_font_size = g:gui_font_size_origin
-  call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
+  let g:_my_gui_font_size = g:_my_gui_font_size_origin
+  call s:gui_font_set(g:_my_gui_font_half,
+                    \ g:_my_gui_font_full,
+                    \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_fullscreen_toggle() abort
@@ -106,11 +112,11 @@ function! s:gui_relative_number_toggle() abort
 endfunction
 
 function! s:gui_toggle_background_lock() abort
-  if g:lock_background == v:true
-    let g:lock_background = v:false
+  if g:_my_lock_background == v:true
+    let g:_my_lock_background = v:false
     echom "Background unlocked"
   else
-    let g:lock_background = v:true
+    let g:_my_lock_background = v:true
     echom "Background locked"
   endif
 endfunction
@@ -119,9 +125,9 @@ function! s:gui_memo_lazy_save() abort
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
-    let l:path = expand(g:path_cloud . '/Notes/diary')
+    let l:path = expand(g:_my_path_cloud . '/Notes/diary')
     if empty(glob(l:path))
-      let l:path = g:path_desktop
+      let l:path = g:_my_path_desktop
     endif
     let l:save_path = expand(l:path . strftime("/%Y-%m-%d_%H%M%S.wiki"))
     silent exe 'w' l:save_path '| e!'
@@ -139,8 +145,8 @@ function! s:gui_file_explorer() abort
 endfunction
 
 
-if exists('g:path_desktop')
-  exe 'cd' g:path_desktop
+if exists('g:_my_path_desktop')
+  exe 'cd' g:_my_path_desktop
 endif
 cd %:p:h
 set mouse=a
@@ -154,15 +160,15 @@ if exists('g:fvim_loaded')
   call s:gui_set_option_table(s:fvim_option_table)
 endif
 "" Background
-if exists('g:gui_background')
-  if g:gui_background == 'light'
-        \ || g:gui_background == 'dark'
-    let &bg = g:gui_background
-  elseif g:gui_background == 'auto'
+if exists('g:_my_gui_theme')
+  if g:_my_gui_theme == 'light'
+        \ || g:_my_gui_theme == 'dark'
+    let &bg = g:_my_gui_theme
+  elseif g:_my_gui_theme == 'auto'
         \ && exists('g:colors_name')
         \ && g:colors_name ==# 'nanovim'
         \ || exists('g:goneovim')
-    let g:lock_background = v:true
+    let g:_my_lock_background = v:true
     call usr#misc#time_background()
   endif
 endif
@@ -175,8 +181,10 @@ endif
 
 " Font
 let s:gui_font_step = 2
-let g:gui_font_size_origin = g:gui_font_size
-call s:gui_font_set(g:gui_font_half, g:gui_font_full, g:gui_font_size)
+let g:_my_gui_font_size_origin = g:_my_gui_font_size
+call s:gui_font_set(g:_my_gui_font_half,
+                  \ g:_my_gui_font_full,
+                  \ g:_my_gui_font_size)
 
 
 " GUI key bindings
@@ -208,6 +216,6 @@ nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 "" Toggle GUI built-in file explorer
 nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
 "" Lock/unlock background
-if exists('g:lock_background')
+if exists('g:_my_lock_background')
   nn <silent> <F4> :call <SID>gui_toggle_background_lock()<CR>
 endif

@@ -1,10 +1,29 @@
+---Set global variables according to a table.
+---@param tbl table Table of configurations.
+---@param prefix string Prefix for the 'g:' variable.
+local function tbl_set_var(tbl, prefix)
+    for k, v in pairs(tbl) do
+        vim.api.nvim_set_var(prefix..k, v)
+    end
+end
+
+-- Map leader.
 vim.g.mapleader = " "
 
-vim.g.path_home = _my_core_opt.path.home
-vim.g.path_cloud = _my_core_opt.path.cloud
-vim.g.path_desktop = _my_core_opt.path.desktop
-vim.g.path_bin = _my_core_opt.path.bin
+-- Path
+tbl_set_var(_my_core_opt.path, "_my_path_")
 
+-- GUI
+tbl_set_var(_my_core_opt.gui, "_my_gui_")
+
+-- Directional operation which won't break the history.
+local rep_term = vim.api.nvim_replace_termcodes
+vim.g._const_dir_l = rep_term("<C-G>U<Left>",  true, false, true)
+vim.g._const_dir_d = rep_term("<C-G>U<Down>",  true, false, true)
+vim.g._const_dir_u = rep_term("<C-G>U<Up>",    true, false, true)
+vim.g._const_dir_r = rep_term("<C-G>U<Right>", true, false, true)
+
+-- Misc
 if vim.fn.has("win32") == 1 then
     vim.g.python3_host_prog = _my_core_opt.dep.py3
     or vim.fn.expand('$LOCALAPPDATA/Programs/Python/Python38/python')
@@ -20,16 +39,3 @@ elseif vim.fn.has("unix") == 1 then
 elseif vim.fn.has("mac") == 1 then
     vim.g.python3_host_prog = _my_core_opt.dep.py3 or '/usr/bin/python3'
 end
-
--- GUI
-vim.g.gui_font_half  = _my_core_opt.gui.font_half
-vim.g.gui_font_full  = _my_core_opt.gui.font_full
-vim.g.gui_font_size  = _my_core_opt.gui.font_size
-vim.g.gui_background = _my_core_opt.gui.theme
-vim.g.gui_opacity    = _my_core_opt.gui.opacity
-
--- Directional operation which won't break the history.
-vim.g.const_dir_l = vim.api.nvim_replace_termcodes("<C-G>U<Left>",  true, false, true)
-vim.g.const_dir_d = vim.api.nvim_replace_termcodes("<C-G>U<Down>",  true, false, true)
-vim.g.const_dir_u = vim.api.nvim_replace_termcodes("<C-G>U<Up>",    true, false, true)
-vim.g.const_dir_r = vim.api.nvim_replace_termcodes("<C-G>U<Right>", true, false, true)

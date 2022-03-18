@@ -44,7 +44,7 @@ if lsp_option.powershell_es and lsp_option.powershell_es.enable then
     if vim.fn.has("win32") ~= 1 then return end
     local pses_bundle_path = vim.fn.expand(
     lsp_option.powershell_es.path
-    or vim.g.path_bin.."/LSP/PowerShellEditorServices")
+    or vim.g._my_path_bin.."/LSP/PowerShellEditorServices")
     lspconfig.powershell_es.setup {
         bundle_path = pses_bundle_path,
         capabilities = capabilities,
