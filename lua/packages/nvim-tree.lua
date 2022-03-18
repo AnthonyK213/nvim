@@ -29,48 +29,9 @@ vim.g.nvim_tree_icons = {
 }
 
 require('nvim-tree').setup {
-    disable_netrw       = true,
-    hijack_netrw        = true,
-    open_on_setup       = false,
-    ignore_buffer_on_setup = false,
-    ignore_ft_on_setup  = {},
-    auto_close          = false,
-    open_on_tab         = false,
-    hijack_cursor       = true,
-    update_cwd          = false,
-    hijack_unnamed_buffer_when_opening = false,
-    hijack_directories   = {
-        enable = true,
-        auto_open = true,
-    },
-    diagnostics = {
-        enable = false,
-        icons = {}
-    },
-    update_focused_file = {
-        enable      = true,
-        update_cwd  = false,
-        ignore_list = {}
-    },
-    system_open = {
-        cmd  = nil,
-        args = {}
-    },
-    filters = {
-        dotfiles = true,
-        custom = { '.git', '.cache' }
-    },
-    git = {
-        enable = true,
-        ignore = false,
-        timeout = 500
-    },
+    disable_netrw = true,
+    hijack_cursor = true,
     view = {
-        width = 30,
-        height = 30,
-        hide_root_folder = false,
-        side = 'left',
-        preserve_window_proportions = false,
         mappings = {
             custom_only = true,
             list = {
@@ -102,14 +63,26 @@ require('nvim-tree').setup {
                 { key = "x",      action = "cut" },
                 { key = "y",      action = "copy_name" },
             }
-        },
-        number = false,
-        relativenumber = false,
-        signcolumn = "yes",
+        }
     },
-    trash = {
-        cmd = "trash",
-        require_confirm = true
+    diagnostics = {
+        enable = true,
+        show_on_dirs = false,
+        icons = {
+            hint = "!",
+            info = "I",
+            warning = "W",
+            error = "E"
+        }
+    },
+    filters = {
+        dotfiles = true,
+        custom = { '.git', '.cache' }
+    },
+    git = {
+        enable = true,
+        ignore = false,
+        timeout = 400
     },
     actions = {
         change_dir = {
