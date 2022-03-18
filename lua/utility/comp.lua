@@ -1,7 +1,6 @@
 local M = {}
 local uv = vim.loop
 local lib = require('utility.lib')
-local pub = require('utility.pub')
 
 
 -- Supported language list:
@@ -98,12 +97,13 @@ local function cb_run_bin(arg_tbl, cb_args)
 end
 
 local comp_c = function (tbl)
-    if not lib.executable(pub.ccomp) then return nil, nil end
+    local my_cc = _my_core_opt.dep.cc
+    if not lib.executable(my_cc) then return nil, nil end
 
     local cmd_tbl = {
-        ['']  = { pub.ccomp, tbl.fnm, '-o', tbl.bin },
-        check = { pub.ccomp, tbl.fnm, '-g', '-o', tbl.bin },
-        build = { pub.ccomp, tbl.fnm, '-O2', '-o', tbl.bin },
+        ['']  = { my_cc, tbl.fnm, '-o', tbl.bin },
+        check = { my_cc, tbl.fnm, '-g', '-o', tbl.bin },
+        build = { my_cc, tbl.fnm, '-O2', '-o', tbl.bin },
     }
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
@@ -144,7 +144,7 @@ local comp_cpp = function (tbl)
         clang = 'clang++'
     }
 
-    local cc = cc_tbl[pub.ccomp]
+    local cc = cc_tbl[_my_core_opt.dep.cc]
     if cc then
         if not lib.executable(cc) then return nil, nil end
         return cb_run_bin, { cc, tbl.fnm, '-o', tbl.bin }

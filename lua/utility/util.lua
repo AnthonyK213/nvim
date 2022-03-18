@@ -1,6 +1,5 @@
 local M = {}
 local lib = require('utility.lib')
-local pub = require('utility.pub')
 
 
 ---Use `pcall()` to catch error and display it.
@@ -17,10 +16,11 @@ end
 ---Open terminal and launch shell.
 function M.terminal()
     local exec
-    if type(pub.shell) == "table" and #(pub.shell) > 0 then
-        exec = pub.shell[1]
-    elseif type(pub.shell) == "string" then
-        exec = pub.shell
+    local my_sh = _my_core_opt.dep.sh
+    if type(my_sh) == "table" and #my_sh > 0 then
+        exec = my_sh[1]
+    elseif type(my_sh) == "string" then
+        exec = my_sh
     else
         lib.notify_err("The shell is invalid, please check `opt.lua`.")
         return false
@@ -33,7 +33,7 @@ function M.terminal()
 
     lib.belowright_split(15)
     vim.api.nvim_win_set_option(0, 'number', false)
-    vim.fn.termopen(vim.tbl_flatten({pub.shell}))
+    vim.fn.termopen(vim.tbl_flatten({ my_sh }))
     return true
 end
 
@@ -89,15 +89,16 @@ function M.sys_open(obj, use_local)
     end
     local cmd
     local args = {}
-    if type(pub.start) == "table" then
-        cmd = pub.start[1]
-        if #(pub.start) >= 2 then
-            for i = 2, #(pub.start), 1 do
-                table.insert(args, pub.start[i])
+    local my_start = _my_core_opt.dep.start
+    if type(my_start) == "table" then
+        cmd = my_start[1]
+        if #my_start >= 2 then
+            for i = 2, #my_start, 1 do
+                table.insert(args, my_start[i])
             end
         end
-    elseif type(pub.start) == "string" then
-        cmd = pub.start
+    elseif type(my_start) == "string" then
+        cmd = my_start
     else
         lib.notify_err('Invalid definition of `start`.')
         return
@@ -142,6 +143,7 @@ function M.show_hl()
 end
 
 ---Upgrade neovim.
+---Depends on `plenary.nvim`
 ---@param channel string|nil Upgrade channel, "stable" or "nightly".
 function M.nvim_upgrade(channel)
     local proxy = _my_core_opt.dep.proxy

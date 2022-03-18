@@ -383,10 +383,34 @@ function M.path_exists(path, cwd)
     return (stat and stat.type) or false
 end
 
+---Os types enum.
+---@class Os
+M.Os = {
+    UNKNOWN = 0,
+    LINUX = 1,
+    WINDOWS = 2,
+    MACOS = 3
+}
+
+---Get OS type.
+---@return Os
+function M.get_os_type()
+    local name = vim.loop.os_uname().sysname
+    if name == 'Linux' then
+        return M.Os.LINUX
+    elseif name == 'Windows_NT' then
+        return M.Os.WINDOWS
+    elseif name == 'Darwin' then
+        return M.Os.MACOS
+    else
+        return M.Os.UNKNOWN
+    end
+end
+
 ---Check if os is `Windows`.
 ---@return boolean result
 function M.has_windows()
-    return vim.loop.os_uname().sysname == 'Windows_NT'
+    return M.get_os_type() == M.Os.WINDOWS
 end
 
 ---Notify the error message to neovim.

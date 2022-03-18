@@ -24,7 +24,7 @@
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-* **Customize options (optional)**
+* **Custom options (optional)**
   - `opt.json`(in the same directory as `init.lua`)
     - **dep**   -> Dependencies
       - `cc`    -> (string) C compiler

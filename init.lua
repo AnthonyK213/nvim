@@ -1,6 +1,2 @@
-require('core.opt')
-require('utility.lib').vim_source('viml/basics')
-require('internal.var')
-require('internal.map')
-require('internal.cmd')
+require('internal')
 require('packages')
