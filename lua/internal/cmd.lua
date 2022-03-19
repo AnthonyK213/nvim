@@ -9,7 +9,7 @@ end, {})
 -- Run or compile
 cmd('CodeRun', function (tbl)
     require("utility.comp").run_or_compile(tbl.args)
-end, { nargs = '?', complete = vim.fn['my#misc#run_code_option'] })
+end, { nargs = '?', complete = vim.fn['my#compat#run_code_option'] })
 -- Git push all
 cmd('PushAll', function (tbl)
     local arg_list = vim.split(vim.trim(tbl.args), '%s+')
@@ -21,7 +21,7 @@ cmd('NvimUpgrade', function (tbl)
     local arg = tbl.args
     if arg == '' then arg = nil end
     require("utility.util").nvim_upgrade(arg)
-end, { nargs = '?', complete = vim.fn['my#misc#nvim_upgrade_option'] })
+end, { nargs = '?', complete = vim.fn['my#compat#nvim_upgrade_option'] })
 -- Open ssh configuration.
 cmd('SshConfig', function (_)
     require("utility.util").edit_file("$HOME/.ssh/config", false)

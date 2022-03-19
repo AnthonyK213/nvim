@@ -169,7 +169,7 @@ if exists('g:_my_gui_theme')
         \ && g:colors_name ==# 'nanovim'
         \ || exists('g:goneovim')
     let g:_my_lock_background = v:true
-    call my#misc#time_background()
+    call my#compat#time_background()
   endif
 endif
 "" tabline
