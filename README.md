@@ -3,53 +3,28 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim)
-* [**vim-plug**](https://github.com/junegunn/vim-plug)
-  - Windows
-    ```sh
-    iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
-        ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
-    ```
-  - GNU/Linux
-    ```sh
-    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    ```
+* [**Git**](https://github.com/git/git)
+* [**curl**](https://github.com/curl/curl)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
-  (For [vim-clap](https://github.com/liuchengxu/vim-clap))
-  - `ripgrep`: recursively searches directories for a regex pattern while
-    respecting your gitignore.
-  - `fd` is a program to find entries in your filesystem. It is a simple,
-    fast and user-friendly alternative to `find`.
-* [**Node.js**](https://nodejs.org)
-  (For [coc.nvim](https://github.com/neoclide/coc.nvim))
+* [**Node.js**](https://nodejs.org) (If `use_coc`)
 
 
 ## Installation
-* **Clone source code and setup**
+* **Clone repository**
   - Windows
     ```powershell
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git `
                                 "$env:LOCALAPPDATA\nvim"
-    ```
-    ```powershell
-    Copy-Item "$env:LOCALAPPDATA\nvim\viml\core\opt_example.vim" `
-              -Destination "$env:LOCALAPPDATA\nvim\viml\core\opt.vim"
     ```
   - GNU/Linux
     ```sh
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git \
                                 "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-    ```sh
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt_example.vim \
-       "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/core/opt.vim
-    ```
-* **Install plugins**
-  ```vim
-  :PlugInstall
-  ```
-* **.vimrc(optional)**
+* **Start Neovim and wait for the installation to complete**
+* **Customize with json (optional)**
+* **Set .vimrc for Vim (optional)**
   - Windows
     ```powershell
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
@@ -64,22 +39,20 @@
 
 ## Modules
 - Vim script
-  - `core`
-    - Set up options.
   - `internal`
-    - Variables; mappings; commands.
+    - Options; mappings; commands.
   - `packages`
     - Plugins managed by vim-plug and configurations.
   - `basics.vim`
     - Basic vim options.
   - `subsrc.vim`
-    - Make vim/neovim a little handdier with no plugins.
+    - Make Vim/Neovim a little handdier without plugin.
   - `vimrc.vim`
-    - Configuration for vim.
+    - Configuration for Vim.
 - Snippet
-  - Visual studio code standard snippets.
+  - VS Code flavor snippets (json).
 - Color scheme
-  - `nanovim.vim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs))
+  - `nanovim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs)).
 
 
 ## Packages

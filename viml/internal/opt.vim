@@ -1,8 +1,32 @@
+" Source basics.vim
 call my#compat#vim_source('viml/basics')
 
-let g:_my_dep_sh = 'bash'
+function s:get_os_name() abort
+  if has("unix")
+    return "LINUX"
+  elseif has("win32")
+    return "WINDOWS"
+  elseif has("mac")
+    return "MACOS"
+  else
+    return "UNKNOWN"
+  endif
+endfunction
+
+let g:os_type = s:get_os_name()
+
+let g:_my_dep_sh = {
+    \ "LINUX" : "bash",
+    \ "WINDOWS" : ['powershell.exe', '-nologo'],
+    \ "MACOS" : "zsh"
+    \ }[g:os_type]
 let g:_my_dep_cc = 'gcc'
 let g:_my_dep_py3 = '/usr/bin/python3'
+let g:_my_dep_start = {
+    \ "LINUX" : "xdg-open",
+    \ "WINDOWS" : ['cmd', '/c', 'start', '""'],
+    \ "MACOS" : "open"
+    \ }[g:os_type]
 let g:_my_path_home = getenv('HOME')
 let g:_my_path_cloud = has_key(environ(), 'ONEDRIVE') ?
       \ getenv('ONEDRIVE') : g:_my_path_home
