@@ -92,7 +92,7 @@
 - Snippet
   - VS Code flavor snippets (json).
 - Color scheme
-  - `nanovim.vim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs))
+  - `nanovim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs)).
 
 
 ## Packages
