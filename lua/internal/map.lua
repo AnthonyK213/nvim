@@ -93,7 +93,7 @@ kbd('v', '<M-p>', [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]], ntst
 kbd('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]], ntst)
 
 -- Mouse toggle.
-kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['usr#misc#mouse_toggle'], ntst)
+kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['my#misc#mouse_toggle'], ntst)
 -- Run code.
 kbd('n', '<F5>', function ()
     require('utility.comp').run_or_compile('')
@@ -120,9 +120,9 @@ kbd('n', '<leader>bd', function ()
     end
 end, ntstet)
 -- Background toggle.
-kbd('n', '<leader>bg', vim.fn['usr#misc#bg_toggle'], ntst)
+kbd('n', '<leader>bg', vim.fn['my#misc#bg_toggle'], ntst)
 -- Open opt file.
-kbd('n', '<M-,>', vim.fn['usr#misc#open_opt'], ntst)
+kbd('n', '<M-,>', vim.fn['my#misc#open_opt'], ntst)
 -- Explorer.
 kbd('n', '<leader>oe', function ()
     require('utility.util').sys_open(vim.fn.expand('%:p:h'))

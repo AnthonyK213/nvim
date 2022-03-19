@@ -1,5 +1,5 @@
 " Background toggle.
-function! usr#misc#bg_toggle() abort
+function! my#misc#bg_toggle() abort
   if exists("g:_my_lock_background") && g:_my_lock_background
     return
   else
@@ -8,7 +8,7 @@ function! usr#misc#bg_toggle() abort
 endfunction
 
 " Mouse toggle.
-function! usr#misc#mouse_toggle() abort
+function! my#misc#mouse_toggle() abort
   if &mouse ==# 'a'
     let &mouse = ''
     echom 'Mouse disabled'
@@ -19,7 +19,7 @@ function! usr#misc#mouse_toggle() abort
 endfunction
 
 " `CodeRun` complete option list.
-function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
+function! my#misc#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
         \ 'cs'   : "lib\nmod\nwin",
@@ -36,17 +36,17 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
 endfunction
 
 " `NvimUpgrade` complete option list.
-function! usr#misc#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
+function! my#misc#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
   return ['stable', 'nightly']
 endfunction
 
 " Source vim file.
-function! usr#misc#vim_source(file) abort
+function! my#misc#vim_source(file) abort
   call v:lua.require('utility.lib').vim_source(a:file)
 endfunction
 
 " Open opt.lua.
-function! usr#misc#open_opt() abort
+function! my#misc#open_opt() abort
   let l:cfg = stdpath("config")
   let l:opt = l:cfg . "/opt.json"
   if empty(glob(l:opt))
@@ -59,7 +59,7 @@ function! usr#misc#open_opt() abort
 endfunction
 
 " Set background according to time.
-function! usr#misc#time_background() abort
+function! my#misc#time_background() abort
 lua << EOF
   local timer = vim.loop.new_timer()
   timer:start(0, 600, vim.schedule_wrap(function ()
@@ -72,7 +72,7 @@ EOF
 endfunction
 
 " Set markdown surrounding keymaps.
-function! usr#misc#md_kbd() abort
+function! my#misc#md_kbd() abort
   let l:srd_md = {
         \ "P" : "`",
         \ "I" : "*",
