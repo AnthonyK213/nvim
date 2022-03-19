@@ -3,13 +3,9 @@
 
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim) 0.7+
+* [**Git**](https://github.com/git/git)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
-  (For [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim))
-  - `ripgrep`: recursively searches directories for a regex pattern while
-     respecting your gitignore.
-  - `fd` is a program to find entries in your filesystem. It is a simple,
-     fast and user-friendly alternative to `find`.
 
 
 ## Installation
@@ -24,7 +20,8 @@
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-* **Custom options (optional)**
+* **Start Neovim and wait for the installation to complete**
+* **Customize with json (optional)**
   - `opt.json`(in the same directory as `init.lua`)
     - **dep**   -> Dependencies
       - `cc`    -> (string) C compiler
@@ -64,7 +61,7 @@
     - **plug** -> Built-in plugins
       - `matchit`    -> (boolean) Enable matchit.vim
       - `matchparen` -> (boolean) Enable matchparen.vim
-* **Set .vimrc (optional)**
+* **Set .vimrc for Vim (optional)**
   - Windows
     ```powershell
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
@@ -79,10 +76,8 @@
 
 ## Modules
 - Lua
-  - `core`
-    - Set up options.
   - `internal`
-    - Variables; mappings; commands.
+    - Options; mappings; commands.
   - `packages`
     - Plugins managed by packer.nvim and configurations.
   - `utility`
@@ -91,11 +86,11 @@
   - `basics.vim`
     - Basic vim options.
   - `subsrc.vim`
-    - Make vim/neovim a little handdier with no plugins.
+    - Make Vim/Neovim a little handdier without plugin.
   - `vimrc.vim`
-    - Configuration for vim.
+    - Configuration for Vim.
 - Snippet
-  - Visual studio code standard snippets.
+  - VS Code flavor snippets (json).
 - Color scheme
   - `nanovim.vim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs))
 
