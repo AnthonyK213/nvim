@@ -179,7 +179,7 @@ cno <M-BS> <C-W>
 " MISC
 nn <leader>bc :cd %:p:h<CR>:pwd<CR>
 nn <leader>bd :bd<CR>
-nn <leader>bg :call usr#misc#bg_toggle()<CR>
+nn <leader>bg :let &bg = &bg ==# 'dark' ? 'light' : 'dark'<CR>
 nn <leader>bh :noh<CR>
 nn <leader>bl :ls<CR>
 nn <leader>bn :bn<CR>
