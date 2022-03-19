@@ -466,11 +466,184 @@ call s:h("NeogitHunkHeaderHighlight", {
 " StatusLine {{
 set showtabline=0
 
+let s:nanovim_mode = {
+      \ 'c'     : ' CO ',
+      \ 'i'     : ' IN ',
+      \ 'ic'    : ' IC ',
+      \ 'ix'    : ' IX ',
+      \ 'n'     : ' NM ',
+      \ 'nt'    : ' TN ',
+      \ 'multi' : ' MU ',
+      \ 'niI'   : ' ĨN ',
+      \ 'no'    : ' OP ',
+      \ 'R'     : ' RP ',
+      \ 'Rv'    : ' RP ',
+      \ 's'     : ' SC ',
+      \ 'S'     : ' SL ',
+      \ 't'     : ' TM ',
+      \ 'v'     : ' VC ',
+      \ 'V'     : ' VL ',
+      \ ''    : ' VB ',
+      \ }
+
+let s:nanovim_short_ft = [
+      \ 'NvimTree', 'help', 'netrw',
+      \ 'nerdtree', 'qf', 'aerial',
+      \ '__GonvimMarkdownPreview__',
+      \ ]
+
+" Get the branch
+function! s:get_git_branch() abort
+  let l:current_dir = expand('%:p:h')
+  let l:is_git_repo = 0
+  while 1
+    if !empty(globpath(l:current_dir, ".git", 1))
+      let l:is_git_repo = 1
+      break
+    endif
+    let l:temp_dir = l:current_dir
+    let l:current_dir = fnamemodify(l:current_dir, ':h')
+    if l:temp_dir ==# l:current_dir
+      break
+    endif
+  endwhile
+  if !l:is_git_repo
+    return ''
+  else
+    let l:git_root = substitute(l:current_dir, '\v[\\/]$', '', '')
+    let l:dot_git = l:git_root . '/.git'
+    if isdirectory(l:dot_git)
+      let l:head_file = l:git_root . '/.git/HEAD'
+    else
+      try
+        let l:gitdir_line = readfile(l:dot_git)[0]
+        let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
+        if len(l:gitdir_matches) > 0
+          let l:gitdir = l:gitdir_matches[1]
+          let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
+        else
+          return ''
+        endif
+      catch
+        return ''
+      endtry
+    endif
+    try
+      let l:ref_line = readfile(l:head_file)[0]
+      let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
+      if len(l:ref_matches) > 0
+        let l:branch = l:ref_matches[1]
+        if !empty(l:branch)
+          return l:branch
+        else
+          return ''
+        endif
+      else
+        return ''
+      endif
+    catch
+      return ''
+    endtry
+  endif
+endfunction
+
+function! s:cap_str_init(str) abort
+  if !empty(a:str)
+    return toupper(a:str[0]) . a:str[1:]
+  endif
+  return a:str
+endfunction
+
+" Get mode.
+" It is better to use just one character to show the mode.
+function! NanoGetMode() abort
+  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : ' _ '
+endfunction
+
+" Get file name.
+" Shorten then file name when the window is too narrow.
+function! NanoGetFname() abort
+  let l:file_path = expand('%:p')
+  let l:file_dir  = expand('%:p:h')
+  let l:file_name = expand('%:t')
+  
+  if empty(l:file_name)
+    return "[No Name]"
+  endif
+
+  let l:path_sepr = "/"
+  if has('win32')
+    let l:path_sepr = "\\"
+  endif
+
+  let l:file_path_str_width = strdisplaywidth(l:file_path)
+
+  if l:file_path_str_width > winwidth(0) * 0.7
+    return l:file_name
+  endif
+
+  if l:file_path_str_width > winwidth(0) * 0.4
+    let l:path_list = split(l:file_dir, l:path_sepr)
+    let l:path_head = "/"
+    if has('win32')
+      let l:path_head = remove(l:path_list, 0) . "\\"
+    endif
+    for l:d in l:path_list
+      let l:dir = split(l:d, '\zs')
+      if empty(l:dir) | return "" | endif
+      if l:dir[0] !=# '.'
+        let l:dir_short = l:dir[0]
+      elseif len(l:dir) > 1
+        let l:dir_short = l:dir[0] . l:dir[1]
+      else
+        let l:dir_short = '.'
+      endif
+      let l:path_head .= l:dir_short . l:path_sepr
+    endfor
+    return l:path_head . l:file_name
+  endif
+
+  return l:file_path
+endfunction
+
+" (filetype, branch)
+function! NanoMiscInfo() abort
+  let l:ls = filter([s:cap_str_init(&ft), s:get_git_branch()], '!empty(v:val)')
+  if len(l:ls) | return '(' . join(l:ls, ', ') .')' | else | return '' | endif
+endfunction
+
+" When enter/leave the buffer/window, set the status line.
+" Long:
+" | MODE | file_name (file_type, git_branch)                      line:column |
+" Short:
+" | file_name                                                                 |
+function! s:on_enter() abort
+  if index(s:nanovim_short_ft, &ft) >= 0
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Default# %= %y %#Nano_Face_Default# "
+  else
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Faded#%{&modified?'':NanoGetMode()}" .
+          \ "%#Nano_Face_Header_Popout#%{&modified?NanoGetMode():''}" .
+          \ "%#Nano_Face_Header_Strong# %{NanoGetFname()}%<" .
+          \ "%#Nano_Face_Header_Default#  %{&bt=='terminal'?'':NanoMiscInfo()}" .
+          \ "%= %l:%c %#Nano_Face_Default# "
+  endif
+endfunction
+
+function! s:on_leave() abort
+  if index(s:nanovim_short_ft, &ft) < 0
+    let &l:stl = "%#Nano_Face_Default# " .
+          \ "%#Nano_Face_Header_Subtle# %{NanoGetFname()}" .
+          \ "%= %#Nano_Face_Default# "
+  endif
+endfunction
+
 augroup nanovim_redrawstatus
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
-  autocmd BufEnter,WinEnter,VimEnter * call nanovim#util#enter()
-  autocmd BufLeave,WinLeave * call nanovim#util#leave()
+  autocmd BufEnter,WinEnter,VimEnter * call <SID>on_enter()
+  autocmd BufLeave,WinLeave * call <SID>on_leave()
 augroup end
 " }}
 
