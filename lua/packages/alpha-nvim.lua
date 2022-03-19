@@ -14,9 +14,9 @@ dashboard.section.header.val = {
     [[                                                    ]],
 }
 dashboard.section.buttons.val = {
-    dashboard.button("e", "  Empty File" ,  ":enew<CR>"),
+    dashboard.button("e", "∅  Empty File" ,  ":enew<CR>"),
     dashboard.button("f", "⊕  Find File",    ":Telescope find_files<CR>"),
-    dashboard.button("s", "  Load Session", ":SessionManager load_session<CR>"),
+    dashboard.button("s", "↺  Load Session", ":SessionManager load_session<CR>"),
     dashboard.button(",", "⚙  Options",      ":call usr#misc#open_opt()<CR>"),
     dashboard.button("p", "⟲  Packer Sync",  ":PackerSync<CR>"),
     dashboard.button("q", "⊗  Quit Nvim",    ":qa<CR>"),
