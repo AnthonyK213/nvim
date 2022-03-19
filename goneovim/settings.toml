@@ -16,7 +16,7 @@ DisableHorizontalScroll = false
 DrawBorderForFloatWindow = false
 DrawShadowForFloatWindow = true
 ClickEffect = false
-Ginitvim = "call usr#misc#vim_source('ginit')"
+Ginitvim = "call my#compat#vim_source('ginit')"
 
 [Cursor]
 SmoothMove = true

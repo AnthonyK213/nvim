@@ -1,1 +1,1 @@
-call usr#misc#vim_source('viml/core/setup')
+call my#compat#vim_source_list(['internal/init', 'packages/init'])

@@ -1,4 +1,3 @@
-let g:plug_use_coc = get(g:, 'default_coc', v:false)
 " Load plug-ins
 call plug#begin(stdpath('data') . '/plugged')
 
@@ -27,7 +26,7 @@ Plug 'iamcco/markdown-preview.nvim',
       \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
 Plug 'sotte/presenting.vim'
 " Completion; Snippet; (LSP)
-if g:plug_use_coc
+if g:_my_use_coc
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'liuchengxu/vista.vim'
 else
@@ -40,3 +39,19 @@ else
 endif
 
 call plug#end()
+
+if exists('g:nvim_init_src')
+  let s:init_src = g:nvim_init_src
+elseif has_key(environ(), 'NVIM_INIT_SRC')
+  let s:init_src = expand("$NVIM_INIT_SRC")
+else
+  let s:init_src = ""
+endif
+
+if s:init_src ==? 'nano'
+  set bg=light
+  call my#compat#vim_source('viml/subsrc')
+  colorscheme nanovim
+else
+  call my#compat#vim_source('viml/packages/config')
+endif

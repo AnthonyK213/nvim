@@ -30,18 +30,18 @@ let s:cmt_mark_tab_multi = {
       \ 'rust' : ["/*", "*/"],
       \ }
 
-function! usr#cmt#cmt_add_norm() abort
+function! my#cmt#cmt_add_norm() abort
   if has_key(s:cmt_mark_tab_single, &ft)
     let l:cmt_mark = s:cmt_mark_tab_single[&ft]
     let l:pos = getpos('.')
     call feedkeys("I" . l:cmt_mark, 'xn')
     call setpos('.', l:pos)
   else
-    call usr#lib#notify_err("File type " . &ft . " is not supported yet.")
+    call my#lib#notify_err("File type " . &ft . " is not supported yet.")
   endif
 endfunction
 
-function! usr#cmt#cmt_add_vis() abort
+function! my#cmt#cmt_add_vis() abort
   let l:pos_s = getpos("'<")
   let l:pos_e = getpos("'>")
   if has_key(s:cmt_mark_tab_single, &ft)
@@ -57,7 +57,7 @@ function! usr#cmt#cmt_add_vis() abort
       endif
     endfor
   else
-    call usr#lib#notify_err("File type " . &ft . " is not supported yet.")
+    call my#lib#notify_err("File type " . &ft . " is not supported yet.")
   endif
 endfunction
 
@@ -65,7 +65,7 @@ function! s:is_cmt_line(lnum) abort
   let l:line = getline(a:lnum)
   if has_key(s:cmt_mark_tab_single, &ft)
     let l:cmt_mark = s:cmt_mark_tab_single[&ft]
-    let l:esc_cmt_mark = usr#lib#vim_reg_esc(l:cmt_mark)
+    let l:esc_cmt_mark = my#lib#vim_reg_esc(l:cmt_mark)
     if l:line =~ '\v^\s*' . l:esc_cmt_mark . '.*$'
       let l:res = substitute(l:line, '\v^(\s*)' . l:esc_cmt_mark . '(.*)$',
             \ '\=submatch(1).submatch(2)', '')
@@ -83,8 +83,8 @@ function! s:del_cmt_block() abort
   let l:cmt_mark = s:cmt_mark_tab_multi[&ft]
   let l:cmt_mark_a = l:cmt_mark[0]
   let l:cmt_mark_b = l:cmt_mark[1]
-  let l:vim_cmt_mark_a = usr#lib#vim_reg_esc(l:cmt_mark_a)
-  let l:vim_cmt_mark_b = usr#lib#vim_reg_esc(l:cmt_mark_b)
+  let l:vim_cmt_mark_a = my#lib#vim_reg_esc(l:cmt_mark_a)
+  let l:vim_cmt_mark_b = my#lib#vim_reg_esc(l:cmt_mark_b)
   for l:i in range(l:lnum_c - 1, 1, -1)
     let l:line_p = getline(l:i)
     if (l:line_p =~ '\v' . l:vim_cmt_mark_b . '.{-}$')
@@ -130,7 +130,7 @@ function! s:del_cmt_block() abort
   endfor
 endfunction
 
-function! usr#cmt#cmt_del_norm() abort
+function! my#cmt#cmt_del_norm() abort
   if !has_key(s:cmt_mark_tab_single, &ft)
     return
   endif
@@ -142,7 +142,7 @@ function! usr#cmt#cmt_del_norm() abort
   call s:del_cmt_block()
 endfunction
 
-function! usr#cmt#cmt_del_vis() abort
+function! my#cmt#cmt_del_vis() abort
   let l:lnum_s = getpos("'<")[1]
   let l:lnum_e = getpos("'>")[1]
   for l:i in range(l:lnum_s, l:lnum_e, 1)

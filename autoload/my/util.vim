@@ -1,7 +1,7 @@
 " Open terminal and launch shell. [Incompatible]
-function! usr#util#terminal() abort
-  if usr#lib#incompat() | return | endif
-  let l:shell = usr#pub#var('shell')
+function! my#util#terminal() abort
+  if my#lib#incompat() | return | endif
+  let l:shell = my#pub#var('shell')
   if type(l:shell) == v:t_list && !empty(l:shell)
     let l:exec = l:shell[0]
     let l:cmd = l:shell
@@ -16,13 +16,13 @@ function! usr#util#terminal() abort
     echo l:exec "is no a valid shell."
     return
   endif
-  call usr#lib#belowright_split(15)
+  call my#lib#belowright_split(15)
   setl nonu
   call termopen(l:cmd)
 endfunction
 
 " Open and edit test file in vim.
-function! usr#util#edit_file(file_path, chdir) abort
+function! my#util#edit_file(file_path, chdir) abort
   let l:path = expand(a:file_path)
   if empty(expand("%:t"))
     silent exe 'e' l:path
@@ -34,28 +34,28 @@ function! usr#util#edit_file(file_path, chdir) abort
   endif
 endfunction
 
-function! usr#util#match_path_or_url_under_cursor() abort
-  let l:url = usr#lib#match_url(expand('<cWORD>'))[1]
+function! my#util#match_path_or_url_under_cursor() abort
+  let l:url = my#lib#match_url(expand('<cWORD>'))[1]
   if l:url != v:null
     return l:url
   endif
   let l:path = expand('<cfile>')
-  if usr#lib#path_exists(l:path, expand('%:p:h'))
+  if my#lib#path_exists(l:path, expand('%:p:h'))
     return expand(l:path)
   endif
   return v:null
 endfunction
 
-function! usr#util#sys_open(obj, use_local=v:false) abort
-  if usr#lib#incompat() | return | endif
+function! my#util#sys_open(obj, use_local=v:false) abort
+  if my#lib#incompat() | return | endif
   let l:cwd = a:use_local ? expand('%:p:h') : getcwd()
   if type(a:obj) != v:t_string
-        \ || !(usr#lib#path_exists(a:obj, l:cwd) || usr#lib#match_url(a:obj)[0])
-    call usr#lib#notify_err('Nothing found.')
+        \ || !(my#lib#path_exists(a:obj, l:cwd) || my#lib#match_url(a:obj)[0])
+    call my#lib#notify_err('Nothing found.')
     return
   endif
   let l:cmd = []
-  let l:start = usr#pub#var('start')
+  let l:start = my#pub#var('start')
   if type(l:start) == v:t_list
     let l:cmd += l:start
   elseif type(l:start) == v:t_string
@@ -69,12 +69,12 @@ function! usr#util#sys_open(obj, use_local=v:false) abort
 endfunction
 
 " Search web.
-function! usr#util#search_web(mode, site) abort
+function! my#util#search_web(mode, site) abort
   if a:mode ==? "n"
-    let l:search_obj = usr#lib#encode_url(usr#lib#get_word()[0])
+    let l:search_obj = my#lib#encode_url(my#lib#get_word()[0])
   elseif a:mode ==? "v"
-    let l:search_obj = usr#lib#encode_url(usr#lib#get_visual_selection())
+    let l:search_obj = my#lib#encode_url(my#lib#get_visual_selection())
   endif
   echo a:site . l:search_obj
-  call usr#util#sys_open(a:site . l:search_obj, v:false)
+  call my#util#sys_open(a:site . l:search_obj, v:false)
 endfunction

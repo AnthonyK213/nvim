@@ -68,8 +68,8 @@ ino <silent> <C-A> <C-\><C-o>g0
 ino <silent> <C-E> <C-\><C-o>g$
 ino <silent> <C-K> <C-\><C-o>D
 ino <silent> <M-d> <C-\><C-O>dw
-ino <silent><expr> <C-F> col('.') >= col('$') ? "\<C-\>\<C-o>+" : g:const_dir_r
-ino <silent><expr> <C-B> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : g:const_dir_l
+ino <silent><expr> <C-F> col('.') >= col('$') ? "\<C-\>\<C-o>+" : g:_const_dir_r
+ino <silent><expr> <C-B> col('.') == 1 ? "\<C-\>\<C-o>-\<C-\>\<C-o>$" : g:_const_dir_l
 " Move line.
 nn <silent> <M-p> :exe "move" max([line(".") - 2, 0])<CR>
 nn <silent> <M-n> :exe "move" min([line(".") + 1, line("$")])<CR>
@@ -78,39 +78,39 @@ vn <silent> <M-n> :<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv
 
 
 " Search visual selection
-vn  <silent> * y/\V<C-R>=usr#lib#get_visual_selection()<CR><CR>
+vn  <silent> * y/\V<C-R>=my#lib#get_visual_selection()<CR><CR>
 " Mouse toggle.
-nn  <silent> <F2> :call           usr#misc#mouse_toggle()<CR>
-vn  <silent> <F2> :<C-U>call      usr#misc#mouse_toggle()<CR>
-ino <silent> <F2> <C-\><C-O>:call usr#misc#mouse_toggle()<CR>
-tno <silent> <F2> <C-\><C-N>:call usr#misc#mouse_toggle()<CR>a
+nn  <silent> <F2> :call           my#compat#mouse_toggle()<CR>
+vn  <silent> <F2> :<C-U>call      my#compat#mouse_toggle()<CR>
+ino <silent> <F2> <C-\><C-O>:call my#compat#mouse_toggle()<CR>
+tno <silent> <F2> <C-\><C-N>:call my#compat#mouse_toggle()<CR>a
 " Run code.
-nn <silent> <F5> :call usr#comp#run_or_compile("")<CR>
+nn <silent> <F5> :call my#comp#run_or_compile("")<CR>
 " Background toggle.
-nn <silent> <leader>bg :call usr#misc#bg_toggle()<CR>
+nn <silent> <leader>bg :call my#compat#bg_toggle()<CR>
 " Open init file.
-nn <silent> <M-,> :call usr#misc#open_opt()<CR>
+nn <silent> <M-,> :call my#compat#open_opt()<CR>
 " Explorer.
-nn <silent> <leader>oe :call usr#util#sys_open(expand("%:p:h"))<CR>
+nn <silent> <leader>oe :call my#util#sys_open(expand("%:p:h"))<CR>
 " Terminal.
-nn <silent> <leader>ot :call usr#util#terminal()<CR>i
+nn <silent> <leader>ot :call my#util#terminal()<CR>i
 " Open with system default browser.
-nn <silent> <leader>ob :call usr#util#sys_open(expand("%:p"))<CR>
+nn <silent> <leader>ob :call my#util#sys_open(expand("%:p"))<CR>
 " Open url under the cursor or in the selection.
-nn <silent> <leader>ou :call usr#util#sys_open(usr#util#match_path_or_url_under_cursor(), v:true)<CR>
+nn <silent> <leader>ou :call my#util#sys_open(my#util#match_path_or_url_under_cursor(), v:true)<CR>
 " Evaluate formula surrounded by `.
-nn <silent> <leader>ev :call usr#eval#vim_eval()<CR>
-nn <silent> <leader>el :call usr#eval#lisp_eval()<CR>
+nn <silent> <leader>ev :call my#eval#vim_eval()<CR>
+nn <silent> <leader>el :call my#eval#lisp_eval()<CR>
 " Append day of week after the date.
-nn <silent> <leader>dd :call usr#note#append_day_from_date()<CR>
+nn <silent> <leader>dd :call my#note#append_day_from_date()<CR>
 " Insert an timestamp after cursor.
 nn <silent> <leader>ds a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 " Hanzi count.
-nn <silent> <leader>cc :call usr#note#hanzi_count("n")<CR>
-vn <silent> <leader>cc :<C-U>call usr#note#hanzi_count("v")<CR>
+nn <silent> <leader>cc :call my#note#hanzi_count("n")<CR>
+vn <silent> <leader>cc :<C-U>call my#note#hanzi_count("v")<CR>
 " List bullets.
-ino <silent> <M-CR> <C-\><C-O>:call usr#note#md_insert_bullet()<CR>
-nn  <silent> <leader>ml :call usr#note#md_sort_num_bullet()<CR>
+ino <silent> <M-CR> <C-\><C-O>:call my#note#md_insert_bullet()<CR>
+nn  <silent> <leader>ml :call my#note#md_sort_num_bullet()<CR>
 " Echo git status.
 nn <silent> <leader>gs :!git status<CR>
 " Search cword in web browser.
@@ -121,16 +121,16 @@ let s:web_list = {
       \ "y" : "https://dict.youdao.com/w/eng/"
       \ }
 for [s:key, s:val] in items(s:web_list)
-  exe 'nn <silent> <leader>h' . s:key ':call usr#util#search_web("n", "' . s:val . '")<CR>'
-  exe 'vn <silent> <leader>h' . s:key ':<C-U>call usr#util#search_web("v", "' . s:val . '")<CR>'
+  exe 'nn <silent> <leader>h' . s:key ':call my#util#search_web("n", "' . s:val . '")<CR>'
+  exe 'vn <silent> <leader>h' . s:key ':<C-U>call my#util#search_web("v", "' . s:val . '")<CR>'
 endfor
 " Surround
-nn <silent> <leader>sa :call usr#srd#sur_add('n')<CR>
-vn <silent> <leader>sa :<C-U>call usr#srd#sur_add('v')<CR>
-nn <silent> <leader>sd :call usr#srd#sur_sub('')<CR>
-nn <silent> <leader>sc :call usr#srd#sur_sub()<CR>
+nn <silent> <leader>sa :call my#srd#sur_add('n')<CR>
+vn <silent> <leader>sa :<C-U>call my#srd#sur_add('v')<CR>
+nn <silent> <leader>sd :call my#srd#sur_sub('')<CR>
+nn <silent> <leader>sc :call my#srd#sur_sub()<CR>
 " Comment
-nn <silent> <leader>kc :call usr#cmt#cmt_add_norm()<CR>
-vn <silent> <leader>kc :<C-U>call usr#cmt#cmt_add_vis()<CR>
-nn <silent> <leader>ku :call usr#cmt#cmt_del_norm()<CR>
-vn <silent> <leader>ku :<C-U>call usr#cmt#cmt_del_vis()<CR>
+nn <silent> <leader>kc :call my#cmt#cmt_add_norm()<CR>
+vn <silent> <leader>kc :<C-U>call my#cmt#cmt_add_vis()<CR>
+nn <silent> <leader>ku :call my#cmt#cmt_del_norm()<CR>
+vn <silent> <leader>ku :<C-U>call my#cmt#cmt_del_vis()<CR>

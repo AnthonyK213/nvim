@@ -1,5 +1,5 @@
 " Background toggle.
-function! usr#misc#bg_toggle() abort
+function! my#compat#bg_toggle() abort
   if exists("g:lock_background") && g:lock_background
     return
   else
@@ -8,7 +8,7 @@ function! usr#misc#bg_toggle() abort
 endfunction
 
 " Mouse toggle.
-function! usr#misc#mouse_toggle() abort
+function! my#compat#mouse_toggle() abort
   if &mouse ==# 'a'
     let &mouse = ''
     echom "Mouse disabled"
@@ -19,7 +19,7 @@ function! usr#misc#mouse_toggle() abort
 endfunction
 
 " `CodeRun` complete option list.
-function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
+function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
         \ 'cs'   : "lib\nmod\nwin",
@@ -36,13 +36,13 @@ function! usr#misc#run_code_option(arglead, cmdline, cursorpos) abort
 endfunction
 
 " vim-markdown toggle math display.
-function! usr#misc#vim_markdown_math_toggle() abort
+function! my#compat#vim_markdown_math_toggle() abort
   let g:vim_markdown_math = 1 - g:vim_markdown_math
   syntax off | syntax on
 endfunction
 
 " Show table of contents.
-function! usr#misc#show_toc() abort
+function! my#compat#show_toc() abort
   if &ft ==? 'markdown'
     if exists(':Tocv')
       Tocv
@@ -62,7 +62,7 @@ function! usr#misc#show_toc() abort
 endfunction
 
 " Source vim file.
-function! usr#misc#vim_source(file) abort
+function! my#compat#vim_source(file) abort
   if has("win32")
     let l:init_viml_path = expand("$LOCALAPPDATA/nvim/")
   elseif has("unix")
@@ -72,17 +72,23 @@ function! usr#misc#vim_source(file) abort
 endfunction
 
 " Source vim files.
-function! usr#misc#vim_source_list(file_list) abort
+function! my#compat#vim_source_list(file_list) abort
   for l:file in a:file_list
-    call usr#misc#vim_source('viml/' . l:file)
+    call my#compat#vim_source('viml/' . l:file)
   endfor
 endfunction
 
 " Open opt.vim. [Incompatible]
-function! usr#misc#open_opt() abort
-  if usr#lib#incompat() | return | endif
+function! my#compat#open_opt() abort
+  if my#lib#incompat() | return | endif
   let l:cfg = stdpath("config")
-  call usr#util#edit_file(l:cfg.."/viml/core/opt.vim", v:false)
+  let l:opt = l:cfg . "/opt.json"
+  if empty(glob(l:opt))
+    exe 'e' l:opt
+    call nvim_paste("{}", v:true, -1)
+  else
+    call my#util#edit_file(l:opt, v:false)
+  endif
   call nvim_set_current_dir(l:cfg)
 endfunction
 
@@ -94,7 +100,7 @@ function! s:background_checker(bg_timer) abort
   if &bg != l:bg | let &bg = l:bg | endif
 endfunction
 
-function! usr#misc#time_background() abort
+function! my#compat#time_background() abort
   let bg_timer = timer_start(
         \ 600,
         \ function('<SID>background_checker'),
@@ -103,11 +109,11 @@ function! usr#misc#time_background() abort
 endfunction
 
 " Set markdown surrounding keymaps.
-function! usr#misc#md_kbd() abort
+function! my#compat#md_kbd() abort
   for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
     for s:mod_item in ['n', 'v']
       exe s:mod_item . 'n' '<buffer><silent> <M-' . s:key . '>'
-            \ ':call usr#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
+            \ ':call my#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
     endfor
   endfor
   nnoremap <buffer><silent> <F5> <Cmd>PresentingStart<CR>

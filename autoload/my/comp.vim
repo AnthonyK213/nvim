@@ -45,9 +45,9 @@ function! s:cb_run_bin(arg_tbl, cb_args) abort
 endfunction
 
 function! s:comp_c(tbl) abort
-  let l:cc = usr#pub#var('ccomp')
+  let l:cc = my#pub#var('ccomp')
   let l:opt = a:tbl['opt']
-  if !usr#lib#executable(l:cc)
+  if !my#lib#executable(l:cc)
     return [v:null, v:null]
   endif
   let l:cmd_tbl = {
@@ -63,13 +63,13 @@ function! s:comp_c(tbl) abort
       return [v:null, l:cmd]
     endif
   else
-    call usr#lib#notify_err('Invalid argument.')
+    call my#lib#notify_err('Invalid argument.')
     return [v:null, v:null]
   endif
 endfunction
 
 function! s:comp_clisp(tbl) abort
-  if !usr#lib#executable('sbcl')
+  if !my#lib#executable('sbcl')
     return [v:null, v:null]
   endif
   let l:cmd_tbl = {
@@ -85,20 +85,20 @@ function! s:comp_clisp(tbl) abort
     let l:cmd = l:cmd_tbl[l:opt]
     return [v:null, l:cmd]
   else
-    call usr#lib#notify_err('Invalid argument.')
+    call my#lib#notify_err('Invalid argument.')
     return [v:null, v:null]
   endif
 endfunction
 
 function! s:comp_cpp(tbl) abort
-  let l:cc = usr#pub#var('ccomp')
+  let l:cc = my#pub#var('ccomp')
   let l:cc_tbl = {
         \ 'gcc' : 'g++',
         \ 'clang' : 'clang++'
         \}
   if l:cc_tbl->has_key(l:cc)
     let l:cppc = l:cc_tbl[l:cc]
-    if !usr#lib#executable(cc)
+    if !my#lib#executable(cc)
       return [v:null, v:null]
     endif
     return [function('s:cb_run_bin'), [l:cppc, a:tbl['fnm'], '-o', a:tbl['bin']]]
@@ -111,14 +111,14 @@ function! s:comp_csharp(tbl) abort
   if !has("win32")
     return [v:null, v:null]
   endif
-  let l:sln_root = usr#lib#get_root("*.sln")
+  let l:sln_root = my#lib#get_root("*.sln")
   if l:sln_root != v:null
-    if !usr#lib#executable('MSBuild')
+    if !my#lib#executable('MSBuild')
       return [v:null, v:null]
     endif
     return [v:null, ['MSBuild.exe', l:sln_root]]
   endif
-  if !usr#lib#executable('csc')
+  if !my#lib#executable('csc')
     return [v:null, v:null]
   endif
   let l:cmd_tbl = {
@@ -136,7 +136,7 @@ function! s:comp_csharp(tbl) abort
       return [v:null, l:cmd]
     endif
   else
-    call usr#lib#notify_err('Invalid argument.')
+    call my#lib#notify_err('Invalid argument.')
     return [v:null, v:null]
   endif
 endfunction
@@ -145,18 +145,18 @@ function! s:comp_lua(tbl) abort
   if a:tbl['opt'] == ''
     return [v:null, 'luafile %']
   elseif a:tbl['opt'] == 'nojit'
-    if !usr#lib#executable('lua')
+    if !my#lib#executable('lua')
       return [v:null, v:null]
     endif
     return [v:null, ['lua', a:tbl['fnm']]]
   else
-    call usr#lib#notify_err('Invalid arguments.')
+    call my#lib#notify_err('Invalid arguments.')
     return [v:null, v:null]
   endif
 endfunction
 
 function! s:comp_processing(tbl) abort
-  if !usr#lib#executable('processing-java')
+  if !my#lib#executable('processing-java')
     return [v:null, v:null]
   endif
   let l:sketch_name = expand('%:p:h:t')
@@ -175,24 +175,24 @@ function! s:comp_processing(tbl) abort
 endfunction
 
 function! s:comp_python(tbl) abort
-  if !usr#lib#executable('python')
+  if !my#lib#executable('python')
     return [v:null, v:null]
   endif
   return [v:null, ['python', a:tbl["fnm"]]]
 endfunction
 
 function! s:comp_ruby(tbl) abort
-  if !usr#lib#executable('ruby')
+  if !my#lib#executable('ruby')
     return [v:null, v:null]
   endif
   return [v:null, ['ruby', a:tbl["fnm"]]]
 endfunction
 
 function! s:comp_rust(tbl) abort
-  if !usr#lib#executable('cargo')
+  if !my#lib#executable('cargo')
     return [v:null, v:null]
   endif
-  let l:cargo_root = usr#lib#get_root('Cargo.toml')
+  let l:cargo_root = my#lib#get_root('Cargo.toml')
   if l:cargo_root != v:null
     let l:cmd_tbl = {
           \ ''      : ['cargo', 'run'],
@@ -206,7 +206,7 @@ function! s:comp_rust(tbl) abort
       let l:cmd = l:cmd_tbl[l:opt]
       return [v:null, l:cmd]
     else
-      call usr#lib#notify_err('Invalid argument.')
+      call my#lib#notify_err('Invalid argument.')
       return [v:null, v:null]
     endif
   endif
@@ -219,7 +219,7 @@ function! s:comp_latex(tbl) abort
   elseif a:a:tbl['opt'] ==# 'biber'
     call s:latex_biber()
   else
-    call usr#lib#notify_err("Invalid argument.")
+    call my#lib#notify_err("Invalid argument.")
   endif
   return [v:null, v:null]
 endfunction
@@ -242,8 +242,8 @@ let s:comp_table = {
       \ "vim" : function('s:comp_vim')
       \ }
 
-function! usr#comp#run_or_compile(option) abort
-  if usr#lib#incompat() | return | endif
+function! my#comp#run_or_compile(option) abort
+  if my#lib#incompat() | return | endif
   let l:tbl = {
         \ "bin" : '_' . expand('%:t:r') . (has("win32") ? '.exe' : ''),
         \ "bwd" : getcwd(),
@@ -255,7 +255,7 @@ function! usr#comp#run_or_compile(option) abort
     let l:res = s:comp_table[&ft](l:tbl)
     let l:term_cmd = l:res[1]
     if type(l:term_cmd) == v:t_list
-      call usr#lib#belowright_split(30)
+      call my#lib#belowright_split(30)
       if type(l:res[0]) == v:t_func
         call termopen(l:term_cmd, {
               \ 'cwd' : l:tbl['fwd'],
@@ -270,6 +270,6 @@ function! usr#comp#run_or_compile(option) abort
       call nvim_set_current_dir(l:tbl['bwd'])
     endif
   else
-    call usr#lib#notify_err('File type is not supported yet.')
+    call my#lib#notify_err('File type is not supported yet.')
   endif
 endfunction

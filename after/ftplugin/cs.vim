@@ -1,5 +1,5 @@
 function s:add_summary() abort
-  if usr#lib#get_char('b') =~ '\v^\s*//$'
+  if my#lib#get_char('b') =~ '\v^\s*//$'
     call feedkeys("/ <summary>\n\n</summary>\<Up> ", "n")
   else
     call feedkeys("/", "n")

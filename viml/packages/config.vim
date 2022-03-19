@@ -38,7 +38,7 @@ function s:one_color_extd() abort
     let g:terminal_color_14 = "#0184bc"
     let g:terminal_color_15 = "#d0d0d0"
   endif
-  call usr#vis#hi_extd()
+  call my#vis#hi_extd()
 endfunction
 augroup highlight_extend
   autocmd!
@@ -70,7 +70,7 @@ let g:dashboard_custom_section = {
       \ 'new_file':     { 'description': [s:d(' Empty File',   'e', 50)], 'command': 'enew' },
       \ 'find_files':   { 'description': [s:d('⊕ Find File',    'f', 50)], 'command': 'Clap files' },
       \ 'load_session': { 'description': [s:d(' Load Session', 's', 50)], 'command': 'LoadSession' },
-      \ 'options':      { 'description': [s:d('⚙ Options',      ',', 50)], 'command': function('usr#misc#open_opt') },
+      \ 'options':      { 'description': [s:d('⚙ Options',      ',', 50)], 'command': function('my#compat#open_opt') },
       \ 'plug_update':  { 'description': [s:d('⟲ Plug Update',  'p', 50)], 'command': 'PlugUpdate' },
       \ 'quit_vim':     { 'description': [s:d('⊗ Quit Vim',     'q', 50)], 'command': 'qa' },
       \ }
@@ -184,8 +184,8 @@ endif
 
 " vimwiki
 let g:vimwiki_list = [{
-      \ 'path' : expand(g:path_cloud . '/Notes/'),
-      \ 'path_html' : expand(g:path_cloud . '/Notes/html/'),
+      \ 'path' : expand(g:_my_path_cloud . '/Notes/'),
+      \ 'path_html' : expand(g:_my_path_cloud . '/Notes/html/'),
       \ 'syntax' : 'markdown',
       \ 'ext' : '.wiki'
       \ }]
@@ -201,8 +201,8 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 2
 nn <silent> <leader>mh :Toch<CR>:resize 15<CR>
-nn <silent> <leader>mv :call usr#misc#show_toc()<CR>
-nn <silent> <leader>mm :call usr#misc#vim_markdown_math_toggle()<CR>
+nn <silent> <leader>mv :call my#compat#show_toc()<CR>
+nn <silent> <leader>mm :call my#compat#vim_markdown_math_toggle()<CR>
 
 
 " markdown preview
@@ -229,7 +229,7 @@ elseif has('unix')
   let s:snippet_dir = expand('$HOME/.config/nvim/snippet')
 endif
 
-if g:plug_use_coc
+if g:_my_use_coc
   " coc.nvim
   let g:coc_global_extensions = [
         \ 'coc-explorer',
@@ -238,8 +238,8 @@ if g:plug_use_coc
   let g:coc_config_table = {}
 
   function s:check(key, extension, config='') abort
-    if has_key(g:default_lsp_table, a:key)
-      let l:val = g:default_lsp_table[a:key]
+    if has_key(g:_my_lsp, a:key)
+      let l:val = g:_my_lsp[a:key]
       if type(l:val) == 6
         if l:val
           call add(g:coc_global_extensions, a:extension)
@@ -252,7 +252,7 @@ if g:plug_use_coc
           endif
         endif
       else
-        call usr#lib#notify_err("Please check `g:default_lsp_table` at key '" . a:key . "'.")
+        call my#lib#notify_err("Please check `lsp` in `opt.json`.")
       endif
     endif
   endfunction
@@ -300,10 +300,10 @@ if g:plug_use_coc
   " other plugin before putting this into your config.
   im <silent><expr> <TAB>
         \ pumvisible() ?
-        \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-        \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : coc#expandableOrJumpable() ?
+        \ "\<C-N>" : my#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+        \ "\<C-\>\<C-o>>>" . repeat(g:_const_dir_r, &ts) : coc#expandableOrJumpable() ?
         \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-        \ usr#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+        \ my#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ coc#refresh() : "\<TAB>"
   im  <silent><expr> <S-TAB>
         \ pumvisible() ?
@@ -332,7 +332,7 @@ if g:plug_use_coc
 
   function! s:show_doc() abort
     if (index(['vim','help'], &filetype) >= 0)
-      let l:word = usr#lib#get_word()[0]
+      let l:word = my#lib#get_word()[0]
       try
         exe 'h' l:word
       catch
@@ -435,9 +435,9 @@ else
 
   im  <silent><expr> <TAB>
         \ pumvisible() ?
-        \ "\<C-N>" : usr#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-        \ "\<C-\>\<C-o>>>" . repeat(g:const_dir_r, &ts) : vsnip#jumpable(1) ?
-        \ "\<Plug>(vsnip-jump-next)" : usr#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+        \ "\<C-N>" : my#lib#get_char('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+        \ "\<C-\>\<C-o>>>" . repeat(g:_const_dir_r, &ts) : vsnip#jumpable(1) ?
+        \ "\<Plug>(vsnip-jump-next)" : my#lib#get_char('p') =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
   im  <silent><expr> <S-TAB>
         \ pumvisible() ?

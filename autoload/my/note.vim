@@ -45,7 +45,7 @@ function! s:zeller(str) abort
   return [l:days_list[l:z], l:str_date]
 endfunction
 
-function! usr#note#append_day_from_date() abort
+function! my#note#append_day_from_date() abort
   let l:line = getline('.')
   let l:str = expand("<cWORD>")
   if l:str =~ '^$' | return | endif
@@ -69,18 +69,18 @@ function! usr#note#append_day_from_date() abort
 endfunction
 
 "" Hanzi count.
-function! usr#note#hanzi_count(mode) abort
+function! my#note#hanzi_count(mode) abort
   if a:mode ==# 'n'
     let l:content = getline(1, '$')
   elseif a:mode ==# 'v'
-    let l:content = split(usr#lib#get_visual_selection(), "\n")
+    let l:content = split(my#lib#get_visual_selection(), "\n")
   else
     return
   endif
   let l:h_count = 0
   for l:line in l:content
     for l:char in split(l:line, '.\zs')
-      if usr#lib#is_hanzi(l:char) | let l:h_count += 1 | endif
+      if my#lib#is_hanzi(l:char) | let l:h_count += 1 | endif
     endfor
   endfor
   if l:h_count == 0
@@ -108,7 +108,7 @@ function! s:md_check_line(lnum) abort
   return [l:detect, l:lstr, l:bullet, l:indent]
 endfunction
 
-function! usr#note#md_insert_bullet() abort
+function! my#note#md_insert_bullet() abort
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
   let l:detect = 0
@@ -164,7 +164,7 @@ function! usr#note#md_insert_bullet() abort
   endif
 endfunction
 
-function usr#note#md_sort_num_bullet()
+function my#note#md_sort_num_bullet()
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
   if l:linf_c[0] == 2

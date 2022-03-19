@@ -23,8 +23,8 @@ function! s:srd_collect(str, pair_a, pair_b) abort
     call add(l:tab_pair, 0)
   endfor
   let l:start = 0
-  let l:pat_a = '\v' . usr#lib#vim_reg_esc(a:pair_a)
-  let l:pat_b = '\v' . usr#lib#vim_reg_esc(a:pair_b)
+  let l:pat_a = '\v' . my#lib#vim_reg_esc(a:pair_a)
+  let l:pat_b = '\v' . my#lib#vim_reg_esc(a:pair_b)
 
   while 1
     let l:match_a = match(a:str, l:pat_a, l:start)
@@ -71,12 +71,12 @@ function! s:srd_locate(str, pair_a, pair_b, dir) abort
   return -1
 endfunction
 
-function! usr#srd#sur_add(mode, ...) abort
+function! my#srd#sur_add(mode, ...) abort
   let l:pair_a = a:0 ? a:1 : input("Surrounding add: ")
   let l:pair_b = s:sur_pair(l:pair_a)
 
   if a:mode ==# 'n'
-    let [l:word, l:s, l:e] = usr#lib#get_word()
+    let [l:word, l:s, l:e] = my#lib#get_word()
     let l:line = getline('.')
     let l:l_a = l:s == 0 ? '' : l:line[0:(l:s - 1)]
     let l:line_new = l:l_a . l:pair_a . l:word . l:pair_b . l:line[(l:e):]
@@ -91,16 +91,16 @@ function! usr#srd#sur_add(mode, ...) abort
   endif
 endfunction
 
-function! usr#srd#sur_sub(...) abort
-  let l:back = usr#lib#get_char('b')
-  let l:fore = usr#lib#get_char('f')
+function! my#srd#sur_sub(...) abort
+  let l:back = my#lib#get_char('b')
+  let l:fore = my#lib#get_char('f')
   let l:pair_a = input("Surrounding delete: ")
   let l:pair_b = s:sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
   let l:pair_b_new = s:sur_pair(l:pair_a_new)
 
   if l:pair_a ==# l:pair_b
-    let l:pat = usr#lib#vim_reg_esc(l:pair_a)
+    let l:pat = my#lib#vim_reg_esc(l:pair_a)
     if l:back =~# '\v.*\zs' . l:pat && l:fore =~# '\v' . l:pat
       let l:back_new = substitute(l:back, '\v.*\zs' . l:pat, l:pair_a_new, '')
       let l:fore_new = substitute(l:fore, '\v' . l:pat, l:pair_b_new, '')

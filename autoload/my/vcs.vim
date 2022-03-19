@@ -36,12 +36,12 @@ function! s:git_push_all_async(m_arg, b_arg) abort
     \ ], { 'on_exit':{x, y -> s:on_add(a:m_arg, a:b_arg)} })
 endfunction
 
-function! usr#vcs#git_push_all(...) abort
-  if usr#lib#incompat() | return | endif
+function! my#vcs#git_push_all(...) abort
+  if my#lib#incompat() | return | endif
   let l:arg_list = a:000
-  let l:git_root = usr#lib#get_root('.git')
+  let l:git_root = my#lib#get_root('.git')
   if l:git_root != v:null
-    let l:git_branch = usr#lib#get_git_branch(l:git_root)
+    let l:git_branch = my#lib#get_git_branch(l:git_root)
   else
     echom "Not a git repository."
     return

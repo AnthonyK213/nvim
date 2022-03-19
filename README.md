@@ -23,10 +23,6 @@
     fast and user-friendly alternative to `find`.
 * [**Node.js**](https://nodejs.org)
   (For [coc.nvim](https://github.com/neoclide/coc.nvim))
-  - Optional. To use *coc.nvim*, in [opt.vim](./viml/core/opt_example.vim)
-    ```vim
-    let g:default_coc = v:true
-    ```
 
 
 ## Installation
