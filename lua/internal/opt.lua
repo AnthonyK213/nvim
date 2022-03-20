@@ -79,7 +79,7 @@ end
 
 ---Set global variables according to a table.
 ---@param tbl table Table of configurations.
----@param prefix string Prefix for the 'g:' variable.
+---@param prefix string Prefix for the global variable.
 local function tbl_set_var(tbl, prefix)
     for k, v in pairs(tbl) do
         vim.api.nvim_set_var(prefix..k, v)
