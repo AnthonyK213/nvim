@@ -100,8 +100,8 @@ function M.git_push_all(arg_list)
         },
         vim.schedule_wrap(function ()
             print("Commit message: "..m_arg)
-            git_commit_handle:close()
             git_push()
+            git_commit_handle:close()
         end))
     end
 
@@ -111,8 +111,8 @@ function M.git_push_all(arg_list)
         cwd = git_root,
     },
     vim.schedule_wrap(function ()
-        git_add_handle:close()
         git_commit()
+        git_add_handle:close()
     end))
 end
 
