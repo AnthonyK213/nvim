@@ -45,7 +45,7 @@ function! my#compat#vim_source(file) abort
   call v:lua.require('utility.lib').vim_source(a:file)
 endfunction
 
-" Open opt.lua.
+" Open opt.json.
 function! my#compat#open_opt() abort
   let l:cfg = stdpath("config")
   let l:opt = l:cfg . "/opt.json"

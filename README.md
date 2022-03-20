@@ -156,7 +156,7 @@
   - inv: <kbd>M-v</kbd>  -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>  -> Jump to the window in turns.
   - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>  -> Open `opt.lua`.
+  - n:   <kbd>M-,</kbd>  -> Open `opt.json`.
   - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
   - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - in:  <kbd>M-B</kbd>  -> Markdown **bold**.
