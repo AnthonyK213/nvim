@@ -123,7 +123,7 @@ nmap <leader>ln <Plug>(coc-rename)
 xmap <leader>lm  <Plug>(coc-format-selected)
 nmap <leader>lm  <Plug>(coc-format-selected)
 
-augroup usr_coc_group
+augroup my_coc_group
   autocmd!
   " Highlight the symbol and its references when holding the cursor.
   au CursorHold * silent call CocActionAsync('highlight')
