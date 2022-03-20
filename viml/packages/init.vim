@@ -72,5 +72,30 @@ if s:nvim_init_src ==? 'nano'
   call my#compat#vim_source('viml/subsrc')
   colorscheme nanovim
 else
-  call my#compat#vim_source('viml/packages/config')
+  call my#compat#vim_source_list([
+    \ "packages/dashboard",
+    \ "packages/indentLine",
+    \ "packages/markdown-preview",
+    \ "packages/vim-clap",
+    \ "packages/vim-ipairs",
+    \ "packages/vim-markdown",
+    \ "packages/vim-signify",
+    \ "packages/vim-table-mode",
+    \ "packages/vimtex",
+    \ "packages/vimwiki",
+    \ "packages/vsession"
+    \ ])
+  if g:_my_use_coc
+    call my#compat#vim_source_list([
+      \ "packages/coc",
+      \ "packages/vista"
+      \ ])
+  else
+    call my#compat#vim_source_list([
+      \ "packages/asyncomplete",
+      \ "packages/nerdtree"
+      \ ])
+  endif
+  call my#compat#vim_source('viml/packages/vim-airline')
+  call my#compat#vim_source('viml/packages/one')
 endif
