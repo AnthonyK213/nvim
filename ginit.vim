@@ -71,7 +71,7 @@ function! s:gui_font_shrink() abort
 endfunction
 
 function! s:gui_font_origin() abort
-  let g:_my_gui_font_size = g:_my_gui_font_size_origin
+  let g:_my_gui_font_size = s:gui_font_size_origin
   call s:gui_font_set(g:_my_gui_font_half,
                     \ g:_my_gui_font_full,
                     \ g:_my_gui_font_size)
@@ -181,7 +181,7 @@ endif
 
 " Font
 let s:gui_font_step = 2
-let g:_my_gui_font_size_origin = g:_my_gui_font_size
+let s:gui_font_size_origin = g:_my_gui_font_size
 call s:gui_font_set(g:_my_gui_font_half,
                   \ g:_my_gui_font_full,
                   \ g:_my_gui_font_size)

@@ -143,7 +143,7 @@ if _my_core_opt.plug then
     if not _my_core_opt.plug.matchparen then vim.g.loaded_matchparen = 1 end
 end
 
--- Color scheme
+-- Optional packages.
 local colorscheme_list = { 'onedark', 'tokyonight', 'gruvbox' }
 local colorscheme = _my_core_opt.tui.scheme
 vim.o.tgc = true
@@ -154,6 +154,7 @@ if nvim_init_src == 'nano' then
 elseif packer_bootstrap == nil then
     require('packages.alpha-nvim')
     require('packages.nvim-colorizer')
+    -- Load color scheme.
     if vim.tbl_contains(colorscheme_list, colorscheme) then
         require('packages.'..colorscheme)
     else
