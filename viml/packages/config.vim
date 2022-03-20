@@ -90,7 +90,7 @@ let g:airline_mode_map = {
       \ 'ix'    : 'I',
       \ 'n'     : 'N',
       \ 'multi' : 'M',
-      \ 'ni'    : 'Ĩ',
+      \ 'niI'   : 'Ĩ',
       \ 'no'    : 'N',
       \ 'R'     : 'R',
       \ 'Rv'    : 'R',
