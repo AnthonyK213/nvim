@@ -125,7 +125,7 @@ nmap <silent> <leader>gK 9999<plug>(signify-prev-hunk)
 
 " IndentLine
 let g:indentLine_char = '▏'
-let g:indentLine_setConceal = 0
+let g:vim_json_conceal = 0
 let g:indentLine_fileTypeExclude = ['dashboard', 'markdown', 'vimwiki']
 
 
