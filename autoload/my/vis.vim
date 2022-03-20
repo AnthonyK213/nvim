@@ -5,11 +5,12 @@ function! my#vis#hi_extd() abort
   call my#lib#set_hi('mkdItalic',        g:terminal_color_15, '', '')
   call my#lib#set_hi('mkdBoldItalic',    g:terminal_color_15, '', '')
   call my#lib#set_hi('mkdCodeDelimiter', g:terminal_color_15, '', '')
+  call my#lib#set_hi('mkdHeading',       g:terminal_color_1,  '', '')
   call my#lib#set_hi('htmlBold',         g:terminal_color_3,  '', 'bold')
   call my#lib#set_hi('htmlItalic',       g:terminal_color_5,  '', 'italic')
   call my#lib#set_hi('htmlBoldItalic',   g:terminal_color_11, '', 'bold,italic')
   call my#lib#set_hi('htmlH1',           g:terminal_color_1,  '', 'bold')
   call my#lib#set_hi('htmlH2',           g:terminal_color_1,  '', 'bold')
   call my#lib#set_hi('htmlH3',           g:terminal_color_1,  '', '')
-  call my#lib#set_hi('mkdHeading',       g:terminal_color_1,  '', '')
+  call my#lib#set_hi('EndOfBuffer',      g:terminal_color_8,  '', '')
 endfunction

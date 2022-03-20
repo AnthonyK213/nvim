@@ -45,7 +45,7 @@ function! s:cb_run_bin(arg_tbl, cb_args) abort
 endfunction
 
 function! s:comp_c(tbl) abort
-  let l:cc = my#pub#var('ccomp')
+  let l:cc = g:_my_dep_cc
   let l:opt = a:tbl['opt']
   if !my#lib#executable(l:cc)
     return [v:null, v:null]
@@ -91,7 +91,7 @@ function! s:comp_clisp(tbl) abort
 endfunction
 
 function! s:comp_cpp(tbl) abort
-  let l:cc = my#pub#var('ccomp')
+  let l:cc = g:_my_dep_cc
   let l:cc_tbl = {
         \ 'gcc' : 'g++',
         \ 'clang' : 'clang++'

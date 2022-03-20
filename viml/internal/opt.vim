@@ -31,10 +31,15 @@ let g:_my_path_home = getenv('HOME')
 let g:_my_path_cloud = has_key(environ(), 'ONEDRIVE') ?
       \ getenv('ONEDRIVE') : g:_my_path_home
 let g:_my_path_desktop = expand(g:_my_path_home . '/Desktop')
+let g:_my_tui_scheme = 'one'
+let g:_my_tui_theme = 'dark'
+let g:_my_tui_style = 'none'
+let g:_my_tui_transparent = v:false
 let g:_my_gui_theme = 'auto'
+let g:_my_gui_opacity = 0.98
+let g:_my_gui_font_size = 13
 let g:_my_gui_font_half = 'Monospace'
 let g:_my_gui_font_full = 'Monospace'
-let g:_my_gui_font_size = 13
 let g:_my_use_coc = v:false
 let g:_my_lsp = {
       \ 'clangd' : v:false,
@@ -50,8 +55,13 @@ let g:_my_lsp = {
 function s:json_set_var(json) abort
   let l:table = json_decode(a:json)
   for [l:key, l:val] in items(l:table)
-    let l:name = substitute(l:key, '\v[\.]', '_', 'g')
-    call nvim_set_var("_my_" . l:name, l:val)
+    if l:key !=# 'lsp' && type(l:val) == v:t_dict
+      for [l:k, l:v] in items(l:val)
+        call nvim_set_var('_my_' . l:key . '_' . l:k, l:v)
+      endfor
+    else
+      call nvim_set_var('_my_' . l:key, l:val)
+    endif
   endfor
 endfunction
 

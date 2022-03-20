@@ -60,7 +60,7 @@
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Display
   - [dashboard.nvim](https://github.com/glepnir/dashboard-nvim)
-  - [onedark.vim](https://github.com/joshdick/onedark.vim)
+  - [vim-one](https://github.com/rakr/vim-one)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
 * File system
   - [vim-clap](https://github.com/liuchengxu/vim-clap)
@@ -111,7 +111,7 @@
   - inv: <kbd>M-v</kbd>  -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>  -> Jump to the window in turn.
   - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>  -> Open `opt.vim`.
+  - n:   <kbd>M-,</kbd>  -> Open `opt.json`.
   - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
   - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - inv: <kbd>M-B</kbd>  -> Markdown bold: **bold** 

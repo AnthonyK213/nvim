@@ -22,7 +22,7 @@ Plug 'glepnir/dashboard-nvim'
 Plug 'rakr/vim-one'
 Plug 'vim-airline/vim-airline'
 Plug 'chrisbra/Colorizer'
-"" FZF
+"" File system
 Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }
 "" VCS
 Plug 'tpope/vim-fugitive'

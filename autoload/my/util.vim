@@ -1,7 +1,7 @@
 " Open terminal and launch shell. [Incompatible]
 function! my#util#terminal() abort
   if my#lib#incompat() | return | endif
-  let l:shell = my#pub#var('shell')
+  let l:shell = g:_my_dep_sh
   if type(l:shell) == v:t_list && !empty(l:shell)
     let l:exec = l:shell[0]
     let l:cmd = l:shell
@@ -9,11 +9,11 @@ function! my#util#terminal() abort
     let l:exec = l:shell
     let l:cmd = [l:shell]
   else
-    echo "The shell is invalid, please check `opt.vim`."
+    echo "The shell is invalid, please check `opt.json`."
     return
   endif
   if !executable(l:exec)
-    echo l:exec "is no a valid shell."
+    echo l:exec "is not a valid shell."
     return
   endif
   call my#lib#belowright_split(15)
@@ -55,7 +55,7 @@ function! my#util#sys_open(obj, use_local=v:false) abort
     return
   endif
   let l:cmd = []
-  let l:start = my#pub#var('start')
+  let l:start = g:_my_dep_start
   if type(l:start) == v:t_list
     let l:cmd += l:start
   elseif type(l:start) == v:t_string

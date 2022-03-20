@@ -78,7 +78,7 @@ function! my#compat#vim_source_list(file_list) abort
   endfor
 endfunction
 
-" Open opt.vim. [Incompatible]
+" Open opt.json. [Incompatible]
 function! my#compat#open_opt() abort
   if my#lib#incompat() | return | endif
   let l:cfg = stdpath("config")
