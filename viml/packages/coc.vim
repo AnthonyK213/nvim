@@ -4,19 +4,24 @@ let g:coc_global_extensions = [
       \ ]
 let g:coc_config_table = {}
 
-function s:check(key, extension, config='') abort
-  if has_key(g:_my_lsp, a:key)
-    let l:val = g:_my_lsp[a:key]
-    if type(l:val) == 6
+function s:check(server, extension, config = {}) abort
+  let l:var_name = '_my_lsp_' . a:server
+  if exists('g:' . l:var_name)
+    let l:val = get(g:, l:var_name)
+    if type(l:val) == v:t_bool
       if l:val
         call add(g:coc_global_extensions, a:extension)
       endif
     elseif type(l:val) == v:t_dict
       if l:val['enable']
         call add(g:coc_global_extensions, a:extension)
-        if l:val['path'] != v:null
-          let g:coc_config_table[a:config] = l:val['path']
-        endif
+      endif
+      if !empty(a:config)
+        for [l:k, l:v] in items(a:config)
+          if has_key(l:val, l:v)
+            let g:coc_config_table[l:k] = l:val[l:v]
+          endif
+        endfor
       endif
     else
       call my#lib#notify_err("Please check `lsp` in `opt.json`.")
@@ -27,7 +32,7 @@ endfunction
 call s:check('clangd', 'coc-clangd')
 call s:check('jedi_language_server', 'coc-jedi')
 call s:check('powershell_es', 'coc-powershell')
-call s:check('omnisharp', 'coc-omnisharp', 'omnisharp.path')
+call s:check('omnisharp', 'coc-omnisharp', { 'omnisharp.path' : 'path' })
 call s:check('sumneko_lua', 'coc-sumneko-lua')
 call s:check('rls', 'coc-rls')
 call s:check('texlab', 'coc-texlab')

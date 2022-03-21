@@ -41,21 +41,20 @@ let g:_my_gui_font_size = 13
 let g:_my_gui_font_half = 'Monospace'
 let g:_my_gui_font_full = 'Monospace'
 let g:_my_use_coc = v:false
-let g:_my_lsp = {
-      \ 'clangd' : v:false,
-      \ 'jedi_language_server' : v:false,
-      \ 'powershell_es' : { 'enable' : v:false, 'path' : v:null },
-      \ 'omnisharp' : { 'enable' : v:false, 'path' : v:null },
-      \ 'sumneko_lua' : v:false,
-      \ 'rls' : v:false,
-      \ 'texlab' : v:false,
-      \ 'vimls' : v:false,
-      \ }
+let g:_my_lsp_clangd = v:false
+let g:_my_lsp_jedi_language_server = v:false
+let g:_my_lsp_powershell_es = { 'enable' : v:false, 'path' : v:null }
+let g:_my_lsp_omnisharp = { 'enable' : v:false, 'path' : v:null }
+let g:_my_lsp_sumneko_lua = v:false
+let g:_my_lsp_rls = v:false
+let g:_my_lsp_texlab = v:false
+let g:_my_lsp_vimls = v:false
+
 
 function s:json_set_var(json) abort
   let l:table = json_decode(a:json)
   for [l:key, l:val] in items(l:table)
-    if l:key !=# 'lsp' && type(l:val) == v:t_dict
+    if type(l:val) == v:t_dict
       for [l:k, l:v] in items(l:val)
         call nvim_set_var('_my_' . l:key . '_' . l:k, l:v)
       endfor
