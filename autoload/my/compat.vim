@@ -63,12 +63,7 @@ endfunction
 
 " Source vim file.
 function! my#compat#vim_source(file) abort
-  if has("win32")
-    let l:init_viml_path = expand("$LOCALAPPDATA/nvim/")
-  elseif has("unix")
-    let l:init_viml_path = expand('$HOME/.config/nvim/')
-  endif
-  exe 'source' l:init_viml_path .  a:file . '.vim'
+  exe 'source' my#compat#stdpath('config') . '/' . a:file . '.vim'
 endfunction
 
 " Source vim files.
@@ -78,18 +73,53 @@ function! my#compat#vim_source_list(file_list) abort
   endfor
 endfunction
 
-" Open opt.json. [Incompatible]
+" Standard path
+function! my#compat#stdpath(what, nvim = 1) abort
+  if has("nvim")
+    return stdpath(a:what)
+  endif
+  if has("unix")
+    let l:stdpath = {
+        \ "config" : a:nvim ? expand("$HOME/.config/nvim") : expand("$HOME"),
+        \ "data" : a:nvim ? expand("$HOME/.local/share/nvim") : expand("$HOME/.vim")
+        \ }
+  elseif has("win32")
+    let l:stdpath = {
+        \ "config" : a:nvim ? expand("$LOCALAPPDATA\\nvim") : expand("$HOME"),
+        \ "data" : a:nvim ? expand("$LOCALAPPDATA\\nvim-data") : expand("$HOME\\vimfiles")
+        \ }
+  else
+    echoerr "OS is not supported"
+    return
+  endif
+  if has_key(l:stdpath, a:what)
+    return l:stdpath[a:what]
+  else
+    echoerr 'E6100: "' . a:what . '" is not a valid stdpath'
+    return
+  endif
+endfunction
+
+" Set global variable.
+function! my#compat#set_var(name, value) abort
+  if has("nvim")
+    call nvim_set_var(a:name, a:value)
+  else
+    exe "let g:" . a:name "= a:value"
+  endif
+endfunction
+
+" Open opt.json.
 function! my#compat#open_opt() abort
-  if my#lib#incompat() | return | endif
-  let l:cfg = stdpath("config")
+  let l:cfg = my#compat#stdpath("config")
   let l:opt = l:cfg . "/opt.json"
   if empty(glob(l:opt))
     exe 'e' l:opt
-    call nvim_paste("{}", v:true, -1)
+    call feedkeys("i{}\<Left>")
   else
     call my#util#edit_file(l:opt, v:false)
   endif
-  call nvim_set_current_dir(l:cfg)
+  exe 'cd' l:cfg
 endfunction
 
 "" Set background according to time.

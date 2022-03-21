@@ -38,11 +38,7 @@ call s:check('rls', 'coc-rls')
 call s:check('texlab', 'coc-texlab')
 call s:check('vimls', 'coc-vimlsp')
 
-if has('win32')
-  let s:snippet_dir = expand('$LOCALAPPDATA/nvim/snippet')
-elseif has('unix')
-  let s:snippet_dir = expand('$HOME/.config/nvim/snippet')
-endif
+let s:snippet_dir = my#compat#stdpath('config') . '/snippet'
 
 call extend(g:coc_config_table, {
       \ 'snippets.textmateSnippetsRoots' : [s:snippet_dir],

@@ -1,4 +1,4 @@
-let g:vsession_path = stdpath('data') . '/sessions'
+let g:vsession_path = my#compat#stdpath('data') . '/sessions'
 let g:vsession_save_last_on_leave = 0
 
 function! s:save_session() abort

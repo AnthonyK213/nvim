@@ -1,5 +1,5 @@
 let s:plug_bootstrap = 0
-let s:plug_path = stdpath('data') . '/site/autoload/plug.vim'
+let s:plug_path = my#compat#stdpath('data') . '/site/autoload/plug.vim'
 if empty(glob(s:plug_path))
   let s:plug_bootstrap = 1
   let s:plug_dl_cmd = [
@@ -15,10 +15,12 @@ if empty(glob(s:plug_path))
 endif
 
 " Load plug-ins
-call plug#begin(stdpath('data') . '/plugged')
+call plug#begin(my#compat#stdpath('data') . '/plugged')
 
 "" Display
-Plug 'glepnir/dashboard-nvim'
+if has("nvim")
+  Plug 'glepnir/dashboard-nvim'
+endif
 Plug 'rakr/vim-one'
 Plug 'vim-airline/vim-airline'
 Plug 'chrisbra/Colorizer'

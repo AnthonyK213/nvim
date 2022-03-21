@@ -27,13 +27,7 @@ im  <silent><expr> <S-TAB>
 im  <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>(ipairs_enter)"
 
 " vim-vsnip
-if has('win32')
-  let s:snippet_dir = expand('$LOCALAPPDATA/nvim/snippet')
-elseif has('unix')
-  let s:snippet_dir = expand('$HOME/.config/nvim/snippet')
-endif
-
-let g:vsnip_snippet_dir = s:snippet_dir
+let g:vsnip_snippet_dir = my#compat#stdpath('config') . '/snippet'
 
 smap <silent><expr> <TAB>   vsnip#jumpable(1)  ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
 smap <silent><expr> <S-TAB> vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : "<S-TAB>"

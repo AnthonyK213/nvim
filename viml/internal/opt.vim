@@ -56,17 +56,17 @@ function s:json_set_var(json) abort
   for [l:key, l:val] in items(l:table)
     if type(l:val) == v:t_dict
       for [l:k, l:v] in items(l:val)
-        call nvim_set_var('_my_' . l:key . '_' . l:k, l:v)
+        call my#compat#set_var('_my_' . l:key . '_' . l:k, l:v)
       endfor
     else
-      call nvim_set_var('_my_' . l:key, l:val)
+      call my#compat#set_var('_my_' . l:key, l:val)
     endif
   endfor
 endfunction
 
-let s:opt_file = stdpath('config') . '/opt.json'
+let s:opt_file = my#compat#stdpath('config') . '/opt.json'
 if !empty(glob(s:opt_file))
-  let s:opt_json = readfile(s:opt_file)
+  let s:opt_json = join(readfile(s:opt_file))
   try
     call s:json_set_var(s:opt_json)
   catch
