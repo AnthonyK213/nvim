@@ -265,9 +265,9 @@ function! my#comp#run_or_compile(option) abort
         call termopen(l:term_cmd, { 'cwd' : l:tbl['fwd'] })
       endif
     elseif type(l:term_cmd) == v:t_string
-      call nvim_set_current_dir(l:tbl['fwd'])
+      exe 'cd' l:tbl['fwd']
       exe l:term_cmd
-      call nvim_set_current_dir(l:tbl['bwd'])
+      exe 'cd' l:tbl['bwd']
     endif
   else
     call my#lib#notify_err('File type is not supported yet.')
