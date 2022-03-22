@@ -1,6 +1,6 @@
 let s:plug_bootstrap = 0
 let s:plug_path = my#compat#stdpath('data') . '/site/autoload/plug.vim'
-if empty(glob(s:plug_path))
+if empty(glob(s:plug_path)) && my#lib#executable('curl')
   let s:plug_bootstrap = 1
   let s:plug_dl_cmd = [
         \ 'curl',
@@ -14,6 +14,14 @@ if empty(glob(s:plug_path))
   call system(s:plug_dl_cmd)
 endif
 
+if exists('g:nvim_init_src')
+  let s:nvim_init_src = g:nvim_init_src
+elseif has_key(environ(), 'NVIM_INIT_SRC')
+  let s:nvim_init_src = expand("$NVIM_INIT_SRC")
+else
+  let s:nvim_init_src = ""
+endif
+
 " Load plug-ins
 call plug#begin(my#compat#stdpath('data') . '/plugged')
 
@@ -21,9 +29,13 @@ call plug#begin(my#compat#stdpath('data') . '/plugged')
 if has("nvim")
   Plug 'glepnir/dashboard-nvim'
 endif
-Plug 'rakr/vim-one'
-Plug 'vim-airline/vim-airline'
+if s:nvim_init_src !=? 'defaultlines'
+  Plug 'vim-airline/vim-airline'
+endif
 Plug 'chrisbra/Colorizer'
+"" Color scheme
+Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
 "" File system
 Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }
 "" VCS
@@ -62,13 +74,10 @@ if s:plug_bootstrap
   PlugInstall
 endif
 
-if exists('g:nvim_init_src')
-  let s:nvim_init_src = g:nvim_init_src
-elseif has_key(environ(), 'NVIM_INIT_SRC')
-  let s:nvim_init_src = expand("$NVIM_INIT_SRC")
-else
-  let s:nvim_init_src = ""
-endif
+let s:colorscheme_list = [
+      \ 'one',
+      \ 'gruvbox'
+      \ ]
 
 if s:nvim_init_src ==? 'nano'
   call my#compat#vim_source('viml/subsrc')
@@ -87,6 +96,9 @@ else
     \ "packages/vimwiki",
     \ "packages/vsession"
     \ ])
+  if s:nvim_init_src !=? 'defaultlines'
+    call my#compat#vim_source('viml/packages/vim-airline')
+  endif
   if g:_my_use_coc
     call my#compat#vim_source_list([
       \ "packages/coc",
@@ -98,6 +110,13 @@ else
       \ "packages/nerdtree"
       \ ])
   endif
-  call my#compat#vim_source('viml/packages/vim-airline')
-  call my#compat#vim_source('viml/packages/one')
+  if index(s:colorscheme_list, g:_my_tui_scheme) >= 0
+    call my#compat#vim_source('viml/packages/' . g:_my_tui_scheme)
+  else
+    try
+      exe 'colorscheme' g:_my_tui_scheme
+    catch
+      echomsg 'Color scheme was not found.'
+    endtry
+  endif
 endif
