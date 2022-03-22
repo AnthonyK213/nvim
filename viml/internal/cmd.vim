@@ -3,7 +3,7 @@ command! Time :echo strftime("%Y-%m-%d %a %T")
 " Open pdf file, useful when finish the compilation of tex file.
 command! Pdf :call my#util#sys_open(expand("%:p:r") . ".pdf")
 " Run or compile.
-command! -nargs=? -complete=custom,my#misc#run_code_option CodeRun :call my#comp#run_or_compile(<q-args>)
+command! -nargs=? -complete=custom,my#comapt#run_code_option CodeRun :call my#comp#run_or_compile(<q-args>)
 " Git push all.
 command! -nargs=* PushAll :call my#vcs#git_push_all(<f-args>)
 " Open ssh configuration.
