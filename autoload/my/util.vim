@@ -75,6 +75,5 @@ function! my#util#search_web(mode, site) abort
   elseif a:mode ==? "v"
     let l:search_obj = my#lib#encode_url(my#lib#get_visual_selection())
   endif
-  echo a:site . l:search_obj
   call my#util#sys_open(a:site . l:search_obj, v:false)
 endfunction
