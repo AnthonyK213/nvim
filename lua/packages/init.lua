@@ -99,6 +99,7 @@ require('packer').startup(function (use)
             config = function () require('packages.markdown-preview') end
         };
         'sotte/presenting.vim';
+        'gpanders/editorconfig.nvim';
     }
     -- Completion; Snippet; LSP; Treesitter
     use {
