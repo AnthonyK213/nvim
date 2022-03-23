@@ -1,6 +1,6 @@
 " Open terminal and launch shell. [Incompatible]
 function! my#util#terminal() abort
-  if my#lib#incompat() | return | endif
+  if my#compat#hasIncompat() | return | endif
   let l:shell = g:_my_dep_sh
   if type(l:shell) == v:t_list && !empty(l:shell)
     let l:exec = l:shell[0]
@@ -47,7 +47,7 @@ function! my#util#match_path_or_url_under_cursor() abort
 endfunction
 
 function! my#util#sys_open(obj, use_local=v:false) abort
-  if my#lib#incompat() | return | endif
+  "if my#compat#hasIncompat() | return | endif
   let l:cwd = a:use_local ? expand('%:p:h') : getcwd()
   if type(a:obj) != v:t_string
         \ || !(my#lib#path_exists(a:obj, l:cwd) || my#lib#match_url(a:obj)[0])

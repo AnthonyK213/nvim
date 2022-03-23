@@ -37,7 +37,7 @@ function! s:git_push_all_async(m_arg, b_arg) abort
 endfunction
 
 function! my#vcs#git_push_all(...) abort
-  if my#lib#incompat() | return | endif
+  if my#compat#hasIncompat() | return | endif
   let l:arg_list = a:000
   let l:git_root = my#lib#get_root('.git')
   if l:git_root != v:null

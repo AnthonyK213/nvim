@@ -73,42 +73,6 @@ function! my#compat#vim_source_list(file_list) abort
   endfor
 endfunction
 
-" Standard path
-function! my#compat#stdpath(what, nvim = 1) abort
-  if has("nvim")
-    return stdpath(a:what)
-  endif
-  if has("unix")
-    let l:stdpath = {
-        \ "config" : a:nvim ? expand("$HOME/.config/nvim") : expand("$HOME"),
-        \ "data" : a:nvim ? expand("$HOME/.local/share/nvim") : expand("$HOME/.vim")
-        \ }
-  elseif has("win32")
-    let l:stdpath = {
-        \ "config" : a:nvim ? expand("$LOCALAPPDATA\\nvim") : expand("$HOME"),
-        \ "data" : a:nvim ? expand("$LOCALAPPDATA\\nvim-data") : expand("$HOME\\vimfiles")
-        \ }
-  else
-    echoerr "OS is not supported"
-    return
-  endif
-  if has_key(l:stdpath, a:what)
-    return l:stdpath[a:what]
-  else
-    echoerr 'E6100: "' . a:what . '" is not a valid stdpath'
-    return
-  endif
-endfunction
-
-" Set global variable.
-function! my#compat#set_var(name, value) abort
-  if has("nvim")
-    call nvim_set_var(a:name, a:value)
-  else
-    exe "let g:" . a:name "= a:value"
-  endif
-endfunction
-
 " Open opt.json.
 function! my#compat#open_opt() abort
   let l:cfg = my#compat#stdpath("config")
@@ -148,4 +112,50 @@ function! my#compat#md_kbd() abort
   endfor
   nnoremap <buffer><silent> <F5> <Cmd>PresentingStart<CR>
   nnoremap <buffer><silent> <leader>mt <Cmd>MarkdownPreviewToggle<CR>
+endfunction
+
+" Standard path
+function! my#compat#stdpath(what, nvim = 1) abort
+  if has("nvim")
+    return stdpath(a:what)
+  endif
+  if has("unix")
+    let l:stdpath = {
+        \ "config" : a:nvim ? expand("$HOME/.config/nvim") : expand("$HOME"),
+        \ "data" : a:nvim ? expand("$HOME/.local/share/nvim") : expand("$HOME/.vim")
+        \ }
+  elseif has("win32")
+    let l:stdpath = {
+        \ "config" : a:nvim ? expand("$LOCALAPPDATA\\nvim") : expand("$HOME"),
+        \ "data" : a:nvim ? expand("$LOCALAPPDATA\\nvim-data") : expand("$HOME\\vimfiles")
+        \ }
+  else
+    echoerr "OS is not supported"
+    return
+  endif
+  if has_key(l:stdpath, a:what)
+    return l:stdpath[a:what]
+  else
+    echoerr 'E6100: "' . a:what . '" is not a valid stdpath'
+    return
+  endif
+endfunction
+
+" Set global variable.
+function! my#compat#set_var(name, value) abort
+  if has("nvim")
+    call nvim_set_var(a:name, a:value)
+  else
+    exe "let g:" . a:name "= a:value"
+  endif
+endfunction
+
+function! my#compat#hasIncompat() abort
+  if has("nvim")
+    return 0
+  endif
+  echohl WarningMsg
+  echomsg "This function is incompatible with vim. Aborted."
+  echohl None
+  return 1
 endfunction
