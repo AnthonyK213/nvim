@@ -47,7 +47,7 @@ function! my#vcs#git_push_all(...) abort
     return
   endif
   if l:git_branch != v:null
-    exe 'cd' l:git_root
+    exe 'cd' fnameescape(l:git_root)
   else
     echom "Not a valid git repository."
     return

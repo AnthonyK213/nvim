@@ -23,7 +23,7 @@ endfunction
 
 " Open and edit test file in vim.
 function! my#util#edit_file(file_path, chdir) abort
-  let l:path = expand(a:file_path)
+  let l:path = expand(fnameescape(a:file_path))
   if empty(expand("%:t"))
     silent exe 'e' l:path
   else

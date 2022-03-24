@@ -83,7 +83,7 @@ function! my#compat#open_opt() abort
   else
     call my#util#edit_file(l:opt, v:false)
   endif
-  exe 'cd' l:cfg
+  exe 'cd' fnameescape(l:cfg)
 endfunction
 
 "" Set background according to time.

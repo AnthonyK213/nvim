@@ -55,6 +55,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim',
       \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
 Plug 'sotte/presenting.vim'
+Plug 'editorconfig/editorconfig-vim'
 "" Completion; Snippet; (LSP)
 if g:_my_use_coc
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
