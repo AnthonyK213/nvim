@@ -146,7 +146,7 @@ endfunction
 
 
 if exists('g:_my_path_desktop')
-  exe 'cd' g:_my_path_desktop
+  exe 'cd' fnameescape(g:_my_path_desktop)
 endif
 cd %:p:h
 set mouse=a
