@@ -82,6 +82,7 @@
   - [vim-markdown](https://github.com/preservim/vim-markdown)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
+  - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 * Completion; Snippet (Provide by pure vim script)
   - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
   - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
