@@ -127,6 +127,7 @@
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
+  - [editorconfig.nvim](https://github.com/gpanders/editorconfig.nvim)
 * Completion; Snippet; LSP; TreeSitter
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
