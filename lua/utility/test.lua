@@ -18,7 +18,7 @@ function M.p(label, f, ...)
         result = vim.inspect(result_table)
         result = "[\n    "..result:sub(2, #result - 1).."\n  ]"
     end
-    print(string.format("test_%s: {\n  duration: %f,\n  result: %s\n}",
+    vim.notify(string.format("test_%s: {\n  duration: %f,\n  result: %s\n}",
     label, e - s, result))
 end
 
