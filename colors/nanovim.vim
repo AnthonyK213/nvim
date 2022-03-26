@@ -608,7 +608,9 @@ endfunction
 
 " (filetype, branch)
 function! NanoMiscInfo() abort
-  let l:ls = filter([s:cap_str_init(&ft), s:get_git_branch()], '!empty(v:val)')
+  let l:ft = split(&ft, '\.')
+  call map(l:ft, {_, val -> s:cap_str_init(val)})
+  let l:ls = filter([join(l:ft, '|'), s:get_git_branch()], '!empty(v:val)')
   if len(l:ls) | return '(' . join(l:ls, ', ') .')' | else | return '' | endif
 endfunction
 
