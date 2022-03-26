@@ -1,11 +1,19 @@
 vim.cmd('packadd nvim-colorizer.lua')
 
-
-require('colorizer').setup()
-
-
-vim.api.nvim_add_user_command('ColorizerReset', function (_)
-    package.loaded["colorizer"] = nil
-    require("colorizer").setup()
-    require("colorizer").attach_to_buffer(0)
-end, {})
+require('colorizer').setup({
+    css = { names = true, rgb_fn = true },
+    'html',
+    'javascript',
+    'typescript',
+    'json'
+}, {
+    RGB      = true,
+    RRGGBB   = true,
+    names    = false,
+    RRGGBBAA = false,
+    rgb_fn   = false,
+    hsl_fn   = false,
+    css      = false,
+    css_fn   = false,
+    mode     = 'background'
+})
