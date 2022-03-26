@@ -97,8 +97,9 @@ vim.g.mapleader = " "
 vim.g.python3_host_prog = opt.dep.py3
 vim.g.markdown_fenced_languages = {
     "c", "cpp", "cs", "rust", "lua", "vim", "python", "lisp", "tex",
-    "javascript", "typescript", "json", "sh", "ps1", "dosbatch",
-    "cmake", "ruby", "java", "go", "perl", "html", "xml", "toml", "yaml"
+    "javascript", "typescript", "json", "cmake", "sh", "ps1", "dosbatch",
+    "ruby", "java", "go", "perl", "html", "xml", "toml", "yaml",
+    "config", "gitconfig", "sshconfig", "dosini"
 }
 
 -- Directional operation which won't break the history.
