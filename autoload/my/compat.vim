@@ -78,7 +78,7 @@ function! my#compat#open_opt() abort
   let l:cfg = my#compat#stdpath("config")
   let l:opt = l:cfg . "/opt.json"
   if empty(glob(l:opt))
-    exe 'e' l:opt
+    exe 'e' fnameescape(l:opt)
     call feedkeys("i{}\<Left>")
   else
     call my#util#edit_file(l:opt, v:false)
