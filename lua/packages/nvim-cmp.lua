@@ -37,7 +37,7 @@ cmp.setup {
             i = function (fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
-                elseif vim.tbl_contains({'vimwiki', 'markdown'}, vim.bo.ft)
+                elseif vim.tbl_contains(vim.split(vim.bo.ft, '%.'), 'markdown')
                     and vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
                     match_str(lib.get_context('b')) then
                     feedkeys('<C-\\><C-O>>>', 'n')

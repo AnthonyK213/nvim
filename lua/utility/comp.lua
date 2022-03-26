@@ -291,8 +291,8 @@ function M.run_or_compile(option)
         opt = option,
     }
 
-    if comp_table[vim.o.ft] then
-        local term_cb, term_cmd = comp_table[vim.o.ft](tbl)
+    if comp_table[vim.bo.ft] then
+        local term_cb, term_cmd = comp_table[vim.bo.ft](tbl)
         if type(term_cmd) == 'table' then
             lib.belowright_split(30)
             if term_cb then

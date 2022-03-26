@@ -22,7 +22,6 @@ local cmt_mark_tab_single = {
     tex = "%",
     toml = "#",
     vim = '"',
-    vimwiki = "%% ",
     yaml = "#",
 }
 
