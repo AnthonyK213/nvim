@@ -95,6 +95,11 @@ tbl_set_var(opt.gui, "_my_gui_")
 -- Misc
 vim.g.mapleader = " "
 vim.g.python3_host_prog = opt.dep.py3
+vim.g.markdown_fenced_languages = {
+    "c", "cpp", "cs", "rust", "lua", "vim", "python",
+    "javascript", "typescript", "json", "sh", "ps1", "tex",
+    "ruby", "java", "go", "html", "xml", "perl", "lisp"
+}
 
 -- Directional operation which won't break the history.
 local rep_term = vim.api.nvim_replace_termcodes
