@@ -13,4 +13,8 @@ vim.g.mkdp_preview_options = {
     content_editable    = false,
     disable_filename    = 0
 }
-vim.g.mkdp_filetypes = {'markdown', 'vimwiki'}
+vim.g.mkdp_filetypes = {
+    'markdown',
+    'vimwiki',
+    'vimwiki.markdown'
+}
