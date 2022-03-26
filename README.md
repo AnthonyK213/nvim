@@ -79,7 +79,6 @@
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [vim-markdown](https://github.com/preservim/vim-markdown)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
   - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
@@ -185,9 +184,7 @@
     - n:    <kbd>]</kbd> -> *coc.nvim*, next diagnostic.
   - <kbd>leader-m-</kbd> -> **Markdown**.
     - n:    <kbd>l</kbd> -> Sort number list.
-    - n:    <kbd>m</kbd> -> *vim-markdown*, Toggle math syntax.
-    - n:    <kbd>h</kbd> -> *vim-markdown*, Toc horizontal.
-    - n:    <kbd>v</kbd> -> *vim-markdown*, Toc vertical.
+    - n:    <kbd>v</kbd> -> *vista.vim*, Toc vertical.
   - <kbd>leader-o-</kbd> -> **Open**.
     - n:    <kbd>b</kbd> -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd> -> Open system file manager.

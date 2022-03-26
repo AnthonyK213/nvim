@@ -16,17 +16,17 @@ endfunction
 let g:os_type = s:get_os_name()
 
 let g:_my_dep_sh = {
-    \ "LINUX" : "bash",
-    \ "WINDOWS" : ['powershell.exe', '-nologo'],
-    \ "MACOS" : "zsh"
-    \ }[g:os_type]
+      \ "LINUX" : "bash",
+      \ "WINDOWS" : ['powershell.exe', '-nologo'],
+      \ "MACOS" : "zsh"
+      \ }[g:os_type]
 let g:_my_dep_cc = 'gcc'
 let g:_my_dep_py3 = '/usr/bin/python3'
 let g:_my_dep_start = {
-    \ "LINUX" : "xdg-open",
-    \ "WINDOWS" : ['cmd', '/c', 'start', '""'],
-    \ "MACOS" : "open"
-    \ }[g:os_type]
+      \ "LINUX" : "xdg-open",
+      \ "WINDOWS" : ['cmd', '/c', 'start', '""'],
+      \ "MACOS" : "open"
+      \ }[g:os_type]
 let g:_my_path_home = getenv('HOME')
 let g:_my_path_cloud = has_key(environ(), 'ONEDRIVE') ?
       \ getenv('ONEDRIVE') : g:_my_path_home
@@ -77,6 +77,12 @@ endif
 " Misc
 let g:mapleader = "\<Space>"
 let g:python3_host_prog = g:_my_dep_py3
+let g:markdown_fenced_languages = [
+      \ "c", "cpp", "cs", "rust", "lua", "vim", "python", "lisp", "tex",
+      \ "javascript", "typescript", "json", "cmake", "sh", "ps1", "dosbatch",
+      \ "ruby", "java", "go", "perl", "html", "xml", "toml", "yaml",
+      \ "config", "gitconfig", "sshconfig", "dosini"
+      \ ]
 
 " Directional operation which won't mess up the history.
 let g:_const_dir_l = "\<C-g>U\<Left>"

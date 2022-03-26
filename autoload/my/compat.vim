@@ -41,26 +41,6 @@ function! my#compat#vim_markdown_math_toggle() abort
   syntax off | syntax on
 endfunction
 
-" Show table of contents.
-function! my#compat#show_toc() abort
-  if &ft ==? 'markdown'
-    if exists(':Tocv')
-      Tocv
-      vertical resize 30
-    endif
-  elseif &ft ==? 'tex'
-    if exists(':VimtexTocToggle')
-      VimtexTocToggle
-    endif
-  else
-    try
-      Vista!!
-    catch
-      echo 'No Toc support for current filetype.'
-    endtry
-  endif
-endfunction
-
 " Source vim file.
 function! my#compat#vim_source(file) abort
   exe 'source' my#compat#stdpath('config') . '/' . a:file . '.vim'

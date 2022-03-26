@@ -51,7 +51,6 @@ Plug 'skanehira/vsession'
 "" File type support
 Plug 'lervag/vimtex'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
-Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim',
       \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
 Plug 'sotte/presenting.vim'
@@ -90,7 +89,6 @@ else
     \ "packages/markdown-preview",
     \ "packages/vim-clap",
     \ "packages/vim-ipairs",
-    \ "packages/vim-markdown",
     \ "packages/vim-signify",
     \ "packages/vim-table-mode",
     \ "packages/vimtex",
