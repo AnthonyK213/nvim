@@ -95,9 +95,8 @@ kbd('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv
 -- Mouse toggle.
 kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['my#compat#mouse_toggle'], ntst)
 -- Run code.
-kbd('n', '<F5>', function ()
-    require('utility.comp').run_or_compile('')
-end, ntst)
+-- FIXME: Using a function for {rhs} will flush the cmdline output with `print`.
+kbd('n', '<F5>', ':lua require("utility.comp").run_or_compile("")<CR>', ntst)
 -- Show document.
 kbd('n', 'K', function () require('utility.util').show_doc() end, ntst)
 -- Search visual selection.
