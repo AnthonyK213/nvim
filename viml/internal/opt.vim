@@ -80,7 +80,7 @@ let g:python3_host_prog = g:_my_dep_py3
 let g:markdown_fenced_languages = [
       \ "c", "cpp", "cs", "rust", "lua", "vim", "python", "lisp", "tex",
       \ "javascript", "typescript", "json", "cmake", "sh", "ps1", "dosbatch",
-      \ "ruby", "java", "go", "perl", "html", "xml", "toml", "yaml",
+      \ "ruby", "java", "go", "perl", "html", "xml", "yaml",
       \ "config", "gitconfig", "sshconfig", "dosini"
       \ ]
 
