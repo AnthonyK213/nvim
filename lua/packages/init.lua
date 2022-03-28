@@ -98,8 +98,7 @@ require('packer').startup(function (use)
             run = function () vim.fn['mkdp#util#install'](0) end,
             config = function () require('packages.markdown-preview') end
         };
-        --'sotte/presenting.vim';
-        'AnthonyK213/presenting.vim';
+        'sotte/presenting.vim';
         'gpanders/editorconfig.nvim';
     }
     -- Completion; Snippet; LSP; Treesitter
