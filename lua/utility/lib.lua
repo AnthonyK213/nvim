@@ -231,13 +231,15 @@ end
 ---@field data table
 local Syntax = {}
 
+Syntax.__index = Syntax
+
 ---Constructor.
 ---@param provider string Provider name.
 ---@param data table Data table.
----@return table
+---@return Syntax
 function Syntax:new(provider, data)
     local o = { prov = provider, data = data }
-    setmetatable(o, { __index = self })
+    setmetatable(o, Syntax)
     return o
 end
 
