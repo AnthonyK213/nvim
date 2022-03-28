@@ -118,6 +118,8 @@ function M.show_hl()
     local pos = vim.api.nvim_win_get_cursor(0)
     local lines = {}
 
+    ---Convert syntax information to formatted markdonw.
+    ---@param syntax_table table<integer, Syntax>
     local show_matches = function(syntax_table)
         if #syntax_table == 0 then
             table.insert(lines, "* No highlight groups found")

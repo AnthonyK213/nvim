@@ -26,7 +26,7 @@ end
 ---@param str string
 ---@param pair_a string
 ---@param pair_b string
----@return table result
+---@return table<integer, integer> result
 local function srd_collect(str, pair_a, pair_b)
     local tab_pair = {}
     for pos in str:gmatch('()'..vim.pesc(pair_a)) do

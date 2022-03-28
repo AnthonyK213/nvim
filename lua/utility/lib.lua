@@ -128,7 +128,7 @@ end
 
 ---Replace chars in a string according to a dictionary.
 ---@param str string String to replace.
----@param esc_table table Replace dictionary.
+---@param esc_table table<integer, string> Replace dictionary.
 ---@return string result Replaced string.
 function M.str_replace(str, esc_table)
     local str_list = M.str_explode(str)
@@ -280,7 +280,7 @@ end
 ---Get syntax stack.
 ---@param row number 1-based row number.
 ---@param col number 0-based column number.
----@return table result Syntax table.
+---@return table<integer, Syntax> result Syntax table.
 function M.get_syntax_stack(row, col)
     local syntax_table = {}
     for _, i1 in ipairs(vim.fn.synstack(row, col + 1)) do
@@ -294,7 +294,7 @@ end
 ---https://github.com/nvim-treesitter/playground
 ---@param row number 1-based row number.
 ---@param col number 0-based column number.
----@return table result Syntax table.
+---@return table<integer, Syntax> result Syntax table.
 function M.get_treesitter_info(row, col)
     local buf = vim.api.nvim_get_current_buf()
     local row_0 = row - 1
