@@ -39,8 +39,8 @@ local function srd_collect(str, pair_a, pair_b)
     return tab_pair
 end
 
---Locate surrounding pair in direction `dir`
---FIXME: If there are imbalanced pairs in string, how to get this work?
+---Locate surrounding pair in direction `dir`
+---FIXME: If there are imbalanced pairs in string, how to get this work?
 ---@param dir integer (-1|1) -1 for backward, 1 for forward.
 local function srd_locate(str, pair_a, pair_b, dir)
     local tab_pair = srd_collect(str, pair_a, pair_b)
