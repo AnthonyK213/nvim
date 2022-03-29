@@ -105,7 +105,7 @@ nmap <silent> <leader>lr <Plug>(coc-references)
 nn <silent> K :call <SID>show_doc()<CR>
 
 function! s:show_doc() abort
-if (index(['vim','help'], &filetype) >= 0)
+if (index(['vim', 'help'], &filetype) >= 0)
   let l:word = my#lib#get_word()[0]
   try
     exe 'h' l:word

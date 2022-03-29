@@ -56,14 +56,17 @@ Plug 'iamcco/markdown-preview.nvim',
 Plug 'sotte/presenting.vim'
 Plug 'editorconfig/editorconfig-vim'
 "" Completion; Snippet; (LSP)
+Plug 'liuchengxu/vista.vim'
 if g:_my_use_coc
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'liuchengxu/vista.vim'
 else
   Plug 'preservim/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'mattn/vim-lsp-settings'
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
 endif
@@ -93,7 +96,8 @@ else
     \ "packages/vim-table-mode",
     \ "packages/vimtex",
     \ "packages/vimwiki",
-    \ "packages/vsession"
+    \ "packages/vsession",
+    \ "packages/vista"
     \ ])
   if s:nvim_init_src !=? 'defaultlines'
     call my#compat#vim_source('viml/packages/vim-airline')
@@ -101,7 +105,6 @@ else
   if g:_my_use_coc
     call my#compat#vim_source_list([
       \ "packages/coc",
-      \ "packages/vista"
       \ ])
   else
     call my#compat#vim_source_list([
