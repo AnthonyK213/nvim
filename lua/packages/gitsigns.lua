@@ -42,12 +42,12 @@ gitsigns.setup {
     sign_priority = 6,
     update_debounce = 100,
     status_formatter = nil,
+    on_attach = function (bufnr)
+        local kbd = vim.keymap.set
+        local ntst = { noremap = true, silent = true, buffer = bufnr }
+        kbd('n', '<leader>gj', gitsigns.next_hunk , ntst)
+        kbd('n', '<leader>gk', gitsigns.prev_hunk, ntst)
+        kbd('n', '<leader>gp', gitsigns.preview_hunk, ntst)
+        kbd('n', '<leader>gb', gitsigns.blame_line, ntst)
+    end
 }
-
-
-local kbd = vim.keymap.set
-local ntst = { noremap = true, silent = true }
-kbd('n', '<leader>gj', function () gitsigns.next_hunk() end , ntst)
-kbd('n', '<leader>gk', function () gitsigns.prev_hunk() end, ntst)
-kbd('n', '<leader>gp', function () gitsigns.preview_hunk() end, ntst)
-kbd('n', '<leader>gb', function () gitsigns.blame_line() end, ntst)
