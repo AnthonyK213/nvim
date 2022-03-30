@@ -49,7 +49,6 @@ local opt = {
         },
         pyright = false,
         omnisharp = false,
-        rls = false,
         rust_analyzer = false,
         sumneko_lua = false,
         texlab = false,

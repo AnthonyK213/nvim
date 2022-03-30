@@ -50,7 +50,6 @@
       - [powershell_es](https://github.com/PowerShell/PowerShellEditorServices)
       - [pyright](https://github.com/microsoft/pyright)
       - [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)
-      - [rls](https://github.com/rust-lang/rls)
       - [rust_analyzer](https://github.com/rust-analyzer/rust-analyzer)
       - [sumneko_lua](https://github.com/sumneko/lua-language-server)
       - [texlab](https://github.com/latex-lsp/texlab)
