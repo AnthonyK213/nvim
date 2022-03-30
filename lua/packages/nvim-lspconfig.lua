@@ -31,21 +31,6 @@ end
 
 -- LSP options.
 local server_opts = {
-    powershell_es = function (opts)
-        if vim.fn.has("win32") ~= 1 then return end
-        local pses_bundle_path = vim.fn.expand(lsp_option.powershell_es.path
-        or vim.fn.stdpath('data').."/lsp_servers/PowerShellEditorServices")
-        opts.bundle_path = pses_bundle_path
-    end,
-    omnisharp = function (opts)
-        local pid = vim.loop.getpid()
-        opts.cmd = {
-            "OmniSharp",
-            "--languageserver",
-            "--hostPID",
-            tostring(pid)
-        }
-    end,
     sumneko_lua = function (opts)
         local runtime_path = vim.split(package.path, ';')
         table.insert(runtime_path, "lua/?.lua")

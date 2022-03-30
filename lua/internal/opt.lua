@@ -43,12 +43,9 @@ local opt = {
     lsp = {
         clangd = false,
         jedi_language_server = false,
-        powershell_es = {
-            enable = false,
-            path = nil
-        },
-        pyright = false,
         omnisharp = false,
+        powershell_es = false,
+        pyright = false,
         rust_analyzer = false,
         sumneko_lua = false,
         texlab = false,
