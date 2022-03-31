@@ -44,7 +44,7 @@
       - `font_half` -> (number) See `guifont`
       - `font_full` -> (string) See `guifontwide`
       - `font_size` -> (string) Gui font size
-    - **lsp** -> Language Server Protocol
+    - **lsp** -> Language Server Protocol (boolean values)
       - [clangd](https://github.com/clangd/clangd)
       - [jedi_language_server](https://github.com/pappasam/jedi-language-server)
       - [powershell_es](https://github.com/PowerShell/PowerShellEditorServices)
@@ -60,6 +60,7 @@
     - **plug** -> Built-in plugins
       - `matchit`    -> (boolean) Enable matchit.vim
       - `matchparen` -> (boolean) Enable matchparen.vim
+* **Install LSP servers via `nvim-lsp-installer`**
 * **Set .vimrc for Vim (optional)**
   - Windows
     ```powershell
