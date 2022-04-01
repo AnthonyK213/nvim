@@ -151,12 +151,16 @@ end
 function M.hl_auto_update(scheme, hl_table, color_setter)
     local s = lib.set_highlight_group
 
+    ---Get color value from a color table.
+    ---@param color_table table<string, string>
+    ---@param name string Name of the color.
+    ---@return string Corlor value.
     local c = function (color_table, name)
         if not name then return nil end
         if vim.startswith(name, '#') then
             return name
         elseif vim.startswith(name, '$') then
-            local key = name:match('^%$(.+)$')
+            local key = name:sub(2)
             return color_table[key]
         end
     end
