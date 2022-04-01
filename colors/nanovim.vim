@@ -225,130 +225,119 @@ call s:h("EndOfBuffer", {
 " }}
 
 " Links {{
-hi! link Identifier               Nano_Face_Default
-hi! link Function                 Nano_Face_Strong
-hi! link Type                     Nano_Face_Salient
-hi! link Comment                  Nano_Face_Faded
-hi! link String                   Nano_Face_Popout
-hi! link Constant                 Nano_Face_Salient
-hi! link WarningMsg               Nano_Face_Popout
-hi! link Typedef                  Nano_Face_Salient
-hi! link Keyword                  Nano_Face_Salient
-hi! link ErrorMsg                 Nano_Face_Popout
-hi! link NonText                  Nano_Face_Subtle
-hi! link MoreMsg                  Nano_Face_Faded
-hi! link Statement                Nano_Face_Salient
-hi! link Search                   Nano_Face_Header_Default
-hi! link Todo                     Nano_Face_Header_Popout
-hi! link Special                  Nano_Face_Default
-hi! link VertSplit                Nano_Face_Subtle
-hi! link PreProc                  Nano_Face_Default
-hi! link StorageClass             Nano_Face_Default
-hi! link Structure                Nano_Face_Default
-hi! link SpecialChar              Nano_Face_Default
-hi! link SpecialKey               Nano_Face_Faded
-hi! link Tag                      Nano_Face_Default
-hi! link Delimiter                Nano_Face_Default
-hi! link SpecialComment           Nano_Face_Default
-hi! link Debug                    Nano_Face_Default
-hi! link Define                   Nano_Face_Default
-hi! link Macro                    Nano_Face_Default
-hi! link PreCondit                Nano_Face_Default
-hi! link LineNr                   Nano_Face_Subtle
-hi! link CursorLineNr             Nano_Face_Faded
-hi! link FoldColumn               Nano_Face_Faded
-hi! link SignColumn               Nano_Face_Faded
-hi! link Character                Nano_Face_Faded
-hi! link Number                   Nano_Face_Faded
-hi! link Boolean                  Nano_Face_Faded
-hi! link Float                    Nano_Face_Faded
-hi! link Directory                Nano_Face_Faded
-hi! link Title                    Nano_Face_Faded
-hi! link Operator                 Nano_Face_Salient
-hi! link Include                  Nano_Face_Salient
-hi! link Conditonal               Nano_Face_Salient
-hi! link Repeat                   Nano_Face_Salient
-hi! link Label                    Nano_Face_Salient
-hi! link Exception                Nano_Face_Salient
-hi! link Error                    Nano_Face_Popout
-hi! link Question                 Nano_Face_Popout
-hi! link Folded                   Nano_Face_Subtle
-hi! link qfLineNr                 Nano_Face_Subtle
-hi! link ModeMsg                  Nano_Face_Faded
-hi! link helpHyperTextEntry       Nano_Face_Salient
-hi! link helpHyperTextJump        Nano_Face_Popout
-hi! link TabLine                  Nano_Face_Faded
-hi! link TabLineSel               Nano_Face_Strong
-hi! link TabLineFill              Nano_Face_Default
-hi! link htmlH1                   Nano_Face_Salient
-hi! link htmlH2                   Nano_Face_Salient
-hi! link htmlH3                   Nano_Face_Salient
-hi! link htmlH4                   Nano_Face_Strong
-hi! link htmlH5                   Nano_Face_Strong
-hi! link htmlH6                   Nano_Face_Strong
-
-hi! link PmenuSbar                Pmenu
-hi! link PmenuThumb               Pmenu
-hi! link SpellCap                 SpellBad
-hi! link SpellRare                SpellBad
-hi! link SpellLocal               SpellBad
-
-hi! link DiffAdd                  Nano_Face_Strong
-hi! link DiffDelete               Nano_Face_Popout
-hi! link DiffChange               Nano_Face_Critical
-hi! link DiffText                 Nano_Face_Faded
-hi! link diffRemoved              Nano_Face_Popout
-hi! link diffAdded                Nano_Face_Popout
-
-hi! link jsFlowTypeKeyword        Nano_Face_Salient
-hi! link jsFlowImportType         Nano_Face_Salient
-hi! link jsFunction               Nano_Face_Salient
-hi! link jsGlobalObjects          Nano_Face_Default
-hi! link jsGlobalNodeObjects      Nano_Face_Default
-hi! link jsArrowFunction          Nano_Face_Faded
-hi! link StorageClass             Nano_Face_Salient
-
-hi! link xmlTag                   Nano_Face_Salient
-hi! link xmlTagName               Nano_Face_Salient
-hi! link xmlEndTag                Nano_Face_Salient
-hi! link xmlAttrib                Nano_Face_Salient
-
-hi! link markdownH1               Nano_Face_Salient
-hi! link markdownH2               Nano_Face_Salient
-hi! link markdownH3               Nano_Face_Salient
-hi! link markdownH4               Nano_Face_Salient
-hi! link markdownH5               Nano_Face_Salient
-hi! link markdownH6               Nano_Face_Salient
-hi! link markdownUrl              Nano_Face_Faded
-hi! link markdownBold             Nano_Face_Strong
-hi! link markdownCode             Nano_Face_Popout
-hi! link markdownBoldDelimiter    Nano_Face_Subtle
-hi! link markdownCodeDelimiter    Nano_Face_Subtle
-hi! link markdownItalicDelimiter  Nano_Face_Subtle
-hi! link markdownLinkText         Nano_Face_Popout
-hi! link markdownTSEmphasis       Nano_Face_Salient
-hi! link markdownTSLiteral        Nano_Face_Popout
-hi! link markdownTSNone           Nano_Face_Faded
-hi! link markdownTSPunctSpecial   Nano_Face_Salient
+hi! link Boolean Nano_Face_Faded
+hi! link Character Nano_Face_Faded
+hi! link Comment Nano_Face_Faded
+hi! link Conditonal Nano_Face_Salient
+hi! link Constant Nano_Face_Salient
+hi! link CursorLineNr Nano_Face_Faded
+hi! link Debug Nano_Face_Default
+hi! link Define Nano_Face_Default
+hi! link Delimiter Nano_Face_Default
+hi! link Directory Nano_Face_Faded
+hi! link Error Nano_Face_Popout
+hi! link ErrorMsg Nano_Face_Popout
+hi! link Exception Nano_Face_Salient
+hi! link Float Nano_Face_Faded
+hi! link FoldColumn Nano_Face_Faded
+hi! link Folded Nano_Face_Subtle
+hi! link Function Nano_Face_Strong
+hi! link Identifier Nano_Face_Default
+hi! link Include Nano_Face_Salient
+hi! link Keyword Nano_Face_Salient
+hi! link Label Nano_Face_Salient
+hi! link LineNr Nano_Face_Subtle
+hi! link Macro Nano_Face_Default
+hi! link ModeMsg Nano_Face_Faded
+hi! link MoreMsg Nano_Face_Faded
+hi! link NonText Nano_Face_Subtle
+hi! link Number Nano_Face_Faded
+hi! link Operator Nano_Face_Salient
+hi! link PreCondit Nano_Face_Default
+hi! link PreProc Nano_Face_Default
+hi! link Question Nano_Face_Popout
+hi! link Repeat Nano_Face_Salient
+hi! link Search Nano_Face_Header_Default
+hi! link SignColumn Nano_Face_Faded
+hi! link Special Nano_Face_Default
+hi! link SpecialChar Nano_Face_Default
+hi! link SpecialComment Nano_Face_Default
+hi! link SpecialKey Nano_Face_Faded
+hi! link Statement Nano_Face_Salient
+hi! link StorageClass Nano_Face_Default
+hi! link String Nano_Face_Popout
+hi! link Structure Nano_Face_Default
+hi! link TabLine Nano_Face_Faded
+hi! link TabLineFill Nano_Face_Default
+hi! link TabLineSel Nano_Face_Strong
+hi! link Tag Nano_Face_Default
+hi! link Title Nano_Face_Faded
+hi! link Todo Nano_Face_Header_Popout
+hi! link Type Nano_Face_Salient
+hi! link Typedef Nano_Face_Salient
+hi! link VertSplit Nano_Face_Subtle
+hi! link WarningMsg Nano_Face_Popout
+hi! link helpHyperTextEntry Nano_Face_Salient
+hi! link helpHyperTextJump Nano_Face_Popout
+hi! link qfLineNr Nano_Face_Subtle
+hi! link PmenuSbar Pmenu
+hi! link PmenuThumb Pmenu
+hi! link SpellCap SpellBad
+hi! link SpellRare SpellBad
+hi! link SpellLocal SpellBad
+" Diff
+hi! link DiffAdd Nano_Face_Strong
+hi! link DiffChange Nano_Face_Critical
+hi! link DiffDelete Nano_Face_Popout
+hi! link DiffText Nano_Face_Faded
+hi! link diffAdded Nano_Face_Popout
+hi! link diffRemoved Nano_Face_Popout
+" XML
+hi! link xmlTag Nano_Face_Salient
+hi! link xmlTagName Nano_Face_Salient
+hi! link xmlEndTag Nano_Face_Salient
+hi! link xmlAttrib Nano_Face_Salient
+" HTML
+hi! link htmlH1 Nano_Face_Salient
+hi! link htmlH2 Nano_Face_Salient
+hi! link htmlH3 Nano_Face_Salient
+hi! link htmlH4 Nano_Face_Strong
+hi! link htmlH5 Nano_Face_Strong
+hi! link htmlH6 Nano_Face_Strong
+" Markdown
+hi! link markdownH1 Nano_Face_Salient
+hi! link markdownH2 Nano_Face_Salient
+hi! link markdownH3 Nano_Face_Salient
+hi! link markdownH4 Nano_Face_Salient
+hi! link markdownH5 Nano_Face_Salient
+hi! link markdownH6 Nano_Face_Salient
+hi! link markdownBold Nano_Face_Strong
+hi! link markdownItalic Nano_Face_Salient
+hi! link markdownCode Nano_Face_Popout
+hi! link markdownUrl Nano_Face_Faded
+hi! link markdownLinkText Nano_Face_Popout
+hi! link markdownHeadingDelimiter Nano_Face_Salient
+hi! link markdownBoldDelimiter Nano_Face_Subtle
+hi! link markdownItalicDelimiter Nano_Face_Subtle
+hi! link markdownBoldItalicDelimiter Nano_Face_Strong
+hi! link markdownCodeDelimiter Nano_Face_Subtle
+hi! link markdownLinkDelimiter Nano_Face_Subtle
+hi! link markdownLinkTextDelimiter Nano_Face_Subtle
+hi! link markdownTSEmphasis Nano_Face_Salient
+hi! link markdownTSLiteral Nano_Face_Popout
+hi! link markdownTSNone Nano_Face_Faded
+hi! link markdownTSPunctSpecial Nano_Face_Salient
 hi! link markdownTSPunctDelimiter Nano_Face_Subtle
-hi! link markdownTSStringEscape   Nano_Face_Salient
-hi! link markdownTSStrong         Nano_Face_Strong
-hi! link markdownTSTextReference  Nano_Face_Popout
-hi! link markdownTSTitle          Nano_Face_Salient
-hi! link markdownTSURI            Nano_Face_Salient
-
-hi! link yamlBlockMappingKey      Nano_Face_Salient
-hi! link pythonOperator           Nano_Face_Salient
-
-hi! link ALEWarning               Nano_Face_Critical
-hi! link ALEWarningSign           Nano_Face_Critical
-hi! link ALEError                 Nano_Face_Critical
-hi! link ALEErrorSign             Nano_Face_Critical
-hi! link ALEInfo                  Nano_Face_Subtle
-hi! link ALEInfoSign              Nano_Face_Subtle
-
-hi! link sqlStatement             Nano_Face_Salient
-hi! link sqlKeyword               Nano_Face_Salient
+hi! link markdownTSStringEscape Nano_Face_Salient
+hi! link markdownTSStrong Nano_Face_Strong
+hi! link markdownTSTextReference Nano_Face_Popout
+hi! link markdownTSTitle Nano_Face_Salient
+hi! link markdownTSURI Nano_Face_Salient
+" Misc
+hi! link yamlBlockMappingKey Nano_Face_Salient
+hi! link pythonOperator Nano_Face_Salient
+hi! link sqlStatement Nano_Face_Salient
+hi! link sqlKeyword Nano_Face_Salient
 
 " Terminal
 if has("nvim")
@@ -399,36 +388,27 @@ endif
 " }}
 
 " Plugins {{
-" vim-markdown
-hi! link mkdHeading               Nano_Face_Salient
-hi! link mkdBold                  Nano_Face_Subtle
-hi! link mkdItalic                Nano_Face_Subtle
-hi! link mkdBoldItalic            Nano_Face_Subtle
-hi! link mkdCodeDelimiter         Nano_Face_Popout
-
 " Signify, git-gutter
-hi! link SignifySignAdd           Nano_Face_Faded
-hi! link SignifySignDelete        Nano_Face_Faded
-hi! link SignifySignChange        Nano_Face_Faded
-hi! link GitGutterAdd             Nano_Face_Faded
-hi! link GitGutterDelete          Nano_Face_Faded
-hi! link GitGutterChange          Nano_Face_Faded
-hi! link GitGutterChangeDelete    Nano_Face_Faded
-
+hi! link SignifySignAdd Nano_Face_Faded
+hi! link SignifySignDelete Nano_Face_Faded
+hi! link SignifySignChange Nano_Face_Faded
+hi! link GitGutterAdd Nano_Face_Faded
+hi! link GitGutterDelete Nano_Face_Faded
+hi! link GitGutterChange Nano_Face_Faded
+hi! link GitGutterChangeDelete Nano_Face_Faded
 " nvim-tree
-hi! link NvimTreeSymlink          Nano_Face_Subtle
-hi! link NvimTreeFolderName       Nano_Face_Faded
-hi! link NvimTreeRootFolder       Nano_Face_Salient
-hi! link NvimTreeFolderIcon       Nano_Face_Faded
-hi! link NvimTreeEmptyFolderName  Nano_Face_Subtle
+hi! link NvimTreeSymlink Nano_Face_Subtle
+hi! link NvimTreeFolderName Nano_Face_Faded
+hi! link NvimTreeRootFolder Nano_Face_Salient
+hi! link NvimTreeFolderIcon Nano_Face_Faded
+hi! link NvimTreeEmptyFolderName Nano_Face_Subtle
 hi! link NvimTreeOpenedFolderName Nano_Face_Strong
-hi! link NvimTreeExecFile         Nano_Face_Salient
-hi! link NvimTreeMarkdownFile     StatusLineWarning
-hi! link NvimTreeIndentMarker     Nano_Face_Faded
-hi! link NvimTreeGitDirty         Nano_Face_Popout
-hi! link NvimTreeGitStaged        Nano_Face_Salient
-hi! link NvimTreeGitNew           Nano_Face_Popout
-
+hi! link NvimTreeExecFile Nano_Face_Salient
+hi! link NvimTreeMarkdownFile StatusLineWarning
+hi! link NvimTreeIndentMarker Nano_Face_Faded
+hi! link NvimTreeGitDirty Nano_Face_Popout
+hi! link NvimTreeGitStaged Nano_Face_Salient
+hi! link NvimTreeGitNew Nano_Face_Popout
 " nvim-cmp
 call s:h("CmpItemAbbr", { "fg": s:nano_color_faded })
 call s:h("CmpItemAbbrDeprecated", { "fg": s:nano_color_subtle })
@@ -436,7 +416,6 @@ call s:h("CmpItemAbbrMatch", { "fg": s:nano_color_salient })
 call s:h("CmpItemAbbrMatchFuzzy", { "fg": s:nano_color_salient })
 call s:h("CmpItemKind", { "fg": s:nano_color_popout })
 call s:h("CmpItemMenu", { "fg": s:nano_color_popout })
-
 " Neogit
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })

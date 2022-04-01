@@ -24,6 +24,7 @@ require('onedark').setup  {
         FloatBorder = { fg = '$cyan' },
         SpellBad = { fg = '$red', fmt = 'underline' },
         SpellCap = { fg = '$yellow', fmt = 'underline' },
+        --#region Markdown
         markdownH1 =                  { fg = '$red', fmt = 'bold' },
         markdownH2 =                  { fg = '$red', fmt = 'bold' },
         markdownH3 =                  { fg = '$red', fmt = 'bold' },
@@ -31,15 +32,15 @@ require('onedark').setup  {
         markdownH5 =                  { fg = '$red' },
         markdownH6 =                  { fg = '$red' },
         markdownBold =                { fg = '$yellow', fmt = 'bold' },
-        markdownCode =                { fg = '$green' },
         markdownItalic =              { fg = '$purple', fmt = 'italic' },
+        markdownCode =                { fg = '$green' },
         markdownUrl =                 { fg = '$blue' },
         markdownLinkText =            { fg = '$cyan', fmt = 'underline' },
         markdownHeadingDelimiter =    { fg = '$red' },
-        markdownCodeDelimiter =       { fg = '$bg3' },
         markdownBoldDelimiter =       { fg = '$bg3' },
         markdownItalicDelimiter =     { fg = '$bg3' },
         markdownBoldItalicDelimiter = { fg = '$bg3' },
+        markdownCodeDelimiter =       { fg = '$bg3' },
         markdownLinkDelimiter =       { fg = '$bg3' },
         markdownLinkTextDelimiter =   { fg = '$bg3' },
         markdownTSEmphasis =          { fg = '$purple', fmt = 'italic' },
@@ -52,6 +53,7 @@ require('onedark').setup  {
         markdownTSTextReference =     { fg = '$cyan', fmt = 'underline' },
         markdownTSTitle =             { fg = '$red', fmt = 'bold' },
         markdownTSURI =               { fg = '$blue' },
+        --#endregion
     },
     diagnostics = {
         darker = true,
