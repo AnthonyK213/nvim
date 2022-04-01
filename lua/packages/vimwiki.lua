@@ -1,6 +1,6 @@
 vim.g.vimwiki_list = {{
-    path = vim.fn.expand(vim.g._my_path_cloud.."/Notes/"),
-    path_html = vim.fn.expand(vim.g._my_path_cloud.."/Notes/html/"),
+    path = vim.fn.expand(_my_core_opt.path.cloud.."/Notes/"),
+    path_html = vim.fn.expand(_my_core_opt.path.cloud.."/Notes/html/"),
     syntax = 'markdown',
     ext = '.wiki'
 }}

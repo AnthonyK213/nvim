@@ -1,4 +1,4 @@
-vim.cmd('packadd onedark.nvim')
+vim.cmd[[packadd onedark.nvim]]
 
 
 require('onedark').setup  {
@@ -33,6 +33,7 @@ require('onedark').setup  {
         markdownH6 =                  { fg = '$red' },
         markdownBold =                { fg = '$yellow', fmt = 'bold' },
         markdownItalic =              { fg = '$purple', fmt = 'italic' },
+        markdownBoldItalic =          { fg = '$yellow', fmt = 'bold,italic' },
         markdownCode =                { fg = '$green' },
         markdownUrl =                 { fg = '$blue' },
         markdownLinkText =            { fg = '$cyan', fmt = 'underline' },

@@ -313,6 +313,7 @@ hi! link markdownH5 Nano_Face_Salient
 hi! link markdownH6 Nano_Face_Salient
 hi! link markdownBold Nano_Face_Strong
 hi! link markdownItalic Nano_Face_Salient
+hi! link markdownBoldItalic Nano_Face_Strong
 hi! link markdownCode Nano_Face_Popout
 hi! link markdownUrl Nano_Face_Faded
 hi! link markdownLinkText Nano_Face_Popout

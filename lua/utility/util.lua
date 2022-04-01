@@ -144,6 +144,39 @@ function M.show_hl()
     lines, "markdown", { border = "single", pad_left = 4, pad_right = 4 })
 end
 
+---Auto-update the color scheme highlight groups.
+---@param scheme string Name of color scheme.
+---@param hl_table table<string, table<string, string>> See onedark.nvim
+---@param color_setter function Returns a table of color mapping.
+function M.hl_auto_update(scheme, hl_table, color_setter)
+    local s = lib.set_highlight_group
+
+    local c = function (color_table, name)
+        if not name then return nil end
+        if vim.startswith(name, '#') then
+            return name
+        elseif vim.startswith(name, '$') then
+            local key = name:match('^%$(.+)$')
+            return color_table[key]
+        end
+    end
+
+    local id = vim.api.nvim_create_augroup(scheme.."Extd", {
+        clear = true
+    })
+
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        group = id,
+        pattern = scheme,
+        callback = function ()
+            local colors = color_setter()
+            for k, v in pairs(hl_table) do
+                s(k, c(colors, v.fg), c(colors, v.bg), v.fmt)
+            end
+        end
+    })
+end
+
 ---Upgrade neovim.
 ---Depends on `plenary.nvim`
 ---@param channel string|nil Upgrade channel, "stable" or "nightly".

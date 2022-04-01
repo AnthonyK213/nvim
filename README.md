@@ -11,7 +11,7 @@
 ## Installation
 * **Clone repository**
   - Windows
-    ```powershell
+    ```ps1
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
                         "$env:LOCALAPPDATA\nvim"
     ```
@@ -34,8 +34,8 @@
       - `desktop` -> (string) Desktop directory
       - `bin`     -> (string) Binaries directory
     - **tui** -> Tui
-      - `scheme`      -> (string) Color scheme
-      - `theme`       -> (string) Tui background theme
+      - `scheme`      -> (string, `onedark`|`tokyonight`|`gruvbox`) Color scheme
+      - `theme`       -> (string, `dark`|`light`) Tui background theme
       - `style`       -> (string) Style of color scheme
       - `transparent` -> (boolean) Make background transparent
     - **gui** -> Gui (neovim-qt, fvim, goneovim)
@@ -63,7 +63,7 @@
 * **Install LSP servers via `nvim-lsp-installer`**
 * **Set .vimrc for Vim (optional)**
   - Windows
-    ```powershell
+    ```ps1
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
               -Destination "$env:HOMEPATH\_vimrc"
     ```

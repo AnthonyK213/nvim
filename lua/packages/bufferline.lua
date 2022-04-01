@@ -1,5 +1,5 @@
 vim.o.showtabline = 2
-vim.cmd('packadd bufferline.nvim')
+vim.cmd[[packadd bufferline.nvim]]
 
 
 require('bufferline').setup {
@@ -35,6 +35,7 @@ require('bufferline').setup {
 }
 
 
-vim.keymap.set('n', '<leader>bb', function ()
-    vim.cmd('BufferLinePick')
-end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bb', '<Cmd>BufferLinePick<CR>', {
+    noremap = true,
+    silent = true
+})
