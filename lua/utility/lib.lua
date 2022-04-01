@@ -187,7 +187,8 @@ end
 ---Source a vim file.
 ---@param file string Vim script path.
 function M.vim_source(file)
-    vim.cmd('source '..vim.fn.stdpath('config')..'/'..file..'.vim')
+    local full_path = vim.fn.stdpath('config')..'/'..file..'.vim'
+    vim.cmd('source '..vim.fn.fnameescape(full_path))
 end
 
 ---Encode URL.
