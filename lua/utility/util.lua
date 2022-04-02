@@ -63,7 +63,7 @@ function M.edit_file(file_path, chdir)
 end
 
 ---Match path or URL under the cursor.
----@return string result|nil
+---@return string|nil match_result
 function M.match_path_or_url_under_cursor()
     local _, url = lib.match_url(vim.fn.expand('<cWORD>'))
     if url then return url end
@@ -154,7 +154,7 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
     ---Get color value from a color table.
     ---@param color_table table<string, string>
     ---@param name string Name of the color.
-    ---@return string Corlor value.
+    ---@return string|nil corlor_value
     local c = function (color_table, name)
         if not name then return nil end
         if vim.startswith(name, '#') then
