@@ -181,6 +181,40 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
     })
 end
 
+---Create new mapping with fallback.
+---@param mode string Mode short-name.
+---@param lhs string Left-hand-side of the mapping.
+---@param new_rhs function A function passed with argument `fallback`.
+---@param opts table<string, boolean|integer> Optional parameters map.
+function M.new_keymap(mode, lhs, new_rhs, opts)
+    local kbd_table = opts.buffer
+    and vim.api.nvim_buf_get_keymap(opts.buffer, mode)
+    or vim.api.nvim_get_keymap(mode)
+
+    local fallback
+
+    for _, val in ipairs(kbd_table) do
+        if val.lhs == lhs then
+            if val.rhs then
+                fallback = function ()
+                    lib.feedkeys(val.rhs, 'n', true)
+                end
+            elseif val.callback then
+                fallback = val.callback
+            end
+            break
+        end
+    end
+
+    if fallback == nil then
+        fallback = function ()
+            lib.feedkeys(lhs, 'n', true)
+        end
+    end
+
+    vim.keymap.set(mode, lhs, function () new_rhs(fallback) end, opts)
+end
+
 ---Upgrade neovim.
 ---Depends on `plenary.nvim`
 ---@param channel string|nil Upgrade channel, "stable" or "nightly".

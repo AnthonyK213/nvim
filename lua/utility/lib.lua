@@ -431,5 +431,15 @@ function M.executable(exe)
     return false
 end
 
+---Escape the termianl codes then feed keys to nvim.
+---@see vim.api.nvim_feedkeys
+---@param keys string
+---@param mode string
+---@param escape_ks boolean
+function M.feedkeys(keys, mode, escape_ks)
+    local k = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(k, mode, escape_ks)
+end
+
 
 return M
