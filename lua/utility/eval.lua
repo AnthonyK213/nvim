@@ -9,8 +9,9 @@ local mlib = require("utility.mlib")
 local function text_eval(f)
     local origin_pos = api.nvim_win_get_cursor(0)
     vim.cmd('normal! F`')
-    local back = lib.get_context('b')
-    local fore = lib.get_context('f')
+    local context = lib.get_context()
+    local back = context.b
+    local fore = context.f
     local expr = fore:match('^`(.-)`') or ''
 
     if pcall(f, expr) then

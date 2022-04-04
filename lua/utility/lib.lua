@@ -1,31 +1,34 @@
 local M = {}
 
 
-local get_context_pat = {
-    p = { [[.\%]], [[c]] },
-    n = { [[\%]], [[c.]] },
-    b = { [[^.*\%]], 'c' },
-    f = { [[\%]], 'c.*$' }
-}
-
-
----Get characters around the cursor by `mode`.
----@param mode string Four modes to get the context.
+---Get characters around the cursor.
+---@return table<string, string> context Context table with keys below:
 ---  - *p* -> Return the character before cursor (previous);
 ---  - *n* -> Return the character after cursor  (next);
 ---  - *b* -> Return the half line before cursor (backward);
 ---  - *f* -> Return the half line after cursor  (forward).
----@return string context Characters around the cursor.
-function M.get_context(mode)
-    local pat = get_context_pat[mode]
+function M.get_context()
+    local context = {}
+    local col = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_get_current_line()
-    local s, e = vim.regex(
-    pat[1]..(vim.api.nvim_win_get_cursor(0)[2] + 1)..pat[2]):match_str(line)
-    if s then
-        return line:sub(s + 1, e)
+    local back = line:sub(1, col)
+    local fore = line:sub(col + 1, #line)
+    context.b = back
+    context.f = fore
+    if #back > 0 then
+        local utfindex = vim.str_utfindex(back)
+        local s = vim.str_byteindex(back, utfindex - 1)
+        context.p = back:sub(s + 1, #back)
     else
-        return ""
+        context.p = ""
     end
+    if #fore > 0 then
+        local e = vim.str_byteindex(fore, 1)
+        context.n = fore:sub(1, e)
+    else
+        context.n = ""
+    end
+    return context
 end
 
 ---Find the root directory contains pattern `pat`.
@@ -108,8 +111,9 @@ end
 ---@return integer start Start index of the line (0-based, included).
 ---@return integer end End index of the line (0-based, not included).
 function M.get_word()
-    local b = M.get_context('b')
-    local f = M.get_context('f')
+    local context = M.get_context()
+    local b = context.b
+    local f = context.f
     local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
     local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
     local p_a = ''
@@ -120,7 +124,7 @@ function M.get_word()
     end
     local word = p_a..p_b
     if word == '' then
-        word = M.get_context('n')
+        word = context.n
         p_b = word
     end
     return word, #b - #p_a, #b + #p_b

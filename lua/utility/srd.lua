@@ -109,8 +109,9 @@ end
 
 function M.srd_sub(pair_a_new)
     local sub = function (p_a, p_a_n)
-        local back = lib.get_context('b')
-        local fore = lib.get_context('f')
+        local context = lib.get_context()
+        local back = context.b
+        local fore = context.f
         local p_b = srd_pair(p_a)
         local p_b_n = srd_pair(p_a_n)
         local back_new, fore_new
