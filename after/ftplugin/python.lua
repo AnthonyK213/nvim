@@ -1,4 +1,6 @@
-vim.cmd[[setlocal tabstop=4 shiftwidth=4 softtabstop=4]]
+vim.bo.tabstop = 4
+vim.bo.shiftwidth = 4
+vim.bo.softtabstop = 4
 
 local lib = require('utility.lib')
 local new_keymap = require('utility.util').new_keymap
