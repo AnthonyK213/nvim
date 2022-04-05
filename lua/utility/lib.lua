@@ -3,32 +3,21 @@ local M = {}
 
 ---Get characters around the cursor.
 ---@return table<string, string> context Context table with keys below:
----  - *p* -> Return the character before cursor (previous);
----  - *n* -> Return the character after cursor  (next);
----  - *b* -> Return the half line before cursor (backward);
----  - *f* -> Return the half line after cursor  (forward).
+---  - *p* -> The character before cursor (previous);
+---  - *n* -> The character after cursor  (next);
+---  - *b* -> The half line before cursor (backward);
+---  - *f* -> The half line after cursor  (forward).
 function M.get_context()
-    local context = {}
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_get_current_line()
     local back = line:sub(1, col)
     local fore = line:sub(col + 1, #line)
-    context.b = back
-    context.f = fore
-    if #back > 0 then
-        local utfindex = vim.str_utfindex(back)
-        local s = vim.str_byteindex(back, utfindex - 1)
-        context.p = back:sub(s + 1, #back)
-    else
-        context.p = ""
-    end
-    if #fore > 0 then
-        local e = vim.str_byteindex(fore, 1)
-        context.n = fore:sub(1, e)
-    else
-        context.n = ""
-    end
-    return context
+    return {
+        b = back,
+        f = fore,
+        p = M.str_sub(back, -1),
+        n = M.str_sub(fore, 1, 1)
+    }
 end
 
 ---Find the root directory contains pattern `pat`.
@@ -128,6 +117,32 @@ function M.get_word()
         p_b = word
     end
     return word, #b - #p_a, #b + #p_b
+end
+
+---String UTF-32 length.
+---@param str string
+---@return integer
+function M.str_len(str)
+    local length = vim.str_utfindex(str)
+    return length
+end
+
+---Get UTF-32 sub-string from a string.
+---@see string.sub
+---@param str string
+---@param i integer
+---@param j? integer
+---@return string
+function M.str_sub(str, i, j)
+    local length = vim.str_utfindex(str)
+    if i < 0 then i = i + length + 1 end
+    if (j and j < 0) then j = j + length + 1 end
+    local u = (i > 0) and i or 1
+    local v = (j and j <= length) and j or length
+    if (u > v) then return "" end
+    local s = vim.str_byteindex(str, u - 1)
+    local e = vim.str_byteindex(str, v)
+    return str:sub(s + 1, e)
 end
 
 ---Replace chars in a string according to a dictionary.
