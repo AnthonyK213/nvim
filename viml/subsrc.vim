@@ -45,36 +45,39 @@ let s:subsrc_pairs_dict = {
       \ "<u>": "</u>"
       \ }
 
-function! s:subsrc_get_context(arg) abort
-  if a:arg ==# 'p'
-    return matchstr(getline('.'), '.\%' . col('.') . 'c')
-  elseif a:arg ==# 'n'
-    return matchstr(getline('.'), '\%' . col('.') . 'c.')
-  elseif a:arg ==# 'b'
-    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
-  elseif a:arg ==# 'f'
-    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
-  endif
+function! s:subsrc_get_context() abort
+  let col = col('.')
+  let line = getline('.')
+  let back = strpart(line, 0, col - 1)
+  let fore = strpart(line, col - 1)
+  return {
+        \ "b" : back,
+        \ "f" : fore,
+        \ "p" : empty(back) ? "" : nr2char(strgetchar(back, strchars(back) - 1)),
+        \ "n" : empty(fore) ? "" : nr2char(strgetchar(fore, 0))
+        \ }
 endfunction
 
 function! s:subsrc_is_surrounded(match_list) abort
-  return index(a:match_list, s:subsrc_get_context('p') . s:subsrc_get_context('n')) >= 0
+  let l:context = s:subsrc_get_context()
+  return index(a:match_list, l:context["p"] . l:context["n"]) >= 0
 endfunction
 
 function! s:subsrc_pairs_backs() abort
+  let l:context = s:subsrc_get_context()
   if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
     return g:subsrc_dir_r . "\<BS>\<BS>"
-  elseif s:subsrc_get_context('b') =~ '\v\{\s$'
-        \ && s:subsrc_get_context('f') =~ '\v^\s\}'
-    return "\<C-\>\<C-O>diB"
+  elseif l:context["b"] =~ '\v\{\s$' && l:context["f"] =~ '\v^\s\}'
+    return "\<C-\>\<C-O>_diB"
   else
     return "\<BS>"
   end
 endfunction
 
 function! s:subsrc_pairs_supbs() abort
-  let l:back = s:subsrc_get_context('b')
-  let l:fore = s:subsrc_get_context('f')
+  let l:context = s:subsrc_get_context()
+  let l:back = l:context["b"]
+  let l:fore = l:context["f"]
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
     return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
   endif
@@ -91,26 +94,26 @@ function! s:subsrc_pairs_supbs() abort
     return repeat("\<C-G>U\<Left>", l:res[1]) .
           \ "\<C-\>\<C-O>" . (l:res[1] + l:res[2]) . "x"
   elseif l:back =~ '\v\{\s*$' && l:fore =~ '\v^\s*\}'
-    return "\<C-\>\<C-O>diB"
+    return "\<C-\>\<C-O>_diB"
   else
-    return "\<C-\>\<C-O>db"
+    return "\<C-\>\<C-O>_db"
   endif
 endfunction
 
 ino ( ()<C-g>U<Left>
 ino [ []<C-g>U<Left>
 ino { {}<C-g>U<Left>
-ino <expr> ) <SID>subsrc_get_context('n') ==# ")" ? g:subsrc_dir_r : ")"
-ino <expr> ] <SID>subsrc_get_context('n') ==# "]" ? g:subsrc_dir_r : "]"
-ino <expr> } <SID>subsrc_get_context('n') ==# "}" ? g:subsrc_dir_r : "}"
+ino <expr> ) <SID>subsrc_get_context()['n'] ==# ")" ? g:subsrc_dir_r : ")"
+ino <expr> ] <SID>subsrc_get_context()['n'] ==# "]" ? g:subsrc_dir_r : "]"
+ino <expr> } <SID>subsrc_get_context()['n'] ==# "}" ? g:subsrc_dir_r : "}"
 ino <expr> "
-      \ <SID>subsrc_get_context('n') ==# "\"" ?
-      \ g:subsrc_dir_r : or(<SID>subsrc_get_context('p') =~ '\v[\\''"]',
-      \ and(<SID>subsrc_get_context('b') =~ '\v^\s*$', &filetype == 'vim')) ?
+      \ <SID>subsrc_get_context()['n'] ==# "\"" ?
+      \ g:subsrc_dir_r : or(<SID>subsrc_get_context()['p'] =~ '\v[\\''"]',
+      \ and(<SID>subsrc_get_context()['b'] =~ '\v^\s*$', &filetype == 'vim')) ?
       \ '"' : '""' . g:subsrc_dir_l
 ino <expr> '
-      \ <SID>subsrc_get_context('n') ==# "'" ?
-      \ g:subsrc_dir_r : <SID>subsrc_get_context('p') =~ '\v[''"]' ?
+      \ <SID>subsrc_get_context()['n'] ==# "'" ?
+      \ g:subsrc_dir_r : <SID>subsrc_get_context()['p'] =~ '\v[''"]' ?
       \ "'" : "''" . g:subsrc_dir_l
 ino <expr> <SPACE>
       \ <SID>subsrc_is_surrounded(['{}']) ?
@@ -132,8 +135,8 @@ ino <silent><expr> <CR>
       \ "\<CR>\<C-\>\<C-o>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
-      \ or(<SID>subsrc_get_context('p') =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
-      \ "\<C-n>" : <SID>subsrc_get_context('b') =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ or(<SID>subsrc_get_context()['p'] =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
+      \ "\<C-n>" : <SID>subsrc_get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
       \ "\<C-\>\<C-o>>>" . repeat(g:subsrc_dir_r, &ts) : "\<TAB>"
 ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 

@@ -417,6 +417,11 @@ call s:h("CmpItemAbbrMatch", { "fg": s:nano_color_salient })
 call s:h("CmpItemAbbrMatchFuzzy", { "fg": s:nano_color_salient })
 call s:h("CmpItemKind", { "fg": s:nano_color_popout })
 call s:h("CmpItemMenu", { "fg": s:nano_color_popout })
+" Vimwiki
+hi! link VimwikiHeaderChar Nano_Face_Salient
+hi! link VimwikiHeader1 markdownH1
+hi! link VimwikiHeader2 markdownH2
+hi! link VimwikiHeader3 markdownH3
 " Neogit
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
