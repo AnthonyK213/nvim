@@ -59,7 +59,7 @@ MaxDisplayItems = 15
 [Statusline]
 Visible = true
 Left = [ "mode", "filepath", "filename" ]
-Right = [ "message", "git", "fileformat", "fileencoding", "filetype" ]
+Right = [ "curpos", "message", "git", "fileformat", "fileencoding", "filetype" ]
 
 [Workspace]
 PathStyle = "minimum"
