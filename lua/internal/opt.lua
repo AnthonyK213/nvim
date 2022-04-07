@@ -1,3 +1,4 @@
+local io = require('io')
 local lib = require('utility.lib')
 
 -- Source basics.vim
@@ -64,8 +65,9 @@ local opt = {
 -- Merge custom options.
 local opt_file = vim.fn.stdpath('config')..'/opt.json'
 if lib.path_exists(opt_file) then
-    local opt_json = table.concat(vim.fn.readfile(opt_file))
-    local ok, result = pcall(vim.json.decode, opt_json)
+    local f = io.open(opt_file)
+    local ok, result = pcall(vim.json.decode, f:read("*a"))
+    f:close()
     if ok then
         opt = vim.tbl_deep_extend("force", opt, result)
     else
