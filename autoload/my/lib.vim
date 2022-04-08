@@ -1,14 +1,15 @@
 " Get the character around the cursor.
-function! my#lib#get_char(num) abort
-  if a:num ==# 'p'
-    return matchstr(getline('.'), '.\%' . col('.') . 'c')
-  elseif a:num ==# 'n'
-    return matchstr(getline('.'), '\%' . col('.') . 'c.')
-  elseif a:num ==# 'b'
-    return matchstr(getline('.'), '^.*\%' . col('.') . 'c')
-  elseif a:num ==# 'f'
-    return matchstr(getline('.'), '\%' . col('.') . 'c.*$')
-  endif
+function! my#lib#get_char() abort
+  let col = col('.')
+  let line = getline('.')
+  let back = strpart(line, 0, col - 1)
+  let fore = strpart(line, col - 1)
+  return {
+        \ "b" : back,
+        \ "f" : fore,
+        \ "p" : empty(back) ? "" : nr2char(strgetchar(back, strchars(back) - 1)),
+        \ "n" : empty(fore) ? "" : nr2char(strgetchar(fore, 0))
+        \ }
 endfunction
 
 " Find the root directory contains patter `pat`.
@@ -84,8 +85,8 @@ endfunction
 
 " Get the word and its position under the cursor.
 function! my#lib#get_word() abort
-  let l:b = my#lib#get_char('b')
-  let l:f = my#lib#get_char('f')
+  let l:b = my#lib#get_char()['b']
+  let l:f = my#lib#get_char()['f']
   let l:p_a = matchstr(l:b, '\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$')
   let l:p_b = matchstr(l:f, '\v^([\u4e00-\u9fff0-9a-zA-Z_-])+')
   let l:word = ''
@@ -95,7 +96,7 @@ function! my#lib#get_word() abort
     let l:p_a = ''
   endif
   if empty(l:word)
-    let l:word = my#lib#get_char('n')
+    let l:word = my#lib#get_char()['n']
     let l:p_b = word
   endif
   return [l:word, len(l:b) - len(l:p_a), len(l:b) + len(l:p_b)]

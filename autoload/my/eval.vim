@@ -1,8 +1,8 @@
 function! s:text_eval(f) abort
   let l:origin_pos = getpos('.')
   exe 'normal! F`'
-  let l:back = my#lib#get_char('b')
-  let l:fore = my#lib#get_char('f')
+  let l:back = my#lib#get_char()['b']
+  let l:fore = my#lib#get_char()['f']
   try
     let l:expr = matchlist(l:fore, '\v^`(.{-})`.*$')[1]
     let l:result = a:f(l:expr)
