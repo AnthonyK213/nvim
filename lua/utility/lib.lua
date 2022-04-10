@@ -22,7 +22,7 @@ end
 
 ---Find the root directory contains pattern `pat`.
 ---@param pat string Root pattern.
----@return string|nil result Root directory path.
+---@return string? result Root directory path.
 function M.get_root(pat)
     local current_dir = vim.fn.expand('%:p:h')
     while true do
@@ -38,7 +38,7 @@ end
 
 ---Get the branch name.
 ---@param git_root string Git repository root directory.
----@return string|nil result Current branch name.
+---@return string? result Current branch name.
 function M.get_git_branch(git_root)
     if not git_root then return nil end
 
@@ -147,7 +147,7 @@ end
 
 ---Replace chars in a string according to a dictionary.
 ---@param str string String to replace.
----@param esc_table table<integer, string> Replace dictionary.
+---@param esc_table table<string, string> Replace dictionary.
 ---@return string result Replaced string.
 function M.str_replace(str, esc_table)
     local str_list = M.str_explode(str)
@@ -300,7 +300,7 @@ end
 ---Get syntax stack.
 ---@param row number 1-based row number.
 ---@param col number 0-based column number.
----@return table<integer, Syntax> result Syntax table.
+---@return Syntax[] result Syntax table.
 function M.get_syntax_stack(row, col)
     local syntax_table = {}
     for _, i1 in ipairs(vim.fn.synstack(row, col + 1)) do
@@ -314,7 +314,7 @@ end
 ---https://github.com/nvim-treesitter/playground
 ---@param row number 1-based row number.
 ---@param col number 0-based column number.
----@return table<integer, Syntax> result Syntax table.
+---@return Syntax[] result Syntax table.
 function M.get_treesitter_info(row, col)
     local buf = vim.api.nvim_get_current_buf()
     local row_0 = row - 1
@@ -386,7 +386,7 @@ end
 
 ---Check if file/directory exists.
 ---@param path string File/directory path.
----@param cwd string|nil The working directory.
+---@param cwd? string The working directory.
 ---@return boolean
 function M.path_exists(path, cwd)
     local is_rel = true

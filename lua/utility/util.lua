@@ -63,7 +63,7 @@ function M.edit_file(file_path, chdir)
 end
 
 ---Match path or URL under the cursor.
----@return string|nil match_result
+---@return string? match_result
 function M.match_path_or_url_under_cursor()
     local _, url = lib.match_url(vim.fn.expand('<cWORD>'))
     if url then return url end
@@ -79,7 +79,7 @@ end
 ---Open path or URL with system default application.
 ---The environment variables should be expanded already.
 ---@param obj string Path or URL to open.
----@param use_local boolean|nil Use current file directory as cwd.
+---@param use_local? boolean Use current file directory as cwd.
 function M.sys_open(obj, use_local)
     local cwd = use_local and vim.fn.expand('%:p:h') or vim.loop.cwd()
     if type(obj) ~= "string"
@@ -119,7 +119,7 @@ function M.show_hl()
     local lines = {}
 
     ---Convert syntax information to formatted markdonw.
-    ---@param syntax_table table<integer, Syntax>
+    ---@param syntax_table Syntax[]
     local show_matches = function(syntax_table)
         if #syntax_table == 0 then
             table.insert(lines, "* No highlight groups found")
@@ -154,7 +154,7 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
     ---Get color value from a color table.
     ---@param color_table table<string, string>
     ---@param name string Name of the color.
-    ---@return string|nil corlor_value
+    ---@return string? corlor_value
     local c = function (color_table, name)
         if not name then return nil end
         if vim.startswith(name, '#') then
@@ -217,7 +217,7 @@ end
 
 ---Upgrade neovim.
 ---Depends on `plenary.nvim`
----@param channel string|nil Upgrade channel, "stable" or "nightly".
+---@param channel? string Upgrade channel, "stable" or "nightly".
 function M.nvim_upgrade(channel)
     local proxy = _my_core_opt.dep.proxy
 
