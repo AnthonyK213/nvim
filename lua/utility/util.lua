@@ -141,7 +141,7 @@ function M.show_hl()
     end
 
     vim.lsp.util.open_floating_preview(
-    lines, "markdown", { border = "single", pad_left = 4, pad_right = 4 })
+    lines, "markdown", { border = "rounded", pad_left = 4, pad_right = 4 })
 end
 
 ---Auto-update the color scheme highlight groups.
