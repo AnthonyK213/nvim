@@ -1,4 +1,3 @@
-vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_show_icons = {
     git = 1,
@@ -64,6 +63,21 @@ require('nvim-tree').setup {
                 { key = "y",      action = "copy_name" },
             }
         }
+    },
+    renderer = {
+        indent_markers = {
+            enable = true,
+            icons = {
+                corner = "└ ",
+                edge = "│ ",
+                none = "  ",
+            },
+        },
+    },
+    update_focused_file = {
+        enable = false,
+        update_cwd = false,
+        ignore_list = {},
     },
     diagnostics = {
         enable = true,
