@@ -1,4 +1,4 @@
-local cmd = vim.api.nvim_add_user_command
+local cmd = vim.api.nvim_create_user_command
 
 -- Echo time(May be useful in full screen?)
 cmd('Time', function (_) print(os.date("%Y-%m-%d %a %T")) end, {})
