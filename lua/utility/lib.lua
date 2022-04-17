@@ -1,3 +1,4 @@
+local bit = require("bit")
 local M = {}
 
 
@@ -168,6 +169,28 @@ function M.str_explode(str)
         local b_index = vim.str_byteindex(str, 1)
         table.insert(result, str:sub(1, b_index))
         str = str:sub(b_index + 1)
+    end
+    return result
+end
+
+---Return number value of the first char in `str`.
+---@param str string
+---@return integer
+function M.str_char2nr(str)
+    local char = M.str_sub(str, 1, 1)
+    local result
+    local seq = 0
+    for i = 1, #char do
+        local c = string.byte(char, i)
+        if seq == 0 then
+            seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
+            c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
+            error("invalid UTF-8 character.")
+            result = bit.band(c, 2 ^ ( 8 - seq) - 1)
+        else
+            result = bit.bor(bit.lshift(result, 6), bit.band(c, 0x3F))
+        end
+        seq = seq - 1
     end
     return result
 end
