@@ -149,8 +149,6 @@ end
 ---@param hl_table table<string, table<string, string>> See onedark.nvim
 ---@param color_setter function Returns a table of color mapping.
 function M.hl_auto_update(scheme, hl_table, color_setter)
-    local s = lib.set_highlight_group
-
     ---Get color value from a color table.
     ---@param color_table table<string, string>
     ---@param name string Name of the color.
@@ -175,7 +173,19 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
         callback = function ()
             local colors = color_setter()
             for k, v in pairs(hl_table) do
-                s(k, c(colors, v.fg), c(colors, v.bg), v.fmt)
+                local val = {
+                    fg = c(colors, v.fg),
+                    bg = c(colors, v.bg),
+                }
+                if v.fmt then
+                    for _, attr in ipairs(vim.split(v.fmt, ",", {
+                        plain = false,
+                        trimempty = true
+                    })) do
+                        val[vim.trim(attr)] = 1
+                    end
+                end
+                vim.api.nvim_set_hl(0, k, val)
             end
         end
     })

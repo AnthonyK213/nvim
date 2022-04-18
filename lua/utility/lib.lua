@@ -217,30 +217,20 @@ end
 ---@param tbl table Table to reverse.
 ---@return table result Reversed table.
 function M.tbl_reverse(tbl)
-    local tmp = {}
-    for i = #tbl, 1, -1 do
-        table.insert(tmp, tbl[i])
+    if vim.tbl_islist(tbl) then
+        local tmp = {}
+        for i = #tbl, 1, -1 do
+            table.insert(tmp, tbl[i])
+        end
+        return tmp
     end
-    return tmp
+    return tbl
 end
 
----Define highlight group.
----@param group string Group name.
----@param fg string Foreground color.
----@param bg string Background color.
----@param attr string Attribute('bold', 'italic', 'underline', ...)
-function M.set_highlight_group(group, fg, bg, attr)
-    local cmd = "highlight! "..group
-    if fg   then cmd = cmd.." guifg="..fg end
-    if bg   then cmd = cmd.." guibg="..bg end
-    if attr then cmd = cmd.." gui="..attr end
-    vim.cmd(cmd)
-end
-
----Escape vim regex(magic) special characters in a string by `backslash`.
+---Escape vim regex(magic) special characters in a pattern by `backslash`.
 ---@param str string String of vim regex to escape.
 ---@return string result Escaped vim regex.
-function M.vim_reg_esc(str)
+function M.vim_pesc(str)
     return vim.fn.escape(str, ' ()[]{}<>.+*^$')
 end
 

@@ -5,13 +5,14 @@ local lib = require("utility.lib")
 
 local function srd_pair(pair_a)
     local pairs = {
-        ["("]=")", ["["]="]", ["{"]="}",
-        ["<"]=">", [" "]=" ",
-        ["《"]="》", ["“"]="”",
+        ["("] = ")",   ["["] = "]", ["{"] = "}",
+        ["<"] = ">",   [" "] = " ",
+        ["《"] = "》", ["“"] = "”",
     }
     if pair_a:match('^[%(%[{<%s《“]+$') then
-        return table.concat(vim.tbl_map(function(x) return pairs[x] end,
-        lib.tbl_reverse(lib.str_explode(pair_a))))
+        return table.concat(vim.tbl_map(function(x)
+            return pairs[x]
+        end, lib.tbl_reverse(lib.str_explode(pair_a))))
     elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
         return '</'..table.concat(lib.tbl_reverse(vim.tbl_filter(function (str)
             return str ~= ""
