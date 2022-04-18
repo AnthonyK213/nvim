@@ -201,10 +201,10 @@ end
 ---@param str string String to explode.
 ---@return Iterator result Exploded string iterator.
 function M.str_gexplode(str)
-    local len = #str
+    local str_len = #str
     local utf_end = 1
     return function ()
-        if utf_end <= len then
+        if utf_end <= str_len then
             local step = vim.str_utf_end(str, utf_end)
             local result = str:sub(utf_end, utf_end + step)
             utf_end = utf_end + step + 1
