@@ -57,30 +57,18 @@ function M.get_git_branch(git_root)
             local gitdir = gitdir_line:match('^gitdir:%s(.+)$')
             if gitdir then
                 head_file = git_root..'/'..gitdir..'/HEAD'
-            else
-                return nil
             end
-        else
-            return nil
         end
-    else
-        return nil
     end
 
-    if head_file ~= "" and M.path_exists(head_file) then
+    if head_file and head_file ~= "" and M.path_exists(head_file) then
         local ref_line = vim.fn.readfile(head_file)[1]
         if ref_line then
             local branch = ref_line:match('^ref:%s.+/(.-)$')
-            if branch and branch ~= '' then
+            if branch and branch ~= "" then
                 return branch
-            else
-                return nil
             end
-        else
-            return nil
         end
-    else
-        return nil
     end
 end
 
