@@ -215,7 +215,7 @@ end
 
 ---Reverse a ipairs table.
 ---@param tbl table Table to reverse.
----@return table|nil result Reversed table if reversible.
+---@return table? result Reversed table if reversible.
 function M.tbl_reverse(tbl)
     if vim.tbl_islist(tbl) then
         local tmp = {}
