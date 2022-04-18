@@ -120,6 +120,28 @@ function M.get_word()
     return word, #b - #p_a, #b + #p_b
 end
 
+---Return number value of the first char in `str`.
+---@param str string
+---@return integer
+function M.str_char2nr(str)
+    local char = M.str_sub(str, 1, 1)
+    local result
+    local seq = 0
+    for i = 1, #char do
+        local c = string.byte(char, i)
+        if seq == 0 then
+            seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
+            c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
+            error("invalid UTF-8 character.")
+            result = bit.band(c, 2 ^ ( 8 - seq) - 1)
+        else
+            result = bit.bor(bit.lshift(result, 6), bit.band(c, 0x3F))
+        end
+        seq = seq - 1
+    end
+    return result
+end
+
 ---String UTF-32 length.
 ---@param str string
 ---@return integer
@@ -160,39 +182,35 @@ function M.str_replace(str, esc_table)
     return table.concat(str_list)
 end
 
----Split string at `\zs`.
+---Split string into a utfchar table.
 ---@param str string String to explode.
----@return table result Exploded string.
+---@return table result Exploded string table.
 function M.str_explode(str)
+    local str_len = #str
     local result = {}
-    while str:len() > 0 do
-        local b_index = vim.str_byteindex(str, 1)
-        table.insert(result, str:sub(1, b_index))
-        str = str:sub(b_index + 1)
+    local utf_end = 1
+    while utf_end <= str_len do
+        local step = vim.str_utf_end(str, utf_end)
+        table.insert(result, str:sub(utf_end, utf_end + step))
+        utf_end = utf_end + step + 1
     end
     return result
 end
 
----Return number value of the first char in `str`.
----@param str string
----@return integer
-function M.str_char2nr(str)
-    local char = M.str_sub(str, 1, 1)
-    local result
-    local seq = 0
-    for i = 1, #char do
-        local c = string.byte(char, i)
-        if seq == 0 then
-            seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
-            c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
-            error("invalid UTF-8 character.")
-            result = bit.band(c, 2 ^ ( 8 - seq) - 1)
-        else
-            result = bit.bor(bit.lshift(result, 6), bit.band(c, 0x3F))
+---Split string into a utfchar iterator.
+---@param str string String to explode.
+---@return Iterator result Exploded string iterator.
+function M.str_gexplode(str)
+    local len = #str
+    local utf_end = 1
+    return function ()
+        if utf_end <= len then
+            local step = vim.str_utf_end(str, utf_end)
+            local result = str:sub(utf_end, utf_end + step)
+            utf_end = utf_end + step + 1
+            return result
         end
-        seq = seq - 1
     end
-    return result
 end
 
 ---Reverse a ipairs table.

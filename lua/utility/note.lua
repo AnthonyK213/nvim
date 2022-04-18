@@ -21,8 +21,8 @@ function M.hanzi_count(txt)
             or line:match('^%s*!?%[.+%]%(.+%)')))
             or (vim.bo.filetype == 'tex'
             and (line:match('^%s*%%')))) then
-            for _, char in ipairs(lib.str_explode(line)) do
-                local code = vim.fn.char2nr(char)
+            for char in lib.str_gexplode(line) do
+                local code = lib.str_char2nr(char)
                 if code >= 0x4E00 and code <= 0x9FA5 then
                     h_count = h_count + 1
                 end
