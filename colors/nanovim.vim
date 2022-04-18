@@ -492,9 +492,7 @@ function! s:get_git_branch() abort
       break
     endif
   endwhile
-  if !l:is_git_repo
-    return ''
-  else
+  if l:is_git_repo
     let l:git_root = substitute(l:current_dir, '\v[\\/]$', '', '')
     let l:dot_git = l:git_root . '/.git'
     if isdirectory(l:dot_git)
@@ -506,11 +504,7 @@ function! s:get_git_branch() abort
         if len(l:gitdir_matches) > 0
           let l:gitdir = l:gitdir_matches[1]
           let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
-        else
-          return ''
         endif
-      catch
-        return ''
       endtry
     endif
     try
@@ -520,16 +514,11 @@ function! s:get_git_branch() abort
         let l:branch = l:ref_matches[1]
         if !empty(l:branch)
           return l:branch
-        else
-          return ''
         endif
-      else
-        return ''
       endif
-    catch
-      return ''
     endtry
   endif
+  return ''
 endfunction
 
 function! s:cap_str_init(str) abort
