@@ -215,7 +215,7 @@ end
 
 ---Reverse a ipairs table.
 ---@param tbl table Table to reverse.
----@return table result Reversed table.
+---@return table|nil result Reversed table if reversible.
 function M.tbl_reverse(tbl)
     if vim.tbl_islist(tbl) then
         local tmp = {}
@@ -224,7 +224,6 @@ function M.tbl_reverse(tbl)
         end
         return tmp
     end
-    return tbl
 end
 
 ---Escape vim regex(magic) special characters in a pattern by `backslash`.
