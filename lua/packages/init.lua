@@ -123,6 +123,7 @@ require('packer').startup(function (use)
         };
         {
             'nvim-treesitter/nvim-treesitter',
+            commit = "21ac88b9551072f49ba994f461f78794af43a5aa",
             config = function () require('packages.nvim-treesitter') end
         };
         {
