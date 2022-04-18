@@ -121,7 +121,7 @@ function M.str_char2nr(str)
             seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
             c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
             error("invalid UTF-8 character.")
-            result = bit.band(c, 2 ^ ( 8 - seq) - 1)
+            result = bit.band(c, 2 ^ (8 - seq) - 1)
         else
             result = bit.bor(bit.lshift(result, 6), bit.band(c, 0x3F))
         end
@@ -282,7 +282,7 @@ function Syntax:new(provider, data)
 end
 
 ---Get hilight group name.
----@return string name Hilight group name.
+---@return string? name Hilight group name.
 function Syntax:name()
     if self.prov == 'syn' then
         return vim.fn.synIDattr(self.data[2], "name")
@@ -294,7 +294,7 @@ function Syntax:name()
 end
 
 ---Show syntax information.
----@return string result Markdown style information.
+---@return string? result Markdown style information.
 function Syntax:show()
     if self.prov == 'syn' then
         local n1 = vim.fn.synIDattr(self.data[1], "name")
