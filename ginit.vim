@@ -58,22 +58,22 @@ endfunction
 function! s:gui_font_expand() abort
   let g:_my_gui_font_size += s:gui_font_step
   call s:gui_font_set(g:_my_gui_font_half,
-                    \ g:_my_gui_font_full,
-                    \ g:_my_gui_font_size)
+        \ g:_my_gui_font_full,
+        \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_font_shrink() abort
   let g:_my_gui_font_size = max([g:_my_gui_font_size - s:gui_font_step, 3])
   call s:gui_font_set(g:_my_gui_font_half,
-                    \ g:_my_gui_font_full,
-                    \ g:_my_gui_font_size)
+        \ g:_my_gui_font_full,
+        \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_font_origin() abort
   let g:_my_gui_font_size = s:gui_font_size_origin
   call s:gui_font_set(g:_my_gui_font_half,
-                    \ g:_my_gui_font_full,
-                    \ g:_my_gui_font_size)
+        \ g:_my_gui_font_full,
+        \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_fullscreen_toggle() abort
@@ -129,7 +129,7 @@ function! s:gui_memo_lazy_save() abort
       let l:path = g:_my_path_desktop
     endif
     let l:save_path = expand(l:path . strftime("/%Y-%m-%d_%H%M%S.wiki"))
-    silent exe 'w' l:save_path '| e!'
+    silent exe 'w' fnameescape(l:save_path) '| e!'
   else
     exe 'w'
   endif
@@ -150,20 +150,18 @@ set mouse=a
 
 
 " GUI
-"" neovim-qt GUI
+"" neovim-qt
 call s:gui_set_option_table(s:nvimqt_option_table)
-"" Fvim GUI
+"" Fvim
 if exists('g:fvim_loaded')
   call s:gui_set_option_table(s:fvim_option_table)
 endif
-"" Background
+"" GUI theme
 if exists('g:_my_gui_theme')
   if g:_my_gui_theme == 'light'
         \ || g:_my_gui_theme == 'dark'
     let &bg = g:_my_gui_theme
   elseif g:_my_gui_theme == 'auto'
-        \ && exists('g:colors_name')
-        \ && g:colors_name ==# 'nanovim'
     let g:_my_lock_background = v:true
     call my#compat#time_background()
   endif
@@ -174,8 +172,8 @@ endif
 let s:gui_font_step = 2
 let s:gui_font_size_origin = g:_my_gui_font_size
 call s:gui_font_set(g:_my_gui_font_half,
-                  \ g:_my_gui_font_full,
-                  \ g:_my_gui_font_size)
+      \ g:_my_gui_font_full,
+      \ g:_my_gui_font_size)
 
 
 " GUI key bindings
