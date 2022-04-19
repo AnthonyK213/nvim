@@ -15,7 +15,8 @@ require('lualine').setup {
         theme = 'auto',
         section_separators = '',
         component_separators = '',
-        icons_enabled = false
+        icons_enabled = false,
+        globalstatus = _my_core_opt.tui.global_statusline
     },
     sections = {
         lualine_a = {

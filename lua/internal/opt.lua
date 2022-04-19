@@ -33,6 +33,7 @@ local opt = {
         theme = 'dark',
         style = 'dark',
         transparent = false,
+        global_statusline = false
     },
     gui = {
         theme = 'auto',
