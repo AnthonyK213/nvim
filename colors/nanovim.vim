@@ -506,6 +506,8 @@ function! s:get_git_branch() abort
           let l:gitdir = l:gitdir_matches[1]
           let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
         endif
+      catch
+        return ''
       endtry
     endif
     try
@@ -517,6 +519,8 @@ function! s:get_git_branch() abort
           return l:branch
         endif
       endif
+    catch
+      return ''
     endtry
   endif
   return ''

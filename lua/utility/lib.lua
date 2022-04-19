@@ -37,10 +37,11 @@ function M.get_root(pat)
     return nil
 end
 
----Get the branch name.
----@param git_root string Git repository root directory.
+---Get current branch name.
+---@param git_root? string Git repository root directory.
 ---@return string? result Current branch name.
 function M.get_git_branch(git_root)
+    git_root = git_root or M.get_root(".git")
     if not git_root then return nil end
 
     git_root = git_root:gsub('[\\/]$', '')
