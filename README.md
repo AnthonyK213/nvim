@@ -38,7 +38,7 @@
       - `theme`       -> (string, `dark`|`light`) Tui background theme
       - `style`       -> (string) Style of color scheme
       - `transparent` -> (boolean) Make background transparent
-    - **gui** -> Gui (neovim-qt, fvim, goneovim)
+    - **gui** -> Gui (neovim-qt, fvim)
       - `theme`     -> (string) Gui background theme
       - `opacity`   -> (number) Window opacity
       - `font_half` -> (number) See `guifont`

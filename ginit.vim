@@ -2,7 +2,6 @@
 " Supported GUIs:
 "   - [neovim-qt](https://github.com/equalsraf/neovim-qt)
 "   - [fvim](https://github.com/yatli/fvim)
-"   - [goneovim](https://github.com/akiyosi/goneovim)
 
 " Variables
 if !exists('g:_my_gui_font_half')
@@ -139,8 +138,6 @@ endfunction
 function! s:gui_file_explorer() abort
   if exists(':GuiTreeviewToggle')
     GuiTreeviewToggle
-  elseif exists('g:goneovim')
-    GonvimFilerOpen
   endif
 endfunction
 
@@ -167,15 +164,9 @@ if exists('g:_my_gui_theme')
   elseif g:_my_gui_theme == 'auto'
         \ && exists('g:colors_name')
         \ && g:colors_name ==# 'nanovim'
-        \ || exists('g:goneovim')
     let g:_my_lock_background = v:true
     call my#compat#time_background()
   endif
-endif
-"" tabline
-if exists('g:goneovim')
-  set laststatus=0
-  set showtabline=2
 endif
 
 

@@ -164,6 +164,7 @@ elseif packer_bootstrap == nil then
             vim.notify('Color scheme was not found.', vim.log.levels.WARN, nil)
         end
     end
+    -- Statusline & Tabline
     if nvim_init_src ~= 'defaultlines' then
         require('packages.bufferline')
         require('packages.lualine')
