@@ -450,6 +450,7 @@ call s:h("NeogitHunkHeaderHighlight", {
 
 " StatusLine {{
 set showtabline=0
+if has("nvim-0.7") | set laststatus=3 | endif
 
 let s:nanovim_mode = {
       \ 'c'     : ' CO ',
