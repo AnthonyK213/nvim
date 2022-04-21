@@ -1,6 +1,7 @@
 local M = {}
 local api = vim.api
-local lib = require('utility.lib')
+local lib = require("utility.lib")
+local Syntax = require("utility.syn")
 
 
 ---Hanzi count, ignore comments.
@@ -15,7 +16,7 @@ function M.hanzi_count(txt)
     local h_count = 0
     for _, line in ipairs(txt) do
         if not
-            ((vim.bo.filetype == 'markdown'
+            ((lib.has_filetype('markdown')
             and (line:match('^%s*>%s')
             or line:match('^#+%s')
             or line:match('^%s*!?%[.+%]%(.+%)')))
@@ -37,36 +38,13 @@ function M.hanzi_count(txt)
     end
 end
 
-local function match_syntax(row, col, match_table)
-    local check_syntax = function(syntax_table)
-        for _, syntax in ipairs(syntax_table) do
-            for _, pat in ipairs(match_table) do
-                if syntax:name():match(vim.pesc(pat)) then
-                    return true
-                end
-            end
-        end
-        return false
-    end
-
-    if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] then
-        if check_syntax(lib.get_treesitter_info(row, col)) then return true end
-    end
-
-    if vim.b.current_syntax then
-        if check_syntax(lib.get_syntax_stack(row, col)) then return true end
-    end
-
-    return false
-end
-
 -- Markdown number bullet
 local function md_check_line(lnum)
     local lstr = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
     if lstr:match('^%s*$')
-        and match_syntax(lnum, 0, {'TSLiteral', 'markdownCode'}) then
+        and Syntax:new(lnum, 0):match[[\v(TSLiteral|Code|textSnip)]] then
         indent = 1000
     end
     local bullet

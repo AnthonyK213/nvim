@@ -264,136 +264,6 @@ function M.match_url(str)
     return false, nil
 end
 
----Syntax structure.
----@class Syntax
----@field prov string
----@field data table
-local Syntax = {}
-
-Syntax.__index = Syntax
-
----Constructor.
----@param provider string Provider name.
----@param data table Data table.
----@return Syntax
-function Syntax:new(provider, data)
-    local o = { prov = provider, data = data }
-    setmetatable(o, Syntax)
-    return o
-end
-
----Get hilight group name.
----@return string? name Hilight group name.
-function Syntax:name()
-    if self.prov == 'syn' then
-        return vim.fn.synIDattr(self.data[2], "name")
-    elseif self.prov == 'ts' then
-        return self.data[3]
-    else
-        return nil
-    end
-end
-
----Show syntax information.
----@return string? result Markdown style information.
-function Syntax:show()
-    if self.prov == 'syn' then
-        local n1 = vim.fn.synIDattr(self.data[1], "name")
-        local n2 = vim.fn.synIDattr(self.data[2], "name")
-        return "* "..n1.." -> **"..n2.."**"
-    elseif self.prov == 'ts' then
-        local c, hl, general_hl, metadata = unpack(self.data)
-        local line = "* **@"..c.."** -> "..hl
-        if general_hl ~= hl then
-            line = line.." -> **"..general_hl.."**"
-        end
-        if metadata.priority then
-            line = line.." *(priority "..metadata.priority..")*"
-        end
-        return line
-    else
-        return nil
-    end
-end
-
----Get syntax stack.
----@param row number 1-based row number.
----@param col number 0-based column number.
----@return Syntax[] result Syntax table.
-function M.get_syntax_stack(row, col)
-    local syntax_table = {}
-    for _, i1 in ipairs(vim.fn.synstack(row, col + 1)) do
-        local i2 = vim.fn.synIDtrans(i1)
-        table.insert(syntax_table, Syntax:new('syn', { i1, i2 }))
-    end
-    return syntax_table
-end
-
----Get treesitter information.
----https://github.com/nvim-treesitter/playground
----@param row number 1-based row number.
----@param col number 0-based column number.
----@return Syntax[] result Syntax table.
-function M.get_treesitter_info(row, col)
-    local buf = vim.api.nvim_get_current_buf()
-    local row_0 = row - 1
-
-    local self = vim.treesitter.highlighter.active[buf]
-
-    if not self then return {} end
-
-    local syntax_table = {}
-
-    self.tree:for_each_tree(function(tstree, tree)
-        if not tstree then return end
-
-        local root = tstree:root()
-        local root_start_row, _, root_end_row, _ = root:range()
-
-        -- Only worry about trees within the line range
-        if root_start_row > row_0 or root_end_row < row_0 then return end
-
-        local query = self:get_query(tree:lang())
-
-        -- Some injected languages may not have highlight queries.
-        if not query:query() then return end
-
-        local iter = query:query():iter_captures(root, self.bufnr, row_0, row)
-
-        for capture, node, metadata in iter do
-            local hl = query.hl_cache[capture]
-
-            local is_in_node_range
-            local start_row, start_col, end_row, end_col = node:range()
-            if row_0 >= start_row and row_0 <= end_row then
-                if row_0 == start_row and row_0 == end_row then
-                    is_in_node_range = col >= start_col and col < end_col
-                elseif row_0 == start_row then
-                    is_in_node_range = col >= start_col
-                elseif row_0 == end_row then
-                    is_in_node_range = col < end_col
-                else
-                    is_in_node_range = true
-                end
-            else
-                is_in_node_range = false
-            end
-
-            if hl and is_in_node_range then
-                -- Name of the capture in the query
-                local c = query._query.captures[capture]
-                if c then
-                    local general_hl = query:_get_hl_from_capture(capture)
-                    table.insert(syntax_table, Syntax:new('ts', {
-                        c, hl, general_hl, metadata
-                    }))
-                end
-            end
-        end
-    end, true)
-    return syntax_table
-end
-
 ---Create a below right split window.
 ---@param height number Window height.
 function M.belowright_split(height)
@@ -477,6 +347,13 @@ end
 function M.feedkeys(keys, mode, escape_ks)
     local k = vim.api.nvim_replace_termcodes(keys, true, false, true)
     vim.api.nvim_feedkeys(k, mode, escape_ks)
+end
+
+---Check if current filetype has `filetype`.
+---@param filetype string
+---@return boolean result
+function M.has_filetype(filetype)
+    return vim.tbl_contains(vim.split(vim.bo.ft, '%.'), filetype)
 end
 
 
