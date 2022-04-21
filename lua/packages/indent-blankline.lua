@@ -15,13 +15,10 @@ require("indent_blankline").setup {
         'block',
         'arguments',
     },
-    buftype_exclude = {
-        "help", "NvimTree",
-        "quickfix", "terminal"
-    },
+    buftype_exclude = { "help", "quickfix", "terminal" },
     filetype_exclude = {
         "aerial", "alpha",
         "markdown", "presenting_markdown",
-        "vimwiki"
+        "vimwiki", "NvimTree"
     }
 }
