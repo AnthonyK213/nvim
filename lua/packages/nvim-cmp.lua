@@ -18,6 +18,11 @@ cmp.setup {
         end
     },
 
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered()
+    },
+
     mapping = {
         ['<CR>'] = cmp.mapping({
             i = function (fallback)

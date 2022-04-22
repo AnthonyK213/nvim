@@ -1,3 +1,4 @@
+local lsp 
 local lsp_installer = require('nvim-lsp-installer')
 local lsp_option = _my_core_opt.lsp or {}
 
@@ -24,7 +25,9 @@ local custom_attach = function (client)
     kbd('n', '<leader>lw', function () vim.lsp.buf.workspace_symbol() end, ntst)
     kbd('n', '<leader>l[', function () vim.diagnostic.goto_prev() end,     ntst)
     kbd('n', '<leader>l]', function () vim.diagnostic.goto_next() end,     ntst)
-    kbd('n', '<M-K>',      function () vim.diagnostic.open_float() end,    ntst)
+    kbd('n', '<M-K>',      function ()
+        vim.diagnostic.open_float { border = "rounded" }
+    end, ntst)
     -- aerial.nvim
     require('aerial').on_attach(client)
 end
@@ -73,7 +76,7 @@ lsp_installer.on_server_ready(function (server)
     end
 end)
 
---- Diagnostics
+-- Diagnostics
 vim.diagnostic.config {
     virtual_text = true,
     signs = true,
@@ -81,3 +84,8 @@ vim.diagnostic.config {
     update_in_insert = false,
     severity_sort = false,
 }
+
+-- Hover window border
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+})
