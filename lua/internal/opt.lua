@@ -33,7 +33,8 @@ local opt = {
         theme = 'dark',
         style = 'dark',
         transparent = false,
-        global_statusline = false
+        global_statusline = false,
+        cmp_border = false
     },
     gui = {
         theme = 'auto',

@@ -7,7 +7,7 @@ local feedkeys = function (key, mode)
     true, true, true), mode, true)
 end
 
-cmp.setup {
+local cmp_setup = {
     completion = {
         keyword_length = 2,
     },
@@ -16,11 +16,6 @@ cmp.setup {
         expand = function (args)
             vim.fn['vsnip#anonymous'](args.body)
         end
-    },
-
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered()
     },
 
     mapping = {
@@ -43,7 +38,7 @@ cmp.setup {
                 local context = lib.get_context()
                 if cmp.visible() then
                     cmp.select_next_item()
-                elseif vim.tbl_contains(vim.split(vim.bo.ft, '%.'), 'markdown')
+                elseif lib.has_filetype('markdown')
                     and vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
                     match_str(context.b) then
                     feedkeys('<C-\\><C-O>>>', 'n')
@@ -113,6 +108,15 @@ cmp.setup {
         { name = 'omni' },
     })
 }
+
+if _my_core_opt.tui.cmp_border then
+    cmp_setup.window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered()
+    }
+end
+
+cmp.setup(cmp_setup)
 
 cmp.setup.cmdline('/', {
     sources = {
