@@ -21,45 +21,65 @@
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
 * **Start Neovim and wait for the installation to complete**
-* **Customize with json (optional)**
-  - `opt.json`(in the same directory as `init.lua`)
-    - **dep**   -> Dependencies
-      - `cc`    -> (string) C compiler
-      - `sh`    -> (string|table) Shell
-      - `py3`   -> (string) Python3 executable path
-      - `proxy` -> (string) Proxy
-    - **path** -> Path
-      - `home`    -> (string) Home directory
-      - `cloud`   -> (string) Cloud drive directory
-      - `desktop` -> (string) Desktop directory
-      - `bin`     -> (string) Binaries directory
-    - **tui** -> Tui
-      - `scheme`      -> (string, `onedark`|`tokyonight`|`gruvbox`) Color scheme
-      - `theme`       -> (string, `dark`|`light`) Tui background theme
-      - `style`       -> (string) Style of color scheme
-      - `transparent` -> (boolean) Make background transparent
-    - **gui** -> Gui (neovim-qt, fvim)
-      - `theme`     -> (string) Gui background theme
-      - `opacity`   -> (number) Window opacity
-      - `font_half` -> (number) See `guifont`
-      - `font_full` -> (string) See `guifontwide`
-      - `font_size` -> (string) Gui font size
-    - **lsp** -> Language Server Protocol (boolean values)
-      - [clangd](https://github.com/clangd/clangd)
-      - [jedi_language_server](https://github.com/pappasam/jedi-language-server)
-      - [powershell_es](https://github.com/PowerShell/PowerShellEditorServices)
-      - [pyright](https://github.com/microsoft/pyright)
-      - [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)
-      - [rust_analyzer](https://github.com/rust-analyzer/rust-analyzer)
-      - [sumneko_lua](https://github.com/sumneko/lua-language-server)
-      - [texlab](https://github.com/latex-lsp/texlab)
-      - [vimls](https://github.com/iamcco/vim-language-server)
-    - **ts** -> Treesitter
-      - `ensure`     -> (table) Parsers to install automatically
-      - `hi_disable` -> (table) File type to disable treesitter highlight
-    - **plug** -> Built-in plugins
-      - `matchit`    -> (boolean) Enable matchit.vim
-      - `matchparen` -> (boolean) Enable matchparen.vim
+* **Customize with `opt.json` (optional, in the `config` directory)**
+  ``` json
+  {
+    // Dependencies
+    "dep": {
+      "sh": "string|table", // Shell
+      "cc": "string",       // C compiler
+      "py3": "string",      // Python3 executable path
+      "proxy": "string"     // Proxy
+    },
+    // Paths
+    "path": {
+      "home": "string"    // Home directory
+      "cloud": "string"   // Cloud drive directory
+      "desktop": "string" // Desktop directory
+      "bin": "string"     // Binaries directory
+    },
+    // Terminal UI
+    "tui": {
+      "scheme": "string", // Color scheme(onedark|tokyonight|gruvbox|nightfox)
+      "theme": "string",  // Tui background theme(dark|light)
+      "style": "string",  // Style of color scheme
+      "transparent": false,        // Make background transparent
+      "global_statusline": false,  // Global statusline
+      "cmp_border": false          // nvim-cmp window border
+    },
+    // Gui (neovim-qt, fvim)
+    "gui": {
+      "theme": "string",        // Gui background theme
+      "opacity": 0.98,          // Window opacity
+      "font_half": "string",    // See `guifont`
+      "font_full": "string",    // See `guifontwide`
+      "font_size": 13           // Gui font size
+    },
+    // Language Server Protocol
+    "lsp": {
+      "clangd": false,               // https://github.com/clangd/clangd
+      "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
+      "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
+      "pyright": false,              // https://github.com/microsoft/pyright
+      "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
+      "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
+      "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
+      "texlab": false,               // https://github.com/latex-lsp/texlab
+      "vimls": false                 // https://github.com/iamcco/vim-language-server
+    },
+    // Treesitter
+    "ts": {
+      "ensure": [],        // Parsers to install automatically
+      "hi_disable": []     // File type to disable treesitter highlight
+    },
+    // Built-in plugins
+    "plug": {
+      "matchit": false,    // Enable matchit.vim
+      "matchparen": false  // Enable matchparen.vim
+    }
+  }
+  ```
+  > The comments have to be removed.
 * **Install LSP servers via `nvim-lsp-installer`**
 * **Set .vimrc for Vim (optional)**
   - Windows
@@ -72,71 +92,6 @@
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
-
-
-## Modules
-- Lua
-  - `internal`
-    - Options; mappings; commands.
-  - `packages`
-    - Plugins managed by packer.nvim and configurations.
-  - `utility`
-    - Function library.
-- Vim script
-  - `basics.vim`
-    - Basic vim options.
-  - `subsrc.vim`
-    - Make Vim/Neovim a little handdier without plugin.
-  - `vimrc.vim`
-    - Configuration for Vim.
-- Snippet
-  - VS Code flavor snippets (json).
-- Color scheme
-  - `nanovim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs)).
-
-
-## Packages
-* Package manager
-  - [packer.nvim](https://github.com/wbthomason/packer.nvim)
-* Display(Optional)
-  - [alpha-nvim](https://github.com/goolord/alpha-nvim)
-  - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
-  - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
-  - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
-* Color scheme(Optional)
-  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
-  - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
-  - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
-* File system
-  - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
-  - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-* VCS
-  - [Neogit](https://github.com/TimUntersberger/neogit)
-  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
-* Utilities
-  - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
-  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
-  - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
-  - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
-  - [vim-matchup](https://github.com/andymass/vim-matchup)
-  - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
-  - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
-* File type support
-  - [VimTeX](https://github.com/lervag/vimtex)
-  - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-  - [presenting.vim](https://github.com/sotte/presenting.vim)
-  - [editorconfig.nvim](https://github.com/gpanders/editorconfig.nvim)
-* Completion; Snippet; LSP; TreeSitter
-  - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
-  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
-  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-  - [nvim-lsp-installer](https://github.com/williamboman/nvim-lsp-installer)
-  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-  - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
-* Games
-  - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
 
 
 ## Key bindings
@@ -268,3 +223,48 @@
   - `-m`        -> comment (default: date).
 - `SshConfig`   -> Open and edit ~/.ssh/config
 - `Time`        -> Print date and time.
+
+
+## Packages
+* Package manager
+  - [packer.nvim](https://github.com/wbthomason/packer.nvim)
+* Display(Optional)
+  - [alpha-nvim](https://github.com/goolord/alpha-nvim)
+  - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
+  - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
+  - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
+* Color scheme(Optional)
+  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
+  - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
+  - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
+  - [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim)
+* File system
+  - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
+  - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+* VCS
+  - [Neogit](https://github.com/TimUntersberger/neogit)
+  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+* Utilities
+  - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
+  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
+  - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
+  - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
+  - [vim-matchup](https://github.com/andymass/vim-matchup)
+  - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
+  - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
+* File type support
+  - [VimTeX](https://github.com/lervag/vimtex)
+  - [vimwiki](https://github.com/vimwiki/vimwiki)
+  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+  - [presenting.vim](https://github.com/sotte/presenting.vim)
+  - [editorconfig.nvim](https://github.com/gpanders/editorconfig.nvim)
+* Completion; Snippet; LSP; TreeSitter
+  - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+  - [nvim-lsp-installer](https://github.com/williamboman/nvim-lsp-installer)
+  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
+* Games
+  - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
