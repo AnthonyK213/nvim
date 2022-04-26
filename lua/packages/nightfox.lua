@@ -1,7 +1,14 @@
 vim.cmd[[packadd nightfox.nvim]]
 
 
-require('nightfox').setup { }
+require('nightfox').setup {
+    options = {
+        transparent = _my_core_opt.tui.transparent,
+        styles = {
+            comments = "italic"
+        }
+    },
+}
 
 
 local style_list = { "night", "day", "dawn", "dusk", "nord", "tera" }
