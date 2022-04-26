@@ -1,17 +1,20 @@
 vim.cmd[[packadd onedark.nvim]]
 
 
+local style_list = {
+    'dark', 'darker', 'cool',
+    'deep', 'warm', 'warmer',
+    'light'
+}
+local opt_style = _my_core_opt.tui.style
+
 require('onedark').setup  {
-    style = _my_core_opt.tui.style,
+    style = vim.tbl_contains(style_list, opt_style) and opt_style or 'dark',
     transparent = _my_core_opt.tui.transparent,
     term_colors = true,
     ending_tildes = false,
     toggle_style_key = '<leader>bs',
-    toggle_style_list = {
-        'dark', 'darker', 'cool',
-        'deep', 'warm', 'warmer',
-        'light'
-    },
+    toggle_style_list = style_list,
     code_style = {
         comments = 'italic',
         keywords = 'none',

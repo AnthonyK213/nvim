@@ -68,12 +68,14 @@ local opt = {
 local opt_file = vim.fn.stdpath('config')..'/opt.json'
 if lib.path_exists(opt_file) then
     local f = io.open(opt_file)
-    local ok, result = pcall(vim.json.decode, f:read("*a"))
-    f:close()
-    if ok then
-        opt = vim.tbl_deep_extend("force", opt, result)
-    else
-        vim.notify("Invalid `opt.json`", vim.log.levels.WARN, nil)
+    if f then
+        local ok, result = pcall(vim.json.decode, f:read("*a"))
+        f:close()
+        if ok then
+            opt = vim.tbl_deep_extend("force", opt, result)
+        else
+            vim.notify("Invalid `opt.json`", vim.log.levels.WARN, nil)
+        end
     end
 end
 
