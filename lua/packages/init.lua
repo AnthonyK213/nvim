@@ -31,6 +31,7 @@ require('packer').startup(function (use)
         {'navarasu/onedark.nvim',    opt = true};
         {'folke/tokyonight.nvim',    opt = true};
         {'ellisonleao/gruvbox.nvim', opt = true};
+        {'EdenEast/nightfox.nvim',   opt = true};
     }
     -- File system
     use {
@@ -146,12 +147,14 @@ if _my_core_opt.plug then
 end
 
 -- Optional packages.
-local colorscheme_list = { 'onedark', 'tokyonight', 'gruvbox' }
+local colorscheme_list = { 'onedark', 'tokyonight', 'gruvbox', 'nightfox' }
 local colorscheme = _my_core_opt.tui.scheme
 vim.o.tgc = true
 vim.o.bg = _my_core_opt.tui.theme or 'dark'
+vim.g._my_theme_switchable = false
 local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 if nvim_init_src == 'nano' then
+    vim.g._my_theme_switchable = true
     vim.cmd('colorscheme nanovim')
 elseif packer_bootstrap == nil then
     require('packages.alpha-nvim')

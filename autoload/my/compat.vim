@@ -1,6 +1,7 @@
 " Background toggle.
 function! my#compat#bg_toggle() abort
-  if exists("g:_my_lock_background") && g:_my_lock_background
+  if !g:_my_theme_switchable
+        \ || (exists("g:_my_lock_background") && g:_my_lock_background)
     return
   else
     let &bg = &bg ==# 'dark' ? 'light' : 'dark'

@@ -50,4 +50,5 @@ require("utility.util").hl_auto_update('gruvbox', {
 end)
 
 
+vim.g._my_theme_switchable = true
 vim.cmd[[colorscheme gruvbox]]

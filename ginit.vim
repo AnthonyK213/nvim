@@ -111,12 +111,14 @@ function! s:gui_relative_number_toggle() abort
 endfunction
 
 function! s:gui_toggle_background_lock() abort
-  if g:_my_lock_background == v:true
-    let g:_my_lock_background = v:false
-    echom "Background unlocked"
-  else
-    let g:_my_lock_background = v:true
-    echom "Background locked"
+  if exists('g:_my_lock_background')
+    if g:_my_lock_background == v:true
+      let g:_my_lock_background = v:false
+      echom "Background unlocked"
+    else
+      let g:_my_lock_background = v:true
+      echom "Background locked"
+    endif
   endif
 endfunction
 
@@ -162,8 +164,10 @@ if exists('g:_my_gui_theme')
         \ || g:_my_gui_theme == 'dark'
     let &bg = g:_my_gui_theme
   elseif g:_my_gui_theme == 'auto'
-    let g:_my_lock_background = v:true
-    call my#compat#time_background()
+    if g:_my_theme_switchable
+      let g:_my_lock_background = v:true
+      call my#compat#time_background()
+    endif
   endif
 endif
 
@@ -205,6 +209,4 @@ nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 "" Toggle GUI built-in file explorer
 nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
 "" Lock/unlock background
-if exists('g:_my_lock_background')
-  nn <silent> <F4> :call <SID>gui_toggle_background_lock()<CR>
-endif
+nn <silent> <F4> :call <SID>gui_toggle_background_lock()<CR>

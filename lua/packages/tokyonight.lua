@@ -58,4 +58,5 @@ require("utility.util").hl_auto_update('tokyonight', {
 end)
 
 
+vim.g._my_theme_switchable = true
 vim.cmd[[colorscheme tokyonight]]

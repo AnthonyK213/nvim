@@ -64,4 +64,5 @@ require('onedark').setup  {
 }
 
 
+vim.g._my_theme_switchable = true
 require('onedark').load()
