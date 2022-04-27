@@ -44,7 +44,8 @@ local function md_check_line(lnum)
     local _, indent = lstr:find('^%s*', 1, false)
     local detect = 0
     if lstr:match('^%s*$')
-        and Syntax:new(lnum, 0):match[[\v(TSLiteral|Code|textSnip)]] then
+        and Syntax:new(lnum, 0)
+        :match[[\v(TSLiteral|markdownHighlight|markdownCode|textSnip)]] then
         indent = 1000
     end
     local bullet
