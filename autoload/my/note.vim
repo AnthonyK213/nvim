@@ -98,6 +98,10 @@ function! s:md_check_line(lnum) abort
   let l:indent = strlen(matchstr(l:lstr, '\v^(\s*)')) 
   let l:matches1 = matchlist(l:lstr, '\v^\s*(\+|-|*)\s+.*$')
   let l:matches2 = matchlist(l:lstr, '\v^\s*(\d+)\.\s+.*$')
+  if l:lstr =~ '\v^\s*$'
+        \ && my#syn#new(a:lnum, 1).match('\v(markdownHighlight|markdownCode|textSnip)')
+    let l:indent = 1000
+  endif
   if !empty(l:matches1)
     let l:detect = 1
     let l:bullet = l:matches1[1]

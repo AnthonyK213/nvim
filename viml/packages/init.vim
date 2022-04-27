@@ -78,8 +78,10 @@ let s:colorscheme_list = [
       \ 'one',
       \ 'gruvbox'
       \ ]
+let g:_my_theme_switchable = 0
 
 if s:nvim_init_src ==? 'nano'
+  let g:_my_theme_switchable = 1
   call my#compat#vim_source('viml/subsrc')
   colorscheme nanovim
 else

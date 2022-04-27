@@ -167,16 +167,6 @@ function! my#lib#match_url(str) abort
   return [v:false, v:null]
 endfunction
 
-" Get syntax stack.
-function! my#lib#get_syntax_stack(row, col) abort
-  let l:syntax_table = []
-  for l:i1 in synstack(a:row, a:col)
-    let l:i2 = synIDtrans(l:i1)
-    call add(l:syntax_table, [l:i1, l:i2])
-  endfor
-  return l:syntax_table
-endfunction
-
 " Create a below right split window.
 function! my#lib#belowright_split(height) abort
   let l:term_h = min([a:height, float2nr(winheight(0) * 0.382)])

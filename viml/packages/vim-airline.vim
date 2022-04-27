@@ -1,4 +1,7 @@
 set showtabline=2
+if has("nvim") && g:_my_tui_global_statusline
+  set laststatus=3
+endif
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled  = 1

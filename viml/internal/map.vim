@@ -135,4 +135,4 @@ vn <silent> <leader>kc :<C-U>call my#cmt#cmt_add_vis()<CR>
 nn <silent> <leader>ku :call my#cmt#cmt_del_norm()<CR>
 vn <silent> <leader>ku :<C-U>call my#cmt#cmt_del_vis()<CR>
 " Show highlight information.
-nn <silent> <leader>vs :call my#util#show_hl()<CR>
+nn <silent> <leader>vs :call my#syn#new(line('.'), col('.')).show()<CR>

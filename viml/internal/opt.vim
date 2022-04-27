@@ -35,6 +35,7 @@ let g:_my_tui_scheme = 'one'
 let g:_my_tui_theme = 'dark'
 let g:_my_tui_style = 'none'
 let g:_my_tui_transparent = v:false
+let g:_my_tui_global_statusline = v:false
 let g:_my_gui_theme = 'auto'
 let g:_my_gui_opacity = 0.98
 let g:_my_gui_font_size = 13

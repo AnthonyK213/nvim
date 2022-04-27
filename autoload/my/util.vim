@@ -77,23 +77,3 @@ function! my#util#search_web(mode, site) abort
   endif
   call my#util#sys_open(a:site . l:search_obj, v:false)
 endfunction
-
-" Show highlight information under the cursor.
-function! my#util#show_hl() abort
-  if exists("b:current_syntax")
-    let l:lines = "# Syntax\n"
-    let l:stack = my#lib#get_syntax_stack(line('.'), col('.'))
-    if empty(l:stack)
-      echom 'No highlight groups found'
-      return
-    endif
-    for [l:a, l:b] in l:stack
-      let l:n1 = synIDattr(l:a, "name")
-      let l:n2 = synIDattr(l:b, "name")
-      let l:lines .= "\t* " . l:n1 . " -> " . l:n2 . "\n"
-    endfor
-    echom l:lines
-  else
-    echom 'No syntax found'
-  endif
-endfunction

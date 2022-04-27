@@ -1,6 +1,7 @@
 set termguicolors
 let g:one_allow_italics = 1
 let g:airline_theme = 'one'
+let g:_my_theme_switchable = 1
 
 function s:one_color_extd() abort
   if &bg ==# 'dark'

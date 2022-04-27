@@ -1,6 +1,7 @@
 " Background toggle.
 function! my#compat#bg_toggle() abort
-  if exists("g:lock_background") && g:lock_background
+  if !g:_my_theme_switchable
+        \ || (exists("g:_my_lock_background") && g:_my_lock_background)
     return
   else
     let &bg = &bg ==# 'dark' ? 'light' : 'dark'
@@ -68,7 +69,7 @@ endfunction
 
 "" Set background according to time.
 function! s:background_checker(bg_timer) abort
-  if !g:lock_background | return | end
+  if !g:_my_lock_background | return | end
   let l:hour = str2nr(strftime('%H'))
   let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
   if &bg != l:bg | let &bg = l:bg | endif
