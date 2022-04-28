@@ -108,7 +108,7 @@ function! s:comp_cpp(tbl) abort
 endfunction
 
 function! s:comp_csharp(tbl) abort
-  if !has("win32")
+  if !my#lib#executable('dotnet')
     return [v:null, v:null]
   endif
   let l:sln_root = my#lib#get_root("*.sln")
@@ -118,11 +118,8 @@ function! s:comp_csharp(tbl) abort
     endif
     return [v:null, ['MSBuild.exe', l:sln_root]]
   endif
-  if !my#lib#executable('csc')
-    return [v:null, v:null]
-  endif
   let l:cmd_tbl = {
-        \ '' : ['csc', '/target:exe', a:tbl['fnm'], '/out:' . a:tbl['bin']],
+        \ '' : ['dotnet', 'run'],
         \ 'lib' : ['csc', '/target:library', a:tbl['fnm']],
         \ 'mod' : ['csc', '/target:module', a:tbl['fnm']],
         \ 'win' : ['csc', '/target:winexe', a:tbl['fnm']],
@@ -131,10 +128,9 @@ function! s:comp_csharp(tbl) abort
   if l:cmd_tbl->has_key(l:opt)
     let l:cmd = l:cmd_tbl[l:opt]
     if empty(l:opt)
-      return [function('s:cb_run_bin'), l:cmd]
-    else
       return [v:null, l:cmd]
     endif
+    return [v:null, my#lib#executable('csc') ? l:cmd : v:null]
   else
     call my#lib#notify_err('Invalid argument.')
     return [v:null, v:null]
