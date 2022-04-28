@@ -154,20 +154,16 @@ local comp_cpp = function (tbl)
 end
 
 local comp_csharp = function (tbl)
-    if not lib.has_windows() then
-        return nil, nil
-    end
-    local sln_root = lib.get_root("*.sln")
+    if not lib.executable('dotnet') then return nil, nil end
 
+    local sln_root = lib.get_root("*.sln")
     if sln_root then
         if not lib.executable('MSBuild') then return nil, nil end
         return nil, { 'MSBuild.exe', sln_root }
     end
 
-    if not lib.executable('csc') then return nil, nil end
-
     local cmd_tbl = {
-        [''] = { 'csc', '/target:exe', tbl.fnm, '/out:'..tbl.bin },
+        [''] = { 'dotnet', 'run' },
         lib  = { 'csc', '/target:library', tbl.fnm },
         mod  = { 'csc', '/target:module', tbl.fnm },
         win  = { 'csc', '/target:winexe', tbl.fnm },
@@ -175,14 +171,14 @@ local comp_csharp = function (tbl)
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
         if tbl.opt == '' then
-            return cb_run_bin, cmd
-        else
             return nil, cmd
         end
+        return nil, lib.executable('csc') and cmd or nil
     else
         lib.notify_err('Invalid argument.')
         return nil, nil
     end
+
 end
 
 local comp_lua = function (tbl)
