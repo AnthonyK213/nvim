@@ -1,6 +1,5 @@
-local lsp 
-local lsp_installer = require('nvim-lsp-installer')
 local lsp_option = _my_core_opt.lsp or {}
+local lsp_installer = require('nvim-lsp-installer')
 
 -- nvim-cmp
 -- Enable LSP snippets.
@@ -70,8 +69,9 @@ lsp_installer.on_server_ready(function (server)
     end
 
     local opt = lsp_option[server.name]
-    if (type(opt) == "boolean" and opt)
-        or (type(opt) == "table" and opt["enable"]) then
+    if opt ~= nil
+        and ((type(opt) == "boolean" and opt)
+        or (type(opt) == "table" and opt.enable == true)) then
         server:setup(opts)
     end
 end)
