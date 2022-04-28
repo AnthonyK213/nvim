@@ -254,7 +254,7 @@ function! my#comp#run_or_compile(option) abort
     let l:res = s:comp_table[&ft](l:tbl)
     let l:term_cmd = l:res[1]
     if type(l:term_cmd) == v:t_list
-      if my#compat#hasIncompat() | return | endif
+      if my#compat#has_incompat() | return | endif
       call my#lib#belowright_split(30)
       if type(l:res[0]) == v:t_func
         call termopen(l:term_cmd, {

@@ -127,11 +127,11 @@ function! my#compat#set_var(name, value) abort
   if has("nvim")
     call nvim_set_var(a:name, a:value)
   else
-    exe "let g:" . a:name "= a:value"
+    let g:{a:name} = a:value
   endif
 endfunction
 
-function! my#compat#hasIncompat() abort
+function! my#compat#has_incompat() abort
   if has("nvim")
     return 0
   endif
