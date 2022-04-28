@@ -13,7 +13,7 @@
 ## Installation
 * **Clone repository**
   - Windows
-    ```powershell
+    ```ps1
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git `
                                 "$env:LOCALAPPDATA\nvim"
     ```
@@ -26,7 +26,7 @@
 * **Customize with json (optional)**
 * **Set .vimrc for Vim (optional)**
   - Windows
-    ```powershell
+    ```ps1
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
               -Destination "$env:HOMEPATH\_vimrc"
     ```
@@ -35,63 +35,6 @@
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
-
-
-## Modules
-- Vim script
-  - `internal`
-    - Options; mappings; commands.
-  - `packages`
-    - Plugins managed by vim-plug and configurations.
-  - `basics.vim`
-    - Basic vim options.
-  - `subsrc.vim`
-    - Make Vim/Neovim a little handdier without plugin.
-  - `vimrc.vim`
-    - Configuration for Vim.
-- Snippet
-  - VS Code flavor snippets (json).
-- Color scheme
-  - `nanovim` (Based on [nano-emacs](https://github.com/rougier/nano-emacs)).
-
-
-## Packages
-* Package manager
-  - [vim-plug](https://github.com/junegunn/vim-plug)
-* Display
-  - [dashboard.nvim](https://github.com/glepnir/dashboard-nvim)
-  - [vim-airline](https://github.com/vim-airline/vim-airline)
-* Color scheme
-  - [vim-one](https://github.com/rakr/vim-one)
-  - [gruvbox](https://github.com/morhetz/gruvbox)
-* File system
-  - [vim-clap](https://github.com/liuchengxu/vim-clap)
-* VCS
-  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
-  - [vim-signify](https://github.com/mhinz/vim-signify)
-* Utilities
-  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
-  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
-  - [indentLine](https://github.com/Yggdroot/indentLine)
-  - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
-  - [vim-matchup](https://github.com/andymass/vim-matchup)
-  - [vsession](https://github.com/skanehira/vsession)
-* File type support
-  - [VimTeX](https://github.com/lervag/vimtex)
-  - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-  - [presenting.vim](https://github.com/sotte/presenting.vim)
-  - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
-* Completion; Snippet (Provide by pure vim script)
-  - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
-  - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
-  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
-  - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
-  - [nerdtree](https://github.com/preservim/nerdtree)
-  - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
-* Completion; Snippet; LSP (Provide by coc.nvim)
-  - [coc.nvim](https://github.com/neoclide/coc.nvim)
-  - [vista.vim](https://github.com/liuchengxu/vista.vim)
 
 
 ## Key bindings
@@ -214,3 +157,42 @@
   - `-m`        -> comment (default: date).
 - `SshConfig`   -> Open and edit ~/.ssh/config
 - `Time`        -> Print date and time.
+
+
+## Packages
+* Package manager
+  - [vim-plug](https://github.com/junegunn/vim-plug)
+* Display
+  - [dashboard.nvim](https://github.com/glepnir/dashboard-nvim)
+  - [vim-airline](https://github.com/vim-airline/vim-airline)
+* Color scheme
+  - [vim-one](https://github.com/rakr/vim-one)
+  - [gruvbox](https://github.com/morhetz/gruvbox)
+* File system
+  - [vim-clap](https://github.com/liuchengxu/vim-clap)
+* VCS
+  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
+  - [vim-signify](https://github.com/mhinz/vim-signify)
+* Utilities
+  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
+  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
+  - [indentLine](https://github.com/Yggdroot/indentLine)
+  - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
+  - [vim-matchup](https://github.com/andymass/vim-matchup)
+  - [vsession](https://github.com/skanehira/vsession)
+* File type support
+  - [VimTeX](https://github.com/lervag/vimtex)
+  - [vimwiki](https://github.com/vimwiki/vimwiki)
+  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+  - [presenting.vim](https://github.com/sotte/presenting.vim)
+  - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
+* Completion; Snippet (Provide by pure vim script)
+  - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
+  - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
+  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+  - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
+  - [nerdtree](https://github.com/preservim/nerdtree)
+  - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
+* Completion; Snippet; LSP (Provide by coc.nvim)
+  - [coc.nvim](https://github.com/neoclide/coc.nvim)
+  - [vista.vim](https://github.com/liuchengxu/vista.vim)
