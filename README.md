@@ -33,10 +33,10 @@
     },
     // Paths
     "path": {
-      "home": "string"    // Home directory
-      "cloud": "string"   // Cloud drive directory
-      "desktop": "string" // Desktop directory
-      "bin": "string"     // Binaries directory
+      "home": "string",     // Home directory
+      "cloud": "string",    // Cloud drive directory
+      "desktop": "string",  // Desktop directory
+      "bin": "string"       // Binaries directory
     },
     // Terminal UI
     "tui": {
