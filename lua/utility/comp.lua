@@ -163,22 +163,18 @@ local comp_csharp = function (tbl)
     end
 
     local cmd_tbl = {
-        [''] = { 'dotnet', 'run' },
-        lib  = { 'csc', '/target:library', tbl.fnm },
-        mod  = { 'csc', '/target:module', tbl.fnm },
-        win  = { 'csc', '/target:winexe', tbl.fnm },
+        ['']   = { 'dotnet', 'run' },
+        build  = { 'dotnet', 'build', '--configuration', 'Release' },
+        clean  = { 'dotnet', 'clean' },
+        test   = { 'dotnet', 'test' },
     }
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
-        if tbl.opt == '' then
-            return nil, cmd
-        end
-        return nil, lib.executable('csc') and cmd or nil
+        return nil, cmd
     else
         lib.notify_err('Invalid argument.')
         return nil, nil
     end
-
 end
 
 local comp_lua = function (tbl)
