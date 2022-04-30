@@ -132,7 +132,10 @@ require('packer').startup(function (use)
         };
     }
     -- Games
-    use 'alec-gibson/nvim-tetris'
+    use {
+        'alec-gibson/nvim-tetris',
+        'AndrewRadev/gnugo.vim'
+    }
 
     if packer_bootstrap then
         require('packer').sync()
