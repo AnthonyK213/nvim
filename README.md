@@ -268,3 +268,4 @@
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
+  - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)
