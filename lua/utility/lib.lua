@@ -333,12 +333,14 @@ end
 ---Use `pcall()` to catch error and display it.
 ---@param func function The function to test.
 ---@param ... any Function arguments.
+---@return boolean ok
 function M.try(func, ...)
     local ok, err = pcall(func, ...)
     if not ok then
         local msg = err:match('(E%d+:%s.+)$')
         M.notify_err(msg and msg or "Error occured!")
     end
+    return ok
 end
 
 ---Check if executable exists.
