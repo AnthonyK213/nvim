@@ -330,6 +330,17 @@ function M.notify_err(err)
     vim.notify(err, vim.log.levels.ERROR, nil)
 end
 
+---Use `pcall()` to catch error and display it.
+---@param func function The function to test.
+---@param ... any Function arguments.
+function M.try(func, ...)
+    local ok, err = pcall(func, ...)
+    if not ok then
+        local msg = err:match('(E%d+:%s.+)$')
+        M.notify_err(msg and msg or "Error occured!")
+    end
+end
+
 ---Check if executable exists.
 ---@param exe string Executable name.
 ---@return boolean

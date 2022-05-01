@@ -24,7 +24,8 @@ local custom_attach = function (client)
     kbd('n', '<leader>lw', function () vim.lsp.buf.workspace_symbol() end, ntst)
     kbd('n', '<leader>l[', function () vim.diagnostic.goto_prev() end,     ntst)
     kbd('n', '<leader>l]', function () vim.diagnostic.goto_next() end,     ntst)
-    kbd('n', '<M-K>',      function ()
+    kbd('n', 'K',          function () vim.lsp.buf.hover() end,            ntst)
+    kbd('n', '<M-K>', function ()
         vim.diagnostic.open_float { border = "rounded" }
     end, ntst)
     -- aerial.nvim

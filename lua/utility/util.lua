@@ -2,17 +2,6 @@ local M = {}
 local lib = require('utility.lib')
 
 
----Use `pcall()` to catch error and display it.
----@param func function The function to test.
----@param args table Function arguments as a table.
-local function on_err(func, args)
-    local ok, err = pcall(func, unpack(args))
-    if not ok then
-        local msg = err:match('(E%d+:%s.+)$')
-        lib.notify_err(msg and msg or "Error occured!")
-    end
-end
-
 ---Open terminal and launch shell.
 function M.terminal()
     local exec
@@ -35,16 +24,6 @@ function M.terminal()
     vim.api.nvim_win_set_option(0, 'number', false)
     vim.fn.termopen(vim.tbl_flatten({ my_sh }))
     return true
-end
-
----Show documents.
-function M.show_doc()
-    if not vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
-        vim.lsp.buf.hover()
-    elseif vim.tbl_contains({'vim', 'help'}, vim.bo.filetype) then
-        local word, _, _ = lib.get_word()
-        on_err(vim.cmd, { 'h '..word })
-    end
 end
 
 ---Open and edit text file in vim.

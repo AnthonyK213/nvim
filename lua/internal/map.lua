@@ -98,7 +98,11 @@ kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['my#compat#mouse_toggle'], ntst)
 -- FIXME: Using a function for {rhs} will flush the cmdline output with `print`.
 kbd('n', '<F5>', ':lua require("utility.comp").run_or_compile("")<CR>', ntst)
 -- Show document.
-kbd('n', 'K', function () require('utility.util').show_doc() end, ntst)
+kbd('n', 'K', function ()
+    local lib = require('utility.lib')
+    local word, _, _ = lib.get_word()
+    lib.try(vim.cmd, 'h '..word)
+end, ntst)
 -- Search visual selection.
 kbd('v', '*', function ()
     local pat = require('utility.lib').get_visual_selection()
