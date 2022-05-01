@@ -11,7 +11,6 @@ try
   let &rtp .= ',' . s:nvim
   exe 'source' s:nvim . '/viml/basics.vim'
   exe 'source' s:nvim . '/viml/subsrc.vim'
-
   set background=light
   if has("termguicolors")
     set t_8f=[38;2;%lu;%lu;%lum
