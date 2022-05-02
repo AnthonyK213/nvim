@@ -196,3 +196,5 @@
 * Completion; Snippet; LSP (Provide by coc.nvim)
   - [coc.nvim](https://github.com/neoclide/coc.nvim)
   - [vista.vim](https://github.com/liuchengxu/vista.vim)
+* Games
+  - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)

@@ -48,6 +48,7 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'AnthonyK213/vim-ipairs'
 Plug 'andymass/vim-matchup'
 Plug 'skanehira/vsession'
+Plug 'voldikss/vim-floaterm'
 "" File type support
 Plug 'lervag/vimtex'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
@@ -67,6 +68,8 @@ else
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
 endif
+"" Games
+Plug 'AndrewRadev/gnugo.vim'
 
 call plug#end()
 
@@ -96,6 +99,7 @@ else
     \ "packages/vimtex",
     \ "packages/vimwiki",
     \ "packages/vsession",
+    \ "packages/vim-floaterm",
     \ "packages/vista"
     \ ])
   if s:nvim_init_src !=? 'defaultlines'
