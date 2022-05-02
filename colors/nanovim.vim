@@ -545,22 +545,17 @@ function! NanoGetFname() abort
   let l:file_path = expand('%:p')
   let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
-  
   if empty(l:file_name)
     return "[No Name]"
   endif
-
   let l:path_sepr = "/"
   if has('win32')
     let l:path_sepr = "\\"
   endif
-
   let l:file_path_str_width = strdisplaywidth(l:file_path)
-
   if l:file_path_str_width > winwidth(0) * 0.7
     return l:file_name
   endif
-
   if l:file_path_str_width > winwidth(0) * 0.4
     let l:path_list = split(l:file_dir, l:path_sepr)
     let l:path_head = "/"
@@ -581,7 +576,6 @@ function! NanoGetFname() abort
     endfor
     return l:path_head . l:file_name
   endif
-
   return l:file_path
 endfunction
 

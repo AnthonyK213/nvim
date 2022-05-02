@@ -25,15 +25,12 @@ function! s:srd_collect(str, pair_a, pair_b) abort
   let l:start = 0
   let l:pat_a = '\v' . my#lib#vim_reg_esc(a:pair_a)
   let l:pat_b = '\v' . my#lib#vim_reg_esc(a:pair_b)
-
   while 1
     let l:match_a = match(a:str, l:pat_a, l:start)
     let l:match_b = match(a:str, l:pat_b, l:start)
-
     if l:match_a < 0 && l:match_b < 0
       break
     endif
-
     if l:match_a >= 0 && (l:match_b < 0 || l:match_a <= l:match_b)
       let l:tab_pair[l:match_a] = -1
       let l:start = l:match_a + 1
@@ -42,7 +39,6 @@ function! s:srd_collect(str, pair_a, pair_b) abort
       let l:start = l:match_b + 1
     endif
   endwhile
-
   return l:tab_pair
 endfunction
 
@@ -54,27 +50,22 @@ function! s:srd_locate(str, pair_a, pair_b, dir) abort
   let l:tab_pair = s:srd_collect(a:str, a:pair_a, a:pair_b)
   let l:list_pos = []
   let l:res = []
-
   if a:dir < 0
     call reverse(l:tab_pair)
   endif
-
   let l:sum = 0
-
   for l:i in range(len(l:tab_pair))
     let l:sum = l:sum + l:tab_pair[l:i]
     if l:sum == a:dir
       return a:dir > 0 ? l:i : len(l:tab_pair) - 1 - l:i
     endif
   endfor
-
   return -1
 endfunction
 
 function! my#srd#sur_add(mode, ...) abort
   let l:pair_a = a:0 ? a:1 : input("Surrounding add: ")
   let l:pair_b = s:sur_pair(l:pair_a)
-
   if a:mode ==# 'n'
     let [l:word, l:s, l:e] = my#lib#get_word()
     let l:line = getline('.')
@@ -98,7 +89,6 @@ function! my#srd#sur_sub(...) abort
   let l:pair_b = s:sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
   let l:pair_b_new = s:sur_pair(l:pair_a_new)
-
   if l:pair_a ==# l:pair_b
     let l:pat = my#lib#vim_reg_esc(l:pair_a)
     if l:back =~# '\v.*\zs' . l:pat && l:fore =~# '\v' . l:pat

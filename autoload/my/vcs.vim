@@ -55,7 +55,6 @@ function! my#vcs#git_push_all(...) abort
   if len(l:arg_list) % 2 == 0
     let l:m_index = index(l:arg_list, "-m")
     let l:b_index = index(l:arg_list, "-b")
-
     if (l:m_index >= 0) && (l:m_index % 2 == 0)
       let l:m_arg = l:arg_list[l:m_index + 1]
     elseif l:m_index < 0
