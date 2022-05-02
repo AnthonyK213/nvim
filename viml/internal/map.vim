@@ -93,7 +93,7 @@ nn <silent> <M-,> :call my#compat#open_opt()<CR>
 " Explorer.
 nn <silent> <leader>oe :call my#util#sys_open(expand("%:p:h"))<CR>
 " Terminal.
-nn <silent> <leader>ot :call my#util#terminal()<CR>i
+nn <silent> <leader>ot :call my#util#terminal()<CR>
 " Open with system default browser.
 nn <silent> <leader>ob :call my#util#sys_open(expand("%:p"))<CR>
 " Open url under the cursor or in the selection.
