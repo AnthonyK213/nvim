@@ -111,10 +111,11 @@ vim.g._const_dir_d = rep_term("<C-G>U<Down>",  true, false, true)
 vim.g._const_dir_u = rep_term("<C-G>U<Up>",    true, false, true)
 vim.g._const_dir_r = rep_term("<C-G>U<Right>", true, false, true)
 
---[[Boxes
-┌─┐┍━┑┎─┒┏━┓╭─╮╒═╕╓─╖╔═╗
-│ ││ │┃ ┃┃ ┃│ ││ │║ ║║ ║
-└─┘┕━┙┖─┚┗━┛╰─╯╘═╛╙─╜╚═╝
+--[[Box Drawing
+┌┬─┐┍┯━┑┎┰─┒┏┳━┓╭┬─╮╒╤═╕╓╥─╖╔╦═╗
+├┼─┤┝┿━┥┠╂─┨┣╋━┫├┼─┤╞╪═╡╟╫─╢╠╬═╣
+││ │││ │┃┃ ┃┃┃ ┃││ │││ │║║ ║║║ ║
+└┴─┘┕┷━┙┖┸─┚┗┻━┛╰┴─╯╘╧═╛╙╨─╜╚╩═╝
 ]]
 
 _G._my_core_opt = opt
