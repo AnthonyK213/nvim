@@ -30,9 +30,9 @@ function s:check(server, extension, config = {}) abort
 endfunction
 
 call s:check('clangd', 'coc-clangd')
-call s:check('jedi_language_server', 'coc-jedi')
+call s:check('jedi_language_server', 'coc-jedi', { 'jedi.executable.command': 'path' })
 call s:check('powershell_es', 'coc-powershell')
-call s:check('omnisharp', 'coc-omnisharp', { 'omnisharp.path' : 'path' })
+call s:check('omnisharp', 'coc-omnisharp', { 'omnisharp.path': 'path' })
 call s:check('sumneko_lua', 'coc-sumneko-lua')
 call s:check('rls', 'coc-rls')
 call s:check('texlab', 'coc-texlab')
