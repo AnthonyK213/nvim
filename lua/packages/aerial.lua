@@ -1,7 +1,7 @@
 local kbd_b = vim.api.nvim_buf_set_keymap
 local ntst = { noremap = true, silent = true }
 
-require'aerial'.setup {
+require('aerial').setup {
     backends = {
         ['_'] = { "lsp", "treesitter" },
         markdown = { 'markdown' }

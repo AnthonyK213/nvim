@@ -59,9 +59,9 @@
     "lsp": {
       "clangd": false,               // https://github.com/clangd/clangd
       "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
+      "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
       "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
       "pyright": false,              // https://github.com/microsoft/pyright
-      "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
       "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
       "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
       "texlab": false,               // https://github.com/latex-lsp/texlab

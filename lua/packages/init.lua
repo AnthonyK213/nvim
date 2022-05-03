@@ -127,7 +127,8 @@ require('packer').startup(function (use)
             config = function () require('packages.nvim-treesitter') end
         };
         {
-            'stevearc/aerial.nvim',
+            --'stevearc/aerial.nvim',
+            'AnthonyK213/aerial.nvim',
             config = function () require('packages.aerial') end
         };
     }

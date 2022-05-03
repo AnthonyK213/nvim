@@ -1,5 +1,5 @@
 local lsp_option = _my_core_opt.lsp or {}
-local lsp_installer = require('nvim-lsp-installer')
+local lspconfig = require('lspconfig')
 
 -- nvim-cmp
 -- Enable LSP snippets.
@@ -8,8 +8,8 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Attach: Keymaps, aerial.
 local kbd = vim.keymap.set
-local ntst = { noremap = true, silent = true, buffer = true }
-local custom_attach = function (client)
+local custom_attach = function (client, bufnr)
+    local ntst = { noremap = true, silent = true, buffer = bufnr }
     kbd('n', '<leader>l0', function () vim.lsp.buf.document_symbol() end,  ntst)
     kbd('n', '<leader>la', function () vim.lsp.buf.code_action() end,      ntst)
     kbd('n', '<leader>ld', function () vim.lsp.buf.declaration() end,      ntst)
@@ -29,8 +29,11 @@ local custom_attach = function (client)
         vim.diagnostic.open_float { border = "rounded" }
     end, ntst)
     -- aerial.nvim
-    require('aerial').on_attach(client)
+    require('aerial').on_attach(client, bufnr)
 end
+
+-- Load nvim-lsp-installer
+require('nvim-lsp-installer').setup {}
 
 -- LSP options.
 local server_opts = {
@@ -58,24 +61,31 @@ local server_opts = {
     end
 }
 
--- Setup servers.
-lsp_installer.on_server_ready(function (server)
-    local opts = {
-        capabilities = capabilities,
-        on_attach = custom_attach
-    }
+---Setup servers via nvim-lspconfig.
+---@param server string Name of the language server.
+---@param option boolean|table<string, any> Options.
+local function setup_server(server, option)
+    option = option or false
 
-    if server_opts[server.name] then
-        server_opts[server.name](opts)
-    end
+    if (type(option) == "boolean" and option)
+        or (type(option) == "table" and option.enable == true) then
 
-    local opt = lsp_option[server.name]
-    if opt ~= nil
-        and ((type(opt) == "boolean" and opt)
-        or (type(opt) == "table" and opt.enable == true)) then
-        server:setup(opts)
+        local opts = {
+            capabilities = capabilities,
+            on_attach = custom_attach
+        }
+
+        if server_opts[server] then
+            server_opts[server](opts)
+        end
+
+        lspconfig[server].setup(opts)
     end
-end)
+end
+
+for server, option in pairs(lsp_option) do
+    setup_server(server, option)
+end
 
 -- Diagnostics
 vim.diagnostic.config {
@@ -88,5 +98,5 @@ vim.diagnostic.config {
 
 -- Hover window border
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
+    border = "rounded",
 })
