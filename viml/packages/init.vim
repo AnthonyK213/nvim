@@ -52,8 +52,7 @@ Plug 'voldikss/vim-floaterm'
 "" File type support
 Plug 'lervag/vimtex'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
-Plug 'iamcco/markdown-preview.nvim',
-      \ {'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug']}
+Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install()}}
 Plug 'sotte/presenting.vim'
 Plug 'editorconfig/editorconfig-vim'
 "" Completion; Snippet; (LSP)

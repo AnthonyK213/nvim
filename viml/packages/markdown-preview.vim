@@ -13,3 +13,8 @@ let g:mkdp_preview_options = {
       \ 'content_editable': v:false,
       \ 'disable_filename': 0
       \ }
+let g:mkdp_filetypes = [
+      \ 'markdown',
+      \ 'vimwiki',
+      \ 'vimwiki.markdown'
+      \ ]
