@@ -3,7 +3,6 @@ let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ ]
 let g:coc_config_table = {}
-let g:coc_sources_disable_map = { 'cs': ['cs-2', 'cs-3'] }
 
 function s:check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
