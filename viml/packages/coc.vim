@@ -4,7 +4,7 @@ let g:coc_global_extensions = [
       \ ]
 let g:coc_config_table = {}
 
-function s:check(server, extension, config = {}) abort
+function s:check(server, extension) abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
     let l:val = get(g:, l:var_name)
@@ -15,11 +15,9 @@ function s:check(server, extension, config = {}) abort
     elseif type(l:val) == v:t_dict
       if l:val['enable']
         call add(g:coc_global_extensions, a:extension)
-      endif
-      if !empty(a:config)
-        for [l:k, l:v] in items(a:config)
-          if has_key(l:val, l:v)
-            let g:coc_config_table[l:k] = l:val[l:v]
+        for [l:k, l:v] in items(l:val)
+          if l:k != 'enable'
+            let g:coc_config_table[l:k] = l:v
           endif
         endfor
       endif
@@ -30,11 +28,11 @@ function s:check(server, extension, config = {}) abort
 endfunction
 
 call s:check('clangd', 'coc-clangd')
-call s:check('jedi_language_server', 'coc-jedi', { 'jedi.executable.command': 'path' })
+call s:check('jedi_language_server', 'coc-jedi')
+call s:check('omnisharp', 'coc-omnisharp')
 call s:check('powershell_es', 'coc-powershell')
-call s:check('omnisharp', 'coc-omnisharp', { 'omnisharp.path': 'path' })
+call s:check('rust_analyzer', 'coc-rust-analyzer')
 call s:check('sumneko_lua', 'coc-sumneko-lua')
-call s:check('rls', 'coc-rls')
 call s:check('texlab', 'coc-texlab')
 call s:check('vimls', 'coc-vimlsp')
 
