@@ -124,8 +124,8 @@ endfunction
 nmap <leader>ln <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>lm  <Plug>(coc-format-selected)
-nmap <leader>lm  <Plug>(coc-format-selected)
+xmap <leader>lm <Plug>(coc-format-selected)
+nmap <leader>lm <Plug>(coc-format-selected)
 
 augroup my_coc_group
   autocmd!
@@ -138,14 +138,13 @@ augroup my_coc_group
 augroup end
 
 " Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>la  <Plug>(coc-codeaction-selected)
-nmap <leader>la  <Plug>(coc-codeaction-selected)
+xmap <leader>la <Plug>(coc-codeaction-selected)
+nmap <leader>la <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>lc  <Plug>(coc-codeaction)
+nmap <leader>lc <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>lq  <Plug>(coc-fix-current)
+nmap <leader>lq <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
