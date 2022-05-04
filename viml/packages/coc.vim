@@ -3,8 +3,9 @@ let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ ]
 let g:coc_config_table = {}
+let g:coc_sources_disable_map = { 'cs': ['cs-2', 'cs-3'] }
 
-function s:check(server, extension) abort
+function s:check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
     let l:val = get(g:, l:var_name)
@@ -12,14 +13,19 @@ function s:check(server, extension) abort
       if l:val
         call add(g:coc_global_extensions, a:extension)
       endif
+      let g:coc_config_table[a:enable] = l:val
     elseif type(l:val) == v:t_dict
-      if l:val['enable']
+      if has_key(l:val, "enable") && l:val["enable"]
         call add(g:coc_global_extensions, a:extension)
         for [l:k, l:v] in items(l:val)
-          if l:k != 'enable'
+          if l:k ==# "enable"
+            let g:coc_config_table[a:enable] = v:true
+          else
             let g:coc_config_table[l:k] = l:v
           endif
         endfor
+      else
+        let g:coc_config_table[a:enable] = v:false
       endif
     else
       call my#lib#notify_err("Please check `lsp` in `opt.json`.")
@@ -27,14 +33,14 @@ function s:check(server, extension) abort
   endif
 endfunction
 
-call s:check('clangd', 'coc-clangd')
-call s:check('jedi_language_server', 'coc-jedi')
+call s:check('clangd', 'coc-clangd', 'clangd.enabled')
+call s:check('jedi_language_server', 'coc-jedi', 'jedi.enable')
 call s:check('omnisharp', 'coc-omnisharp')
 call s:check('powershell_es', 'coc-powershell')
-call s:check('rust_analyzer', 'coc-rust-analyzer')
-call s:check('sumneko_lua', 'coc-sumneko-lua')
+call s:check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
+call s:check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
 call s:check('texlab', 'coc-texlab')
-call s:check('vimls', 'coc-vimlsp')
+call s:check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
 
 let s:snippet_dir = my#compat#stdpath('config') . '/snippet'
 
@@ -103,16 +109,16 @@ nmap <silent> <leader>lr <Plug>(coc-references)
 nn <silent> K :call <SID>show_doc()<CR>
 
 function! s:show_doc() abort
-if (index(['vim', 'help'], &filetype) >= 0)
-  let l:word = my#lib#get_word()[0]
-  try
-    exe 'h' l:word
-  catch
-    echo "No help for '" . l:word . "'"
-  endtry
-elseif (coc#rpc#ready())
-  call CocActionAsync('doHover')
-endif
+  if (index(['vim', 'help'], &filetype) >= 0)
+    let l:word = my#lib#get_word()[0]
+    try
+      exe 'h' l:word
+    catch
+      echo "No help for '" . l:word . "'"
+    endtry
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  endif
 endfunction
 
 " Symbol renaming.
