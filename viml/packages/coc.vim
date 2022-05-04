@@ -1,6 +1,7 @@
 let g:coc_global_extensions = [
       \ 'coc-explorer',
       \ 'coc-snippets',
+      \ 'coc-vimtex'
       \ ]
 let g:coc_config_table = {}
 
@@ -38,7 +39,6 @@ call s:check('omnisharp', 'coc-omnisharp')
 call s:check('powershell_es', 'coc-powershell')
 call s:check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
 call s:check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
-call s:check('texlab', 'coc-texlab')
 call s:check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
 
 let s:snippet_dir = my#compat#stdpath('config') . '/snippet'
