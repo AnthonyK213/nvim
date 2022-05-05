@@ -169,15 +169,13 @@ if exists('g:fvim_loaded')
   call s:gui_set_option_table(s:fvim_option_table)
 endif
 "" GUI theme
-if exists('g:_my_gui_theme')
-  if g:_my_gui_theme == 'light'
-        \ || g:_my_gui_theme == 'dark'
-    let &bg = g:_my_gui_theme
-  elseif g:_my_gui_theme == 'auto'
-    if g:_my_theme_switchable
-      let g:_my_lock_background = v:true
-      call my#compat#time_background()
-    endif
+if g:_my_gui_theme == 'light'
+      \ || g:_my_gui_theme == 'dark'
+  let &bg = g:_my_gui_theme
+elseif g:_my_gui_theme == 'auto'
+  if g:_my_theme_switchable
+    let g:_my_lock_background = v:true
+    call my#compat#time_background()
   endif
 endif
 
