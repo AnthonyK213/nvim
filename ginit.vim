@@ -3,45 +3,55 @@
 "   - [neovim-qt](https://github.com/equalsraf/neovim-qt)
 "   - [fvim](https://github.com/yatli/fvim)
 
-" Variables
-if !exists('g:_my_gui_font_half')
-  let g:_my_gui_font_half = 'Monospace'
-endif
 
-if !exists('g:_my_gui_font_full')
-  let g:_my_gui_font_full = 'Monospace'
-endif
+let s:my_gui_table = {
+      \ '_my_gui_theme': 'auto',
+      \ '_my_gui_opacity': 0.98,
+      \ '_my_gui_ligature': v:false,
+      \ '_my_gui_popup_menu': v:false,
+      \ '_my_gui_tabline': v:false,
+      \ '_my_gui_line_space': 0,
+      \ '_my_gui_font_size': 13,
+      \ '_my_gui_font_half': 'Monospace',
+      \ '_my_gui_font_full': 'Monospace',
+      \ }
 
-if !exists('g:_my_gui_font_size')
-  let g:_my_gui_font_size = 10
-endif
+for [s:name, s:value] in items(s:my_gui_table)
+  if !exists('g:' . s:name)
+    let g:{s:name} = s:value
+  endif
+endfor
 
-if !exists('g:_my_gui_opacity')
-  let g:_my_gui_opacity = 1.0
-endif
+function s:bool2int(b) abort
+  if type(a:b) == v:t_bool
+    return a:b ? 1 : 0
+  else
+    return 0
+  endif
+endfunction
 
 let s:nvimqt_option_table = {
-      \ 'GuiTabline'         : 0,
-      \ 'GuiPopupmenu'       : 1,
-      \ 'GuiLinespace'       : 0,
-      \ 'GuiScrollBar'       : 1,
-      \ 'GuiRenderLigatures' : 1,
-      \ 'GuiAdaptiveColor'   : 1,
-      \ 'GuiWindowOpacity'   : string(g:_my_gui_opacity),
-      \ 'GuiAdaptiveStyle'   : 'Fusion',
+      \ 'GuiTabline': s:bool2int(g:_my_gui_tabline),
+      \ 'GuiPopupmenu': s:bool2int(g:_my_gui_popup_menu),
+      \ 'GuiLinespace': string(g:_my_gui_line_space),
+      \ 'GuiScrollBar': 1,
+      \ 'GuiRenderLigatures': s:bool2int(g:_my_gui_ligature),
+      \ 'GuiAdaptiveColor': 1,
+      \ 'GuiWindowOpacity': string(g:_my_gui_opacity),
+      \ 'GuiAdaptiveStyle': 'Fusion',
       \ }
 
 let s:fvim_option_table = {
-      \ 'FVimUIPopupMenu'           : 'v:true',
-      \ 'FVimFontAntialias'         : 'v:true',
-      \ 'FVimFontLigature'          : 'v:true',
-      \ 'FVimFontLineHeight'        : '"+2.0"',
-      \ 'FVimFontNoBuiltInSymbols'  : 'v:true',
-      \ 'FVimBackgroundOpacity'     : string(g:_my_gui_opacity),
-      \ 'FVimCursorSmoothMove'      : 'v:true',
-      \ 'FVimBackgroundComposition' : '"none"',
-      \ 'FVimCustomTitleBar'        : 'v:false',
-      \ 'FVimKeyAutoIme'            : 'v:true',
+      \ 'FVimUIPopupMenu': g:_my_gui_popup_menu,
+      \ 'FVimFontAntialias': v:true,
+      \ 'FVimFontLigature': g:_my_gui_ligature,
+      \ 'FVimFontLineHeight': string(g:_my_gui_line_space),
+      \ 'FVimFontNoBuiltInSymbols': v:true,
+      \ 'FVimBackgroundOpacity': string(g:_my_gui_opacity),
+      \ 'FVimCursorSmoothMove': v:true,
+      \ 'FVimBackgroundComposition': "none",
+      \ 'FVimCustomTitleBar': v:false,
+      \ 'FVimKeyAutoIme': v:true,
       \ }
 
 
@@ -159,15 +169,13 @@ if exists('g:fvim_loaded')
   call s:gui_set_option_table(s:fvim_option_table)
 endif
 "" GUI theme
-if exists('g:_my_gui_theme')
-  if g:_my_gui_theme == 'light'
-        \ || g:_my_gui_theme == 'dark'
-    let &bg = g:_my_gui_theme
-  elseif g:_my_gui_theme == 'auto'
-    if g:_my_theme_switchable
-      let g:_my_lock_background = v:true
-      call my#compat#time_background()
-    endif
+if g:_my_gui_theme == 'light'
+      \ || g:_my_gui_theme == 'dark'
+  let &bg = g:_my_gui_theme
+elseif g:_my_gui_theme == 'auto'
+  if g:_my_theme_switchable
+    let g:_my_lock_background = v:true
+    call my#compat#time_background()
   endif
 endif
 
