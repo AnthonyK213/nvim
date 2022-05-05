@@ -23,7 +23,58 @@
                                 "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
 * **Start Neovim and wait for the installation to complete**
-* **Customize with json (optional)**
+* **Customize with `opt.json` (optional, in the `config` directory)**
+  ``` json
+  {
+    // Dependencies
+    "dep": {
+      "sh": "string|table", // Shell
+      "cc": "string",       // C compiler
+      "py3": "string"       // Python3 executable path
+    },
+    // Paths
+    "path": {
+      "home": "string",     // Home directory
+      "cloud": "string",    // Cloud drive directory
+      "desktop": "string",  // Desktop directory
+      "bin": "string"       // Binaries directory
+    },
+    // Terminal UI
+    "tui": {
+      "scheme": "string", // Color scheme(onedark|gruvbox)
+      "theme": "string",  // Tui background theme(dark|light)
+      "style": "string",  // Style of color scheme
+      "transparent": false,        // Make background transparent
+      "global_statusline": false,  // Global statusline
+    },
+    // Gui (neovim-qt, fvim)
+    "gui": {
+      "theme": "string",        // Gui background theme
+      "opacity": 0.98,          // Window opacity
+      "font_half": "string",    // See `guifont`
+      "font_full": "string",    // See `guifontwide`
+      "font_size": 13           // Gui font size
+    },
+    // Language Server Protocol
+    "lsp": {
+      "clangd": false,               // https://github.com/clangd/clangd
+      "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
+      "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
+      "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
+      "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
+      "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
+      "vimls": false                 // https://github.com/iamcco/vim-language-server
+    },
+    // Built-in plugins
+    "plug": {
+      "matchit": false,    // Enable matchit.vim
+      "matchparen": false  // Enable matchparen.vim
+    },
+    // Use coc.nvim
+    "use_coc": false
+  }
+  ```
+  > The comments have to be removed.
 * **Set .vimrc for Vim (optional)**
   - Windows
     ```ps1
