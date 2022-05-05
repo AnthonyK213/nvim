@@ -47,13 +47,17 @@
       "global_statusline": false,  // Global statusline
       "cmp_border": false          // nvim-cmp window border
     },
-    // Gui (neovim-qt, fvim)
+    // GUI (neovim-qt, fvim)
     "gui": {
-      "theme": "string",        // Gui background theme
-      "opacity": 0.98,          // Window opacity
-      "font_half": "string",    // See `guifont`
-      "font_full": "string",    // See `guifontwide`
-      "font_size": 13           // Gui font size
+      "theme": "string",     // GUI background theme
+      "opacity": 0.98,       // Window opacity
+      "ligature": false,     // Render ligatures
+      "popup_menu": false,   // Use GUI popup menu
+      "tabline": false,      // Use GUI tabline
+      "line_space": 0.0,     // Line space
+      "font_size": 13,       // GUI font size
+      "font_half": "string", // See `guifont`
+      "font_full": "string"  // See `guifontwide`
     },
     // Language Server Protocol
     "lsp": {
