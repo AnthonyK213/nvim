@@ -5,9 +5,10 @@
 * [**Neovim**](https://github.com/neovim/neovim)
 * [**Git**](https://github.com/git/git)
 * [**curl**](https://github.com/curl/curl)
+* [**Node.js**](https://nodejs.org) (If `use_coc`)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
-* [**Node.js**](https://nodejs.org) (If `use_coc`)
+* [**lazygit**](https://github.com/jesseduffield/lazygit)
 
 
 ## Installation
