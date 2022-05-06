@@ -36,12 +36,6 @@ function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
   endif
 endfunction
 
-" vim-markdown toggle math display.
-function! my#compat#vim_markdown_math_toggle() abort
-  let g:vim_markdown_math = 1 - g:vim_markdown_math
-  syntax off | syntax on
-endfunction
-
 " Source vim file.
 function! my#compat#vim_source(file) abort
   exe 'source' my#compat#stdpath('config') . '/' . a:file . '.vim'
