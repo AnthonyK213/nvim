@@ -200,9 +200,9 @@
     - n:    <kbd>f</kbd> -> *vim-table-mode*, Re-align.
   - <kbd>leader-w-</kbd> -> **Vimwiki**.
 * **Miscellanea**
-  - v:    <kbd>\*</kbd>  -> Search visual selection.
-  - invt: <kbd>F2</kbd>  -> Toggle mouse status.
-  - n:    <kbd>F5</kbd>  -> `CodeRun`
+  - v:   <kbd>\*/#</kbd> -> Search visual selection.
+  - invt:<kbd>F2</kbd>   -> Toggle mouse status.
+  - n:   <kbd>F5</kbd>   -> `CodeRun`
 
 
 ## Commands
