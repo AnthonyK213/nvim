@@ -86,3 +86,8 @@ function! my#util#search_web(mode, site) abort
   endif
   call my#util#sys_open(a:site . l:search_obj, v:false)
 endfunction
+
+function! my#util#search_selection(cmd) abort
+  let pat = my#lib#get_visual_selection()
+  return '\V' . substitute(escape(pat, a:cmd . '\'), '\n', '\\n', 'g')
+endfunction

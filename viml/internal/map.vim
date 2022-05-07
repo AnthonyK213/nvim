@@ -78,7 +78,8 @@ vn <silent> <M-n> :<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv
 
 
 " Search visual selection
-vn  <silent> * y/\V<C-R>=my#lib#get_visual_selection()<CR><CR>
+vn <silent> * :<C-U>/<C-R>=my#util#search_selection('/')<CR><CR>
+vn <silent> # :<C-U>?<C-R>=my#util#search_selection('?')<CR><CR>
 " Mouse toggle.
 nn  <silent> <F2> :call           my#compat#mouse_toggle()<CR>
 vn  <silent> <F2> :<C-U>call      my#compat#mouse_toggle()<CR>
