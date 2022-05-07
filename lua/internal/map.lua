@@ -106,7 +106,17 @@ end, ntst)
 -- Search visual selection.
 kbd('v', '*', function ()
     local pat = require('utility.lib').get_visual_selection()
+    :gsub('([/\\])', function (x)
+        return '\\'..x
+    end):gsub("\n", [[\n]])
     vim.cmd([[/\V]]..pat)
+end, ntst)
+kbd('v', '#', function ()
+    local pat = require('utility.lib').get_visual_selection()
+    :gsub('([?\\])', function (x)
+        return '\\'..x
+    end):gsub("\n", [[\n]])
+    vim.cmd([[?\V]]..pat)
 end, ntst)
 -- Buffer.
 kbd('n', '<leader>bc', function ()

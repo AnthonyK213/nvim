@@ -213,9 +213,9 @@
     - n:    <kbd>s</kbd> -> Show highlight information.
   - <kbd>leader-w-</kbd> -> **Vimwiki**.
 * **Miscellanea**
-  - v:    <kbd>\*</kbd>  -> Search for the visual selection.
-  - invt: <kbd>F2</kbd>  -> Toggle mouse status.
-  - n:    <kbd>F5</kbd>  -> `CodeRun`
+  - v:   <kbd>\*/#</kbd> -> Search for the visual selection.
+  - invt:<kbd>F2</kbd>   -> Toggle mouse status.
+  - n:   <kbd>F5</kbd>   -> `CodeRun`
 
 
 ## Commands
