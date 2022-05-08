@@ -140,7 +140,7 @@ function! s:gui_memo_lazy_save() abort
     if empty(glob(l:path))
       let l:path = g:_my_path_desktop
     endif
-    let l:save_path = expand(l:path . strftime("/%Y-%m-%d_%H%M%S.wiki"))
+    let l:save_path = expand(l:path . strftime("/%Y-%m-%d_%H%M%S.markdown"))
     silent exe 'w' fnameescape(l:save_path) '| e!'
   else
     exe 'w'
