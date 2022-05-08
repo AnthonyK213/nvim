@@ -156,10 +156,12 @@
     - n:    <kbd>f</kbd> -> *fzf.vim*, fzf  (:Files)
     - n:    <kbd>g</kbd> -> *fzf.vim*, ripgrep (:Rg)
   - <kbd>leader-g-</kbd> -> **VCS**.
-    - n:    <kbd>j</kbd> -> *vim-signify*, Next hunk.
-    - n:    <kbd>k</kbd> -> *vim-signify*, Previous hunk.
-    - n:    <kbd>J</kbd> -> *vim-signify*, Last hunk.
-    - n:    <kbd>K</kbd> -> *vim-signify*, First hunk.
+    - n:    <kbd>b</kbd> -> *vim-fugitive*, git blame.
+    - n:    <kbd>j</kbd> -> *vim-signify*, next hunk.
+    - n:    <kbd>k</kbd> -> *vim-signify*, previous hunk.
+    - n:    <kbd>J</kbd> -> *vim-signify*, last hunk.
+    - n:    <kbd>K</kbd> -> *vim-signify*, first hunk.
+    - n:    <kbd>n</kbd> -> *vim-floaterm*, open lazygit.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search text in web browser**.
     - nv:   <kbd>b</kbd> -> Baidu
@@ -236,6 +238,7 @@
   - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
   - [vim-matchup](https://github.com/andymass/vim-matchup)
   - [vsession](https://github.com/skanehira/vsession)
+  - [vim-floaterm](https://github.com/voldikss/vim-floaterm)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)

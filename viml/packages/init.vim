@@ -93,6 +93,7 @@ else
     \ "packages/markdown-preview",
     \ "packages/vim-clap",
     \ "packages/vim-ipairs",
+    \ "packages/vim-fugitive",
     \ "packages/vim-signify",
     \ "packages/vim-table-mode",
     \ "packages/vimtex",
