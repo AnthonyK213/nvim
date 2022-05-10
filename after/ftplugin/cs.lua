@@ -15,11 +15,3 @@ vim.defer_fn(function ()
         end
     end, { noremap = true, silent = true, buffer = buf_handle })
 end, 500)
-
-vim.keymap.set('n', '=G', function ()
-    if not vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
-        vim.lsp.buf.formatting_sync()
-    else
-        lib.feedkeys('=G', 'n', true)
-    end
-end)
