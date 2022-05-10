@@ -23,7 +23,7 @@ endfunction
 function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
-        \ 'cs'   : "lib\nmod\nwin",
+        \ 'cs'   : "build\nclean\ntest",
         \ 'lisp' : "build",
         \ 'lua'  : "nojit",
         \ 'rust' : "build\ncheck\nclean\ntest",

@@ -120,17 +120,13 @@ function! s:comp_csharp(tbl) abort
   endif
   let l:cmd_tbl = {
         \ '' : ['dotnet', 'run'],
-        \ 'lib' : ['csc', '/target:library', a:tbl['fnm']],
-        \ 'mod' : ['csc', '/target:module', a:tbl['fnm']],
-        \ 'win' : ['csc', '/target:winexe', a:tbl['fnm']],
+        \ 'build' : ['dotnet', 'build', '--configuration', 'Release'],
+        \ 'clean' : ['dotnet', 'clean'],
+        \ 'test'  : ['dotnet', 'test'],
         \ }
   let l:opt = a:tbl['opt']
   if l:cmd_tbl->has_key(l:opt)
-    let l:cmd = l:cmd_tbl[l:opt]
-    if empty(l:opt)
-      return [v:null, l:cmd]
-    endif
-    return [v:null, my#lib#executable('csc') ? l:cmd : v:null]
+    return [v:null, l:cmd_tbl[l:opt]]
   else
     call my#lib#notify_err('Invalid argument.')
     return [v:null, v:null]
