@@ -42,6 +42,13 @@ gitsigns.setup {
     sign_priority = 6,
     update_debounce = 100,
     status_formatter = nil,
+    preview_config = {
+        border = "rounded",
+        style = "minimal",
+        relative = "cursor",
+        row = 0,
+        col = 1
+    },
     on_attach = function (bufnr)
         local kbd = vim.keymap.set
         local ntst = { noremap = true, silent = true, buffer = bufnr }
