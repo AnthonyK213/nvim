@@ -13,12 +13,12 @@ local cmp_setup = {
     },
 
     snippet = {
-        expand = function (args)
-            vim.fn['vsnip#anonymous'](args.body)
-        end
+        expand = function (args) vim.fn['vsnip#anonymous'](args.body) end
     },
 
     mapping = {
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i'}),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i'}),
         ['<CR>'] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
@@ -37,7 +37,9 @@ local cmp_setup = {
             i = function (fallback)
                 local context = lib.get_context()
                 if cmp.visible() then
-                    cmp.select_next_item()
+                    cmp.select_next_item {
+                        behavior = cmp.SelectBehavior.Insert
+                    }
                 elseif lib.has_filetype('markdown')
                     and vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
                     match_str(context.b) then
@@ -62,9 +64,9 @@ local cmp_setup = {
             end,
             c = function ()
                 if cmp.visible() then
-                    cmp.select_next_item({
+                    cmp.select_next_item {
                         behavior = cmp.SelectBehavior.Insert
-                    })
+                    }
                 else
                     cmp.complete()
                 end
@@ -73,7 +75,9 @@ local cmp_setup = {
         ['<S-Tab>'] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
-                    cmp.select_prev_item()
+                    cmp.select_prev_item {
+                        behavior = cmp.SelectBehavior.Insert
+                    }
                 elseif vim.fn['vsnip#jumpable'](-1) == 1 then
                     feedkeys('<Plug>(vsnip-jump-prev)', '')
                 else
