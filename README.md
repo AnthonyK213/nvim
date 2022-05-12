@@ -184,6 +184,7 @@
     - n:    <kbd>f</kbd> -> Jump to definition.
     - n:    <kbd>h</kbd> -> Signature help.
     - n:    <kbd>i</kbd> -> Implementation.
+    - n:    <kbd>k</kbd> -> Show diagnostics in a floating window.
     - n:    <kbd>m</kbd> -> Format.
     - n:    <kbd>n</kbd> -> Rename.
     - n:    <kbd>r</kbd> -> References.
