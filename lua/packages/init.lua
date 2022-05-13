@@ -96,7 +96,7 @@ require('packer').startup(function (use)
         };
         {
             'iamcco/markdown-preview.nvim',
-            run = function () vim.fn['mkdp#util#install'](0) end,
+            run = function () vim.fn['mkdp#util#install']() end,
             config = function () require('packages.markdown-preview') end
         };
         'sotte/presenting.vim';
