@@ -6,7 +6,7 @@ require('aerial').setup {
         ['_'] = { "lsp", "treesitter" },
         markdown = { 'markdown' }
     },
-    close_behavior = 'close',
+    close_behavior = 'auto',
     manage_folds = false,
     filter_kind = {
         ['_'] = {
