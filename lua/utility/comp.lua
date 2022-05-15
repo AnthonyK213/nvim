@@ -96,9 +96,54 @@ local function cb_run_bin(arg_tbl, cb_args)
     end
 end
 
+---@class Cmd
+---@field cmd string|table|nil command.
+---@field cwd string? working directory.
+---@field cb function? call_back.
+local Cmd = {}
+
+Cmd.__index = Cmd
+
+---Constructor.
+---@param cmd string|table|nil
+---@param cwd string?
+---@param cb function?
+---@return Cmd
+function Cmd.new(cmd, cwd, cb)
+    local o = {
+        cmd = cmd,
+        cwd = cwd,
+        cb = cb
+    }
+    setmetatable(o, Cmd)
+    return o
+end
+
+---Run command.
+---@param tbl table
+function Cmd:run(tbl)
+    if type(self.cmd) == 'table' then
+        lib.belowright_split(30)
+        if self.cb then
+            vim.fn.termopen(self.cmd, {
+                cwd = self.cwd or tbl.fwd,
+                on_exit = on_event(self.cb, tbl),
+            })
+        else
+            vim.fn.termopen(self.cmd, {
+                cwd = self.cwd or tbl.fwd,
+            })
+        end
+    elseif type(self.cmd) == 'string' then
+        vim.api.nvim_set_current_dir(tbl.fwd)
+        vim.cmd(self.cmd)
+        vim.api.nvim_set_current_dir(tbl.bwd)
+    end
+end
+
 local comp_c = function (tbl)
     local my_cc = _my_core_opt.dep.cc
-    if not lib.executable(my_cc) then return nil, nil end
+    if not lib.executable(my_cc) then return end
 
     local cmd_tbl = {
         ['']  = { my_cc, tbl.fnm, '-o', tbl.bin },
@@ -108,18 +153,18 @@ local comp_c = function (tbl)
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
         if tbl.opt == '' then
-            return cb_run_bin, cmd
+            return Cmd.new(cmd, nil, cb_run_bin)
         else
-            return nil, cmd
+            return Cmd.new(cmd)
         end
     else
         lib.notify_err('Invalid argument.')
-        return nil, nil
+        return
     end
 end
 
 local comp_clisp = function (tbl)
-    if not lib.executable('sbcl') then return nil, nil end
+    if not lib.executable('sbcl') then return end
 
     local cmd_tbl = {
         ['']  = { 'sbcl', '--noinform', '--load', tbl.fnm, '--eval', '(exit)' },
@@ -131,10 +176,10 @@ local comp_clisp = function (tbl)
     }
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
-        return nil, cmd
+        return Cmd.new(cmd)
     else
         lib.notify_err('Invalid argument.')
-        return nil, nil
+        return
     end
 end
 
@@ -146,20 +191,20 @@ local comp_cpp = function (tbl)
 
     local cc = cc_tbl[_my_core_opt.dep.cc]
     if cc then
-        if not lib.executable(cc) then return nil, nil end
-        return cb_run_bin, { cc, tbl.fnm, '-o', tbl.bin }
+        if not lib.executable(cc) then return end
+        return Cmd.new({ cc, tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
     else
-        return nil, nil
+        return
     end
 end
 
 local comp_csharp = function (tbl)
-    if not lib.executable('dotnet') then return nil, nil end
+    if not lib.executable('dotnet') then return end
 
     local sln_root = lib.get_root("*.sln")
     if sln_root then
-        if not lib.executable('MSBuild') then return nil, nil end
-        return nil, { 'MSBuild.exe', sln_root }
+        if not lib.executable('MSBuild') then return end
+        return Cmd.new { 'MSBuild.exe', sln_root }
     end
 
     local cmd_tbl = {
@@ -170,27 +215,27 @@ local comp_csharp = function (tbl)
     }
     local cmd = cmd_tbl[tbl.opt]
     if cmd then
-        return nil, cmd
+        return Cmd.new(cmd)
     else
         lib.notify_err('Invalid argument.')
-        return nil, nil
+        return
     end
 end
 
 local comp_lua = function (tbl)
     if tbl.opt == '' then
-        return nil, 'luafile %'
+        return Cmd.new('luafile %')
     elseif tbl.opt == 'nojit' then
-        if not lib.executable('lua') then return nil, nil end
-        return nil, { 'lua', tbl.fnm }
+        if not lib.executable('lua') then return end
+        return Cmd.new { 'lua', tbl.fnm }
     else
         lib.notify_err('Invalid arguments.')
-        return nil, nil
+        return
     end
 end
 
 local comp_processing = function (tbl)
-    if not lib.executable('processing-java') then return nil, nil end
+    if not lib.executable('processing-java') then return end
     local output_dir
     local sketch_name = vim.fn.expand('%:p:h:t')
     if lib.has_windows() then
@@ -198,7 +243,7 @@ local comp_processing = function (tbl)
     else
         output_dir = '/tmp/nvim_processing/'..sketch_name
     end
-    return nil, {
+    return Cmd.new {
         'processing-java',
         '--sketch='..tbl.fwd,
         '--output='..output_dir,
@@ -208,17 +253,17 @@ local comp_processing = function (tbl)
 end
 
 local comp_python = function (tbl)
-    if not lib.executable('python') then return nil, nil end
-    return nil, { 'python', tbl.fnm }
+    if not lib.executable('python') then return end
+    return Cmd.new { 'python', tbl.fnm }
 end
 
 local comp_ruby = function (tbl)
-    if not lib.executable('ruby') then return nil, nil end
-    return nil, { 'ruby', tbl.fnm }
+    if not lib.executable('ruby') then return end
+    return Cmd.new { 'ruby', tbl.fnm }
 end
 
 local comp_rust = function (tbl)
-    if not lib.executable('cargo') then return nil, nil end
+    if not lib.executable('cargo') then return end
     local cargo_root = lib.get_root('Cargo.toml')
 
     if cargo_root then
@@ -231,14 +276,14 @@ local comp_rust = function (tbl)
         }
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
-            return nil, cmd
+            return Cmd.new(cmd, cargo_root)
         else
             lib.notify_err('Invalid argument.')
-            return nil, nil
+            return
         end
     end
 
-    return cb_run_bin, { 'rustc', tbl.fnm, '-o', tbl.bin }
+    return Cmd.new({ 'rustc', tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
 end
 
 local comp_latex = function (tbl)
@@ -251,11 +296,10 @@ local comp_latex = function (tbl)
     else
         lib.notify_err('Invalid argument.')
     end
-    return nil, nil
 end
 
 local comp_vim = function (_)
-    return nil, 'source %'
+    return Cmd.new('source %')
 end
 
 local comp_table = {
@@ -284,24 +328,9 @@ function M.run_or_compile(option)
     }
 
     if comp_table[vim.bo.ft] then
-        local term_cb, term_cmd = comp_table[vim.bo.ft](tbl)
-        if type(term_cmd) == 'table' then
-            lib.belowright_split(30)
-            if term_cb then
-                vim.fn.termopen(term_cmd, {
-                    cwd = tbl.fwd,
-                    on_exit = on_event(term_cb, tbl),
-                })
-            else
-                vim.fn.termopen(term_cmd, {
-                    cwd = tbl.fwd,
-                })
-            end
-        elseif type(term_cmd) == 'string' then
-            vim.api.nvim_set_current_dir(tbl.fwd)
-            vim.cmd(term_cmd)
-            vim.api.nvim_set_current_dir(tbl.bwd)
-        end
+        ---@type Cmd
+        local cmd = comp_table[vim.bo.ft](tbl)
+        if cmd then cmd:run(tbl) end
     else
         lib.notify_err("File type is not supported yet.")
     end

@@ -243,5 +243,5 @@ kbd('v', '<leader>ku', [[:<C-U>lua ]]
 ..[[require('utility.cmt').cmt_del_vis()<CR>]], ntst)
 -- Show highlight information.
 kbd('n', '<leader>vs', function ()
-    require('utility.syn'):new(unpack(vim.api.nvim_win_get_cursor(0))):show()
+    require('utility.syn').new(unpack(vim.api.nvim_win_get_cursor(0))):show()
 end, ntst)

@@ -95,7 +95,7 @@ end
 ---@param row integer 1-based row number.
 ---@param col integer 0-based column number.
 ---@return Syntax
-function Syntax:new(row, col)
+function Syntax.new(row, col)
     local vs, ts = {}, {}
 
     if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] then
