@@ -53,20 +53,16 @@ function M.git_push_all(arg_list)
     -- Spawn jobs.
     local outputs = {}
 
-    local function on_collect(stream)
-        local vals = vim.split(stream, "\n")
-        for _, val in ipairs(vals) do
-            if val ~= "" then
-                table.insert(outputs, val)
-            end
-        end
-    end
-
     local function on_read(err, data)
         if err then
-            on_collect(err)
+            vim.notify("Error: "..err)
         elseif data then
-            on_collect(data)
+            local vals = vim.split(data, "\n")
+            for _, val in ipairs(vals) do
+                if val ~= "" then
+                    table.insert(outputs, val)
+                end
+            end
         end
     end
 
@@ -75,9 +71,9 @@ function M.git_push_all(arg_list)
         local stderr = uv.new_pipe(false)
         local git_push_handle
         git_push_handle = uv.spawn('git', {
-            args = {'push', 'origin', b_arg, '--porcelain'},
+            args = { 'push', 'origin', b_arg, '--porcelain' },
             cwd = git_root,
-            stdio = {stdout, stderr},
+            stdio = { nil, stdout, stderr },
         },
         vim.schedule_wrap(function ()
             stdout:read_stop()
