@@ -94,10 +94,12 @@ function M.git_push_all(arg_list)
             args = {'commit', '-m', m_arg},
             cwd = git_root,
         },
-        vim.schedule_wrap(function ()
-            print("Commit message: "..m_arg)
+        vim.schedule_wrap(function (code)
             git_commit_handle:close()
-            git_push()
+            if code == 0 then
+                print("Commit message: "..m_arg)
+                git_push()
+            end
         end))
     end
 
@@ -106,9 +108,11 @@ function M.git_push_all(arg_list)
         args = {'add', '*'},
         cwd = git_root,
     },
-    vim.schedule_wrap(function ()
+    vim.schedule_wrap(function (code)
         git_add_handle:close()
-        git_commit()
+        if code == 0 then
+            git_commit()
+        end
     end))
 end
 
