@@ -1,85 +1,8 @@
 local M = {}
 local uv = vim.loop
 local lib = require('utility.lib')
+local Process = require('utility.proc')
 
-
--- Supported language list:
---   1. C
---   2. Common Lisp
---   3. C++
---   4. C#
---   5. Processing
---   6. Python
---   7. Ruby
---   8. Rust
---   9. Vim script
---   10. Lua
---   11. LaTeX
-
-
--- LaTeX recipes
-local latex_step
-local latex_name
-
-local function latex_xelatex(cb, cb_cb, cb_cb_cb)
-    local handle
-    handle = uv.spawn('xelatex', {
-        args = {
-            '-synctex=1',
-            '-interaction=nonstopmode',
-            '-file-line-error',
-            latex_name..'.tex'
-        }
-    },
-    vim.schedule_wrap(function ()
-        print(latex_step.." -> Xelatex")
-        latex_step = latex_step + 1
-        handle:close()
-        if cb then cb(cb_cb, cb_cb_cb) end
-    end))
-end
-
-local function latex_biber(cb, cb_cb)
-    local handle
-    handle = uv.spawn('biber', {
-        args = { latex_name..'.bcf' }
-    },
-    vim.schedule_wrap(function ()
-        print(latex_step.." -> Biber")
-        latex_step = latex_step + 1
-        handle:close()
-        if cb then cb(cb_cb) end
-    end))
-end
-
-local function latex_bibtex(cb, cb_cb)
-    local handle
-    handle = uv.spawn('bibtex', {
-        args = { latex_name..'.aux' }
-    },
-    vim.schedule_wrap(function ()
-        print(latex_step.." -> Bibtex")
-        latex_step = latex_step + 1
-        handle:close()
-        if cb then cb(cb_cb) end
-    end))
-end
-
-local prog_table = {
-    biber = latex_biber,
-    bibtex = latex_bibtex,
-}
-
-local function latex_xelatex_2()
-    latex_xelatex(latex_xelatex)
-end
-
-local function latex_xelatex_bib(prog)
-    local f = prog_table[prog]
-    if f then
-        latex_xelatex(f, latex_xelatex, latex_xelatex)
-    end
-end
 
 ---Invoke callback function for `on_event`.
 ---@param cb function Callback function.
@@ -283,12 +206,64 @@ local comp_table = {
         return Cmd.new({ 'rustc', tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
     end,
     tex = function (tbl)
-        latex_step = 1
-        latex_name = vim.fn.expand('%:p:r')
+        local step = 1
+        local name = vim.fn.expand('%:p:r')
+        local xelatex
+        xelatex = Process.new('xelatex', {
+            args = {
+                '-synctex=1',
+                '-interaction=nonstopmode',
+                '-file-line-error',
+                name..'.tex'
+            }
+        }, function (code, _)
+            if code == 0 then
+                print(step.." -> XeLaTeX")
+                step = step + 1
+            else
+                lib.notify_err("XeLaTeX: Compilation failed.")
+            end
+        end)
+        ---@type table<string, Process>
+        local bib_table = {
+            biber = Process.new('biber', {
+                args = { name..'.bcf' }
+            }, function (code, _)
+                if code == 0 then
+                    print(step.." -> Biber")
+                    step = step + 1
+                else
+                    lib.notify_err("Biber: Compilation failed.")
+                end
+            end),
+            bibtex = Process.new('bibtex', {
+                args = { name..'.aux' }
+            }, function (code, _)
+                if code == 0 then
+                    print(step.." -> BibTeX")
+                    step = step + 1
+                else
+                    lib.notify_err("BibTeX: Compilation failed.")
+                end
+            end)
+        }
         if tbl.opt == '' then
-            latex_xelatex_2()
-        elseif prog_table[tbl.opt] then
-            latex_xelatex_bib(tbl.opt)
+            vim.notify("Start compilation.")
+            local x1 = xelatex:clone()
+            local x2 = xelatex:clone()
+            x1:continue_with(x2)
+            x1:start()
+        elseif bib_table[tbl.opt] then
+            vim.notify("Start compilation.")
+            local x1 = xelatex:clone()
+            local x2 = xelatex:clone()
+            ---@type Process
+            local b = bib_table[tbl.opt]:clone()
+            local x3 = xelatex:clone()
+            x1:continue_with(x2)
+            x2:continue_with(b)
+            b:continue_with(x3)
+            x1:start()
         else
             lib.notify_err('Invalid argument.')
         end
