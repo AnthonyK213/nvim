@@ -208,44 +208,43 @@ local comp_table = {
     tex = function (tbl)
         local step = 1
         local name = vim.fn.expand('%:p:r')
-        local xelatex
-        xelatex = Process.new('xelatex', {
+        ---Create tex callback.
+        ---@param label string
+        ---@return function
+        local tex_cb = function (label)
+            ---Callback function.
+            ---@param proc Process
+            ---@param code integer
+            ---@param _ any
+            return function (proc, code, _)
+                if code == 0 then
+                    print(step.." -> "..label)
+                    step = step + 1
+                else
+                    lib.belowright_split(15)
+                    local chan = vim.api.nvim_open_term(0, {})
+                    local data = table.concat(proc.standard_output)
+                    vim.api.nvim_chan_send(chan, data)
+                    lib.notify_err(label..": Compilation failed.")
+                end
+            end
+        end
+        local xelatex = Process.new('xelatex', {
             args = {
                 '-synctex=1',
                 '-interaction=nonstopmode',
                 '-file-line-error',
                 name..'.tex'
             }
-        }, function (code, _)
-            if code == 0 then
-                print(step.." -> XeLaTeX")
-                step = step + 1
-            else
-                lib.notify_err("XeLaTeX: Compilation failed.")
-            end
-        end)
+        }, tex_cb("XeLaTeX"))
         ---@type table<string, Process>
         local bib_table = {
             biber = Process.new('biber', {
                 args = { name..'.bcf' }
-            }, function (code, _)
-                if code == 0 then
-                    print(step.." -> Biber")
-                    step = step + 1
-                else
-                    lib.notify_err("Biber: Compilation failed.")
-                end
-            end),
+            }, tex_cb("BibTeX")),
             bibtex = Process.new('bibtex', {
                 args = { name..'.aux' }
-            }, function (code, _)
-                if code == 0 then
-                    print(step.." -> BibTeX")
-                    step = step + 1
-                else
-                    lib.notify_err("BibTeX: Compilation failed.")
-                end
-            end)
+            }, tex_cb("BibTeX"))
         }
         if tbl.opt == '' then
             vim.notify("Start compilation.")

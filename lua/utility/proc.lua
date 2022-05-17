@@ -1,4 +1,5 @@
 local uv = vim.loop
+local lib = require("utility.lib")
 
 ---@class Process
 ---@field path string
@@ -10,19 +11,22 @@ local uv = vim.loop
 ---@field standard_input string[]
 ---@field standard_output string[]
 ---@field standard_error string[]
+---@field hanle userdata
+---@field id integer
+---@field has_exited boolean
 local Process = {}
 
 Process.__index = Process
 
 ---Constructor.
 ---@param path string
----@param option table
----@param on_exit function
+---@param option table?
+---@param on_exit function?
 ---@return Process
 function Process.new(path, option, on_exit)
     local o = {
         path = path,
-        option = option,
+        option = option or {},
         on_exit = on_exit,
         stdin = uv.new_pipe(false),
         stdout = uv.new_pipe(false),
@@ -44,19 +48,21 @@ function Process:clone()
     return Process.new(self.path, vim.deepcopy(self.option), self.on_exit)
 end
 
-function Process:on_read(err, data)
-    if err then
-        table.insert(self.standard_error, err)
-    elseif data then
-        table.insert(self.standard_output, data)
-    end
-end
-
 ---Run the process.
 function Process:start()
     self.standard_output = {}
     self.standard_error = {}
-    self.handle, self.id = uv.spawn(self.path, self.option, vim.schedule_wrap(
+    local on_read = function (err, data)
+        if err then
+            table.insert(self.standard_error, err)
+            lib.notify_err(err)
+        elseif data then
+            table.insert(self.standard_output, data)
+        end
+    end
+    local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
+    opt = vim.tbl_extend("keep", opt, self.option)
+    self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(
     function (code, signal)
         self.stdout:read_stop()
         self.stderr:read_stop()
@@ -64,18 +70,22 @@ function Process:start()
         self.stderr:close()
         self.handle:close()
         self.has_exited = true
-        self.on_exit(code, signal)
+        if self.on_exit then
+            self.on_exit(self, code, signal)
+        end
     end))
-    self.stdout:read_start(vim.schedule_wrap(self.on_read))
-    self.stderr:read_start(vim.schedule_wrap(self.on_read))
+    self.stdout:read_start(vim.schedule_wrap(on_read))
+    self.stderr:read_start(vim.schedule_wrap(on_read))
 end
 
 ---Continue with a process.
 ---@param process Process
 function Process:continue_with(process)
     local on_exit = self.on_exit
-    self.on_exit = function (code, signal)
-        on_exit(code, signal)
+    self.on_exit = function (_, code, signal)
+        if on_exit then
+            on_exit(self, code, signal)
+        end
         if code == 0 then
             process:start()
         end
