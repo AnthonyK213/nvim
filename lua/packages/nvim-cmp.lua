@@ -11,11 +11,9 @@ local cmp_setup = {
     completion = {
         keyword_length = 2,
     },
-
     snippet = {
         expand = function (args) vim.fn['vsnip#anonymous'](args.body) end
     },
-
     mapping = {
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i'}),
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i'}),
@@ -102,13 +100,12 @@ local cmp_setup = {
             end
         })
     },
-
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'vsnip' },
         { name = 'path' },
     }, {
-        { name = 'buffer' },
+        { name = 'buffer', keyword_length = 5 },
         { name = 'omni' },
     })
 }
