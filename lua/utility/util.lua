@@ -331,7 +331,7 @@ function M.nvim_upgrade(channel)
         }, ';')
 
         vim.fn.jobstart('powershell.exe -c '..pwsh_cmd, { detach = true })
-        vim.cmd('xa!')
+        vim.cmd('qa!')
         return
     elseif vim.fn.has("unix") == 1 then
         if not lib.executable('curl') then return end
