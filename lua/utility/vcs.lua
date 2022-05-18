@@ -1,5 +1,6 @@
 local M = {}
 local lib = require('utility.lib')
+local Process = require('utility.proc')
 local uv = vim.loop
 
 
@@ -50,70 +51,96 @@ function M.git_push_all(arg_list)
         return
     end
 
-    -- Spawn jobs.
-    local outputs = {}
-
-    local function on_read(err, data)
-        if err then
-            vim.notify("Error: "..err)
-        elseif data then
-            local vals = vim.split(data, "\n")
-            for _, val in ipairs(vals) do
-                if val ~= "" then
-                    table.insert(outputs, val)
-                end
-            end
-        end
-    end
-
-    local function git_push()
-        local stdout = uv.new_pipe(false)
-        local stderr = uv.new_pipe(false)
-        local git_push_handle
-        git_push_handle = uv.spawn('git', {
-            args = { 'push', 'origin', b_arg, '--porcelain' },
-            cwd = git_root,
-            stdio = { nil, stdout, stderr },
-        },
-        vim.schedule_wrap(function ()
-            stdout:read_stop()
-            stderr:read_stop()
-            stdout:close()
-            stderr:close()
-            print(table.concat(outputs, ' '):gsub('\t', ' '))
-            git_push_handle:close()
-        end))
-        outputs = {}
-        stdout:read_start(vim.schedule_wrap(on_read))
-        stderr:read_start(vim.schedule_wrap(on_read))
-    end
-
-    local function git_commit()
-        local git_commit_handle
-        git_commit_handle = uv.spawn('git', {
-            args = {'commit', '-m', m_arg},
-            cwd = git_root,
-        },
-        vim.schedule_wrap(function (code)
-            git_commit_handle:close()
-            if code == 0 then
-                print("Commit message: "..m_arg)
-                git_push()
-            end
-        end))
-    end
-
-    local git_add_handle
-    git_add_handle = uv.spawn('git', {
+    local git_add = Process.new("git", {
         args = {'add', '*'},
         cwd = git_root,
-    },
-    vim.schedule_wrap(function (code)
-        git_add_handle:close()
+    })
+
+    local git_commit = Process.new("git", {
+        args = {'commit', '-m', m_arg},
+        cwd = git_root,
+    }, function (_, code, _)
         if code == 0 then
-            git_commit()
+            print("Commit message: "..m_arg)
         end
-    end))
+    end)
+
+    local git_push = Process.new("git", {
+        args = { 'push', 'origin', b_arg, '--porcelain' },
+        cwd = git_root,
+    }, function (proc)
+        vim.notify(table.concat(proc.standard_output):gsub("[\t\n\r]", " "))
+    end)
+
+    git_add:continue_with(git_commit)
+    git_commit:continue_with(git_push)
+
+    git_add:start()
+
+    -- Spawn jobs.
+    --local outputs = {}
+
+    --local function on_read(err, data)
+        --if err then
+            --vim.notify("Error: "..err)
+        --elseif data then
+            --local vals = vim.split(data, "\n")
+            --for _, val in ipairs(vals) do
+                --if val ~= "" then
+                    --table.insert(outputs, val)
+                --end
+            --end
+        --end
+    --end
+
+    --local function git_push()
+        --local stdout = uv.new_pipe(false)
+        --local stderr = uv.new_pipe(false)
+        --local git_push_handle
+        --git_push_handle = uv.spawn('git', {
+            --args = { 'push', 'origin', b_arg, '--porcelain' },
+            --cwd = git_root,
+            --stdio = { nil, stdout, stderr },
+        --},
+        --vim.schedule_wrap(function ()
+            --stdout:read_stop()
+            --stderr:read_stop()
+            --stdout:close()
+            --stderr:close()
+            --print(table.concat(outputs, ' '):gsub('\t', ' '))
+            --git_push_handle:close()
+        --end))
+        --outputs = {}
+        --stdout:read_start(vim.schedule_wrap(on_read))
+        --stderr:read_start(vim.schedule_wrap(on_read))
+    --end
+
+    --local function git_commit()
+        --local git_commit_handle
+        --git_commit_handle = uv.spawn('git', {
+            --args = {'commit', '-m', m_arg},
+            --cwd = git_root,
+        --},
+        --vim.schedule_wrap(function (code)
+            --git_commit_handle:close()
+            --if code == 0 then
+                --print("Commit message: "..m_arg)
+                --git_push()
+            --end
+        --end))
+    --end
+
+    --local git_add_handle
+    --git_add_handle = uv.spawn('git', {
+        --args = {'add', '*'},
+        --cwd = git_root,
+    --},
+    --vim.schedule_wrap(function (code)
+        --git_add_handle:close()
+        --if code == 0 then
+            --git_commit()
+        --end
+    --end))
 end
 
 
