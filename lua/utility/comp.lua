@@ -229,6 +229,11 @@ local comp_table = {
                 end
             end
         end
+        local done_cb = function (_, code, _)
+            if code == 0 then
+                vim.notify("Done.")
+            end
+        end
         local xelatex = Process.new('xelatex', {
             args = {
                 '-synctex=1',
@@ -251,6 +256,7 @@ local comp_table = {
             local x1 = xelatex:clone()
             local x2 = xelatex:clone()
             x1:continue_with(x2)
+            x2:append_cb(done_cb)
             x1:start()
         elseif bib_table[tbl.opt] then
             vim.notify("Start compilation.")
@@ -262,6 +268,7 @@ local comp_table = {
             x1:continue_with(x2)
             x2:continue_with(b)
             b:continue_with(x3)
+            x3:append_cb(done_cb)
             x1:start()
         else
             lib.notify_err('Invalid argument.')
