@@ -4,16 +4,17 @@ local lib = require("utility.lib")
 ---@class Process
 ---@field path string
 ---@field option table
----@field on_exit function
+---@field on_exit function<Process, integer, integer>
+---@field hanle userdata
+---@field id integer
+---@field has_exited boolean
+---@field extra_cb function[]
 ---@field stdin uv_pipe_t
 ---@field stdout uv_pipe_t
 ---@field stderr uv_pipe_t
 ---@field standard_input string[]
 ---@field standard_output string[]
 ---@field standard_error string[]
----@field hanle userdata
----@field id integer
----@field has_exited boolean
 local Process = {}
 
 Process.__index = Process
@@ -28,15 +29,16 @@ function Process.new(path, option, on_exit)
         path = path,
         option = option or {},
         on_exit = on_exit,
+        handle = nil,
+        id = -1,
+        has_exited = false,
+        extra_cb = {},
         stdin = uv.new_pipe(false),
         stdout = uv.new_pipe(false),
         stderr = uv.new_pipe(false),
         standard_input = {},
         standard_output = {},
         standard_error = {},
-        handle = -1,
-        id = -1,
-        has_exited = false,
     }
     setmetatable(o, Process)
     return o
@@ -50,6 +52,7 @@ end
 
 ---Run the process.
 function Process:start()
+    if self.has_exited then return end
     self.standard_output = {}
     self.standard_error = {}
     local on_read = function (err, data)
@@ -73,23 +76,28 @@ function Process:start()
         if self.on_exit then
             self.on_exit(self, code, signal)
         end
+        for _, f in ipairs(self.extra_cb) do
+            f(self, code, signal)
+        end
     end))
     self.stdout:read_start(vim.schedule_wrap(on_read))
     self.stderr:read_start(vim.schedule_wrap(on_read))
 end
 
+---Append callback function.
+---@param cb function<Process, integer, integer> Callback function.
+function Process:append_cb(cb)
+    table.insert(self.extra_cb, cb)
+end
+
 ---Continue with a process.
 ---@param process Process
 function Process:continue_with(process)
-    local on_exit = self.on_exit
-    self.on_exit = function (_, code, signal)
-        if on_exit then
-            on_exit(self, code, signal)
-        end
+    self:append_cb(function (_, code, _)
         if code == 0 then
             process:start()
         end
-    end
+    end)
 end
 
 
