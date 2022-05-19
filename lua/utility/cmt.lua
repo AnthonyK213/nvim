@@ -4,6 +4,7 @@ local lib = require('utility.lib')
 
 
 local cmt_mark_tab_single = {
+    arduino = "//",
     c = "//",
     cmake = "#",
     cpp = "//",
@@ -17,6 +18,7 @@ local cmt_mark_tab_single = {
     rust = "//",
     perl = "#",
     python = "#",
+    scheme = ";",
     sh = "#",
     sshconfig = "#",
     tex = "%",
