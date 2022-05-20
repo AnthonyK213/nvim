@@ -1,6 +1,6 @@
 let s:Syntax = {}
 
-function s:get_vs(row, col) abort
+function! s:get_vs(row, col) abort
   let l:vs = []
   for l:id in synstack(a:row, a:col)
     let l:name = synIDattr(l:id, "name")
@@ -16,7 +16,7 @@ function s:get_vs(row, col) abort
   return l:vs
 endfunction
 
-function s:Syntax.match(pattern) dict
+function! s:Syntax.match(pattern) dict
   for l:obj in self.vs
     if obj["name"] =~ a:pattern
       return 1
@@ -25,7 +25,7 @@ function s:Syntax.match(pattern) dict
   return 0
 endfunction
 
-function s:Syntax.show() dict
+function! s:Syntax.show() dict
   let l:lines = []
   if !empty(self.vs)
     call add(l:lines, "# Vim_Syntax")
@@ -39,7 +39,7 @@ function s:Syntax.show() dict
   echo join(l:lines, "\n")
 endfunction
 
-function my#syn#new(row, col) abort
+function! my#syn#new(row, col) abort
   let l:vs = []
   if exists("b:current_syntax")
     let l:vs = s:get_vs(a:row, a:col)

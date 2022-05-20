@@ -1,17 +1,3 @@
-" Supported list:
-"   1. C
-"   2. Common Lisp
-"   3. C++
-"   4. C#
-"   5. Processing
-"   6. Python
-"   7. Ruby
-"   8. Rust
-"   9. Vim script
-"   10. Lua
-"   11. LaTeX
-
-
 " LaTeX recipes
 function! s:latex_xelatex() abort
   let l:name = expand('%:r')
