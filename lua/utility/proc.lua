@@ -7,6 +7,7 @@ local lib = require("utility.lib")
 ---@field on_exit function<Process, integer, integer>
 ---@field hanle userdata
 ---@field id integer
+---@field is_valid boolean
 ---@field has_exited boolean
 ---@field extra_cb function[]
 ---@field stdin uv_pipe_t
@@ -32,6 +33,7 @@ function Process.new(path, option, on_exit)
         handle = nil,
         id = -1,
         has_exited = false,
+        is_valid = true,
         extra_cb = {},
         stdin = uv.new_pipe(false),
         stdout = uv.new_pipe(false),
@@ -40,6 +42,9 @@ function Process.new(path, option, on_exit)
         standard_output = {},
         standard_error = {},
     }
+    if not lib.executable(path) then
+        o.is_valid = false
+    end
     setmetatable(o, Process)
     return o
 end
@@ -52,7 +57,7 @@ end
 
 ---Run the process.
 function Process:start()
-    if self.has_exited then return end
+    if self.has_exited or not self.is_valid then return end
     self.standard_output = {}
     self.standard_error = {}
     local on_read = function (err, data)
