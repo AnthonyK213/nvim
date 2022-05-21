@@ -1,4 +1,5 @@
 let s:cmt_mark_tab_single = {
+      \ 'arduino'   : '//',
       \ 'c'         : '//',
       \ 'cmake'     : '#',
       \ 'cpp'       : "//",
