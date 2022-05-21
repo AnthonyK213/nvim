@@ -91,3 +91,73 @@ function! my#util#search_selection(cmd) abort
   let pat = my#lib#get_visual_selection()
   return '\V' . substitute(escape(pat, a:cmd . '\'), '\n', '\\n', 'g')
 endfunction
+
+function! my#util#git_push_all(...) abort
+  if my#compat#has_incompat() | return | endif
+  if !my#lib#executable("git") | return | endif
+  let l:arg_list = a:000
+  let l:git_root = my#lib#get_root('.git')
+  if l:git_root != v:null
+    let l:git_branch = my#lib#get_git_branch(l:git_root)
+  else
+    call my#lib#notify_err("Not a git repository.")
+    return
+  endif
+  if l:git_branch != v:null
+    exe 'cd' fnameescape(l:git_root)
+  else
+    call my#lib#notify_err("Not a valid git repository.")
+    return
+  endif
+  if len(l:arg_list) % 2 == 0
+    let l:m_index = index(l:arg_list, "-m")
+    let l:b_index = index(l:arg_list, "-b")
+    if (l:m_index >= 0) && (l:m_index % 2 == 0)
+      let l:m_arg = l:arg_list[l:m_index + 1]
+    elseif l:m_index < 0
+      let l:m_arg = strftime('%y%m%d')
+    else
+      call my#lib#notify_err("Invalid commit argument.")
+      return
+    endif
+    if (l:b_index >= 0) && (l:b_index % 2 == 0)
+      let l:b_arg = l:arg_list[l:b_index + 1]
+    elseif l:b_index < 0
+      let l:b_arg = l:git_branch
+    else
+      call my#lib#notify_err("Invalid branch argument.")
+    endif
+  else
+    call my#lib#notify_err("Wrong number of arguments is given.")
+    return
+  endif
+  function! s:git_commit_cb(proc, job_id, data, event) closure
+    if a:data == 0
+      echomsg "Commit message:" l:m_arg
+    else
+      call my#lib#notify_err(join(a:proc.standard_output))
+    endif
+  endfunction
+  function! s:git_push_cb(proc, job_id, data, event) closure
+    if a:data == 0
+      echomsg join(a:proc.standard_output)
+    else
+      call my#lib#notify_err(join(a:proc.standard_output))
+    endif
+  endfunction
+  let l:git_add = my#proc#new("git", {
+        \ "args": ["add", "*"],
+        \ "cwd": l:git_root
+        \ })
+  let l:git_commit = my#proc#new("git", {
+        \ "args": ["commit", "-m", l:m_arg],
+        \ "cwd": l:git_root
+        \ }, function("s:git_commit_cb"))
+  let l:git_push = my#proc#new("git", {
+        \ "args": ["push", "origin", l:b_arg, "--porcelain"],
+        \ "cwd": l:git_root
+        \ }, function("s:git_push_cb"))
+  call l:git_add.continue_with(l:git_commit)
+  call l:git_commit.continue_with(l:git_push)
+  call l:git_add.start()
+endfunction

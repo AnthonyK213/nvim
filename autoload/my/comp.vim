@@ -1,22 +1,3 @@
-" LaTeX recipes
-function! s:latex_xelatex() abort
-  let l:name = expand('%:r')
-  exe '!xelatex -synctex=1 -interaction=nonstopmode -file-line-error' l:name . '.tex'
-endfunction
-
-function! s:latex_xelatex_2() abort
-  call s:latex_xelatex()
-  call s:latex_xelatex()
-endfunction
-
-function! s:latex_biber() abort
-  let l:name = expand('%:r')
-  call s:latex_xelatex()
-  exe '!biber' l:name . '.bcf'
-  call s:latex_xelatex()
-  call s:latex_xelatex()
-endfunction
-
 function! s:on_event(cb, arg_tbl) abort
   return {id, data, event -> a:cb(a:arg_tbl, [id, data, event])}
 endfunction
@@ -192,10 +173,63 @@ function! s:comp_rust(tbl) abort
 endfunction
 
 function! s:comp_latex(tbl) abort
+  let l:step = 1
+  let l:name = expand('%:p:r')
+  function! s:tex_cb(label, proc, job_id, data, event) closure
+    if a:data == 0
+      echomsg l:step "->" a:label
+      let l:step += 1
+    else
+      for l:item in a:proc.standard_output + a:proc.standard_error
+        call my#lib#notify_err(l:item)
+      endfor
+      call my#lib#notify_err(a:label . ": Compilation failed.")
+    endif
+  endfunction
+  function! s:tex_done_cb(proc, job_id, data, event) abort
+    if a:data == 0
+      echomsg "Done."
+    endif
+  endfunction
+  let l:xelatex = my#proc#new("xelatex", {
+        \ "args": [
+          \ '-synctex=1',
+          \ '-interaction=nonstopmode',
+          \ '-file-line-error',
+          \ l:name..'.tex'
+          \ ]
+          \ }, {proc, job_id, data, event ->
+          \ s:tex_cb("XeLaTeX", proc, job_id, data, event)})
+  let l:biber = my#proc#new("biber", {
+        \ "args": [l:name . ".bcf"]
+        \ }, {proc, job_id, data, event ->
+        \ s:tex_cb("Biber", proc, job_id, data, event)})
+  let l:bibtex = my#proc#new("bibtex", {
+        \ "args": [l:name . ".aux"]
+        \ }, {proc, job_id, data, event ->
+        \ s:tex_cb("BibTeX", proc, job_id, data, event)})
+  let l:bib_table = {
+        \ "biber": l:biber,
+        \ "bibtex": l:bibtex
+        \ }
   if empty(a:tbl['opt'])
-    call s:latex_xelatex_2()
-  elseif a:a:tbl['opt'] ==# 'biber'
-    call s:latex_biber()
+    echom "Start compilation."
+    let l:x1 = l:xelatex.clone()
+    let l:x2 = l:xelatex.clone()
+    call l:x1.continue_with(l:x2)
+    call l:x2.append_cb(function("s:tex_done_cb"))
+    call l:x1.start()
+  elseif has_key(l:bib_table, a:tbl.opt)
+    echom "Start compilation."
+    let l:x1 = l:xelatex.clone()
+    let l:x2 = l:xelatex.clone()
+    let l:b = l:bib_table[a:tbl.opt].clone()
+    let l:x3 = l:xelatex.clone()
+    call l:x1.continue_with(l:x2)
+    call l:x2.continue_with(l:b)
+    call l:b.continue_with(l:x3)
+    call l:x3.append_cb(function("s:tex_done_cb"))
+    call l:x1.start()
   else
     call my#lib#notify_err("Invalid argument.")
   endif
