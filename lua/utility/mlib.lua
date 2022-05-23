@@ -14,6 +14,34 @@ function M.factorial(x)
     return result
 end
 
+---nth Fibonacci number
+---@param x integer
+---@return integer result
+function M.fibonacci(x)
+    if x < 0 then
+        error("Input number must be positive.")
+    end
+    assert(math.floor(x) == x, "Input number must be a integer.")
+    local memo = {}
+    local fib
+    fib = function (n)
+        if memo[n] then return memo[n] end
+        local f
+        if n <= 2 then
+            f = 1
+        elseif n % 2 == 0 then
+            local m = n / 2
+            f = fib(m) * (fib(m + 1) + fib(m - 1))
+        else
+            local m = (n - 1) / 2
+            f = fib(m + 1) ^ 2 + fib(m) ^ 2
+        end
+        memo[n] = f
+        return f
+    end
+    return fib(x)
+end
+
 ---Gamma function
 ---@param x number
 ---@return number result

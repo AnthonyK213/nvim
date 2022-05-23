@@ -101,6 +101,7 @@ local func_map = {
     deg   = function(args) return math.deg(args[1]) end,
     exp   = expow,
     fact  = function(args) return mlib.factorial(args[1]) end,
+    fib   = function(args) return mlib.fibonacci(args[1]) end,
     floor = function(args) return math.floor(args[1]) end,
     gamma = function(args) return mlib.gamma(args[1]) end,
     log   = function(args) return math.log(args[1]) end,
