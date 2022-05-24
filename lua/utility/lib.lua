@@ -113,6 +113,7 @@ end
 ---@param str string
 ---@return integer
 function M.str_char2nr(str)
+    if #str == 0 then return 0 end
     local char = M.str_sub(str, 1, 1)
     local result
     local seq = 0
