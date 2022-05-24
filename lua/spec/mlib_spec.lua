@@ -2,9 +2,18 @@ local mlib = require("utility.mlib")
 
 describe("Fibonacci", function()
     local fibonacci = mlib.fibonacci
+    local fib = function (n)
+        local a, b = 0, 1
+        for _ = 0, n - 1 do
+            a, b = a + b, a
+        end
+        return a
+    end
 
     it("should calculate the nth fibonacci number", function()
-        assert.equals(55, fibonacci(10))
+        for i = 1, 42 do
+            assert.equal(fib(i), fibonacci(i))
+        end
     end)
 
     it("should throw exceptions", function ()
