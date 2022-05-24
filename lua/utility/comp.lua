@@ -66,8 +66,10 @@ function Cmd:run(tbl)
         end
     elseif type(self.cmd) == 'string' then
         vim.api.nvim_set_current_dir(tbl.fwd)
+        vim.schedule(function ()
+            vim.api.nvim_set_current_dir(tbl.bwd)
+        end)
         vim.cmd(self.cmd)
-        vim.api.nvim_set_current_dir(tbl.bwd)
     end
 end
 
@@ -82,13 +84,17 @@ local comp_table = {
         else
             output_dir = '/tmp/nvim_processing/'..sketch_name
         end
-        return Cmd.new {
-            'processing-java',
-            '--sketch='..tbl.fwd,
-            '--output='..output_dir,
-            '--force',
-            '--run'
-        }
+        if tbl.opt == '' then
+            return Cmd.new {
+                'processing-java',
+                '--sketch='..tbl.fwd,
+                '--output='..output_dir,
+                '--force',
+                '--run'
+            }
+        else
+            lib.notify_err('Invalid argument.')
+        end
     end,
     c = function (tbl)
         local my_cc = _my_core_opt.dep.cc
@@ -107,7 +113,6 @@ local comp_table = {
             end
         else
             lib.notify_err('Invalid argument.')
-            return
         end
     end,
     cpp = function (tbl)
@@ -118,9 +123,11 @@ local comp_table = {
         local cc = cc_tbl[_my_core_opt.dep.cc]
         if cc then
             if not lib.executable(cc) then return end
-            return Cmd.new({ cc, tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
-        else
-            return
+            if tbl.opt == '' then
+                return Cmd.new({ cc, tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
+            else
+                lib.notify_err('Invalid argument.')
+            end
         end
     end,
     cs = function (tbl)
@@ -141,7 +148,6 @@ local comp_table = {
             return Cmd.new(cmd)
         else
             lib.notify_err('Invalid argument.')
-            return
         end
     end,
     lisp = function (tbl)
@@ -162,7 +168,6 @@ local comp_table = {
             return Cmd.new(cmd)
         else
             lib.notify_err('Invalid argument.')
-            return
         end
     end,
     lua = function (tbl)
@@ -171,18 +176,27 @@ local comp_table = {
         elseif tbl.opt == 'nojit' then
             if not lib.executable('lua') then return end
             return Cmd.new { 'lua', tbl.fnm }
+        elseif tbl.opt == 'test' then
+            lib.feedkeys("<Plug>PlenaryTestFile", "n", false)
         else
             lib.notify_err('Invalid arguments.')
-            return
         end
     end,
     python = function (tbl)
         if not lib.executable('python') then return end
-        return Cmd.new { 'python', tbl.fnm }
+        if tbl.opt == '' then
+            return Cmd.new { 'python', tbl.fnm }
+        else
+            lib.notify_err('Invalid argument.')
+        end
     end,
     ruby = function (tbl)
         if not lib.executable('ruby') then return end
-        return Cmd.new { 'ruby', tbl.fnm }
+        if tbl.opt == '' then
+            return Cmd.new { 'ruby', tbl.fnm }
+        else
+            lib.notify_err('Invalid argument.')
+        end
     end,
     rust = function (tbl)
         if not lib.executable('cargo') then return end
@@ -200,7 +214,6 @@ local comp_table = {
                 return Cmd.new(cmd, cargo_root)
             else
                 lib.notify_err('Invalid argument.')
-                return
             end
         end
         return Cmd.new({ 'rustc', tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
@@ -218,7 +231,7 @@ local comp_table = {
             ---@param _ any
             return function (proc, code, _)
                 if code == 0 then
-                    print(step.." -> "..label)
+                    vim.notify(step.." -> "..label)
                     step = step + 1
                 else
                     lib.belowright_split(15)
@@ -274,7 +287,13 @@ local comp_table = {
             lib.notify_err('Invalid argument.')
         end
     end,
-    vim = function (_) return Cmd.new('source %') end,
+    vim = function (tbl)
+        if tbl.opt == '' then
+            return Cmd.new('source %')
+        else
+            lib.notify_err('Invalid argument.')
+        end
+    end,
 }
 
 ---Run or compile the code.

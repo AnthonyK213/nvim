@@ -20,6 +20,11 @@ local get_mode = function ()
     end
 end
 
+local to_normal = function ()
+    vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes('<Esc>', false, true, true), 'nx', false)
+end
+
 -- Adjust window size.
 kbd('n', '<C-UP>',    '<C-W>-', nt)
 kbd('n', '<C-DOWN>',  '<C-W>+', nt)
@@ -95,8 +100,12 @@ kbd('v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv
 -- Mouse toggle.
 kbd({'n', 'v', 'i', 't'}, '<F2>', vim.fn['my#compat#mouse_toggle'], ntst)
 -- Run code.
--- FIXME: Using a function for {rhs} will flush the cmdline output with `print`.
-kbd('n', '<F5>', ':lua require("utility.comp").run_or_compile("")<CR>', ntst)
+kbd('n', '<f5>', function ()
+    require("utility.comp").run_or_compile("")
+end, ntst)
+kbd('n', '<f6>', function ()
+    require("utility.comp").run_or_compile("test")
+end, ntst)
 -- Show document.
 kbd('n', 'K', function ()
     local lib = require('utility.lib')
@@ -218,9 +227,7 @@ end
 kbd({'n', 'v'}, '<leader>sa', function ()
     local mode = get_mode()
     if mode then
-        vim.api.nvim_feedkeys(
-        vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, false, true),
-        'n', true)
+        to_normal()
         require('utility.srd').srd_add(mode)
     end
 end, ntst)
@@ -231,17 +238,30 @@ kbd('n', '<leader>sc', function ()
     require('utility.srd').srd_sub()
 end, ntst)
 -- Comment
-kbd('n', '<leader>kc', function ()
-    require('utility.cmt').cmt_add_norm()
+kbd({'n', 'v'}, '<leader>kc', function ()
+    local mode = get_mode()
+    if mode == 'n' then
+        require('utility.cmt').cmt_add_norm()
+    elseif mode == 'v' then
+        to_normal()
+        require('utility.cmt').cmt_add_vis()
+    else
+        return
+    end
 end, ntst)
-kbd('n', '<leader>ku', function ()
-    require('utility.cmt').cmt_del_norm()
+kbd({'n', 'v'}, '<leader>ku', function ()
+    local mode = get_mode()
+    if mode == 'n' then
+        require('utility.cmt').cmt_del_norm()
+    elseif mode == 'v' then
+        to_normal()
+        require('utility.cmt').cmt_del_vis()
+    else
+        return
+    end
 end, ntst)
-kbd('v', '<leader>kc', [[:<C-U>lua ]]
-..[[require('utility.cmt').cmt_add_vis()<CR>]], ntst)
-kbd('v', '<leader>ku', [[:<C-U>lua ]]
-..[[require('utility.cmt').cmt_del_vis()<CR>]], ntst)
 -- Show highlight information.
 kbd('n', '<leader>vs', function ()
-    require('utility.syn').new(unpack(vim.api.nvim_win_get_cursor(0))):show()
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    require('utility.syn').new(row, col):show()
 end, ntst)
