@@ -34,7 +34,8 @@ local opt = {
         style = 'dark',
         transparent = false,
         global_statusline = false,
-        cmp_border = false
+        cmp_border = false,
+        cmp_ghost = false,
     },
     gui = {
         theme = 'auto',

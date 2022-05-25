@@ -107,7 +107,8 @@ local cmp_setup = {
     }, {
         { name = 'buffer', keyword_length = 5 },
         { name = 'omni' },
-    })
+    }),
+    experimental = {}
 }
 
 if _my_core_opt.tui.cmp_border then
@@ -115,6 +116,10 @@ if _my_core_opt.tui.cmp_border then
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered()
     }
+end
+
+if _my_core_opt.tui.cmp_ghost then
+    cmp_setup.experimental.ghost_text = true
 end
 
 cmp.setup(cmp_setup)
