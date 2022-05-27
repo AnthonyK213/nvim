@@ -17,4 +17,13 @@ describe("String", function ()
             assert.equal(vim.fn.char2nr(str), lib.str_char2nr(str))
         end
     end)
+
+    it("should return a slice of string", function ()
+        local test_str = "\t+g-<ab&&0\n356cdef|#::!{[hjkl\r}"
+        for _ = 1, 128 do
+            local a = math.random(-42, 42)
+            local b = math.random(-42, 42)
+            assert.equal(test_str:sub(a, b), lib.str_sub(test_str, a, b))
+        end
+    end)
 end)
