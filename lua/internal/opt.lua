@@ -70,8 +70,8 @@ local opt = {
 }
 
 -- Merge custom options.
-local opt_file = vim.fn.stdpath('config')..'/opt.json'
-if lib.path_exists(opt_file) then
+local exists, opt_file = lib.get_opt_file()
+if exists then
     local f = io.open(opt_file)
     if f then
         local ok, result = pcall(vim.json.decode, f:read("*a"))
@@ -79,7 +79,7 @@ if lib.path_exists(opt_file) then
         if ok then
             opt = vim.tbl_deep_extend("force", opt, result)
         else
-            vim.notify("Invalid `opt.json`", vim.log.levels.WARN, nil)
+            vim.notify("Invalid option file", vim.log.levels.WARN, nil)
         end
     end
 end

@@ -7,7 +7,6 @@ require("nvim-tree").setup {
             list = {
                 { key = {"<CR>", "<2-LeftMouse>"}, action = "edit" },
                 { key = {"C", "<2-RightMouse>"},   action = "cd" },
-                { key = "<C-I>",  action = "toggle_ignored" },
                 { key = "<C-J>",  action = "next_sibling" },
                 { key = "<C-K>",  action = "prev_sibling" },
                 { key = "<C-R>",  action = "full_rename" },
@@ -17,6 +16,7 @@ require("nvim-tree").setup {
                 { key = "<Tab>",  action = "preview" },
                 { key = "D",      action = "remove" },
                 { key = "H",      action = "toggle_dotfiles" },
+                { key = "I",      action = "toggle_ignored" },
                 { key = "R",      action = "refresh" },
                 { key = "a",      action = "create" },
                 { key = "c",      action = "copy" },
@@ -92,7 +92,7 @@ require("nvim-tree").setup {
     },
     filters = {
         dotfiles = true,
-        custom = { '.git', '.cache' }
+        custom = { '.cache' }
     },
     git = {
         enable = true,

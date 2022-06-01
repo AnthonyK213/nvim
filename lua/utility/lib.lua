@@ -370,5 +370,32 @@ function M.has_filetype(filetype)
     return vim.tbl_contains(vim.split(vim.bo.ft, '%.'), filetype)
 end
 
+---Get path of the option file (nvimrc).
+---@return boolean True if the option file exists.
+---@return string|nil Path of the option file.
+function M.get_opt_file()
+    local dir_table = {
+        vim.loop.os_homedir(),
+        vim.fn.stdpath("config")
+    }
+    local prefix = M.has_windows() and "_" or "."
+    local file_name = "/"..prefix.."nvimrc"
+    local ok_index = 0
+    for i, dir in ipairs(dir_table) do
+        if dir then
+            if ok_index == 0 then ok_index = i end
+            local file_path = dir..file_name
+            if M.path_exists(file_path) then
+                return true, file_path
+            end
+        end
+    end
+    if ok_index > 0 then
+        return false, dir_table[ok_index]..file_name
+    else
+        return false, nil
+    end
+end
+
 
 return M

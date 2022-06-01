@@ -12,7 +12,7 @@ function M.terminal()
     elseif type(my_sh) == "string" then
         exec = my_sh
     else
-        lib.notify_err("The shell is invalid, please check `opt.json`.")
+        lib.notify_err("The shell is invalid, please check `nvimrc`.")
         return false
     end
 

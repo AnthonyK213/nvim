@@ -46,17 +46,20 @@ function! my#compat#vim_source(file) abort
   call v:lua.require('utility.lib').vim_source(a:file)
 endfunction
 
-" Open opt.json.
+" Open nvimrc.
 function! my#compat#open_opt() abort
-  let l:cfg = stdpath("config")
-  let l:opt = l:cfg . "/opt.json"
-  if empty(glob(l:opt))
-    exe 'e' fnameescape(l:opt)
-    call nvim_paste("{}", v:true, -1)
+lua << EOF
+  local exists, opt_file = require("utility.lib").get_opt_file()
+  if exists then
+    require("utility.util").edit_file(opt_file, false)
+    vim.api.nvim_set_current_dir(vim.fn.stdpath("config"))
+  elseif opt_file then
+    vim.cmd("e "..vim.fn.fnameescape(opt_file))
+    vim.api.nvim_paste("{}", true, -1)
   else
-    call v:lua.require("utility.util").edit_file(l:opt, v:false)
-  endif
-  call nvim_set_current_dir(l:cfg)
+    vim.notify("No available configuration directory")
+  end
+EOF
 endfunction
 
 " Set background according to time.
