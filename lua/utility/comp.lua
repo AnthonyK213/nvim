@@ -259,7 +259,7 @@ local comp_table = {
         local bib_table = {
             biber = Process.new('biber', {
                 args = { name..'.bcf' }
-            }, tex_cb("BibTeX")),
+            }, tex_cb("Biber")),
             bibtex = Process.new('bibtex', {
                 args = { name..'.aux' }
             }, tex_cb("BibTeX"))
