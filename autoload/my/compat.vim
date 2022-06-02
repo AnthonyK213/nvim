@@ -49,7 +49,7 @@ endfunction
 " Open nvimrc.
 function! my#compat#open_opt() abort
 lua << EOF
-  local exists, opt_file = require("utility.lib").get_opt_file()
+  local exists, opt_file = require("utility.lib").get_nvimrc()
   if exists then
     require("utility.util").edit_file(opt_file, false)
     vim.api.nvim_set_current_dir(vim.fn.stdpath("config"))

@@ -2,6 +2,53 @@ local bit = require("bit")
 local M = {}
 
 
+---Os types enum.
+---@class Os
+M.Os = {
+    UNKNOWN = 0,
+    LINUX = 1,
+    WINDOWS = 2,
+    MACOS = 3
+}
+
+---Create a below right split window.
+---@param height number Window height.
+function M.belowright_split(height)
+    local term_h = math.min(height,
+    math.floor(vim.api.nvim_win_get_height(0) * 0.382))
+    vim.cmd('belowright new')
+    vim.api.nvim_win_set_height(0, term_h)
+end
+
+---Encode URL.
+---@param str string URL string to encode.
+---@return string result Encoded url.
+function M.encode_url(str)
+    local res = str:gsub("([^%w%.%-%s])", function(x)
+        return string.format("%%%02X", string.byte(x))
+    end):gsub("[\n\r\t%s]", "%%20")
+    return res
+end
+
+---Check if executable exists.
+---@param exe string Executable name.
+---@return boolean
+function M.executable(exe)
+    if vim.fn.executable(exe) == 1 then return true end
+    M.notify_err('Executable '..exe..' is not found.')
+    return false
+end
+
+---Escape the termianl codes then feed keys to nvim.
+---@see vim.api.nvim_feedkeys
+---@param keys string
+---@param mode string
+---@param escape_ks boolean
+function M.feedkeys(keys, mode, escape_ks)
+    local k = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(k, mode, escape_ks)
+end
+
 ---Get characters around the cursor.
 ---@return table<string, string> context Context table with keys below:
 ---  - *p* -> The character before cursor (previous);
@@ -19,22 +66,6 @@ function M.get_context()
         p = M.str_sub(back, -1),
         n = M.str_sub(fore, 1, 1)
     }
-end
-
----Find the root directory contains pattern `pat`.
----@param pat string Root pattern.
----@return string? result Root directory path.
-function M.get_root(pat)
-    local current_dir = vim.fn.expand('%:p:h')
-    while true do
-        if vim.fn.globpath(current_dir, pat, 1) ~= '' then
-            return current_dir
-        end
-        local temp_dir = current_dir
-        current_dir = vim.fn.fnamemodify(current_dir, ':h')
-        if temp_dir == current_dir then break end
-    end
-    return nil
 end
 
 ---Get current branch name.
@@ -73,6 +104,64 @@ function M.get_git_branch(git_root)
     end
 end
 
+---Get path of the option file (nvimrc).
+---@return boolean True if the option file exists.
+---@return string|nil Path of the option file.
+function M.get_nvimrc()
+    local dir_table = {
+        vim.loop.os_homedir(),
+        vim.fn.stdpath("config")
+    }
+    local prefix = M.has_windows() and "_" or "."
+    local file_name = "/"..prefix.."nvimrc"
+    local ok_index = 0
+    for i, dir in ipairs(dir_table) do
+        if dir then
+            if ok_index == 0 then ok_index = i end
+            local file_path = dir..file_name
+            if M.path_exists(file_path) then
+                return true, file_path
+            end
+        end
+    end
+    if ok_index > 0 then
+        return false, dir_table[ok_index]..file_name
+    else
+        return false, nil
+    end
+end
+
+---Get OS type.
+---@return Os
+function M.get_os_type()
+    local name = vim.loop.os_uname().sysname
+    if name == 'Linux' then
+        return M.Os.LINUX
+    elseif name == 'Windows_NT' then
+        return M.Os.WINDOWS
+    elseif name == 'Darwin' then
+        return M.Os.MACOS
+    else
+        return M.Os.UNKNOWN
+    end
+end
+
+---Find the root directory contains pattern `pat`.
+---@param pat string Root pattern.
+---@return string? result Root directory path.
+function M.get_root(pat)
+    local current_dir = vim.fn.expand('%:p:h')
+    while true do
+        if vim.fn.globpath(current_dir, pat, 1) ~= '' then
+            return current_dir
+        end
+        local temp_dir = current_dir
+        current_dir = vim.fn.fnamemodify(current_dir, ':h')
+        if temp_dir == current_dir then break end
+    end
+    return nil
+end
+
 ---Get the visual selections.
 ---@return string result Visual selection.
 function M.get_visual_selection()
@@ -109,6 +198,71 @@ function M.get_word()
     return word, #b - #p_a, #b + #p_b
 end
 
+---Check if current filetype has `filetype`.
+---@param filetype string
+---@return boolean result
+function M.has_filetype(filetype)
+    return vim.tbl_contains(vim.split(vim.bo.ft, '%.'), filetype)
+end
+
+---Check if os is `Windows`.
+---@return boolean result
+function M.has_windows()
+    return M.get_os_type() == M.Os.WINDOWS
+end
+
+---Match URL in a string.
+---@param str string
+---@return boolean is_url True if the input `str` is a URL itself.
+---@return string url Matched URL.
+function M.match_url(str)
+    local url_pat = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
+    local protocols = {
+        [''] = 0,
+        ['http://'] = 0,
+        ['https://'] = 0,
+        ['ftp://'] = 0
+    }
+
+    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
+
+    if (url
+        and not (dom..'.'):find('%W%W')
+        and protocols[prot:lower()] == (1 - #slash) * #path
+        and (colon == '' or port ~= '' and port + 0 < 65536)) then
+        return #url == #str, url
+    end
+
+    return false, nil
+end
+
+---Notify the error message to neovim.
+---@param err string Error message.
+function M.notify_err(err)
+    vim.notify(err, vim.log.levels.ERROR, nil)
+end
+
+---Check if file/directory exists.
+---@param path string File/directory path.
+---@param cwd? string The working directory.
+---@return boolean
+function M.path_exists(path, cwd)
+    local is_rel = true
+    path = vim.fn.expand(path)
+    if M.has_windows() then
+        if path:match('^%a:[\\/]') then is_rel = false end
+    else
+        if path:match('^/') then is_rel = false end
+    end
+    if is_rel then
+        cwd = cwd or vim.loop.cwd()
+        cwd = cwd:gsub('[\\/]$', '')
+        path = cwd..'/'..path
+    end
+    local stat = vim.loop.fs_stat(path)
+    return (stat and stat.type) or false
+end
+
 ---Return number value of the first char in `str`.
 ---@param str string
 ---@return integer
@@ -130,46 +284,6 @@ function M.str_char2nr(str)
         seq = seq - 1
     end
     return result
-end
-
----String UTF-32 length.
----@param str string
----@return integer
-function M.str_len(str)
-    local length = vim.str_utfindex(str)
-    return length
-end
-
----Get UTF-32 sub-string from a string.
----@see string.sub
----@param str string
----@param i integer
----@param j? integer
----@return string
-function M.str_sub(str, i, j)
-    local length = vim.str_utfindex(str)
-    if i < 0 then i = i + length + 1 end
-    if (j and j < 0) then j = j + length + 1 end
-    local u = (i > 0) and i or 1
-    local v = (j and j <= length) and j or length
-    if (u > v) then return "" end
-    local s = vim.str_byteindex(str, u - 1)
-    local e = vim.str_byteindex(str, v)
-    return str:sub(s + 1, e)
-end
-
----Replace chars in a string according to a dictionary.
----@param str string String to replace.
----@param esc_table table<string, string> Replace dictionary.
----@return string result Replaced string.
-function M.str_replace(str, esc_table)
-    local str_list = M.str_explode(str)
-    for i, v in ipairs(str_list) do
-        if esc_table[v] then
-            str_list[i] = esc_table[v]
-        end
-    end
-    return table.concat(str_list)
 end
 
 ---Split string into a utfchar table.
@@ -203,6 +317,46 @@ function M.str_gexplode(str)
     end
 end
 
+---String UTF-32 length.
+---@param str string
+---@return integer
+function M.str_len(str)
+    local length = vim.str_utfindex(str)
+    return length
+end
+
+---Replace chars in a string according to a dictionary.
+---@param str string String to replace.
+---@param esc_table table<string, string> Replace dictionary.
+---@return string result Replaced string.
+function M.str_replace(str, esc_table)
+    local str_list = M.str_explode(str)
+    for i, v in ipairs(str_list) do
+        if esc_table[v] then
+            str_list[i] = esc_table[v]
+        end
+    end
+    return table.concat(str_list)
+end
+
+---Get UTF-32 sub-string from a string.
+---@see string.sub
+---@param str string
+---@param i integer
+---@param j? integer
+---@return string
+function M.str_sub(str, i, j)
+    local length = vim.str_utfindex(str)
+    if i < 0 then i = i + length + 1 end
+    if (j and j < 0) then j = j + length + 1 end
+    local u = (i > 0) and i or 1
+    local v = (j and j <= length) and j or length
+    if (u > v) then return "" end
+    local s = vim.str_byteindex(str, u - 1)
+    local e = vim.str_byteindex(str, v)
+    return str:sub(s + 1, e)
+end
+
 ---Reverse a ipairs table.
 ---@param tbl table Table to reverse.
 ---@return table? result Reversed table if reversible.
@@ -214,121 +368,6 @@ function M.tbl_reverse(tbl)
         end
         return tmp
     end
-end
-
----Escape vim regex(magic) special characters in a pattern by `backslash`.
----@param str string String of vim regex to escape.
----@return string result Escaped vim regex.
-function M.vim_pesc(str)
-    return vim.fn.escape(str, ' ()[]{}<>.+*^$')
-end
-
----Source a vim file.
----@param file string Vim script path.
-function M.vim_source(file)
-    local full_path = vim.fn.stdpath('config')..'/'..file..'.vim'
-    vim.cmd('source '..vim.fn.fnameescape(full_path))
-end
-
----Encode URL.
----@param str string URL string to encode.
----@return string result Encoded url.
-function M.encode_url(str)
-    local res = str:gsub("([^%w%.%-%s])", function(x)
-        return string.format("%%%02X", string.byte(x))
-    end):gsub("[\n\r\t%s]", "%%20")
-    return res
-end
-
----Match URL in a string.
----@param str string
----@return boolean is_url True if the input `str` is a URL itself.
----@return string url Matched URL.
-function M.match_url(str)
-    local url_pat = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
-    local protocols = {
-        [''] = 0,
-        ['http://'] = 0,
-        ['https://'] = 0,
-        ['ftp://'] = 0
-    }
-
-    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
-
-    if (url
-        and not (dom..'.'):find('%W%W')
-        and protocols[prot:lower()] == (1 - #slash) * #path
-        and (colon == '' or port ~= '' and port + 0 < 65536)) then
-        return #url == #str, url
-    end
-
-    return false, nil
-end
-
----Create a below right split window.
----@param height number Window height.
-function M.belowright_split(height)
-    local term_h = math.min(height,
-    math.floor(vim.api.nvim_win_get_height(0) * 0.382))
-    vim.cmd('belowright new')
-    vim.api.nvim_win_set_height(0, term_h)
-end
-
----Check if file/directory exists.
----@param path string File/directory path.
----@param cwd? string The working directory.
----@return boolean
-function M.path_exists(path, cwd)
-    local is_rel = true
-    path = vim.fn.expand(path)
-    if M.has_windows() then
-        if path:match('^%a:[\\/]') then is_rel = false end
-    else
-        if path:match('^/') then is_rel = false end
-    end
-    if is_rel then
-        cwd = cwd or vim.loop.cwd()
-        cwd = cwd:gsub('[\\/]$', '')
-        path = cwd..'/'..path
-    end
-    local stat = vim.loop.fs_stat(path)
-    return (stat and stat.type) or false
-end
-
----Os types enum.
----@class Os
-M.Os = {
-    UNKNOWN = 0,
-    LINUX = 1,
-    WINDOWS = 2,
-    MACOS = 3
-}
-
----Get OS type.
----@return Os
-function M.get_os_type()
-    local name = vim.loop.os_uname().sysname
-    if name == 'Linux' then
-        return M.Os.LINUX
-    elseif name == 'Windows_NT' then
-        return M.Os.WINDOWS
-    elseif name == 'Darwin' then
-        return M.Os.MACOS
-    else
-        return M.Os.UNKNOWN
-    end
-end
-
----Check if os is `Windows`.
----@return boolean result
-function M.has_windows()
-    return M.get_os_type() == M.Os.WINDOWS
-end
-
----Notify the error message to neovim.
----@param err string Error message.
-function M.notify_err(err)
-    vim.notify(err, vim.log.levels.ERROR, nil)
 end
 
 ---Use `pcall()` to catch error and display it.
@@ -344,57 +383,18 @@ function M.try(func, ...)
     return ok
 end
 
----Check if executable exists.
----@param exe string Executable name.
----@return boolean
-function M.executable(exe)
-    if vim.fn.executable(exe) == 1 then return true end
-    M.notify_err('Executable '..exe..' is not found.')
-    return false
+---Escape vim regex(magic) special characters in a pattern by `backslash`.
+---@param str string String of vim regex to escape.
+---@return string result Escaped vim regex.
+function M.vim_pesc(str)
+    return vim.fn.escape(str, ' ()[]{}<>.+*^$')
 end
 
----Escape the termianl codes then feed keys to nvim.
----@see vim.api.nvim_feedkeys
----@param keys string
----@param mode string
----@param escape_ks boolean
-function M.feedkeys(keys, mode, escape_ks)
-    local k = vim.api.nvim_replace_termcodes(keys, true, false, true)
-    vim.api.nvim_feedkeys(k, mode, escape_ks)
-end
-
----Check if current filetype has `filetype`.
----@param filetype string
----@return boolean result
-function M.has_filetype(filetype)
-    return vim.tbl_contains(vim.split(vim.bo.ft, '%.'), filetype)
-end
-
----Get path of the option file (nvimrc).
----@return boolean True if the option file exists.
----@return string|nil Path of the option file.
-function M.get_opt_file()
-    local dir_table = {
-        vim.loop.os_homedir(),
-        vim.fn.stdpath("config")
-    }
-    local prefix = M.has_windows() and "_" or "."
-    local file_name = "/"..prefix.."nvimrc"
-    local ok_index = 0
-    for i, dir in ipairs(dir_table) do
-        if dir then
-            if ok_index == 0 then ok_index = i end
-            local file_path = dir..file_name
-            if M.path_exists(file_path) then
-                return true, file_path
-            end
-        end
-    end
-    if ok_index > 0 then
-        return false, dir_table[ok_index]..file_name
-    else
-        return false, nil
-    end
+---Source a vim file.
+---@param file string Vim script path.
+function M.vim_source(file)
+    local full_path = vim.fn.stdpath('config')..'/'..file..'.vim'
+    vim.cmd('source '..vim.fn.fnameescape(full_path))
 end
 
 

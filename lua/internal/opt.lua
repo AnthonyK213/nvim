@@ -70,7 +70,7 @@ local opt = {
 }
 
 -- Merge custom options.
-local exists, opt_file = lib.get_opt_file()
+local exists, opt_file = lib.get_nvimrc()
 if exists then
     local f = io.open(opt_file)
     if f then
