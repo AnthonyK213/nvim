@@ -7,7 +7,7 @@ function! my#util#terminal() abort
     let l:exec = l:shell
     let l:cmd = [l:shell]
   else
-    echo "The shell is invalid, please check `opt.json`."
+    echo "The shell is invalid, please check `nvimrc`."
     return
   endif
   if !executable(l:exec)

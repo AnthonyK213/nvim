@@ -24,7 +24,7 @@
                                 "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
 * **Start Neovim and wait for the installation to complete**
-* **Customize with `opt.json` (optional, in the `config` directory)**
+* **Customize with `nvimrc`**
   ``` json
   {
     // Dependencies
@@ -112,7 +112,7 @@
   - inv: <kbd>M-v</kbd>  -> Paste from system clipboard.
   - inv: <kbd>M-w</kbd>  -> Jump to the window in turn.
   - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>  -> Open `opt.json`.
+  - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
   - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
   - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
   - inv: <kbd>M-B</kbd>  -> Markdown bold: **bold** 

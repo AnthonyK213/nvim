@@ -69,13 +69,13 @@ function s:json_set_var(json) abort
   endfor
 endfunction
 
-let s:opt_file = my#compat#stdpath('config') . '/opt.json'
-if !empty(glob(s:opt_file))
+let [s:exists, s:opt_file] = my#lib#get_nvimrc()
+if s:exists
   let s:opt_json = join(readfile(s:opt_file))
   try
     call s:json_set_var(s:opt_json)
   catch
-    echomsg "Invalid `opt.json`"
+    echomsg "Invalid option file"
   endtry
 endif
 

@@ -48,17 +48,18 @@ function! my#compat#vim_source_list(file_list) abort
   endfor
 endfunction
 
-" Open opt.json.
+" Open nvimrc.
 function! my#compat#open_opt() abort
-  let l:cfg = my#compat#stdpath("config")
-  let l:opt = l:cfg . "/opt.json"
-  if empty(glob(l:opt))
-    exe 'e' fnameescape(l:opt)
+  let [l:exists, l:opt_file] = my#lib#get_nvimrc()
+  if l:exists
+    call my#util#edit_file(l:opt_file, v:false)
+    exe 'cd' fnameescape(my#compat#stdpath("config"))
+  elseif l:opt_file != v:null
+    exe 'e' fnameescape(l:opt_file)
     call feedkeys("i{}\<Left>")
   else
-    call my#util#edit_file(l:opt, v:false)
+    echomsg "No available configuration directory"
   endif
-  exe 'cd' fnameescape(l:cfg)
 endfunction
 
 "" Set background according to time.

@@ -36,7 +36,7 @@ function! my#lib#get_git_branch(git_root) abort
       try
         let l:gitdir_line = readfile(l:dot_git)[0]
         let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-        if l:gitdir_matches->len() > 0
+        if len(l:gitdir_matches) > 0
           let l:gitdir = l:gitdir_matches[1]
           let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
         else
@@ -49,7 +49,7 @@ function! my#lib#get_git_branch(git_root) abort
     try
       let l:ref_line = readfile(l:head_file)[0]
       let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      if l:ref_matches->len() > 0
+      if len(l:ref_matches) > 0
         let l:branch = l:ref_matches[1]
         if !empty(l:branch)
           return l:branch
@@ -62,6 +62,33 @@ function! my#lib#get_git_branch(git_root) abort
     catch
       return v:null
     endtry
+  endif
+endfunction
+
+function! my#lib#get_nvimrc() abort
+  let l:dir_table = [
+        \ expand("$HOME"),
+        \ my#compat#stdpath("config")
+        \ ]
+  let l:prefix = has("win32") ? "_" : "."
+  let l:file_name = "/" . l:prefix . "nvimrc"
+  let l:ok_index = -1
+  for i in range(len(l:dir_table))
+    let l:dir = l:dir_table[i]
+    if !empty(glob(l:dir))
+      if l:ok_index == -1
+        let l:ok_index = i
+      endif
+      let l:file_path = l:dir . l:file_name
+      if !empty(glob(l:file_path))
+        return [1, l:file_path]
+      endif
+    endif
+  endfor
+  if l:ok_index >= 0
+    return [0, l:dir_table[l:ok_index] . l:file_name]
+  else
+    return [0, v:null]
   endif
 endfunction
 

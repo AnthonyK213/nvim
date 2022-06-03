@@ -28,7 +28,7 @@ function s:check(server, extension, enable="enable") abort
         let g:coc_config_table[a:enable] = v:false
       endif
     else
-      call my#lib#notify_err("Please check `lsp` in `opt.json`.")
+      call my#lib#notify_err("Please check `lsp` in nvimrc.")
     endif
   endif
 endfunction
