@@ -109,15 +109,15 @@ end
 ---@return string|nil Path of the option file.
 function M.get_nvimrc()
     local dir_table = {
+        vim.fn.stdpath("config"),
         vim.loop.os_homedir(),
-        vim.fn.stdpath("config")
     }
     local prefix = M.has_windows() and "_" or "."
     local file_name = "/"..prefix.."nvimrc"
     local ok_index = 0
     for i, dir in ipairs(dir_table) do
         if dir then
-            if ok_index == 0 then ok_index = i end
+            ok_index = i
             local file_path = dir..file_name
             if M.path_exists(file_path) then
                 return true, file_path
