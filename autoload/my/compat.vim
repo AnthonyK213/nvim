@@ -52,7 +52,7 @@ endfunction
 function! my#compat#open_opt() abort
   let [l:exists, l:opt_file] = my#lib#get_nvimrc()
   if l:exists
-    call my#util#edit_file(l:opt_file, v:false)
+    call my#util#edit_file(l:opt_file)
     exe 'cd' fnameescape(my#compat#stdpath("config"))
   elseif l:opt_file != v:null
     exe 'e' fnameescape(l:opt_file)

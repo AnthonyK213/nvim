@@ -67,8 +67,8 @@ endfunction
 
 function! my#lib#get_nvimrc() abort
   let l:dir_table = [
+        \ my#compat#stdpath("config"),
         \ expand("$HOME"),
-        \ my#compat#stdpath("config")
         \ ]
   let l:prefix = has("win32") ? "_" : "."
   let l:file_name = "/" . l:prefix . "nvimrc"
@@ -76,9 +76,7 @@ function! my#lib#get_nvimrc() abort
   for i in range(len(l:dir_table))
     let l:dir = l:dir_table[i]
     if !empty(glob(l:dir))
-      if l:ok_index == -1
-        let l:ok_index = i
-      endif
+      let l:ok_index = i
       let l:file_path = l:dir . l:file_name
       if !empty(glob(l:file_path))
         return [1, l:file_path]
@@ -191,7 +189,7 @@ function! my#lib#match_url(str) abort
       return [len(l:url) == len(a:str), url]
     endif
   endif
-  return [v:false, v:null]
+  return [0, v:null]
 endfunction
 
 " Create a below right split window.
@@ -208,15 +206,15 @@ function! my#lib#notify_err(err) abort
 endfunction
 
 function! my#lib#path_exists(path, ...) abort
-  let l:is_rel = v:true
+  let l:is_rel = 1
   let l:path = expand(a:path)
   if has('win32')
     if path =~ '\v^\a:[\\/]'
-      let l:is_rel = v:false
+      let l:is_rel = 0
     endif
   else
     if path =~ '\v^/'
-      let l:is_rel = v:false
+      let l:is_rel = 0
     endif
   endif
   if l:is_rel
@@ -229,16 +227,16 @@ function! my#lib#path_exists(path, ...) abort
     let l:path = l:cwd . '/' . l:path
   endif
   if empty(glob(l:path))
-    return v:false
+    return 0
   else
-    return v:true
+    return 1
   endif
 endfunction
 
 function! my#lib#executable(name) abort
   if executable(a:name)
-    return v:true
+    return 1
   endif
   call my#lib#notify_err('Executable ' . a:name . ' is not found.')
-  return v:false
+  return 0
 endfunction

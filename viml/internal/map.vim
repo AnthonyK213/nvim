@@ -98,7 +98,7 @@ nn <silent> <leader>ot :call my#util#terminal()<CR>
 " Open with system default browser.
 nn <silent> <leader>ob :call my#util#sys_open(expand("%:p"))<CR>
 " Open url under the cursor or in the selection.
-nn <silent> <leader>ou :call my#util#sys_open(my#util#match_path_or_url_under_cursor(), v:true)<CR>
+nn <silent> <leader>ou :call my#util#sys_open(my#util#match_path_or_url_under_cursor(), 1)<CR>
 " Evaluate formula surrounded by `.
 nn <silent> <leader>ev :call my#eval#vim_eval()<CR>
 nn <silent> <leader>el :call my#eval#lisp_eval()<CR>
