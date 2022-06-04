@@ -31,11 +31,11 @@ end
 ---@param file_path string File path.
 ---@param chdir boolean True to change cwd automatically.
 function M.edit_file(file_path, chdir)
-    local path = vim.fn.expand(vim.fn.fnameescape(file_path))
+    local path = vim.fn.expand(file_path)
     if vim.fn.expand("%:t") == '' then
-        vim.cmd('silent e '..path)
+        vim.cmd('silent e '..vim.fn.fnameescape(path))
     else
-        vim.cmd('silent tabnew '..path)
+        vim.cmd('silent tabnew '..vim.fn.fnameescape(path))
     end
     if chdir then
         vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))

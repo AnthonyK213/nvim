@@ -1,80 +1,3 @@
-" Background toggle.
-function! my#compat#bg_toggle() abort
-  if !g:_my_theme_switchable
-        \ || (exists("g:_my_lock_background") && g:_my_lock_background)
-    return
-  else
-    let &bg = &bg ==# 'dark' ? 'light' : 'dark'
-  endif
-endfunction
-
-" Mouse toggle.
-function! my#compat#mouse_toggle() abort
-  if &mouse ==# 'a'
-    let &mouse = ''
-    echom 'Mouse disabled'
-  else
-    let &mouse = 'a'
-    echom 'Mouse enabled'
-  endif
-endfunction
-
-" `CodeRun` complete option list.
-function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
-  let l:option_table = {
-        \ 'c'    : "build\ncheck",
-        \ 'cs'   : "build\nclean\ntest",
-        \ 'lisp' : "build",
-        \ 'lua'  : "nojit",
-        \ 'rust' : "build\ncheck\nclean\ntest",
-        \ 'tex'  : "biber\nbibtex",
-        \ }
-  if has_key(l:option_table, &filetype)
-    return split(l:option_table[&filetype], "\n")
-  else
-    return []
-  endif
-endfunction
-
-" `NvimUpgrade` complete option list.
-function! my#compat#nvim_upgrade_option(arglead, cmdline, cursorpos) abort
-  return ['stable', 'nightly']
-endfunction
-
-" Source vim file.
-function! my#compat#vim_source(file) abort
-  call v:lua.require('utility.lib').vim_source(a:file)
-endfunction
-
-" Open nvimrc.
-function! my#compat#open_opt() abort
-lua << EOF
-  local exists, opt_file = require("utility.lib").get_nvimrc()
-  if exists then
-    require("utility.util").edit_file(opt_file, false)
-    vim.api.nvim_set_current_dir(vim.fn.stdpath("config"))
-  elseif opt_file then
-    vim.cmd("e "..vim.fn.fnameescape(opt_file))
-    vim.api.nvim_paste("{}", true, -1)
-  else
-    vim.notify("No available configuration directory")
-  end
-EOF
-endfunction
-
-" Set background according to time.
-function! my#compat#time_background() abort
-lua << EOF
-  local timer = vim.loop.new_timer()
-  timer:start(0, 600, vim.schedule_wrap(function ()
-    if not vim.g._my_lock_background then return end
-    local hour = tonumber(os.date('%H'))
-    local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
-    if vim.o.bg ~= bg then vim.o.bg = bg end
-  end))
-EOF
-endfunction
-
 " Set markdown surrounding keymaps.
 function! my#compat#md_kbd() abort
   let l:srd_md = { "P": "`", "I": "*", "B": "**", "M": "***", "U": "<u>" }
@@ -96,4 +19,38 @@ function! my#compat#md_kbd() abort
         \ '<leader>mt',
         \ '<Cmd>MarkdownPreviewToggle<CR>',
         \ { "noremap" : v:true, "silent" : v:true })
+endfunction
+
+" Open nvimrc.
+function! my#compat#open_nvimrc() abort
+lua << EOF
+  local exists, opt_file = require("utility.lib").get_nvimrc()
+  if exists then
+    require("utility.util").edit_file(opt_file, false)
+    vim.api.nvim_set_current_dir(vim.fn.stdpath("config"))
+  elseif opt_file then
+    vim.cmd("e "..vim.fn.fnameescape(opt_file))
+    vim.api.nvim_paste("{}", true, -1)
+  else
+    vim.notify("No available configuration directory")
+  end
+EOF
+endfunction
+
+" Source vim file.
+function! my#compat#vim_source(file) abort
+  call v:lua.require('utility.lib').vim_source(a:file)
+endfunction
+
+" Set background according to time.
+function! my#compat#time_background() abort
+lua << EOF
+  local timer = vim.loop.new_timer()
+  timer:start(0, 600, vim.schedule_wrap(function ()
+    if not vim.g._my_lock_background then return end
+    local hour = tonumber(os.date('%H'))
+    local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
+    if vim.o.bg ~= bg then vim.o.bg = bg end
+  end))
+EOF
 endfunction

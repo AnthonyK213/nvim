@@ -120,7 +120,7 @@
   - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
   - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
   - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
-  - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
+  - in:  <kbd>M-Nr</kbd> -> Goto tab(Number: 1, 2, 3, ..., 9, 0).
   - in:  <kbd>M-B</kbd>  -> Markdown **bold**.
   - in:  <kbd>M-I</kbd>  -> Markdown *italic*.
   - in:  <kbd>M-M</kbd>  -> Markdown ***bold_italic***.
@@ -145,13 +145,12 @@
     - n:    <kbd>c</kbd> -> Set directory to the current buffer.
     - n:    <kbd>d</kbd> -> Delete buffer.
     - n:    <kbd>g</kbd> -> Toggle background.
-    - n:    <kbd>h</kbd> -> Turn off highlights.
-    - n:    <kbd>l</kbd> -> List buffers.
+    - n:    <kbd>h</kbd> -> Stop the search highlighting.
     - n:    <kbd>n</kbd> -> Next buffer.
     - n:    <kbd>p</kbd> -> Previous buffer.
   - <kbd>leader-c-</kbd> -> **Check**.
     - nv:   <kbd>c</kbd> -> Chinese characters count.
-    - n:    <kbd>s</kbd> -> Toggle spell check status.
+    - n:    <kbd>s</kbd> -> Toggle spell check.
   - <kbd>leader-d-</kbd> -> **GTD**.
     - n:    <kbd>d</kbd> -> Append the day of week to yyyy-mm-dd.
     - n:    <kbd>s</kbd> -> Insert timestamp after cursor.
