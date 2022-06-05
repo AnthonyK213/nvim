@@ -17,7 +17,7 @@ local get_mode = function ()
     local m = vim.api.nvim_get_mode().mode
     if m == 'n' then
         return m
-    elseif vim.tbl_contains({'v', 'V', ''}, m) then
+    elseif vim.tbl_contains({ 'v', 'V', '' }, m) then
         return 'v'
     else
         return nil
@@ -42,10 +42,7 @@ kbd("Stop the search highlighting", 'n', '<leader>bh', '<Cmd>noh<CR>')
 kbd("Next buffer", 'n', '<leader>bn', '<Cmd>bn<CR>')
 kbd("Previous buffer", 'n', '<leader>bp', '<Cmd>bp<CR>')
 kbd("Toggle spell check", 'n', '<leader>cs', '<Cmd>setlocal spell! spelllang=en_us<CR>')
-for direct, desc in pairs {
-    h = "left", j = "down", k = "up", l = "right", w = "toggle"
-}
-do
+for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
     kbd("Navigate window: "..desc, { "n", "i", "t" }, '<M-'..direct..'>', function ()
         to_normal()
         require("utility.lib").feedkeys("<C-W>"..direct, "nx", false)
@@ -172,7 +169,7 @@ end)
 kbd("Print TODO list", 'n', '<leader>dt', function ()
     require('utility.gtd').print_todo_list()
 end)
-kbd("Hanzi count", {'n', 'v'}, '<leader>cc', function ()
+kbd("Hanzi count", { 'n', 'v' }, '<leader>cc', function ()
     local mode = get_mode()
     local txt
     if mode == "n" then
