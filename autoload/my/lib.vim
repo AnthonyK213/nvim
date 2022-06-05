@@ -1,26 +1,44 @@
-" Get the character around the cursor.
-function! my#lib#get_char() abort
-  let col = col('.')
-  let line = getline('.')
-  let back = strpart(line, 0, col - 1)
-  let fore = strpart(line, col - 1)
-  return {
-        \ "b" : back,
-        \ "f" : fore,
-        \ "p" : empty(back) ? "" : nr2char(strgetchar(back, strchars(back) - 1)),
-        \ "n" : empty(fore) ? "" : nr2char(strgetchar(fore, 0))
-        \ }
+" Create a below right split window.
+function! my#lib#belowright_split(height) abort
+  let l:term_h = min([a:height, float2nr(winheight(0) * 0.382)])
+  belowright new
+  exe 'resize' l:term_h
 endfunction
 
-" Find the root directory contains patter `pat`.
-function! my#lib#get_root(pat) abort
-  let l:dir = expand('%:p:h')
-  while 1
-    if !empty(globpath(l:dir, a:pat, 1)) | return l:dir | endif
-    let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
-    if l:current == l:dir | break | endif
-  endwhile
-  return v:null
+" Encode URL.
+function! my#lib#encode_url(str) abort
+  let l:res = ""
+  for l:char in split(a:str, '.\zs')
+    if l:char =~ '\v(\w|\.|-)'
+      let l:res .= l:char
+    else
+      let l:res .= printf("%%%02x", char2nr(l:char))
+    endif
+  endfor
+  return l:res
+endfunction
+
+" Check if executable exists.
+function! my#lib#executable(name) abort
+  if executable(a:name)
+    return 1
+  endif
+  call my#lib#notify_err('Executable ' . a:name . ' is not found.')
+  return 0
+endfunction
+
+" Get the character around the cursor.
+function! my#lib#get_char() abort
+  let l:col = col('.')
+  let l:line = getline('.')
+  let l:back = strpart(l:line, 0, l:col - 1)
+  let l:fore = strpart(l:line, l:col - 1)
+  return {
+        \ "b" : l:back,
+        \ "f" : l:fore,
+        \ "p" : empty(l:back) ? "" : nr2char(strgetchar(l:back, strchars(l:back) - 1)),
+        \ "n" : empty(l:fore) ? "" : nr2char(strgetchar(l:fore, 0))
+        \ }
 endfunction
 
 " Get the branch name.
@@ -65,6 +83,7 @@ function! my#lib#get_git_branch(git_root) abort
   endif
 endfunction
 
+" Get path of the option file (nvimrc).
 function! my#lib#get_nvimrc() abort
   let l:dir_table = [
         \ my#compat#stdpath("config"),
@@ -90,22 +109,15 @@ function! my#lib#get_nvimrc() abort
   endif
 endfunction
 
-" Return the selections as string.
-function! my#lib#get_visual_selection() abort
-  try
-    let l:a_save = @a
-    silent normal! gv"ay
-    return @a
-  finally
-    let @a = l:a_save
-  endtry
-endfunction
-
-" Determines if a character is a Chinese character.
-" Why is this faster than regex?
-function! my#lib#is_hanzi(char) abort
-  let l:code = char2nr(a:char)
-  return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
+" Find the root directory contains patter `pat`.
+function! my#lib#get_root(pat) abort
+  let l:dir = expand('%:p:h')
+  while 1
+    if !empty(globpath(l:dir, a:pat, 1)) | return l:dir | endif
+    let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
+    if l:current == l:dir | break | endif
+  endwhile
+  return v:null
 endfunction
 
 " Get the word and its position under the cursor.
@@ -127,45 +139,24 @@ function! my#lib#get_word() abort
   return [l:word, len(l:b) - len(l:p_a), len(l:b) + len(l:p_b)]
 endfunction
 
-" Replace chars in a string according to a dictionary.
-" Probably function escape() is more useful in most situations.
-function! my#lib#str_escape(str, esc_dict) abort
-  let l:str_lst = split(a:str, '.\zs')
-  let l:i = 0
-  for l:char in l:str_lst
-    if has_key(a:esc_dict, l:char)
-      let l:str_lst[l:i] = a:esc_dict[l:char]
-    endif
-    let l:i = l:i + 1
-  endfor
-  return join(l:str_lst, '')
+" Return the selections as string.
+function! my#lib#get_visual_selection() abort
+  try
+    let l:a_save = @a
+    silent normal! gv"ay
+    return @a
+  finally
+    let @a = l:a_save
+  endtry
 endfunction
 
-" Define highlight group.
-function! my#lib#set_hi(group, fg, bg, attr) abort
-  let l:cmd = "highlight " . a:group
-  if !empty(a:fg)   | let l:cmd = l:cmd . " guifg=" . a:fg | endif
-  if !empty(a:bg)   | let l:cmd = l:cmd . " guibg=" . a:bg | endif
-  if !empty(a:attr) | let l:cmd = l:cmd . " gui=" . a:attr | endif
-  exe l:cmd
+" Determines if a character is a Chinese character.
+function! my#lib#is_hanzi(char) abort
+  let l:code = char2nr(a:char)
+  return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
 
-function! my#lib#vim_reg_esc(str) abort
-  return escape(a:str, ' ()[]{}<>.+*^$')
-endfunction
-
-function! my#lib#encode_url(str) abort
-  let l:res = ""
-  for l:char in split(a:str, '.\zs')
-    if l:char =~ '\v(\w|\.|-)'
-      let l:res .= l:char
-    else
-      let l:res .= printf("%%%02x", char2nr(l:char))
-    endif
-  endfor
-  return l:res
-endfunction
-
+" Match URL in a string.
 function! my#lib#match_url(str) abort
   let l:protocols = {
         \ '' : 0,
@@ -192,19 +183,14 @@ function! my#lib#match_url(str) abort
   return [0, v:null]
 endfunction
 
-" Create a below right split window.
-function! my#lib#belowright_split(height) abort
-  let l:term_h = min([a:height, float2nr(winheight(0) * 0.382)])
-  belowright new
-  exe 'resize' l:term_h
-endfunction
-
+" Notify the error message to neovim.
 function! my#lib#notify_err(err) abort
   echohl ErrorMsg
   echomsg a:err
   echohl None
 endfunction
 
+" Check if file/directory exists.
 function! my#lib#path_exists(path, ...) abort
   let l:is_rel = 1
   let l:path = expand(a:path)
@@ -233,10 +219,29 @@ function! my#lib#path_exists(path, ...) abort
   endif
 endfunction
 
-function! my#lib#executable(name) abort
-  if executable(a:name)
-    return 1
-  endif
-  call my#lib#notify_err('Executable ' . a:name . ' is not found.')
-  return 0
+" Define highlight group.
+function! my#lib#set_hi(group, fg, bg, attr) abort
+  let l:cmd = "highlight " . a:group
+  if !empty(a:fg)   | let l:cmd = l:cmd . " guifg=" . a:fg | endif
+  if !empty(a:bg)   | let l:cmd = l:cmd . " guibg=" . a:bg | endif
+  if !empty(a:attr) | let l:cmd = l:cmd . " gui=" . a:attr | endif
+  exe l:cmd
+endfunction
+
+" Replace chars in a string according to a dictionary.
+" Probably function escape() is more useful in most situations.
+function! my#lib#str_escape(str, esc_dict) abort
+  let l:str_lst = split(a:str, '.\zs')
+  let l:i = 0
+  for l:char in l:str_lst
+    if has_key(a:esc_dict, l:char)
+      let l:str_lst[l:i] = a:esc_dict[l:char]
+    endif
+    let l:i = l:i + 1
+  endfor
+  return join(l:str_lst, '')
+endfunction
+
+function! my#lib#vim_reg_esc(str) abort
+  return escape(a:str, ' ()[]{}<>.+*^$')
 endfunction
