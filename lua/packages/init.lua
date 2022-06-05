@@ -131,6 +131,11 @@ require('packer').startup(function (use)
             config = function () require('packages.aerial') end
         };
     }
+    -- DAP
+    use {
+        'mfussenegger/nvim-dap',
+        config = function () require('packages.nvim-dap') end
+    }
     -- Games
     use {
         'alec-gibson/nvim-tetris',

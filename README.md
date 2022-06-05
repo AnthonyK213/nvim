@@ -151,10 +151,7 @@
   - <kbd>leader-c-</kbd> -> **Check**.
     - nv:   <kbd>c</kbd> -> Chinese characters count.
     - n:    <kbd>s</kbd> -> Toggle spell check.
-  - <kbd>leader-d-</kbd> -> **GTD**.
-    - n:    <kbd>d</kbd> -> Append the day of week to yyyy-mm-dd.
-    - n:    <kbd>s</kbd> -> Insert timestamp after cursor.
-    - n:    <kbd>t</kbd> -> Print TODO list.
+  - <kbd>leader-d-</kbd> -> **Debug**.
   - <kbd>leader-e-</kbd> -> **Evaluate**.
     - n:    <kbd>v</kbd> -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
@@ -196,6 +193,10 @@
     - n:    <kbd>l</kbd> -> Regenerate list bullets.
     - n:    <kbd>v</kbd> -> *aerial.nvim*, Toc vertical.
     - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle.
+  - <kbd>leader-n-</kbd> -> **GTD**.
+    - n:    <kbd>d</kbd> -> Append the day of week to yyyy-mm-dd.
+    - n:    <kbd>s</kbd> -> Insert timestamp after cursor.
+    - n:    <kbd>t</kbd> -> Print TODO list.
   - <kbd>leader-o-</kbd> -> **Open**.
     - n:    <kbd>b</kbd> -> Open file of buffer with system default browser.
     - n:    <kbd>e</kbd> -> Open system file manager.
