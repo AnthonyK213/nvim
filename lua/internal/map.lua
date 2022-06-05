@@ -26,8 +26,7 @@ end
 
 ---Switch to normal mode.
 local to_normal = function ()
-    vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes("<Esc>", false, true, true), "nx", false)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", false, true, true), "nx", false)
 end
 
 kbd("Adjust window size up", "n", "<C-UP>", "<C-W>-")
@@ -61,13 +60,11 @@ kbd("Open the command-line window", 'c', '<C-H>', '<C-F>', { silent = false })
 kbd("Cursor one WORD left", 'c', '<M-b>', '<C-LEFT>', { silent = false })
 kbd("Cursor one WORD right", 'c', '<M-f>', '<C-RIGHT>', { silent = false })
 kbd("Delete the word before the cursor", 'c', '<M-BS>', '<C-W>', { silent = false })
-kbd("Write the whole buffer to the current file", { "n", "i" }, '<C-S>', function ()
-    vim.cmd("write")
-end, { silent = false })
-kbd("Copy", 'v', '<M-c>', '"+y')
-kbd("Cut", 'v', '<M-x>', '"+x')
-kbd("Paste", { 'n', 'v' }, '<M-v>', '"+p')
-kbd("Paste", 'i', '<M-v>', '<C-R>=@+<CR>')
+kbd("Write the whole buffer to the current file", { "n", "i" }, '<C-S>', function () vim.cmd("write") end, { silent = false })
+kbd("Copy to system clipboard", 'v', '<M-c>', '"+y')
+kbd("Cut to system clipboard", 'v', '<M-x>', '"+x')
+kbd("Paste from system clipboard", { 'n', 'v' }, '<M-v>', '"+p')
+kbd("Paste from system clipboard", 'i', '<M-v>', '<C-R>=@+<CR>')
 kbd("Select all lines in buffer", 'n', '<M-a>', 'ggVG')
 kbd("Command-line mode", 'n', '<M-x>', ':', { silent = false })
 kbd("Command-line mode", 'i', '<M-x>', '<C-\\><C-O>:', { silent = false })
@@ -81,10 +78,8 @@ kbd("Kill text until the end of the line", 'i', '<C-K>', '<C-\\><C-O>D')
 kbd("Cursor left", 'i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:_const_dir_l]], { expr = true })
 kbd("Cursor right", 'i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:_const_dir_r]], { expr = true })
 kbd("Kill text until the end of the word", 'i', '<M-d>', '<C-\\><C-O>dw')
-for key, val in pairs { down = { 'n', 'j' }, up = { 'p', 'k' } } do
-    kbd("Cursor "..key, { 'n', 'v' }, '<C-'..val[1]..'>', 'g'..val[2])
-    kbd("Cursor "..key, 'i', '<C-'..val[1]..'>', '<C-\\><C-O>g'..val[2])
-end
+kbd("Cursor down", { 'n', 'v', 'i' }, '<C-N>', function () vim.cmd("normal! gj") end)
+kbd("Cursor up", { 'n', 'v', 'i' }, '<C-P>', function () vim.cmd("normal! gk") end)
 kbd("Move line up", 'n', '<M-p>', [[<Cmd>exe "move" max([line(".") - 2, 0])<CR>]])
 kbd("Move line down", 'n', '<M-n>', [[<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>]])
 kbd("Move block up", 'v', '<M-p>', [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]])

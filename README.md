@@ -127,17 +127,17 @@
   - in:  <kbd>M-P</kbd>  -> Markdown `block`.
   - inv: <kbd>M-U</kbd>  -> Markdown/HTML <u>underscore</u>.
 * **Emacs shit**
-  - inv: <kbd>C-N</kbd>  -> Emacs next line.
-  - inv: <kbd>C-P</kbd>  -> Emacs previous line.
-  - ci:  <kbd>C-F</kbd>  -> Emacs move forward.
-  - ci:  <kbd>C-B</kbd>  -> Emacs move backward.
-  - ci:  <kbd>C-A</kbd>  -> Emacs line start.
-  - ci:  <kbd>C-E</kbd>  -> Emacs line end.
-  - i:   <kbd>C-K</kbd>  -> Emacs kill text on the right.
-  - cin: <kbd>M-f</kbd>  -> Emacs next word.
-  - cin: <kbd>M-b</kbd>  -> Emacs last word.
-  - i:   <kbd>M-d</kbd>  -> Emacs delete word.
-  - in:  <kbd>M-x</kbd>  -> Command line.
+  - inv: <kbd>C-N</kbd>  -> Cursor down.
+  - inv: <kbd>C-P</kbd>  -> Cursor up.
+  - ci:  <kbd>C-B</kbd>  -> Cursor left.
+  - ci:  <kbd>C-F</kbd>  -> Cursor right.
+  - ci:  <kbd>C-A</kbd>  -> To the first character of the screen line.
+  - ci:  <kbd>C-E</kbd>  -> To the last character of the screen line.
+  - i:   <kbd>C-K</kbd>  -> Kill text until the end of the line.
+  - cin: <kbd>M-b</kbd>  -> Cursor one word left.
+  - cin: <kbd>M-f</kbd>  -> Cursor one word right.
+  - i:   <kbd>M-d</kbd>  -> Kill text until the end of the word.
+  - in:  <kbd>M-x</kbd>  -> Command-line mode.
 * **Leader**
   > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd> -> **Buffer**.
@@ -170,13 +170,13 @@
     - n:    <kbd>n</kbd> -> *neogit*, open neogit status window.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search text in web browser**.
-    - nv:   <kbd>b</kbd> -> Baidu
-    - nv:   <kbd>g</kbd> -> Google
-    - nv:   <kbd>h</kbd> -> Github
-    - nv:   <kbd>y</kbd> -> Youdao
+    - nv:   <kbd>b</kbd> -> Search cword with Baidu.
+    - nv:   <kbd>g</kbd> -> Search cword with Google.
+    - nv:   <kbd>h</kbd> -> Search cword with Github.
+    - nv:   <kbd>y</kbd> -> Search cword with Youdao.
   - <kbd>leader-k-</kbd> -> **Comment**.
-    - nv:   <kbd>c</kbd> -> Comment line/block.
-    - nv:   <kbd>u</kbd> -> Un-comment line/block.
+    - nv:   <kbd>c</kbd> -> Comment current/selected line(s).
+    - nv:   <kbd>u</kbd> -> Uncomment current/selected line(s).
   - <kbd>leader-l-</kbd> -> **LSP**
     - n:    <kbd>0</kbd> -> Document symbol.
     - n:    <kbd>a</kbd> -> Code action.
@@ -193,7 +193,7 @@
     - n:    <kbd>[</kbd> -> Jump to previous diagnostic mark.
     - n:    <kbd>]</kbd> -> Jump to next diagnostic mark.
   - <kbd>leader-m-</kbd> -> **Markdown**
-    - n:    <kbd>l</kbd> -> Sort number list.
+    - n:    <kbd>l</kbd> -> Regenerate list bullets.
     - n:    <kbd>v</kbd> -> *aerial.nvim*, Toc vertical.
     - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle.
   - <kbd>leader-o-</kbd> -> **Open**.
