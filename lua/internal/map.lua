@@ -35,24 +35,13 @@ kbd("Adjust window size left", "n", "<C-LEFT>", "<C-W>>")
 kbd("Adjust window size right", "n", "<C-RIGHT>", "<C-W><")
 kbd("Switch to normal mode in terminal", 't', '<ESC>', '<C-\\><C-N>')
 kbd("Close terminal", 't', '<M-d>', '<C-\\><C-N>:bd!<CR>')
+kbd("Echo git status", 'n', '<leader>gs', ':!git status<CR>')
 kbd("Find and replace", 'n', '<M-g>', ':%s/', { silent = false })
 kbd("Find and replace", 'v', '<M-g>', ':s/', { silent = false })
 kbd("Stop the search highlighting", 'n', '<leader>bh', '<Cmd>noh<CR>')
 kbd("Next buffer", 'n', '<leader>bn', '<Cmd>bn<CR>')
 kbd("Previous buffer", 'n', '<leader>bp', '<Cmd>bp<CR>')
 kbd("Toggle spell check", 'n', '<leader>cs', '<Cmd>setlocal spell! spelllang=en_us<CR>')
-for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
-    kbd("Navigate window: "..desc, { "n", "i", "t" }, '<M-'..direct..'>', function ()
-        to_normal()
-        require("utility.lib").feedkeys("<C-W>"..direct, "nx", false)
-    end)
-end
-for i = 1, 10, 1 do
-    kbd("Goto tab "..tostring(i), { "n", "i", "t" }, '<M-'..tostring(i % 10)..'>', function ()
-        to_normal()
-        vim.cmd("tabn "..tostring(i))
-    end)
-end
 kbd("Cursor to beginning of command-line", 'c', '<C-A>', '<C-B>', { silent = false })
 kbd("Cursor left", 'c', '<C-B>', '<LEFT>', { silent = false })
 kbd("Cursor right", 'c', '<C-F>', '<RIGHT>', { silent = false })
@@ -78,12 +67,46 @@ kbd("Kill text until the end of the line", 'i', '<C-K>', '<C-\\><C-O>D')
 kbd("Cursor left", 'i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:_const_dir_l]], { expr = true })
 kbd("Cursor right", 'i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:_const_dir_r]], { expr = true })
 kbd("Kill text until the end of the word", 'i', '<M-d>', '<C-\\><C-O>dw')
-kbd("Cursor down", { 'n', 'v', 'i' }, '<C-N>', function () vim.cmd("normal! gj") end)
-kbd("Cursor up", { 'n', 'v', 'i' }, '<C-P>', function () vim.cmd("normal! gk") end)
 kbd("Move line up", 'n', '<M-p>', [[<Cmd>exe "move" max([line(".") - 2, 0])<CR>]])
 kbd("Move line down", 'n', '<M-n>', [[<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>]])
 kbd("Move block up", 'v', '<M-p>', [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]])
 kbd("Move block down", 'v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]])
+kbd("Cursor down", { 'n', 'v', 'i' }, '<C-N>', function () vim.cmd("normal! gj") end)
+kbd("Cursor up", { 'n', 'v', 'i' }, '<C-P>', function () vim.cmd("normal! gk") end)
+for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
+    kbd("Navigate window: "..desc, { "n", "i", "t" }, '<M-'..direct..'>', function ()
+        to_normal()
+        require("utility.lib").feedkeys("<C-W>"..direct, "nx", false)
+    end)
+end
+for i = 1, 10, 1 do
+    kbd("Goto tab "..tostring(i), { "n", "i", "t" }, '<M-'..tostring(i % 10)..'>', function ()
+        to_normal()
+        vim.cmd("tabn "..tostring(i))
+    end)
+end
+for key, val in pairs {
+    Baidu  = { "b", "https://www.baidu.com/s?wd=" },
+    Google = { "g", "https://www.google.com/search?q=" },
+    GitHub = { "h", "https://github.com/search?q=" },
+    Youdao = { "y", "https://dict.youdao.com/w/eng/" }
+}
+do
+    kbd("Search cword with "..key, { 'n', 'v' }, '<leader>h'..val[1], function ()
+        local lib = require('utility.lib')
+        local txt
+        local mode = get_mode()
+        if mode == 'n' then
+            local word, _, _ = lib.get_word()
+            txt = lib.encode_url(word)
+        elseif mode == 'v' then
+            txt = lib.encode_url(lib.get_visual_selection())
+        else
+            return
+        end
+        require("utility.util").sys_open(val[2]..txt)
+    end)
+end
 kbd("Mouse toggle", {'n', 'v', 'i', 't'}, '<F2>', function ()
     if vim.o.mouse == "a" then
         vim.o.mouse = ""
@@ -182,29 +205,6 @@ end)
 kbd("Regenerate list bullets", 'n', '<leader>ml', function ()
     require('utility.note').md_sort_num_bullet()
 end)
-kbd("Echo git status", 'n', '<leader>gs', ':!git status<CR>')
-for key, val in pairs {
-    Baidu  = { "b", "https://www.baidu.com/s?wd=" },
-    Google = { "g", "https://www.google.com/search?q=" },
-    GitHub = { "h", "https://github.com/search?q=" },
-    Youdao = { "y", "https://dict.youdao.com/w/eng/" }
-}
-do
-    kbd("Search cword with "..key, { 'n', 'v' }, '<leader>h'..val[1], function ()
-        local lib = require('utility.lib')
-        local txt
-        local mode = get_mode()
-        if mode == 'n' then
-            local word, _, _ = lib.get_word()
-            txt = lib.encode_url(word)
-        elseif mode == 'v' then
-            txt = lib.encode_url(lib.get_visual_selection())
-        else
-            return
-        end
-        require("utility.util").sys_open(val[2]..txt)
-    end)
-end
 kbd("Surrounding add", { 'n', 'v' }, '<leader>sa', function ()
     local mode = get_mode()
     if mode then
