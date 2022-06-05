@@ -264,7 +264,7 @@ local comp_table = {
                 args = { name..'.aux' }
             }, tex_cb("BibTeX"))
         }
-        if tbl.opt == '' then
+        if tbl.opt == "" then
             vim.notify("Start compilation.")
             local x1 = xelatex:clone()
             local x2 = xelatex:clone()
@@ -288,7 +288,7 @@ local comp_table = {
         end
     end,
     vim = function (tbl)
-        if tbl.opt == '' then
+        if tbl.opt == "" then
             return Cmd.new('source %')
         else
             lib.notify_err('Invalid argument.')
@@ -297,8 +297,9 @@ local comp_table = {
 }
 
 ---Run or compile the code.
----@param option string Option as string.
+---@param option? string Option as string.
 function M.run_or_compile(option)
+    option = option or ""
     local tbl = {
         bin = '_'..vim.fn.expand('%:t:r')..(lib.has_windows() and '.exe' or ''),
         bwd = uv.cwd(),
