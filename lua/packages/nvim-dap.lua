@@ -1,11 +1,39 @@
 local dap = require("dap")
 local dap_option = _my_core_opt.dap or {}
 local lib = require("utility.lib")
-local Path = require("plenary.path")
-local Curl = require("plenary.curl")
+local Process = require("utility.proc")
 local dir = vim.fn.stdpath("data").."/dap_adapters/"
 
 if not lib.path_exists(dir) then vim.loop.fs_mkdir(dir, 448) end
+
+---@class Deubug adapter
+---@field command table
+---@field configuration table
+---@field installer function
+local Adapter = {}
+
+Adapter.__index = Adapter
+
+---Constructor
+---@param command table
+---@param configuration table
+---@param installer function
+---@return Adapter
+function Adapter.new(command, configuration, installer)
+    local o = {
+        command = command,
+        configuration = configuration,
+        installer = installer
+    }
+    setmetatable(o, Adapter)
+    return o
+end
+
+function Adapter:init()
+    
+end
+
+
 
 
 if dap_option.python then
