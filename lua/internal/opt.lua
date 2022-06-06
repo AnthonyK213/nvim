@@ -63,6 +63,10 @@ local opt = {
         ensure = { "c", "lua" },
         hi_disable = {},
     },
+    dap = {
+        python = false,
+        csharp = false
+    },
     plug = {
         matchit = false,
         matchparen = false,

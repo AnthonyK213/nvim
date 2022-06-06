@@ -1,51 +1,56 @@
 local dap = require("dap")
+local dap_option = _my_core_opt.dap or {}
 local lib = require("utility.lib")
 local dir = vim.fn.stdpath("data").."/dap_adapters/"
 
 if not lib.path_exists(dir) then vim.loop.fs_mkdir(dir, 448) end
 
 
-dap.adapters.python = {
-    type = "executable",
-    command = dir.."debugpy/bin/python",
-    args = { '-m', 'debugpy.adapter' }
-}
+if dap_option.python then
+    dap.adapters.python = {
+        type = "executable",
+        command = dir.."debugpy/bin/python",
+        args = { '-m', 'debugpy.adapter' }
+    }
 
-dap.configurations.python = {
-    {
-        type = 'python',
-        request = 'launch',
-        name = "Launch file",
-        program = "${file}",
-        pythonPath = function()
-            local cwd = vim.fn.getcwd()
-            if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
-                return cwd..'/venv/bin/python'
-            elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
-                return cwd..'/.venv/bin/python'
-            else
-                return '/usr/bin/python'
-            end
-        end,
-    },
-}
+    dap.configurations.python = {
+        {
+            type = 'python',
+            request = 'launch',
+            name = "Launch file",
+            program = "${file}",
+            pythonPath = function()
+                local cwd = vim.fn.getcwd()
+                if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+                    return cwd..'/venv/bin/python'
+                elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+                    return cwd..'/.venv/bin/python'
+                else
+                    return '/usr/bin/python'
+                end
+            end,
+        },
+    }
+end
 
-dap.adapters.coreclr = {
-    type = "executable",
-    command = dir.."netcoredbg/netcoredbg",
-    args = {'--interpreter=vscode'}
-}
+if dap_option.csharp then
+    dap.adapters.coreclr = {
+        type = "executable",
+        command = dir.."netcoredbg/netcoredbg",
+        args = {'--interpreter=vscode'}
+    }
 
-dap.configurations.cs = {
-    {
-        type = "coreclr",
-        name = "launch - netcoredbg",
-        request = "launch",
-        program = function()
-            return vim.fn.input("Path to dll: ", vim.fn.getcwd().."/bin/Debug/", "file")
-        end,
-    },
-}
+    dap.configurations.cs = {
+        {
+            type = "coreclr",
+            name = "launch - netcoredbg",
+            request = "launch",
+            program = function()
+                return vim.fn.input("Path to dll: ", vim.fn.getcwd().."/bin/Debug/", "file")
+            end,
+        },
+    }
+end
 
 
 local kbd = vim.keymap.set
@@ -58,3 +63,4 @@ kbd('n', '<leader>db', function () dap.toggle_breakpoint() end, ntst)
 kbd('n', '<leader>dc', function () dap.clear_breakpoints() end, ntst)
 kbd('n', '<leader>dl', function () dap.run_last() end, ntst)
 kbd('n', '<leader>dr', function () dap.repl.toggle() end, ntst)
+kbd('n', '<leader>dt', function () dap.terminate() end, ntst)
