@@ -35,8 +35,8 @@ function A.new(filetype, typename, option, configuration, installer)
     return o
 end
 
----Initialize the adapter.
-function A:init()
+---Setup the adapter.
+function A:setup()
     if vim.fn.executable(self.option.command) == 1 then
         dap.adapters[self.typename] = self.option
         for _, config in ipairs(self.configuration) do
@@ -59,16 +59,7 @@ local dap_python = A.new("python", "python", {
         request = "launch",
         name = "Launch file",
         program = "${file}",
-        pythonPath = function()
-            local cwd = vim.loop.cwd()
-            if vim.fn.executable(cwd.."/venv/bin/python") == 1 then
-                return cwd..'/venv/bin/python'
-            elseif vim.fn.executable(cwd.."/.venv/bin/python") == 1 then
-                return cwd.."/.venv/bin/python"
-            else
-                return _my_core_opt.dep.py3
-            end
-        end,
+        pythonPath = function() return _my_core_opt.dep.py3 end,
     }
 }, vim.schedule_wrap(function (a)
     local new_venv = Process.new("python", {
@@ -104,8 +95,8 @@ local dap_csharp = A.new("csharp", "coreclr", {
     },
 })
 
-if dap_option.python then dap_python:init() end
-if dap_option.csharp then dap_csharp:init() end
+if dap_option.python then dap_python:setup() end
+if dap_option.csharp then dap_csharp:setup() end
 --#endregion
 
 --#region Key mappings
