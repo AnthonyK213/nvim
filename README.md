@@ -77,6 +77,11 @@
       "ensure": [],        // Parsers to install automatically
       "hi_disable": []     // File type to disable treesitter highlight
     },
+    // Debug Adapter Protocol
+    "dap": {
+      "csharp": false,     // https://github.com/Samsung/netcoredbg
+      "python": false      // https://github.com/microsoft/debugpy
+    },
     // Built-in plugins
     "plug": {
       "matchit": false,    // Enable matchit.vim
@@ -152,6 +157,11 @@
     - nv:   <kbd>c</kbd> -> Chinese characters count.
     - n:    <kbd>s</kbd> -> Toggle spell check.
   - <kbd>leader-d-</kbd> -> **Debug**.
+    - n:    <kbd>b</kbd> -> *nvim-dap*, toggle break point.
+    - n:    <kbd>c</kbd> -> *nvim-dap*, clear break point.
+    - n:    <kbd>l</kbd> -> *nvim-dap*, run last.
+    - n:    <kbd>r</kbd> -> *nvim-dap*, toggle REPL window.
+    - n:    <kbd>t</kbd> -> *nvim-dap*, terminate.
   - <kbd>leader-e-</kbd> -> **Evaluate**.
     - n:    <kbd>v</kbd> -> Evaluate lua chunk surrounded by backquote.
     - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
@@ -217,7 +227,12 @@
 * **Miscellanea**
   - v:   <kbd>\*/#</kbd> -> Search for the visual selection.
   - invt:<kbd>F2</kbd>   -> Toggle mouse status.
-  - n:   <kbd>F5</kbd>   -> `CodeRun`
+  - n:   <kbd>F5</kbd>   -> *nvim-dap*, continue debugging.
+  - n:   <kbd>F6</kbd>   -> *nvim-dap*, step over.
+  - n:   <kbd>F7</kbd>   -> *nvim-dap*, step into.
+  - n:   <kbd>F8</kbd>   -> *nvim-dap*, step out.
+  - n:   <kbd>S-F5</kbd> -> `CodeRun`.
+  - n:   <kbd>C-S-F5</kbd> -> `CodeRun test`.
 
 
 ## Commands
@@ -272,6 +287,8 @@
   - [nvim-lsp-installer](https://github.com/williamboman/nvim-lsp-installer)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
+* DAP
+  - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
   - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)

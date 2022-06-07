@@ -42,9 +42,6 @@ function Process.new(path, option, on_exit)
         standard_output = {},
         standard_error = {},
     }
-    if not lib.executable(path) then
-        o.is_valid = false
-    end
     setmetatable(o, Process)
     return o
 end
@@ -57,6 +54,7 @@ end
 
 ---Run the process.
 function Process:start()
+    if not lib.executable(self.path) then self.is_valid = false end
     if self.has_exited or not self.is_valid then return end
     self.standard_output = {}
     self.standard_error = {}
