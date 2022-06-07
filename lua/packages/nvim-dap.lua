@@ -52,7 +52,7 @@ end
 --#region Adapter instances
 local dap_python = A.new("python", "python", {
     type = "executable",
-    command = dir.."/debugpy/bin/python",
+    command = dir.."/debugpy/"..(lib.has_windows() and "Scripts/" or "bin/").."python",
     args = { "-m", "debugpy.adapter" }
 }, {
     {
@@ -75,8 +75,7 @@ local dap_python = A.new("python", "python", {
         args = { "-m", "venv", dir.."/debugpy" }
     })
     local install = Process.new(a.option.command, {
-        args = { "-m", "pip", "install", "debugpy" },
-        cwd = dir.."/debugpy/bin/"
+        args = { "-m", "pip", "install", "debugpy" }
     }, function (_, code, _)
         if code == 0 then
             vim.notify("Installed debugpy")
