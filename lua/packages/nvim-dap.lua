@@ -82,7 +82,7 @@ end))
 
 local dap_csharp = A.new("csharp", "coreclr", {
     type = "executable",
-    command = dir.."netcoredbg/netcoredbg",
+    command = dir.."/netcoredbg/netcoredbg",
     args = { "--interpreter=vscode" }
 }, {
     {
@@ -93,7 +93,33 @@ local dap_csharp = A.new("csharp", "coreclr", {
             return vim.fn.input("Path to dll: ", vim.loop.cwd().."/bin/Debug/", "file")
         end,
     },
-})
+}, vim.schedule_wrap(function ()
+    local archive
+    if lib.has_windows() then
+        archive = "netcoredbg-win64.zip"
+    elseif vim.fn.has("unix") == 1 then
+        archive = "netcoredbg-linux-amd64.tar.gz"
+    else
+        return
+    end
+    local source = "https://github.com/Samsung/netcoredbg/releases/latest/download/"..archive
+    local archive_path = dir.."/"..archive
+    local curl_args = { "-L", source, "-o", archive_path }
+    if _my_core_opt.dep.proxy then
+        vim.tbl_extend("keep", curl_args, { "-x", _my_core_opt.dep.proxy })
+    end
+    local download = Process.new("curl", { args = curl_args })
+    local extract = Process.new("tar", {
+        args = { "-xf", archive_path, "-C", dir }
+    }, function (_, code, _)
+        if code == 0 then
+            vim.loop.fs_unlink(archive_path)
+            vim.notify("Installed netcoredbg")
+        end
+    end)
+    download:continue_with(extract)
+    download:start()
+end))
 
 if dap_option.python then dap_python:setup() end
 if dap_option.csharp then dap_csharp:setup() end
