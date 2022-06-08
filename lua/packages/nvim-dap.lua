@@ -94,29 +94,34 @@ local dap_csharp = A.new("csharp", "coreclr", {
         end,
     },
 }, vim.schedule_wrap(function ()
-    local archive
+    local archive, archive_path, extract
+    local extract_cb = function (_, code, _)
+        if code == 0 then
+            vim.loop.fs_unlink(archive_path)
+            vim.notify("Installed netcoredbg")
+        end
+    end
     if lib.has_windows() then
         archive = "netcoredbg-win64.zip"
+        archive_path = dir.."/"..archive
+        extract = Process.new("powershell", {
+            args = { "-c", "Expand-Archive -Path "..archive_path.." DestinationPath "..dir }
+        }, extract_cb)
     elseif vim.fn.has("unix") == 1 then
         archive = "netcoredbg-linux-amd64.tar.gz"
+        archive_path = dir.."/"..archive
+        extract = Process.new("tar", {
+            args = { "-xf", archive_path, "-C", dir }
+        }, extract_cb)
     else
         return
     end
     local source = "https://github.com/Samsung/netcoredbg/releases/latest/download/"..archive
-    local archive_path = dir.."/"..archive
     local curl_args = { "-L", source, "-o", archive_path }
     if _my_core_opt.dep.proxy then
         vim.tbl_extend("keep", curl_args, { "-x", _my_core_opt.dep.proxy })
     end
     local download = Process.new("curl", { args = curl_args })
-    local extract = Process.new("tar", {
-        args = { "-xf", archive_path, "-C", dir }
-    }, function (_, code, _)
-        if code == 0 then
-            vim.loop.fs_unlink(archive_path)
-            vim.notify("Installed netcoredbg")
-        end
-    end)
     download:continue_with(extract)
     download:start()
 end))
