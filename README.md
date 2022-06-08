@@ -280,14 +280,13 @@
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
   - [editorconfig.nvim](https://github.com/gpanders/editorconfig.nvim)
-* Completion; Snippet; LSP; TreeSitter
+* Completion; Snippet; LSP; TreeSitter; DAP
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
   - [nvim-lsp-installer](https://github.com/williamboman/nvim-lsp-installer)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
-* DAP
   - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)

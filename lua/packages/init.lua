@@ -102,7 +102,7 @@ require('packer').startup(function (use)
         'sotte/presenting.vim';
         'gpanders/editorconfig.nvim';
     }
-    -- Completion; Snippet; LSP; Treesitter
+    -- Completion; Snippet; LSP; Treesitter; DAP
     use {
         {
             'hrsh7th/nvim-cmp',
@@ -130,11 +130,10 @@ require('packer').startup(function (use)
             'stevearc/aerial.nvim',
             config = function () require('packages.aerial') end
         };
-    }
-    -- DAP
-    use {
-        'mfussenegger/nvim-dap',
-        config = function () require('packages.nvim-dap') end
+        {
+            'mfussenegger/nvim-dap',
+            config = function () require('packages.nvim-dap') end
+        };
     }
     -- Games
     use {
