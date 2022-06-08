@@ -105,7 +105,7 @@ local dap_csharp = A.new("csharp", "coreclr", {
         archive = "netcoredbg-win64.zip"
         archive_path = dir.."/"..archive
         extract = Process.new("powershell", {
-            args = { "-c", "Expand-Archive -Path "..archive_path.." DestinationPath "..dir }
+            args = { "-c", "Expand-Archive -Path "..archive_path.." -DestinationPath "..dir }
         }, extract_cb)
     elseif vim.fn.has("unix") == 1 then
         archive = "netcoredbg-linux-amd64.tar.gz"
