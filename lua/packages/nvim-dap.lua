@@ -66,7 +66,7 @@ local dap_python = A.new("python", "python", {
         args = { "-m", "venv", dir.."/debugpy" }
     })
     local pip_args = { "-m", "pip", "install", "debugpy" }
-    if _my_core_opt then
+    if _my_core_opt.dep.proxy then
         vim.tbl_extend("keep", pip_args, { "--proxy", _my_core_opt.dep.proxy })
     end
     local install = Process.new(a.option.command, {
