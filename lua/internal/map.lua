@@ -1,3 +1,5 @@
+local lib = require("utility.lib")
+
 ---Add a new mapping.
 ---@param desc string To give a description to the mapping.
 ---@param mode string|table Mode short-name.
@@ -76,7 +78,7 @@ kbd("Cursor up", { 'n', 'v', 'i' }, '<C-P>', function () vim.cmd("normal! gk") e
 for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
     kbd("Navigate window: "..desc, { "n", "i", "t" }, '<M-'..direct..'>', function ()
         to_normal()
-        require("utility.lib").feedkeys("<C-W>"..direct, "nx", false)
+        lib.feedkeys("<C-W>"..direct, "nx", false)
     end)
 end
 for i = 1, 10, 1 do
@@ -93,7 +95,6 @@ for key, val in pairs {
 }
 do
     kbd("Search cword with "..key, { 'n', 'v' }, '<leader>h'..val[1], function ()
-        local lib = require('utility.lib')
         local txt
         local mode = get_mode()
         if mode == 'n' then
@@ -126,21 +127,21 @@ kbd("Show document", 'n', 'K', function ()
     lib.try(vim.cmd, 'h '..word)
 end)
 kbd("Search visual selection forward", 'v', '*', function ()
-    local pat = require('utility.lib').get_visual_selection()
+    local pat = lib.get_visual_selection()
     :gsub('([/\\])', function (x)
         return '\\'..x
     end):gsub("\n", [[\n]])
     vim.cmd([[/\V]]..pat)
 end)
 kbd("Search visual selection backward", 'v', '#', function ()
-    local pat = require('utility.lib').get_visual_selection()
+    local pat = lib.get_visual_selection()
     :gsub('([?\\])', function (x)
         return '\\'..x
     end):gsub("\n", [[\n]])
     vim.cmd([[?\V]]..pat)
 end)
 kbd("Change cwd to current buffer", 'n', '<leader>bc', function ()
-    vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
+    vim.api.nvim_set_current_dir(lib.get_buf_dir())
     vim.cmd('pwd')
 end, { silent = false })
 kbd("Delete current buffer", 'n', '<leader>bd', function ()
@@ -159,7 +160,7 @@ kbd("Background toggle", 'n', '<leader>bg', function ()
 end)
 kbd("Open nvimrc", 'n', '<M-,>', vim.fn['my#compat#open_nvimrc'])
 kbd("Open system file manager", 'n', '<leader>oe', function ()
-    require('utility.util').sys_open(vim.fn.expand('%:p:h'))
+    require('utility.util').sys_open(lib.get_buf_dir())
 end)
 kbd("Open terminal", 'n', '<leader>ot', function ()
     local ok = require('utility.util').terminal()
@@ -168,7 +169,7 @@ kbd("Open terminal", 'n', '<leader>ot', function ()
     end
 end)
 kbd("Open current file with the system default application", 'n', '<leader>ob', function ()
-    require('utility.util').sys_open(vim.fn.expand('%:p'))
+    require('utility.util').sys_open(vim.api.nvim_buf_get_name(0))
 end)
 kbd("Open path or url under the cursor", 'n', '<leader>ou', function ()
     local util = require('utility.util')
@@ -195,7 +196,7 @@ kbd("Hanzi count", { 'n', 'v' }, '<leader>cc', function ()
     if mode == "n" then
         txt = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     elseif mode == "v" then
-        txt = require('utility.lib').get_visual_selection()
+        txt = lib.get_visual_selection()
     else
         return
     end

@@ -31,14 +31,14 @@ end
 ---@param file_path string File path.
 ---@param chdir boolean True to change cwd automatically.
 function M.edit_file(file_path, chdir)
-    local path = vim.fn.expand(file_path)
-    if vim.fn.expand("%:t") == '' then
+    local path = vim.fs.normalize(file_path)
+    if vim.api.nvim_buf_get_name(0) == '' then
         vim.cmd('silent e '..vim.fn.fnameescape(path))
     else
         vim.cmd('silent tabnew '..vim.fn.fnameescape(path))
     end
     if chdir then
-        vim.api.nvim_set_current_dir(vim.fn.expand('%:p:h'))
+        vim.api.nvim_set_current_dir(lib.get_buf_dir())
     end
 end
 
@@ -49,8 +49,8 @@ function M.match_path_or_url_under_cursor()
     if url then return url end
 
     local path = vim.fn.expand('<cfile>')
-    if lib.path_exists(path, vim.fn.expand('%:p:h')) then
-        return vim.fn.expand(path)
+    if lib.path_exists(path, lib.get_buf_dir()) then
+        return vim.fs.normalize(path)
     end
 
     return nil
@@ -61,7 +61,7 @@ end
 ---@param obj string Path or URL to open.
 ---@param use_local? boolean Use current file directory as cwd.
 function M.sys_open(obj, use_local)
-    local cwd = use_local and vim.fn.expand('%:p:h') or vim.loop.cwd()
+    local cwd = use_local and lib.get_buf_dir() or vim.loop.cwd()
     if type(obj) ~= "string"
         or not (lib.path_exists(obj, cwd) or lib.match_url(obj)) then
         lib.notify_err('Nothing found.')

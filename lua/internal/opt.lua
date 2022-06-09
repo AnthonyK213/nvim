@@ -25,8 +25,8 @@ local opt = {
     path = {
         home = vim.env.HOME,
         cloud = vim.env.ONEDRIVE or vim.env.HOME,
-        desktop = vim.fn.expand(vim.env.HOME..'/Desktop'),
-        bin = vim.fn.expand(vim.env.HOME..'/bin'),
+        desktop = vim.fs.normalize(vim.env.HOME..'/Desktop'),
+        bin = vim.fs.normalize(vim.env.HOME..'/bin'),
     },
     tui = {
         scheme = 'onedark',

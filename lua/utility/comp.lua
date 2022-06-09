@@ -78,7 +78,7 @@ local comp_table = {
     arduino = function (tbl)
         if not lib.executable('processing-java') then return end
         local output_dir
-        local sketch_name = vim.fn.expand('%:p:h:t')
+        local sketch_name = vim.fs.basename(lib.get_buf_dir())
         if lib.has_windows() then
             output_dir = vim.env.TEMP..'\\nvim_processing\\'..sketch_name
         else
@@ -300,11 +300,12 @@ local comp_table = {
 ---@param option? string Option as string.
 function M.run_or_compile(option)
     option = option or ""
+    local file_name = vim.api.nvim_buf_get_name(0)
     local tbl = {
         bin = '_'..vim.fn.expand('%:t:r')..(lib.has_windows() and '.exe' or ''),
         bwd = uv.cwd(),
-        fnm = vim.fn.expand('%:t'),
-        fwd = vim.fn.expand('%:p:h'),
+        fnm = vim.fs.basename(file_name),
+        fwd = vim.fs.dirname(file_name),
         opt = option,
     }
     if comp_table[vim.bo.ft] then

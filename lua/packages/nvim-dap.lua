@@ -56,8 +56,8 @@ local dap_python = A.new("python", "python", {
     args = { "-m", "debugpy.adapter" }
 }, {
     {
+        name = "Launch",
         request = "launch",
-        name = "Launch file",
         program = "${file}",
         pythonPath = function() return _my_core_opt.dep.py3 end,
     }
@@ -86,13 +86,20 @@ local dap_csharp = A.new("cs", "coreclr", {
     args = { "--interpreter=vscode" }
 }, {
     {
+        name = "Launch",
         type = "coreclr",
-        name = "launch - netcoredbg",
         request = "launch",
         program = function()
             return vim.fn.input("Path to dll: ", vim.loop.cwd().."/bin/Debug/", "file")
         end,
     },
+    {
+        name = "Attach",
+        type = "coreclr",
+        request = "attach",
+        processId = require("dap.utils").pick_process,
+        args = {}
+    }
 }, vim.schedule_wrap(function ()
     local archive, archive_path, extract
     local extract_cb = function (_, code, _)

@@ -49,6 +49,14 @@ function M.feedkeys(keys, mode, escape_ks)
     vim.api.nvim_feedkeys(k, mode, escape_ks)
 end
 
+---Get the directory of the buffer with bufnr.
+---@param bufnr integer? Buffer number.
+---@return string buf_dir Buffer directory.
+function M.get_buf_dir(bufnr)
+    bufnr = bufnr or 0
+    return vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+end
+
 ---Get characters around the cursor.
 ---@return table<string, string> context Context table with keys below:
 ---  - *p* -> The character before cursor (previous);
@@ -150,7 +158,7 @@ end
 ---@param pat string Root pattern.
 ---@return string? result Root directory path.
 function M.get_root(pat)
-    local current_dir = vim.fn.expand('%:p:h')
+    local current_dir = M.get_buf_dir()
     while true do
         if vim.fn.globpath(current_dir, pat, 1) ~= '' then
             return current_dir
@@ -248,7 +256,7 @@ end
 ---@return boolean
 function M.path_exists(path, cwd)
     local is_rel = true
-    path = vim.fn.expand(path)
+    path = vim.fs.normalize(path)
     if M.has_windows() then
         if path:match('^%a:[\\/]') then is_rel = false end
     else
