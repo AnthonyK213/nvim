@@ -80,7 +80,7 @@ local dap_python = A.new("python", "python", {
     new_venv:start()
 end))
 
-local dap_csharp = A.new("csharp", "coreclr", {
+local dap_csharp = A.new("cs", "coreclr", {
     type = "executable",
     command = dir.."/netcoredbg/netcoredbg",
     args = { "--interpreter=vscode" }
