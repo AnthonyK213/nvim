@@ -90,7 +90,11 @@ local dap_csharp = A.new("cs", "coreclr", {
         type = "coreclr",
         request = "launch",
         program = function()
-            return vim.fn.input("Path to dll: ", vim.loop.cwd().."/bin/Debug/", "file")
+            return vim.fn.input {
+                prompt = "Path to dll: ",
+                default = vim.loop.cwd().."/bin/Debug/",
+                completion = "file"
+            }
         end,
     },
     {
