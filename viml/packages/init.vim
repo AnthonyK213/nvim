@@ -26,7 +26,7 @@ endif
 call plug#begin(my#compat#stdpath('data') . '/plugged')
 
 "" Display
-if has("nvim")
+if has("nvim-0.7.0")
   Plug 'glepnir/dashboard-nvim'
 endif
 if s:nvim_init_src !=? 'defaultlines'
