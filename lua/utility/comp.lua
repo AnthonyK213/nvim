@@ -183,9 +183,10 @@ local comp_table = {
         end
     end,
     python = function (tbl)
-        if not lib.executable('python') then return end
+        local py = _my_core_opt.dep.py or "python"
+        if not lib.executable(py) then return end
         if tbl.opt == '' then
-            return Cmd.new { 'python', tbl.fnm }
+            return Cmd.new { py, tbl.fnm }
         else
             lib.notify_err('Invalid argument.')
         end
