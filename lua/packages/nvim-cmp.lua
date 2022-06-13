@@ -104,6 +104,7 @@ local cmp_setup = {
         { name = 'nvim_lsp' },
         { name = 'vsnip' },
         { name = 'path' },
+        { name = 'nvim_lsp_signature_help' },
     }, {
         { name = 'buffer', keyword_length = 5 },
         { name = 'omni' },
