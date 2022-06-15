@@ -26,9 +26,6 @@ endif
 call plug#begin(my#compat#stdpath('data') . '/plugged')
 
 "" Display
-if has("nvim-0.7.0")
-  Plug 'glepnir/dashboard-nvim'
-endif
 if s:nvim_init_src !=? 'defaultlines'
   Plug 'vim-airline/vim-airline'
 endif
@@ -88,7 +85,6 @@ if s:nvim_init_src ==? 'nano'
   colorscheme nanovim
 else
   call my#compat#vim_source_list([
-    \ "packages/dashboard",
     \ "packages/indentLine",
     \ "packages/markdown-preview",
     \ "packages/vim-clap",

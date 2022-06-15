@@ -221,7 +221,6 @@
 * Package manager
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Display
-  - [dashboard.nvim](https://github.com/glepnir/dashboard-nvim)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
 * Color scheme
   - [vim-one](https://github.com/rakr/vim-one)
