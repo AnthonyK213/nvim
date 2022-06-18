@@ -204,7 +204,7 @@
 * **Miscellanea**
   - v:   <kbd>\*/#</kbd> -> Search visual selection.
   - invt:<kbd>F2</kbd>   -> Toggle mouse status.
-  - n:   <kbd>F5</kbd>   -> `CodeRun`
+  - n:   <kbd>S-F5</kbd> -> `CodeRun`
 
 
 ## Commands

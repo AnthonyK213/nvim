@@ -86,7 +86,8 @@ vn  <silent> <F2> :<C-U>call      my#compat#mouse_toggle()<CR>
 ino <silent> <F2> <C-\><C-O>:call my#compat#mouse_toggle()<CR>
 tno <silent> <F2> <C-\><C-N>:call my#compat#mouse_toggle()<CR>a
 " Run code.
-nn <silent> <F5> :call my#comp#run_or_compile("")<CR>
+nn <silent> <F17> :call my#comp#run_or_compile("")<CR>
+nn <silent> <S-F5> :call my#comp#run_or_compile("")<CR>
 " Background toggle.
 nn <silent> <leader>bg :call my#compat#bg_toggle()<CR>
 " Open init file.
