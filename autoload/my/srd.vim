@@ -83,8 +83,8 @@ function! my#srd#sur_add(mode, ...) abort
 endfunction
 
 function! my#srd#sur_sub(...) abort
-  let l:back = my#lib#get_char()['b']
-  let l:fore = my#lib#get_char()['f']
+  let l:back = my#lib#get_context()['b']
+  let l:fore = my#lib#get_context()['f']
   let l:pair_a = input("Surrounding delete: ")
   let l:pair_b = s:sur_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")

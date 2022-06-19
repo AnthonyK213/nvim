@@ -5,6 +5,11 @@ function! my#lib#belowright_split(height) abort
   exe 'resize' l:term_h
 endfunction
 
+" Defers calling {fn} until {timeout} ms passes.
+function! my#lib#defer_fn(fn, timeout) abort
+  let l:timer = timer_start(a:timeout, a:fn, { "repeat": 1 })
+endfunction
+
 " Encode URL.
 function! my#lib#encode_url(str) abort
   let l:res = ""
@@ -27,8 +32,8 @@ function! my#lib#executable(name) abort
   return 0
 endfunction
 
-" Get the character around the cursor.
-function! my#lib#get_char() abort
+" Get characters around the cursor.
+function! my#lib#get_context() abort
   let l:col = col('.')
   let l:line = getline('.')
   let l:back = strpart(l:line, 0, l:col - 1)
@@ -122,8 +127,8 @@ endfunction
 
 " Get the word and its position under the cursor.
 function! my#lib#get_word() abort
-  let l:b = my#lib#get_char()['b']
-  let l:f = my#lib#get_char()['f']
+  let l:b = my#lib#get_context()['b']
+  let l:f = my#lib#get_context()['f']
   let l:p_a = matchstr(l:b, '\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$')
   let l:p_b = matchstr(l:f, '\v^([\u4e00-\u9fff0-9a-zA-Z_-])+')
   let l:word = ''
@@ -133,7 +138,7 @@ function! my#lib#get_word() abort
     let l:p_a = ''
   endif
   if empty(l:word)
-    let l:word = my#lib#get_char()['n']
+    let l:word = my#lib#get_context()['n']
     let l:p_b = word
   endif
   return [l:word, len(l:b) - len(l:p_a), len(l:b) + len(l:p_b)]

@@ -16,9 +16,9 @@ call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options
 
 im  <silent><expr> <TAB>
       \ pumvisible() ?
-      \ "\<C-N>" : my#lib#get_char()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-N>" : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
       \ "\<C-\>\<C-o>>>" . repeat(g:_const_dir_r, &ts) : vsnip#jumpable(1) ?
-      \ "\<Plug>(vsnip-jump-next)" : my#lib#get_char()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+      \ "\<Plug>(vsnip-jump-next)" : my#lib#get_context()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
       \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
 im  <silent><expr> <S-TAB>
       \ pumvisible() ?

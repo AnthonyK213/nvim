@@ -92,6 +92,60 @@ function! my#util#search_selection(cmd) abort
   return '\V' . substitute(escape(pat, a:cmd . '\'), '\n', '\\n', 'g')
 endfunction
 
+let s:funcref_list = []
+
+function my#util#add_funcref(fn) abort
+  call add(s:funcref_list, a:fn)
+  return len(s:funcref_list) - 1
+endfunction
+
+function! my#util#get_funcref(index) abort
+  if a:index < len(s:funcref_list)
+    return s:funcref_list[a:index]
+  endif
+endfunction
+
+function! my#util#set_keymap(mode, lhs, rhs, opts = {}) abort
+  let l:cmd = a:mode . (has_key(a:opts, "noremap") && a:opts["noremap"] ? "noremap" : "map")
+  let l:arg = ""
+  for l:a in ["buffer", "nowait", "silent", "script"]
+    if has_key(a:opts, l:a) && a:opts[l:a]
+      let l:arg .= "<" . l:a . ">"
+    endif
+  endfor
+  if type(a:rhs) == v:t_string
+    if has_key(a:opts, "expr") && a:opts["expr"]
+      let l:arg .= "<expr>"
+    endif
+    let l:right = a:rhs
+  elseif type(a:rhs) == v:t_func
+    let l:arg .= "<expr>"
+    let l:index = my#util#add_funcref(a:rhs)
+    let l:right = "my#util#get_funcref(" . string(l:index) . ")()"
+  else
+    return
+  endif
+  exe l:cmd l:arg a:lhs l:right
+endfunction
+
+function! my#util#new_keymap(mode, lhs, new_rhs, opts = 0) abort
+  let l:args = maparg(a:lhs, a:mode, v:false, v:true)
+  let l:new_opts = type(a:opts) == v:t_dict ? a:opts : l:args
+  let l:new_opts["expr"] = 1
+  if type(a:new_rhs != v:t_func)
+    return
+  endif
+  if empty(l:args)
+    call my#util#set_keymap(a:mode, a:lhs, a:new_rhs, l:new_opts)
+    return
+  endif
+  call my#util#set_keymap(a:mode, a:lhs, {->
+        \ call(a:new_rhs, [{->
+        \ execute((has_key(l:args, "expr") && l:args["expr"] ? "call " : "exe ") . l:args["rhs"],
+        \ has_key(l:args, "silent") && l:args["silent"] ? "silent" : "")}])},
+        \ l:new_opts)
+endfunction
+
 function! my#util#git_push_all(...) abort
   if my#compat#has_incompat() | return | endif
   if !my#lib#executable("git") | return | endif

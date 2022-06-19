@@ -77,10 +77,10 @@ tno <silent> <M-e> <C-\><C-N>:CocCommand explorer<CR>
 " other plugin before putting this into your config.
 im <silent><expr> <TAB>
       \ pumvisible() ?
-      \ "\<C-N>" : my#lib#get_char()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-N>" : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
       \ "\<C-\>\<C-o>>>" . repeat(g:_const_dir_r, &ts) : coc#expandableOrJumpable() ?
       \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ my#lib#get_char()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
+      \ my#lib#get_context()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
       \ coc#refresh() : "\<TAB>"
 im  <silent><expr> <S-TAB>
       \ pumvisible() ?
