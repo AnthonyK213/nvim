@@ -136,14 +136,15 @@ function! my#util#new_keymap(mode, lhs, new_rhs, opts = 0) abort
     return
   endif
   if empty(l:args)
-    call my#util#set_keymap(a:mode, a:lhs, a:new_rhs, l:new_opts)
+    call my#util#set_keymap(a:mode, a:lhs, {-> a:new_rhs({-> a:lhs})}, l:new_opts)
     return
   endif
-  call my#util#set_keymap(a:mode, a:lhs, {->
-        \ call(a:new_rhs, [{->
-        \ execute((has_key(l:args, "expr") && l:args["expr"] ? "call " : "exe ") . l:args["rhs"],
-        \ has_key(l:args, "silent") && l:args["silent"] ? "silent" : "")}])},
-        \ l:new_opts)
+  if has_key(l:args, "sid")
+    let l:fallback_rhs = substitute(l:args["rhs"], '<SID>', "<SNR>" . l:args["sid"] . "_", "g")
+  else
+    let l:fallback_rhs = l:args["rhs"]
+  endif
+  call my#util#set_keymap(a:mode, a:lhs, {-> a:new_rhs({-> eval(l:fallback_rhs)})}, l:new_opts)
 endfunction
 
 function! my#util#git_push_all(...) abort

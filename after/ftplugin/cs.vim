@@ -1,15 +1,15 @@
 setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
-function! s:add_summary() abort
+function! s:add_summary(fallback) abort
   if my#lib#get_context()["b"] =~ '\v^\s*//$'
-    call feedkeys("/ <summary>\n\n</summary>\<Up> ", "n")
+    return "/ <summary>\<CR>\<CR></summary>\<Up> "
   else
-    call feedkeys("/", "n")
+    return a:fallback()
   endif
 endfunction
 
 function! s:def_map(id) abort
-  inoremap <buffer><silent> / <C-\><C-O>:call <SID>add_summary()<CR>
+  call my#util#new_keymap("i", '/', funcref("s:add_summary"), {"noremap": 1, "buffer": 1, "silent": 1})
 endfunction
 
 call my#lib#defer_fn(function("s:def_map"), 500)
