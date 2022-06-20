@@ -22,7 +22,7 @@ function! s:comp_c(tbl) abort
         \ 'check' : [l:cc, a:tbl['fnm'], '-g', '-o', a:tbl['bin']],
         \ 'build' : [l:cc, a:tbl['fnm'], '-O2', '-o', a:tbl['bin']],
         \ }
-  if l:cmd_tbl->has_key(l:opt)
+  if has_key(l:cmd_tbl, l:opt)
     let l:cmd = l:cmd_tbl[l:opt]
     if empty(l:opt)
       return [function('s:cb_run_bin'), l:cmd]
@@ -48,7 +48,7 @@ function! s:comp_clisp(tbl) abort
           \ ],
           \ }
   let l:opt = a:tbl['opt']
-  if l:cmd->has_key(l:opt)
+  if has_key(l:cmd, l:opt)
     let l:cmd = l:cmd_tbl[l:opt]
     return [v:null, l:cmd]
   else
@@ -63,7 +63,7 @@ function! s:comp_cpp(tbl) abort
         \ 'gcc' : 'g++',
         \ 'clang' : 'clang++'
         \}
-  if l:cc_tbl->has_key(l:cc)
+  if has_key(l:cc_tbl, l:cc)
     let l:cppc = l:cc_tbl[l:cc]
     if !my#lib#executable(cc)
       return [v:null, v:null]
@@ -92,7 +92,7 @@ function! s:comp_csharp(tbl) abort
         \ 'test'  : ['dotnet', 'test'],
         \ }
   let l:opt = a:tbl['opt']
-  if l:cmd_tbl->has_key(l:opt)
+  if has_key(l:cmd_tbl, l:opt)
     return [v:null, l:cmd_tbl[l:opt]]
   else
     call my#lib#notify_err('Invalid argument.')
@@ -161,7 +161,7 @@ function! s:comp_rust(tbl) abort
           \ 'test'  : ['cargo', 'test']
           \ }
     let l:opt = a:tbl['opt']
-    if l:cmd_tbl->has_key(l:opt) 
+    if has_key(l:cmd_tbl, l:opt) 
       let l:cmd = l:cmd_tbl[l:opt]
       return [v:null, l:cmd]
     else
@@ -262,7 +262,7 @@ function! my#comp#run_or_compile(option) abort
         \ "fwd" : expand('%:p:h'),
         \ "opt" : a:option,
         \ }
-  if s:comp_table->has_key(&ft)
+  if has_key(s:comp_table, &ft)
     let l:res = s:comp_table[&ft](l:tbl)
     let l:term_cmd = l:res[1]
     if type(l:term_cmd) == v:t_list
