@@ -5,7 +5,7 @@ let g:coc_global_extensions = [
       \ ]
 let g:coc_config_table = {}
 
-function s:coc_check(server, extension, enable="enable") abort
+function s:coc_lsp_check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
     let l:val = get(g:, l:var_name)
@@ -33,14 +33,6 @@ function s:coc_check(server, extension, enable="enable") abort
   endif
 endfunction
 
-function! s:coc_on_enter(fallback) abort
-  if pumvisible()
-    return coc#_select_confirm()
-  else
-    return a:fallback()
-  endif
-endfunction
-
 function! s:coc_show_doc() abort
   if (index(['vim', 'help'], &filetype) >= 0)
     let l:word = my#lib#get_word()[0]
@@ -54,13 +46,13 @@ function! s:coc_show_doc() abort
   endif
 endfunction
 
-call s:coc_check('clangd', 'coc-clangd', 'clangd.enabled')
-call s:coc_check('jedi_language_server', 'coc-jedi', 'jedi.enable')
-call s:coc_check('omnisharp', 'coc-omnisharp')
-call s:coc_check('powershell_es', 'coc-powershell')
-call s:coc_check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
-call s:coc_check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
-call s:coc_check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
+call s:coc_lsp_check('clangd', 'coc-clangd', 'clangd.enabled')
+call s:coc_lsp_check('jedi_language_server', 'coc-jedi', 'jedi.enable')
+call s:coc_lsp_check('omnisharp', 'coc-omnisharp')
+call s:coc_lsp_check('powershell_es', 'coc-powershell')
+call s:coc_lsp_check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
+call s:coc_lsp_check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
+call s:coc_lsp_check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
 let s:snippet_dir = my#compat#stdpath('config') . '/snippet'
 call extend(g:coc_config_table, {
       \ 'snippets.textmateSnippetsRoots' : [s:snippet_dir],
@@ -85,7 +77,9 @@ for [s:key, s:val] in items(g:coc_config_table)
   call coc#config(s:key, s:val)
 endfor
 
-" Tab
+" Input.
+ino <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-G>u\<CR>\<C-R>=coc#on_enter()\<CR>"
 im <silent><expr> <TAB>
       \ pumvisible() ?
       \ "\<C-N>" : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
@@ -158,8 +152,6 @@ augroup my_coc_group
   au FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
   au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  " Map <CR>
-  au VimEnter * call my#util#new_keymap("i", "<CR>", function("s:coc_on_enter"), {"noremap": 1, "silent": 1, "buffer": 1})
 augroup end
 
 " Add (Neo)Vim's native statusline support.
