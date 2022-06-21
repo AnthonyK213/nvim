@@ -106,8 +106,8 @@ nn <silent> K :call <SID>coc_show_doc()<CR>
 " Symbol renaming.
 nmap <leader>ln <Plug>(coc-rename)
 " Formatting selected code.
+nmap <leader>lm <Plug>(coc-format)
 xmap <leader>lm <Plug>(coc-format-selected)
-nmap <leader>lm <Plug>(coc-format-selected)
 " Applying codeAction to the selected region.
 xmap <leader>la <Plug>(coc-codeaction-selected)
 nmap <leader>la <Plug>(coc-codeaction-selected)
@@ -136,13 +136,6 @@ nn  <silent> <leader>op :CocCommand explorer<CR>
 nn  <silent> <M-e> :CocCommand explorer<CR>
 ino <silent> <M-e> <Esc>:CocCommand explorer<CR>
 tno <silent> <M-e> <C-\><C-N>:CocCommand explorer<CR>
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call CocAction('fold', <f-args>)
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 augroup my_coc_group
   autocmd!
