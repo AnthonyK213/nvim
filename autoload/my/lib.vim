@@ -47,45 +47,32 @@ function! my#lib#get_context() abort
 endfunction
 
 " Get the branch name.
-function! my#lib#get_git_branch(git_root) abort
-  if a:git_root == v:null
-    return v:null
-  else
-    let l:git_root = substitute(a:git_root, '\v[\\/]$', '', '')
-    let l:dot_git = l:git_root . '/.git'
-    if isdirectory(l:dot_git)
-      let l:head_file = l:git_root . '/.git/HEAD'
-    else
-      try
-        let l:gitdir_line = readfile(l:dot_git)[0]
-        let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-        if len(l:gitdir_matches) > 0
-          let l:gitdir = l:gitdir_matches[1]
-          let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
-        else
-          return v:null
-        endif
-      catch
-        return v:null
-      endtry
+function! my#lib#get_git_branch(git_root = my#lib#get_root(".git")) abort
+  if a:git_root == v:null | return v:null | endif
+  let l:git_root = substitute(a:git_root, '\v[\\/]$', '', '')
+  let l:dot_git = l:git_root . '/.git'
+  let l:head_file = ""
+  if isdirectory(l:dot_git)
+    let l:head_file = l:git_root . '/.git/HEAD'
+  elseif !empty(glob(l:dot_git))
+    let l:gitdir_line = readfile(l:dot_git)[0]
+    let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
+    if len(l:gitdir_matches) > 0
+      let l:gitdir = l:gitdir_matches[1]
+      let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
     endif
-    try
-      let l:ref_line = readfile(l:head_file)[0]
-      let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      if len(l:ref_matches) > 0
-        let l:branch = l:ref_matches[1]
-        if !empty(l:branch)
-          return l:branch
-        else
-          return v:null
-        endif
-      else
-        return v:null
-      endif
-    catch
-      return v:null
-    endtry
   endif
+  if !empty(l:head_file) && !empty(glob(l:head_file))
+    let l:ref_line = readfile(l:head_file)[0]
+    let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
+    if len(l:ref_matches) > 0
+      let l:branch = l:ref_matches[1]
+      if !empty(l:branch)
+        return l:branch
+      endif
+    endif
+  endif
+  return v:null
 endfunction
 
 " Get path of the option file (nvimrc).
