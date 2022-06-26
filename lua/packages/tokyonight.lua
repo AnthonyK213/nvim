@@ -1,7 +1,7 @@
 vim.cmd[[packadd tokyonight.nvim]]
 
 
-vim.g.tokyonight_style = _my_core_opt.tui.style or 'storm'
+vim.g.tokyonight_style = _my_core_opt.tui.style or "storm"
 vim.g.tokyonight_transparent = _my_core_opt.tui.transparent
 vim.g.tokyonight_italic_keywords = false
 vim.g.tokyonight_sidebars = {
@@ -9,40 +9,40 @@ vim.g.tokyonight_sidebars = {
     "aerial", "packer",
 }
 
-require("utility.util").hl_auto_update('tokyonight', {
-    FloatBorder = { fg = '$cyan' },
-    SpellBad = { fg = '$red', fmt = 'underline' },
-    SpellCap = { fg = '$yellow', fmt = 'underline' },
+require("utility.util").hl_auto_update("tokyonight", {
+    FloatBorder = { fg = "$cyan" },
+    SpellBad = { fg = "$red", fmt = "underline" },
+    SpellCap = { fg = "$yellow", fmt = "underline" },
     --#region Markdown
-    markdownH1 =                  { fg = '$red', fmt = 'bold' },
-    markdownH2 =                  { fg = '$red', fmt = 'bold' },
-    markdownH3 =                  { fg = '$red', fmt = 'bold' },
-    markdownH4 =                  { fg = '$red' },
-    markdownH5 =                  { fg = '$red' },
-    markdownH6 =                  { fg = '$red' },
-    markdownBold =                { fg = '$yellow', fmt = 'bold' },
-    markdownItalic =              { fg = '$purple', fmt = 'italic' },
-    markdownBoldItalic =          { fg = '$yellow', fmt = 'bold,italic' },
-    markdownCode =                { fg = '$green' },
-    markdownUrl =                 { fg = '$blue' },
-    markdownLinkText =            { fg = '$cyan', fmt = 'underline' },
-    markdownHeadingDelimiter =    { fg = '$red' },
-    markdownBoldDelimiter =       { fg = '$bg3' },
-    markdownItalicDelimiter =     { fg = '$bg3' },
-    markdownBoldItalicDelimiter = { fg = '$bg3' },
-    markdownCodeDelimiter =       { fg = '$bg3' },
-    markdownLinkDelimiter =       { fg = '$bg3' },
-    markdownLinkTextDelimiter =   { fg = '$bg3' },
-    markdownTSEmphasis =          { fg = '$purple', fmt = 'italic' },
-    markdownTSLiteral =           { fg = '$green' },
-    markdownTSNone =              { fg = '$light_grey' },
-    markdownTSPunctSpecial =      { fg = '$red' },
-    markdownTSPunctDelimiter =    { fg = '$bg3' },
-    markdownTSStringEscape =      { fg = '$cyan', fmt = 'bold' },
-    markdownTSStrong =            { fg = '$yellow', fmt = 'bold' },
-    markdownTSTextReference =     { fg = '$cyan', fmt = 'underline' },
-    markdownTSTitle =             { fg = '$red', fmt = 'bold' },
-    markdownTSURI =               { fg = '$blue' },
+    markdownH1 =                  { fg = "$red", fmt = "bold" },
+    markdownH2 =                  { fg = "$red", fmt = "bold" },
+    markdownH3 =                  { fg = "$red", fmt = "bold" },
+    markdownH4 =                  { fg = "$red" },
+    markdownH5 =                  { fg = "$red" },
+    markdownH6 =                  { fg = "$red" },
+    markdownBold =                { fg = "$yellow", fmt = "bold" },
+    markdownItalic =              { fg = "$purple", fmt = "italic" },
+    markdownBoldItalic =          { fg = "$yellow", fmt = "bold,italic" },
+    markdownCode =                { fg = "$green" },
+    markdownUrl =                 { fg = "$blue" },
+    markdownLinkText =            { fg = "$cyan", fmt = "underline" },
+    markdownHeadingDelimiter =    { fg = "$red" },
+    markdownBoldDelimiter =       { fg = "$bg3" },
+    markdownItalicDelimiter =     { fg = "$bg3" },
+    markdownBoldItalicDelimiter = { fg = "$bg3" },
+    markdownCodeDelimiter =       { fg = "$bg3" },
+    markdownLinkDelimiter =       { fg = "$bg3" },
+    markdownLinkTextDelimiter =   { fg = "$bg3" },
+    markdownTSEmphasis =          { fg = "$purple", fmt = "italic" },
+    markdownTSLiteral =           { fg = "$green" },
+    markdownTSNone =              { fg = "$light_grey" },
+    markdownTSPunctSpecial =      { fg = "$red" },
+    markdownTSPunctDelimiter =    { fg = "$bg3" },
+    markdownTSStringEscape =      { fg = "$cyan", fmt = "bold" },
+    markdownTSStrong =            { fg = "$yellow", fmt = "bold" },
+    markdownTSTextReference =     { fg = "$cyan", fmt = "underline" },
+    markdownTSTitle =             { fg = "$red", fmt = "bold" },
+    markdownTSURI =               { fg = "$blue" },
     --#endregion
 }, function ()
     return {

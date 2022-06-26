@@ -1,7 +1,7 @@
 local M = {}
 local uv = vim.loop
-local lib = require('utility.lib')
-local Process = require('utility.proc')
+local lib = require("utility.lib")
+local Process = require("utility.proc")
 
 
 ---Invoke callback function for `on_event`.
@@ -18,9 +18,9 @@ end
 ---@param arg_tbl table Arguments table.
 ---@param cb_args table Callback arguments.
 local function cb_run_bin(arg_tbl, cb_args)
-    if cb_args[2] == 0 and cb_args[3] == 'exit' then
-        vim.cmd(':vertical new')
-        vim.fn.termopen({arg_tbl.fwd..'/'..arg_tbl.bin}, {
+    if cb_args[2] == 0 and cb_args[3] == "exit" then
+        vim.cmd(":vertical new")
+        vim.fn.termopen({arg_tbl.fwd.."/"..arg_tbl.bin}, {
             cwd = arg_tbl.fwd
         })
     end
@@ -52,7 +52,7 @@ end
 ---Run command.
 ---@param tbl table
 function Cmd:run(tbl)
-    if type(self.cmd) == 'table' then
+    if type(self.cmd) == "table" then
         lib.belowright_split(30)
         if self.cb then
             vim.fn.termopen(self.cmd, {
@@ -64,7 +64,7 @@ function Cmd:run(tbl)
                 cwd = self.cwd or tbl.fwd,
             })
         end
-    elseif type(self.cmd) == 'string' then
+    elseif type(self.cmd) == "string" then
         vim.api.nvim_set_current_dir(tbl.fwd)
         vim.schedule(function ()
             vim.api.nvim_set_current_dir(tbl.bwd)
@@ -76,89 +76,89 @@ end
 ---Cmd constructor table for various filetypes.
 local comp_table = {
     arduino = function (tbl)
-        if not lib.executable('processing-java') then return end
+        if not lib.executable("processing-java") then return end
         local output_dir
         local sketch_name = vim.fs.basename(lib.get_buf_dir())
         if lib.has_windows() then
-            output_dir = vim.env.TEMP..'\\nvim_processing\\'..sketch_name
+            output_dir = vim.env.TEMP.."\\nvim_processing\\"..sketch_name
         else
-            output_dir = '/tmp/nvim_processing/'..sketch_name
+            output_dir = "/tmp/nvim_processing/"..sketch_name
         end
-        if tbl.opt == '' then
+        if tbl.opt == "" then
             return Cmd.new {
-                'processing-java',
-                '--sketch='..tbl.fwd,
-                '--output='..output_dir,
-                '--force',
-                '--run'
+                "processing-java",
+                "--sketch="..tbl.fwd,
+                "--output="..output_dir,
+                "--force",
+                "--run"
             }
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     c = function (tbl)
         local my_cc = _my_core_opt.dep.cc
         if not lib.executable(my_cc) then return end
         local cmd_tbl = {
-            ['']  = { my_cc, tbl.fnm, '-o', tbl.bin },
-            check = { my_cc, tbl.fnm, '-g', '-o', tbl.bin },
-            build = { my_cc, tbl.fnm, '-O2', '-o', tbl.bin },
+            [""]  = { my_cc, tbl.fnm, "-o", tbl.bin },
+            check = { my_cc, tbl.fnm, "-g", "-o", tbl.bin },
+            build = { my_cc, tbl.fnm, "-O2", "-o", tbl.bin },
         }
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
-            if tbl.opt == '' then
+            if tbl.opt == "" then
                 return Cmd.new(cmd, nil, cb_run_bin)
             else
                 return Cmd.new(cmd)
             end
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     cpp = function (tbl)
         local cc_tbl = {
-            gcc = 'g++',
-            clang = 'clang++'
+            gcc = "g++",
+            clang = "clang++"
         }
         local cc = cc_tbl[_my_core_opt.dep.cc]
         if cc then
             if not lib.executable(cc) then return end
-            if tbl.opt == '' then
-                return Cmd.new({ cc, tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
+            if tbl.opt == "" then
+                return Cmd.new({ cc, tbl.fnm, "-o", tbl.bin }, nil, cb_run_bin)
             else
-                lib.notify_err('Invalid argument.')
+                lib.notify_err("Invalid argument.")
             end
         end
     end,
     cs = function (tbl)
-        if not lib.executable('dotnet') then return end
+        if not lib.executable("dotnet") then return end
         local sln_root = lib.get_root("*.sln")
         if sln_root then
-            if not lib.executable('MSBuild') then return end
-            return Cmd.new { 'MSBuild.exe', sln_root }
+            if not lib.executable("MSBuild") then return end
+            return Cmd.new { "MSBuild.exe", sln_root }
         end
         local cmd_tbl = {
-            ['']   = { 'dotnet', 'run' },
-            build  = { 'dotnet', 'build', '--configuration', 'Release' },
-            clean  = { 'dotnet', 'clean' },
-            test   = { 'dotnet', 'test' },
+            [""]   = { "dotnet", "run" },
+            build  = { "dotnet", "build", "--configuration", "Release" },
+            clean  = { "dotnet", "clean" },
+            test   = { "dotnet", "test" },
         }
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
             return Cmd.new(cmd)
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     lisp = function (tbl)
-        if not lib.executable('sbcl') then return end
+        if not lib.executable("sbcl") then return end
         local cmd_tbl = {
-            ['']  = {
-                'sbcl', '--noinform', '--load',
-                tbl.fnm, '--eval', '(exit)'
+            [""]  = {
+                "sbcl", "--noinform", "--load",
+                tbl.fnm, "--eval", "(exit)"
             },
             build = {
-                'sbcl', '--noinform', '--load', tbl.fnm, '--eval',
+                "sbcl", "--noinform", "--load", tbl.fnm, "--eval",
                 [[(sb-ext:save-lisp-and-die "]]..tbl.bin
                 ..[[" :toplevel (quote main) :executable t)]],
             },
@@ -167,61 +167,61 @@ local comp_table = {
         if cmd then
             return Cmd.new(cmd)
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     lua = function (tbl)
-        if tbl.opt == '' then
-            return Cmd.new('luafile %')
-        elseif tbl.opt == 'nojit' then
-            if not lib.executable('lua') then return end
-            return Cmd.new { 'lua', tbl.fnm }
-        elseif tbl.opt == 'test' then
+        if tbl.opt == "" then
+            return Cmd.new("luafile %")
+        elseif tbl.opt == "nojit" then
+            if not lib.executable("lua") then return end
+            return Cmd.new { "lua", tbl.fnm }
+        elseif tbl.opt == "test" then
             lib.feedkeys("<Plug>PlenaryTestFile", "n", false)
         else
-            lib.notify_err('Invalid arguments.')
+            lib.notify_err("Invalid arguments.")
         end
     end,
     python = function (tbl)
         local py = _my_core_opt.dep.py or "python"
         if not lib.executable(py) then return end
-        if tbl.opt == '' then
+        if tbl.opt == "" then
             return Cmd.new { py, tbl.fnm }
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     ruby = function (tbl)
-        if not lib.executable('ruby') then return end
-        if tbl.opt == '' then
-            return Cmd.new { 'ruby', tbl.fnm }
+        if not lib.executable("ruby") then return end
+        if tbl.opt == "" then
+            return Cmd.new { "ruby", tbl.fnm }
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     rust = function (tbl)
-        if not lib.executable('cargo') then return end
-        local cargo_root = lib.get_root('Cargo.toml')
+        if not lib.executable("cargo") then return end
+        local cargo_root = lib.get_root("Cargo.toml")
         if cargo_root then
             local cmd_tbl = {
-                ['']  = { 'cargo', 'run' },
-                build = { 'cargo', 'build', '--release' },
-                check = { 'cargo', 'check' },
-                clean = { 'cargo', 'clean' },
-                test  = { 'cargo', 'test' }
+                [""]  = { "cargo", "run" },
+                build = { "cargo", "build", "--release" },
+                check = { "cargo", "check" },
+                clean = { "cargo", "clean" },
+                test  = { "cargo", "test" }
             }
             local cmd = cmd_tbl[tbl.opt]
             if cmd then
                 return Cmd.new(cmd, cargo_root)
             else
-                lib.notify_err('Invalid argument.')
+                lib.notify_err("Invalid argument.")
             end
         end
-        return Cmd.new({ 'rustc', tbl.fnm, '-o', tbl.bin }, nil, cb_run_bin)
+        return Cmd.new({ "rustc", tbl.fnm, "-o", tbl.bin }, nil, cb_run_bin)
     end,
     tex = function (tbl)
         local step = 1
-        local name = vim.fn.expand('%:p:r')
+        local name = vim.fn.expand("%:p:r")
         ---Create tex callback.
         ---@param label string
         ---@return function
@@ -248,21 +248,21 @@ local comp_table = {
                 vim.notify("Done.")
             end
         end
-        local xelatex = Process.new('xelatex', {
+        local xelatex = Process.new("xelatex", {
             args = {
-                '-synctex=1',
-                '-interaction=nonstopmode',
-                '-file-line-error',
-                name..'.tex'
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                name..".tex"
             }
         }, tex_cb("XeLaTeX"))
         ---@type table<string, Process>
         local bib_table = {
-            biber = Process.new('biber', {
-                args = { name..'.bcf' }
+            biber = Process.new("biber", {
+                args = { name..".bcf" }
             }, tex_cb("Biber")),
-            bibtex = Process.new('bibtex', {
-                args = { name..'.aux' }
+            bibtex = Process.new("bibtex", {
+                args = { name..".aux" }
             }, tex_cb("BibTeX"))
         }
         if tbl.opt == "" then
@@ -285,14 +285,14 @@ local comp_table = {
             x3:append_cb(tex_done_cb)
             x1:start()
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
     vim = function (tbl)
         if tbl.opt == "" then
-            return Cmd.new('source %')
+            return Cmd.new("source %")
         else
-            lib.notify_err('Invalid argument.')
+            lib.notify_err("Invalid argument.")
         end
     end,
 }
@@ -303,7 +303,7 @@ function M.run_or_compile(option)
     option = option or ""
     local file_name = vim.api.nvim_buf_get_name(0)
     local tbl = {
-        bin = '_'..vim.fn.expand('%:t:r')..(lib.has_windows() and '.exe' or ''),
+        bin = "_"..vim.fn.expand("%:t:r")..(lib.has_windows() and ".exe" or ""),
         bwd = uv.cwd(),
         fnm = vim.fs.basename(file_name),
         fwd = vim.fs.dirname(file_name),

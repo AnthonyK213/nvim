@@ -17,10 +17,10 @@ end
 ---@return string|nil
 local get_mode = function ()
     local m = vim.api.nvim_get_mode().mode
-    if m == 'n' then
+    if m == "n" then
         return m
-    elseif vim.tbl_contains({ 'v', 'V', '' }, m) then
-        return 'v'
+    elseif vim.tbl_contains({ "v", "V", "" }, m) then
+        return "v"
     else
         return nil
     end
@@ -35,54 +35,54 @@ kbd("Adjust window size up", "n", "<C-UP>", "<C-W>-")
 kbd("Adjust window size down", "n", "<C-DOWN>", "<C-W>+")
 kbd("Adjust window size left", "n", "<C-LEFT>", "<C-W>>")
 kbd("Adjust window size right", "n", "<C-RIGHT>", "<C-W><")
-kbd("Switch to normal mode in terminal", 't', '<ESC>', '<C-\\><C-N>')
-kbd("Close terminal", 't', '<M-d>', '<C-\\><C-N>:bd!<CR>')
-kbd("Echo git status", 'n', '<leader>gs', ':!git status<CR>')
-kbd("Find and replace", 'n', '<M-g>', ':%s/', { silent = false })
-kbd("Find and replace", 'v', '<M-g>', ':s/', { silent = false })
-kbd("Stop the search highlighting", 'n', '<leader>bh', '<Cmd>noh<CR>')
-kbd("Next buffer", 'n', '<leader>bn', '<Cmd>bn<CR>')
-kbd("Previous buffer", 'n', '<leader>bp', '<Cmd>bp<CR>')
-kbd("Toggle spell check", 'n', '<leader>cs', '<Cmd>setlocal spell! spelllang=en_us<CR>')
-kbd("Cursor to beginning of command-line", 'c', '<C-A>', '<C-B>', { silent = false })
-kbd("Cursor left", 'c', '<C-B>', '<LEFT>', { silent = false })
-kbd("Cursor right", 'c', '<C-F>', '<RIGHT>', { silent = false })
-kbd("Open the command-line window", 'c', '<C-H>', '<C-F>', { silent = false })
-kbd("Cursor one WORD left", 'c', '<M-b>', '<C-LEFT>', { silent = false })
-kbd("Cursor one WORD right", 'c', '<M-f>', '<C-RIGHT>', { silent = false })
-kbd("Delete the word before the cursor", 'c', '<M-BS>', '<C-W>', { silent = false })
-kbd("Write the whole buffer to the current file", { "n", "i" }, '<C-S>', function () vim.cmd("write") end, { silent = false })
-kbd("Copy to system clipboard", 'v', '<M-c>', '"+y')
-kbd("Cut to system clipboard", 'v', '<M-x>', '"+x')
-kbd("Paste from system clipboard", { 'n', 'v' }, '<M-v>', '"+p')
-kbd("Paste from system clipboard", 'i', '<M-v>', '<C-R>=@+<CR>')
-kbd("Select all lines in buffer", 'n', '<M-a>', 'ggVG')
-kbd("Command-line mode", 'n', '<M-x>', ':', { silent = false })
-kbd("Command-line mode", 'i', '<M-x>', '<C-\\><C-O>:', { silent = false })
-kbd("Cursor one word left", 'i', '<M-b>', '<C-\\><C-O>b')
-kbd("Cursor one word right", 'i', '<M-f>', '<C-\\><C-O>e<Right>')
-kbd("Cursor one word left", 'n', '<M-b>', 'b')
-kbd("Cursor one word right", 'n', '<M-f>', 'e')
-kbd("To the first character of the screen line", 'i', '<C-A>', '<C-\\><C-O>g0')
-kbd("To the last character of the screen line", 'i', '<C-E>', '<C-\\><C-O>g$')
-kbd("Kill text until the end of the line", 'i', '<C-K>', '<C-\\><C-O>D')
-kbd("Cursor left", 'i', '<C-B>', [[col('.') == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:_const_dir_l]], { expr = true })
-kbd("Cursor right", 'i', '<C-F>', [[col('.') >= col('$') ? "<C-\><C-O>+" : g:_const_dir_r]], { expr = true })
-kbd("Kill text until the end of the word", 'i', '<M-d>', '<C-\\><C-O>dw')
-kbd("Move line up", 'n', '<M-p>', [[<Cmd>exe "move" max([line(".") - 2, 0])<CR>]])
-kbd("Move line down", 'n', '<M-n>', [[<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>]])
-kbd("Move block up", 'v', '<M-p>', [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]])
-kbd("Move block down", 'v', '<M-n>', [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]])
-kbd("Cursor down", { 'n', 'v', 'i' }, '<C-N>', function () vim.cmd("normal! gj") end)
-kbd("Cursor up", { 'n', 'v', 'i' }, '<C-P>', function () vim.cmd("normal! gk") end)
+kbd("Switch to normal mode in terminal", "t", "<ESC>", "<C-\\><C-N>")
+kbd("Close terminal", "t", "<M-d>", "<C-\\><C-N>:bd!<CR>")
+kbd("Echo git status", "n", "<leader>gs", ":!git status<CR>")
+kbd("Find and replace", "n", "<M-g>", ":%s/", { silent = false })
+kbd("Find and replace", "v", "<M-g>", ":s/", { silent = false })
+kbd("Stop the search highlighting", "n", "<leader>bh", "<Cmd>noh<CR>")
+kbd("Next buffer", "n", "<leader>bn", "<Cmd>bn<CR>")
+kbd("Previous buffer", "n", "<leader>bp", "<Cmd>bp<CR>")
+kbd("Toggle spell check", "n", "<leader>cs", "<Cmd>setlocal spell! spelllang=en_us<CR>")
+kbd("Cursor to beginning of command-line", "c", "<C-A>", "<C-B>", { silent = false })
+kbd("Cursor left", "c", "<C-B>", "<LEFT>", { silent = false })
+kbd("Cursor right", "c", "<C-F>", "<RIGHT>", { silent = false })
+kbd("Open the command-line window", "c", "<C-H>", "<C-F>", { silent = false })
+kbd("Cursor one WORD left", "c", "<M-b>", "<C-LEFT>", { silent = false })
+kbd("Cursor one WORD right", "c", "<M-f>", "<C-RIGHT>", { silent = false })
+kbd("Delete the word before the cursor", "c", "<M-BS>", "<C-W>", { silent = false })
+kbd("Write the whole buffer to the current file", { "n", "i" }, "<C-S>", function () vim.cmd("write") end, { silent = false })
+kbd("Copy to system clipboard", "v", "<M-c>", '"+y')
+kbd("Cut to system clipboard", "v", "<M-x>", '"+x')
+kbd("Paste from system clipboard", { "n", "v" }, "<M-v>", '"+p')
+kbd("Paste from system clipboard", "i", "<M-v>", "<C-R>=@+<CR>")
+kbd("Select all lines in buffer", "n", "<M-a>", "ggVG")
+kbd("Command-line mode", "n", "<M-x>", ":", { silent = false })
+kbd("Command-line mode", "i", "<M-x>", "<C-\\><C-O>:", { silent = false })
+kbd("Cursor one word left", "i", "<M-b>", "<C-\\><C-O>b")
+kbd("Cursor one word right", "i", "<M-f>", "<C-\\><C-O>e<Right>")
+kbd("Cursor one word left", "n", "<M-b>", "b")
+kbd("Cursor one word right", "n", "<M-f>", "e")
+kbd("To the first character of the screen line", "i", "<C-A>", "<C-\\><C-O>g0")
+kbd("To the last character of the screen line", "i", "<C-E>", "<C-\\><C-O>g$")
+kbd("Kill text until the end of the line", "i", "<C-K>", "<C-\\><C-O>D")
+kbd("Cursor left", "i", "<C-B>", [[col(".") == 1 ? "<C-\><C-O>-<C-\><C-O>$" : g:_const_dir_l]], { expr = true })
+kbd("Cursor right", "i", "<C-F>", [[col(".") >= col("$") ? "<C-\><C-O>+" : g:_const_dir_r]], { expr = true })
+kbd("Kill text until the end of the word", "i", "<M-d>", "<C-\\><C-O>dw")
+kbd("Move line up", "n", "<M-p>", [[<Cmd>exe "move" max([line(".") - 2, 0])<CR>]])
+kbd("Move line down", "n", "<M-n>", [[<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>]])
+kbd("Move block up", "v", "<M-p>", [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]])
+kbd("Move block down", "v", "<M-n>", [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]])
+kbd("Cursor down", { "n", "v", "i" }, "<C-N>", function () vim.cmd("normal! gj") end)
+kbd("Cursor up", { "n", "v", "i" }, "<C-P>", function () vim.cmd("normal! gk") end)
 for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
-    kbd("Navigate window: "..desc, { "n", "i", "t" }, '<M-'..direct..'>', function ()
+    kbd("Navigate window: "..desc, { "n", "i", "t" }, "<M-"..direct..">", function ()
         to_normal()
         lib.feedkeys("<C-W>"..direct, "nx", false)
     end)
 end
 for i = 1, 10, 1 do
-    kbd("Goto tab "..tostring(i), { "n", "i", "t" }, '<M-'..tostring(i % 10)..'>', function ()
+    kbd("Goto tab "..tostring(i), { "n", "i", "t" }, "<M-"..tostring(i % 10)..">", function ()
         to_normal()
         vim.cmd("tabn "..tostring(i))
     end)
@@ -94,13 +94,13 @@ for key, val in pairs {
     Youdao = { "y", "https://dict.youdao.com/w/eng/" }
 }
 do
-    kbd("Search cword with "..key, { 'n', 'v' }, '<leader>h'..val[1], function ()
+    kbd("Search cword with "..key, { "n", "v" }, "<leader>h"..val[1], function ()
         local txt
         local mode = get_mode()
-        if mode == 'n' then
+        if mode == "n" then
             local word, _, _ = lib.get_word()
             txt = lib.encode_url(word)
-        elseif mode == 'v' then
+        elseif mode == "v" then
             txt = lib.encode_url(lib.get_visual_selection())
         else
             return
@@ -108,7 +108,7 @@ do
         require("utility.util").sys_open(val[2]..txt)
     end)
 end
-kbd("Mouse toggle", {'n', 'v', 'i', 't'}, '<F2>', function ()
+kbd("Mouse toggle", {"n", "v", "i", "t"}, "<F2>", function ()
     if vim.o.mouse == "a" then
         vim.o.mouse = ""
         vim.notify("Mouse disabled")
@@ -117,80 +117,78 @@ kbd("Mouse toggle", {'n', 'v', 'i', 't'}, '<F2>', function ()
         vim.notify("Mouse enabled")
     end
 end)
-kbd("Run code", 'n', '<F17>', function () require("utility.comp").run_or_compile() end)
-kbd("Run code", 'n', '<S-F5>', function () require("utility.comp").run_or_compile() end)
-kbd("Run test", 'n', '<F41>', function () require("utility.comp").run_or_compile("test") end)
-kbd("Run test", 'n', '<C-S-F5>', function () require("utility.comp").run_or_compile("test") end)
-kbd("Show document", 'n', 'K', function ()
-    local lib = require('utility.lib')
+kbd("Run code", "n", "<F17>", function () require("utility.comp").run_or_compile() end)
+kbd("Run code", "n", "<S-F5>", function () require("utility.comp").run_or_compile() end)
+kbd("Run test", "n", "<F41>", function () require("utility.comp").run_or_compile("test") end)
+kbd("Run test", "n", "<C-S-F5>", function () require("utility.comp").run_or_compile("test") end)
+kbd("Show document", "n", "K", function ()
     local word, _, _ = lib.get_word()
-    lib.try(vim.cmd, 'h '..word)
+    lib.try(vim.cmd, "h "..word)
 end)
-kbd("Search visual selection forward", 'v', '*', function ()
+kbd("Search visual selection forward", "v", "*", function ()
     local pat = lib.get_visual_selection()
-    :gsub('([/\\])', function (x)
-        return '\\'..x
+    :gsub("([/\\])", function (x)
+        return "\\"..x
     end):gsub("\n", [[\n]])
     vim.cmd([[/\V]]..pat)
 end)
-kbd("Search visual selection backward", 'v', '#', function ()
-    local pat = lib.get_visual_selection()
-    :gsub('([?\\])', function (x)
-        return '\\'..x
+kbd("Search visual selection backward", "v", "#", function ()
+    local pat = lib.get_visual_selection():gsub("([?\\])", function (x)
+        return "\\"..x
     end):gsub("\n", [[\n]])
     vim.cmd([[?\V]]..pat)
 end)
-kbd("Change cwd to current buffer", 'n', '<leader>bc', function ()
+kbd("Change cwd to current buffer", "n", "<leader>bc", function ()
     vim.api.nvim_set_current_dir(lib.get_buf_dir())
-    vim.cmd('pwd')
+    vim.cmd("pwd")
 end, { silent = false })
-kbd("Delete current buffer", 'n', '<leader>bd', function ()
-    if vim.tbl_contains({ 'help', 'terminal', 'nofile', 'quickfix' }, vim.bo.bt)
+kbd("Delete current buffer", "n", "<leader>bd", function ()
+    if vim.tbl_contains({ "help", "terminal", "nofile", "quickfix" }, vim.bo.bt)
         or #(vim.fn.getbufinfo { buflisted = 1 }) <= 2 then
-        vim.cmd('bd')
+        vim.cmd("bd")
     else
-        vim.cmd('bp|bd#')
+        vim.cmd("bp|bd#")
     end
 end)
-kbd("Background toggle", 'n', '<leader>bg', function ()
+kbd("Background toggle", "n", "<leader>bg", function ()
     if not vim.g._my_theme_switchable or vim.g._my_lock_background then
         return
     end
     vim.o.background = vim.o.background == "dark" and "light" or "dark"
 end)
-kbd("Open nvimrc", 'n', '<M-,>', vim.fn['my#compat#open_nvimrc'])
-kbd("Open system file manager", 'n', '<leader>oe', function ()
-    require('utility.util').sys_open(lib.get_buf_dir())
+kbd("Open nvimrc", "n", "<M-,>", vim.fn["my#compat#open_nvimrc"])
+kbd("Open system file manager", "n", "<leader>oe", function ()
+    require("utility.util").sys_open(lib.get_buf_dir())
 end)
-kbd("Open terminal", 'n', '<leader>ot', function ()
-    local ok = require('utility.util').terminal()
+kbd("Open terminal", "n", "<leader>ot", function ()
+    local ok = require("utility.util").terminal()
     if ok then
-        vim.api.nvim_feedkeys('i', 'n', true)
+        vim.api.nvim_feedkeys("i", "n", true)
     end
 end)
-kbd("Open current file with the system default application", 'n', '<leader>ob', function ()
-    require('utility.util').sys_open(vim.api.nvim_buf_get_name(0))
+kbd("Open current file with the system default application", "n", "<leader>ob", function ()
+    require("utility.util").sys_open(vim.api.nvim_buf_get_name(0))
 end)
-kbd("Open path or url under the cursor", 'n', '<leader>ou', function ()
-    local util = require('utility.util')
+kbd("Open path or url under the cursor", "n", "<leader>ou", function ()
+    local util = require("utility.util")
     util.sys_open(util.match_path_or_url_under_cursor(), true)
 end)
-kbd("Evaluate lua math expression surrounded by `", 'n', '<leader>ev', function ()
-    require('utility.eval').lua_eval()
+kbd("Evaluate lua math expression surrounded by `", "n", "<leader>ev", function ()
+    require("utility.eval").lua_eval()
 end)
-kbd("Evaluate lisp math expression surrounded by `", 'n', '<leader>el', function ()
-    require('utility.eval').lisp_eval()
+kbd("Evaluate lisp math expression surrounded by `", "n", "<leader>el", function ()
+    require("utility.eval").lisp_eval()
 end)
-kbd("Insert a timestamp after cursor", 'n', '<leader>ns', function ()
-    vim.paste({ os.date('<%Y-%m-%d %a %H:%M>') }, -1)
+kbd("Insert a timestamp after cursor", "n", "<leader>ns", function ()
+    vim.paste({ os.date("<%Y-%m-%d %a %H:%M>") }, -1)
 end)
-kbd("Append day of week after the date", 'n', '<leader>nd', function ()
-    require('utility.gtd').append_day_from_date()
+kbd("Append day of week after the date", "n", "<leader>nd", function ()
+    require("utility.gtd").append_day_from_date()
 end)
-kbd("Print TODO list", 'n', '<leader>nt', function ()
-    require('utility.gtd').print_todo_list()
+kbd("Print TODO list", "n", "<leader>nt", function ()
+    require("utility.gtd").print_todo_list()
 end)
-kbd("Hanzi count", { 'n', 'v' }, '<leader>cc', function ()
+kbd("Hanzi count", { "n", "v" }, "<leader>cc", function ()
     local mode = get_mode()
     local txt
     if mode == "n" then
@@ -200,50 +198,50 @@ kbd("Hanzi count", { 'n', 'v' }, '<leader>cc', function ()
     else
         return
     end
-    require('utility.note').hanzi_count(txt)
+    require("utility.note").hanzi_count(txt)
 end)
-kbd("Insert list bullets", 'i', '<M-CR>', function ()
-    require('utility.note').md_insert_bullet()
+kbd("Insert list bullets", "i", "<M-CR>", function ()
+    require("utility.note").md_insert_bullet()
 end)
-kbd("Regenerate list bullets", 'n', '<leader>ml', function ()
-    require('utility.note').md_sort_num_bullet()
+kbd("Regenerate list bullets", "n", "<leader>ml", function ()
+    require("utility.note").md_sort_num_bullet()
 end)
-kbd("Surrounding add", { 'n', 'v' }, '<leader>sa', function ()
+kbd("Surrounding add", { "n", "v" }, "<leader>sa", function ()
     local mode = get_mode()
     if mode then
         to_normal()
-        require('utility.srd').srd_add(mode)
+        require("utility.srd").srd_add(mode)
     end
 end)
-kbd("Surrounding delete", 'n', '<leader>sd', function ()
-    require('utility.srd').srd_sub('')
+kbd("Surrounding delete", "n", "<leader>sd", function ()
+    require("utility.srd").srd_sub("")
 end)
-kbd("Surrounding change", 'n', '<leader>sc', function ()
-    require('utility.srd').srd_sub()
+kbd("Surrounding change", "n", "<leader>sc", function ()
+    require("utility.srd").srd_sub()
 end)
-kbd("Comment current/selected line(s)", { 'n', 'v' }, '<leader>kc', function ()
+kbd("Comment current/selected line(s)", { "n", "v" }, "<leader>kc", function ()
     local mode = get_mode()
-    if mode == 'n' then
-        require('utility.cmt').cmt_add_norm()
-    elseif mode == 'v' then
+    if mode == "n" then
+        require("utility.cmt").cmt_add_norm()
+    elseif mode == "v" then
         to_normal()
-        require('utility.cmt').cmt_add_vis()
+        require("utility.cmt").cmt_add_vis()
     else
         return
     end
 end)
-kbd("Uncomment current/selected line(s)", { 'n', 'v' }, '<leader>ku', function ()
+kbd("Uncomment current/selected line(s)", { "n", "v" }, "<leader>ku", function ()
     local mode = get_mode()
-    if mode == 'n' then
-        require('utility.cmt').cmt_del_norm()
-    elseif mode == 'v' then
+    if mode == "n" then
+        require("utility.cmt").cmt_del_norm()
+    elseif mode == "v" then
         to_normal()
-        require('utility.cmt').cmt_del_vis()
+        require("utility.cmt").cmt_del_vis()
     else
         return
     end
 end)
-kbd("Show highlight information", 'n', '<leader>vs', function ()
+kbd("Show highlight information", "n", "<leader>vs", function ()
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-    require('utility.syn').new(row, col):show()
+    require("utility.syn").new(row, col):show()
 end)

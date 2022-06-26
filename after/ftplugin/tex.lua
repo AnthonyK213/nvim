@@ -1,4 +1,4 @@
-require('cmp').setup.buffer {
+require("cmp").setup.buffer {
     formatting = {
         format = function(entry, vim_item)
             vim_item.menu = ({
@@ -10,14 +10,14 @@ require('cmp').setup.buffer {
         end,
     },
     sources = {
-        { name = 'vsnip' },
-        { name = 'omni' },
-        { name = 'buffer' },
-        { name = 'path' },
+        { name = "vsnip" },
+        { name = "omni" },
+        { name = "buffer" },
+        { name = "path" },
     },
 }
 
-vim.keymap.set('n', '<leader>mv', '<Cmd>VimtexTocToggle<CR>', {
+vim.keymap.set("n", "<leader>mv", "<Cmd>VimtexTocToggle<CR>", {
     noremap = true,
     silent = true,
     buffer = true

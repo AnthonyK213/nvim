@@ -1,4 +1,4 @@
-require('dressing').setup {
+require("dressing").setup {
     input = {
         default_prompt = "> ",
         insert_only = true,

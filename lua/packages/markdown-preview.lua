@@ -6,7 +6,7 @@ vim.g.mkdp_preview_options = {
     uml                 = {},
     maid                = {},
     disable_sync_scroll = 0,
-    sync_scroll_type    = 'relative',
+    sync_scroll_type    = "relative",
     hide_yaml_meta      = 1,
     sequence_diagrams   = {},
     flowchart_diagrams  = {},
@@ -14,7 +14,7 @@ vim.g.mkdp_preview_options = {
     disable_filename    = 0
 }
 vim.g.mkdp_filetypes = {
-    'markdown',
-    'vimwiki',
-    'vimwiki.markdown'
+    "markdown",
+    "vimwiki",
+    "vimwiki.markdown"
 }

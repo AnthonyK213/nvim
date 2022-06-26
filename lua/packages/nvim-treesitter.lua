@@ -1,5 +1,5 @@
 local ts_option = _my_core_opt.ts or {}
-require('nvim-treesitter.configs').setup {
+require("nvim-treesitter.configs").setup {
     ensure_installed = ts_option.ensure or {},
     highlight = {
         enable = true,

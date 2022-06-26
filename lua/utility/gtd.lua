@@ -1,6 +1,6 @@
 local M = {}
 local api = vim.api
-local lib = require('utility.lib')
+local lib = require("utility.lib")
 
 
 -- Get the day of week from a date(yyyy-mm-dd).
@@ -56,7 +56,7 @@ function M.append_day_from_date()
 
     local y, m, d, insert_pos
     for pos_s, date, year, month, day, pos_e
-        in line:gmatch('()((%d%d%d%d)%-(%d%d)%-(%d%d))()') do
+        in line:gmatch("()((%d%d%d%d)%-(%d%d)%-(%d%d))()") do
         if pos_s <= col + 1
             and pos_e >= col + 1
             and date then
@@ -72,7 +72,7 @@ function M.append_day_from_date()
     local day_of_week = zeller(y, m, d)
     if not day_of_week then return end
     api.nvim_win_set_cursor(0, {api.nvim_win_get_cursor(0)[1], insert_pos - 1})
-    vim.paste({' '..day_of_week}, -1)
+    vim.paste({" "..day_of_week}, -1)
 end
 
 ---Count down to a timestamp.
@@ -81,7 +81,7 @@ end
 local function countdown(date)
     local now = os.time()
     local ts, year, month, day, hour, minute =
-    date:match('(<(%d+)%-(%d+)%-(%d+)%s.-(%d+):(%d+)>)')
+    date:match("(<(%d+)%-(%d+)%-(%d+)%s.-(%d+):(%d+)>)")
 
     if not ts then return end
 
@@ -99,10 +99,10 @@ local function countdown(date)
 
     if sub > 0 then
         local days = math.floor(sub + 0.2)
-        return days.." day"..(days > 1 and 's' or '').." left."
+        return days.." day"..(days > 1 and "s" or "").." left."
     else
         local days = math.ceil(-sub)
-        return "Overdue "..days.." day"..(days > 1 and 's' or '').."."
+        return "Overdue "..days.." day"..(days > 1 and "s" or "").."."
     end
 end
 
@@ -110,9 +110,9 @@ end
 function M.print_todo_list()
     local content = api.nvim_buf_get_lines(0, 0, -1, false)
     for _, line in ipairs(content) do
-        local todo, date, item = line:match('(TODO(%b<>):%s+(.+))$')
-        if todo and not line:match('%[X%]') then
-            print(date == '<>' and item or item.." -> "..countdown(date))
+        local todo, date, item = line:match("(TODO(%b<>):%s+(.+))$")
+        if todo and not line:match("%[X%]") then
+            print(date == "<>" and item or item.." -> "..countdown(date))
         end
     end
 end

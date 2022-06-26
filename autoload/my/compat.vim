@@ -39,7 +39,7 @@ endfunction
 
 " Source vim file.
 function! my#compat#vim_source(file) abort
-  call v:lua.require('utility.lib').vim_source(a:file)
+  call v:lua.require("utility.lib").vim_source(a:file)
 endfunction
 
 " Set background according to time.
@@ -48,8 +48,8 @@ lua << EOF
   local timer = vim.loop.new_timer()
   timer:start(0, 600, vim.schedule_wrap(function ()
     if not vim.g._my_lock_background then return end
-    local hour = tonumber(os.date('%H'))
-    local bg = (hour > 6 and hour < 18) and 'light' or 'dark'
+    local hour = tonumber(os.date("%H"))
+    local bg = (hour > 6 and hour < 18) and "light" or "dark"
     if vim.o.bg ~= bg then vim.o.bg = bg end
   end))
 EOF

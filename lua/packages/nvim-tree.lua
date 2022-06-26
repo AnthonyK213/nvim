@@ -53,8 +53,8 @@ require("nvim-tree").setup {
                 git = true,
             },
             glyphs = {
-                default = '▪ ',
-                symlink = '▫ ',
+                default = "▪ ",
+                symlink = "▫ ",
                 folder = {
                     default = "+",
                     open = "-",
@@ -92,7 +92,7 @@ require("nvim-tree").setup {
     },
     filters = {
         dotfiles = true,
-        custom = { '.cache' }
+        custom = { ".cache" }
     },
     git = {
         enable = true,
@@ -127,6 +127,6 @@ require("nvim-tree").setup {
 
 local kbd = vim.keymap.set
 local ntst = { noremap = true, silent = true }
-kbd('n', '<leader>op', ':NvimTreeToggle<CR>',        ntst)
-kbd('n', '<M-e>',      ':NvimTreeFindFile<CR>',      ntst)
-kbd('i', '<M-e>',      '<ESC>:NvimTreeFindFile<CR>', ntst)
+kbd("n", "<leader>op", ":NvimTreeToggle<CR>",        ntst)
+kbd("n", "<M-e>",      ":NvimTreeFindFile<CR>",      ntst)
+kbd("i", "<M-e>",      "<ESC>:NvimTreeFindFile<CR>", ntst)

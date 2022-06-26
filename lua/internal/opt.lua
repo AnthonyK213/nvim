@@ -1,52 +1,52 @@
-local io = require('io')
-local lib = require('utility.lib')
+local io = require("io")
+local lib = require("utility.lib")
 
 -- Source basics.vim
-lib.vim_source('viml/basics')
+lib.vim_source("viml/basics")
 
 local os_this = lib.get_os_type()
 
 local opt = {
     dep = {
         sh = ({
-            [lib.Os.LINUX] = 'bash',
-            [lib.Os.WINDOWS] = { 'powershell.exe', '-nologo' },
-            [lib.Os.MACOS] = 'zsh'
+            [lib.Os.LINUX] = "bash",
+            [lib.Os.WINDOWS] = { "powershell.exe", "-nologo" },
+            [lib.Os.MACOS] = "zsh"
         })[os_this],
-        cc = 'gcc',
-        py3 = '/usr/bin/python3',
+        cc = "gcc",
+        py3 = "/usr/bin/python3",
         start = ({
-            [lib.Os.LINUX] = 'xdg-open',
-            [lib.Os.WINDOWS] = {'cmd', '/c', 'start', '""'},
-            [lib.Os.MACOS] = 'open'
+            [lib.Os.LINUX] = "xdg-open",
+            [lib.Os.WINDOWS] = {"cmd", "/c", "start", '""'},
+            [lib.Os.MACOS] = "open"
         })[os_this],
         proxy = nil,
     },
     path = {
         home = vim.env.HOME,
         cloud = vim.env.ONEDRIVE or vim.env.HOME,
-        desktop = vim.fs.normalize(vim.env.HOME..'/Desktop'),
-        bin = vim.fs.normalize(vim.env.HOME..'/bin'),
+        desktop = vim.fs.normalize(vim.env.HOME.."/Desktop"),
+        bin = vim.fs.normalize(vim.env.HOME.."/bin"),
     },
     tui = {
-        scheme = 'onedark',
-        theme = 'dark',
-        style = 'dark',
+        scheme = "onedark",
+        theme = "dark",
+        style = "dark",
         transparent = false,
         global_statusline = false,
         cmp_border = false,
         cmp_ghost = false,
     },
     gui = {
-        theme = 'auto',
+        theme = "auto",
         opacity = 0.98,
         ligature = false,
         popup_menu = false,
         tabline = false,
         line_space = 0.0,
         font_size = 13,
-        font_half = 'Monospace',
-        font_full = 'Monospace',
+        font_half = "Monospace",
+        font_full = "Monospace",
     },
     lsp = {
         clangd = false,

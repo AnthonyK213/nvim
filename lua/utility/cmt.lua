@@ -1,6 +1,6 @@
 local M = {}
 local api = vim.api
-local lib = require('utility.lib')
+local lib = require("utility.lib")
 
 
 local cmt_mark_tab_single = {
@@ -42,7 +42,7 @@ function M.cmt_add_norm()
     if cmt_mark then
         local pos = api.nvim_win_get_cursor(0)
         local cmd = api.nvim_replace_termcodes("I"..cmt_mark, true, false, true)
-        api.nvim_feedkeys(cmd, 'xn', true)
+        api.nvim_feedkeys(cmd, "xn", true)
         api.nvim_win_set_cursor(0, pos)
     else
         lib.notify_err("File type "..vim.bo.filetype.." is not supported yet.")

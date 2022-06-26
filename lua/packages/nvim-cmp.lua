@@ -1,7 +1,7 @@
-vim.g.vsnip_snippet_dir = vim.fn.stdpath('config')..'/snippet'
+vim.g.vsnip_snippet_dir = vim.fn.stdpath("config").."/snippet"
 
-local cmp = require('cmp')
-local lib = require('utility.lib')
+local cmp = require("cmp")
+local lib = require("utility.lib")
 local feedkeys = function (key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,
     true, true, true), mode, true)
@@ -12,50 +12,50 @@ local cmp_setup = {
         keyword_length = 2,
     },
     snippet = {
-        expand = function (args) vim.fn['vsnip#anonymous'](args.body) end
+        expand = function (args) vim.fn["vsnip#anonymous"](args.body) end
     },
     mapping = {
-        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i'}),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i'}),
-        ['<CR>'] = cmp.mapping({
+        ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i"}),
+        ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i"}),
+        ["<CR>"] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
                     cmp.confirm {
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
                     }
-                elseif vim.bo.bt ~= 'prompt' then
-                    feedkeys('<Plug>(lua_pairs_enter)', '')
+                elseif vim.bo.bt ~= "prompt" then
+                    feedkeys("<Plug>(lua_pairs_enter)", "")
                 else
                     fallback()
                 end
             end,
         }),
-        ['<Tab>'] = cmp.mapping({
+        ["<Tab>"] = cmp.mapping({
             i = function (fallback)
                 local context = lib.get_context()
                 if cmp.visible() then
                     cmp.select_next_item {
                         behavior = cmp.SelectBehavior.Insert
                     }
-                elseif lib.has_filetype('markdown')
+                elseif lib.has_filetype("markdown")
                     and vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
                     match_str(context.b) then
-                    feedkeys('<C-\\><C-O>>>', 'n')
+                    feedkeys("<C-\\><C-O>>>", "n")
                     vim.api.nvim_feedkeys(
-                    string.rep(vim.g._const_dir_r, vim.bo.ts), 'n', true)
-                elseif vim.fn['vsnip#jumpable'](1) == 1 then
-                    feedkeys('<Plug>(vsnip-jump-next)', '')
-                elseif context.b:match('[%w._:]$')
-                    and vim.bo.bt ~= 'prompt' then
+                    string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
+                elseif vim.fn["vsnip#jumpable"](1) == 1 then
+                    feedkeys("<Plug>(vsnip-jump-next)", "")
+                elseif context.b:match("[%w._:]$")
+                    and vim.bo.bt ~= "prompt" then
                     cmp.complete()
                 else
                     fallback()
                 end
             end,
             s = function (fallback)
-                if vim.fn['vsnip#jumpable'](1) == 1 then
-                    feedkeys('<Plug>(vsnip-jump-next)', '')
+                if vim.fn["vsnip#jumpable"](1) == 1 then
+                    feedkeys("<Plug>(vsnip-jump-next)", "")
                 else
                     fallback()
                 end
@@ -70,21 +70,21 @@ local cmp_setup = {
                 end
             end
         }),
-        ['<S-Tab>'] = cmp.mapping({
+        ["<S-Tab>"] = cmp.mapping({
             i = function (fallback)
                 if cmp.visible() then
                     cmp.select_prev_item {
                         behavior = cmp.SelectBehavior.Insert
                     }
-                elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-                    feedkeys('<Plug>(vsnip-jump-prev)', '')
+                elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                    feedkeys("<Plug>(vsnip-jump-prev)", "")
                 else
                     fallback()
                 end
             end,
             s = function (fallback)
-                if vim.fn['vsnip#jumpable'](-1) == 1 then
-                    feedkeys('<Plug>(vsnip-jump-prev)', '')
+                if vim.fn["vsnip#jumpable"](-1) == 1 then
+                    feedkeys("<Plug>(vsnip-jump-prev)", "")
                 else
                     fallback()
                 end
@@ -101,13 +101,13 @@ local cmp_setup = {
         })
     },
     sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' },
-        { name = 'path' },
-        { name = 'nvim_lsp_signature_help' },
+        { name = "nvim_lsp" },
+        { name = "vsnip" },
+        { name = "path" },
+        { name = "nvim_lsp_signature_help" },
     }, {
-        { name = 'buffer', keyword_length = 5 },
-        { name = 'omni' },
+        { name = "buffer", keyword_length = 5 },
+        { name = "omni" },
     }),
     experimental = {}
 }
@@ -125,16 +125,16 @@ end
 
 cmp.setup(cmp_setup)
 
-cmp.setup.cmdline('/', {
+cmp.setup.cmdline("/", {
     sources = {
-        { name = 'buffer' }
+        { name = "buffer" }
     }
 })
 
-cmp.setup.cmdline(':', {
+cmp.setup.cmdline(":", {
     sources = cmp.config.sources({
-        { name = 'path' }
+        { name = "path" }
     }, {
-        { name = 'cmdline' }
+        { name = "cmdline" }
     })
 })

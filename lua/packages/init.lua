@@ -1,153 +1,153 @@
 local packer_bootstrap = nil
-local packer_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local packer_path = vim.fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
 if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
-    if vim.fn.executable('git') > 0 then
+    if vim.fn.executable("git") > 0 then
         packer_bootstrap = vim.fn.system {
-            'git',
-            'clone',
-            '--depth', '1',
-            'https://github.com/wbthomason/packer.nvim',
+            "git",
+            "clone",
+            "--depth", "1",
+            "https://github.com/wbthomason/packer.nvim",
             packer_path
         }
         vim.cmd[[packadd packer.nvim]]
     else
-        vim.notify('Executable git is not found.', vim.log.levels.WARN, nil)
+        vim.notify("Executable git is not found.", vim.log.levels.WARN, nil)
         return
     end
 end
 
-require('packer').startup(function (use)
+require("packer").startup(function (use)
     -- Package manager
-    use 'wbthomason/packer.nvim'
+    use "wbthomason/packer.nvim"
     -- Display
     use {
-        {'goolord/alpha-nvim',          opt = true};
-        {'nvim-lualine/lualine.nvim',   opt = true};
-        {'akinsho/bufferline.nvim',     opt = true};
-        {'norcalli/nvim-colorizer.lua', opt = true};
+        {"goolord/alpha-nvim",          opt = true};
+        {"nvim-lualine/lualine.nvim",   opt = true};
+        {"akinsho/bufferline.nvim",     opt = true};
+        {"norcalli/nvim-colorizer.lua", opt = true};
     }
     -- Color scheme
     use {
-        {'navarasu/onedark.nvim',    opt = true};
-        {'folke/tokyonight.nvim',    opt = true};
-        {'ellisonleao/gruvbox.nvim', opt = true};
-        {'EdenEast/nightfox.nvim',   opt = true};
+        {"navarasu/onedark.nvim",    opt = true};
+        {"folke/tokyonight.nvim",    opt = true};
+        {"ellisonleao/gruvbox.nvim", opt = true};
+        {"EdenEast/nightfox.nvim",   opt = true};
     }
     -- File system
     use {
         {
-            'kyazdani42/nvim-tree.lua',
-            config = function () require('packages.nvim-tree') end
+            "kyazdani42/nvim-tree.lua",
+            config = function () require("packages.nvim-tree") end
         };
         {
-            'nvim-telescope/telescope.nvim',
-            config = function () require('packages.telescope') end
+            "nvim-telescope/telescope.nvim",
+            config = function () require("packages.telescope") end
         };
     }
     -- VCS
     use {
         {
-            'TimUntersberger/neogit',
-            config = function () require('packages.neogit') end
+            "TimUntersberger/neogit",
+            config = function () require("packages.neogit") end
         };
         {
-            'lewis6991/gitsigns.nvim',
-            config = function () require('packages.gitsigns') end
+            "lewis6991/gitsigns.nvim",
+            config = function () require("packages.gitsigns") end
         };
     }
     -- Utilities
     use {
-        'nvim-lua/plenary.nvim';
-        'tpope/vim-speeddating';
+        "nvim-lua/plenary.nvim";
+        "tpope/vim-speeddating";
         {
-            'dhruvasagar/vim-table-mode',
-            config = function () require('packages.vim-table-mode') end
+            "dhruvasagar/vim-table-mode",
+            config = function () require("packages.vim-table-mode") end
         };
         {
-            'lukas-reineke/indent-blankline.nvim',
-            config = function () require('packages.indent-blankline') end
+            "lukas-reineke/indent-blankline.nvim",
+            config = function () require("packages.indent-blankline") end
         };
         {
-            'AnthonyK213/lua-pairs',
-            config = function () require('packages.lua-pairs') end
+            "AnthonyK213/lua-pairs",
+            config = function () require("packages.lua-pairs") end
         };
         {
-            'andymass/vim-matchup'
+            "andymass/vim-matchup"
         };
         {
-            'Shatur/neovim-session-manager',
-            config = function () require('packages.neovim-session-manager') end
+            "Shatur/neovim-session-manager",
+            config = function () require("packages.neovim-session-manager") end
         };
         {
-            'stevearc/dressing.nvim',
-            config = function () require('packages.dressing') end
+            "stevearc/dressing.nvim",
+            config = function () require("packages.dressing") end
         };
     }
     -- File type support
     use {
         {
-            'lervag/vimtex',
-            config = function () require('packages.vimtex') end
+            "lervag/vimtex",
+            config = function () require("packages.vimtex") end
         };
         {
-            'vimwiki/vimwiki',
-            branch = 'dev',
-            config = function () require('packages.vimwiki') end
+            "vimwiki/vimwiki",
+            branch = "dev",
+            config = function () require("packages.vimwiki") end
         };
         {
-            'iamcco/markdown-preview.nvim',
-            run = function () vim.fn['mkdp#util#install']() end,
-            config = function () require('packages.markdown-preview') end
+            "iamcco/markdown-preview.nvim",
+            run = function () vim.fn["mkdp#util#install"]() end,
+            config = function () require("packages.markdown-preview") end
         };
-        'sotte/presenting.vim';
-        'gpanders/editorconfig.nvim';
+        "sotte/presenting.vim";
+        "gpanders/editorconfig.nvim";
     }
     -- Completion; Snippet; LSP; Treesitter; DAP
     use {
         {
-            'hrsh7th/nvim-cmp',
+            "hrsh7th/nvim-cmp",
             requires = {
-                'hrsh7th/cmp-buffer',
-                'hrsh7th/cmp-cmdline',
-                'hrsh7th/cmp-nvim-lsp',
-                'hrsh7th/cmp-nvim-lsp-signature-help',
-                'hrsh7th/cmp-omni',
-                'hrsh7th/cmp-path',
-                'hrsh7th/vim-vsnip',
-                'hrsh7th/cmp-vsnip',
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-cmdline",
+                "hrsh7th/cmp-nvim-lsp",
+                "hrsh7th/cmp-nvim-lsp-signature-help",
+                "hrsh7th/cmp-omni",
+                "hrsh7th/cmp-path",
+                "hrsh7th/vim-vsnip",
+                "hrsh7th/cmp-vsnip",
             },
-            config = function () require('packages.nvim-cmp') end
+            config = function () require("packages.nvim-cmp") end
         };
         {
-            'neovim/nvim-lspconfig',
-            config = function () require('packages.nvim-lspconfig') end,
-            requires = 'williamboman/nvim-lsp-installer'
+            "neovim/nvim-lspconfig",
+            config = function () require("packages.nvim-lspconfig") end,
+            requires = "williamboman/nvim-lsp-installer"
         };
         {
-            'nvim-treesitter/nvim-treesitter',
-            config = function () require('packages.nvim-treesitter') end
+            "nvim-treesitter/nvim-treesitter",
+            config = function () require("packages.nvim-treesitter") end
         };
         {
-            'stevearc/aerial.nvim',
-            config = function () require('packages.aerial') end
+            "stevearc/aerial.nvim",
+            config = function () require("packages.aerial") end
         };
         {
-            'mfussenegger/nvim-dap',
-            config = function () require('packages.nvim-dap') end
+            "mfussenegger/nvim-dap",
+            config = function () require("packages.nvim-dap") end
         };
     }
     -- Games
     use {
-        'alec-gibson/nvim-tetris',
-        'AndrewRadev/gnugo.vim'
+        "alec-gibson/nvim-tetris",
+        "AndrewRadev/gnugo.vim"
     }
     -- Documentation
     use {
-        'nanotee/luv-vimdocs',
+        "nanotee/luv-vimdocs",
     }
 
     if packer_bootstrap then
-        require('packer').sync()
+        require("packer").sync()
     end
 end)
 
@@ -159,29 +159,29 @@ if _my_core_opt.plug then
 end
 
 -- Optional packages.
-local colorscheme_list = { 'onedark', 'tokyonight', 'gruvbox', 'nightfox' }
+local colorscheme_list = { "onedark", "tokyonight", "gruvbox", "nightfox" }
 local colorscheme = _my_core_opt.tui.scheme
 vim.o.tgc = true
-vim.o.bg = _my_core_opt.tui.theme or 'dark'
+vim.o.bg = _my_core_opt.tui.theme or "dark"
 vim.g._my_theme_switchable = false
 local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
-if nvim_init_src == 'nano' then
+if nvim_init_src == "nano" then
     vim.g._my_theme_switchable = true
-    vim.cmd('colorscheme nanovim')
+    vim.cmd("colorscheme nanovim")
 elseif packer_bootstrap == nil then
-    require('packages.alpha-nvim')
-    require('packages.nvim-colorizer')
+    require("packages.alpha-nvim")
+    require("packages.nvim-colorizer")
     -- Load color scheme.
     if vim.tbl_contains(colorscheme_list, colorscheme) then
-        require('packages.'..colorscheme)
+        require("packages."..colorscheme)
     else
-        if not pcall(vim.cmd, 'colorscheme '..colorscheme) then
-            vim.notify('Color scheme was not found.', vim.log.levels.WARN, nil)
+        if not pcall(vim.cmd, "colorscheme "..colorscheme) then
+            vim.notify("Color scheme was not found.", vim.log.levels.WARN, nil)
         end
     end
     -- Statusline & Tabline
-    if nvim_init_src ~= 'defaultlines' then
-        require('packages.bufferline')
-        require('packages.lualine')
+    if nvim_init_src ~= "defaultlines" then
+        require("packages.bufferline")
+        require("packages.lualine")
     end
 end

@@ -9,14 +9,14 @@ local function srd_pair(pair_a)
         ["<"] = ">",   [" "] = " ",
         ["《"] = "》", ["“"] = "”",
     }
-    if pair_a:match('^[%(%[{<%s《“]+$') then
+    if pair_a:match("^[%(%[{<%s《“]+$") then
         return table.concat(vim.tbl_map(function(x)
             return pairs[x]
         end, lib.tbl_reverse(lib.str_explode(pair_a))))
     elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
-        return '</'..table.concat(lib.tbl_reverse(vim.tbl_filter(function (str)
+        return "</"..table.concat(lib.tbl_reverse(vim.tbl_filter(function (str)
             return str ~= ""
-        end, vim.split(pair_a, '<'))), '</')
+        end, vim.split(pair_a, "<"))), "</")
     else
         return pair_a
     end
@@ -30,11 +30,11 @@ end
 ---@return table<string, integer> result
 local function srd_collect(str, pair_a, pair_b)
     local tab_pair = {}
-    for pos in str:gmatch('()'..vim.pesc(pair_a)) do
+    for pos in str:gmatch("()"..vim.pesc(pair_a)) do
         tab_pair[tostring(pos)] = -1
     end
 
-    for pos in str:gmatch('()'..vim.pesc(pair_b)) do
+    for pos in str:gmatch("()"..vim.pesc(pair_b)) do
         tab_pair[tostring(pos)] = 1
     end
     return tab_pair
@@ -84,18 +84,18 @@ function M.srd_add(mode, pair_a)
         if not p_a then return end
         local p_b = srd_pair(p_a)
 
-        if mode == 'n' then
+        if mode == "n" then
             local word, s, e = lib.get_word()
             local line = api.nvim_get_current_line()
             local line_new = line:sub(1, s)..p_a..word..p_b..line:sub(e + 1)
             api.nvim_set_current_line(line_new)
-        elseif mode == 'v' then
+        elseif mode == "v" then
             local stt_pos = api.nvim_buf_get_mark(0, "<")
             local end_pos = api.nvim_buf_get_mark(0, ">")
             api.nvim_win_set_cursor(0, end_pos)
-            vim.cmd('normal! a'..p_b)
+            vim.cmd("normal! a"..p_b)
             api.nvim_win_set_cursor(0, stt_pos)
-            vim.cmd('normal! i'..p_a)
+            vim.cmd("normal! i"..p_a)
         end
     end
 
@@ -119,9 +119,9 @@ function M.srd_sub(pair_a_new)
 
         if p_a == p_b then
             local pat = vim.pesc(p_a)
-            if back:match('^.*'..pat)
+            if back:match("^.*"..pat)
                 and fore:match(pat) then
-                back_new = back:gsub('^(.*)'..pat, '%1'..p_a_n, 1)
+                back_new = back:gsub("^(.*)"..pat, "%1"..p_a_n, 1)
                 fore_new = fore:gsub(pat, p_b_n, 1)
             end
         else

@@ -11,7 +11,7 @@ function M.p(label, f, ...)
     local e = os.clock()
     local result
     if #result_table == 0 then
-        result = 'None'
+        result = "None"
     elseif #result_table == 1 then
         result = vim.inspect(result_table[1])
     else

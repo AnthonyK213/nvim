@@ -8,19 +8,19 @@ local mlib = require("utility.mlib")
 ---@param f function Method to evaluate the text.
 local function text_eval(f)
     local origin_pos = api.nvim_win_get_cursor(0)
-    vim.cmd('normal! F`')
+    vim.cmd("normal! F`")
     local context = lib.get_context()
     local back = context.b
     local fore = context.f
-    local expr = fore:match('^`(.-)`') or ''
+    local expr = fore:match("^`(.-)`") or ""
 
     if pcall(f, expr) then
         local result = tostring(f(expr))
-        local fore_new = fore:gsub('%b``', result, 1)
+        local fore_new = fore:gsub("%b``", result, 1)
         api.nvim_set_current_line(back..fore_new)
     else
         api.nvim_win_set_cursor(0, origin_pos)
-        lib.notify_err('No valid expression was found.')
+        lib.notify_err("No valid expression was found.")
     end
 end
 
@@ -87,10 +87,10 @@ local expow = function(args)
 end
 
 local func_map = {
-    ['+'] = add,
-    ['-'] = subtract,
-    ['*'] = multiply,
-    ['/'] = divide,
+    ["+"] = add,
+    ["-"] = subtract,
+    ["*"] = multiply,
+    ["/"] = divide,
     abs   = function(args) return math.abs(args[1]) end,
     acos  = function(args) return math.acos(args[1]) end,
     asin  = function(args) return math.asin(args[1]) end,
@@ -131,20 +131,20 @@ end
 ---@return table Parsed tree.
 local function lisp_tree(str)
     local tree_level = 0
-    local pre_parse  = str:gsub('[%(%)]', function(s) return ' '..s..' ' end)
-    local elem_table = vim.split(vim.trim(pre_parse), '%s+')
+    local pre_parse  = str:gsub("[%(%)]", function(s) return " "..s.." " end)
+    local elem_table = vim.split(vim.trim(pre_parse), "%s+")
     local tree_table = {}
 
     for _, elem in ipairs(elem_table) do
-        if elem == '(' then
+        if elem == "(" then
             tree_insert(tree_table, {}, tree_level)
             tree_level = tree_level + 1
-        elseif elem == ')' then
+        elseif elem == ")" then
             tree_level = tree_level - 1
             if tree_level == 0 then break end
         elseif func_map[elem] then
             tree_insert(tree_table, elem, tree_level)
-        elseif elem ~= '' then
+        elseif elem ~= "" then
             tree_insert(tree_table, tonumber(elem), tree_level)
         end
     end
@@ -156,7 +156,7 @@ end
 ---@param arg any
 ---@return any
 local function lisp_tree_eval(arg)
-    if type(arg) == 'number' then return arg end
+    if type(arg) == "number" then return arg end
     local func = func_map[arg[1]]
     table.remove(arg, 1)
     return func(vim.tbl_map(lisp_tree_eval, arg))

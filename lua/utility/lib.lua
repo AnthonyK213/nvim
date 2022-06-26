@@ -16,7 +16,7 @@ M.Os = {
 function M.belowright_split(height)
     local term_h = math.min(height,
     math.floor(vim.api.nvim_win_get_height(0) * 0.382))
-    vim.cmd('belowright new')
+    vim.cmd("belowright new")
     vim.api.nvim_win_set_height(0, term_h)
 end
 
@@ -35,7 +35,7 @@ end
 ---@return boolean
 function M.executable(exe)
     if vim.fn.executable(exe) == 1 then return true end
-    M.notify_err('Executable '..exe..' is not found.')
+    M.notify_err("Executable "..exe.." is not found.")
     return false
 end
 
@@ -83,20 +83,20 @@ function M.get_git_branch(git_root)
     git_root = git_root or M.get_root(".git")
     if not git_root then return nil end
 
-    git_root = git_root:gsub('[\\/]$', '')
+    git_root = git_root:gsub("[\\/]$", "")
 
     local head_file
-    local dot_git = git_root..'/.git'
+    local dot_git = git_root.."/.git"
     local dot_git_stat = vim.loop.fs_stat(dot_git)
 
     if dot_git_stat.type == "directory" then
-        head_file = git_root..'/.git/HEAD'
+        head_file = git_root.."/.git/HEAD"
     elseif dot_git_stat.type == "file" then
         local gitdir_line = vim.fn.readfile(dot_git)[1]
         if gitdir_line then
-            local gitdir = gitdir_line:match('^gitdir:%s(.+)$')
+            local gitdir = gitdir_line:match("^gitdir:%s(.+)$")
             if gitdir then
-                head_file = git_root..'/'..gitdir..'/HEAD'
+                head_file = git_root.."/"..gitdir.."/HEAD"
             end
         end
     end
@@ -104,7 +104,7 @@ function M.get_git_branch(git_root)
     if head_file and head_file ~= "" and M.path_exists(head_file) then
         local ref_line = vim.fn.readfile(head_file)[1]
         if ref_line then
-            local branch = ref_line:match('^ref:%s.+/(.-)$')
+            local branch = ref_line:match("^ref:%s.+/(.-)$")
             if branch and branch ~= "" then
                 return branch
             end
@@ -143,11 +143,11 @@ end
 ---@return Os
 function M.get_os_type()
     local name = vim.loop.os_uname().sysname
-    if name == 'Linux' then
+    if name == "Linux" then
         return M.Os.LINUX
-    elseif name == 'Windows_NT' then
+    elseif name == "Windows_NT" then
         return M.Os.WINDOWS
-    elseif name == 'Darwin' then
+    elseif name == "Darwin" then
         return M.Os.MACOS
     else
         return M.Os.UNKNOWN
@@ -160,11 +160,11 @@ end
 function M.get_root(pat)
     local current_dir = M.get_buf_dir()
     while true do
-        if vim.fn.globpath(current_dir, pat, 1) ~= '' then
+        if vim.fn.globpath(current_dir, pat, 1) ~= "" then
             return current_dir
         end
         local temp_dir = current_dir
-        current_dir = vim.fn.fnamemodify(current_dir, ':h')
+        current_dir = vim.fn.fnamemodify(current_dir, ":h")
         if temp_dir == current_dir then break end
     end
     return nil
@@ -174,11 +174,11 @@ end
 ---@return string result Visual selection.
 function M.get_visual_selection()
     local mode = vim.api.nvim_get_mode().mode
-    local in_vis = vim.tbl_contains({'v', 'V', ''}, mode)
-    local a_bak = vim.fn.getreg('a', 1)
-    vim.cmd('silent normal! '..(in_vis and '' or 'gv')..'"ay')
-    local a_val = vim.fn.getreg('a')
-    vim.fn.setreg('a', a_bak)
+    local in_vis = vim.tbl_contains({"v", "V", ""}, mode)
+    local a_bak = vim.fn.getreg("a", 1)
+    vim.cmd("silent normal! "..(in_vis and "" or "gv")..'"ay')
+    local a_val = vim.fn.getreg("a")
+    vim.fn.setreg("a", a_bak)
     return a_val
 end
 
@@ -192,14 +192,14 @@ function M.get_word()
     local f = context.f
     local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
     local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
-    local p_a = ''
-    local p_b = ''
+    local p_a = ""
+    local p_b = ""
     if e_b then
-        p_a = s_a and b:sub(s_a + 1) or ''
+        p_a = s_a and b:sub(s_a + 1) or ""
         p_b = f:sub(1, e_b)
     end
     local word = p_a..p_b
-    if word == '' then
+    if word == "" then
         word = context.n
         p_b = word
     end
@@ -210,7 +210,7 @@ end
 ---@param filetype string
 ---@return boolean result
 function M.has_filetype(filetype)
-    return vim.tbl_contains(vim.split(vim.bo.ft, '%.'), filetype)
+    return vim.tbl_contains(vim.split(vim.bo.ft, "%."), filetype)
 end
 
 ---Check if os is `Windows`.
@@ -224,20 +224,20 @@ end
 ---@return boolean is_url True if the input `str` is a URL itself.
 ---@return string url Matched URL.
 function M.match_url(str)
-    local url_pat = '((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
+    local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
     local protocols = {
-        [''] = 0,
-        ['http://'] = 0,
-        ['https://'] = 0,
-        ['ftp://'] = 0
+        [""] = 0,
+        ["http://"] = 0,
+        ["https://"] = 0,
+        ["ftp://"] = 0
     }
 
     local url, prot, dom, colon, port, slash, path = str:match(url_pat)
 
     if (url
-        and not (dom..'.'):find('%W%W')
+        and not (dom.."."):find("%W%W")
         and protocols[prot:lower()] == (1 - #slash) * #path
-        and (colon == '' or port ~= '' and port + 0 < 65536)) then
+        and (colon == "" or port ~= "" and port + 0 < 65536)) then
         return #url == #str, url
     end
 
@@ -258,14 +258,14 @@ function M.path_exists(path, cwd)
     local is_rel = true
     path = vim.fs.normalize(path)
     if M.has_windows() then
-        if path:match('^%a:[\\/]') then is_rel = false end
+        if path:match("^%a:[\\/]") then is_rel = false end
     else
-        if path:match('^/') then is_rel = false end
+        if path:match("^/") then is_rel = false end
     end
     if is_rel then
         cwd = cwd or vim.loop.cwd()
-        cwd = cwd:gsub('[\\/]$', '')
-        path = cwd..'/'..path
+        cwd = cwd:gsub("[\\/]$", "")
+        path = cwd.."/"..path
     end
     local stat = vim.loop.fs_stat(path)
     return (stat and stat.type) or false
@@ -385,7 +385,7 @@ end
 function M.try(func, ...)
     local ok, err = pcall(func, ...)
     if not ok then
-        local msg = err:match('(E%d+:%s.+)$')
+        local msg = err:match("(E%d+:%s.+)$")
         M.notify_err(msg and msg or "Error occured!")
     end
     return ok
@@ -395,14 +395,14 @@ end
 ---@param str string String of vim regex to escape.
 ---@return string result Escaped vim regex.
 function M.vim_pesc(str)
-    return vim.fn.escape(str, ' ()[]{}<>.+*^$')
+    return vim.fn.escape(str, " ()[]{}<>.+*^$")
 end
 
 ---Source a vim file.
 ---@param file string Vim script path.
 function M.vim_source(file)
-    local full_path = vim.fn.stdpath('config')..'/'..file..'.vim'
-    vim.cmd('source '..vim.fn.fnameescape(full_path))
+    local full_path = vim.fn.stdpath("config").."/"..file..".vim"
+    vim.cmd("source "..vim.fn.fnameescape(full_path))
 end
 
 

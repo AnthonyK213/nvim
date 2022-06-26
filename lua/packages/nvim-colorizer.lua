@@ -1,11 +1,11 @@
 vim.cmd[[packadd nvim-colorizer.lua]]
 
-require('colorizer').setup({
+require("colorizer").setup({
     css = { names = true, rgb_fn = true },
-    'html',
-    'javascript',
-    'typescript',
-    'json'
+    "html",
+    "javascript",
+    "typescript",
+    "json"
 }, {
     RGB      = true,
     RRGGBB   = true,
@@ -15,5 +15,5 @@ require('colorizer').setup({
     hsl_fn   = false,
     css      = false,
     css_fn   = false,
-    mode     = 'background'
+    mode     = "background"
 })

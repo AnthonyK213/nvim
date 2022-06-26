@@ -1,6 +1,6 @@
 local M = {}
-local lib = require('utility.lib')
-local Process = require('utility.proc')
+local lib = require("utility.lib")
+local Process = require("utility.proc")
 
 
 ---Open terminal and launch shell.
@@ -22,7 +22,7 @@ function M.terminal()
     end
 
     lib.belowright_split(15)
-    vim.api.nvim_win_set_option(0, 'number', false)
+    vim.api.nvim_win_set_option(0, "number", false)
     vim.fn.termopen(vim.tbl_flatten({ my_sh }))
     return true
 end
@@ -32,10 +32,10 @@ end
 ---@param chdir boolean True to change cwd automatically.
 function M.edit_file(file_path, chdir)
     local path = vim.fs.normalize(file_path)
-    if vim.api.nvim_buf_get_name(0) == '' then
-        vim.cmd('silent e '..vim.fn.fnameescape(path))
+    if vim.api.nvim_buf_get_name(0) == "" then
+        vim.cmd("silent e "..vim.fn.fnameescape(path))
     else
-        vim.cmd('silent tabnew '..vim.fn.fnameescape(path))
+        vim.cmd("silent tabnew "..vim.fn.fnameescape(path))
     end
     if chdir then
         vim.api.nvim_set_current_dir(lib.get_buf_dir())
@@ -45,10 +45,10 @@ end
 ---Match path or URL under the cursor.
 ---@return string? match_result
 function M.match_path_or_url_under_cursor()
-    local _, url = lib.match_url(vim.fn.expand('<cWORD>'))
+    local _, url = lib.match_url(vim.fn.expand("<cWORD>"))
     if url then return url end
 
-    local path = vim.fn.expand('<cfile>')
+    local path = vim.fn.expand("<cfile>")
     if lib.path_exists(path, lib.get_buf_dir()) then
         return vim.fs.normalize(path)
     end
@@ -64,7 +64,7 @@ function M.sys_open(obj, use_local)
     local cwd = use_local and lib.get_buf_dir() or vim.loop.cwd()
     if type(obj) ~= "string"
         or not (lib.path_exists(obj, cwd) or lib.match_url(obj)) then
-        lib.notify_err('Nothing found.')
+        lib.notify_err("Nothing found.")
         return
     end
     local cmd
@@ -80,7 +80,7 @@ function M.sys_open(obj, use_local)
     elseif type(my_start) == "string" then
         cmd = my_start
     else
-        lib.notify_err('Invalid definition of `start`.')
+        lib.notify_err("Invalid definition of `start`.")
         return
     end
     table.insert(args, obj)
@@ -104,9 +104,9 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
     ---@return string? corlor_value
     local c = function (color_table, name)
         if not name then return nil end
-        if vim.startswith(name, '#') then
+        if vim.startswith(name, "#") then
             return name
-        elseif vim.startswith(name, '$') then
+        elseif vim.startswith(name, "$") then
             local key = name:sub(2)
             return color_table[key]
         end
@@ -156,7 +156,7 @@ function M.new_keymap(mode, lhs, new_rhs, opts)
         if val.lhs == lhs then
             if val.rhs then
                 fallback = function ()
-                    lib.feedkeys(val.rhs, 'n', true)
+                    lib.feedkeys(val.rhs, "n", true)
                 end
             elseif val.callback then
                 fallback = val.callback
@@ -167,7 +167,7 @@ function M.new_keymap(mode, lhs, new_rhs, opts)
 
     if fallback == nil then
         fallback = function ()
-            lib.feedkeys(lhs, 'n', true)
+            lib.feedkeys(lhs, "n", true)
         end
     end
 
@@ -178,7 +178,7 @@ end
 ---@param arg_list string[]
 function M.git_push_all(arg_list)
     -- Check git status.
-    if not lib.executable('git') then return end
+    if not lib.executable("git") then return end
 
     local git_root = lib.get_root(".git")
     local git_branch
@@ -204,7 +204,7 @@ function M.git_push_all(arg_list)
         if m_idx > 0 and m_idx % 2 == 1 then
             m_arg = arg_list[m_idx + 1]
         elseif m_idx == 0 then
-            m_arg = os.date('%y%m%d')
+            m_arg = os.date("%y%m%d")
         else
             lib.notify_err("Invalid commit argument.")
             return
@@ -224,12 +224,12 @@ function M.git_push_all(arg_list)
     end
 
     local git_add = Process.new("git", {
-        args = {'add', '*'},
+        args = {"add", "*"},
         cwd = git_root,
     })
 
     local git_commit = Process.new("git", {
-        args = {'commit', '-m', m_arg},
+        args = {"commit", "-m", m_arg},
         cwd = git_root,
     }, function (proc, code, _)
         if code == 0 then
@@ -240,7 +240,7 @@ function M.git_push_all(arg_list)
     end)
 
     local git_push = Process.new("git", {
-        args = { 'push', 'origin', b_arg, '--porcelain' },
+        args = { "push", "origin", b_arg, "--porcelain" },
         cwd = git_root,
     }, function (proc, code, _)
         if code == 0 then
@@ -262,23 +262,23 @@ end
 function M.nvim_upgrade(channel)
     local proxy = _my_core_opt.dep.proxy
 
-    local version = vim.api.nvim_exec('version', true)
-    local tag, build = version:match('NVIM%sv([%d.]+)(.-)\n')
-    local index = build:match('^%-dev%+(%d+)%-.+$')
+    local version = vim.api.nvim_exec("version", true)
+    local tag, build = version:match("NVIM%sv([%d.]+)(.-)\n")
+    local index = build:match("^%-dev%+(%d+)%-.+$")
 
     if not channel then
-        channel = index and 'nightly' or 'stable'
+        channel = index and "nightly" or "stable"
     elseif channel ~= "stable" and channel ~= "nightly" then
-        lib.notify_err('Invalid neovim release channel.')
+        lib.notify_err("Invalid neovim release channel.")
         return
     end
 
-    local Path = require('plenary.path')
+    local Path = require("plenary.path")
     local archive
     if lib.has_windows() then
-        archive = 'nvim-win64.zip'
+        archive = "nvim-win64.zip"
     elseif vim.fn.has("unix") == 1 then
-        archive = 'nvim-linux64.tar.gz'
+        archive = "nvim-linux64.tar.gz"
     else
         return
     end
@@ -286,15 +286,15 @@ function M.nvim_upgrade(channel)
     local nvim_path = Path:new(vim.loop.exepath()):parent():parent()
     local bin_path = nvim_path:parent()
     local archive_path = bin_path:joinpath(archive)
-    local backup_path = bin_path:joinpath('nvim_bak')
-    local source = 'https://github.com/neovim/neovim/releases/download/'
-    ..channel..'/'..archive
+    local backup_path = bin_path:joinpath("nvim_bak")
+    local source = "https://github.com/neovim/neovim/releases/download/"
+    ..channel.."/"..archive
 
     if not backup_path:exists() then backup_path:mkdir() end
 
     if nvim_path:exists() then
-        local time_stamp = os.date('%y%m%d%H%M%S_')
-        local name = time_stamp..tag..(index and '_dev'..index or '')
+        local time_stamp = os.date("%y%m%d%H%M%S_")
+        local name = time_stamp..tag..(index and "_dev"..index or "")
         nvim_path:copy {
             recursive = true,
             override = true,
@@ -306,51 +306,51 @@ function M.nvim_upgrade(channel)
 
     local dl_handle, dl_exec, dl_args, ex_exec, ex_args
     if lib.has_windows() then
-        local dl_cmd = 'Invoke-WebRequest'
-        ..' -Uri '..source
-        ..' -OutFile '..archive_path.filename
-        if use_proxy then dl_cmd = dl_cmd..' -Proxy '..proxy end
+        local dl_cmd = "Invoke-WebRequest"
+        .." -Uri "..source
+        .." -OutFile "..archive_path.filename
+        if use_proxy then dl_cmd = dl_cmd.." -Proxy "..proxy end
 
-        local rm_cmd = 'Remove-Item'
-        ..' -Path '..nvim_path.filename
-        ..' -Recurse'
+        local rm_cmd = "Remove-Item"
+        .." -Path "..nvim_path.filename
+        .." -Recurse"
 
-        local ex_cmd = 'Expand-Archive'
-        ..' -Path '..archive_path.filename
-        ..' -DestinationPath '..bin_path.filename
+        local ex_cmd = "Expand-Archive"
+        .." -Path "..archive_path.filename
+        .." -DestinationPath "..bin_path.filename
 
-        local rn_cmd = 'Rename-Item'
-        ..' -Path '..bin_path:joinpath('nvim-win64').filename
-        ..' -NewName '..nvim_path.filename
+        local rn_cmd = "Rename-Item"
+        .." -Path "..bin_path:joinpath("nvim-win64").filename
+        .." -NewName "..nvim_path.filename
 
-        local cl_cmd = 'Remove-Item'
-        ..' -Path '..archive_path.filename
+        local cl_cmd = "Remove-Item"
+        .." -Path "..archive_path.filename
 
         local pwsh_cmd = table.concat({
             dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd
-        }, ';')
+        }, ";")
 
-        vim.fn.jobstart('powershell.exe -c '..pwsh_cmd, { detach = true })
-        vim.cmd('qa!')
+        vim.fn.jobstart("powershell.exe -c "..pwsh_cmd, { detach = true })
+        vim.cmd("qa!")
         return
     elseif vim.fn.has("unix") == 1 then
-        if not lib.executable('curl') then return end
+        if not lib.executable("curl") then return end
         dl_exec = "curl"
         dl_args = use_proxy and {
-            '-L', source,
-            '-o', archive_path.filename,
-            '-x', proxy
+            "-L", source,
+            "-o", archive_path.filename,
+            "-x", proxy
         } or {
-            '-L', source,
-            '-o', archive_path.filename,
+            "-L", source,
+            "-o", archive_path.filename,
         }
         ex_exec = "tar"
         ex_args = {
-            '-xf', archive_path.filename,
-            '-C', bin_path.filename
+            "-xf", archive_path.filename,
+            "-C", bin_path.filename
         }
     else
-        lib.notify_err('Unsupported OS.')
+        lib.notify_err("Unsupported OS.")
         return
     end
 
@@ -360,7 +360,7 @@ function M.nvim_upgrade(channel)
             args = ex_args
         }, vim.schedule_wrap(function ()
             nvim_path:rm { recursive = true }
-            bin_path:joinpath(archive:match('^(.-)%..+$')):rename {
+            bin_path:joinpath(archive:match("^(.-)%..+$")):rename {
                 new_name = nvim_path.filename
             }
             archive_path:rm()
@@ -369,11 +369,11 @@ function M.nvim_upgrade(channel)
         end))
     end
 
-    print('Downloading...')
+    print("Downloading...")
     dl_handle = vim.loop.spawn(dl_exec, {
         args = dl_args
     }, vim.schedule_wrap(function ()
-        print('Package downloaded. Installing...')
+        print("Package downloaded. Installing...")
         extract()
         dl_handle:close()
     end))

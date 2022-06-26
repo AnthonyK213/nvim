@@ -2,14 +2,14 @@ vim.bo.tabstop = 4
 vim.bo.shiftwidth = 4
 vim.bo.softtabstop = 4
 
-local lib = require('utility.lib')
-local new_keymap = require('utility.util').new_keymap
+local lib = require("utility.lib")
+local new_keymap = require("utility.util").new_keymap
 local buf_handle = vim.api.nvim_get_current_buf()
 
 vim.defer_fn(function ()
     new_keymap("i", '"', function (fallback)
         if lib.get_context().b:match('^%s*""$') then
-            lib.feedkeys('"\n"""<C-\\><C-O>O', 'n', true)
+            lib.feedkeys('"\n"""<C-\\><C-O>O', "n", true)
         else
             fallback()
         end
