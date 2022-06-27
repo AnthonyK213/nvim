@@ -37,11 +37,6 @@ lua << EOF
 EOF
 endfunction
 
-" Source vim file.
-function! my#compat#vim_source(file) abort
-  call v:lua.require("utility.lib").vim_source(a:file)
-endfunction
-
 " Set background according to time.
 function! my#compat#time_background() abort
 lua << EOF
@@ -53,4 +48,9 @@ lua << EOF
     if vim.o.bg ~= bg then vim.o.bg = bg end
   end))
 EOF
+endfunction
+
+" Source vim file.
+function! my#compat#vim_source(file) abort
+  call v:lua.require("utility.lib").vim_source(a:file)
 endfunction
