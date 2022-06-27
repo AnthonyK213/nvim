@@ -1,5 +1,4 @@
-local kbd_b = vim.api.nvim_buf_set_keymap
-local ntst = { noremap = true, silent = true }
+local kbd = vim.keymap.set
 
 require("aerial").setup {
     backends = {
@@ -26,12 +25,13 @@ require("aerial").setup {
     },
     highlight_closest = false,
     on_attach = function (bufnr)
-        kbd_b(bufnr, "n", "{",          "<Cmd>AerialPrev<CR>", ntst)
-        kbd_b(bufnr, "n", "}",          "<Cmd>AerialNext<CR>", ntst)
-        kbd_b(bufnr, "n", "[[",         "<Cmd>AerialPrevUp<CR>", ntst)
-        kbd_b(bufnr, "n", "]]",         "<Cmd>AerialNextUp<CR>", ntst)
-        kbd_b(bufnr, "n", "<leader>mv", "<Cmd>AerialToggle!<CR>", ntst)
-        kbd_b(bufnr, "n", "<leader>fa", "<Cmd>Telescope aerial<CR>", ntst)
+        local _opt = { noremap = true, silent = true, buffer = bufnr }
+        kbd("n", "{", "<Cmd>AerialPrev<CR>", _opt)
+        kbd("n", "}", "<Cmd>AerialNext<CR>", _opt)
+        kbd("n", "[[", "<Cmd>AerialPrevUp<CR>", _opt)
+        kbd("n", "]]", "<Cmd>AerialNextUp<CR>", _opt)
+        kbd("n", "<leader>mv", "<Cmd>AerialToggle!<CR>", _opt)
+        kbd("n", "<leader>fa", "<Cmd>Telescope aerial<CR>", _opt)
     end
 }
 
