@@ -39,6 +39,7 @@ require("onedark").setup  {
         markdownBoldItalic =          { fg = "$yellow", fmt = "bold,italic" },
         markdownCode =                { fg = "$green" },
         markdownUrl =                 { fg = "$blue" },
+        markdownEscape =              { fg = "$cyan" },
         markdownLinkText =            { fg = "$cyan", fmt = "underline" },
         markdownHeadingDelimiter =    { fg = "$red" },
         markdownBoldDelimiter =       { fg = "$bg3" },

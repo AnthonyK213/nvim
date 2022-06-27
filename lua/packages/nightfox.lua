@@ -27,6 +27,7 @@ require("nightfox").setup {
             markdownBoldItalic =          { fg = "palette.yellow", style = "bold,italic" },
             markdownCode =                { fg = "palette.green" },
             markdownUrl =                 { fg = "palette.blue" },
+            markdownEscape =              { fg = "palette.cyan" },
             markdownLinkText =            { fg = "palette.cyan", style = "underline" },
             markdownHeadingDelimiter =    { fg = "palette.red" },
             markdownBoldDelimiter =       { fg = "bg3" },
