@@ -3,6 +3,7 @@ vim.cmd[[packadd indent-blankline.nvim]]
 
 require("indent_blankline").setup {
     char = "▏",
+    context_char = "▏",
     use_treesitter = true,
     space_char_blankline = " ",
     show_current_context = true,
