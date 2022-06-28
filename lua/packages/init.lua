@@ -21,17 +21,18 @@ require("packer").startup(function (use)
     use "wbthomason/packer.nvim"
     -- Display
     use {
-        {"goolord/alpha-nvim",          opt = true};
-        {"nvim-lualine/lualine.nvim",   opt = true};
-        {"akinsho/bufferline.nvim",     opt = true};
-        {"norcalli/nvim-colorizer.lua", opt = true};
+        { "goolord/alpha-nvim", opt = true };
+        { "nvim-lualine/lualine.nvim", opt = true };
+        { "akinsho/bufferline.nvim", opt = true };
+        { "norcalli/nvim-colorizer.lua", opt = true };
+        { "lukas-reineke/indent-blankline.nvim", opt = true };
     }
     -- Color scheme
     use {
-        {"navarasu/onedark.nvim",    opt = true};
-        {"folke/tokyonight.nvim",    opt = true};
-        {"ellisonleao/gruvbox.nvim", opt = true};
-        {"EdenEast/nightfox.nvim",   opt = true};
+        { "navarasu/onedark.nvim", opt = true };
+        { "folke/tokyonight.nvim", opt = true };
+        { "ellisonleao/gruvbox.nvim", opt = true };
+        { "EdenEast/nightfox.nvim", opt = true };
     }
     -- File system
     use {
@@ -62,10 +63,6 @@ require("packer").startup(function (use)
         {
             "dhruvasagar/vim-table-mode",
             config = function () require("packages.vim-table-mode") end
-        };
-        {
-            "lukas-reineke/indent-blankline.nvim",
-            config = function () require("packages.indent-blankline") end
         };
         {
             "AnthonyK213/lua-pairs",
@@ -179,9 +176,10 @@ elseif packer_bootstrap == nil then
             vim.notify("Color scheme was not found.", vim.log.levels.WARN, nil)
         end
     end
-    -- Statusline & Tabline
-    if nvim_init_src ~= "defaultlines" then
+    -- Tabline & Statusline & IndentLine
+    if nvim_init_src ~= "vscode" then
         require("packages.bufferline")
         require("packages.lualine")
+        require("packages.indent-blankline")
     end
 end
