@@ -148,7 +148,6 @@ require("packer").startup(function (use)
     end
 end)
 
-
 -- Built-in plugins.
 if _my_core_opt.plug then
     if not _my_core_opt.plug.matchit then vim.g.loaded_matchit = 1 end
@@ -166,20 +165,19 @@ if nvim_init_src == "nano" then
     vim.g._my_theme_switchable = true
     vim.cmd("colorscheme nanovim")
 elseif packer_bootstrap == nil then
-    require("packages.alpha-nvim")
-    require("packages.nvim-colorizer")
-    -- Load color scheme.
-    if vim.tbl_contains(colorscheme_list, colorscheme) then
-        require("packages."..colorscheme)
-    else
-        if not pcall(vim.cmd, "colorscheme "..colorscheme) then
-            vim.notify("Color scheme was not found.", vim.log.levels.WARN, nil)
-        end
-    end
-    -- Tabline & Statusline & IndentLine
     if nvim_init_src ~= "vscode" then
         require("packages.bufferline")
         require("packages.lualine")
         require("packages.indent-blankline")
+        require("packages.alpha-nvim")
+        require("packages.nvim-colorizer")
+        -- Load color scheme.
+        if vim.tbl_contains(colorscheme_list, colorscheme) then
+            require("packages."..colorscheme)
+        else
+            if not pcall(vim.cmd, "colorscheme "..colorscheme) then
+                vim.notify("Color scheme was not found.", vim.log.levels.WARN, nil)
+            end
+        end
     end
 end
