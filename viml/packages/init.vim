@@ -24,97 +24,90 @@ endif
 
 " Load plug-ins
 call plug#begin(my#compat#stdpath('data') . '/plugged')
-
+"" Display
+Plug 'vim-airline/vim-airline'
+Plug 'chrisbra/Colorizer'
+Plug 'Yggdroot/indentLine'
+"" Color scheme
+Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
+"" File system
+Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }
+"" VCS
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+"" Utilities
+Plug 'tpope/vim-speeddating'
+Plug 'AnthonyK213/vim-ipairs'
+Plug 'andymass/vim-matchup'
+Plug 'skanehira/vsession'
+Plug 'voldikss/vim-floaterm'
 Plug 'dhruvasagar/vim-table-mode'
-if s:nvim_init_src !=? 'vscode'
-  "" Display
-  Plug 'vim-airline/vim-airline'
-  Plug 'chrisbra/Colorizer'
-  Plug 'Yggdroot/indentLine'
-  "" Color scheme
-  Plug 'rakr/vim-one'
-  Plug 'morhetz/gruvbox'
-  "" File system
-  Plug 'liuchengxu/vim-clap', { 'do': {-> clap#installer#force_download()} }
-  "" VCS
-  Plug 'tpope/vim-fugitive'
-  Plug 'mhinz/vim-signify'
-  "" Utilities
-  Plug 'tpope/vim-speeddating'
-  Plug 'AnthonyK213/vim-ipairs'
-  Plug 'andymass/vim-matchup'
-  Plug 'skanehira/vsession'
-  Plug 'voldikss/vim-floaterm'
-  "" File type support
-  Plug 'lervag/vimtex'
-  Plug 'vimwiki/vimwiki', {'branch': 'dev'}
-  Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install()}}
-  Plug 'sotte/presenting.vim'
-  Plug 'editorconfig/editorconfig-vim'
-  "" Completion; Snippet; (LSP)
-  Plug 'liuchengxu/vista.vim'
-  "" Games
-  Plug 'AndrewRadev/gnugo.vim'
-  if g:_my_use_coc
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  else
-    Plug 'preservim/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-  endif
+"" File type support
+Plug 'lervag/vimtex'
+Plug 'vimwiki/vimwiki', {'branch': 'dev'}
+Plug 'iamcco/markdown-preview.nvim', {'do': {-> mkdp#util#install()}}
+Plug 'sotte/presenting.vim'
+Plug 'editorconfig/editorconfig-vim'
+"" Completion; Snippet; (LSP)
+Plug 'liuchengxu/vista.vim'
+"" Games
+Plug 'AndrewRadev/gnugo.vim'
+if g:_my_use_coc
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+else
+  Plug 'preservim/nerdtree'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
 endif
-
 call plug#end()
 
-if s:plug_bootstrap
-  PlugInstall
-endif
+if s:plug_bootstrap | PlugInstall | endif
 
 let s:colorscheme_list = ['one', 'gruvbox']
 let g:_my_theme_switchable = 0
-
 if s:nvim_init_src ==? 'nano'
   let g:_my_theme_switchable = 1
   call my#compat#vim_source('viml/subsrc')
   colorscheme nanovim
 else
+  if index(s:colorscheme_list, g:_my_tui_scheme) >= 0
+    call my#compat#vim_source('viml/packages/' . g:_my_tui_scheme)
+  else
+    try
+      exe 'colorscheme' g:_my_tui_scheme
+    catch
+      echomsg 'Color scheme was not found.'
+    endtry
+  endif
   call my#compat#vim_source_list([
-    \ "packages/vim-table-mode",
-    \ ])
-  if s:nvim_init_src !=? 'vscode'
+        \ "packages/markdown-preview",
+        \ "packages/vim-clap",
+        \ "packages/vim-ipairs",
+        \ "packages/vim-fugitive",
+        \ "packages/vim-signify",
+        \ "packages/vimtex",
+        \ "packages/vimwiki",
+        \ "packages/vsession",
+        \ "packages/vim-table-mode",
+        \ "packages/vim-floaterm",
+        \ "packages/vista",
+        \ ])
+  if s:nvim_init_src !=? "neatUI"
     call my#compat#vim_source_list([
           \ "packages/vim-airline",
           \ "packages/indentLine",
-          \ "packages/markdown-preview",
-          \ "packages/vim-clap",
-          \ "packages/vim-ipairs",
-          \ "packages/vim-fugitive",
-          \ "packages/vim-signify",
-          \ "packages/vimtex",
-          \ "packages/vimwiki",
-          \ "packages/vsession",
-          \ "packages/vim-floaterm",
-          \ "packages/vista"
           \ ])
-    if g:_my_use_coc
-      call my#compat#vim_source('viml/packages/coc')
-    else
-      call my#compat#vim_source_list([
-            \ "packages/asyncomplete",
-            \ "packages/nerdtree"
-            \ ])
-    endif
-    if index(s:colorscheme_list, g:_my_tui_scheme) >= 0
-      call my#compat#vim_source('viml/packages/' . g:_my_tui_scheme)
-    else
-      try
-        exe 'colorscheme' g:_my_tui_scheme
-      catch
-        echomsg 'Color scheme was not found.'
-      endtry
-    endif
+  endif
+  if g:_my_use_coc
+    call my#compat#vim_source('viml/packages/coc')
+  else
+    call my#compat#vim_source_list([
+          \ "packages/asyncomplete",
+          \ "packages/nerdtree"
+          \ ])
   endif
 endif

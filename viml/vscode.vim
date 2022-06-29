@@ -1,6 +1,12 @@
-let g:nvim_init_src = "vscode"
-call my#compat#vim_source_list(['internal/init', 'packages/init'])
+set noloadplugins
+call my#compat#vim_source("viml/internal/init")
 
-"nn <silent> <leader>bd <Cmd>call VSCodeNotify('editor.action.')<CR>
-"nn <silent> <leader>bn gt
-"nn <silent> <leader>bp gT
+nn <silent> <leader>bd <Cmd>call VSCodeNotify("workbench.action.closeActiveEditor")<CR>
+nn <silent> <leader>bn <Cmd>call VSCodeNotify("workbench.action.nextEditor")<CR>
+nn <silent> <leader>bp <Cmd>call VSCodeNotify("workbench.action.previousEditor")<CR>
+nn <silent> <leader>gj <Cmd>call VSCodeNotify("workbench.action.compareEditor.nextChange")<CR>
+nn <silent> <leader>gk <Cmd>call VSCodeNotify("workbench.action.compareEditor.previousChange")<CR>
+nn <silent> <leader>kc <Cmd>call VSCodeNotify("editor.action.addCommentLine")<CR>
+nn <silent> <leader>ku <Cmd>call VSCodeNotify("editor.action.removeCommentLine")<CR>
+nn <silent> <leader>op <Cmd>call VSCodeNotify("workbench.action.toggleSidebarVisibility")<CR>
+nn <silent> <leader>ot <Cmd>call VSCodeNotify("workbench.action.terminal.new")<CR>
