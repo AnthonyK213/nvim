@@ -1,3 +1,6 @@
-let g:nvim_init_src = "vscode"
+set noloadplugins
 call v:lua.require("internal")
-call v:lua.require("packages")
+
+nn <silent> <leader>bd <Cmd>call VSCodeNotify("workbench.action.closeActiveEditor")<CR>
+nn <silent> <leader>bn <Cmd>call VSCodeNotify("workbench.action.nextEditor")<CR>
+nn <silent> <leader>bp <Cmd>call VSCodeNotify("workbench.action.previousEditor")<CR>
