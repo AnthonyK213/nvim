@@ -12,3 +12,5 @@ nn <silent> <leader>kc <Cmd>call VSCodeNotify("editor.action.addCommentLine")<CR
 nn <silent> <leader>ku <Cmd>call VSCodeNotify("editor.action.removeCommentLine")<CR>
 nn <silent> <leader>op <Cmd>call VSCodeNotify("workbench.action.toggleSidebarVisibility")<CR>
 nn <silent> <leader>ot <Cmd>call VSCodeNotify("workbench.action.terminal.new")<CR>
+nn <silent> <leader>lm <Cmd>call VSCodeNotify("editor.action.formatDocument")<CR>
+nn <silent> K <Cmd>call VSCodeNotify("editor.action.showHover")<CR>
