@@ -78,18 +78,6 @@ function! my#compat#time_background() abort
   call s:background_checker(bg_timer)
 endfunction
 
-" Set markdown surrounding keymaps.
-function! my#compat#md_kbd() abort
-  for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
-    for s:mod_item in ['n', 'v']
-      exe s:mod_item . 'n' '<buffer><silent> <M-' . s:key . '>'
-            \ ':call my#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
-    endfor
-  endfor
-  nnoremap <buffer><silent> <F5> <Cmd>PresentingStart<CR>
-  nnoremap <buffer><silent> <leader>mt <Cmd>MarkdownPreviewToggle<CR>
-endfunction
-
 " Standard path
 function! my#compat#stdpath(what, nvim = 1) abort
   if has("nvim")
