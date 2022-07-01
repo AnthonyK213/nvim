@@ -28,7 +28,7 @@ end
 
 ---Switch to normal mode.
 local to_normal = function ()
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", false, true, true), "nx", false)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", false, true, true), "nx", false)
 end
 
 kbd("Adjust window size up", "n", "<C-UP>", "<C-W>-")
@@ -76,7 +76,7 @@ kbd("Move block down", "v", "<M-n>", [[:<C-U>exe "'<,'>move" min([line("'>") + 1
 kbd("Cursor down", { "n", "v", "i" }, "<C-N>", function () vim.cmd("normal! gj") end)
 kbd("Cursor up", { "n", "v", "i" }, "<C-P>", function () vim.cmd("normal! gk") end)
 for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
-    kbd("Navigate window: "..desc, { "n", "i", "t" }, "<M-"..direct..">", function ()
+    kbd("Navigate window: "..desc, { "n", "t" }, "<M-"..direct..">", function ()
         to_normal()
         lib.feedkeys("<C-W>"..direct, "nx", false)
     end)

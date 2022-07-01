@@ -8,7 +8,7 @@ if not lib.path_exists(dir) then vim.loop.fs_mkdir(dir, 448) end
 --#region Adapter
 ---@class A
 ---@field typename string
----@field filetype string
+---@field filetype string|string[]
 ---@field option table
 ---@field configuration table
 ---@field installer function
@@ -42,7 +42,13 @@ function A:setup()
         for _, config in ipairs(self.configuration) do
             config.type = self.typename
         end
-        dap.configurations[self.filetype] = self.configuration
+        if type(self.filetype) == "string" then
+            dap.configurations[self.filetype] = self.configuration
+        elseif type(self.filetype) == "table" then
+            for _, t in ipairs(self.filetype) do
+                dap.configurations[t] = self.configuration
+            end
+        end
     else
         if self.installer then self.installer(self) end
     end
@@ -50,34 +56,28 @@ end
 --#endregion
 
 --#region Adapter instances
-local dap_python = A.new("python", "python", {
+local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
     type = "executable",
-    command = dir.."/debugpy/"..(lib.has_windows() and "Scripts/" or "bin/").."python",
-    args = { "-m", "debugpy.adapter" }
+    command = "lldb-vscode",
+    name = "lldb"
 }, {
     {
         name = "Launch",
+        type = "lldb",
         request = "launch",
-        program = "${file}",
-        pythonPath = function() return _my_core_opt.dep.py3 end,
+        program = function ()
+            return vim.fn.input {
+                prompt = "Path to executable: ",
+                default = vim.loop.cwd().."/",
+                completion = "file"
+            }
+        end,
+        cwd = "${workspaceFolder}",
+        stopOnEntry = false,
+        args = {},
     }
-}, vim.schedule_wrap(function (a)
-    local new_venv = Process.new("python", {
-        args = { "-m", "venv", dir.."/debugpy" }
-    })
-    local pip_args = { "-m", "pip", "install", "debugpy" }
-    if _my_core_opt.dep.proxy then
-        vim.tbl_extend("keep", pip_args, { "--proxy", _my_core_opt.dep.proxy })
-    end
-    local install = Process.new(a.option.command, {
-        args = pip_args
-    }, function (_, code, _)
-        if code == 0 then
-            vim.notify("Installed debugpy")
-        end
-    end)
-    new_venv:continue_with(install)
-    new_venv:start()
+}, vim.schedule_wrap(function ()
+    vim.notify("Please install llvm with lldb-vscode")
 end))
 
 local dap_csharp = A.new("cs", "coreclr", {
@@ -137,8 +137,39 @@ local dap_csharp = A.new("cs", "coreclr", {
     download:start()
 end))
 
-if dap_option.python then dap_python:setup() end
+local dap_python = A.new("python", "python", {
+    type = "executable",
+    command = dir.."/debugpy/"..(lib.has_windows() and "Scripts/" or "bin/").."python",
+    args = { "-m", "debugpy.adapter" }
+}, {
+    {
+        name = "Launch",
+        request = "launch",
+        program = "${file}",
+        pythonPath = function() return _my_core_opt.dep.py3 end,
+    }
+}, vim.schedule_wrap(function (a)
+    local new_venv = Process.new("python", {
+        args = { "-m", "venv", dir.."/debugpy" }
+    })
+    local pip_args = { "-m", "pip", "install", "debugpy" }
+    if _my_core_opt.dep.proxy then
+        vim.tbl_extend("keep", pip_args, { "--proxy", _my_core_opt.dep.proxy })
+    end
+    local install = Process.new(a.option.command, {
+        args = pip_args
+    }, function (_, code, _)
+        if code == 0 then
+            vim.notify("Installed debugpy")
+        end
+    end)
+    new_venv:continue_with(install)
+    new_venv:start()
+end))
+
+if dap_option.lldb then dap_lldb:setup() end
 if dap_option.csharp then dap_csharp:setup() end
+if dap_option.python then dap_python:setup() end
 --#endregion
 
 --#region Key mappings

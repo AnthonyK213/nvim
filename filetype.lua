@@ -23,6 +23,17 @@ vim.filetype.add {
                 silent = true,
                 buffer = bufnr
             })
+            require("utility.util").new_keymap("n", "<CR>", function (fallback)
+                if vim.fn.foldclosed(".") >= 0 then
+                    vim.cmd[[normal! za]]
+                else
+                    fallback()
+                end
+            end, {
+                noremap = true,
+                silent = true,
+                buffer = bufnr
+            })
             return "vimwiki.markdown"
         end,
         rs = function ()

@@ -79,8 +79,9 @@
     },
     // Debug Adapter Protocol
     "dap": {
+      "lldb": false,       // https://github.com/llvm/llvm-project
       "csharp": false,     // https://github.com/Samsung/netcoredbg
-      "python": false      // https://github.com/microsoft/debugpy
+      "python": false,     // https://github.com/microsoft/debugpy
     },
     // Built-in plugins
     "plug": {
@@ -114,10 +115,10 @@
   - t:   <kbd>M-d</kbd>  -> Close the terminal.
   - in:  <kbd>M-e</kbd>  -> *nvim-tree.lua*, nvim-tree find file.
   - nv:  <kbd>M-g</kbd>  -> Find and replace.
-  - inv: <kbd>M-h</kbd>  -> Jump to the window left.
-  - inv: <kbd>M-j</kbd>  -> Jump to the window below.
-  - inv: <kbd>M-k</kbd>  -> Jump to the window above.
-  - inv: <kbd>M-l</kbd>  -> Jump to the window right.
+  - nv:  <kbd>M-h</kbd>  -> Jump to the window left.
+  - nv:  <kbd>M-j</kbd>  -> Jump to the window below.
+  - nv:  <kbd>M-k</kbd>  -> Jump to the window above.
+  - nv:  <kbd>M-l</kbd>  -> Jump to the window right.
   - nv:  <kbd>M-n</kbd>  -> Move line(s) down.
   - nv:  <kbd>M-p</kbd>  -> Move line(s) up.
   - inv: <kbd>M-v</kbd>  -> Paste from system clipboard.
