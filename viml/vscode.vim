@@ -1,16 +1,36 @@
 set noloadplugins
 call my#compat#vim_source("viml/internal/init")
 
-nn <silent> <leader>bd <Cmd>call VSCodeNotify("workbench.action.closeActiveEditor")<CR>
-nn <silent> <leader>bn <Cmd>call VSCodeNotify("workbench.action.nextEditor")<CR>
-nn <silent> <leader>bp <Cmd>call VSCodeNotify("workbench.action.previousEditor")<CR>
-nn <silent> <leader>ff <Cmd>call VSCodeNotify("workbench.action.quickOpen")<CR>
-nn <silent> <leader>fg <Cmd>call VSCodeNotify("workbench.view.search")<CR>
-nn <silent> <leader>gj <Cmd>call VSCodeNotify("workbench.action.editor.nextChange")<CR>
-nn <silent> <leader>gk <Cmd>call VSCodeNotify("workbench.action.editor.previousChange")<CR>
-nn <silent> <leader>kc <Cmd>call VSCodeNotify("editor.action.addCommentLine")<CR>
-nn <silent> <leader>ku <Cmd>call VSCodeNotify("editor.action.removeCommentLine")<CR>
-nn <silent> <leader>op <Cmd>call VSCodeNotify("workbench.action.toggleSidebarVisibility")<CR>
-nn <silent> <leader>ot <Cmd>call VSCodeNotify("workbench.action.terminal.new")<CR>
-nn <silent> <leader>lm <Cmd>call VSCodeNotify("editor.action.formatDocument")<CR>
-nn <silent> K <Cmd>call VSCodeNotify("editor.action.showHover")<CR>
+function! s:n(lhs, rhs, args = "") abort
+  let l:tbl = empty(a:args) ? ""
+        \ : "," . (type(a:args) == v:t_string ? a:args : string(a:args))
+  exe "nn <silent>" a:lhs '<Cmd>call VSCodeNotify("' . a:rhs . '"' . l:tbl . ')<CR>'
+endfunction
+
+" Buffer
+call s:n("<leader>bd", "workbench.action.closeActiveEditor")
+call s:n("<leader>bn", "workbench.action.nextEditor")
+call s:n("<leader>bp", "workbench.action.previousEditor")
+" Find
+call s:n("<leader>ff", "workbench.action.quickOpen")
+call s:n("<leader>fg", "workbench.view.search")
+" Fold
+call s:n("za", "editor.toggleFold")
+call s:n("zc", "editor.fold")
+call s:n("zo", "editor.unfold")
+call s:n("zC", "editor.foldRecursively")
+call s:n("zM", "editor.foldAll")
+call s:n("zO", "editor.unfoldRecursively")
+call s:n("zR", "editor.unfoldAll")
+" Git
+call s:n("<leader>gj", "workbench.action.editor.nextChange")
+call s:n("<leader>gk", "workbench.action.editor.previousChange")
+" Commnet
+call s:n("<leader>kc", "editor.action.addCommentLine")
+call s:n("<leader>ku", "editor.action.removeCommentLine")
+" Open
+call s:n("<leader>op", "workbench.action.toggleSidebarVisibility")
+call s:n("<leader>ot", "workbench.action.terminal.new")
+" LSP
+call s:n("K", "editor.action.showHover")
+call s:n("<leader>lm", "editor.action.formatDocument")
