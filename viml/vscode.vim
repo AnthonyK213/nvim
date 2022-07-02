@@ -25,7 +25,7 @@ call s:n("zR", "editor.unfoldAll")
 " Git
 call s:n("<leader>gj", "workbench.action.editor.nextChange")
 call s:n("<leader>gk", "workbench.action.editor.previousChange")
-" Commnet
+" Comment
 call s:n("<leader>kc", "editor.action.addCommentLine")
 call s:n("<leader>ku", "editor.action.removeCommentLine")
 " Open
