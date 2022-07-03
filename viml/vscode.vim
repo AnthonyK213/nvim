@@ -18,6 +18,7 @@ call my#compat#vsc_kbd("n", "zR", "editor.unfoldAll")
 " Git
 call my#compat#vsc_kbd("n", "<leader>gj", "workbench.action.editor.nextChange")
 call my#compat#vsc_kbd("n", "<leader>gk", "workbench.action.editor.previousChange")
+call my#compat#vsc_kbd("n", "<leader>gn", "workbench.view.scm")
 " Comment
 call my#compat#vsc_kbd("n", "<leader>kc", "editor.action.addCommentLine")
 call my#compat#vsc_kbd("n", "<leader>ku", "editor.action.removeCommentLine")
