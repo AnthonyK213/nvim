@@ -81,7 +81,7 @@
     "dap": {
       "lldb": false,       // https://github.com/llvm/llvm-project
       "csharp": false,     // https://github.com/Samsung/netcoredbg
-      "python": false,     // https://github.com/microsoft/debugpy
+      "python": false      // https://github.com/microsoft/debugpy
     },
     // Built-in plugins
     "plug": {
