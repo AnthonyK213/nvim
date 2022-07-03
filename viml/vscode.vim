@@ -29,4 +29,10 @@ call my#compat#vsc_kbd("n", "<leader>op", "workbench.action.toggleSidebarVisibil
 call my#compat#vsc_kbd("n", "<leader>ot", "workbench.action.terminal.new")
 " LSP
 call my#compat#vsc_kbd("n", "K", "editor.action.showHover")
+call my#compat#vsc_kbd("n", "<leader>la", "editor.action.quickFix")
+call my#compat#vsc_kbd("n", "<leader>ld", "editor.action.goToDeclaration")
+call my#compat#vsc_kbd("n", "<leader>lf", "editor.action.revealDefinition")
+call my#compat#vsc_kbd("n", "<leader>li", "editor.action.goToImplementation")
 call my#compat#vsc_kbd("n", "<leader>lm", "editor.action.formatDocument")
+call my#compat#vsc_kbd("n", "<leader>ln", "editor.action.rename")
+call my#compat#vsc_kbd("n", "<leader>lr", "editor.action.goToReferences")
