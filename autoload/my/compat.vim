@@ -1,3 +1,11 @@
+" Check background according to time.
+function! s:background_checker(bg_timer) abort
+  if !g:_my_lock_background | return | end
+  let l:hour = str2nr(strftime('%H'))
+  let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
+  if &bg != l:bg | let &bg = l:bg | endif
+endfunction
+
 " Background toggle.
 function! my#compat#bg_toggle() abort
   if !g:_my_theme_switchable
@@ -8,6 +16,20 @@ function! my#compat#bg_toggle() abort
   endif
 endfunction
 
+" Warn when has incompatible code.
+function! my#compat#has_incompat() abort
+  if has("nvim") | return 0 | endif
+  echohl WarningMsg
+  echomsg "This function is incompatible with vim. Aborted."
+  echohl None
+  return 1
+endfunction
+
+" Load module `internal`.
+function my#compat#load_internal() abort
+  call my#compat#vim_source('viml/internal/init')
+endfunction
+
 " Mouse toggle.
 function! my#compat#mouse_toggle() abort
   if &mouse ==# 'a'
@@ -16,6 +38,20 @@ function! my#compat#mouse_toggle() abort
   else
     let &mouse = 'a'
     echom "Mouse enabled"
+  endif
+endfunction
+
+" Open nvimrc.
+function! my#compat#open_opt() abort
+  let [l:exists, l:opt_file] = my#lib#get_nvimrc()
+  if l:exists
+    call my#util#edit_file(l:opt_file)
+    exe 'cd' fnameescape(my#compat#stdpath("config"))
+  elseif l:opt_file != v:null
+    exe 'e' fnameescape(l:opt_file)
+    call feedkeys("i{}\<Left>")
+  else
+    echomsg "No available configuration directory"
   endif
 endfunction
 
@@ -36,46 +72,13 @@ function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
   endif
 endfunction
 
-" Source vim file.
-function! my#compat#vim_source(file) abort
-  exe 'source' my#compat#stdpath('config') . '/' . a:file . '.vim'
-endfunction
-
-" Source vim files.
-function! my#compat#vim_source_list(file_list) abort
-  for l:file in a:file_list
-    call my#compat#vim_source('viml/' . l:file)
-  endfor
-endfunction
-
-" Open nvimrc.
-function! my#compat#open_opt() abort
-  let [l:exists, l:opt_file] = my#lib#get_nvimrc()
-  if l:exists
-    call my#util#edit_file(l:opt_file)
-    exe 'cd' fnameescape(my#compat#stdpath("config"))
-  elseif l:opt_file != v:null
-    exe 'e' fnameescape(l:opt_file)
-    call feedkeys("i{}\<Left>")
+" Set global variable.
+function! my#compat#set_var(name, value) abort
+  if has("nvim")
+    call nvim_set_var(a:name, a:value)
   else
-    echomsg "No available configuration directory"
+    let g:{a:name} = a:value
   endif
-endfunction
-
-"" Set background according to time.
-function! s:background_checker(bg_timer) abort
-  if !g:_my_lock_background | return | end
-  let l:hour = str2nr(strftime('%H'))
-  let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
-  if &bg != l:bg | let &bg = l:bg | endif
-endfunction
-
-function! my#compat#time_background() abort
-  let bg_timer = timer_start(
-        \ 600,
-        \ function('<SID>background_checker'),
-        \ { 'repeat': -1 })
-  call s:background_checker(bg_timer)
 endfunction
 
 " Standard path
@@ -105,21 +108,52 @@ function! my#compat#stdpath(what, nvim = 1) abort
   endif
 endfunction
 
-" Set global variable.
-function! my#compat#set_var(name, value) abort
-  if has("nvim")
-    call nvim_set_var(a:name, a:value)
-  else
-    let g:{a:name} = a:value
-  endif
+" Set background according to time.
+function! my#compat#time_background() abort
+  let bg_timer = timer_start(
+        \ 600,
+        \ function('<SID>background_checker'),
+        \ { 'repeat': -1 })
+  call s:background_checker(bg_timer)
 endfunction
 
-function! my#compat#has_incompat() abort
-  if has("nvim")
-    return 0
+" Source vim file.
+function! my#compat#vim_source(file) abort
+  exe 'source' my#compat#stdpath('config') . '/' . a:file . '.vim'
+endfunction
+
+" Source vim files.
+function! my#compat#vim_source_list(file_list) abort
+  for l:file in a:file_list
+    call my#compat#vim_source('viml/' . l:file)
+  endfor
+endfunction
+
+" VSCode Key binding.
+function my#compat#vsc_kbd(mode, lhs, cmd, range = [], args = v:null, block = 0) abort
+  if !(a:mode ==# "n" || a:mode ==# "v") | return | endif
+  let l:opts = { "noremap": v:true, "silent": v:true }
+  let l:arg = a:args == v:null ? "" : "," . (type(a:args) == v:t_string ? a:args : string(a:args))
+  let l:func = "VSCode"
+  let l:func .= a:block ? "Call" : "Notify"
+  let l:cnt = len(a:range)
+  if a:mode ==# "v"
+    if l:cnt == 1
+      let l:func .= "Visual"
+    else
+      return
+    endif
+  elseif a:mode ==# "n"
+    if l:cnt == 0
+    elseif l:cnt == 3
+      let l:func .= "Range"
+    elseif l:cnt == 5
+      let l:func .= "RangePos"
+    else
+      return
+    endif
   endif
-  echohl WarningMsg
-  echomsg "This function is incompatible with vim. Aborted."
-  echohl None
-  return 1
+  let l:pos = l:cnt == 0 ? "" : "," . join(a:range, ",")
+  let l:rhs = '<Cmd>call ' . l:func . '(' . string(a:cmd) . l:pos . l:arg . ")<CR>"
+  call nvim_set_keymap(a:mode, a:lhs, l:rhs, l:opts)
 endfunction
