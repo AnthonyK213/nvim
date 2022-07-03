@@ -15,7 +15,7 @@ EOF
 endfunction
 
 " Load module `internal`.
-function! my#compat#source_internal() abort
+function! my#compat#load_internal() abort
   call v:lua.require("internal")
 endfunction
 

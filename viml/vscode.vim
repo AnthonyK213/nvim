@@ -1,5 +1,5 @@
 set noloadplugins
-call my#compat#source_internal()
+call my#compat#load_internal()
 " Buffer
 call my#compat#vsc_kbd("n", "<leader>bd", "workbench.action.closeActiveEditor")
 call my#compat#vsc_kbd("n", "<leader>bn", "workbench.action.nextEditor")
