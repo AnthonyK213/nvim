@@ -1,36 +1,31 @@
 set noloadplugins
-call v:lua.require("internal")
-
-function! s:n(lhs, rhs, args = "") abort
-  let l:tbl = empty(a:args) ? ""
-        \ : "," . (type(a:args) == v:t_string ? a:args : string(a:args))
-  exe "nn <silent>" a:lhs '<Cmd>call VSCodeNotify("' . a:rhs . '"' . l:tbl . ')<CR>'
-endfunction
-
+call my#compat#source_internal()
 " Buffer
-call s:n("<leader>bd", "workbench.action.closeActiveEditor")
-call s:n("<leader>bn", "workbench.action.nextEditor")
-call s:n("<leader>bp", "workbench.action.previousEditor")
+call my#compat#vsc_kbd("n", "<leader>bd", "workbench.action.closeActiveEditor")
+call my#compat#vsc_kbd("n", "<leader>bn", "workbench.action.nextEditor")
+call my#compat#vsc_kbd("n", "<leader>bp", "workbench.action.previousEditor")
 " Find
-call s:n("<leader>ff", "workbench.action.quickOpen")
-call s:n("<leader>fg", "workbench.view.search")
+call my#compat#vsc_kbd("n", "<leader>ff", "workbench.action.quickOpen")
+call my#compat#vsc_kbd("n", "<leader>fg", "workbench.view.search")
 " Fold
-call s:n("za", "editor.toggleFold")
-call s:n("zc", "editor.fold")
-call s:n("zo", "editor.unfold")
-call s:n("zC", "editor.foldRecursively")
-call s:n("zM", "editor.foldAll")
-call s:n("zO", "editor.unfoldRecursively")
-call s:n("zR", "editor.unfoldAll")
+call my#compat#vsc_kbd("n", "za", "editor.toggleFold")
+call my#compat#vsc_kbd("n", "zc", "editor.fold")
+call my#compat#vsc_kbd("n", "zo", "editor.unfold")
+call my#compat#vsc_kbd("n", "zC", "editor.foldRecursively")
+call my#compat#vsc_kbd("n", "zM", "editor.foldAll")
+call my#compat#vsc_kbd("n", "zO", "editor.unfoldRecursively")
+call my#compat#vsc_kbd("n", "zR", "editor.unfoldAll")
 " Git
-call s:n("<leader>gj", "workbench.action.editor.nextChange")
-call s:n("<leader>gk", "workbench.action.editor.previousChange")
+call my#compat#vsc_kbd("n", "<leader>gj", "workbench.action.editor.nextChange")
+call my#compat#vsc_kbd("n", "<leader>gk", "workbench.action.editor.previousChange")
 " Comment
-call s:n("<leader>kc", "editor.action.addCommentLine")
-call s:n("<leader>ku", "editor.action.removeCommentLine")
+call my#compat#vsc_kbd("n", "<leader>kc", "editor.action.addCommentLine")
+call my#compat#vsc_kbd("n", "<leader>ku", "editor.action.removeCommentLine")
+call my#compat#vsc_kbd("v", "<leader>kc", "editor.action.addCommentLine", [1])
+call my#compat#vsc_kbd("v", "<leader>ku", "editor.action.removeCommentLine", [1])
 " Open
-call s:n("<leader>op", "workbench.action.toggleSidebarVisibility")
-call s:n("<leader>ot", "workbench.action.terminal.new")
+call my#compat#vsc_kbd("n", "<leader>op", "workbench.action.toggleSidebarVisibility")
+call my#compat#vsc_kbd("n", "<leader>ot", "workbench.action.terminal.new")
 " LSP
-call s:n("K", "editor.action.showHover")
-call s:n("<leader>lm", "editor.action.formatDocument")
+call my#compat#vsc_kbd("n", "K", "editor.action.showHover")
+call my#compat#vsc_kbd("n", "<leader>lm", "editor.action.formatDocument")
