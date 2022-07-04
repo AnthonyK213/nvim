@@ -250,10 +250,7 @@ function M.git_push_all(arg_list)
         end
     end)
 
-    git_add:continue_with(git_commit)
-    git_commit:continue_with(git_push)
-
-    git_add:start()
+    Process.queue_all { git_add, git_commit, git_push }
 end
 
 ---Upgrade neovim.

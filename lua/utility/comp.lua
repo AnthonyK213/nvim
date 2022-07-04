@@ -269,9 +269,8 @@ local comp_table = {
             vim.notify("Start compilation.")
             local x1 = xelatex:clone()
             local x2 = xelatex:clone()
-            x1:continue_with(x2)
             x2:append_cb(tex_done_cb)
-            x1:start()
+            Process.queue_all { x1, x2 }
         elseif bib_table[tbl.opt] then
             vim.notify("Start compilation.")
             local x1 = xelatex:clone()
@@ -279,11 +278,8 @@ local comp_table = {
             ---@type Process
             local b = bib_table[tbl.opt]:clone()
             local x3 = xelatex:clone()
-            x1:continue_with(x2)
-            x2:continue_with(b)
-            b:continue_with(x3)
             x3:append_cb(tex_done_cb)
-            x1:start()
+            Process.queue_all { x1, b, x2, x3 }
         else
             lib.notify_err("Invalid argument.")
         end
