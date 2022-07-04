@@ -38,7 +38,7 @@ function! my#compat#vim_source(file) abort
 endfunction
 
 " VSCode Key binding.
-function my#compat#vsc_kbd(mode, lhs, cmd, range = [], args = v:null, block = 0) abort
+function! my#compat#vsc_kbd(mode, lhs, cmd, range = [], args = v:null, block = 0) abort
   if !(a:mode ==# "n" || a:mode ==# "v") | return | endif
   let l:opts = { "noremap": v:true, "silent": v:true }
   let l:arg = a:args == v:null ? "" : "," . (type(a:args) == v:t_string ? a:args : string(a:args))
