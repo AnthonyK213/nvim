@@ -212,7 +212,5 @@ function! my#util#git_push_all(...) abort
         \ "args": ["push", "origin", l:b_arg, "--porcelain"],
         \ "cwd": l:git_root
         \ }, function("s:git_push_cb"))
-  call l:git_add.continue_with(l:git_commit)
-  call l:git_commit.continue_with(l:git_push)
-  call l:git_add.start()
+  call my#proc#queue_all([l:git_add, l:git_commit, l:git_push])
 endfunction

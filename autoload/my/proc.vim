@@ -75,3 +75,12 @@ function! my#proc#new(path, option = {}, on_exit = v:null) abort
   call extend(l:o, s:Process)
   return l:o
 endfunction
+
+function! my#proc#queue_all(proc_list) abort
+  if !empty(a:proc_list)
+    for l:i in range(len(a:proc_list) - 1)
+      call a:proc_list[i].continue_with(a:proc_list[i + 1])
+    endfor
+    call a:proc_list[0].start()
+  endif
+endfunction
