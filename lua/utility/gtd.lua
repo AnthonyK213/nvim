@@ -7,7 +7,7 @@ local lib = require("utility.lib")
 ---@param year integer Year.
 ---@param month integer Month.
 ---@param date integer Date.
----@return string result The day of week.
+---@return string|nil result The day of week.
 local function zeller(year, month, date)
     if (month < 1 or month > 12) then
         lib.notify_err("Not a valid month.")
@@ -77,7 +77,7 @@ end
 
 ---Count down to a timestamp.
 ---@param date integer Timestamp(<YYYY-MM-DD A hh:mm>).
----@return string result Countdown information.
+---@return string|nil result Countdown information.
 local function countdown(date)
     local now = os.time()
     local ts, year, month, day, hour, minute =

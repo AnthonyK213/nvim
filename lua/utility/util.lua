@@ -109,6 +109,8 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
         elseif vim.startswith(name, "$") then
             local key = name:sub(2)
             return color_table[key]
+        else
+            return nil
         end
     end
 

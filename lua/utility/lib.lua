@@ -78,7 +78,7 @@ end
 
 ---Get current branch name.
 ---@param git_root? string Git repository root directory.
----@return string? result Current branch name.
+---@return string|nil result Current branch name.
 function M.get_git_branch(git_root)
     git_root = git_root or M.get_root(".git")
     if not git_root then return nil end
@@ -110,6 +110,8 @@ function M.get_git_branch(git_root)
             end
         end
     end
+
+    return nil
 end
 
 ---Get path of the option file (nvimrc).
@@ -140,7 +142,7 @@ function M.get_nvimrc()
 end
 
 ---Get OS type.
----@return Os
+---@return integer
 function M.get_os_type()
     local name = vim.loop.os_uname().sysname
     if name == "Linux" then
@@ -222,7 +224,7 @@ end
 ---Match URL in a string.
 ---@param str string
 ---@return boolean is_url True if the input `str` is a URL itself.
----@return string url Matched URL.
+---@return string|nil url Matched URL.
 function M.match_url(str)
     local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
     local protocols = {
@@ -311,7 +313,7 @@ end
 
 ---Split string into a utfchar iterator.
 ---@param str string String to explode.
----@return Iterator result Exploded string iterator.
+---@return function result Exploded string iterator.
 function M.str_gexplode(str)
     local str_len = #str
     local utf_end = 1
@@ -367,7 +369,7 @@ end
 
 ---Reverse a ipairs table.
 ---@param tbl table Table to reverse.
----@return table? result Reversed table if reversible.
+---@return table result Reversed table if reversible.
 function M.tbl_reverse(tbl)
     if vim.tbl_islist(tbl) then
         local tmp = {}
@@ -376,6 +378,7 @@ function M.tbl_reverse(tbl)
         end
         return tmp
     end
+    return tbl
 end
 
 ---Use `pcall()` to catch error and display it.

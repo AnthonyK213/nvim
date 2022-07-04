@@ -306,7 +306,7 @@ function M.run_or_compile(option)
         opt = option,
     }
     if comp_table[vim.bo.ft] then
-        ---@type Cmd
+        ---@type Cmd|nil
         local cmd = comp_table[vim.bo.ft](tbl)
         if cmd then cmd:run(tbl) end
     else

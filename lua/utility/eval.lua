@@ -128,7 +128,7 @@ end
 
 ---Parse a lisp chunk to a tree.
 ---@param str string Lisp chunk.
----@return table Parsed tree.
+---@return table|nil Parsed tree.
 local function lisp_tree(str)
     local tree_level = 0
     local pre_parse  = str:gsub("[%(%)]", function(s) return " "..s.." " end)
