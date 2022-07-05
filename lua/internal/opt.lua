@@ -75,7 +75,7 @@ local opt = {
 
 -- Merge custom options.
 local exists, opt_file = lib.get_nvimrc()
-if exists then
+if exists and opt_file then
     local f = io.open(opt_file)
     if f then
         local ok, result = pcall(vim.json.decode, f:read("*a"))

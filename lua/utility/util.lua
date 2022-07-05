@@ -58,7 +58,7 @@ end
 
 ---Open path or URL with system default application.
 ---The environment variables should be expanded already.
----@param obj string Path or URL to open.
+---@param obj string? Path or URL to open.
 ---@param use_local? boolean Use current file directory as cwd.
 function M.sys_open(obj, use_local)
     local cwd = use_local and lib.get_buf_dir() or vim.loop.cwd()

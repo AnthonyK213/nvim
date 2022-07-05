@@ -116,7 +116,7 @@ end
 
 ---Get path of the option file (nvimrc).
 ---@return boolean True if the option file exists.
----@return string|nil Path of the option file.
+---@return string? Path of the option file.
 function M.get_nvimrc()
     local dir_table = {
         vim.fn.stdpath("config"),
@@ -224,7 +224,7 @@ end
 ---Match URL in a string.
 ---@param str string
 ---@return boolean is_url True if the input `str` is a URL itself.
----@return string|nil url Matched URL.
+---@return string? url Matched URL.
 function M.match_url(str)
     local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
     local protocols = {

@@ -14,7 +14,7 @@ local kbd = function (desc, mode, lhs, rhs, opts)
 end
 
 ---Normal mode or Visual mode?
----@return string|nil
+---@return string?
 local get_mode = function ()
     local m = vim.api.nvim_get_mode().mode
     if m == "n" then

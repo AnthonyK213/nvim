@@ -73,7 +73,7 @@ end
 
 ---Check if line(lnum) is a commented line.
 ---@param lnum integer Line number.
----@return string result The un-commented line it is commented, else nil.
+---@return string? result The un-commented line if it is commented, else nil.
 local function is_cmt_line(lnum)
     local line = api.nvim_buf_get_lines(0, lnum - 1, lnum, true)[1]
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
