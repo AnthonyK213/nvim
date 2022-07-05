@@ -1,6 +1,20 @@
 vim.cmd[[packadd gruvbox.nvim]]
 
 
+require("gruvbox").setup {
+    undercurl = true,
+    underline = true,
+    bold = true,
+    italic = false,
+    inverse = true,
+    invert_selection = false,
+    invert_signs = false,
+    invert_tabline = false,
+    invert_intend_guides = false,
+    contrast = "soft",
+    overrides = {},
+}
+
 require("utility.util").hl_auto_update("gruvbox", {
     FloatBorder = { fg = "$cyan" },
     SpellBad = { fg = "$red", fmt = "underline" },
