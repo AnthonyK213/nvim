@@ -26,7 +26,7 @@ local function cb_run_bin(arg_tbl, cb_args)
     end
 end
 
----@class Cmd
+---@class Cmd Run/compile command.
 ---@field cmd string|table|nil command.
 ---@field cwd string? working directory.
 ---@field cb function? call_back.

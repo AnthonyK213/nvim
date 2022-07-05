@@ -124,16 +124,18 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
         callback = function ()
             local colors = color_setter()
             for k, v in pairs(hl_table) do
+                ---Highlighting definition map.
+                ---@type table<string, any>
                 local val = {
-                    fg = c(colors, v.fg),
-                    bg = c(colors, v.bg),
+                    fg = c(colors, v["fg"]),
+                    bg = c(colors, v["bg"]),
                 }
-                if v.fmt then
-                    for _, attr in ipairs(vim.split(v.fmt, ",", {
+                if v["fmt"] then
+                    for _, attr in ipairs(vim.split(v["fmt"], ",", {
                         plain = false,
                         trimempty = true
                     })) do
-                        val[vim.trim(attr)] = 1
+                        val[vim.trim(attr)] = true
                     end
                 end
                 vim.api.nvim_set_hl(0, k, val)

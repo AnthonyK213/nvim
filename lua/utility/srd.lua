@@ -3,6 +3,9 @@ local api = vim.api
 local lib = require("utility.lib")
 
 
+---Surrounding pairs.
+---@param pair_a string Left side of the surrounding.
+---@return string Right side of the surrounding.
 local function srd_pair(pair_a)
     local pairs = {
         ["("] = ")",   ["["] = "]", ["{"] = "}",
@@ -79,7 +82,12 @@ local function srd_locate(str, pair_a, pair_b, dir)
     return pair_pos
 end
 
+---Add surrounding.
+---@param mode string \"n\"|\"v\".
+---@param pair_a string Left side of the surrounding.
 function M.srd_add(mode, pair_a)
+    ---Add surrounding.
+    ---@param p_a string Left side of the surrounding.
     local add = function (p_a)
         if not p_a then return end
         local p_b = srd_pair(p_a)
@@ -108,7 +116,12 @@ function M.srd_add(mode, pair_a)
     end
 end
 
+---Change surrounding.
+---@param pair_a_new string Left side of the new surrounding.
 function M.srd_sub(pair_a_new)
+    ---Change surrounding.
+    ---@param p_a string Left side of the old surrounding.
+    ---@param p_a_n string Left side of the new surrounding.
     local sub = function (p_a, p_a_n)
         local context = lib.get_context()
         local back = context.b
