@@ -6,6 +6,15 @@ function! s:background_checker(bg_timer) abort
   if &bg != l:bg | let &bg = l:bg | endif
 endfunction
 
+" MarkdownPreviewToggle
+function! s:markdownPreviewToggle() abort
+  if exists("g:vscode") > 0
+    call VSCodeNotify("markdown.showPreviewToSide")
+  elseif exists(":MarkdownPreviewToggle")
+    MarkdownPreviewToggle
+  endif
+endfunction
+
 " Background toggle.
 function! my#compat#bg_toggle() abort
   if !g:_my_theme_switchable
@@ -28,6 +37,22 @@ endfunction
 " Load module `internal`.
 function my#compat#load_internal() abort
   call my#compat#vim_source('viml/internal/init')
+endfunction
+
+" Key bindings for markdown.
+function my#compat#md_kbd() abort
+  for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
+    for s:mod_item in ['n', 'v']
+      exe s:mod_item . 'n' '<buffer><silent> <M-' . s:key . '>'
+            \ ':call my#srd#sur_add("' . s:mod_item . '","' . s:val . '")<CR>'
+    endfor
+  endfor
+  nnoremap <buffer><silent> <F5> <Cmd>PresentingStart<CR>
+  call my#util#set_keymap("n", "<leader>mt",
+        \ function("s:markdownPreviewToggle"), {
+          \ "noremap": 1,
+          \ "silent": 1,
+          \ })
 endfunction
 
 " Mouse toggle.
@@ -88,14 +113,14 @@ function! my#compat#stdpath(what, nvim = 1) abort
   endif
   if has("unix")
     let l:stdpath = {
-        \ "config" : a:nvim ? expand("$HOME/.config/nvim") : expand("$HOME"),
-        \ "data" : a:nvim ? expand("$HOME/.local/share/nvim") : expand("$HOME/.vim")
-        \ }
+          \ "config" : a:nvim ? expand("$HOME/.config/nvim") : expand("$HOME"),
+          \ "data" : a:nvim ? expand("$HOME/.local/share/nvim") : expand("$HOME/.vim")
+          \ }
   elseif has("win32")
     let l:stdpath = {
-        \ "config" : a:nvim ? expand("$LOCALAPPDATA\\nvim") : expand("$HOME"),
-        \ "data" : a:nvim ? expand("$LOCALAPPDATA\\nvim-data") : expand("$HOME\\vimfiles")
-        \ }
+          \ "config" : a:nvim ? expand("$LOCALAPPDATA\\nvim") : expand("$HOME"),
+          \ "data" : a:nvim ? expand("$LOCALAPPDATA\\nvim-data") : expand("$HOME\\vimfiles")
+          \ }
   else
     echoerr "OS is not supported"
     return
