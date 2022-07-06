@@ -4,11 +4,11 @@ vim.wo.linebreak = false
 vim.b.table_mode_corner = "|"
 
 local srd_table = {
-    P = {"`", "\\vmarkdown(Code|TSLiteral)"},
-    I = {"*", "\\vmarkdown(Italic|TSEmphasis)"},
-    B = {"**", "\\vmarkdown(Bold|TSStrong)"},
-    M = {"***", "markdownBoldItalic"},
-    U = {"<u>", "htmlUnderline"}
+    P = {"`", [[\v(markdown|Vimwiki)(Code|TSLiteral)]]},
+    I = {"*", [[\v(markdown|Vimwiki)(Italic|TSEmphasis)]]},
+    B = {"**", [[\v(markdown|Vimwiki)(Bold|TSStrong)]]},
+    M = {"***", [[\v(markdown|Vimwiki)BoldItalic]]},
+    U = {"<u>", [[\v(html|Vimwiki)Underline]]}
 }
 local _opt = { noremap = true, silent = true, buffer = true }
 for key, val in pairs(srd_table) do
