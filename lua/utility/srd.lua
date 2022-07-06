@@ -84,7 +84,7 @@ end
 
 ---Add surrounding.
 ---@param mode string \"n\"|\"v\".
----@param pair_a string Left side of the surrounding.
+---@param pair_a? string Left side of the surrounding.
 function M.srd_add(mode, pair_a)
     ---Add surrounding.
     ---@param p_a string Left side of the surrounding.
@@ -94,9 +94,9 @@ function M.srd_add(mode, pair_a)
 
         if mode == "n" then
             local word, s, e = lib.get_word()
-            local line = api.nvim_get_current_line()
-            local line_new = line:sub(1, s)..p_a..word..p_b..line:sub(e + 1)
-            api.nvim_set_current_line(line_new)
+            local line, col = unpack(api.nvim_win_get_cursor(0))
+            api.nvim_buf_set_text(0, line - 1, s, line - 1, e, { p_a..word..p_b })
+            api.nvim_win_set_cursor(0, { line, col + #p_a })
         elseif mode == "v" then
             local stt_pos = api.nvim_buf_get_mark(0, "<")
             local end_pos = api.nvim_buf_get_mark(0, ">")
@@ -117,55 +117,70 @@ function M.srd_add(mode, pair_a)
 end
 
 ---Change surrounding.
----@param pair_a_new string Left side of the new surrounding.
-function M.srd_sub(pair_a_new)
+---@param pair_a_new? string Left side of the new surrounding.
+---@param pair_a_old? string Left side of the old surrounding.
+function M.srd_sub(pair_a_new, pair_a_old)
     ---Change surrounding.
-    ---@param p_a string Left side of the old surrounding.
     ---@param p_a_n string Left side of the new surrounding.
-    local sub = function (p_a, p_a_n)
+    ---@param p_a_o string Left side of the old surrounding.
+    local sub = function (p_a_n, p_a_o)
         local context = lib.get_context()
         local back = context.b
         local fore = context.f
-        local p_b = srd_pair(p_a)
+        local p_b_o = srd_pair(p_a_o)
         local p_b_n = srd_pair(p_a_n)
         local back_new, fore_new
+        local pos = api.nvim_win_get_cursor(0)
 
-        if p_a == p_b then
-            local pat = vim.pesc(p_a)
+        if p_a_o == p_b_o then
+            local pat = vim.pesc(p_a_o)
             if back:match("^.*"..pat)
                 and fore:match(pat) then
                 back_new = back:gsub("^(.*)"..pat, "%1"..p_a_n, 1)
                 fore_new = fore:gsub(pat, p_b_n, 1)
             end
         else
-            local pos_a = srd_locate(back, p_a, p_b, -1)
-            local pos_b = srd_locate(fore, p_a, p_b, 1)
+            local pos_a = srd_locate(back, p_a_o, p_b_o, -1)
+            local pos_b = srd_locate(fore, p_a_o, p_b_o, 1)
             if pos_a and pos_b then
                 back_new = back:sub(1, pos_a - 1)
                 ..p_a_n
-                ..back:sub(pos_a + p_a:len())
+                ..back:sub(pos_a + p_a_o:len())
                 fore_new = fore:sub(1, pos_b - 1)
                 ..p_b_n
-                ..fore:sub(pos_b + p_b:len())
+                ..fore:sub(pos_b + p_b_o:len())
             end
         end
 
         if back_new and fore_new then
-            vim.api.nvim_set_current_line(back_new..fore_new)
+            api.nvim_set_current_line(back_new..fore_new)
+            pos[2] = pos[2] + #p_a_n - #p_a_o
+            api.nvim_win_set_cursor(0, pos)
         end
     end
 
-    vim.ui.input("Surrounding delete: ", function (pair_a)
-        if not pair_a then return end
+    if pair_a_old then
         if pair_a_new then
-            sub(pair_a, pair_a_new)
+            sub(pair_a_new, pair_a_old)
         else
             vim.ui.input("Change to: ", function (input)
                 if not input then return end
-                sub(pair_a, input)
+                sub(input, pair_a_old)
             end)
         end
-    end)
+    else
+        vim.ui.input("Surrounding delete: ", function (pair_a)
+            if not pair_a then return end
+            if pair_a_new then
+                sub(pair_a_new, pair_a)
+            else
+                vim.ui.input("Change to: ", function (input)
+                    if not input then return end
+                    sub(input, pair_a)
+                end)
+            end
+        end)
+    end
 end
 
 

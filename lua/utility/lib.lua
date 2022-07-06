@@ -186,8 +186,8 @@ end
 
 ---Get the word and its position under the cursor.
 ---@return string word Word under the cursor.
----@return integer start Start index of the line (0-based, included).
----@return integer end End index of the line (0-based, not included).
+---@return integer startColumn Start index of the line (0-based, included).
+---@return integer endColumn End index of the line (0-based, not included).
 function M.get_word()
     local context = M.get_context()
     local b = context.b
