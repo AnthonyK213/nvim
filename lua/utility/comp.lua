@@ -27,17 +27,17 @@ local function cb_run_bin(arg_tbl, cb_args)
 end
 
 ---@class Cmd Run/compile command.
----@field cmd string|table|nil command.
----@field cwd string? working directory.
----@field cb function? call_back.
+---@field cmd? string|table command.
+---@field cwd? string working directory.
+---@field cb? function call_back.
 local Cmd = {}
 
 Cmd.__index = Cmd
 
 ---Constructor.
----@param cmd string|table|nil
----@param cwd string?
----@param cb function?
+---@param cmd? string|table
+---@param cwd? string
+---@param cb? function
 ---@return Cmd
 function Cmd.new(cmd, cwd, cb)
     local o = {

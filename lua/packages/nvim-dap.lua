@@ -21,7 +21,7 @@ A.__index = A
 ---@param typename string
 ---@param option table
 ---@param configuration table[]
----@param installer function?
+---@param installer? function
 ---@return A
 function A.new(filetype, typename, option, configuration, installer)
     local o = {

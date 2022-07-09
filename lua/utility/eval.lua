@@ -128,7 +128,7 @@ end
 
 ---Parse a lisp chunk to a tree.
 ---@param str string Lisp chunk.
----@return table|nil Parsed tree.
+---@return table? Parsed tree.
 local function lisp_tree(str)
     local tree_level = 0
     local pre_parse  = str:gsub("[%(%)]", function(s) return " "..s.." " end)
@@ -169,12 +169,12 @@ local function lisp_str_eval(str)
     return lisp_tree_eval(lisp_tree(str))
 end
 
----Evaluate Lua chunk surrounded by `.
+---Evaluate Lua chunk surrounded by **backquote**.
 function M.lua_eval()
     text_eval(vim.fn.luaeval)
 end
 
----Evaluate Lisp chunk(math) surrounded by `.
+---Evaluate Lisp chunk(math) surrounded by **backquote**.
 function M.lisp_eval()
     text_eval(lisp_str_eval)
 end

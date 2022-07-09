@@ -32,7 +32,7 @@ end
 
 ---Check if executable exists.
 ---@param exe string Executable name.
----@return boolean
+---@return boolean is_executable True if `exe` is a valid executable.
 function M.executable(exe)
     if vim.fn.executable(exe) == 1 then return true end
     M.notify_err("Executable "..exe.." is not found.")
@@ -41,16 +41,16 @@ end
 
 ---Escape the termianl codes then feed keys to nvim.
 ---@see vim.api.nvim_feedkeys
----@param keys string
----@param mode string
----@param escape_ks boolean
+---@param keys string To be typed.
+---@param mode string Behavior flags, see **feedkeys()**.
+---@param escape_ks boolean If true, escape K_SPECIAL bytes in `keys`.
 function M.feedkeys(keys, mode, escape_ks)
     local k = vim.api.nvim_replace_termcodes(keys, true, false, true)
     vim.api.nvim_feedkeys(k, mode, escape_ks)
 end
 
 ---Get the directory of the buffer with bufnr.
----@param bufnr integer? Buffer number.
+---@param bufnr? integer Buffer number, default 0 (current buffer).
 ---@return string buf_dir Buffer directory.
 function M.get_buf_dir(bufnr)
     bufnr = bufnr or 0
@@ -78,7 +78,7 @@ end
 
 ---Get current branch name.
 ---@param git_root? string Git repository root directory.
----@return string|nil result Current branch name.
+---@return string? result Current branch name.
 function M.get_git_branch(git_root)
     git_root = git_root or M.get_root(".git")
     if not git_root then return nil end
@@ -208,21 +208,21 @@ function M.get_word()
     return word, #b - #p_a, #b + #p_b
 end
 
----Check if current filetype has `filetype`.
----@param filetype string
----@return boolean result
+---Check if current **filetype** has `filetype`.
+---@param filetype string File type to be checked.
+---@return boolean result True if current **filetype** has `filetype`.
 function M.has_filetype(filetype)
     return vim.tbl_contains(vim.split(vim.bo.ft, "%."), filetype)
 end
 
----Check if os is `Windows`.
----@return boolean result
+---Check if os is **Windows**.
+---@return boolean result True if current os is **Windows**.
 function M.has_windows()
     return M.get_os_type() == M.Os.WINDOWS
 end
 
 ---Match URL in a string.
----@param str string
+---@param str string String to be matched.
 ---@return boolean is_url True if the input `str` is a URL itself.
 ---@return string? url Matched URL.
 function M.match_url(str)
@@ -255,7 +255,7 @@ end
 ---Check if file/directory exists.
 ---@param path string File/directory path.
 ---@param cwd? string The working directory.
----@return boolean
+---@return boolean True if path exists.
 function M.path_exists(path, cwd)
     local is_rel = true
     path = vim.fs.normalize(path)
@@ -381,10 +381,10 @@ function M.tbl_reverse(tbl)
     return tbl
 end
 
----Use `pcall()` to catch error and display it.
+---Use **pcall()** to catch error and display it.
 ---@param func function The function to test.
 ---@param ... any Function arguments.
----@return boolean ok
+---@return boolean ok True if error free.
 function M.try(func, ...)
     local ok, err = pcall(func, ...)
     if not ok then
@@ -394,7 +394,7 @@ function M.try(func, ...)
     return ok
 end
 
----Escape vim regex(magic) special characters in a pattern by `backslash`.
+---Escape vim regex(magic) special characters in a pattern by **backslash**.
 ---@param str string String of vim regex to escape.
 ---@return string result Escaped vim regex.
 function M.vim_pesc(str)

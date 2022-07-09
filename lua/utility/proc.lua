@@ -22,8 +22,8 @@ Process.__index = Process
 
 ---Constructor.
 ---@param path string
----@param option table?
----@param on_exit function?
+---@param option? table
+---@param on_exit? function
 ---@return Process
 function Process.new(path, option, on_exit)
     local o = {
