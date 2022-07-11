@@ -5,46 +5,48 @@ vim.filetype.add {
     },
     extension = {
         lua = function ()
-            vim.bo.tabstop = 4
-            vim.bo.shiftwidth = 4
-            vim.bo.softtabstop = 4
-            return "lua"
+            return "lua", function (bufnr)
+                vim.bo[bufnr].tabstop = 4
+                vim.bo[bufnr].shiftwidth = 4
+                vim.bo[bufnr].softtabstop = 4
+            end
         end,
-        markdown = function (_, bufnr)
-            vim.keymap.set("n", "<Tab>", "za", {
-                noremap = true,
-                silent = true,
-                buffer = bufnr
-            })
-            vim.keymap.set("n", "<S-Tab>", "zA", {
-                noremap = true,
-                silent = true,
-                buffer = bufnr
-            })
-            require("utility.util").new_keymap("n", "<CR>", function (fallback)
-                if vim.fn.foldclosed(".") >= 0 then
-                    vim.cmd[[normal! za]]
-                else
-                    fallback()
-                end
-            end, {
-                noremap = true,
-                silent = true,
-                buffer = bufnr
-            })
-            return "vimwiki.markdown"
+        markdown = function ()
+            return "vimwiki.markdown", function (bufnr)
+                require("utility.util").new_keymap("n", "<Tab>", function (fallback)
+                    if require("utility.syn").match_here("Weblink") then
+                        fallback()
+                    elseif vim.fn.foldlevel(".") > 0 then
+                        vim.cmd[[normal! za]]
+                    end
+                end, { noremap = true, silent = true, buffer = bufnr })
+                vim.keymap.set("n", "<S-Tab>", "zA", {
+                    noremap = true,
+                    silent = true,
+                    buffer = bufnr
+                })
+                require("utility.util").new_keymap("n", "<CR>", function (fallback)
+                    if vim.fn.foldclosed(".") >= 0 then
+                        vim.cmd[[normal! za]]
+                    else
+                        fallback()
+                    end
+                end, { noremap = true, silent = true, buffer = bufnr })
+            end
         end,
         rs = function ()
-            vim.bo.tabstop = 4
-            vim.bo.shiftwidth = 4
-            vim.bo.softtabstop = 4
-            return "rust"
+            return "rust", function (bufnr)
+                vim.bo[bufnr].tabstop = 4
+                vim.bo[bufnr].shiftwidth = 4
+                vim.bo[bufnr].softtabstop = 4
+            end
         end,
         yaml = function ()
-            vim.bo.textwidth = 0
-            vim.wo.wrap = false
-            vim.wo.linebreak = false
-            return "yaml"
+            return "yaml", function (bufnr)
+                vim.bo[bufnr].textwidth = 0
+                vim.wo.wrap = false
+                vim.wo.linebreak = false
+            end
         end
     }
 }

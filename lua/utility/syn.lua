@@ -117,7 +117,7 @@ end
 
 ---Match syntax name.
 ---@param pattern string Matching pattern (vim.regex).
----@return boolean matched
+---@return boolean matched True if matched.
 function Syntax:match(pattern)
     local re = vim.regex(pattern)
 
@@ -171,5 +171,14 @@ function Syntax:show()
         pad_right = 4
     })
 end
+
+---Match syntax name at cursor.
+---@param pattern string Matching pattern (vim.regex).
+---@return boolean matched True if matched.
+function Syntax.match_here(pattern)
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return Syntax.new(row, col):match(pattern)
+end
+
 
 return Syntax

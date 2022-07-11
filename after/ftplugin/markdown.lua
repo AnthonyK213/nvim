@@ -19,8 +19,7 @@ for key, val in pairs(srd_table) do
         elseif vim.tbl_contains({ "v", "V", "" }, m) then mode = "v"
         else return end
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", false, true, true), "nx", false)
-        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-        if require("utility.syn").new(row, col):match(val[2]) then
+        if require("utility.syn").match_here(val[2]) then
             require("utility.srd").srd_sub("", val[1])
         else
             require("utility.srd").srd_add(mode, val[1])
