@@ -127,10 +127,10 @@ for [s:key, s:val] in items(s:web_list)
   exe 'vn <silent> <leader>h' . s:key ':<C-U>call my#util#search_web("v", "' . s:val . '")<CR>'
 endfor
 " Surround
-nn <silent> <leader>sa :call my#srd#sur_add('n')<CR>
-vn <silent> <leader>sa :<C-U>call my#srd#sur_add('v')<CR>
-nn <silent> <leader>sd :call my#srd#sur_sub('')<CR>
-nn <silent> <leader>sc :call my#srd#sur_sub()<CR>
+nn <silent> <leader>sa :call my#srd#srd_add('n')<CR>
+vn <silent> <leader>sa :<C-U>call my#srd#srd_add('v')<CR>
+nn <silent> <leader>sd :call my#srd#srd_sub('')<CR>
+nn <silent> <leader>sc :call my#srd#srd_sub()<CR>
 " Comment
 nn <silent> <leader>kc :call my#cmt#cmt_add_norm()<CR>
 vn <silent> <leader>kc :<C-U>call my#cmt#cmt_add_vis()<CR>

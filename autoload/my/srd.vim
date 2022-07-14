@@ -1,5 +1,5 @@
 "" Surround
-function! s:sur_pair(pair_a) abort
+function! s:srd_pair(pair_a) abort
   let l:pairs = {
         \ "(": ")", "[": "]", "{": "}",
         \ "<": ">", " ": " ",
@@ -63,9 +63,9 @@ function! s:srd_locate(str, pair_a, pair_b, dir) abort
   return -1
 endfunction
 
-function! my#srd#sur_add(mode, ...) abort
+function! my#srd#srd_add(mode, ...) abort
   let l:pair_a = a:0 ? a:1 : input("Surrounding add: ")
-  let l:pair_b = s:sur_pair(l:pair_a)
+  let l:pair_b = s:srd_pair(l:pair_a)
   if a:mode ==# 'n'
     let [l:word, l:s, l:e] = my#lib#get_word()
     let l:line = getline('.')
@@ -82,13 +82,13 @@ function! my#srd#sur_add(mode, ...) abort
   endif
 endfunction
 
-function! my#srd#sur_sub(...) abort
+function! my#srd#srd_sub(...) abort
   let l:back = my#lib#get_context()['b']
   let l:fore = my#lib#get_context()['f']
   let l:pair_a = input("Surrounding delete: ")
-  let l:pair_b = s:sur_pair(l:pair_a)
+  let l:pair_b = s:srd_pair(l:pair_a)
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
-  let l:pair_b_new = s:sur_pair(l:pair_a_new)
+  let l:pair_b_new = s:srd_pair(l:pair_a_new)
   if l:pair_a ==# l:pair_b
     let l:pat = my#lib#vim_reg_esc(l:pair_a)
     if l:back =~# '\v.*\zs' . l:pat && l:fore =~# '\v' . l:pat
