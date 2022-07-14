@@ -68,7 +68,7 @@ function! s:subsrc_pairs_backs() abort
   if s:subsrc_is_surrounded(['()', '[]', '{}', '""', "''", "`", '**', '<>'])
     return g:subsrc_dir_r . "\<BS>\<BS>"
   elseif l:context["b"] =~ '\v\{\s$' && l:context["f"] =~ '\v^\s\}'
-    return "\<C-\>\<C-O>_diB"
+    return "\<C-\>\<C-O>\"_diB"
   else
     return "\<BS>"
   end
@@ -79,7 +79,7 @@ function! s:subsrc_pairs_supbs() abort
   let l:back = l:context["b"]
   let l:fore = l:context["f"]
   if l:back =~ '\v\{\s$' && l:fore =~ '\v^\s\}'
-    return "\<C-g>U\<Left>\<C-\>\<C-o>2x"
+    return "\<C-G>U\<Left>\<C-\>\<C-O>2x"
   endif
   let l:res = [0, 0, 0]
   for [l:key, l:val] in items(s:subsrc_pairs_dict)
@@ -94,9 +94,9 @@ function! s:subsrc_pairs_supbs() abort
     return repeat("\<C-G>U\<Left>", l:res[1]) .
           \ "\<C-\>\<C-O>" . (l:res[1] + l:res[2]) . "x"
   elseif l:back =~ '\v\{\s*$' && l:fore =~ '\v^\s*\}'
-    return "\<C-\>\<C-O>_diB"
+    return "\<C-\>\<C-O>\"_diB"
   else
-    return "\<C-\>\<C-O>_db"
+    return "\<C-\>\<C-O>\"_db"
   endif
 endfunction
 
