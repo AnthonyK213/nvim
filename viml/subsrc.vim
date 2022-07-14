@@ -27,10 +27,10 @@ nn  <silent> <leader>op :20Lexplore<CR>
 
 " Pairs
 "" Directional operation which won't break the history.
-let g:subsrc_dir_l = "\<C-g>U\<Left>"
-let g:subsrc_dir_d = "\<C-g>U\<Down>"
-let g:subsrc_dir_u = "\<C-g>U\<Up>"
-let g:subsrc_dir_r = "\<C-g>U\<Right>"
+let g:subsrc_dir_l = "\<C-G>U\<Left>"
+let g:subsrc_dir_d = "\<C-G>U\<Down>"
+let g:subsrc_dir_u = "\<C-G>U\<Up>"
+let g:subsrc_dir_r = "\<C-G>U\<Right>"
 
 let s:subsrc_pairs_dict = {
       \ "("  : ")",
@@ -100,9 +100,9 @@ function! s:subsrc_pairs_supbs() abort
   endif
 endfunction
 
-ino ( ()<C-g>U<Left>
-ino [ []<C-g>U<Left>
-ino { {}<C-g>U<Left>
+ino ( ()<C-G>U<Left>
+ino [ []<C-G>U<Left>
+ino { {}<C-G>U<Left>
 ino <expr> ) <SID>subsrc_get_context()['n'] ==# ")" ? g:subsrc_dir_r : ")"
 ino <expr> ] <SID>subsrc_get_context()['n'] ==# "]" ? g:subsrc_dir_r : "]"
 ino <expr> } <SID>subsrc_get_context()['n'] ==# "}" ? g:subsrc_dir_r : "}"
@@ -130,15 +130,15 @@ ino <expr> <M-U> "<u></u>" . repeat(g:subsrc_dir_l, 4)
 
 " Completion
 ino <silent><expr> <CR>
-      \ pumvisible() ? "\<C-y>" :
+      \ pumvisible() ? "\<C-Y>" :
       \ <SID>subsrc_is_surrounded(['()', '[]', '{}']) ?
-      \ "\<CR>\<C-\>\<C-o>O" :
+      \ "\<CR>\<C-\>\<C-O>O" :
       \ "\<CR>"
 ino <silent><expr> <TAB>
       \ or(<SID>subsrc_get_context()['p'] =~ '\v[a-z_\u4e00-\u9fa5]', pumvisible()) ?
-      \ "\<C-n>" : <SID>subsrc_get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-\>\<C-o>>>" . repeat(g:subsrc_dir_r, &ts) : "\<TAB>"
-ino <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ "\<C-N>" : <SID>subsrc_get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-\>\<C-O>>>" . repeat(g:subsrc_dir_r, &ts) : "\<TAB>"
+ino <silent><expr> <S-TAB> pumvisible() ? "\<C-P>" : "\<C-H>"
 
 
 " Navigate windows
