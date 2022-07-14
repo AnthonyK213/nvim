@@ -26,7 +26,8 @@ vim.filetype.add {
                     buffer = bufnr
                 })
                 require("utility.util").new_keymap("n", "<CR>", function (fallback)
-                    if vim.fn.foldclosed(".") >= 0 then
+                    if vim.fn.foldclosed(".") >= 0
+                        or require("utility.syn").match_here("Header") then
                         vim.cmd[[normal! za]]
                     else
                         fallback()
