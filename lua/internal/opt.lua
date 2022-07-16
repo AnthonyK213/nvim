@@ -60,7 +60,7 @@ local opt = {
         vimls = false,
     },
     ts = {
-        ensure = { "c", "lua" },
+        ensure = {},
         hi_disable = {},
     },
     dap = {
