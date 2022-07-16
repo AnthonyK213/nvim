@@ -110,7 +110,7 @@ function M.srd_add(mode, pair_a)
     if pair_a then
         add(pair_a)
     else
-        vim.ui.input("Surrounding add: ", function (input)
+        vim.ui.input({ prompt = "Surrounding add: " }, function (input)
             add(input)
         end)
     end
@@ -163,18 +163,18 @@ function M.srd_sub(pair_a_new, pair_a_old)
         if pair_a_new then
             sub(pair_a_new, pair_a_old)
         else
-            vim.ui.input("Change to: ", function (input)
+            vim.ui.input({ prompt = "Change to: " }, function (input)
                 if not input then return end
                 sub(input, pair_a_old)
             end)
         end
     else
-        vim.ui.input("Surrounding delete: ", function (pair_a)
+        vim.ui.input({ prompt = "Surrounding delete: " }, function (pair_a)
             if not pair_a then return end
             if pair_a_new then
                 sub(pair_a_new, pair_a)
             else
-                vim.ui.input("Change to: ", function (input)
+                vim.ui.input({ prompt = "Change to: " }, function (input)
                     if not input then return end
                     sub(input, pair_a)
                 end)
