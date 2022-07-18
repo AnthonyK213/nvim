@@ -64,7 +64,7 @@ local function setup_server(server, option)
     option = option or false
 
     if (type(option) == "boolean" and option)
-        or (type(option) == "table" and option.enable == true) then
+        or (type(option) == "table" and option.load == true) then
 
         local opts = {
             capabilities = capabilities,
