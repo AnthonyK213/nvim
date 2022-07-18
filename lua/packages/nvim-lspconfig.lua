@@ -38,29 +38,23 @@ end
 require("nvim-lsp-installer").setup {}
 
 -- LSP options.
-local server_opts = {
-    sumneko_lua = function (opts)
-        local runtime_path = vim.split(package.path, ";")
-        table.insert(runtime_path, "lua/?.lua")
-        table.insert(runtime_path, "lua/?/init.lua")
-        opts.settings = {
-            Lua = {
-                runtime = {
-                    version = "LuaJIT",
-                    path = runtime_path,
-                },
-                diagnostics = {
-                    globals = { "vim" },
-                },
-                workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                },
-                telemetry = {
-                    enable = false,
-                }
+local server_settings = {
+    sumneko_lua = {
+        Lua = {
+            runtime = {
+                version = "LuaJIT",
             },
-        }
-    end
+            diagnostics = {
+                globals = { "vim" },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            telemetry = {
+                enable = false,
+            }
+        },
+    },
 }
 
 ---Setup servers via nvim-lspconfig.
@@ -77,9 +71,12 @@ local function setup_server(server, option)
             on_attach = custom_attach
         }
 
-        if server_opts[server] then
-            server_opts[server](opts)
+        local option_settings
+        if type(option) == "table" and type(option.settings) == "table" then
+            option_settings = option.settings
         end
+
+        opts.settings = option_settings or server_settings[server]
 
         lspconfig[server].setup(opts)
     end
