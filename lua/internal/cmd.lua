@@ -39,7 +39,7 @@ cmd("NvimUpgrade", function (tbl)
     require("utility.util").nvim_upgrade(arg)
 end, {
 nargs = "?",
-complete = function () return { "stable", "nigthly" } end,
+complete = function () return { "stable", "nightly" } end,
 desc = "Neovim upgrade"
 })
 
