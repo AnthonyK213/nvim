@@ -5,7 +5,7 @@ local lib = require("utility.lib")
 
 ---Surrounding pairs.
 ---@param pair_a string Left side of the surrounding.
----@return string Right side of the surrounding.
+---@return string pair_b Right side of the surrounding.
 local function srd_pair(pair_a)
     local pairs = {
         ["("] = ")",   ["["] = "]", ["{"] = "}",
@@ -28,8 +28,8 @@ end
 ---Collect pairs in hashtable `tab_pair`.
 ---If pair_a then -1, if pair_b then 1.
 ---@param str string
----@param pair_a string
----@param pair_b string
+---@param pair_a string Left side of the surrounding.
+---@param pair_b string Right side of the surrounding.
 ---@return table<string, integer> result
 local function srd_collect(str, pair_a, pair_b)
     local tab_pair = {}
