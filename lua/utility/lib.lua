@@ -115,8 +115,8 @@ function M.get_git_branch(git_root)
 end
 
 ---Get path of the option file (nvimrc).
----@return boolean True if the option file exists.
----@return string? Path of the option file.
+---@return boolean exists True if the option file exists.
+---@return string? path Path of the option file.
 function M.get_nvimrc()
     local dir_table = {
         vim.fn.stdpath("config"),
@@ -142,7 +142,7 @@ function M.get_nvimrc()
 end
 
 ---Get OS type.
----@return integer
+---@return integer os_type_enum Type of current operating system.
 function M.get_os_type()
     local name = vim.loop.os_uname().sysname
     if name == "Linux" then
@@ -186,8 +186,8 @@ end
 
 ---Get the word and its position under the cursor.
 ---@return string word Word under the cursor.
----@return integer startColumn Start index of the line (0-based, included).
----@return integer endColumn End index of the line (0-based, not included).
+---@return integer start_column Start index of the line (0-based, included).
+---@return integer end_column End index of the line (0-based, not included).
 function M.get_word()
     local context = M.get_context()
     local b = context.b
@@ -255,7 +255,7 @@ end
 ---Check if file/directory exists.
 ---@param path string File/directory path.
 ---@param cwd? string The working directory.
----@return boolean True if path exists.
+---@return boolean exists True if path exists.
 function M.path_exists(path, cwd)
     local is_rel = true
     path = vim.fs.normalize(path)
