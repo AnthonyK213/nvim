@@ -88,9 +88,9 @@ function Process:start()
 end
 
 ---Append callback function.
----@param cb function Callback function.
-function Process:append_cb(cb)
-    table.insert(self.extra_cb, cb)
+---@param callback function Callback function.
+function Process:append_cb(callback)
+    table.insert(self.extra_cb, callback)
 end
 
 ---Continue with a process.
@@ -112,6 +112,21 @@ function Process.queue_all(proc_list)
         end
         proc_list[1]:start()
     end
+end
+
+---Await the task.
+function Process:await()
+    local _co = coroutine.running()
+    if not _co then
+        error("Process must await in an async block.")
+    end
+    self:append_cb(function(_, code, _)
+        if code == 0 then
+            coroutine.resume(_co)
+        end
+    end)
+    self:start()
+    coroutine.yield()
 end
 
 

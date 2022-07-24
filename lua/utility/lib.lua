@@ -11,6 +11,13 @@ M.Os = {
     MACOS = 3
 }
 
+---Start an async block.
+---@param async_block function Async block to run.
+function M.async(async_block)
+    local _co = coroutine.create(async_block)
+    coroutine.resume(_co)
+end
+
 ---Create a below right split window.
 ---@param height number Window height.
 function M.belowright_split(height)

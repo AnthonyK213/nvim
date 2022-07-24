@@ -25,34 +25,28 @@ function Task:append_cb(callback)
 end
 
 ---Start the task.
+---@return boolean ok True if the thread starts successfully.
 function Task:start()
-    return vim.loop.new_work(self.action, function (result)
+    return vim.loop.new_work(self.action, vim.schedule_wrap(function (result)
         for _, f in ipairs(self.callbacks) do
             if type(f) == "function" then
                 f(result)
             end
         end
-    end):queue()
-end
-
----Async block.
----@param async_block function
-function Task.async(async_block)
-    local aco = coroutine.create(async_block)
-    coroutine.resume(aco)
+    end)):queue()
 end
 
 ---Await the task.
 ---@return any
 function Task:await()
     local result
-    local co = coroutine.running()
-    if not co then
+    local _co = coroutine.running()
+    if not _co then
         error("Task must await in an async block.")
     end
     self:append_cb(function(r)
         result = r
-        coroutine.resume(co)
+        coroutine.resume(_co)
     end)
     if self:start() then
         coroutine.yield()
