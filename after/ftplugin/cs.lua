@@ -1,6 +1,6 @@
 local lib = require("utility.lib")
 local new_keymap = require("utility.util").new_keymap
-local buf_handle = vim.api.nvim_get_current_buf()
+local bufnr = vim.api.nvim_get_current_buf()
 
 vim.bo.tabstop = 4
 vim.bo.shiftwidth = 4
@@ -13,5 +13,5 @@ vim.defer_fn(function ()
         else
             fallback()
         end
-    end, { noremap = true, silent = true, buffer = buf_handle })
+    end, { noremap = true, silent = true, buffer = bufnr })
 end, 500)

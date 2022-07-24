@@ -148,8 +148,9 @@ end
 ---@param mode string Mode short-name.
 ---@param lhs string Left-hand-side of the mapping.
 ---@param new_rhs function A function passed with argument `fallback`.
----@param opts table<string, boolean|integer> Optional parameters map.
+---@param opts? table<string, boolean|integer> Optional parameters map.
 function M.new_keymap(mode, lhs, new_rhs, opts)
+    opts = opts or {}
     local kbd_table = opts.buffer
     and vim.api.nvim_buf_get_keymap(opts.buffer, mode)
     or vim.api.nvim_get_keymap(mode)
