@@ -115,18 +115,22 @@ function Process.queue_all(proc_list)
 end
 
 ---Await the task.
+---@return integer code
+---@return integer signal
 function Process:await()
+    local _c, _s
     local _co = coroutine.running()
     if not _co then
         error("Process must await in an async block.")
     end
-    self:append_cb(function(_, code, _)
-        if code == 0 then
-            coroutine.resume(_co)
-        end
+    self:append_cb(function(_, code, signal)
+        _c = code
+        _s = signal
+        coroutine.resume(_co)
     end)
     self:start()
     coroutine.yield()
+    return _c, _s
 end
 
 

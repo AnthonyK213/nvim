@@ -306,7 +306,7 @@ function M.nvim_upgrade(channel)
 
     local use_proxy = type(proxy) == "string"
 
-    local dl_handle, dl_exec, dl_args, ex_exec, ex_args
+    local dl_exec, dl_args, ex_exec, ex_args
     if lib.has_windows() then
         local dl_cmd = "Invoke-WebRequest"
         .." -Uri "..source
@@ -356,29 +356,27 @@ function M.nvim_upgrade(channel)
         return
     end
 
-    local extract = function ()
-        local ex_handle
-        ex_handle = vim.loop.spawn(ex_exec, {
-            args = ex_args
-        }, vim.schedule_wrap(function ()
-            nvim_path:rm { recursive = true }
-            bin_path:joinpath(archive:match("^(.-)%..+$")):rename {
-                new_name = nvim_path.filename
-            }
-            archive_path:rm()
-            print("Neovim has been upgrade to "..channel.." channel.")
-            ex_handle:close()
-        end))
-    end
+    local download = Process.new(dl_exec, { args = dl_args })
+    local extract = Process.new(ex_exec, { args = ex_args })
 
-    print("Downloading...")
-    dl_handle = vim.loop.spawn(dl_exec, {
-        args = dl_args
-    }, vim.schedule_wrap(function ()
-        print("Package downloaded. Installing...")
-        extract()
-        dl_handle:close()
-    end))
+    lib.async(function ()
+        vim.notify("Downloading...")
+        if download:await() ~= 0 then
+            lib.notify_err(table.concat(download.standard_output))
+            return
+        end
+        vim.notify("Package downloaded. Installing...")
+        if extract:await() ~= 0 then
+            lib.notify_err(table.concat(extract.standard_output))
+            return
+        end
+        nvim_path:rm { recursive = true }
+        bin_path:joinpath(archive:match("^(.-)%..+$")):rename {
+            new_name = nvim_path.filename
+        }
+        archive_path:rm()
+        vim.notify("Neovim has been upgraded to "..channel.." channel.")
+    end)
 end
 
 
