@@ -1,6 +1,7 @@
 local M = {}
 local lib = require("utility.lib")
 local Process = require("utility.proc")
+local Task = require("utility.task")
 
 
 ---Open terminal and launch shell.
@@ -375,6 +376,7 @@ function M.nvim_upgrade(channel)
             new_name = nvim_path.filename
         }
         archive_path:rm()
+        Task.delay(1000):await()
         vim.notify("Neovim has been upgraded to "..channel.." channel.")
     end)
 end
