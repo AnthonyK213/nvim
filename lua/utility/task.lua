@@ -14,6 +14,7 @@ local TaskStatus = {
 ---@field action function
 ---@field callbacks function[]
 ---@field callback? function
+---@field varargs? any[]
 ---@field result any
 ---@field status integer
 local Task = {}
@@ -24,12 +25,13 @@ Task.__index = Task
 ---@param action function
 ---@param callback? function
 ---@return Task
-function Task.new(action, callback)
+function Task.new(action, callback, ...)
     local o = {
         action = action,
         callbacks = {},
         callback = callback,
-        status = TaskStatus.Created
+        status = TaskStatus.Created,
+        varargs = {...}
     }
     setmetatable(o, Task)
     return o
@@ -58,7 +60,7 @@ function Task:start()
                 f(r)
             end
         end
-    end)):queue()
+    end)):queue(unpack(self.varargs))
 end
 
 ---Await the task.
@@ -79,7 +81,7 @@ function Task:await()
     end
 end
 
----Delay.
+---Creates a task that will complete after a time delay (ms).
 ---@param interval integer
 ---@return Task? task
 function Task.delay(interval)
