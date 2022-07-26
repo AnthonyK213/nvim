@@ -42,12 +42,13 @@ vim.filetype.add {
                 vim.bo[bufnr].softtabstop = 4
             end
         end,
+        urdf = "xml",
         yaml = function ()
             return "yaml", function (bufnr)
                 vim.bo[bufnr].textwidth = 0
                 vim.wo.wrap = false
                 vim.wo.linebreak = false
             end
-        end
+        end,
     }
 }
