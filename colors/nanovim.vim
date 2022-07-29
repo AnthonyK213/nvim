@@ -3,7 +3,7 @@
 
 
 hi clear
-set laststatus=2 signcolumn=yes:1 noshowmode nonumber
+set laststatus=2 signcolumn=yes noshowmode nonumber
 if exists('g:syntax_on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
