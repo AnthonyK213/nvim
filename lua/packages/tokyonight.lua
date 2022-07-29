@@ -24,7 +24,7 @@ require("utility.util").hl_auto_update("tokyonight", {
     markdownItalic =              { fg = "$purple", fmt = "italic" },
     markdownBoldItalic =          { fg = "$yellow", fmt = "bold,italic" },
     markdownCode =                { fg = "$green" },
-    markdownUrl =                 { fg = "$blue" },
+    markdownUrl =                 { fg = "$bg3" },
     markdownEscape =              { fg = "$cyan" },
     markdownLinkText =            { fg = "$cyan", fmt = "underline" },
     markdownHeadingDelimiter =    { fg = "$red" },
@@ -43,7 +43,7 @@ require("utility.util").hl_auto_update("tokyonight", {
     markdownTSStrong =            { fg = "$yellow", fmt = "bold" },
     markdownTSTextReference =     { fg = "$cyan", fmt = "underline" },
     markdownTSTitle =             { fg = "$red", fmt = "bold" },
-    markdownTSURI =               { fg = "$blue" },
+    markdownTSURI =               { fg = "$bg3" },
     --#endregion
 }, function ()
     return {

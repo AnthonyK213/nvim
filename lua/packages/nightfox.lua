@@ -26,7 +26,7 @@ require("nightfox").setup {
             markdownItalic =              { fg = "palette.magenta", style = "italic" },
             markdownBoldItalic =          { fg = "palette.yellow", style = "bold,italic" },
             markdownCode =                { fg = "palette.green" },
-            markdownUrl =                 { fg = "palette.blue" },
+            markdownUrl =                 { fg = "bg3" },
             markdownEscape =              { fg = "palette.cyan" },
             markdownLinkText =            { fg = "palette.cyan", style = "underline" },
             markdownHeadingDelimiter =    { fg = "palette.red" },
@@ -45,7 +45,7 @@ require("nightfox").setup {
             markdownTSStrong =            { fg = "palette.yellow", style = "bold" },
             markdownTSTextReference =     { fg = "palette.cyan", style = "underline" },
             markdownTSTitle =             { fg = "palette.red", style = "bold" },
-            markdownTSURI =               { fg = "palette.blue" },
+            markdownTSURI =               { fg = "bg3" },
             --#endregion
         }
     }

@@ -315,12 +315,12 @@ hi! link markdownBold Nano_Face_Strong
 hi! link markdownItalic Nano_Face_Salient
 hi! link markdownBoldItalic Nano_Face_Strong
 hi! link markdownCode Nano_Face_Popout
-hi! link markdownUrl Nano_Face_Faded
+hi! link markdownUrl Nano_Face_Subtle
 hi! link markdownLinkText Nano_Face_Popout
 hi! link markdownHeadingDelimiter Nano_Face_Salient
 hi! link markdownBoldDelimiter Nano_Face_Subtle
 hi! link markdownItalicDelimiter Nano_Face_Subtle
-hi! link markdownBoldItalicDelimiter Nano_Face_Strong
+hi! link markdownBoldItalicDelimiter Nano_Face_Subtle
 hi! link markdownCodeDelimiter Nano_Face_Subtle
 hi! link markdownLinkDelimiter Nano_Face_Subtle
 hi! link markdownLinkTextDelimiter Nano_Face_Subtle
@@ -333,7 +333,7 @@ hi! link markdownTSStringEscape Nano_Face_Salient
 hi! link markdownTSStrong Nano_Face_Strong
 hi! link markdownTSTextReference Nano_Face_Popout
 hi! link markdownTSTitle Nano_Face_Salient
-hi! link markdownTSURI Nano_Face_Salient
+hi! link markdownTSURI Nano_Face_Subtle
 " Misc
 hi! link yamlBlockMappingKey Nano_Face_Salient
 hi! link pythonOperator Nano_Face_Salient
