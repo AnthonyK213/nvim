@@ -65,7 +65,9 @@ else
 endif
 call plug#end()
 
-if s:plug_bootstrap | PlugInstall | endif
+if s:plug_bootstrap
+  PlugInstall
+endif
 
 let s:colorscheme_list = ['one', 'gruvbox']
 let g:_my_theme_switchable = 0
