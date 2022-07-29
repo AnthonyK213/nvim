@@ -209,12 +209,14 @@ call s:h("ColorColumn", {
 " __MatchParen__
 call s:h("MatchParen", {
       \ "fg": s:nano_color_popout,
-      \ "gui": "underline"
+      \ "gui": "underline",
+      \ "sp": s:nano_color_popout
       \ })
 " __Spell__
 call s:h("SpellBad", {
       \ "fg": s:nano_color_popout,
-      \ "gui": "underline"
+      \ "gui": "underline",
+      \ "sp": s:nano_color_popout
       \ })
 " __EndOfBuffer__
 call s:h("EndOfBuffer", {
