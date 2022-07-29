@@ -55,6 +55,7 @@
       "ligature": false,     // Render ligatures
       "popup_menu": false,   // Use GUI popup menu
       "tabline": false,      // Use GUI tabline
+      "scroll_bar": false,   // Use GUI scroll bar
       "line_space": 0.0,     // Line space
       "font_size": 13,       // GUI font size
       "font_half": "string", // See `guifont`
