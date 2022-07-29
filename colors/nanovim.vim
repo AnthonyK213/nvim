@@ -223,6 +223,12 @@ call s:h("EndOfBuffer", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_background
       \ })
+" __Underlined__
+call s:h("Underlined", {
+      \ "fg": s:nano_color_salient,
+      \ "gui": "underline",
+      \ "sp": s:nano_color_salient
+      \ })
 " }}
 
 " Links {{
