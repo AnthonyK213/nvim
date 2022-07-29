@@ -54,6 +54,7 @@
       "opacity": 0.98,       // Window opacity
       "ligature": false,     // Render ligatures
       "popup_menu": false,   // Use GUI popup menu
+      "scroll_bar": false,   // Use GUI scroll bar
       "tabline": false,      // Use GUI tabline
       "line_space": 0.0,     // Line space
       "font_size": 13,       // GUI font size

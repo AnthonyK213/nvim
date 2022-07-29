@@ -15,7 +15,7 @@ function! my#vis#hi_extd() abort
   call my#lib#set_hi('markdownH1',  g:terminal_color_1,  '', 'bold')
   call my#lib#set_hi('markdownH2',  g:terminal_color_1,  '', 'bold')
   call my#lib#set_hi('markdownH3',  g:terminal_color_1,  '', '')
-  call my#lib#set_hi('markdownUrl', g:terminal_color_4,  '', 'underline')
+  call my#lib#set_hi('markdownUrl', g:terminal_color_15, '', 'underline')
   call my#lib#set_hi('markdownEscape',     g:terminal_color_4,  '', '')
   call my#lib#set_hi('markdownLinkText',   g:terminal_color_6,  '', 'underline')
   call my#lib#set_hi('markdownBold',       g:terminal_color_3,  '', 'bold')

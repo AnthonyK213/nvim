@@ -41,6 +41,7 @@ let g:_my_gui_opacity = 0.98
 let g:_my_gui_ligature = v:false
 let g:_my_gui_popup_menu = v:false
 let g:_my_gui_tabline = v:false
+let g:_my_gui_scroll_bar = v:false
 let g:_my_gui_line_space = 0
 let g:_my_gui_font_size = 13
 let g:_my_gui_font_half = 'Monospace'
