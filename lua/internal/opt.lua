@@ -43,6 +43,7 @@ local opt = {
         ligature = false,
         popup_menu = false,
         tabline = false,
+        scroll_bar = false,
         line_space = 0.0,
         font_size = 13,
         font_half = "Monospace",

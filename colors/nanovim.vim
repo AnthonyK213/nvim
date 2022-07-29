@@ -3,8 +3,7 @@
 
 
 hi clear
-set laststatus=2
-set noshowmode
+set laststatus=2 noshowmode nonumber
 if exists('g:syntax_on') | syntax reset | endif
 let g:colors_name = 'nanovim'
 
