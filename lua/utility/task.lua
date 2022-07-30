@@ -1,22 +1,10 @@
----@class TaskStatus
-local TaskStatus = {
-    Canceled = 6,
-    Created = 0,
-    Faulted = 7,
-    RanToCompletion = 5,
-    Running = 3,
-    WaitingForActivation = 1,
-    WaitingForChildrenToComplete = 4,
-    WaitingToRun = 2
-}
-
 ---@class Task Async/await implemented with coroutine and libuv.
 ---@field action function
----@field callbacks function[]
 ---@field callback? function
----@field varargs? any[]
+---@field callbacks function[]
 ---@field result any
----@field status integer
+---@field status "Created"|"Running"|"RanToCompletion"
+---@field varargs any[]
 local Task = {}
 
 Task.__index = Task
@@ -26,15 +14,15 @@ Task.__index = Task
 ---@param callback? function
 ---@return Task
 function Task.new(action, callback, ...)
-    local o = {
+    local task = {
         action = action,
-        callbacks = {},
         callback = callback,
-        status = TaskStatus.Created,
-        varargs = {...}
+        callbacks = {},
+        status = "Created",
+        varargs = {...},
     }
-    setmetatable(o, Task)
-    return o
+    setmetatable(task, Task)
+    return task
 end
 
 ---Append callback function.
@@ -67,40 +55,43 @@ end
 ---@return any
 function Task:await()
     local _co = coroutine.running()
-    if not _co then
-        error("Task must await in an async block.")
+    if not _co or coroutine.status(_co) == "dead" then
+        error("Task must await in an alive async block.")
     end
-    self:append_cb(function(r)
-        self.result = r
-        self.status = TaskStatus.RanToCompletion
-        coroutine.resume(_co)
-    end)
-    if self:start() then
-        coroutine.yield()
-        return self.result
+    if self.status == "Created" then
+        self:append_cb(function(r)
+            self.result = r
+            self.status = "RanToCompletion"
+            coroutine.resume(_co)
+        end)
+        if self:start() then
+            self.status = "Running"
+            coroutine.yield()
+            return self.result
+        end
     end
 end
 
 ---Creates a task that will complete after a time delay (ms).
----@param interval integer
----@return Task? task
-function Task.delay(interval)
+---@param delay integer
+---@return Task task
+function Task.delay(delay)
     local _co = coroutine.running()
     local task
     if _co and coroutine.status(_co) ~= "dead" then
         task = Task.new(function (callback)
-            vim.defer_fn(callback, interval)
+            vim.defer_fn(callback, delay)
         end,
         function (_)
-            task.status = TaskStatus.RanToCompletion
+            task.status = "RanToCompletion"
             coroutine.resume(_co)
         end)
     else
         task = Task.new(function (callback)
-            vim.defer_fn(callback, interval)
+            vim.defer_fn(callback, delay)
         end,
         function (_)
-            task.status = TaskStatus.RanToCompletion
+            task.status = "RanToCompletion"
             for _, f in ipairs(task.callbacks) do
                 if type(f) == "function" then
                     f()
@@ -116,6 +107,13 @@ end
 function Task:continue_with(callback)
     self:append_cb(callback)
     self:start()
+end
+
+---Reset the task.
+function Task:reset()
+    self.status = "Created"
+    self.callbacks = {}
+    self.result = nil
 end
 
 
