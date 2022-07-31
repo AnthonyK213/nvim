@@ -19,7 +19,7 @@ end
 ---@param cb_args table Callback arguments.
 local function cb_run_bin(arg_tbl, cb_args)
     if cb_args[2] == 0 and cb_args[3] == "exit" then
-        vim.cmd(":vertical new")
+        vim.cmd("vertical new")
         vim.fn.termopen({arg_tbl.fwd.."/"..arg_tbl.bin}, {
             cwd = arg_tbl.fwd
         })

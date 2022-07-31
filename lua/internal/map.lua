@@ -73,8 +73,8 @@ kbd("Move line up", "n", "<M-p>", [[<Cmd>exe "move" max([line(".") - 2, 0])<CR>]
 kbd("Move line down", "n", "<M-n>", [[<Cmd>exe "move" min([line(".") + 1, line("$")])<CR>]])
 kbd("Move block up", "v", "<M-p>", [[:<C-U>exe "'<,'>move" max([line("'<") - 2, 0])<CR>gv]])
 kbd("Move block down", "v", "<M-n>", [[:<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv]])
-kbd("Cursor down", { "n", "v", "i" }, "<C-N>", function () vim.cmd("normal! gj") end)
-kbd("Cursor up", { "n", "v", "i" }, "<C-P>", function () vim.cmd("normal! gk") end)
+kbd("Cursor down", { "n", "v", "i" }, "<C-N>", function () lib.normal("gj") end)
+kbd("Cursor up", { "n", "v", "i" }, "<C-P>", function () lib.normal("gk") end)
 for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
     kbd("Navigate window: "..desc, { "n", "t" }, "<M-"..direct..">", function ()
         to_normal()

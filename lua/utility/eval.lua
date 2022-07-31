@@ -8,7 +8,7 @@ local mlib = require("utility.mlib")
 ---@param f function Method to evaluate the text.
 local function text_eval(f)
     local origin_pos = api.nvim_win_get_cursor(0)
-    vim.cmd("normal! F`")
+    lib.normal("F`")
     local context = lib.get_context()
     local back = context.b
     local fore = context.f

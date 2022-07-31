@@ -193,7 +193,10 @@ function M.get_visual_selection()
     local mode = vim.api.nvim_get_mode().mode
     local in_vis = vim.tbl_contains({"v", "V", ""}, mode)
     local a_bak = vim.fn.getreg("a", 1)
-    vim.cmd("silent normal! "..(in_vis and "" or "gv")..'"ay')
+    M.normal((in_vis and "" or "gv")..[["ay]], {
+        noremap = true,
+        silent = true
+    })
     local a_val = vim.fn.getreg("a")
     vim.fn.setreg("a", a_bak)
     return a_val
@@ -261,6 +264,14 @@ function M.match_url(str)
     return false, nil
 end
 
+---Execute Normal mode command `cmd`.
+---@param cmd string Normal command.
+---@param opt? table<string, boolean> Options.
+function M.normal(cmd, opt)
+    opt = opt or { noremap = false, silent = false }
+    vim.cmd((opt.silent and "silent " or "").."normal"..(opt.noremap and "! " or " ")..cmd)
+end
+
 ---Notify the error message to neovim.
 ---@param err string Error message.
 function M.notify_err(err)
@@ -295,6 +306,7 @@ function M.str_char2nr(str)
     if #str == 0 then return 0 end
     local char = M.str_sub(str, 1, 1)
     local result
+    ---@type integer?
     local seq = 0
     for i = 1, #char do
         local c = string.byte(char, i)
