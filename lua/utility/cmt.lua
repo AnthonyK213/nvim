@@ -112,11 +112,11 @@ local function del_cmt_block()
                 end
             end
             if line_p:match("^%s*"..lua_cmt_mark_a.."%s*$") then
-                vim.cmd(i.."d")
+                api.nvim_buf_set_lines(0, i - 1, i, true, {})
                 lnum_c = lnum_c - 1
             else
                 line_p = line_p:gsub(lua_cmt_mark_a, "")
-                api.nvim_buf_set_lines(0, i - 1, i, true, {line_p})
+                api.nvim_buf_set_lines(0, i - 1, i, true, { line_p })
             end
             break
         end
@@ -133,10 +133,10 @@ local function del_cmt_block()
                 end
             end
             if line_n:match("^%s*"..lua_cmt_mark_b.."%s*$") then
-                vim.cmd(i.."d")
+                api.nvim_buf_set_lines(0, i - 1, i, true, {})
             else
                 line_n = line_n:gsub(lua_cmt_mark_b, "")
-                api.nvim_buf_set_lines(0, i - 1, i, true, {line_n})
+                api.nvim_buf_set_lines(0, i - 1, i, true, { line_n })
             end
             break
         end

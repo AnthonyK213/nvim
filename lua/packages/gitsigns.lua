@@ -43,7 +43,7 @@ gitsigns.setup {
     update_debounce = 100,
     status_formatter = nil,
     preview_config = {
-        border = "rounded",
+        border = _my_core_opt.tui.border,
         style = "minimal",
         relative = "cursor",
         row = 0,

@@ -121,6 +121,14 @@ function M.get_git_branch(git_root)
     return nil
 end
 
+---Gets the current list of listed buffer handles.
+---@return integer[] bufs Loaded buffer handles.
+function M.get_listed_bufs()
+    return vim.tbl_filter(function (h)
+        return vim.fn.buflisted(h) == 1
+    end, vim.api.nvim_list_bufs())
+end
+
 ---Get path of the option file (nvimrc).
 ---@return boolean exists True if the option file exists.
 ---@return string? path Path of the option file.
@@ -372,6 +380,36 @@ function M.str_sub(str, i, j)
     local s = vim.str_byteindex(str, u - 1)
     local e = vim.str_byteindex(str, v)
     return str:sub(s + 1, e)
+end
+
+---Find the first item with the value `val`.
+---@param tbl any[] A list-like table.
+---@param val any Value to find.
+---@return integer index The first index of value `val`, 0 for not found.
+function M.tbl_find_first(tbl, val)
+    if vim.tbl_islist(tbl) then
+        for i, v in ipairs(tbl) do
+            if v == val then
+                return i
+            end
+        end
+    end
+    return 0
+end
+
+---Find the last item with the value `val`.
+---@param tbl any[] A list-like table.
+---@param val any Value to find.
+---@return integer index The last index of value `val`, 0 for not found.
+function M.tbl_find_last(tbl, val)
+    if vim.tbl_islist(tbl) then
+        for i = #tbl, 1, -1 do
+            if tbl[i] == val then
+                return i
+            end
+        end
+    end
+    return 0
 end
 
 ---Reverse a ipairs table.

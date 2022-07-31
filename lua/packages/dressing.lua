@@ -4,7 +4,7 @@ require("dressing").setup {
         insert_only = true,
         anchor = "SW",
         relative = "cursor",
-        border = "rounded",
+        border = _my_core_opt.tui.border,
         winblend = 10,
         winhighlight = "NormalFloat:Normal",
         get_config = nil,

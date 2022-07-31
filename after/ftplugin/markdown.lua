@@ -4,15 +4,15 @@ vim.wo.linebreak = false
 vim.b.table_mode_corner = "|"
 
 local srd_table = {
-    P = {"`", [[\v(markdown|Vimwiki)(Code|TSLiteral)]]},
-    I = {"*", [[\v(markdown|Vimwiki)(Italic|TSEmphasis)]]},
-    B = {"**", [[\v(markdown|Vimwiki)(Bold|TSStrong)]]},
-    M = {"***", [[\v(markdown|Vimwiki)BoldItalic]]},
-    U = {"<u>", [[\v(html|Vimwiki)Underline]]}
+    P = { "`", [[\v(markdown|Vimwiki)(Code|TSLiteral)]] },
+    I = { "*", [[\v(markdown|Vimwiki)(Italic|TSEmphasis)]] },
+    B = { "**", [[\v(markdown|Vimwiki)(Bold|TSStrong)]] },
+    M = { "***", [[\v(markdown|Vimwiki)BoldItalic]] },
+    U = { "<u>", [[\v(html|Vimwiki)Underline]] },
 }
 local _opt = { noremap = true, silent = true, buffer = true }
 for key, val in pairs(srd_table) do
-    vim.keymap.set({ "n", "v" }, "<M-"..key..">", function ()
+    vim.keymap.set({ "n", "v" }, "<M-" .. key .. ">", function()
         local m = vim.api.nvim_get_mode().mode
         local mode
         if m == "n" then mode = "n"
@@ -31,6 +31,6 @@ vim.keymap.set("n", "<leader>mt", function ()
     if vim.fn.exists("g:vscode") > 0 then
         vim.fn.VSCodeNotify("markdown.showPreviewToSide")
     elseif vim.fn.exists(":MarkdownPreviewToggle") > 0 then
-        vim.cmd[[MarkdownPreviewToggle]]
+        vim.cmd [[MarkdownPreviewToggle]]
     end
 end, _opt)

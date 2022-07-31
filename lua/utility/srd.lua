@@ -98,12 +98,10 @@ function M.srd_add(mode, pair_a)
             api.nvim_buf_set_text(0, line - 1, s, line - 1, e, { p_a..word..p_b })
             api.nvim_win_set_cursor(0, { line, col + #p_a })
         elseif mode == "v" then
-            local stt_pos = api.nvim_buf_get_mark(0, "<")
-            local end_pos = api.nvim_buf_get_mark(0, ">")
-            api.nvim_win_set_cursor(0, end_pos)
-            vim.cmd("normal! a"..p_b)
-            api.nvim_win_set_cursor(0, stt_pos)
-            vim.cmd("normal! i"..p_a)
+            local sl, sc = unpack(api.nvim_buf_get_mark(0, "<"))
+            local el, ec = unpack(api.nvim_buf_get_mark(0, ">"))
+            api.nvim_buf_set_text(0, el - 1, ec, el - 1, ec, { p_b })
+            api.nvim_buf_set_text(0, sl - 1, sc, sl - 1, sc, { p_a })
         end
     end
 

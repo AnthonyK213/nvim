@@ -12,12 +12,12 @@ local function text_eval(f)
     local context = lib.get_context()
     local back = context.b
     local fore = context.f
-    local expr = fore:match("^`(.-)`") or ""
+    local s, expr, e = fore:match("^()`(.-)()`")
 
     if pcall(f, expr) then
         local result = tostring(f(expr))
-        local fore_new = fore:gsub("%b``", result, 1)
-        api.nvim_set_current_line(back..fore_new)
+        local row = vim.api.nvim_win_get_cursor(0)[1] - 1
+        api.nvim_buf_set_text(0, row, s + #back - 1, row, e + #back, { result })
     else
         api.nvim_win_set_cursor(0, origin_pos)
         lib.notify_err("No valid expression was found.")

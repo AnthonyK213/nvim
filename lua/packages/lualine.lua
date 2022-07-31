@@ -1,4 +1,4 @@
-vim.cmd[[packadd lualine.nvim]]
+vim.cmd [[packadd lualine.nvim]]
 
 local mode_alias = {
     i = "I", ic  = "I", ix     = "I",

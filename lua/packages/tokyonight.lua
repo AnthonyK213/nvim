@@ -1,4 +1,4 @@
-vim.cmd[[packadd tokyonight.nvim]]
+vim.cmd [[packadd tokyonight.nvim]]
 
 
 vim.g.tokyonight_style = _my_core_opt.tui.style or "storm"
@@ -60,4 +60,4 @@ end)
 
 
 vim.g._my_theme_switchable = true
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd [[colorscheme tokyonight]]

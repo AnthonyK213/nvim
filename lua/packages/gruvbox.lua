@@ -1,4 +1,4 @@
-vim.cmd[[packadd gruvbox.nvim]]
+vim.cmd [[packadd gruvbox.nvim]]
 
 
 require("gruvbox").setup {
@@ -65,4 +65,4 @@ end)
 
 
 vim.g._my_theme_switchable = true
-vim.cmd[[colorscheme gruvbox]]
+vim.cmd [[colorscheme gruvbox]]

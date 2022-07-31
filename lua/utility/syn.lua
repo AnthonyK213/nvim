@@ -166,7 +166,7 @@ function Syntax:show()
     end
 
     vim.lsp.util.open_floating_preview(lines, "markdown", {
-        border = "rounded",
+        border = _my_core_opt.tui.border,
         pad_left = 4,
         pad_right = 4
     })

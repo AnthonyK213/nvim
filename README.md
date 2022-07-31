@@ -45,7 +45,7 @@
       "style": "string",  // Style of color scheme
       "transparent": false,        // Make background transparent
       "global_statusline": false,  // Global statusline
-      "cmp_border": false,         // nvim-cmp window border
+      "border": "string",          // Floating window border style
       "cmp_ghost": false           // nvim-cmp ghost text
     },
     // GUI (neovim-qt, fvim)

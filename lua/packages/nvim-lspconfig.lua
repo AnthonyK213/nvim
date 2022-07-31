@@ -19,7 +19,7 @@ local custom_attach = function (client, bufnr)
     kbd("n", "<leader>lh", function () vim.lsp.buf.signature_help() end,   ntst)
     kbd("n", "<leader>li", function () vim.lsp.buf.implementation() end,   ntst)
     kbd("n", "<leader>lk", function ()
-        vim.diagnostic.open_float { border = "rounded" }
+        vim.diagnostic.open_float { border = _my_core_opt.tui.border }
     end, ntst)
     kbd("n", "<leader>lm", function ()
         vim.lsp.buf.format { async = false }
@@ -97,5 +97,5 @@ vim.diagnostic.config {
 
 -- Hover window border
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "rounded",
+    border = _my_core_opt.tui.border,
 })

@@ -1,4 +1,4 @@
-vim.cmd[[packadd indent-blankline.nvim]]
+vim.cmd [[packadd indent-blankline.nvim]]
 
 
 require("indent_blankline").setup {

@@ -83,8 +83,9 @@ for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "
 end
 for i = 1, 10, 1 do
     kbd("Goto tab "..tostring(i), { "n", "i", "t" }, "<M-"..tostring(i % 10)..">", function ()
-        to_normal()
-        vim.cmd("tabn "..tostring(i))
+        local tabs = vim.api.nvim_list_tabpages()
+        if i > #tabs then lib.notify_err("Tab "..i.." is not valid.") return end
+        vim.api.nvim_set_current_tabpage(tabs[i])
     end)
 end
 for key, val in pairs {
@@ -143,12 +144,18 @@ kbd("Change cwd to current buffer", "n", "<leader>bc", function ()
     vim.cmd("pwd")
 end, { silent = false })
 kbd("Delete current buffer", "n", "<leader>bd", function ()
-    if vim.tbl_contains({ "help", "terminal", "nofile", "quickfix" }, vim.bo.bt)
-        or #(vim.fn.getbufinfo { buflisted = 1 }) <= 2 then
-        vim.cmd("bd")
-    else
-        vim.cmd("bp|bd#")
+    local bufs = lib.get_listed_bufs()
+    local bts = { "help", "terminal", "nofile", "quickfix" }
+    local handle = vim.api.nvim_get_current_buf()
+    if #bufs == 1 then
+        table.insert(bufs, vim.api.nvim_create_buf(true, true))
     end
+    if #bufs > 2 and not vim.tbl_contains(bts, vim.bo.bt) then
+        local index = lib.tbl_find_first(bufs, handle)
+        vim.api.nvim_set_current_buf(bufs[index + (index == 1 and 1 or -1)])
+    end
+    vim.bo[handle].buflisted = false
+    vim.api.nvim_buf_delete(handle, { force = false, unload = vim.o.hidden })
 end)
 kbd("Background toggle", "n", "<leader>bg", function ()
     if not vim.g._my_theme_switchable or vim.g._my_lock_background then

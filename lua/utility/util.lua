@@ -204,8 +204,8 @@ function M.git_push_all(arg_list)
     -- Get arguments.
     local m_arg, b_arg
     if #arg_list % 2 == 0 then
-        local m_idx = vim.fn.index(arg_list, "-m") + 1
-        local b_idx = vim.fn.index(arg_list, "-b") + 1
+        local m_idx = lib.tbl_find_first(arg_list, "-m")
+        local b_idx = lib.tbl_find_first(arg_list, "-b")
 
         if m_idx > 0 and m_idx % 2 == 1 then
             m_arg = arg_list[m_idx + 1]
