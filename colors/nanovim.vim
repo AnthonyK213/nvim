@@ -311,6 +311,7 @@ hi! link htmlH3 Nano_Face_Salient
 hi! link htmlH4 Nano_Face_Strong
 hi! link htmlH5 Nano_Face_Strong
 hi! link htmlH6 Nano_Face_Strong
+hi! link htmlUnderline Underlined
 " Markdown
 hi! link markdownH1 Nano_Face_Salient
 hi! link markdownH2 Nano_Face_Salient
