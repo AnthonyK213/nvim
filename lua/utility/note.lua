@@ -5,7 +5,7 @@ local Syntax = require("utility.syn")
 
 
 ---Hanzi count, ignore comments.
----@param txt string|table Text input.
+---@param txt string|string[] Text input.
 function M.hanzi_count(txt)
     if type(txt) == "string" then
         txt = vim.split(txt, "\n")
@@ -98,7 +98,7 @@ function M.md_insert_bullet()
                 elseif (l_det == 2 and f_det == 2) then
                     local f_new = f_str:gsub(tostring(f_bul),
                     tostring(f_bul + 1), 1)
-                    api.nvim_buf_set_lines(0, f_num - 1, f_num, true, {f_new})
+                    api.nvim_buf_set_lines(0, f_num - 1, f_num, true, { f_new })
                 end
             elseif (f_ind <= l_ind) then
                 table.insert(move_rec, move_stp)
@@ -170,13 +170,13 @@ function M.md_sort_num_bullet()
         for i, u in ipairs(b_num_list) do
             local lb_new = api.nvim_buf_get_lines(0, u - 1, u, true)[1]:gsub(
             "%d+", tostring(b_len - i + 1), 1)
-            api.nvim_buf_set_lines(0, u - 1, u, true, {lb_new})
+            api.nvim_buf_set_lines(0, u - 1, u, true, { lb_new })
         end
 
         for j, v in ipairs(f_num_list) do
             local lf_new = api.nvim_buf_get_lines(0, v - 1, v, true)[1]:gsub(
             "%d+", tostring(j + b_len), 1)
-            api.nvim_buf_set_lines(0, v - 1, v, true, {lf_new})
+            api.nvim_buf_set_lines(0, v - 1, v, true, { lf_new })
         end
     else
         lib.notify_err("Not in a line of any numbered lists.")
