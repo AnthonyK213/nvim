@@ -125,7 +125,7 @@ end
 ---@return integer[] bufs Loaded buffer handles.
 function M.get_listed_bufs()
     return vim.tbl_filter(function (h)
-        return vim.fn.buflisted(h) == 1
+        return vim.api.nvim_buf_is_loaded(h) and vim.bo[h].buflisted
     end, vim.api.nvim_list_bufs())
 end
 
