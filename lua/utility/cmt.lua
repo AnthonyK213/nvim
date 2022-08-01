@@ -14,6 +14,7 @@ local cmt_mark_tab_single = {
     java = "//",
     lisp = ";",
     lua = "--",
+    make = "#",
     markdown = "> ",
     rust = "//",
     perl = "#",
