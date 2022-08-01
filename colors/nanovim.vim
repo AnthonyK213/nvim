@@ -209,17 +209,25 @@ call s:h("ColorColumn", {
 " __MatchParen__
 call s:h("MatchParen", {
       \ "fg": s:nano_color_popout,
-      \ "gui": "underline"
+      \ "gui": "underline",
+      \ "sp": s:nano_color_popout
       \ })
 " __Spell__
 call s:h("SpellBad", {
       \ "fg": s:nano_color_popout,
-      \ "gui": "underline"
+      \ "gui": "underline",
+      \ "sp": s:nano_color_popout
       \ })
 " __EndOfBuffer__
 call s:h("EndOfBuffer", {
       \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_background
+      \ })
+" __Underlined__
+call s:h("Underlined", {
+      \ "fg": s:nano_color_salient,
+      \ "gui": "underline",
+      \ "sp": s:nano_color_salient
       \ })
 " }}
 
@@ -303,6 +311,7 @@ hi! link htmlH3 Nano_Face_Salient
 hi! link htmlH4 Nano_Face_Strong
 hi! link htmlH5 Nano_Face_Strong
 hi! link htmlH6 Nano_Face_Strong
+hi! link htmlUnderline Underlined
 " Markdown
 hi! link markdownH1 Nano_Face_Salient
 hi! link markdownH2 Nano_Face_Salient
