@@ -278,9 +278,10 @@ function M.nvim_upgrade(channel)
 
     local Path = require("plenary.path")
     local archive
-    if lib.has_windows() then
+    local os_type = lib.get_os_type()
+    if os_type == lib.Os.Windows then
         archive = "nvim-win64.zip"
-    elseif vim.fn.has("unix") == 1 then
+    elseif os_type == lib.Os.Linux then
         archive = "nvim-linux64.tar.gz"
     else
         return
@@ -308,7 +309,7 @@ function M.nvim_upgrade(channel)
     local use_proxy = type(proxy) == "string"
 
     local dl_exec, dl_args, ex_exec, ex_args
-    if lib.has_windows() then
+    if os_type == lib.Os.Windows then
         local dl_cmd = "Invoke-WebRequest"
         .." -Uri "..source
         .." -OutFile "..archive_path.filename
@@ -336,7 +337,7 @@ function M.nvim_upgrade(channel)
         vim.fn.jobstart("powershell.exe -c "..pwsh_cmd, { detach = true })
         vim.cmd("qa!")
         return
-    elseif vim.fn.has("unix") == 1 then
+    elseif lib.Os.Linux then
         if not lib.executable("curl") then return end
         dl_exec = "curl"
         dl_args = use_proxy and {
@@ -353,7 +354,7 @@ function M.nvim_upgrade(channel)
             "-C", bin_path.filename
         }
     else
-        lib.notify_err("Unsupported OS.")
+        lib.notify_err("Unsupported operating system.")
         return
     end
 

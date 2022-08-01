@@ -8,16 +8,16 @@ local os_this = lib.get_os_type()
 local opt = {
     dep = {
         sh = ({
-            [lib.Os.LINUX] = "bash",
-            [lib.Os.WINDOWS] = { "powershell.exe", "-nologo" },
-            [lib.Os.MACOS] = "zsh"
+            [lib.Os.Linux] = "bash",
+            [lib.Os.Windows] = { "powershell.exe", "-nologo" },
+            [lib.Os.Macos] = "zsh"
         })[os_this],
         cc = "gcc",
         py3 = "/usr/bin/python3",
         start = ({
-            [lib.Os.LINUX] = "xdg-open",
-            [lib.Os.WINDOWS] = {"cmd", "/c", "start", '""'},
-            [lib.Os.MACOS] = "open"
+            [lib.Os.Linux] = "xdg-open",
+            [lib.Os.Windows] = {"cmd", "/c", "start", '""'},
+            [lib.Os.Macos] = "open"
         })[os_this],
         proxy = nil,
     },

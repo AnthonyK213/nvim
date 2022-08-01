@@ -4,10 +4,10 @@ local M = {}
 ---Os types enum.
 ---@class Os
 M.Os = {
-    UNKNOWN = 0,
-    LINUX = 1,
-    WINDOWS = 2,
-    MACOS = 3
+    Unknown = 0,
+    Linux = 1,
+    Windows = 2,
+    Macos = 3
 }
 
 ---Start an async block.
@@ -160,13 +160,13 @@ end
 function M.get_os_type()
     local name = vim.loop.os_uname().sysname
     if name == "Linux" then
-        return M.Os.LINUX
+        return M.Os.Linux
     elseif name == "Windows_NT" then
-        return M.Os.WINDOWS
+        return M.Os.Windows
     elseif name == "Darwin" then
-        return M.Os.MACOS
+        return M.Os.Macos
     else
-        return M.Os.UNKNOWN
+        return M.Os.Unknown
     end
 end
 
@@ -235,7 +235,7 @@ end
 ---Check if os is **Windows**.
 ---@return boolean result True if current os is **Windows**.
 function M.has_windows()
-    return M.get_os_type() == M.Os.WINDOWS
+    return M.get_os_type() == M.Os.Windows
 end
 
 ---Match URL in a string.

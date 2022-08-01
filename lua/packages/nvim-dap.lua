@@ -112,13 +112,14 @@ local dap_csharp = A.new("cs", "coreclr", {
             vim.notify("Installed netcoredbg")
         end
     end
-    if lib.has_windows() then
+    local os_type = lib.get_os_type()
+    if os_type == lib.Os.Windows then
         archive = "netcoredbg-win64.zip"
         archive_path = dir.."/"..archive
         extract = Process.new("powershell", {
             args = { "-c", "Expand-Archive -Path "..archive_path.." -DestinationPath "..dir }
         }, extract_cb)
-    elseif vim.fn.has("unix") == 1 then
+    elseif os_type == lib.Os.Linux then
         archive = "netcoredbg-linux-amd64.tar.gz"
         archive_path = dir.."/"..archive
         extract = Process.new("tar", {
