@@ -1,3 +1,10 @@
+local border_style = _my_core_opt.tui.border
+local border_styles = {
+    single = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+    double = { "═", "║", "═", "║", "╔" ,"╗", "╝", "╚" },
+    rounded = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+}
+
 require("telescope").setup {
     defaults = {
         mappings = {
@@ -6,6 +13,8 @@ require("telescope").setup {
                 ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
             },
         },
+        border = border_style ~= "none",
+        borderchars = border_styles[border_style] or border_styles["rounded"]
     },
 }
 

@@ -1,4 +1,3 @@
-local io = require("io")
 local lib = require("utility.lib")
 
 -- Source basics.vim
