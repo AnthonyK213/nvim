@@ -97,6 +97,11 @@ local comp_table = {
         end
     end,
     c = function (tbl)
+        local root = lib.get_root("[Mm]akefile")
+        if root then
+            if not lib.executable("make") then return end
+            return Cmd.new(tbl.opt == "" and { "make" } or { "make", tbl.opt })
+        end
         local my_cc = _my_core_opt.dep.cc
         if not lib.executable(my_cc) then return end
         local cmd_tbl = {
@@ -181,6 +186,10 @@ local comp_table = {
         else
             lib.notify_err("Invalid arguments.")
         end
+    end,
+    make = function (tbl)
+        if not lib.executable("make") then return end
+        return Cmd.new(tbl.opt == "" and { "make" } or { "make", tbl.opt })
     end,
     python = function (tbl)
         local py = _my_core_opt.dep.py or "python"
