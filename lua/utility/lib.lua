@@ -3,11 +3,15 @@ local M = {}
 
 ---Os types enum.
 ---@class Os
+---@field Unknown integer Unknown os type.
+---@field Linux integer Linux distribution.
+---@field Windows integer Microsoft Windows with NT kernel.
+---@field Macos integer Apple macOS with Darwin kernel.
 M.Os = {
     Unknown = 0,
     Linux = 1,
     Windows = 2,
-    Macos = 3
+    Macos = 3,
 }
 
 ---Start an async block.
@@ -271,7 +275,7 @@ function M.normal(cmd, opt)
     vim.cmd((opt.silent and "silent " or "").."normal"..(opt.noremap and "! " or " ")..cmd)
 end
 
----Notify the error message to neovim.
+---Notify the error message.
 ---@param err string Error message.
 function M.notify_err(err)
     vim.notify(err, vim.log.levels.ERROR, nil)
