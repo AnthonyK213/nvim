@@ -12,8 +12,15 @@ function! s:cb_run_bin(arg_tbl, cb_args) abort
 endfunction
 
 function! s:comp_c(tbl) abort
-  let l:cc = g:_my_dep_cc
   let l:opt = a:tbl['opt']
+  let l:root = my#lib#get_root("[Mm]akefile")
+  if l:root != v:null
+    if !my#lib#executable("make")
+      return [v:null, v:null]
+    endif
+    return [v:null, empty(l:opt) ? ["make"] : ["make", l:opt]]
+  endif
+  let l:cc = g:_my_dep_cc
   if !my#lib#executable(l:cc)
     return [v:null, v:null]
   endif
