@@ -337,7 +337,7 @@ function M.nvim_upgrade(channel)
         vim.fn.jobstart("powershell.exe -c "..pwsh_cmd, { detach = true })
         vim.cmd("qa!")
         return
-    elseif lib.Os.Linux then
+    elseif os_type == lib.Os.Linux then
         if not lib.executable("curl") then return end
         dl_exec = "curl"
         dl_args = use_proxy and {
