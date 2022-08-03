@@ -100,7 +100,7 @@ function M.srd_add(mode, pair_a)
         elseif mode == "v" then
             local sl, sc = unpack(api.nvim_buf_get_mark(0, "<"))
             local el, ec = unpack(api.nvim_buf_get_mark(0, ">"))
-            api.nvim_buf_set_text(0, el - 1, ec, el - 1, ec, { p_b })
+            api.nvim_buf_set_text(0, el - 1, ec + 1, el - 1, ec + 1, { p_b })
             api.nvim_buf_set_text(0, sl - 1, sc, sl - 1, sc, { p_a })
         end
     end
