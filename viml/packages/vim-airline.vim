@@ -1,5 +1,5 @@
 set showtabline=2
-if has("nvim") && g:_my_tui_global_statusline
+if has("nvim-0.7") && g:_my_tui_global_statusline
   set laststatus=3
 endif
 

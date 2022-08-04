@@ -78,19 +78,19 @@ for [s:key, s:val] in items(g:coc_config_table)
 endfor
 
 " Input.
-ino <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+ino <silent><expr> <cr> coc#pum#visible() ? coc#pum#confirm()
       \: "\<C-G>u\<CR>\<C-R>=coc#on_enter()\<CR>"
 im <silent><expr> <TAB>
-      \ pumvisible() ?
-      \ "\<C-N>" : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
-      \ "\<C-\>\<C-o>>>" . repeat(g:_const_dir_r, &ts) : coc#expandableOrJumpable() ?
-      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ coc#pum#visible() ?
+      \ coc#pum#next(1) : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
+      \ "\<C-\>\<C-O>>>" . repeat(g:_const_dir_r, &ts) : coc#expandableOrJumpable() ?
+      \ "\<C-R>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ my#lib#get_context()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
       \ coc#refresh() : "\<TAB>"
 im  <silent><expr> <S-TAB>
-      \ pumvisible() ?
-      \ "\<C-P>" : coc#expandableOrJumpable() ?
-      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ coc#pum#visible() ?
+      \ coc#pum#prev(1) : coc#expandableOrJumpable() ?
+      \ "\<C-R>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ "\<S-TAB>"
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> <leader>l[ <Plug>(coc-diagnostic-prev)
@@ -148,4 +148,4 @@ augroup my_coc_group
 augroup end
 
 " Add (Neo)Vim's native statusline support.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
