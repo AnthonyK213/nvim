@@ -42,7 +42,6 @@ function! s:srd_collect(str, pair_a, pair_b) abort
   return l:tab_pair
 endfunction
 
-
 " Locate surrounding pair in direction `dir`
 " @param int dir -1 or 1, -1 for backward, 1 for forward.
 " FIXME: If there are imbalanced pairs in string, how to get this work?
