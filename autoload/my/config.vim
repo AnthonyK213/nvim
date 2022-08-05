@@ -8,10 +8,10 @@ function s:coc_lsp_check(server, extension, enable="enable") abort
       endif
       let g:coc_config_table[a:enable] = l:val
     elseif type(l:val) == v:t_dict
-      if has_key(l:val, "enable") && l:val["enable"]
+      if has_key(l:val, "load") && l:val["load"]
         call add(g:coc_global_extensions, a:extension)
         for [l:k, l:v] in items(l:val)
-          if l:k ==# "enable"
+          if l:k ==# "load"
             let g:coc_config_table[a:enable] = v:true
           else
             let g:coc_config_table[l:k] = l:v
