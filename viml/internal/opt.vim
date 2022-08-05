@@ -91,7 +91,7 @@ let g:markdown_fenced_languages = [
       \ ]
 
 " Directional operation which won't mess up the history.
-let g:_const_dir_l = "\<C-g>U\<Left>"
-let g:_const_dir_d = "\<C-g>U\<Down>"
-let g:_const_dir_u = "\<C-g>U\<Up>"
-let g:_const_dir_r = "\<C-g>U\<Right>"
+let g:_const_dir_l = "\<C-G>U\<Left>"
+let g:_const_dir_d = "\<C-G>U\<Down>"
+let g:_const_dir_u = "\<C-G>U\<Up>"
+let g:_const_dir_r = "\<C-G>U\<Right>"
