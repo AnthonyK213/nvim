@@ -48,3 +48,7 @@ function! my#syn#new(row, col) abort
   call extend(l:o, s:Syntax)
   return l:o
 endfunction
+
+function! my#syn#match_here(pattern) abort
+  return my#syn#new(line("."), col(".")).match(a:pattern)
+endfunction

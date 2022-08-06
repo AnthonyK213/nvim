@@ -132,7 +132,7 @@ function! my#util#new_keymap(mode, lhs, new_rhs, opts = 0) abort
   let l:args = maparg(a:lhs, a:mode, v:false, v:true)
   let l:new_opts = type(a:opts) == v:t_dict ? a:opts : l:args
   let l:new_opts["expr"] = 1
-  if type(a:new_rhs != v:t_func)
+  if type(a:new_rhs) != v:t_func
     return
   endif
   if empty(l:args)
@@ -144,7 +144,11 @@ function! my#util#new_keymap(mode, lhs, new_rhs, opts = 0) abort
   else
     let l:fallback_rhs = l:args["rhs"]
   endif
-  call my#util#set_keymap(a:mode, a:lhs, {-> a:new_rhs({-> eval(l:fallback_rhs)})}, l:new_opts)
+  if has_key(l:args, "expr") && l:args["expr"]
+    call my#util#set_keymap(a:mode, a:lhs, {-> a:new_rhs({-> eval(l:fallback_rhs)})}, l:new_opts)
+  else
+    call my#util#set_keymap(a:mode, a:lhs, {-> a:new_rhs({-> my#compat#replace_termcodes(l:fallback_rhs, 1, 0, 1)})}, l:new_opts)
+  endif
 endfunction
 
 function! my#util#git_push_all(...) abort

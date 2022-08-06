@@ -80,6 +80,15 @@ function! my#compat#open_opt() abort
   endif
 endfunction
 
+" Replaces terminal codes and *keycodes* (<CR>, <Esc>, ...) in a
+" string with the internal representation.
+function! my#compat#replace_termcodes(str, from_part, do_lt, special) abort
+  if has("nvim-0.5")
+    return nvim_replace_termcodes(a:str, v:true, a:do_lt, a:special)
+  endif
+  return substitute(a:str, "<Plug>", "\<Plug>", "g")
+endfunction
+
 " `CodeRun` complete option list.
 function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
