@@ -35,11 +35,8 @@ local custom_attach = function (client, bufnr)
 end
 
 -- Load mason.nvim
-require("mason").setup {
-    ui = {
-        border = _my_core_opt.tui.border
-    }
-}
+require("mason").setup { ui = { border = _my_core_opt.tui.border } }
+require("mason-lspconfig").setup()
 
 -- LSP options.
 local server_settings = {

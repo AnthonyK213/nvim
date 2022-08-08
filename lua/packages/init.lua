@@ -66,7 +66,7 @@ require("packer").startup(function (use)
         };
         {
             "AnthonyK213/lua-pairs",
-            config = function () require("packages.lua-pairs") end
+            config = function () require("packages.lua_pairs") end
         };
         {
             "andymass/vim-matchup"
@@ -118,7 +118,10 @@ require("packer").startup(function (use)
         {
             "neovim/nvim-lspconfig",
             config = function () require("packages.nvim-lspconfig") end,
-            requires = "williamboman/mason.nvim"
+            requires = {
+                "williamboman/mason.nvim",
+                "williamboman/mason-lspconfig.nvim",
+            }
         };
         {
             "nvim-treesitter/nvim-treesitter",
