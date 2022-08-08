@@ -118,7 +118,7 @@ require("packer").startup(function (use)
         {
             "neovim/nvim-lspconfig",
             config = function () require("packages.nvim-lspconfig") end,
-            requires = "williamboman/nvim-lsp-installer"
+            requires = "williamboman/mason.nvim"
         };
         {
             "nvim-treesitter/nvim-treesitter",

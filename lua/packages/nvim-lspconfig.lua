@@ -1,5 +1,6 @@
 local lsp_option = _my_core_opt.lsp or {}
 local lspconfig = require("lspconfig")
+local kbd = vim.keymap.set
 
 -- nvim-cmp
 -- Enable LSP snippets.
@@ -7,7 +8,6 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Attach: Keymaps, aerial.
-local kbd = vim.keymap.set
 local custom_attach = function (client, bufnr)
     local ntst = { noremap = true, silent = true, buffer = bufnr }
     kbd("n", "<F12>",      function () vim.lsp.buf.definition() end,       ntst)
@@ -34,8 +34,12 @@ local custom_attach = function (client, bufnr)
     require("aerial").on_attach(client, bufnr)
 end
 
--- Load nvim-lsp-installer
-require("nvim-lsp-installer").setup {}
+-- Load mason.nvim
+require("mason").setup {
+    ui = {
+        border = _my_core_opt.tui.border
+    }
+}
 
 -- LSP options.
 local server_settings = {
@@ -62,29 +66,23 @@ local server_settings = {
 ---@param option boolean|table<string, any> Options.
 local function setup_server(server, option)
     option = option or false
-
     if (type(option) == "boolean" and option)
         or (type(option) == "table" and option.load == true) then
-
         local opts = {
             capabilities = capabilities,
             on_attach = custom_attach
         }
-
         local option_settings
         if type(option) == "table" and type(option.settings) == "table" then
             option_settings = option.settings
         end
-
         opts.settings = option_settings or server_settings[server]
-
         lspconfig[server].setup(opts)
     end
 end
 
-for server, option in pairs(lsp_option) do
-    setup_server(server, option)
-end
+---Setup servers.
+for server, option in pairs(lsp_option) do setup_server(server, option) end
 
 -- Diagnostics
 vim.diagnostic.config {

@@ -286,7 +286,7 @@
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-  - [nvim-lsp-installer](https://github.com/williamboman/nvim-lsp-installer)
+  - [mason.nvim](https://github.com/williamboman/mason.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
