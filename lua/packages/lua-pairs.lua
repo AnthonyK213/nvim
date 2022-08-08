@@ -1,4 +1,4 @@
-require("lua-pairs").setup {
+require("lua_pairs").setup {
     ret = false,
     bak = true,
     spc = true,

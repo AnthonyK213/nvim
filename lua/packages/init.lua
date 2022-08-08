@@ -66,7 +66,7 @@ require("packer").startup(function (use)
         };
         {
             "AnthonyK213/lua-pairs",
-            config = function () require("packages.lua_pairs") end
+            config = function () require("packages.lua-pairs") end
         };
         {
             "andymass/vim-matchup"
