@@ -254,7 +254,9 @@ local comp_table = {
         end
         local tex_done_cb = function (_, code, _)
             if code == 0 then
-                vim.notify("Done.")
+                vim.defer_fn(function ()
+                    vim.notify("Done.")
+                end, 1000)
             end
         end
         local xelatex = Process.new("xelatex", {
