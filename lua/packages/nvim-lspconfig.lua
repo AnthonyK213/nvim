@@ -38,8 +38,15 @@ end
 require("mason").setup { ui = { border = _my_core_opt.tui.border } }
 require("mason-lspconfig").setup()
 
--- LSP options.
+---LSP options.
 local server_settings = {
+    omnisharp = function (o, s)
+        for k, v in pairs(s) do
+            if k ~= "cmd" then
+                o[k] = v
+            end
+        end
+    end,
     sumneko_lua = {
         Lua = {
             runtime = {
@@ -55,25 +62,30 @@ local server_settings = {
                 enable = false,
             }
         },
-    },
+    }
 }
 
 ---Setup servers via nvim-lspconfig.
 ---@param server string Name of the language server.
----@param option boolean|table<string, any> Options.
-local function setup_server(server, option)
-    option = option or false
-    if (type(option) == "boolean" and option)
-        or (type(option) == "table" and option.load == true) then
+---@param config boolean|table<string, any> Server configuration from `nvimrc`.
+local function setup_server(server, config)
+    config = config or false
+    if (type(config) == "boolean" and config)
+        or (type(config) == "table" and config.load == true) then
         local opts = {
             capabilities = capabilities,
             on_attach = custom_attach
         }
         local option_settings
-        if type(option) == "table" and type(option.settings) == "table" then
-            option_settings = option.settings
+        if type(config) == "table" and type(config.settings) == "table" then
+            option_settings = config.settings
         end
-        opts.settings = option_settings or server_settings[server]
+        local server_setting = server_settings[server]
+        if type(server_setting) == "function" then
+            server_setting(opts, option_settings)
+        else
+            opts.settings = option_settings or server_setting
+        end
         lspconfig[server].setup(opts)
     end
 end
