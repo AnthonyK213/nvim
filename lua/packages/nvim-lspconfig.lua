@@ -41,9 +41,11 @@ require("mason-lspconfig").setup()
 ---LSP options.
 local server_settings = {
     omnisharp = function (o, s)
-        for k, v in pairs(s) do
-            if k ~= "cmd" then
-                o[k] = v
+        if type(s) == "table" then
+            for k, v in pairs(s) do
+                if k ~= "cmd" then
+                    o[k] = v
+                end
             end
         end
     end,
@@ -84,7 +86,10 @@ local function setup_server(server, config)
         if type(server_setting) == "function" then
             server_setting(opts, option_settings)
         else
-            opts.settings = option_settings or server_setting
+            local s = option_settings or server_setting
+            if s then
+                opts.settings = s
+            end
         end
         lspconfig[server].setup(opts)
     end
