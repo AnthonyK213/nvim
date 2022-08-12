@@ -140,15 +140,21 @@ function M.get_nvimrc()
         vim.fn.stdpath("config"),
         vim.loop.os_homedir(),
     }
-    local prefix = M.has_windows() and "_" or "."
-    local file_name = "/"..prefix.."nvimrc"
     local ok_index = 0
+    local file_name
     for i, dir in ipairs(dir_table) do
         if dir then
             ok_index = i
+            file_name = "/.nvimrc"
             local file_path = dir..file_name
             if M.path_exists(file_path) then
                 return true, file_path
+            elseif M.has_windows() then
+                file_name = "/_nvimrc"
+                file_path = dir..file_name
+                if M.path_exists(file_path) then
+                    return true, file_path
+                end
             end
         end
     end
