@@ -1,5 +1,5 @@
 " Source basics.vim
-call my#compat#vim_source('viml/basics')
+call my#compat#require('basics')
 
 function s:get_os_name() abort
   if has("unix")

@@ -34,11 +34,6 @@ function! my#compat#has_incompat() abort
   return 1
 endfunction
 
-" Load module `internal`.
-function my#compat#load_internal() abort
-  call my#compat#vim_source('viml/internal/init')
-endfunction
-
 " Key bindings for markdown.
 function my#compat#md_kbd() abort
   for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
@@ -87,6 +82,17 @@ function! my#compat#replace_termcodes(str, from_part, do_lt, special) abort
     return nvim_replace_termcodes(a:str, v:true, a:do_lt, a:special)
   endif
   return substitute(a:str, "<Plug>", "\<Plug>", "g")
+endfunction
+
+" Similar to lua's `require`
+function! my#compat#require(modname) abort
+  let l:config_dir = my#compat#stdpath('config') . '/'
+  let l:name = 'viml/' . a:modname
+  if !empty(glob(l:config_dir . l:name . '.vim'))
+    call my#compat#vim_source(l:name)
+  elseif isdirectory(l:config_dir . l:name)
+    call my#compat#vim_source(l:name . '/init')
+  endif
 endfunction
 
 " `CodeRun` complete option list.
@@ -153,14 +159,12 @@ endfunction
 
 " Source vim file.
 function! my#compat#vim_source(file) abort
-  exe 'source' my#compat#stdpath('config') . '/' . a:file . '.vim'
-endfunction
-
-" Source vim files.
-function! my#compat#vim_source_list(file_list) abort
-  for l:file in a:file_list
-    call my#compat#vim_source('viml/' . l:file)
-  endfor
+  let l:full_path = my#compat#stdpath('config') . '/' . a:file . '.vim'
+  if !empty(glob(l:full_path))
+    exe 'source' fnameescape(l:full_path)
+  else
+    echo 'File `' . a:file . '.vim` is not found'
+  endif
 endfunction
 
 " VSCode Key binding.
