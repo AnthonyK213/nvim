@@ -471,7 +471,11 @@ end
 ---@param file string Vim script path.
 function M.vim_source(file)
     local full_path = vim.fn.stdpath("config").."/"..file..".vim"
-    vim.cmd("source "..vim.fn.fnameescape(full_path))
+    if M.path_exists(full_path) then
+        vim.cmd("source "..vim.fn.fnameescape(full_path))
+    else
+        M.notify_err("File `"..file..".vim` is not found")
+    end
 end
 
 

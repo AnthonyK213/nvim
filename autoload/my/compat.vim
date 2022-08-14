@@ -1,8 +1,3 @@
-" Load module `internal`.
-function! my#compat#load_internal() abort
-  call v:lua.require("internal")
-endfunction
-
 " Open nvimrc.
 function! my#compat#open_nvimrc() abort
 lua << EOF
@@ -17,6 +12,11 @@ lua << EOF
     vim.notify("No available configuration directory")
   end
 EOF
+endfunction
+
+" Lua `require` wrapper.
+function! my#compat#require(modname) abort
+  call v:lua.require(a:modname)
 endfunction
 
 " Set background according to time.
