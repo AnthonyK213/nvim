@@ -27,6 +27,7 @@ call my#compat#vsc_kbd("v", "<leader>ku", "editor.action.removeCommentLine", [1]
 " Open
 call my#compat#vsc_kbd("n", "<leader>op", "workbench.action.toggleSidebarVisibility")
 call my#compat#vsc_kbd("n", "<leader>ot", "workbench.action.terminal.new")
+call my#compat#vsc_kbd("n", "<leader>ou", "editor.action.openLink")
 " LSP
 call my#compat#vsc_kbd("n", "K", "editor.action.showHover")
 call my#compat#vsc_kbd("n", "<leader>la", "editor.action.quickFix")
