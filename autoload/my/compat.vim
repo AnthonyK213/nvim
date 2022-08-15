@@ -52,12 +52,12 @@ endfunction
 
 " Mouse toggle.
 function! my#compat#mouse_toggle() abort
-  if &mouse ==# 'a'
-    let &mouse = ''
-    echom "Mouse disabled"
-  else
+  if empty(&mouse)
     let &mouse = 'a'
     echom "Mouse enabled"
+  else
+    let &mouse = ''
+    echom "Mouse disabled"
   endif
 endfunction
 
