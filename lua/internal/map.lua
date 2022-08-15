@@ -110,12 +110,12 @@ do
     end)
 end
 kbd("Mouse toggle", {"n", "v", "i", "t"}, "<F2>", function ()
-    if vim.o.mouse == "a" then
-        vim.o.mouse = ""
-        vim.notify("Mouse disabled")
-    else
+    if #(vim.o.mouse) == 0 then
         vim.o.mouse = "a"
         vim.notify("Mouse enabled")
+    else
+        vim.o.mouse = ""
+        vim.notify("Mouse disabled")
     end
 end)
 kbd("Run code", "n", "<F17>", function () require("utility.comp").run_or_compile() end)
