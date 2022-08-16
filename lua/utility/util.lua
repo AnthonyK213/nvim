@@ -130,6 +130,7 @@ function M.hl_auto_update(scheme, hl_table, color_setter)
                 local val = {
                     fg = c(colors, v["fg"]),
                     bg = c(colors, v["bg"]),
+                    sp = c(colors, v["sp"]),
                 }
                 if v["fmt"] then
                     for _, attr in ipairs(vim.split(v["fmt"], ",", {

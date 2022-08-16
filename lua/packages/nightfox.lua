@@ -15,6 +15,7 @@ require("nightfox").setup {
             FloatBorder = { fg = "palette.cyan" },
             SpellBad = { fg = "palette.red", style = "underline" },
             SpellCap = { fg = "palette.yellow", style = "underline" },
+            Underlined = { sp = "palette.cyan", style = "underline" },
             --#region Markdown
             markdownH1 =                  { fg = "palette.red", style = "bold" },
             markdownH2 =                  { fg = "palette.red", style = "bold" },

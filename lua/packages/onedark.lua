@@ -27,6 +27,7 @@ require("onedark").setup  {
         FloatBorder = { fg = "$cyan" },
         SpellBad = { fg = "$red", fmt = "underline" },
         SpellCap = { fg = "$yellow", fmt = "underline" },
+        Underlined = { sp = "$cyan", fmt = "underline" },
         --#region Markdown
         markdownH1 =                  { fg = "$red", fmt = "bold" },
         markdownH2 =                  { fg = "$red", fmt = "bold" },
