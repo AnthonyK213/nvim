@@ -13,9 +13,11 @@ require("nightfox").setup {
     groups = {
         all = {
             FloatBorder = { fg = "palette.cyan" },
-            SpellBad = { fg = "palette.red", style = "underline" },
+            SpellBad = { fg = "palette.red", sp = "palette.red", style = "underline" },
             SpellCap = { fg = "palette.yellow", style = "underline" },
             Underlined = { sp = "palette.cyan", style = "underline" },
+            htmlUnderline = { sp = "palette.cyan", style = "underline" },
+            VimwikiUnderline = { sp = "palette.cyan", style = "underline" },
             --#region Markdown
             markdownH1 =                  { fg = "palette.red", style = "bold" },
             markdownH2 =                  { fg = "palette.red", style = "bold" },
@@ -29,7 +31,7 @@ require("nightfox").setup {
             markdownCode =                { fg = "palette.green" },
             markdownUrl =                 { fg = "bg3" },
             markdownEscape =              { fg = "palette.cyan" },
-            markdownLinkText =            { fg = "palette.cyan", style = "underline" },
+            markdownLinkText =            { fg = "palette.cyan", sp = "palette.cyan", style = "underline" },
             markdownHeadingDelimiter =    { fg = "palette.red" },
             markdownBoldDelimiter =       { fg = "bg3" },
             markdownItalicDelimiter =     { fg = "bg3" },

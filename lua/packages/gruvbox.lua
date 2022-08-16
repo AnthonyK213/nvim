@@ -17,9 +17,11 @@ require("gruvbox").setup {
 
 require("utility.util").hl_auto_update("gruvbox", {
     FloatBorder = { fg = "$cyan" },
-    SpellBad = { fg = "$red", fmt = "underline" },
+    SpellBad = { fg = "$red", sp = "$red", fmt = "underline" },
     SpellCap = { fg = "$yellow", fmt = "underline" },
     Underlined = { sp = "$cyan", fmt = "underline" },
+    htmlUnderline = { sp = "$cyan", fmt = "underline" },
+    VimwikiUnderline = { sp = "$cyan", fmt = "underline" },
     --#region Markdown
     markdownH1 =                  { fg = "$red", fmt = "bold" },
     markdownH2 =                  { fg = "$red", fmt = "bold" },
@@ -32,7 +34,7 @@ require("utility.util").hl_auto_update("gruvbox", {
     markdownBoldItalic =          { fg = "$yellow", fmt = "bold,italic" },
     markdownCode =                { fg = "$green" },
     markdownUrl =                 { fg = "$bg3" },
-    markdownLinkText =            { fg = "$cyan", fmt = "underline" },
+    markdownLinkText =            { fg = "$cyan", sp = "$cyan", fmt = "underline" },
     markdownHeadingDelimiter =    { fg = "$red" },
     markdownBoldDelimiter =       { fg = "$bg3" },
     markdownItalicDelimiter =     { fg = "$bg3" },
