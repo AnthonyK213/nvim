@@ -212,12 +212,17 @@ function! my#lib#path_exists(path, ...) abort
 endfunction
 
 " Define highlight group.
-function! my#lib#set_hi(group, fg, bg, attr) abort
-  let l:cmd = "highlight " . a:group
-  if !empty(a:fg)   | let l:cmd = l:cmd . " guifg=" . a:fg | endif
-  if !empty(a:bg)   | let l:cmd = l:cmd . " guibg=" . a:bg | endif
-  if !empty(a:attr) | let l:cmd = l:cmd . " gui=" . a:attr | endif
-  exe l:cmd
+function! my#lib#set_hl(name, val) abort
+  let l:cmd = []
+  let l:map = {'fg': 'guifg', 'bg': 'guibg', 'sp': 'guisp', 'fmt': 'gui'}
+  for [l:k, l:v] in items(a:val)
+    if has_key(l:map, l:k) && !empty(l:v)
+      call add(l:cmd, l:map[l:k] . "=" . l:v)
+    endif
+  endfor
+  if !empty(l:cmd)
+    exe "highlight" a:name join(l:cmd, " ")
+  endif
 endfunction
 
 " Replace chars in a string according to a dictionary.

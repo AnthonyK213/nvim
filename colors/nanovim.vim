@@ -225,7 +225,6 @@ call s:h("EndOfBuffer", {
       \ })
 " __Underlined__
 call s:h("Underlined", {
-      \ "fg": s:nano_color_salient,
       \ "gui": "underline",
       \ "sp": s:nano_color_salient
       \ })

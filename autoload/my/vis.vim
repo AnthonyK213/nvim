@@ -1,31 +1,78 @@
+let s:highlights = {
+      \ 'EndOfBuffer': {'fg': '$bg'},
+      \ 'SpellBad': {'fg': '$red', 'sp': '$red', 'fmt': 'underline'},
+      \ 'SpellCap': {'fg': '$yellow', 'fmt': 'underline'},
+      \ 'Underlined': {'sp': '$cyan', 'fmt': 'underline'},
+      \ 'htmlUnderline': { 'sp': "$cyan", 'fmt': "underline" },
+      \ 'VimwikiUnderline': { 'sp': "$cyan", 'fmt': "underline" },
+      \ 'htmlH1': {'fg': '$red', 'fmt': 'bold'},
+      \ 'htmlH2': {'fg': '$red', 'fmt': 'bold'},
+      \ 'htmlH3': {'fg': '$red'},
+      \ 'htmlBold': {'fg': '$yellow', 'fmt': 'bold'},
+      \ 'htmlItalic': {'fg': '$purple', 'fmt': 'italic'},
+      \ 'htmlBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
+      \ 'markdownH1': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH2': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH3': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH4': {'fg': '$red'},
+      \ 'markdownH5': {'fg': '$red'},
+      \ 'markdownH6': {'fg': '$red'},
+      \ 'markdownBold': {'fg': '$yellow', 'fmt': 'bold'},
+      \ 'markdownItalic': {'fg': '$purple', 'fmt': 'italic'},
+      \ 'markdownBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
+      \ 'markdownCode': {'fg': '$green'},
+      \ 'markdownUrl': {'fg': '$grey'},
+      \ 'markdownEscape': {'fg': '$cyan'},
+      \ 'markdownLinkText': {'fg': '$cyan', 'sp': 'cyan', 'fmt': 'underline'},
+      \ 'markdownHeadingDelimiter': { 'fg': '$red' },
+      \ 'markdownBoldDelimiter': {'fg': '$grey'},
+      \ 'markdownItalicDelimiter': {'fg': '$grey'},
+      \ 'markdownBoldItalicDelimiter': {'fg': '$grey'},
+      \ 'markdownCodeDelimiter': {'fg': '$grey'},
+      \ 'markdownLinkDelimiter': {'fg': '$grey'},
+      \ 'markdownLinkTextDelimiter': {'fg': '$grey'},
+      \ }
+
+function! s:c(color_table, name) abort
+  if !empty(a:name)
+    if a:name[0] ==# '#'
+      return a:name
+    elseif a:name[0] ==# '$'
+      let l:key = a:name[1:]
+      if has_key(a:color_table, l:key)
+        return a:color_table[l:key]
+      endif
+    endif
+  endif
+  return ''
+endfunction
+
 function! my#vis#hi_extd() abort
-  " Spell
-  call my#lib#set_hi('SpellBad', g:terminal_color_1, '', 'underline')
-  call my#lib#set_hi('SpellCap', g:terminal_color_3, '', 'underline')
-  " End of buffer '~'
-  call my#lib#set_hi('EndOfBuffer', g:terminal_color_8, '', '')
-  " Html
-  call my#lib#set_hi('htmlH1',         g:terminal_color_1,  '', 'bold')
-  call my#lib#set_hi('htmlH2',         g:terminal_color_1,  '', 'bold')
-  call my#lib#set_hi('htmlH3',         g:terminal_color_1,  '', '')
-  call my#lib#set_hi('htmlBold',       g:terminal_color_3,  '', 'bold')
-  call my#lib#set_hi('htmlItalic',     g:terminal_color_5,  '', 'italic')
-  call my#lib#set_hi('htmlBoldItalic', g:terminal_color_11, '', 'bold,italic')
-  " Markdown
-  call my#lib#set_hi('markdownH1',  g:terminal_color_1,  '', 'bold')
-  call my#lib#set_hi('markdownH2',  g:terminal_color_1,  '', 'bold')
-  call my#lib#set_hi('markdownH3',  g:terminal_color_1,  '', '')
-  call my#lib#set_hi('markdownUrl', g:terminal_color_15, '', 'underline')
-  call my#lib#set_hi('markdownEscape',     g:terminal_color_4,  '', '')
-  call my#lib#set_hi('markdownLinkText',   g:terminal_color_6,  '', 'underline')
-  call my#lib#set_hi('markdownBold',       g:terminal_color_3,  '', 'bold')
-  call my#lib#set_hi('markdownItalic',     g:terminal_color_5,  '', 'italic')
-  call my#lib#set_hi('markdownBoldItalic', g:terminal_color_11, '', 'bold,italic')
-  " Markdown delimiters
-  call my#lib#set_hi('markdownCodeDelimiter',       g:terminal_color_15, '', '')
-  call my#lib#set_hi('markdownBoldDelimiter',       g:terminal_color_15, '', '')
-  call my#lib#set_hi('markdownItalicDelimiter',     g:terminal_color_15, '', '')
-  call my#lib#set_hi('markdownBoldItalicDelimiter', g:terminal_color_15, '', '')
-  call my#lib#set_hi('markdownLinkDelimiter',       g:terminal_color_15, '', '')
-  call my#lib#set_hi('markdownLinkTextDelimiter',   g:terminal_color_15, '', '')
+  let l:palette = {
+        \ 'fg': g:terminal_color_0,
+        \ 'red': g:terminal_color_1,
+        \ 'green': g:terminal_color_2,
+        \ 'yellow': g:terminal_color_3,
+        \ 'blue': g:terminal_color_4,
+        \ 'purple': g:terminal_color_5,
+        \ 'cyan': g:terminal_color_6,
+        \ 'light_grey': g:terminal_color_7,
+        \ 'bg': g:terminal_color_8,
+        \ 'bright_red': g:terminal_color_9,
+        \ 'bright_green': g:terminal_color_10,
+        \ 'bright_yellow': g:terminal_color_11,
+        \ 'bright_blue': g:terminal_color_12,
+        \ 'bright_purple': g:terminal_color_13,
+        \ 'bright_cyan': g:terminal_color_14,
+        \ 'grey': g:terminal_color_15,
+        \ }
+  for [l:k, l:v] in items(s:highlights)
+    let l:val = deepcopy(l:v)
+    for [l:a, l:b] in items(l:val)
+      if index(['fg', 'bg', 'sp'], l:a) >= 0
+        let l:val[l:a] = s:c(l:palette, l:b)
+      endif
+    endfor
+    call my#lib#set_hl(l:k, l:val)
+  endfor
 endfunction
