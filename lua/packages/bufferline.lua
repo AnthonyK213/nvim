@@ -14,7 +14,7 @@ require("bufferline").setup {
         tab_size = 18,
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function (count) return "("..count..")" end,
-        custom_filter = function(buf_number)
+        custom_filter = function (buf_number)
             local bt = vim.bo[buf_number].bt
             if not vim.tbl_contains({ "terminal", "quickfix" }, bt) then
                 return true
