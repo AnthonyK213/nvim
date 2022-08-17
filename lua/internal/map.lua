@@ -147,7 +147,7 @@ kbd("Delete current buffer", "n", "<leader>bd", function ()
     local bufs = lib.get_listed_bufs()
     local bts = { "help", "terminal", "nofile", "quickfix" }
     local handle = vim.api.nvim_get_current_buf()
-    if #bufs == 1 then
+    if #bufs <= 1 then
         table.insert(bufs, vim.api.nvim_create_buf(true, true))
     end
     if #bufs > 2 and not vim.tbl_contains(bts, vim.bo.bt) then
