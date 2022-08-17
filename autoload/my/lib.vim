@@ -240,5 +240,5 @@ function! my#lib#str_escape(str, esc_dict) abort
 endfunction
 
 function! my#lib#vim_reg_esc(str) abort
-  return escape(a:str, ' ()[]{}<>.+*^$')
+  return escape(a:str, ' ()[]{}<>.+*^$%')
 endfunction
