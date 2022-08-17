@@ -98,7 +98,7 @@ end
 ---@param scheme string Name of color scheme.
 ---@param hl_table table<string, table<string, string>> See onedark.nvim
 ---@param color_setter function Returns a table of color mapping.
-function M.hl_auto_update(scheme, hl_table, color_setter)
+function M.auto_hl(scheme, hl_table, color_setter)
     ---Get color value from a color table.
     ---@param color_table table<string, string>
     ---@param name string Name of the color.

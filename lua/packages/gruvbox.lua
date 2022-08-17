@@ -15,7 +15,7 @@ require("gruvbox").setup {
     overrides = {},
 }
 
-require("utility.util").hl_auto_update("gruvbox", {
+require("utility.util").auto_hl("gruvbox", {
     FloatBorder = { fg = "$cyan" },
     SpellBad = { fg = "$red", sp = "$red", fmt = "underline" },
     SpellCap = { fg = "$yellow", fmt = "underline" },

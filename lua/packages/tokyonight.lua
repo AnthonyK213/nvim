@@ -9,7 +9,7 @@ vim.g.tokyonight_sidebars = {
     "aerial", "packer",
 }
 
-require("utility.util").hl_auto_update("tokyonight", {
+require("utility.util").auto_hl("tokyonight", {
     FloatBorder = { fg = "$cyan" },
     SpellBad = { fg = "$red", sp = "$red", fmt = "underline" },
     SpellCap = { fg = "$yellow", fmt = "underline" },
