@@ -97,19 +97,19 @@ end
 ---Auto-update the color scheme highlight groups.
 ---@param scheme string Name of color scheme.
 ---@param hl_table table<string, table<string, string>> See onedark.nvim
----@param color_setter function Returns a table of color mapping.
-function M.auto_hl(scheme, hl_table, color_setter)
+---@param palette function Returns a color map (table).
+function M.auto_hl(scheme, hl_table, palette)
     ---Get color value from a color table.
-    ---@param color_table table<string, string>
+    ---@param color_map table<string, string>
     ---@param name string Name of the color.
     ---@return string? corlor_value
-    local c = function (color_table, name)
+    local c = function (color_map, name)
         if not name then return nil end
         if vim.startswith(name, "#") then
             return name
         elseif vim.startswith(name, "$") then
             local key = name:sub(2)
-            return color_table[key]
+            return color_map[key]
         else
             return nil
         end
@@ -123,14 +123,14 @@ function M.auto_hl(scheme, hl_table, color_setter)
         group = id,
         pattern = scheme,
         callback = function ()
-            local colors = color_setter()
+            local map = palette()
             for k, v in pairs(hl_table) do
                 ---Highlighting definition map.
                 ---@type table<string, any>
                 local val = {
-                    fg = c(colors, v["fg"]),
-                    bg = c(colors, v["bg"]),
-                    sp = c(colors, v["sp"]),
+                    fg = c(map, v["fg"]),
+                    bg = c(map, v["bg"]),
+                    sp = c(map, v["sp"]),
                 }
                 if v["fmt"] then
                     for _, attr in ipairs(vim.split(v["fmt"], ",", {
