@@ -226,7 +226,6 @@ endfunction
 function! my#config#gruvbox() abort
   let g:_my_theme_switchable = 1
   if has("nvim")
-    set termguicolors
     call my#util#auto_hl('gruvbox', s:highlights, {-> {
           \ 'fg': g:terminal_color_0,
           \ 'red': g:terminal_color_1,
@@ -294,7 +293,6 @@ function! my#config#nerdtree() abort
 endfunction
 
 function! my#config#one() abort
-  set termguicolors
   let g:one_allow_italics = 1
   let g:airline_theme = 'one'
   let g:_my_theme_switchable = 1

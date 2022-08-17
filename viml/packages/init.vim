@@ -54,6 +54,9 @@ call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
 call s:plug('AndrewRadev/gnugo.vim')
 
+if has("termguicolors")
+  set termguicolors
+endif
 let s:colorscheme_list = ['one', 'gruvbox']
 let g:_my_theme_switchable = 0
 let &bg = g:_my_tui_theme
