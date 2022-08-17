@@ -3,30 +3,30 @@ call my#compat#require('basics')
 
 function s:get_os_name() abort
   if has("unix")
-    return "LINUX"
+    return "Linux"
   elseif has("win32")
-    return "WINDOWS"
+    return "Windows"
   elseif has("mac")
-    return "MACOS"
+    return "Macos"
   else
-    return "UNKNOWN"
+    return "Unknown"
   endif
 endfunction
 
-let g:os_type = s:get_os_name()
+let s:os_type = s:get_os_name()
 
 let g:_my_dep_sh = {
-      \ "LINUX" : "bash",
-      \ "WINDOWS" : ['powershell.exe', '-nologo'],
-      \ "MACOS" : "zsh"
-      \ }[g:os_type]
+      \ "Linux": "bash",
+      \ "Windows": ['powershell.exe', '-nologo'],
+      \ "Macos": "zsh"
+      \ }[s:os_type]
 let g:_my_dep_cc = 'gcc'
 let g:_my_dep_py3 = '/usr/bin/python3'
 let g:_my_dep_start = {
-      \ "LINUX" : "xdg-open",
-      \ "WINDOWS" : ['cmd', '/c', 'start', '""'],
-      \ "MACOS" : "open"
-      \ }[g:os_type]
+      \ "Linux": "xdg-open",
+      \ "Windows": ['cmd', '/c', 'start', '""'],
+      \ "Macos": "open"
+      \ }[s:os_type]
 let g:_my_path_home = getenv('HOME')
 let g:_my_path_cloud = has_key(environ(), 'ONEDRIVE') ?
       \ getenv('ONEDRIVE') : g:_my_path_home
@@ -56,7 +56,7 @@ let g:_my_lsp_rls = v:false
 let g:_my_lsp_texlab = v:false
 let g:_my_lsp_vimls = v:false
 
-
+" Merge custom options.
 function s:json_set_var(json) abort
   let l:table = json_decode(a:json)
   for [l:key, l:val] in items(l:table)
