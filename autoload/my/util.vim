@@ -218,3 +218,35 @@ function! my#util#git_push_all(...) abort
         \ }, function("s:git_push_cb"))
   call my#proc#queue_all([l:git_add, l:git_commit, l:git_push])
 endfunction
+
+function! my#util#auto_hl(scheme, hl_table, palette) abort
+  function! s:c(color_table, name) closure
+    if !empty(a:name)
+      if a:name[0] ==# '#'
+        return a:name
+      elseif a:name[0] ==# '$'
+        let l:key = a:name[1:]
+        if has_key(a:color_table, l:key)
+          return a:color_table[l:key]
+        endif
+      endif
+    endif
+    return ''
+  endfunction
+  function! s:hl() closure
+    let l:map = a:palette()
+    for [l:k, l:v] in items(a:hl_table)
+      let l:val = deepcopy(l:v)
+      for [l:a, l:b] in items(l:val)
+        if index(['fg', 'bg', 'sp'], l:a) >= 0
+          let l:val[l:a] = s:c(l:map, l:b)
+        endif
+      endfor
+      call my#lib#set_hl(l:k, l:val)
+    endfor
+  endfunction
+  exe "augroup" a:scheme . "Extd"
+  exe "autocmd!"
+  exe "au ColorScheme" a:scheme "call <SID>hl()"
+  exe "augroup end"
+endfunction

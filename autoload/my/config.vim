@@ -1,3 +1,38 @@
+let s:highlights = {
+      \ 'EndOfBuffer': {'fg': '$bg'},
+      \ 'SpellBad': {'fg': '$red', 'sp': '$red', 'fmt': 'underline'},
+      \ 'SpellCap': {'fg': '$yellow', 'fmt': 'underline'},
+      \ 'Underlined': {'sp': '$cyan', 'fmt': 'underline'},
+      \ 'htmlUnderline': { 'sp': "$cyan", 'fmt': "underline" },
+      \ 'VimwikiUnderline': { 'sp': "$cyan", 'fmt': "underline" },
+      \ 'htmlH1': {'fg': '$red', 'fmt': 'bold'},
+      \ 'htmlH2': {'fg': '$red', 'fmt': 'bold'},
+      \ 'htmlH3': {'fg': '$red'},
+      \ 'htmlBold': {'fg': '$yellow', 'fmt': 'bold'},
+      \ 'htmlItalic': {'fg': '$purple', 'fmt': 'italic'},
+      \ 'htmlBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
+      \ 'markdownH1': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH2': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH3': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH4': {'fg': '$red'},
+      \ 'markdownH5': {'fg': '$red'},
+      \ 'markdownH6': {'fg': '$red'},
+      \ 'markdownBold': {'fg': '$yellow', 'fmt': 'bold'},
+      \ 'markdownItalic': {'fg': '$purple', 'fmt': 'italic'},
+      \ 'markdownBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
+      \ 'markdownCode': {'fg': '$green'},
+      \ 'markdownUrl': {'fg': '$grey'},
+      \ 'markdownEscape': {'fg': '$cyan'},
+      \ 'markdownLinkText': {'fg': '$cyan', 'sp': 'cyan', 'fmt': 'underline'},
+      \ 'markdownHeadingDelimiter': { 'fg': '$red' },
+      \ 'markdownBoldDelimiter': {'fg': '$grey'},
+      \ 'markdownItalicDelimiter': {'fg': '$grey'},
+      \ 'markdownBoldItalicDelimiter': {'fg': '$grey'},
+      \ 'markdownCodeDelimiter': {'fg': '$grey'},
+      \ 'markdownLinkDelimiter': {'fg': '$grey'},
+      \ 'markdownLinkTextDelimiter': {'fg': '$grey'},
+      \ }
+
 function s:coc_lsp_check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
@@ -191,10 +226,25 @@ endfunction
 function! my#config#gruvbox() abort
   let g:_my_theme_switchable = 1
   if has("nvim")
-    augroup highlight_extend
-      autocmd!
-      au ColorScheme gruvbox call my#vis#hi_extd()
-    augroup end
+    set termguicolors
+    call my#util#auto_hl('gruvbox', s:highlights, {-> {
+          \ 'fg': g:terminal_color_0,
+          \ 'red': g:terminal_color_1,
+          \ 'green': g:terminal_color_2,
+          \ 'yellow': g:terminal_color_3,
+          \ 'blue': g:terminal_color_4,
+          \ 'purple': g:terminal_color_5,
+          \ 'cyan': g:terminal_color_6,
+          \ 'light_grey': g:terminal_color_7,
+          \ 'bg': g:terminal_color_8,
+          \ 'bright_red': g:terminal_color_9,
+          \ 'bright_green': g:terminal_color_10,
+          \ 'bright_yellow': g:terminal_color_11,
+          \ 'bright_blue': g:terminal_color_12,
+          \ 'bright_purple': g:terminal_color_13,
+          \ 'bright_cyan': g:terminal_color_14,
+          \ 'grey': g:terminal_color_15,
+          \ }})
   endif
   colorscheme gruvbox
 endfunction
@@ -248,7 +298,7 @@ function! my#config#one() abort
   let g:one_allow_italics = 1
   let g:airline_theme = 'one'
   let g:_my_theme_switchable = 1
-  function s:one_color_extd() abort
+  function! s:set_one_term_color() abort
     if &bg ==# 'dark'
       let g:terminal_color_0  = "#abb2bf"
       let g:terminal_color_1  = "#e06c75"
@@ -284,12 +334,26 @@ function! my#config#one() abort
       let g:terminal_color_14 = "#0184bc"
       let g:terminal_color_15 = "#d0d0d0"
     endif
-    call my#vis#hi_extd()
+    return {
+          \ 'fg': g:terminal_color_0,
+          \ 'red': g:terminal_color_1,
+          \ 'green': g:terminal_color_2,
+          \ 'yellow': g:terminal_color_3,
+          \ 'blue': g:terminal_color_4,
+          \ 'purple': g:terminal_color_5,
+          \ 'cyan': g:terminal_color_6,
+          \ 'light_grey': g:terminal_color_7,
+          \ 'bg': g:terminal_color_8,
+          \ 'bright_red': g:terminal_color_9,
+          \ 'bright_green': g:terminal_color_10,
+          \ 'bright_yellow': g:terminal_color_11,
+          \ 'bright_blue': g:terminal_color_12,
+          \ 'bright_purple': g:terminal_color_13,
+          \ 'bright_cyan': g:terminal_color_14,
+          \ 'grey': g:terminal_color_15,
+          \ }
   endfunction
-  augroup highlight_extend
-    autocmd!
-    au ColorScheme one call <SID>one_color_extd()
-  augroup end
+  call my#util#auto_hl('one', s:highlights, function("s:set_one_term_color"))
   colorscheme one
 endfunction
 
