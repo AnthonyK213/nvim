@@ -145,17 +145,26 @@ kbd("Change cwd to current buffer", "n", "<leader>bc", function ()
 end, { silent = false })
 kbd("Delete current buffer", "n", "<leader>bd", function ()
     local bufs = lib.get_listed_bufs()
-    local bts = { "help", "terminal", "nofile", "quickfix" }
+    local sp = vim.tbl_contains({
+        "help", "terminal", "quickfix", "nofile"
+    }, vim.bo.bt)
     local handle = vim.api.nvim_get_current_buf()
-    if #bufs <= 1 then
+    if (#bufs == 1 and vim.bo[handle].buflisted)
+        or (#bufs == 0 and not vim.bo[handle].buflisted) then
         table.insert(bufs, vim.api.nvim_create_buf(true, true))
     end
-    if #bufs > 2 and not vim.tbl_contains(bts, vim.bo.bt) then
+    if #bufs > 2 and not sp then
         local index = lib.tbl_find_first(bufs, handle)
         vim.api.nvim_set_current_buf(bufs[index + (index == 1 and 1 or -1)])
     end
     vim.bo[handle].buflisted = false
-    vim.api.nvim_buf_delete(handle, { force = false, unload = vim.o.hidden })
+    local ok = pcall(vim.api.nvim_buf_delete, handle, {
+        force = false,
+        unload = vim.o.hidden
+    })
+    if not ok then
+        lib.notify_err("Failed to delete buffer")
+    end
 end)
 kbd("Background toggle", "n", "<leader>bg", function ()
     if not vim.g._my_theme_switchable or vim.g._my_lock_background then
