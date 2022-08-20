@@ -152,7 +152,7 @@ function! my#config#coc() abort
     call coc#config(s:key, s:val)
   endfor
   " Input.
-  ino <silent><expr> <cr> coc#pum#visible() ? coc#pum#confirm()
+  ino <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
         \: "\<C-G>u\<CR>\<C-R>=coc#on_enter()\<CR>"
   im <silent><expr> <TAB>
         \ coc#pum#visible() ?
@@ -204,6 +204,8 @@ function! my#config#coc() abort
     nn <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
     vn <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
     vn <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
+    call my#util#new_keymap("i", "<C-F>", {fb -> coc#float#has_scroll() ? coc#float#scroll(1) : fb()})
+    call my#util#new_keymap("i", "<C-B>", {fb -> coc#float#has_scroll() ? coc#float#scroll(0) : fb()})
   endif
   " Coc-explorer
   nn  <silent> <leader>op :CocCommand explorer<CR>
