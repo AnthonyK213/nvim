@@ -48,6 +48,8 @@ function s:coc_lsp_check(server, extension, enable="enable") abort
         for [l:k, l:v] in items(l:val)
           if l:k ==# "load"
             let g:coc_config_table[a:enable] = v:true
+          elseif l:k ==# "settings"
+            call extend(g:coc_config_table, l:v, "force")
           else
             let g:coc_config_table[l:k] = l:v
           endif
@@ -125,6 +127,7 @@ function! my#config#coc() abort
   call s:coc_lsp_check('jedi_language_server', 'coc-jedi', 'jedi.enable')
   call s:coc_lsp_check('omnisharp', 'coc-omnisharp')
   call s:coc_lsp_check('powershell_es', 'coc-powershell')
+  call s:coc_lsp_check('pyright', 'coc-pyright', 'pyright.enable')
   call s:coc_lsp_check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
   call s:coc_lsp_check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
   call s:coc_lsp_check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
