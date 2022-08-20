@@ -57,15 +57,19 @@ call s:plug('AndrewRadev/gnugo.vim')
 if has("termguicolors")
   set termguicolors
 endif
-let s:colorscheme_list = ['one', 'gruvbox']
+let s:colorscheme_table = {
+      \ 'one': 'one',
+      \ 'onedark': 'one',
+      \ 'gruvbox': 'gruvbox'
+      \ }
 let g:_my_theme_switchable = 0
 let &bg = g:_my_tui_theme
 if s:nvim_init_src ==? 'nano'
   let g:_my_theme_switchable = 1
   colorscheme nanovim
 else
-  if index(s:colorscheme_list, g:_my_tui_scheme) >= 0
-    call add(s:plug_config_list, function("my#config#" . g:_my_tui_scheme))
+  if has_key(s:colorscheme_table, g:_my_tui_scheme)
+    call add(s:plug_config_list, function("my#config#" . s:colorscheme_table[g:_my_tui_scheme]))
   else
     try
       exe 'colorscheme' g:_my_tui_scheme
