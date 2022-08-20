@@ -38,7 +38,7 @@ require("nvim-tree").setup {
     renderer = {
         highlight_git = true,
         indent_markers = {
-            enable = true,
+            enable = false,
             icons = {
                 corner = "└ ",
                 edge = "│ ",
