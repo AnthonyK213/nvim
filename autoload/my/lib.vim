@@ -81,16 +81,21 @@ function! my#lib#get_nvimrc() abort
         \ my#compat#stdpath("config"),
         \ expand("$HOME"),
         \ ]
-  let l:prefix = has("win32") ? "_" : "."
-  let l:file_name = "/" . l:prefix . "nvimrc"
   let l:ok_index = -1
   for i in range(len(l:dir_table))
     let l:dir = l:dir_table[i]
     if !empty(glob(l:dir))
       let l:ok_index = i
+      let l:file_name = "/.nvimrc"
       let l:file_path = l:dir . l:file_name
       if !empty(glob(l:file_path))
         return [1, l:file_path]
+      elseif has("win32")
+        let l:file_name = "/_nvimrc"
+        let l:file_path = l:dir . l:file_path
+        if !empty(glob(l:file_path))
+          return [1, l:file_path]
+        endif
       endif
     endif
   endfor
