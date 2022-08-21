@@ -44,7 +44,6 @@ call s:plug('mhinz/vim-signify', function("my#config#vim_signify"))
 call s:plug('tpope/vim-speeddating')
 call s:plug('AnthonyK213/vim-ipairs', function("my#config#vim_ipairs"))
 call s:plug('andymass/vim-matchup')
-call s:plug('skanehira/vsession', function("my#config#vsession"))
 call s:plug('voldikss/vim-floaterm', function("my#config#vim_floatterm"))
 call s:plug('dhruvasagar/vim-table-mode', function("my#config#vim_table_mode"))
 call s:plug('lervag/vimtex', function("my#config#vimtex"))
@@ -53,6 +52,7 @@ call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview
 call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
 call s:plug('AndrewRadev/gnugo.vim')
+call s:plug('mhinz/vim-startify', function("my#config#vim_startify"))
 
 if has("termguicolors")
   set termguicolors

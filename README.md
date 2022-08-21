@@ -223,6 +223,7 @@
   - [vim-plug](https://github.com/junegunn/vim-plug)
 * Display
   - [vim-airline](https://github.com/vim-airline/vim-airline)
+  - [vim-startify](https://github.com/mhinz/vim-startify)
 * Color scheme
   - [vim-one](https://github.com/rakr/vim-one)
   - [gruvbox](https://github.com/morhetz/gruvbox)
@@ -237,7 +238,6 @@
   - [indentLine](https://github.com/Yggdroot/indentLine)
   - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
   - [vim-matchup](https://github.com/andymass/vim-matchup)
-  - [vsession](https://github.com/skanehira/vsession)
   - [vim-floaterm](https://github.com/voldikss/vim-floaterm)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
@@ -245,14 +245,14 @@
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
   - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
-* Completion; Snippet (Provide by pure vim script)
+* Completion; Snippet (Provided by pure vim script)
   - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
   - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
   - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
   - [nerdtree](https://github.com/preservim/nerdtree)
   - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
-* Completion; Snippet; LSP (Provide by coc.nvim)
+* Completion; Snippet; LSP (Provided by `coc.nvim`)
   - [coc.nvim](https://github.com/neoclide/coc.nvim)
   - [vista.vim](https://github.com/liuchengxu/vista.vim)
 * Games

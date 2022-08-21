@@ -76,14 +76,6 @@ function! s:coc_show_doc() abort
   endif
 endfunction
 
-function! s:save_session() abort
-  let l:file = getcwd()
-  let l:file = substitute(l:file, '\v[\\/]', '__', 'g')
-  let l:file = substitute(l:file, ':', '++', 'g')
-  let l:path = g:vsession_path . '/' . l:file
-  execute 'silent mksession!' l:path
-endfunction
-
 function! my#config#asyncomplete() abort
   " asyncomplete.vim
   let g:asyncomplete_auto_pop = 1
@@ -259,7 +251,8 @@ function! my#config#indentLine() abort
   let g:indentLine_fileTypeExclude = [
         \ 'markdown',
         \ 'vimwiki',
-        \ 'vimwiki.markdown'
+        \ 'vimwiki.markdown',
+        \ 'startify',
         \ ]
 endfunction
 
@@ -478,10 +471,17 @@ function! my#config#vista() abort
   nn <silent> <leader>mv :Vista!!<CR>
 endfunction
 
-function! my#config#vsession() abort
-  let g:vsession_path = my#compat#stdpath('data') . '/sessions'
-  let g:vsession_save_last_on_leave = 0
-  augroup vsession_config
+function! my#config#vim_startify() abort
+  let g:startify_session_dir = my#compat#stdpath('data') . '/sessions'
+  function! s:save_session() closure
+    if &filetype ==# 'startify' | return | end
+    let l:file = getcwd()
+    let l:file = substitute(l:file, '\v[\\/]', '__', 'g')
+    let l:file = substitute(l:file, ':', '++', 'g')
+    let l:path = g:startify_session_dir . '/' . l:file
+    execute 'silent mksession!' l:path
+  endfunction
+  augroup vim_startify_session
     autocmd!
     autocmd VimLeave * call s:save_session()
   augroup END
