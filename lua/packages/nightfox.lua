@@ -17,7 +17,6 @@ require("nightfox").setup {
             SpellCap = { fg = "palette.yellow", style = "underline" },
             Underlined = { sp = "palette.cyan", style = "underline" },
             htmlUnderline = { sp = "palette.cyan", style = "underline" },
-            VimwikiUnderline = { sp = "palette.cyan", style = "underline" },
             --#region Markdown
             markdownH1 =                  { fg = "palette.red", style = "bold" },
             markdownH2 =                  { fg = "palette.red", style = "bold" },
@@ -49,6 +48,24 @@ require("nightfox").setup {
             markdownTSTextReference =     { fg = "palette.cyan", style = "underline" },
             markdownTSTitle =             { fg = "palette.red", style = "bold" },
             markdownTSURI =               { fg = "bg3" },
+            --#endregion
+            --#region Vimwiki
+            VimwikiHeader1 =    { fg = "palette.red", style = "bold" },
+            VimwikiHeader2 =    { fg = "palette.red", style = "bold" },
+            VimwikiHeader3 =    { fg = "palette.red", style = "bold" },
+            VimwikiHeader4 =    { fg = "palette.red" },
+            VimwikiHeader5 =    { fg = "palette.red" },
+            VimwikiHeader6 =    { fg = "palette.red" },
+            VimwikiHeaderChar = { fg = "palette.red" },
+            VimwikiBold =       { fg = "palette.yellow", style = "bold" },
+            VimwikiItalic =     { fg = "palette.magenta", style = "italic" },
+            VimwikiBoldItalic = { fg = "palette.yellow", style = "bold,italic" },
+            VimwikiUnderline =  { sp = "palette.cyan", style = "underline" },
+            VimwikiCode =       { fg = "palette.green" },
+            VimwikiPre =        { fg = "palette.green" },
+            VimwikiDelimiter =  { fg = "bg3" },
+            VimwikiListTodo =   { fg = "palette.magenta" },
+            VimwikiWeblink1 =   { fg = "palette.cyan", sp = "palette.cyan", style = "underline" },
             --#endregion
         }
     }

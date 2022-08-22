@@ -29,7 +29,6 @@ require("onedark").setup  {
         SpellCap = { fg = "$yellow", fmt = "underline" },
         Underlined = { sp = "$cyan", fmt = "underline" },
         htmlUnderline = { sp = "$cyan", fmt = "underline" },
-        VimwikiUnderline = { sp = "$cyan", fmt = "underline" },
         --#region Markdown
         markdownH1 =                  { fg = "$red", fmt = "bold" },
         markdownH2 =                  { fg = "$red", fmt = "bold" },
@@ -61,6 +60,24 @@ require("onedark").setup  {
         markdownTSTextReference =     { fg = "$cyan", fmt = "underline" },
         markdownTSTitle =             { fg = "$red", fmt = "bold" },
         markdownTSURI =               { fg = "$bg3" },
+        --#endregion
+        --#region Vimwiki
+        VimwikiHeader1 =    { fg = "$red", fmt = "bold" },
+        VimwikiHeader2 =    { fg = "$red", fmt = "bold" },
+        VimwikiHeader3 =    { fg = "$red", fmt = "bold" },
+        VimwikiHeader4 =    { fg = "$red" },
+        VimwikiHeader5 =    { fg = "$red" },
+        VimwikiHeader6 =    { fg = "$red" },
+        VimwikiHeaderChar = { fg = "$red" },
+        VimwikiBold =       { fg = "$yellow", fmt = "bold" },
+        VimwikiItalic =     { fg = "$purple", fmt = "italic" },
+        VimwikiBoldItalic = { fg = "$yellow", fmt = "bold,italic" },
+        VimwikiUnderline =  { sp = "$cyan", fmt = "underline" },
+        VimwikiCode =       { fg = "$green" },
+        VimwikiPre =        { fg = "$green" },
+        VimwikiDelimiter =  { fg = "bg3" },
+        VimwikiListTodo =   { fg = "$purple" },
+        VimwikiWeblink1 =   { fg = "$cyan", sp = "palette.cyan", fmt = "underline" },
         --#endregion
     },
     diagnostics = {
