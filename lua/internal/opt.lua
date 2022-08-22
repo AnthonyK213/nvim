@@ -113,6 +113,65 @@ vim.g.markdown_fenced_languages = {
     "config", "gitconfig", "sshconfig", "dosini"
 }
 
+-- Highlights
+opt.hl = {
+    FloatBorder =   { fg = "$cyan" },
+    SpellBad =      { fg = "$red", sp = "$red", fmt = "underline" },
+    SpellCap =      { fg = "$yellow", fmt = "underline" },
+    Underlined =    { sp = "$cyan", fmt = "underline" },
+    htmlUnderline = { sp = "$cyan", fmt = "underline" },
+    --#region Markdown
+    markdownH1 =                  { fg = "$red", fmt = "bold" },
+    markdownH2 =                  { fg = "$red", fmt = "bold" },
+    markdownH3 =                  { fg = "$red", fmt = "bold" },
+    markdownH4 =                  { fg = "$red" },
+    markdownH5 =                  { fg = "$red" },
+    markdownH6 =                  { fg = "$red" },
+    markdownBold =                { fg = "$yellow", fmt = "bold" },
+    markdownItalic =              { fg = "$purple", fmt = "italic" },
+    markdownBoldItalic =          { fg = "$yellow", fmt = "bold,italic" },
+    markdownCode =                { fg = "$green" },
+    markdownUrl =                 { fg = "$bg3" },
+    markdownEscape =              { fg = "$cyan" },
+    markdownLinkText =            { fg = "$cyan", sp = "$cyan", fmt = "underline" },
+    markdownHeadingDelimiter =    { fg = "$red" },
+    markdownBoldDelimiter =       { fg = "$bg3" },
+    markdownItalicDelimiter =     { fg = "$bg3" },
+    markdownBoldItalicDelimiter = { fg = "$bg3" },
+    markdownCodeDelimiter =       { fg = "$bg3" },
+    markdownLinkDelimiter =       { fg = "$bg3" },
+    markdownLinkTextDelimiter =   { fg = "$bg3" },
+    markdownTSEmphasis =          { fg = "$purple", fmt = "italic" },
+    markdownTSLiteral =           { fg = "$green" },
+    markdownTSNone =              { fg = "$light_grey" },
+    markdownTSPunctSpecial =      { fg = "$red" },
+    markdownTSPunctDelimiter =    { fg = "$bg3" },
+    markdownTSStringEscape =      { fg = "$cyan", fmt = "bold" },
+    markdownTSStrong =            { fg = "$yellow", fmt = "bold" },
+    markdownTSTextReference =     { fg = "$cyan", fmt = "underline" },
+    markdownTSTitle =             { fg = "$red", fmt = "bold" },
+    markdownTSURI =               { fg = "$bg3" },
+    --#endregion
+    --#region Vimwiki
+    VimwikiHeader1 =    { fg = "$red", fmt = "bold" },
+    VimwikiHeader2 =    { fg = "$red", fmt = "bold" },
+    VimwikiHeader3 =    { fg = "$red", fmt = "bold" },
+    VimwikiHeader4 =    { fg = "$red" },
+    VimwikiHeader5 =    { fg = "$red" },
+    VimwikiHeader6 =    { fg = "$red" },
+    VimwikiHeaderChar = { fg = "$red" },
+    VimwikiBold =       { fg = "$yellow", fmt = "bold" },
+    VimwikiItalic =     { fg = "$purple", fmt = "italic" },
+    VimwikiBoldItalic = { fg = "$yellow", fmt = "bold,italic" },
+    VimwikiUnderline =  { sp = "$cyan", fmt = "underline" },
+    VimwikiCode =       { fg = "$green" },
+    VimwikiPre =        { fg = "$green" },
+    VimwikiDelimiter =  { fg = "bg3" },
+    VimwikiListTodo =   { fg = "$purple" },
+    VimwikiWeblink1 =   { fg = "$cyan", sp = "palette.cyan", fmt = "underline" },
+    --#endregion
+}
+
 -- Directional operation which won't break the history.
 local rep_term = vim.api.nvim_replace_termcodes
 vim.g._const_dir_l = rep_term("<C-G>U<Left>",  true, false, true)

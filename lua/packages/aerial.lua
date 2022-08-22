@@ -25,13 +25,13 @@ require("aerial").setup {
     },
     highlight_closest = false,
     on_attach = function (bufnr)
-        local _opt = { noremap = true, silent = true, buffer = bufnr }
-        kbd("n", "{", "<Cmd>AerialPrev<CR>", _opt)
-        kbd("n", "}", "<Cmd>AerialNext<CR>", _opt)
-        kbd("n", "[[", "<Cmd>AerialPrevUp<CR>", _opt)
-        kbd("n", "]]", "<Cmd>AerialNextUp<CR>", _opt)
-        kbd("n", "<leader>mv", "<Cmd>AerialToggle!<CR>", _opt)
-        kbd("n", "<leader>fa", "<Cmd>Telescope aerial<CR>", _opt)
+        local _o = { noremap = true, silent = true, buffer = bufnr }
+        kbd("n", "{", "<Cmd>AerialPrev<CR>", _o)
+        kbd("n", "}", "<Cmd>AerialNext<CR>", _o)
+        kbd("n", "[[", "<Cmd>AerialPrevUp<CR>", _o)
+        kbd("n", "]]", "<Cmd>AerialNextUp<CR>", _o)
+        kbd("n", "<leader>mv", "<Cmd>AerialToggle!<CR>", _o)
+        kbd("n", "<leader>fa", "<Cmd>Telescope aerial<CR>", _o)
     end
 }
 

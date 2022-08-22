@@ -20,7 +20,7 @@ require("telescope").setup {
 
 local builtin = require("telescope.builtin")
 local kbd = vim.keymap.set
-local ntst = { noremap = true, silent = true }
-kbd("n", "<leader>fb", function () builtin.buffers() end,    ntst)
-kbd("n", "<leader>ff", function () builtin.find_files() end, ntst)
-kbd("n", "<leader>fg", function () builtin.live_grep() end,  ntst)
+local _o = { noremap = true, silent = true }
+kbd("n", "<leader>fb", function () builtin.buffers() end, _o)
+kbd("n", "<leader>ff", function () builtin.find_files() end, _o)
+kbd("n", "<leader>fg", function () builtin.live_grep() end, _o)

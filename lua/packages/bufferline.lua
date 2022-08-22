@@ -1,7 +1,6 @@
 vim.o.showtabline = 2
 vim.cmd [[packadd bufferline.nvim]]
 
-
 require("bufferline").setup {
     options = {
         buffer_close_icon= '×',
@@ -12,6 +11,7 @@ require("bufferline").setup {
         max_name_length = 18,
         max_prefix_length = 15,
         tab_size = 18,
+        ---@type string|boolean
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function (count) return "("..count..")" end,
         custom_filter = function (buf_number)
@@ -30,7 +30,6 @@ require("bufferline").setup {
         sort_by = "extension"
     }
 }
-
 
 vim.keymap.set("n", "<leader>bb", "<Cmd>BufferLinePick<CR>", {
     noremap = true,
