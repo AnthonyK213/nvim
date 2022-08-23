@@ -38,7 +38,7 @@ require("nvim-tree").setup {
     renderer = {
         highlight_git = true,
         indent_markers = {
-            enable = true,
+            enable = false,
             icons = {
                 corner = "└ ",
                 edge = "│ ",
@@ -124,9 +124,8 @@ require("nvim-tree").setup {
     }
 }
 
-
 local kbd = vim.keymap.set
-local ntst = { noremap = true, silent = true }
-kbd("n", "<leader>op", ":NvimTreeToggle<CR>",        ntst)
-kbd("n", "<M-e>",      ":NvimTreeFindFile<CR>",      ntst)
-kbd("i", "<M-e>",      "<ESC>:NvimTreeFindFile<CR>", ntst)
+local _o = { noremap = true, silent = true }
+kbd("n", "<leader>op", ":NvimTreeToggle<CR>", _o)
+kbd("n", "<M-e>", ":NvimTreeFindFile<CR>", _o)
+kbd("i", "<M-e>", "<ESC>:NvimTreeFindFile<CR>", _o)

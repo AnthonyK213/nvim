@@ -23,7 +23,7 @@ require("packer").startup(function (use)
     use {
         { "goolord/alpha-nvim", opt = true };
         { "nvim-lualine/lualine.nvim", opt = true };
-        { "akinsho/bufferline.nvim", opt = true, tag = "v2.5.0" };
+        { "akinsho/bufferline.nvim", opt = true, tag = "v2.5.1" };
         { "norcalli/nvim-colorizer.lua", opt = true };
         { "lukas-reineke/indent-blankline.nvim", opt = true };
     }

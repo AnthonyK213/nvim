@@ -1,5 +1,33 @@
 vim.cmd [[packadd nightfox.nvim]]
 
+---Cast onedark hightlight override table to nightfox.
+---@param hl table<string, table<string, string>>
+local function hl_cast(hl)
+    ---@type table<string, table<string, string>>
+    local result = vim.deepcopy(hl)
+    local map = {
+        ["$bg3"] = "bg3",
+        ["$light_grey"] = "fg3",
+        ["$purple"] = "palette.magenta",
+    }
+    for _, attr in pairs(result) do
+        local fmt
+        for k, v in pairs(attr) do
+            if k == "style" then
+                fmt = v
+            elseif map[v] then
+                attr[k] = map[v]
+            else
+                attr[k] = v:gsub("^%$", "palette.")
+            end
+        end
+        if fmt then
+            attr.fmt = fmt
+            attr.style = nil
+        end
+    end
+    return result
+end
 
 require("nightfox").setup {
     options = {
@@ -11,49 +39,9 @@ require("nightfox").setup {
         }
     },
     groups = {
-        all = {
-            FloatBorder = { fg = "palette.cyan" },
-            SpellBad = { fg = "palette.red", sp = "palette.red", style = "underline" },
-            SpellCap = { fg = "palette.yellow", style = "underline" },
-            Underlined = { sp = "palette.cyan", style = "underline" },
-            htmlUnderline = { sp = "palette.cyan", style = "underline" },
-            VimwikiUnderline = { sp = "palette.cyan", style = "underline" },
-            --#region Markdown
-            markdownH1 =                  { fg = "palette.red", style = "bold" },
-            markdownH2 =                  { fg = "palette.red", style = "bold" },
-            markdownH3 =                  { fg = "palette.red", style = "bold" },
-            markdownH4 =                  { fg = "palette.red" },
-            markdownH5 =                  { fg = "palette.red" },
-            markdownH6 =                  { fg = "palette.red" },
-            markdownBold =                { fg = "palette.yellow", style = "bold" },
-            markdownItalic =              { fg = "palette.magenta", style = "italic" },
-            markdownBoldItalic =          { fg = "palette.yellow", style = "bold,italic" },
-            markdownCode =                { fg = "palette.green" },
-            markdownUrl =                 { fg = "bg3" },
-            markdownEscape =              { fg = "palette.cyan" },
-            markdownLinkText =            { fg = "palette.cyan", sp = "palette.cyan", style = "underline" },
-            markdownHeadingDelimiter =    { fg = "palette.red" },
-            markdownBoldDelimiter =       { fg = "bg3" },
-            markdownItalicDelimiter =     { fg = "bg3" },
-            markdownBoldItalicDelimiter = { fg = "bg3" },
-            markdownCodeDelimiter =       { fg = "bg3" },
-            markdownLinkDelimiter =       { fg = "bg3" },
-            markdownLinkTextDelimiter =   { fg = "bg3" },
-            markdownTSEmphasis =          { fg = "palette.magenta", style = "italic" },
-            markdownTSLiteral =           { fg = "palette.green" },
-            markdownTSNone =              { fg = "fg3" },
-            markdownTSPunctSpecial =      { fg = "palette.red" },
-            markdownTSPunctDelimiter =    { fg = "bg3" },
-            markdownTSStringEscape =      { fg = "palette.cyan", style = "bold" },
-            markdownTSStrong =            { fg = "palette.yellow", style = "bold" },
-            markdownTSTextReference =     { fg = "palette.cyan", style = "underline" },
-            markdownTSTitle =             { fg = "palette.red", style = "bold" },
-            markdownTSURI =               { fg = "bg3" },
-            --#endregion
-        }
+        all = hl_cast(_my_core_opt.hl)
     }
 }
-
 
 local style_list = { "night", "day", "dawn", "dusk", "nord", "tera" }
 local opt_style = _my_core_opt.tui.style
