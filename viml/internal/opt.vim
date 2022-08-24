@@ -36,6 +36,7 @@ let g:_my_tui_theme = 'dark'
 let g:_my_tui_style = 'none'
 let g:_my_tui_transparent = v:false
 let g:_my_tui_global_statusline = v:false
+let g:_my_tui_border = 'none'
 let g:_my_gui_theme = 'auto'
 let g:_my_gui_opacity = 0.98
 let g:_my_gui_ligature = v:false
@@ -89,6 +90,57 @@ let g:markdown_fenced_languages = [
       \ "ruby", "java", "go", "perl", "html", "xml", "yaml",
       \ "config", "gitconfig", "sshconfig", "dosini"
       \ ]
+
+" Highlights
+let g:_my_hl = {
+      \ 'EndOfBuffer': {'fg': '$bg'},
+      \ 'SpellBad': {'fg': '$red', 'sp': '$red', 'fmt': 'underline'},
+      \ 'SpellCap': {'fg': '$yellow', 'fmt': 'underline'},
+      \ 'Underlined': {'sp': '$cyan', 'fmt': 'underline'},
+      \ 'htmlUnderline': { 'sp': "$cyan", 'fmt': "underline" },
+      \ 'htmlH1': {'fg': '$red', 'fmt': 'bold'},
+      \ 'htmlH2': {'fg': '$red', 'fmt': 'bold'},
+      \ 'htmlH3': {'fg': '$red'},
+      \ 'htmlBold': {'fg': '$yellow', 'fmt': 'bold'},
+      \ 'htmlItalic': {'fg': '$purple', 'fmt': 'italic'},
+      \ 'htmlBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
+      \ 'markdownH1': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH2': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH3': {'fg': '$red', 'fmt': 'bold'},
+      \ 'markdownH4': {'fg': '$red'},
+      \ 'markdownH5': {'fg': '$red'},
+      \ 'markdownH6': {'fg': '$red'},
+      \ 'markdownBold': {'fg': '$yellow', 'fmt': 'bold'},
+      \ 'markdownItalic': {'fg': '$purple', 'fmt': 'italic'},
+      \ 'markdownBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
+      \ 'markdownCode': {'fg': '$green'},
+      \ 'markdownUrl': {'fg': '$grey'},
+      \ 'markdownEscape': {'fg': '$cyan'},
+      \ 'markdownLinkText': {'fg': '$cyan', 'sp': 'cyan', 'fmt': 'underline'},
+      \ 'markdownHeadingDelimiter': { 'fg': '$red' },
+      \ 'markdownBoldDelimiter': {'fg': '$grey'},
+      \ 'markdownItalicDelimiter': {'fg': '$grey'},
+      \ 'markdownBoldItalicDelimiter': {'fg': '$grey'},
+      \ 'markdownCodeDelimiter': {'fg': '$grey'},
+      \ 'markdownLinkDelimiter': {'fg': '$grey'},
+      \ 'markdownLinkTextDelimiter': {'fg': '$grey'},
+      \ 'VimwikiHeader1': { 'fg': "$red", 'fmt': "bold" },
+      \ 'VimwikiHeader2': { 'fg': "$red", 'fmt': "bold" },
+      \ 'VimwikiHeader3': { 'fg': "$red", 'fmt': "bold" },
+      \ 'VimwikiHeader4': { 'fg': "$red" },
+      \ 'VimwikiHeader5': { 'fg': "$red" },
+      \ 'VimwikiHeader6': { 'fg': "$red" },
+      \ 'VimwikiHeaderChar': { 'fg': "$red" },
+      \ 'VimwikiBold': { 'fg': "$yellow", 'fmt': "bold" },
+      \ 'VimwikiItalic': { 'fg': "$purple", 'fmt': "italic" },
+      \ 'VimwikiBoldItalic': { 'fg': "$yellow", 'fmt': "bold,italic" },
+      \ 'VimwikiUnderline': { 'sp': "$cyan", 'fmt': "underline" },
+      \ 'VimwikiCode': { 'fg': "$green" },
+      \ 'VimwikiPre': { 'fg': "$green" },
+      \ 'VimwikiDelimiter': { 'fg': "bg3" },
+      \ 'VimwikiListTodo': { 'fg': "$purple" },
+      \ 'VimwikiWeblink1': { 'fg': "$cyan", 'sp': "palette.cyan", 'fmt': "underline" },
+      \ }
 
 " Directional operation which won't mess up the history.
 let g:_const_dir_l = "\<C-G>U\<Left>"

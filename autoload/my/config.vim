@@ -1,53 +1,3 @@
-let s:highlights = {
-      \ 'EndOfBuffer': {'fg': '$bg'},
-      \ 'SpellBad': {'fg': '$red', 'sp': '$red', 'fmt': 'underline'},
-      \ 'SpellCap': {'fg': '$yellow', 'fmt': 'underline'},
-      \ 'Underlined': {'sp': '$cyan', 'fmt': 'underline'},
-      \ 'htmlUnderline': { 'sp': "$cyan", 'fmt': "underline" },
-      \ 'htmlH1': {'fg': '$red', 'fmt': 'bold'},
-      \ 'htmlH2': {'fg': '$red', 'fmt': 'bold'},
-      \ 'htmlH3': {'fg': '$red'},
-      \ 'htmlBold': {'fg': '$yellow', 'fmt': 'bold'},
-      \ 'htmlItalic': {'fg': '$purple', 'fmt': 'italic'},
-      \ 'htmlBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
-      \ 'markdownH1': {'fg': '$red', 'fmt': 'bold'},
-      \ 'markdownH2': {'fg': '$red', 'fmt': 'bold'},
-      \ 'markdownH3': {'fg': '$red', 'fmt': 'bold'},
-      \ 'markdownH4': {'fg': '$red'},
-      \ 'markdownH5': {'fg': '$red'},
-      \ 'markdownH6': {'fg': '$red'},
-      \ 'markdownBold': {'fg': '$yellow', 'fmt': 'bold'},
-      \ 'markdownItalic': {'fg': '$purple', 'fmt': 'italic'},
-      \ 'markdownBoldItalic': {'fg': '$bright_yellow', 'fmt': 'bold,italic'},
-      \ 'markdownCode': {'fg': '$green'},
-      \ 'markdownUrl': {'fg': '$grey'},
-      \ 'markdownEscape': {'fg': '$cyan'},
-      \ 'markdownLinkText': {'fg': '$cyan', 'sp': 'cyan', 'fmt': 'underline'},
-      \ 'markdownHeadingDelimiter': { 'fg': '$red' },
-      \ 'markdownBoldDelimiter': {'fg': '$grey'},
-      \ 'markdownItalicDelimiter': {'fg': '$grey'},
-      \ 'markdownBoldItalicDelimiter': {'fg': '$grey'},
-      \ 'markdownCodeDelimiter': {'fg': '$grey'},
-      \ 'markdownLinkDelimiter': {'fg': '$grey'},
-      \ 'markdownLinkTextDelimiter': {'fg': '$grey'},
-      \ 'VimwikiHeader1': { 'fg': "$red", 'fmt': "bold" },
-      \ 'VimwikiHeader2': { 'fg': "$red", 'fmt': "bold" },
-      \ 'VimwikiHeader3': { 'fg': "$red", 'fmt': "bold" },
-      \ 'VimwikiHeader4': { 'fg': "$red" },
-      \ 'VimwikiHeader5': { 'fg': "$red" },
-      \ 'VimwikiHeader6': { 'fg': "$red" },
-      \ 'VimwikiHeaderChar': { 'fg': "$red" },
-      \ 'VimwikiBold': { 'fg': "$yellow", 'fmt': "bold" },
-      \ 'VimwikiItalic': { 'fg': "$purple", 'fmt': "italic" },
-      \ 'VimwikiBoldItalic': { 'fg': "$yellow", 'fmt': "bold,italic" },
-      \ 'VimwikiUnderline': { 'sp': "$cyan", 'fmt': "underline" },
-      \ 'VimwikiCode': { 'fg': "$green" },
-      \ 'VimwikiPre': { 'fg': "$green" },
-      \ 'VimwikiDelimiter': { 'fg': "bg3" },
-      \ 'VimwikiListTodo': { 'fg': "$purple" },
-      \ 'VimwikiWeblink1': { 'fg': "$cyan", 'sp': "palette.cyan", 'fmt': "underline" },
-      \ }
-
 function s:coc_lsp_check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
@@ -138,9 +88,17 @@ function! my#config#coc() abort
   call s:coc_lsp_check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
   call s:coc_lsp_check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
   call s:coc_lsp_check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
-  let s:snippet_dir = my#compat#stdpath('config') . '/snippet'
+  let l:snippet_dir = my#compat#stdpath('config') . '/snippet'
+  let l:float_config = {
+        \ 'border': index(['single', 'rounded'], g:_my_tui_border) >= 0,
+        \ "rounded": g:_my_tui_border ==# 'rounded',
+        \ }
   call extend(g:coc_config_table, {
-        \ 'snippets.textmateSnippetsRoots' : [s:snippet_dir],
+        \ 'suggest.floatConfig': l:float_config,
+        \ 'diagnostic.floatConfig': l:float_config,
+        \ 'signature.floatConfig': l:float_config,
+        \ 'hover.floatConfig': l:float_config,
+        \ 'snippets.textmateSnippetsRoots' : [l:snippet_dir],
         \ 'snippets.ultisnips.enable' : v:false,
         \ 'snippets.snipmate.enable' : v:false,
         \ 'explorer.keyMappings.global' : {
@@ -158,8 +116,8 @@ function! my#config#coc() abort
             \ ],
             \ },
             \ })
-  for [s:key, s:val] in items(g:coc_config_table)
-    call coc#config(s:key, s:val)
+  for [l:key, l:val] in items(g:coc_config_table)
+    call coc#config(l:key, l:val)
   endfor
   " Input.
   ino <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
@@ -238,7 +196,7 @@ endfunction
 function! my#config#gruvbox() abort
   let g:_my_theme_switchable = 1
   if has("nvim")
-    call my#util#auto_hl('gruvbox', s:highlights, {-> {
+    call my#util#auto_hl('gruvbox', g:_my_hl, {-> {
           \ 'fg': g:terminal_color_0,
           \ 'red': g:terminal_color_1,
           \ 'green': g:terminal_color_2,
@@ -364,7 +322,7 @@ function! my#config#one() abort
           \ 'grey': g:terminal_color_15,
           \ }
   endfunction
-  call my#util#auto_hl('one', s:highlights, function("s:set_one_term_color"))
+  call my#util#auto_hl('one', g:_my_hl, function("s:set_one_term_color"))
   colorscheme one
 endfunction
 
