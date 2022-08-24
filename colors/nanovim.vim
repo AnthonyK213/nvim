@@ -101,7 +101,7 @@ call s:h("Nano_Face_Header_Default", {
       \ })
 " Critical face for the header line.
 call s:h("Nano_Face_Header_Critical", {
-      \ "fg": s:nano_color_foreground,
+      \ "fg": s:nano_color_background,
       \ "bg": s:nano_color_critical
       \ })
 " Popout face for the header line.
@@ -111,7 +111,7 @@ call s:h("Nano_Face_Header_Popout", {
       \ })
 " Strong face for the header line.
 call s:h("Nano_Face_Header_Strong", {
-      \ "fg": s:nano_color_strong,
+      \ "fg": s:nano_color_foreground,
       \ "bg": s:nano_color_subtle
       \ })
 " Salient face for the header line.
@@ -283,6 +283,8 @@ hi! link Type Nano_Face_Salient
 hi! link Typedef Nano_Face_Salient
 hi! link VertSplit Nano_Face_Subtle
 hi! link WarningMsg Nano_Face_Popout
+hi! link healthSuccess Nano_Face_Header_Faded
+hi! link healTHWarning Nano_Face_Header_Popout
 hi! link helpHyperTextEntry Nano_Face_Salient
 hi! link helpHyperTextJump Nano_Face_Popout
 hi! link qfLineNr Nano_Face_Subtle
