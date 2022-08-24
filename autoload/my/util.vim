@@ -88,8 +88,8 @@ function! my#util#search_web(mode, site) abort
 endfunction
 
 function! my#util#search_selection(cmd) abort
-  let pat = my#lib#get_visual_selection()
-  return '\V' . substitute(escape(pat, a:cmd . '\'), '\n', '\\n', 'g')
+  let l:pat = my#lib#get_visual_selection()
+  return '\V' . substitute(escape(l:pat, a:cmd . '\'), '\n', '\\n', 'g')
 endfunction
 
 let s:funcref_list = []

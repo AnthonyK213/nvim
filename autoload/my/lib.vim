@@ -82,10 +82,10 @@ function! my#lib#get_nvimrc() abort
         \ expand("$HOME"),
         \ ]
   let l:ok_index = -1
-  for i in range(len(l:dir_table))
-    let l:dir = l:dir_table[i]
+  for l:i in range(len(l:dir_table))
+    let l:dir = l:dir_table[l:i]
     if !empty(glob(l:dir))
-      let l:ok_index = i
+      let l:ok_index = l:i
       let l:file_name = "/.nvimrc"
       let l:file_path = l:dir . l:file_name
       if !empty(glob(l:file_path))
