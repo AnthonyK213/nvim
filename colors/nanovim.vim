@@ -284,7 +284,8 @@ hi! link Typedef Nano_Face_Salient
 hi! link VertSplit Nano_Face_Subtle
 hi! link WarningMsg Nano_Face_Popout
 hi! link healthSuccess Nano_Face_Header_Faded
-hi! link healTHWarning Nano_Face_Header_Popout
+hi! link healthWarning Nano_Face_Header_Popout
+hi! link healthError Nano_Face_Header_Critical
 hi! link helpHyperTextEntry Nano_Face_Salient
 hi! link helpHyperTextJump Nano_Face_Popout
 hi! link qfLineNr Nano_Face_Subtle
