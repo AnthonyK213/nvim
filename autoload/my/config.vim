@@ -90,7 +90,7 @@ function! my#config#coc() abort
   call s:coc_lsp_check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
   let l:snippet_dir = my#compat#stdpath('config') . '/snippet'
   let l:float_config = {
-        \ 'border': index(['single', 'rounded'], g:_my_tui_border) >= 0,
+        \ 'border': index(['single', 'double', 'rounded'], g:_my_tui_border) >= 0,
         \ "rounded": g:_my_tui_border ==# 'rounded',
         \ }
   call extend(g:coc_config_table, {
@@ -227,6 +227,7 @@ function! my#config#indentLine() abort
         \ 'vimwiki.markdown',
         \ 'startify',
         \ ]
+  let g:indentLine_bufTypeExclude = ['help', 'terminal']
 endfunction
 
 function! my#config#markdown_preview() abort
@@ -359,12 +360,25 @@ function! my#config#vim_airline() abort
 endfunction
 
 function! my#config#vim_clap() abort
+  let g:clap_popup_border = index(['single', 'double', 'rounded'],
+        \ g:_my_tui_border) >= 0 ?
+        \ g:_my_tui_border :
+        \ 'nil'
   nn <silent> <leader>fb :Clap buffers<CR>
   nn <silent> <leader>ff :Clap files<CR>
   nn <silent> <leader>fg :Clap grep<CR>
 endfunction
 
 function! my#config#vim_floatterm() abort
+  let l:floaterm_borderstyles = {
+      \ 'none': '        ',
+      \ 'single': '─│─│┌┐┘└',
+      \ 'double': '═║═║╔╗╝╚',
+      \ 'rounded': '─│─│╭╮╯╰',
+      \ }
+  let g:floaterm_borderchars = has_key(l:floaterm_borderstyles, g:_my_tui_border) ?
+        \ l:floaterm_borderstyles[g:_my_tui_border] :
+        \ l:floaterm_borderstyles.none
   nn <silent> <leader>gn <Cmd>FloatermNew lazygit<CR>
 endfunction
 
