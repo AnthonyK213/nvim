@@ -239,6 +239,7 @@
   - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
   - [vim-matchup](https://github.com/andymass/vim-matchup)
   - [vim-floaterm](https://github.com/voldikss/vim-floaterm)
+  - [vsession](https://github.com/skanehira/vsession)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
