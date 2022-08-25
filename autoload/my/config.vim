@@ -1,3 +1,5 @@
+let s:session_dir = my#compat#stdpath('data') . '/sessions'
+
 function s:coc_lsp_check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
@@ -459,16 +461,22 @@ function! my#config#vista() abort
 endfunction
 
 function! my#config#vim_startify() abort
-  let g:startify_session_dir = my#compat#stdpath('data') . '/sessions'
+  let g:startify_session_dir = s:session_dir
+endfunction
+
+function! my#config#vsession() abort
+  let g:vsession_path = s:session_dir
+  let g:vsession_save_last_on_leave = 0
+  let g:vsession_ui = 'quickpick'
   function! s:save_session() closure
     if &filetype ==# 'startify' | return | end
     let l:file = getcwd()
     let l:file = substitute(l:file, '\v[\\/]', '__', 'g')
     let l:file = substitute(l:file, ':', '++', 'g')
-    let l:path = g:startify_session_dir . '/' . l:file
+    let l:path = s:session_dir . '/' . l:file
     execute 'silent mksession!' l:path
   endfunction
-  augroup vim_startify_session
+  augroup vsession_config
     autocmd!
     autocmd VimLeave * call s:save_session()
   augroup END

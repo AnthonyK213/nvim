@@ -52,7 +52,7 @@ call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview
 call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
 call s:plug('AndrewRadev/gnugo.vim')
-call s:plug('mhinz/vim-startify', function("my#config#vim_startify"))
+call s:plug('skanehira/vsession', function("my#config#vsession"))
 
 if has("termguicolors")
   set termguicolors
@@ -78,6 +78,7 @@ else
     endtry
   endif
   if s:nvim_init_src !=? "neatUI"
+    call s:plug('mhinz/vim-startify', function("my#config#vim_startify"))
     call s:plug('vim-airline/vim-airline', function("my#config#vim_airline"))
     call s:plug('chrisbra/Colorizer')
     call s:plug('Yggdroot/indentLine', function("my#config#indentLine"))
