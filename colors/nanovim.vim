@@ -432,8 +432,12 @@ hi! link VimwikiHeaderChar Nano_Face_Salient
 hi! link VimwikiHeader1 markdownH1
 hi! link VimwikiHeader2 markdownH2
 hi! link VimwikiHeader3 markdownH3
+hi! link VimwikiHeader4 markdownH4
+hi! link VimwikiHeader5 markdownH5
+hi! link VimwikiHeader6 markdownH6
 hi! link VimwikiUnderline Underlined
 hi! link VimwikiCode Nano_Face_Popout
+hi! link VimwikiPre Nano_Face_Subtle
 " Neogit
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
