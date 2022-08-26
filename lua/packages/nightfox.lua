@@ -1,5 +1,19 @@
 vim.cmd [[packadd nightfox.nvim]]
 
+---Check if `style` is dark theme.
+---@param style string
+---@return boolean
+local function is_dark(style)
+    return vim.tbl_contains({ "night", "dusk", "nord", "tera", "carbon" }, style)
+end
+
+---Check if `style` is light theme.
+---@param style string
+---@return boolean
+local function is_light(style)
+    return style == "day" or style == "dawn"
+end
+
 ---Cast onedark hightlight override table to nightfox.
 ---@param hl table<string, table<string, string>>
 local function hl_cast(hl)
@@ -43,7 +57,31 @@ require("nightfox").setup {
     }
 }
 
-local style_list = { "night", "day", "dawn", "dusk", "nord", "tera" }
+local style_table = {
+    night = "day",
+    day = "night",
+    dawn = "dusk",
+    dusk = "dawn",
+    nord = "day",
+    tera = "dawn",
+    carbon = "dawn",
+}
 local opt_style = _my_core_opt.tui.style
-local style = vim.tbl_contains(style_list, opt_style) and opt_style or "night"
+local style = style_table[opt_style] and opt_style or "night"
+
+---Background switching interface.
+---@param bg string?
+vim.g._my_theme_switchable = function(bg)
+    local colors_name = vim.g.colors_name:sub(1, vim.g.colors_name:len() - 3)
+    if bg == "light" and is_light(colors_name)
+        or bg == "dark" and is_dark(colors_name) then
+        return
+    end
+    if is_light(colors_name) and is_dark(style) then
+        vim.cmd("colorscheme "..style.."fox")
+    else
+        vim.cmd("colorscheme "..style_table[colors_name].."fox")
+    end
+end
+
 vim.cmd("colorscheme "..style.."fox")

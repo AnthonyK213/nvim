@@ -170,9 +170,13 @@ if exists('g:fvim_loaded')
   call s:gui_set_option_table(s:fvim_option_table)
 endif
 "" GUI theme
-if exists("g:_my_theme_switchable") && g:_my_theme_switchable
+if exists("g:_my_theme_switchable") && !empty(g:_my_theme_switchable)
   if g:_my_gui_theme == 'light' || g:_my_gui_theme == 'dark'
-    let &bg = g:_my_gui_theme
+    if type(g:_my_theme_switchable) == v:t_func
+      call g:_my_theme_switchable(g:_my_gui_theme)
+    else
+      let &bg = g:_my_gui_theme
+    endif
   elseif g:_my_gui_theme == 'auto'
     let g:_my_lock_background = v:true
     call my#compat#time_background()
@@ -183,9 +187,7 @@ endif
 " Font
 let s:gui_font_step = 2
 let s:gui_font_size_origin = g:_my_gui_font_size
-call s:gui_font_set(g:_my_gui_font_half,
-      \ g:_my_gui_font_full,
-      \ g:_my_gui_font_size)
+call s:gui_font_set(g:_my_gui_font_half, g:_my_gui_font_full, g:_my_gui_font_size)
 
 
 " GUI key bindings
@@ -197,11 +199,9 @@ let s:gui_font_size_kbd = {
       \ '<C-ScrollWheelUp>'   : 'expand',
       \ '<C-ScrollWheelDown>' : 'shrink',
       \ }
-for [s:key, s:val] in items(s:gui_font_size_kbd)
-  exe 'nn'  '<silent>' s:key '<Cmd>call'
-        \ '<SID>gui_font_' . s:val . '()<CR>'
-  exe 'ino' '<silent>' s:key '<C-\><C-O>:call'
-        \ '<SID>gui_font_' . s:val . '()<CR>'
+for [s:k, s:v] in items(s:gui_font_size_kbd)
+  exe 'nn'  '<silent>' s:k '<Cmd>call' '<SID>gui_font_' . s:v . '()<CR>'
+  exe 'ino' '<silent>' s:k '<C-\><C-O>:call' '<SID>gui_font_' . s:v . '()<CR>'
 endfor
 "" Toggle line number display
 nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>

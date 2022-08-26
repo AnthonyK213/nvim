@@ -27,7 +27,11 @@ lua << EOF
     if not vim.g._my_lock_background then return end
     local hour = tonumber(os.date("%H"))
     local bg = (hour > 6 and hour < 18) and "light" or "dark"
-    if vim.o.bg ~= bg then vim.o.bg = bg end
+    if vim.g._my_theme_switchable == true then
+      if vim.o.bg ~= bg then vim.o.bg = bg end
+    elseif type(vim.g._my_theme_switchable) == "function" then
+      vim.g._my_theme_switchable(bg)
+    end
   end))
 EOF
 endfunction

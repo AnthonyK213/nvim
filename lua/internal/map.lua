@@ -167,10 +167,12 @@ kbd("Delete current buffer", "n", "<leader>bd", function ()
     end
 end)
 kbd("Background toggle", "n", "<leader>bg", function ()
-    if not vim.g._my_theme_switchable or vim.g._my_lock_background then
-        return
+    if not vim.g._my_theme_switchable or vim.g._my_lock_background then return end
+    if vim.g._my_theme_switchable == true then
+        vim.o.bg = vim.o.bg == "dark" and "light" or "dark"
+    elseif type(vim.g._my_theme_switchable) == "function" then
+        vim.g._my_theme_switchable()
     end
-    vim.o.background = vim.o.background == "dark" and "light" or "dark"
 end)
 kbd("Open nvimrc", "n", "<M-,>", vim.fn["my#compat#open_nvimrc"])
 kbd("Open system file manager", "n", "<leader>oe", function ()
