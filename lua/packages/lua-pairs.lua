@@ -1,24 +1,18 @@
 require("lua_pairs").setup {
-    ret = false,
-    bak = true,
-    spc = true,
     extd = {
-        ["$"]   = "$",
-        ["`"]   = "`",
-        ["*"]   = "*",
-        ["**"]  = "**",
-        ["***"] = "***",
-        ["<u>"] = "</u>"
-    },
-    extd_map = {
-        ["<M-P>"] = "`",
-        ["<M-I>"] = "*",
-        ["<M-B>"] = "**",
-        ["<M-M>"] = "***",
-        ["<M-U>"] = "<u>"
+        markdown = {
+            { k = "<M-P>", l = "`", r = "`" },
+            { k = "<M-I>", l = "*", r = "*" },
+            { k = "<M-B>", l = "**", r = "**" },
+            { k = "<M-M>", l = "***", r = "***" },
+            { k = "<M-U>", l = "<u>", r = "</u>" },
+        },
+        tex = {
+            { k = "<M-B>", l = "\\textbf{", r = "}" },
+            { k = "<M-I>", l = "\\textit{", r = "}" },
+        },
     },
     exclude = {
-        --buftype = { "prompt" },
         filetype = { "DressingInput" },
     },
 }

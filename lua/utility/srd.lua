@@ -84,10 +84,10 @@ end
 
 ---Add surrounding.
 ---@param mode string \"n\"|\"v\".
----@param pair_a? string|table<string> Left|Both side of the surrounding.
+---@param pair_a? string|string[] Left|Both side of the surrounding.
 function M.srd_add(mode, pair_a)
     ---Add surrounding.
-    ---@param p_a0 string|table<string> Left|Both side of the surrounding.
+    ---@param p_a0 string|string[] Left|Both side of the surrounding.
     local add = function (p_a0)
         if not p_a0 then return end
         local p_a, p_b
@@ -124,12 +124,12 @@ function M.srd_add(mode, pair_a)
 end
 
 ---Change surrounding.
----@param pair_a_new? string|table<string> Left|Both side of the new surrounding.
----@param pair_a_old? string|table<string> Left|Both side of the old surrounding.
+---@param pair_a_new? string|string[] Left|Both side of the new surrounding.
+---@param pair_a_old? string|string[] Left|Both side of the old surrounding.
 function M.srd_sub(pair_a_new, pair_a_old)
     ---Change surrounding.
-    ---@param p_a_n0 string|table<string> Left|Both side of the new surrounding.
-    ---@param p_a_o0 string|table<string> Left|Both side of the old surrounding.
+    ---@param p_a_n0 string|string[] Left|Both side of the new surrounding.
+    ---@param p_a_o0 string|string[] Left|Both side of the old surrounding.
     local sub = function (p_a_n0, p_a_o0)
         local context = lib.get_context()
         local back = context.b

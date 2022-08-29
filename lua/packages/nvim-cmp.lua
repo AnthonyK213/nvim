@@ -24,8 +24,6 @@ local cmp_setup = {
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
                     }
-                elseif vim.bo.bt ~= "prompt" then
-                    feedkeys("<Plug>(lua_pairs_enter)", "")
                 else
                     fallback()
                 end

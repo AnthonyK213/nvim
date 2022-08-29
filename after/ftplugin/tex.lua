@@ -18,14 +18,12 @@ require("cmp").setup.buffer {
 
 local _opt = { noremap = true, silent = true, buffer = true }
 local srd_table = {
-    P = { "`", [[\v(markdown|Vimwiki)(Code|TSLiteral)]] },
-    I = { "*", [[\v(markdown|Vimwiki)(Italic|TSEmphasis)]] },
-    B = { { "\\textbf{", "}" }, [[\vtexStyleBold]] },
-    M = { "***", [[\v(markdown|Vimwiki)BoldItalic]] },
-    U = { "<u>", [[\v(html|Vimwiki)Underline]] },
+    I = { { "\\textit{", "}" }, [[\vtexStyle(Ital|Both)]] },
+    B = { { "\\textbf{", "}" }, [[\vtexStyleBo(ld|th)]] },
 }
 
 vim.keymap.set("n", "<leader>mv", "<Cmd>VimtexTocToggle<CR>", _opt)
+vim.keymap.set("n", "<leader>mt", "<Cmd>Pdf<CR>", _opt)
 for key, val in pairs(srd_table) do
     vim.keymap.set({ "n", "v" }, "<M-" .. key .. ">", function()
         local m = vim.api.nvim_get_mode().mode
@@ -41,11 +39,3 @@ for key, val in pairs(srd_table) do
         end
     end, _opt)
 end
-vim.keymap.set("n", "<F5>", "<Cmd>PresentingStart<CR>", _opt)
-vim.keymap.set("n", "<leader>mt", function ()
-    if vim.g.vscode then
-        vim.fn.VSCodeNotify("markdown.showPreviewToSide")
-    elseif vim.fn.exists(":MarkdownPreviewToggle") > 0 then
-        vim.cmd [[MarkdownPreviewToggle]]
-    end
-end, _opt)
