@@ -84,13 +84,21 @@ end
 
 ---Add surrounding.
 ---@param mode string \"n\"|\"v\".
----@param pair_a? string Left side of the surrounding.
+---@param pair_a? string|table<string> Left|Both side of the surrounding.
 function M.srd_add(mode, pair_a)
     ---Add surrounding.
-    ---@param p_a string Left side of the surrounding.
-    local add = function (p_a)
-        if not p_a then return end
-        local p_b = srd_pair(p_a)
+    ---@param p_a0 string|table<string> Left|Both side of the surrounding.
+    local add = function (p_a0)
+        if not p_a0 then return end
+        local p_a, p_b
+        if type(p_a0) == "table" then
+            p_a, p_b = unpack(p_a0)
+        elseif type(p_a0) == "string" then
+            p_a = p_a0
+            p_b = srd_pair(p_a)
+        else
+            return
+        end
 
         if mode == "n" then
             local word, s, e = lib.get_word()
@@ -116,18 +124,33 @@ function M.srd_add(mode, pair_a)
 end
 
 ---Change surrounding.
----@param pair_a_new? string Left side of the new surrounding.
----@param pair_a_old? string Left side of the old surrounding.
+---@param pair_a_new? string|table<string> Left|Both side of the new surrounding.
+---@param pair_a_old? string|table<string> Left|Both side of the old surrounding.
 function M.srd_sub(pair_a_new, pair_a_old)
     ---Change surrounding.
-    ---@param p_a_n string Left side of the new surrounding.
-    ---@param p_a_o string Left side of the old surrounding.
-    local sub = function (p_a_n, p_a_o)
+    ---@param p_a_n0 string|table<string> Left|Both side of the new surrounding.
+    ---@param p_a_o0 string|table<string> Left|Both side of the old surrounding.
+    local sub = function (p_a_n0, p_a_o0)
         local context = lib.get_context()
         local back = context.b
         local fore = context.f
-        local p_b_o = srd_pair(p_a_o)
-        local p_b_n = srd_pair(p_a_n)
+        local p_a_n, p_a_o, p_b_n, p_b_o
+        if type(p_a_n0) == "table" then
+            p_a_n, p_b_n = unpack(p_a_n0)
+        elseif type(p_a_n0) == "string" then
+            p_a_n = p_a_n0
+            p_b_n = srd_pair(p_a_n)
+        else
+            return
+        end
+        if type(p_a_o0) == "table" then
+            p_a_o, p_b_o = unpack(p_a_o0)
+        elseif type(p_a_o0) == "string" then
+            p_a_o = p_a_o0
+            p_b_o = srd_pair(p_a_o)
+        else
+            return
+        end
         local back_new, fore_new
         local pos = api.nvim_win_get_cursor(0)
 
