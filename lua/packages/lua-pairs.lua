@@ -13,6 +13,7 @@ require("lua_pairs").setup {
         },
     },
     exclude = {
+        buftype = { "prompt" },
         filetype = { "DressingInput" },
     },
 }
