@@ -20,7 +20,7 @@ require("lua_pairs").setup {
                 if col == 0 then return true end
                 return not Syntax.new(row, col):match(
                 [[\v^TS(Type|Keyword|Function)$]],
-                [[\v^rust(Identifier|Keyword|FuncName)]])
+                [[\v^rust(Identifier|Keyword|FuncName)$]])
             end },
         }
     },
