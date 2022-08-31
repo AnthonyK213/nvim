@@ -115,21 +115,35 @@ function Syntax.new(row, col)
     return o
 end
 
----Match syntax name.
----@param pattern string Matching pattern (vim.regex).
+---Match syntax name by vim.regex.
+---@param t_pattern string Matching pattern among `self.ts` and `self.vs`,
+--- but if `v_pattern` is given and not empty, then just match among `self.ts`.
+---@param v_pattern? string Matching pattern among `self.vs`.
 ---@return boolean matched True if matched.
-function Syntax:match(pattern)
-    local re = vim.regex(pattern)
-
-    for _, obj in ipairs(self.ts) do
-        if re:match_str(obj.name) then
-            return true
+function Syntax:match(t_pattern, v_pattern)
+    local re
+    local match = function (s)
+        for _, obj in ipairs(s) do
+            if re:match_str(obj.name) then
+                return true
+            end
         end
     end
-
-    for _, obj in ipairs(self.vs) do
-        if re:match_str(obj.name) then
-            return true
+    if #t_pattern == 0 then
+        if type(v_pattern) == "string" and #v_pattern > 0 then
+            re = vim.regex(v_pattern)
+            if match(self.vs) then return true end
+        end
+    else
+        re = vim.regex(t_pattern)
+        if match(self.ts) then return true end
+        if type(v_pattern) == "string" then
+            if #v_pattern > 0 then
+                re = vim.regex(v_pattern)
+                if match(self.vs) then return true end
+            end
+        else
+            if match(self.vs) then return true end
         end
     end
 
@@ -173,11 +187,13 @@ function Syntax:show()
 end
 
 ---Match syntax name at cursor.
----@param pattern string Matching pattern (vim.regex).
+---See `Syntax:match(t_pattern, v_pattern)`.
+---@param t_pattern string
+---@param v_pattern? string
 ---@return boolean matched True if matched.
-function Syntax.match_here(pattern)
+function Syntax.match_here(t_pattern, v_pattern)
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return Syntax.new(row, col):match(pattern)
+    return Syntax.new(row, col):match(t_pattern, v_pattern)
 end
 
 
