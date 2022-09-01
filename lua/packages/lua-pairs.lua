@@ -14,14 +14,18 @@ require("lua_pairs").setup {
             { k = "<M-I>", l = "\\textit{", r = "}" },
         },
         rust = {
-            { l = "<", r = ">", d = function (context)
-                local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-                col = col - #context.p
-                if col == 0 then return true end
-                return not Syntax.new(row, col):match(
-                [[\v^TS(Type|Keyword|Function)$]],
-                [[\v^rust(Identifier|Keyword|FuncName)$]])
-            end },
+            {
+                l = "<",
+                r = ">",
+                d = function (context)
+                    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+                    col = col - #context.p
+                    if col == 0 then return true end
+                    return not Syntax.new(row, col):match(
+                    [[\v^TS(Type|Keyword|Function)$]],
+                    [[\v^rust(Identifier|Keyword|FuncName)$]])
+                end
+            },
         }
     },
     exclude = {
