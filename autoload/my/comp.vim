@@ -55,7 +55,7 @@ function! s:comp_clisp(tbl) abort
           \ ],
           \ }
   let l:opt = a:tbl['opt']
-  if has_key(l:cmd, l:opt)
+  if has_key(l:cmd_tbl, l:opt)
     let l:cmd = l:cmd_tbl[l:opt]
     return [v:null, l:cmd]
   else
