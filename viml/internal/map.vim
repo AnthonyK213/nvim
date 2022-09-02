@@ -45,8 +45,8 @@ cm <M-BS> <C-W>
 
 
 " Windows shit.
-nn  <silent> <C-S> :w<CR>
-ino <silent> <C-S> <C-\><C-O>:w<CR>
+nn  <silent><expr> <C-S> empty(&bt) ? "\<Cmd>w\<CR>" : ""
+ino <silent><expr> <C-S> empty(&bt) ? "\<C-\>\<C-O>\<Cmd>w\<CR>" : ""
 vn  <silent> <M-c> "+y
 vn  <silent> <M-x> "+x
 nn  <silent> <M-v> "+p
