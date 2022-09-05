@@ -137,9 +137,9 @@ let g:_my_hl = {
       \ 'VimwikiUnderline': { 'sp': "$cyan", 'fmt': "underline" },
       \ 'VimwikiCode': { 'fg': "$green" },
       \ 'VimwikiPre': { 'fg': "$green" },
-      \ 'VimwikiDelimiter': { 'fg': "bg3" },
+      \ 'VimwikiDelimiter': { 'fg': "$bg3" },
       \ 'VimwikiListTodo': { 'fg': "$purple" },
-      \ 'VimwikiWeblink1': { 'fg': "$cyan", 'sp': "palette.cyan", 'fmt': "underline" },
+      \ 'VimwikiWeblink1': { 'fg': "$cyan", 'sp': "$cyan", 'fmt': "underline" },
       \ }
 
 " Directional operation which won't mess up the history.
