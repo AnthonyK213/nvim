@@ -168,7 +168,7 @@ opt.hl = {
     VimwikiPre =        { fg = "$green" },
     VimwikiDelimiter =  { fg = "bg3" },
     VimwikiListTodo =   { fg = "$purple" },
-    VimwikiWeblink1 =   { fg = "$cyan", sp = "palette.cyan", fmt = "underline" },
+    VimwikiWeblink1 =   { fg = "$cyan", sp = "$cyan", fmt = "underline" },
     --#endregion
 }
 
