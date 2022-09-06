@@ -1,11 +1,20 @@
 vim.cmd [[packadd tokyonight.nvim]]
 
-vim.g.tokyonight_style = _my_core_opt.tui.style or "storm"
-vim.g.tokyonight_transparent = _my_core_opt.tui.transparent
-vim.g.tokyonight_italic_keywords = false
-vim.g.tokyonight_sidebars = {
-    "help", "qf", "terminal",
-    "aerial", "packer",
+require("tokyonight").setup {
+    style = _my_core_opt.tui.style or "storm",
+    transparent = _my_core_opt.tui.transparent,
+    styles = {
+        comments = "italic",
+        keywords = "NONE",
+        functions = "NONE",
+        variables = "NONE",
+        sidebars = "dark",
+        floats = "dark",
+    },
+    sidebars = {
+        "help", "qf", "terminal",
+        "aerial", "packer",
+    }
 }
 
 require("utility.util").auto_hl("tokyonight", _my_core_opt.hl, function ()
