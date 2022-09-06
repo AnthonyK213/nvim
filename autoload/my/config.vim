@@ -76,6 +76,8 @@ function! my#config#asyncomplete() abort
 endfunction
 
 function! my#config#coc() abort
+  let g:loaded_netrw = 1
+  let g:loaded_netrwPlugin = 1
   let g:coc_global_extensions = [
         \ 'coc-explorer',
         \ 'coc-snippets',
