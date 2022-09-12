@@ -569,11 +569,12 @@ function! NanoGetFname() abort
   if has('win32')
     let l:path_sepr = "\\"
   endif
+  let width = &laststatus == 3 ? &co : winwidth(0)
   let l:file_path_str_width = strdisplaywidth(l:file_path)
-  if l:file_path_str_width > winwidth(0) * 0.7
+  if l:file_path_str_width > width * 0.7
     return l:file_name
   endif
-  if l:file_path_str_width > winwidth(0) * 0.4
+  if l:file_path_str_width > width * 0.4
     let l:path_list = split(l:file_dir, l:path_sepr)
     let l:path_head = "/"
     if has('win32')
