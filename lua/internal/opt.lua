@@ -141,16 +141,6 @@ opt.hl = {
     markdownCodeDelimiter =       { fg = "$bg3" },
     markdownLinkDelimiter =       { fg = "$bg3" },
     markdownLinkTextDelimiter =   { fg = "$bg3" },
-    markdownTSEmphasis =          { fg = "$purple", fmt = "italic" },
-    markdownTSLiteral =           { fg = "$green" },
-    markdownTSNone =              { fg = "$light_grey" },
-    markdownTSPunctSpecial =      { fg = "$red" },
-    markdownTSPunctDelimiter =    { fg = "$bg3" },
-    markdownTSStringEscape =      { fg = "$cyan", fmt = "bold" },
-    markdownTSStrong =            { fg = "$yellow", fmt = "bold" },
-    markdownTSTextReference =     { fg = "$cyan", fmt = "underline" },
-    markdownTSTitle =             { fg = "$red", fmt = "bold" },
-    markdownTSURI =               { fg = "$bg3" },
     --#endregion
     --#region Vimwiki
     VimwikiHeader1 =    { fg = "$red", fmt = "bold" },

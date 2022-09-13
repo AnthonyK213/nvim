@@ -4,9 +4,9 @@ vim.wo.linebreak = false
 vim.b.table_mode_corner = "|"
 
 local srd_table = {
-    P = { "`", [[\v(markdown|Vimwiki)(Code|TSLiteral)]] },
-    I = { "*", [[\v(markdown|Vimwiki)(Italic|TSEmphasis)]] },
-    B = { "**", [[\v(markdown|Vimwiki)(Bold|TSStrong)]] },
+    P = { "`", [[\v(markdown|Vimwiki)Code]] },
+    I = { "*", [[\v(markdown|Vimwiki)Italic]] },
+    B = { "**", [[\v(markdown|Vimwiki)Bold]] },
     M = { "***", [[\v(markdown|Vimwiki)BoldItalic]] },
     U = { "<u>", [[\v(html|Vimwiki)Underline]] },
 }

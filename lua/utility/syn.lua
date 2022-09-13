@@ -34,11 +34,11 @@ end
 local function get_ts(row, col)
     local buf = vim.api.nvim_get_current_buf()
     local row_0 = row - 1
-    local self = vim.treesitter.highlighter.active[buf]
-    if not self then return {} end
+    local buf_highlighter = vim.treesitter.highlighter.active[buf]
+    if not buf_highlighter then return {} end
     local ts = {}
 
-    self.tree:for_each_tree(function(tstree, tree)
+    buf_highlighter.tree:for_each_tree(function(tstree, tree)
         if not tstree then return end
 
         local root = tstree:root()
@@ -47,12 +47,12 @@ local function get_ts(row, col)
         -- Only worry about trees within the line range
         if root_start_row > row_0 or root_end_row < row_0 then return end
 
-        local query = self:get_query(tree:lang())
+        local query = buf_highlighter:get_query(tree:lang())
 
         -- Some injected languages may not have highlight queries.
         if not query:query() then return end
 
-        local iter = query:query():iter_captures(root, self.bufnr, row_0, row)
+        local iter = query:query():iter_captures(root, buf_highlighter.bufnr, row_0, row)
 
         for capture, node, metadata in iter do
             local hl = query.hl_cache[capture]
@@ -77,10 +77,9 @@ local function get_ts(row, col)
                 -- Name of the capture in the query
                 local c = query._query.captures[capture]
                 if c then
-                    local general_hl = query:_get_hl_from_capture(capture)
                     table.insert(ts, {
                         id = hl,
-                        name = general_hl,
+                        name = c,
                         token = c,
                         metadata = metadata
                     })
