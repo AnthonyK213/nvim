@@ -92,7 +92,7 @@ function! my#lib#get_nvimrc() abort
         return [1, l:file_path]
       elseif has("win32")
         let l:file_name = "/_nvimrc"
-        let l:file_path = l:dir . l:file_path
+        let l:file_path = l:dir . l:file_name
         if !empty(glob(l:file_path))
           return [1, l:file_path]
         endif
