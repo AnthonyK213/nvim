@@ -22,6 +22,6 @@ require("indent_blankline").setup {
     filetype_exclude = {
         "aerial", "alpha",
         "markdown", "presenting_markdown",
-        "vimwiki", "NvimTree", "lsp-installer"
+        "vimwiki", "NvimTree", "mason"
     }
 }
