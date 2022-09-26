@@ -17,7 +17,7 @@ end
 ---Set nightfox `style`.
 ---@param style string
 local function set_style(style)
-    vim.cmd("colorscheme "..style.."fox")
+    vim.cmd.colorscheme(style.."fox")
 end
 
 ---Cast onedark hightlight override table to nightfox.

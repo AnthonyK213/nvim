@@ -32,4 +32,4 @@ require("utility.util").auto_hl("gruvbox", vim.tbl_extend("force", {
 end)
 
 vim.g._my_theme_switchable = true
-vim.cmd [[colorscheme gruvbox]]
+vim.cmd.colorscheme("gruvbox")

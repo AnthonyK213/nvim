@@ -166,13 +166,13 @@ vim.g._my_theme_switchable = false
 local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 if nvim_init_src == "nano" then
     vim.g._my_theme_switchable = true
-    vim.cmd("colorscheme nanovim")
+    vim.cmd.colorscheme("nanovim")
 elseif packer_bootstrap == nil then
     -- Load color scheme.
     if vim.tbl_contains(colorscheme_list, colorscheme) then
         require("packages."..colorscheme)
     else
-        if not pcall(vim.cmd, "colorscheme "..colorscheme) then
+        if not pcall(vim.cmd.colorscheme, colorscheme) then
             vim.notify("Color scheme was not found.", vim.log.levels.WARN, nil)
         end
     end

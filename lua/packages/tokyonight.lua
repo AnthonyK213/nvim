@@ -31,4 +31,4 @@ require("utility.util").auto_hl("tokyonight", _my_core_opt.hl, function ()
 end)
 
 vim.g._my_theme_switchable = true
-vim.cmd [[colorscheme tokyonight]]
+vim.cmd.colorscheme("tokyonight")
