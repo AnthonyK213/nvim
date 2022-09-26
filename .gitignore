@@ -2,3 +2,4 @@
 *.netrwhist
 packer_compiled.*
 /rust/*/target
+Cargo.lock
