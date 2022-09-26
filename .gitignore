@@ -1,3 +1,4 @@
 *nvimrc
 *.netrwhist
 packer_compiled.*
+/rust/*/target
