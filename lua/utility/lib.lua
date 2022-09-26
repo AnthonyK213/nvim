@@ -365,7 +365,7 @@ end
 
 ---String UTF-32 length.
 ---@param str string
----@return integer
+---@return integer length Length of the unicode string.
 function M.str_len(str)
     local length = vim.str_utfindex(str)
     return length
