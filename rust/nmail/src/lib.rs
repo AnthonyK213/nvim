@@ -1,6 +1,7 @@
-use nvim_oxi::{self as oxi, api};
+use nvim_oxi as oxi;
 
 #[oxi::module]
-pub fn add() -> oxi::Result<()> {
+fn hw() -> oxi::Result<()> {
+    println!("Hello, world!");
     Ok(())
 }
