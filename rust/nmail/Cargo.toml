@@ -3,13 +3,10 @@ name = "nmail"
 version = "0.1.0"
 edition = "2021"
 
-[dependencies]
-lettre = "0.10"
-nvim-oxi = "0.1.3"
-
-[dependencies.imap]
-version = "2.4.1"
-default-features = false
-
 [lib]
 crate-type = ["cdylib"]
+
+[dependencies]
+imap = { version = "2.4.1", default-features = false }
+lettre = "0.10"
+libc = "0.2"
