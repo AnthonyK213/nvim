@@ -18,6 +18,7 @@ local cmt_mark_tab_single = {
     markdown = "> ",
     rust = "//",
     perl = "#",
+    ps1 = "#",
     python = "#",
     scheme = ";",
     sh = "#",
