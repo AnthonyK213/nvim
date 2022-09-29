@@ -132,10 +132,13 @@ function M.get_listed_bufs()
     end, vim.api.nvim_list_bufs())
 end
 
----Get path of the option file (nvimrc).
+---Get path of the dotfile (.nvimrc, etc.).
+---Searching order: stdpath("config") -> home -> ...
+---Use the last one was found.
+---@param name string Name of the dotfile (with out '.' or '\_' at the start).
 ---@return boolean exists True if the option file exists.
 ---@return string? path Path of the option file.
-function M.get_nvimrc()
+function M.get_dotfile(name)
     local dir_table = {
         vim.fn.stdpath("config"),
         vim.loop.os_homedir(),
@@ -145,12 +148,12 @@ function M.get_nvimrc()
     for i, dir in ipairs(dir_table) do
         if dir then
             ok_index = i
-            file_name = "/.nvimrc"
+            file_name = "/."..name
             local file_path = dir..file_name
             if M.path_exists(file_path) then
                 return true, file_path
             elseif M.has_windows() then
-                file_name = "/_nvimrc"
+                file_name = "/_"..name
                 file_path = dir..file_name
                 if M.path_exists(file_path) then
                     return true, file_path
@@ -248,6 +251,23 @@ function M.has_windows()
     return M.get_os_type() == M.Os.Windows
 end
 
+---Decode json from file.
+---@param file string File to decode.
+---@return integer code Code, 1: json is invalid, 2: file does not exist.
+---@return table? result Decode result.
+function M.json_decode(file)
+    local f = io.open(file, "r")
+    if f then
+        local ok, result = pcall(vim.json.decode, f:read("*a"))
+        f:close()
+        if ok then
+            return 0, result
+        end
+        return 1, nil
+    end
+    return 2, nil
+end
+
 ---Match URL in a string.
 ---@param str string String to be matched.
 ---@return boolean is_url True if the input `str` is a URL itself.
@@ -287,6 +307,16 @@ function M.notify_err(err)
     vim.notify(err, vim.log.levels.ERROR, nil)
 end
 
+---Append file/directory/sub-path to a path.
+---@param path string Path to be appended.
+---@param item string Item to append to the path.
+---@return string
+function M.path_append(path, item)
+    local path_trim = path:gsub("[\\/]$", "")
+    local item_trim = item:gsub("^[\\/]", "")
+    return vim.fs.normalize(path_trim.."/"..item_trim)
+end
+
 ---Check if file/directory exists.
 ---@param path string File/directory path.
 ---@param cwd? string The working directory.
@@ -300,9 +330,7 @@ function M.path_exists(path, cwd)
         if path:match("^/") then is_rel = false end
     end
     if is_rel then
-        cwd = cwd or vim.loop.cwd()
-        cwd = cwd:gsub("[\\/]$", "")
-        path = cwd.."/"..path
+        path = M.path_append(cwd or vim.loop.cwd(), path)
     end
     local stat = vim.loop.fs_stat(path)
     return (stat and stat.type) or false
@@ -367,8 +395,7 @@ end
 ---@param str string
 ---@return integer length Length of the unicode string.
 function M.str_len(str)
-    local length = vim.str_utfindex(str)
-    return length
+    return vim.str_utfindex(str)
 end
 
 ---Replace chars in a string according to a dictionary.

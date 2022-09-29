@@ -1,5 +1,6 @@
-*nvimrc
 *.netrwhist
-packer_compiled.*
 /rust/*/target
 Cargo.lock
+[._]mail.json
+[._]nvimrc
+packer_compiled.*

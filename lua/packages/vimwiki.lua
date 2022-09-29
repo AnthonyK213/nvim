@@ -1,6 +1,8 @@
+local lib = require("utility.lib")
+
 vim.g.vimwiki_list = {{
-    path = vim.fs.normalize(_my_core_opt.path.cloud.."/Notes/"),
-    path_html = vim.fs.normalize(_my_core_opt.path.cloud.."/Notes/html/"),
+    path = lib.path_append(_my_core_opt.path.cloud, "/Notes/"),
+    path_html = lib.path_append(_my_core_opt.path.cloud, "/Notes/html/"),
     syntax = "markdown",
     ext = ".markdown"
 }}

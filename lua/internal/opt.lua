@@ -74,17 +74,13 @@ local opt = {
 }
 
 -- Merge custom options.
-local exists, opt_file = lib.get_nvimrc()
+local exists, opt_file = lib.get_dotfile("nvimrc")
 if exists and opt_file then
-    local f = io.open(opt_file)
-    if f then
-        local ok, result = pcall(vim.json.decode, f:read("*a"))
-        f:close()
-        if ok then
-            opt = vim.tbl_deep_extend("force", opt, result)
-        else
-            vim.notify("Invalid option file", vim.log.levels.WARN, nil)
-        end
+    local code, result = lib.json_decode(opt_file)
+    if code == 0 then
+        opt = vim.tbl_deep_extend("force", opt, result)
+    else
+        vim.notify("Invalid option file", vim.log.levels.WARN, nil)
     end
 end
 

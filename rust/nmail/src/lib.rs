@@ -37,8 +37,8 @@ pub extern "C" fn nmail_send(
     server: *const c_char,
 ) -> i32 {
     let _from = mailbox_parse!(string_parse!(from, 1), 9);
-    let _reply_to = mailbox_parse!(string_parse!(reply_to, 2), 10);
-    let _to = mailbox_parse!(string_parse!(to, 3), 11);
+    let _to = mailbox_parse!(string_parse!(to, 2), 10);
+    let _reply_to = mailbox_parse!(string_parse!(reply_to, 3), 11);
     let _subject = string_parse!(subject, 4);
     let _body = string_parse!(body, 5);
     let _user_name = string_parse!(user_name, 6);
