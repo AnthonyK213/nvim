@@ -28,8 +28,8 @@ fn c_buf_to_string(c_buf: *const c_char) -> Result<String, std::str::Utf8Error> 
 #[no_mangle]
 pub extern "C" fn nmail_send(
     from: *const c_char,
-    reply_to: *const c_char,
     to: *const c_char,
+    reply_to: *const c_char,
     subject: *const c_char,
     body: *const c_char,
     user_name: *const c_char,
@@ -47,8 +47,8 @@ pub extern "C" fn nmail_send(
 
     let email = match Message::builder()
         .from(_from)
-        .reply_to(_reply_to)
         .to(_to)
+        .reply_to(_reply_to)
         .subject(_subject)
         .body(_body)
     {

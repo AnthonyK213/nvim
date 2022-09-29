@@ -105,13 +105,13 @@ function Syntax.new(row, col)
         vs = get_vs(row, col)
     end
 
-    local o = {
+    local syntax = {
         vs = vs,
         ts = ts
     }
 
-    setmetatable(o, Syntax)
-    return o
+    setmetatable(syntax, Syntax)
+    return syntax
 end
 
 ---Match syntax name by vim.regex.
