@@ -3,7 +3,7 @@ use lettre::{Message, SmtpTransport, Transport};
 use libc::c_char;
 use std::ffi::CStr;
 
-macro_rules! string_marshal {
+macro_rules! string_parse {
     ($c_buf: expr, $code: expr) => {
         match c_buf_to_string($c_buf) {
             Ok(v) => v,
@@ -36,14 +36,14 @@ pub extern "C" fn nmail_send(
     password: *const c_char,
     server: *const c_char,
 ) -> i32 {
-    let _from = mailbox_parse!(string_marshal!(from, 1), 9);
-    let _reply_to = mailbox_parse!(string_marshal!(reply_to, 2), 10);
-    let _to = mailbox_parse!(string_marshal!(to, 3), 11);
-    let _subject = string_marshal!(subject, 4);
-    let _body = string_marshal!(body, 5);
-    let _user_name = string_marshal!(user_name, 6);
-    let _password = string_marshal!(password, 7);
-    let _server = string_marshal!(server, 8);
+    let _from = mailbox_parse!(string_parse!(from, 1), 9);
+    let _reply_to = mailbox_parse!(string_parse!(reply_to, 2), 10);
+    let _to = mailbox_parse!(string_parse!(to, 3), 11);
+    let _subject = string_parse!(subject, 4);
+    let _body = string_parse!(body, 5);
+    let _user_name = string_parse!(user_name, 6);
+    let _password = string_parse!(password, 7);
+    let _server = string_parse!(server, 8);
 
     let email = match Message::builder()
         .from(_from)
