@@ -1,4 +1,5 @@
 local lib = require("utility.lib")
+local util = require("utility.util")
 local dylib_dir = vim.fn.stdpath("config").."/dylib/"
 local dylib_ext = ({
     [lib.Os.Windows] = "dll",
@@ -16,10 +17,33 @@ local function get_config()
         if code == 0 then
             config = result
         else
+            util.edit_file(config_path, false)
             vim.notify("Invalid `mail.json`", vim.log.levels.WARN, nil)
         end
     else
-        vim.notify("No `mail.json` found.", vim.log.levels.WARN, nil)
+        if not config_path then
+            vim.notify("Cannot create `mail.json`.", vim.log.levels.WARN, nil)
+            return
+        end
+        vim.cmd("e "..vim.fn.fnameescape(config_path))
+        vim.api.nvim_paste([[
+{
+  "mailbox": "",
+  "smtp": [
+    {
+      "server": "",
+      "user_name": "",
+      "password": ""
+    }
+  ],
+  "imap": [
+    {
+      "server": "",
+      "user_name": "",
+      "password": ""
+    }
+  ]
+}]], true, -1)
     end
     return config
 end
@@ -66,10 +90,11 @@ To:
 Reply-To: 
 Date: %c
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
---------------------------------------------------------------------------------]]), true, -1)
+------------------------------------------------------------------------]]), true, -1)
     lib.feedkeys("gg", "n", true)
+    vim.bo.fileformat = "dos"
 end
 
 ---Instantiate a mail object from current buffer.
@@ -77,7 +102,7 @@ function Mail.from_buf()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local from, subject, to, reply_to
     local body_lines = {}
-    local separator = string.rep("-", 80)
+    local separator = string.rep("-", 72)
     local find_body = false
     for _, line in ipairs(lines) do
         if not find_body then
@@ -142,11 +167,16 @@ function Mail:send()
     local index_table = {}
     for i, item in ipairs(config.smtp) do
         if type(item) == "table"
-            and type(item.user_name) == "string"
             and type(item.server) == "string"
+            and type(item.user_name) == "string"
             and type(item.password) == "string" then
             table.insert(index_table, i)
         end
+    end
+
+    if vim.tbl_isempty(index_table) then
+        lib.notify_err("No SMTP server available.")
+        return
     end
 
     vim.ui.select(index_table, {
