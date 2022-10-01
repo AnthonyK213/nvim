@@ -1,3 +1,4 @@
+use imap::extensions::sort::{SortCriterion, SortCharset};
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
 use libc::c_char;
@@ -44,18 +45,23 @@ fn fetch_inbox_top(
 
     imap_session.select("INBOX")?;
 
-    let messages = imap_session.fetch("1", "RFC822")?;
-    let message = if let Some(m) = messages.iter().next() {
-        m
-    } else {
-        return Ok(None);
-    };
+    if let Ok(seqs) = imap_session.sort(&[SortCriterion::Date], SortCharset::Utf8, "RFC822") {
+        println!("abc");
+        if seqs.len() == 0 {
+            let messages = imap_session.fetch(seqs.last().unwrap().to_string(), "RFC822")?;
+            let message = if let Some(m) = messages.iter().next() {
+                m
+            } else {
+                return Ok(None);
+            };
 
-    imap_session.logout()?;
+            imap_session.logout()?;
 
-    if let Some(body) = message.body() {
-        if let Ok(body) = std::str::from_utf8(body) {
-            return Ok(Some(body.to_string()));
+            if let Some(body) = message.body() {
+                if let Ok(body) = std::str::from_utf8(body) {
+                    return Ok(Some(body.to_string()));
+                }
+            }
         }
     }
 
