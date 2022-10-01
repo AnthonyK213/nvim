@@ -7,6 +7,6 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-imap = { version = "2.4.1", default-features = false }
+imap = { git = "https://github.com/AnthonyK213/rust-imap" }
 lettre = "0.10"
 libc = "0.2"

@@ -1,3 +1,4 @@
+local M  = {}
 local lib = require("utility.lib")
 local util = require("utility.util")
 local dylib_dir = vim.fn.stdpath("config").."/dylib/"
@@ -7,46 +8,98 @@ local dylib_ext = ({
     [lib.Os.Macos] = "so",
 })[lib.get_os_type()]
 
+
+---@class MailConfig
+---@field archive string
+---@field providers table[]
+---@field inbox_dir string
+---@field outbox_dir string
+local MailConfig = {}
+
+MailConfig.__index = MailConfig
+
 ---Get the configuration of mail (from `mail.json`).
----@return table? configuration
-local function get_config()
+---@return MailConfig?
+function MailConfig.get()
+    local mailConfig = {}
     local has_config, config_path = lib.get_dotfile("mail.json")
-    local config
     if has_config and config_path then
         local code, result = lib.json_decode(config_path)
-        if code == 0 then
-            config = result
+        if code == 0 and result then
+            if type(result.archive) == "string" then
+                if not lib.path_exists(result.archive) then
+                    vim.loop.fs_mkdir(result.archive, 448)
+                end
+                local inbox = lib.path_append(result.archive, "INBOX/")
+                local outbox = lib.path_append(result.archive, "OUTBOX/")
+                if not lib.path_exists(inbox) then
+                    vim.loop.fs_mkdir(inbox, 448)
+                end
+                if not lib.path_exists(outbox) then
+                    vim.loop.fs_mkdir(outbox, 448)
+                end
+                mailConfig.archive = result.archive
+                mailConfig.inbox_dir = inbox
+                mailConfig.outbox_dir = outbox
+            else
+                lib.notify_err("Invalid `archive`.")
+                return
+            end
+
+            if vim.tbl_islist(result.providers) then
+                local providers = {}
+                for _, item in ipairs(result.providers) do
+                    if type(item.label) == "string"
+                        and type(item.smtp) == "string"
+                        and type(item.imap) == "string"
+                        and type(item.port) == "number"
+                        and type(item.user_name) == "string"
+                        and type(item.password) == "string"
+                        and item.port > 0
+                        and item.port <= 65535 then
+                        table.insert(providers, item)
+                    end
+                end
+                if vim.tbl_isempty(providers) then
+                    lib.notify_err("No valid `providers`.")
+                    return
+                end
+                mailConfig.providers = providers
+            else
+                lib.notify_err("Invalid `providers`.")
+                return
+            end
         else
             util.edit_file(config_path, false)
-            vim.notify("Invalid `mail.json`", vim.log.levels.WARN, nil)
+            lib.notify_err("Invalid `mail.json`")
+            return
         end
     else
         if not config_path then
-            vim.notify("Cannot create `mail.json`.", vim.log.levels.WARN, nil)
+            lib.notify_err("Cannot create `mail.json`.")
             return
         end
         vim.cmd("e "..vim.fn.fnameescape(config_path))
         vim.api.nvim_paste([[
 {
-  "mailbox": "",
-  "smtp": [
+  "archive": "",
+  "providers": [
     {
-      "server": "",
-      "user_name": "",
-      "password": ""
-    }
-  ],
-  "imap": [
-    {
-      "server": "",
+      "label": "",
+      "smtp": "",
+      "imap": "",
+      "port": 993
       "user_name": "",
       "password": ""
     }
   ]
 }]], true, -1)
+        return
     end
-    return config
+    setmetatable(mailConfig, MailConfig)
+    return mailConfig
 end
+
 
 ---@class Mail
 ---@field from string
@@ -76,13 +129,9 @@ end
 
 ---Create an EML file.
 function Mail.new_file()
-    local config = get_config()
+    local config = MailConfig.get()
     if not config then return end
-    if not (config.mailbox and lib.path_exists(config.mailbox)) then
-        lib.notify_err("Invalid mailbox directory.")
-        return
-    end
-    vim.cmd("e "..vim.fn.fnameescape(lib.path_append(config.mailbox, os.date("%Y%m%d%H%M%S.eml"))))
+    vim.cmd("e "..vim.fn.fnameescape(lib.path_append(config.outbox_dir, os.date("OUT%Y%m%d%H%M%S.eml"))))
     vim.api.nvim_paste(os.date([[
 From: 
 Subject: 
@@ -135,12 +184,9 @@ end
 
 ---Send the e-mail.
 function Mail:send()
-    -- Check fields.
-    if not (self.from and self.to and self.reply_to
-        and self.subject and self.body) then
-        lib.notify_err("Invalid email.")
-        return
-    end
+    -- Load configuration.
+    local config = MailConfig.get()
+    if not config then return end
 
     -- Check dylib.
     if not dylib_ext then
@@ -154,39 +200,21 @@ function Mail:send()
         return
     end
 
-    -- Load configuration.
-    local config = get_config()
-    if not config
-        or not config.smtp
-        or not vim.tbl_islist(config.smtp)
-        or vim.tbl_isempty(config.smtp) then
-        lib.notify_err("SMTP server list is empty.")
+    -- Check fields.
+    if not (self.from and self.to and self.reply_to
+        and self.subject and self.body) then
+        lib.notify_err("Invalid email.")
         return
     end
 
-    local index_table = {}
-    for i, item in ipairs(config.smtp) do
-        if type(item) == "table"
-            and type(item.server) == "string"
-            and type(item.user_name) == "string"
-            and type(item.password) == "string" then
-            table.insert(index_table, i)
-        end
-    end
-
-    if vim.tbl_isempty(index_table) then
-        lib.notify_err("No SMTP server available.")
-        return
-    end
-
-    vim.ui.select(index_table, {
-        prompt = "Select SMTP server:",
+    -- Send mail.
+    vim.ui.select(config.providers, {
+        prompt = "Select mailbox provider:",
         format_item = function (item)
-            return config.smtp[item].user_name
+            return item.label
         end
-    }, function (index)
-        if not index then return end
-        local smtp = config.smtp[index]
+    }, function (provider)
+        if not provider then return end
         vim.loop.new_work(function (_from, _to, _reply_to, _subject, _body,
                                     _user_name, _password, _server, _path)
             local ffi = require("ffi")
@@ -222,15 +250,78 @@ function Mail:send()
             };
             (code == 0 and vim.notify or lib.notify_err)(code_map[code])
         end)):queue(self.from, self.to, self.reply_to, self.subject, self.body,
-                    smtp.user_name, smtp.password, smtp.server, lib_path)
+                    provider.user_name, provider.password, provider.smtp, lib_path)
     end)
 end
 
 
 ---@class Mailbox
+---@field fetched string
 local Mailbox = {}
 
 Mailbox.__index = Mailbox
+
+---Constructor
+---@return Mailbox
+function Mailbox.new()
+    local mailbox = {}
+    setmetatable(mailbox, Mailbox)
+    return mailbox
+end
+
+function Mailbox:fetch()
+    -- Load configuration.
+    local config = MailConfig.get()
+    if not config then return end
+
+    -- Check dylib.
+    if not dylib_ext then
+        lib.notify_err("Unsupported OS.")
+        return
+    end
+
+    local lib_path = dylib_dir.."nmail."..dylib_ext
+    if not lib.path_exists(lib_path) then
+        lib.notify_err("nmail."..dylib_ext.." is not found.")
+        return
+    end
+
+    vim.ui.select(config.providers, {
+        prompt = "Select IMAP server:",
+        format_item = function (item)
+            return item.label
+        end
+    }, function (provider)
+        if not provider then return end
+        vim.loop.new_work(function (_server, _port, _user_name, _password, _path)
+            local ffi = require("ffi")
+            ffi.cdef([[char *nmail_fetch(const char *server,
+                                         int port,
+                                         const char *user_name,
+                                         const char *password);
+                       void nmail_string_free(char *s);]])
+            local nmail = ffi.load(_path)
+            local c_str = nmail.nmail_fetch(_server, _port, _user_name, _password)
+            if c_str == nil then return end
+            local body = ffi.string(c_str)
+            nmail.nmail_string_free(c_str)
+            return body
+        end,
+        vim.schedule_wrap(function (body)
+            if not body then
+                vim.notify("Failed to fetch recent mail.")
+            end
+            local mail_path = lib.path_append(config.inbox_dir, os.date("IN%Y%m%d%H%M%S.eml"))
+            local f = io.open(mail_path, "w")
+            if f then
+                f:write(body)
+                f:close()
+                vim.cmd("e "..vim.fn.fnameescape(mail_path))
+                vim.notify("Mail fetched.")
+            end
+        end)):queue(provider.imap, provider.port, provider.user_name, provider.password, lib_path)
+    end)
+end
 
 
 return {

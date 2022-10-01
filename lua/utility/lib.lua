@@ -322,6 +322,7 @@ end
 ---@param cwd? string The working directory.
 ---@return boolean exists True if path exists.
 function M.path_exists(path, cwd)
+    if type(path) ~= "string" then return false end
     local is_rel = true
     path = vim.fs.normalize(path)
     if M.has_windows() then

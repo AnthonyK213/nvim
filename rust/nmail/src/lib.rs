@@ -1,7 +1,8 @@
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
 use libc::c_char;
-use std::ffi::CStr;
+use std::collections::HashMap;
+use std::ffi::{CStr, CString};
 
 macro_rules! string_parse {
     ($c_buf: expr, $code: expr) => {
@@ -23,6 +24,42 @@ macro_rules! mailbox_parse {
 
 fn c_buf_to_string(c_buf: *const c_char) -> Result<String, std::str::Utf8Error> {
     Ok(unsafe { CStr::from_ptr(c_buf) }.to_str()?.to_owned())
+}
+
+fn fetch_inbox_top(
+    server: String,
+    port: u16,
+    user_name: String,
+    password: String,
+) -> imap::error::Result<Option<String>> {
+    let client = imap::ClientBuilder::new(&server, port).native_tls()?;
+
+    let mut imap_session = client
+        .login_with_id(
+            user_name,
+            password,
+            &HashMap::from_iter([("name", "IMAPClient"), ("version", "2.1.0")]),
+        )
+        .map_err(|e| e.0)?;
+
+    imap_session.select("INBOX")?;
+
+    let messages = imap_session.fetch("1", "RFC822")?;
+    let message = if let Some(m) = messages.iter().next() {
+        m
+    } else {
+        return Ok(None);
+    };
+
+    imap_session.logout()?;
+
+    if let Some(body) = message.body() {
+        if let Ok(body) = std::str::from_utf8(body) {
+            return Ok(Some(body.to_string()));
+        }
+    }
+
+    Ok(None)
 }
 
 #[no_mangle]
@@ -69,4 +106,35 @@ pub extern "C" fn nmail_send(
         Ok(_) => 0,
         Err(_) => 14,
     }
+}
+
+#[no_mangle]
+pub extern "C" fn nmail_fetch(
+    server: *const c_char,
+    port: i32,
+    user_name: *const c_char,
+    password: *const c_char,
+) -> *mut c_char {
+    let _server = string_parse!(server, std::ptr::null_mut());
+    let _port: u16 = match port.try_into() {
+        Ok(p) => p,
+        Err(_) => return std::ptr::null_mut(),
+    };
+    let _user_name = string_parse!(user_name, std::ptr::null_mut());
+    let _password = string_parse!(password, std::ptr::null_mut());
+
+    if let Ok(Some(_body)) = fetch_inbox_top(_server, _port, _user_name, _password) {
+        if let Ok(body) = CString::new(_body) {
+            return body.into_raw()
+        }
+    }
+    std::ptr::null_mut()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn nmail_string_free(s: *mut c_char) {
+    if s.is_null() {
+        return;
+    }
+    drop(CString::from_raw(s));
 }
