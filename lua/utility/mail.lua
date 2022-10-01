@@ -310,6 +310,7 @@ function Mailbox:fetch()
         vim.schedule_wrap(function (body)
             if not body then
                 vim.notify("Failed to fetch recent mail.")
+                return
             end
             local mail_path = lib.path_append(config.inbox_dir, os.date("IN%Y%m%d%H%M%S.eml"))
             local f = io.open(mail_path, "w")
