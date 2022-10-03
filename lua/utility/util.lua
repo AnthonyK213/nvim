@@ -385,10 +385,15 @@ end
 
 ---Build crates in `$config/rust/` directory.
 function M.build_dylibs()
-    local config_dir = vim.fn.stdpath("config")
-    local crates_dir = lib.path_append(config_dir, "rust")
-    local dylibs_dir = lib.path_append(config_dir, "dylib")
+    local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
+    local dylibs_dir = _my_core_opt.path.dylib
     local dylib_ext = lib.get_dylib_ext()
+    if not lib.path_exists(dylibs_dir) then
+        if not vim.loop.fs_mkdir(dylibs_dir, 448) then
+            lib.notify_err("Could not crate directory `dylib`.")
+            return
+        end
+    end
 
     if not lib.executable("cargo") then return end
 
@@ -403,13 +408,13 @@ function M.build_dylibs()
                     local dylib_name = _name.."."..dylib_ext
                     vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/"..dylib_name),
                     lib.path_append(dylibs_dir, dylib_name),
-                    function (err, success)
+                    vim.schedule_wrap(function (err, success)
                         if success then
                             print("Building `".._name.."`: Succeed.")
                         else
                             print(err)
                         end
-                    end)
+                    end))
                 else
                     lib.notify_err("Building `".._name.."`: Failed.")
                 end

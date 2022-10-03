@@ -1,6 +1,6 @@
 local lib = require("utility.lib")
 local util = require("utility.util")
-local dylib_dir = vim.fn.stdpath("config").."/dylib/"
+local dylib_dir = _my_core_opt.path.dylib
 local dylib_ext = lib.get_dylib_ext()
 
 
