@@ -86,6 +86,16 @@ function M.get_context()
     }
 end
 
+---Get dynamic library extension.
+---@return string?
+function M.get_dylib_ext()
+    return ({
+        [M.Os.Windows] = "dll",
+        [M.Os.Linux] = "so",
+        [M.Os.Macos] = "so",
+    })[M.get_os_type()]
+end
+
 ---Get current branch name.
 ---@param git_root? string Git repository root directory.
 ---@return string? result Current branch name.

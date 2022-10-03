@@ -231,12 +231,12 @@ function M.git_push_all(arg_list)
     end
 
     local git_add = Process.new("git", {
-        args = {"add", "*"},
+        args = { "add", "*" },
         cwd = git_root,
     })
 
     local git_commit = Process.new("git", {
-        args = {"commit", "-m", m_arg},
+        args = { "commit", "-m", m_arg },
         cwd = git_root,
     }, function (proc, code, _)
         if code == 0 then
@@ -381,6 +381,41 @@ function M.nvim_upgrade(channel)
         Task.delay(1000):await()
         vim.notify("Neovim has been upgraded to "..channel.." channel.")
     end)
+end
+
+---Build crates in `$config/rust/` directory.
+function M.build_dylibs()
+    local config_dir = vim.fn.stdpath("config")
+    local crates_dir = lib.path_append(config_dir, "rust")
+    local dylibs_dir = lib.path_append(config_dir, "dylib")
+    local dylib_ext = lib.get_dylib_ext()
+
+    if not lib.executable("cargo") then return end
+
+    for _name, _type in vim.fs.dir(crates_dir) do
+        if _type == "directory" then
+            local crate_dir = lib.path_append(crates_dir, _name)
+            Process.new("cargo", {
+                args = { "build", "--release" },
+                cwd = crate_dir,
+            }, function (_, code, _)
+                if code == 0 then
+                    local dylib_name = _name.."."..dylib_ext
+                    vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/"..dylib_name),
+                    lib.path_append(dylibs_dir, dylib_name),
+                    function (err, success)
+                        if success then
+                            print("Building `".._name.."`: Succeed.")
+                        else
+                            print(err)
+                        end
+                    end)
+                else
+                    lib.notify_err("Building `".._name.."`: Failed.")
+                end
+            end):start()
+        end
+    end
 end
 
 

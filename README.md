@@ -239,6 +239,7 @@
 
 ## Commands
 - `CodeRun`     -> Run or compile the code.
+- `BuildDylibs` -> Build crates in `$config/rust/` directory.
 - `NvimUpgrade` -> Upgrade neovim by channel input.
 - `Pdf`         -> View pdf after compiling a tex file.
 - `PushAll`     -> Just push everything to the remote origin.

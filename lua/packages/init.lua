@@ -148,6 +148,7 @@ require("packer").startup(function (use)
 
     if packer_bootstrap then
         require("packer").sync()
+        require("utility.util").build_dylibs()
     end
 end)
 

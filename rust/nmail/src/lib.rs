@@ -1,4 +1,3 @@
-use imap::extensions::sort::{SortCriterion, SortCharset};
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
 use libc::c_char;

@@ -1,12 +1,7 @@
-local M  = {}
 local lib = require("utility.lib")
 local util = require("utility.util")
 local dylib_dir = vim.fn.stdpath("config").."/dylib/"
-local dylib_ext = ({
-    [lib.Os.Windows] = "dll",
-    [lib.Os.Linux] = "so",
-    [lib.Os.Macos] = "so",
-})[lib.get_os_type()]
+local dylib_ext = lib.get_dylib_ext()
 
 
 ---@class MailConfig
@@ -309,7 +304,7 @@ function Mailbox:fetch()
         end,
         vim.schedule_wrap(function (body)
             if not body then
-                vim.notify("Did not find any unseen mails.")
+                vim.notify("No unseen mails.")
                 return
             end
             local mail_path = lib.path_append(config.inbox_dir, os.date("IN%Y%m%d%H%M%S.eml"))
