@@ -36,7 +36,15 @@ function! s:Syntax.show() dict
   if empty(l:lines)
     call add(l:lines, "* No highlight groups found.")
   endif
-  echo join(l:lines, "\n")
+  if has("nvim-0.5")
+    call v:lua.vim.lsp.util.open_floating_preview(l:lines, "markdown", {
+        \ "border": g:_my_tui_border,
+        \ "pad_left": 4,
+        \ "pad_right": 4
+        \ })
+  else
+    echo join(l:lines, "\n")
+  endif
 endfunction
 
 function! my#syn#new(row, col) abort
