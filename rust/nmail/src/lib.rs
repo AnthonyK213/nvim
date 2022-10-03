@@ -44,28 +44,33 @@ fn fetch_inbox_top(
         .map_err(|e| e.0)?;
 
     imap_session.select("INBOX")?;
+    let new_seqs = imap_session.search("NEW")?;
 
-    if let Ok(seqs) = imap_session.sort(&[SortCriterion::Date], SortCharset::Utf8, "RFC822") {
-        println!("abc");
-        if seqs.len() == 0 {
-            let messages = imap_session.fetch(seqs.last().unwrap().to_string(), "RFC822")?;
+    let mut bodys = Vec::<String>::new();
+
+    for seq in &new_seqs {
+        if let Ok(messages) = imap_session.fetch(seq.to_string(), "RFC822") {
             let message = if let Some(m) = messages.iter().next() {
                 m
             } else {
-                return Ok(None);
+                continue;
             };
-
-            imap_session.logout()?;
 
             if let Some(body) = message.body() {
                 if let Ok(body) = std::str::from_utf8(body) {
-                    return Ok(Some(body.to_string()));
+                    bodys.push(body.to_string());
                 }
             }
         }
     }
 
-    Ok(None)
+    imap_session.logout()?;
+
+    if bodys.len() == 0 {
+        Ok(None)
+    } else {
+        Ok(Some(bodys.join("\r\n\r\n")))
+    }
 }
 
 #[no_mangle]

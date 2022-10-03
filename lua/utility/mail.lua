@@ -309,7 +309,7 @@ function Mailbox:fetch()
         end,
         vim.schedule_wrap(function (body)
             if not body then
-                vim.notify("Failed to fetch recent mail.")
+                vim.notify("Did not find any unseen mails.")
                 return
             end
             local mail_path = lib.path_append(config.inbox_dir, os.date("IN%Y%m%d%H%M%S.eml"))
