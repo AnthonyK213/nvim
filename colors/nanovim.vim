@@ -474,7 +474,7 @@ let s:nanovim_mode = {
       \ 'i'     : ' IN ',
       \ 'ic'    : ' IC ',
       \ 'ix'    : ' IX ',
-      \ 'n'     : ' NM ',
+      \ 'n'     : ' NO ',
       \ 'nt'    : ' TN ',
       \ 'multi' : ' MU ',
       \ 'niI'   : ' ĨN ',
