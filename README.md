@@ -22,76 +22,79 @@
     ```
 * **Start Neovim and wait for the installation to complete**
 * **Customize with `nvimrc`**
-  ``` json
-  {
-    // Dependencies
-    "dep": {
-      "sh": "string|table", // Shell
-      "cc": "string",       // C compiler
-      "py3": "string",      // Python3 executable path
-      "proxy": "string"     // Proxy
-    },
-    // Paths
-    "path": {
-      "home": "string",     // Home directory
-      "cloud": "string",    // Cloud drive directory
-      "desktop": "string",  // Desktop directory
-      "bin": "string"       // Binaries directory
-    },
-    // Terminal UI
-    "tui": {
-      "scheme": "string", // Color scheme(onedark|tokyonight|gruvbox|nightfox)
-      "theme": "string",  // Tui background theme(dark|light)
-      "style": "string",  // Style of color scheme
-      "transparent": false,        // Make background transparent
-      "global_statusline": false,  // Global statusline
-      "border": "string",          // Floating window border style
-      "cmp_ghost": false           // nvim-cmp ghost text
-    },
-    // GUI (neovim-qt, fvim)
-    "gui": {
-      "theme": "string",     // GUI background theme
-      "opacity": 0.98,       // Window opacity
-      "ligature": false,     // Render ligatures
-      "popup_menu": false,   // Use GUI popup menu
-      "tabline": false,      // Use GUI tabline
-      "scroll_bar": false,   // Use GUI scroll bar
-      "line_space": 0.0,     // Line space
-      "font_size": 13,       // GUI font size
-      "font_half": "string", // See `guifont`
-      "font_full": "string"  // See `guifontwide`
-    },
-    // Language Server Protocol
-    "lsp": {
-      "clangd": false,               // https://github.com/clangd/clangd
-      "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
-      "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
-      "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
-      "pyright": false,              // https://github.com/microsoft/pyright
-      "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
-      "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
-      "texlab": false,               // https://github.com/latex-lsp/texlab
-      "vimls": false                 // https://github.com/iamcco/vim-language-server
-    },
-    // Treesitter
-    "ts": {
-      "ensure": [],        // Parsers to install automatically
-      "hi_disable": []     // File type to disable treesitter highlight
-    },
-    // Debug Adapter Protocol
-    "dap": {
-      "lldb": false,       // https://github.com/llvm/llvm-project
-      "csharp": false,     // https://github.com/Samsung/netcoredbg
-      "python": false      // https://github.com/microsoft/debugpy
-    },
-    // Built-in plugins
-    "plug": {
-      "matchit": false,    // Enable matchit.vim
-      "matchparen": false  // Enable matchparen.vim
+  - In the `home`|`config` directory, names `.nvimrc`
+    (also can be `_nvimrc` on Windows)
+  - Example
+    ``` json
+    {
+      // Dependencies
+      "dep": {
+        "sh": "string|table", // Shell
+        "cc": "string",       // C compiler
+        "py3": "string",      // Python3 executable path
+        "proxy": "string"     // Proxy
+      },
+      // Paths
+      "path": {
+        "home": "string",     // Home directory
+        "cloud": "string",    // Cloud drive directory
+        "desktop": "string",  // Desktop directory
+        "bin": "string"       // Binaries directory
+      },
+      // Terminal UI
+      "tui": {
+        "scheme": "string", // Color scheme(onedark|tokyonight|gruvbox|nightfox)
+        "theme": "string",  // Tui background theme(dark|light)
+        "style": "string",  // Style of color scheme
+        "transparent": false,        // Make background transparent
+        "global_statusline": false,  // Global statusline
+        "border": "string",          // Floating window border style
+        "cmp_ghost": false           // nvim-cmp ghost text
+      },
+      // GUI (neovim-qt, fvim)
+      "gui": {
+        "theme": "string",     // GUI background theme
+        "opacity": 0.98,       // Window opacity
+        "ligature": false,     // Render ligatures
+        "popup_menu": false,   // Use GUI popup menu
+        "tabline": false,      // Use GUI tabline
+        "scroll_bar": false,   // Use GUI scroll bar
+        "line_space": 0.0,     // Line space
+        "font_size": 13,       // GUI font size
+        "font_half": "string", // See `guifont`
+        "font_full": "string"  // See `guifontwide`
+      },
+      // Language Server Protocol
+      "lsp": {
+        "clangd": false,               // https://github.com/clangd/clangd
+        "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
+        "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
+        "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
+        "pyright": false,              // https://github.com/microsoft/pyright
+        "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
+        "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
+        "texlab": false,               // https://github.com/latex-lsp/texlab
+        "vimls": false                 // https://github.com/iamcco/vim-language-server
+      },
+      // Treesitter
+      "ts": {
+        "ensure": [],        // Parsers to install automatically
+        "hi_disable": []     // File type to disable treesitter highlight
+      },
+      // Debug Adapter Protocol
+      "dap": {
+        "lldb": false,       // https://github.com/llvm/llvm-project
+        "csharp": false,     // https://github.com/Samsung/netcoredbg
+        "python": false      // https://github.com/microsoft/debugpy
+      },
+      // Built-in plugins
+      "plug": {
+        "matchit": false,    // Enable matchit.vim
+        "matchparen": false  // Enable matchparen.vim
+      }
     }
-  }
-  ```
-  > The comments have to be removed.
+    ```
+    > The comments have to be removed.
 * **Install LSP servers via `nvim-lsp-installer`**
 * **Set .vimrc for Vim (optional)**
   - Windows
@@ -103,6 +106,25 @@
     ```sh
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
+    ```
+* **Set mailboxes (optional)**
+  - In the `home`|`config` directory, names `.mail.json`
+    (also can be `_mail.json` on Windows)
+  - Example
+    ``` json
+    {
+      "archive": "/path/to/email/archive/directory/",
+      "providers": [
+        {
+          "label": "A unique label for the mailbox provider",
+          "smtp": "SMTP server address",
+          "imap": "IMAP server address",
+          "port": 993,
+          "user_name": "User name",
+          "password": "Password"
+        }
+      ]
+    }
     ```
 
 
@@ -201,8 +223,11 @@
     - n:    <kbd>w</kbd> -> Work space symbol.
     - n:    <kbd>[</kbd> -> Jump to previous diagnostic mark.
     - n:    <kbd>]</kbd> -> Jump to next diagnostic mark.
-  - <kbd>leader-m-</kbd> -> **Markdown**
+  - <kbd>leader-m-</kbd> -> **Markdown**, **Mail**
+    - n:    <kbd>f</kbd> -> Fetch recently unseen mails from imap server.
     - n:    <kbd>l</kbd> -> Regenerate list bullets.
+    - n:    <kbd>n</kbd> -> Create a new mail(.eml file).
+    - n:    <kbd>s</kbd> -> Send the mail from current buffer.
     - n:    <kbd>v</kbd> -> *aerial.nvim*, Toc vertical.
     - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle.
   - <kbd>leader-n-</kbd> -> **GTD**.
