@@ -311,6 +311,27 @@ function M.notify_err(err)
     vim.notify(err, vim.log.levels.ERROR, nil)
 end
 
+---Parse the argument part of a command.
+---@param cmd_args string Argument part of a command.
+---@return table<string, string> result Table of "parameter: argument".
+function M.parse_args(cmd_args)
+    local pos = {}
+    local result = {}
+    local iter = cmd_args:gmatch("%s*()(-+%w+)()%s*")
+    for s, v, e in iter do
+        table.insert(pos, { s, v, e })
+    end
+    for i, item in ipairs(pos) do
+        local _end = i == #pos and #cmd_args or pos[i + 1][1] - 1
+        local value = vim.trim(cmd_args:sub(item[3], _end))
+        if #value > 0 then
+            result[item[2]] = value
+        end
+    end
+
+    return result
+end
+
 ---Append file/directory/sub-path to a path.
 ---@param path string Path to be appended.
 ---@param item string Item to append to the path.
