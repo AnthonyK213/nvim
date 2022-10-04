@@ -217,7 +217,6 @@ function M.get_visual_selection()
     vim.cmd.normal {
         (in_vis and "" or "gv") .. [["ay]],
         mods = {
-            bang = true,
             silent = true
         }
     }
