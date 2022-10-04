@@ -1,5 +1,5 @@
 local packer_bootstrap = nil
-local packer_path = vim.fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
+local packer_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
     if vim.fn.executable("git") > 0 then
         packer_bootstrap = vim.fn.system {
@@ -16,7 +16,7 @@ if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
     end
 end
 
-require("packer").startup(function (use)
+require("packer").startup(function(use)
     -- Package manager
     use "wbthomason/packer.nvim"
     -- Display
@@ -38,22 +38,22 @@ require("packer").startup(function (use)
     use {
         {
             "kyazdani42/nvim-tree.lua",
-            config = function () require("packages.nvim-tree") end
+            config = function() require("packages.nvim-tree") end
         };
         {
             "nvim-telescope/telescope.nvim",
-            config = function () require("packages.telescope") end
+            config = function() require("packages.telescope") end
         };
     }
     -- VCS
     use {
         {
             "TimUntersberger/neogit",
-            config = function () require("packages.neogit") end
+            config = function() require("packages.neogit") end
         };
         {
             "lewis6991/gitsigns.nvim",
-            config = function () require("packages.gitsigns") end
+            config = function() require("packages.gitsigns") end
         };
     }
     -- Utilities
@@ -62,39 +62,39 @@ require("packer").startup(function (use)
         "tpope/vim-speeddating";
         {
             "dhruvasagar/vim-table-mode",
-            config = function () require("packages.vim-table-mode") end
+            config = function() require("packages.vim-table-mode") end
         };
         {
             "AnthonyK213/lua-pairs",
-            config = function () require("packages.lua-pairs") end
+            config = function() require("packages.lua-pairs") end
         };
         {
             "andymass/vim-matchup"
         };
         {
             "Shatur/neovim-session-manager",
-            config = function () require("packages.neovim-session-manager") end
+            config = function() require("packages.neovim-session-manager") end
         };
         {
             "stevearc/dressing.nvim",
-            config = function () require("packages.dressing") end
+            config = function() require("packages.dressing") end
         };
     }
     -- File type support
     use {
         {
             "lervag/vimtex",
-            config = function () require("packages.vimtex") end
+            config = function() require("packages.vimtex") end
         };
         {
             "vimwiki/vimwiki",
             branch = "dev",
-            config = function () require("packages.vimwiki") end
+            config = function() require("packages.vimwiki") end
         };
         {
             "iamcco/markdown-preview.nvim",
-            run = function () vim.fn["mkdp#util#install"]() end,
-            config = function () require("packages.markdown-preview") end
+            run = function() vim.fn["mkdp#util#install"]() end,
+            config = function() require("packages.markdown-preview") end
         };
         "sotte/presenting.vim";
         "gpanders/editorconfig.nvim";
@@ -113,11 +113,11 @@ require("packer").startup(function (use)
                 "hrsh7th/vim-vsnip",
                 "hrsh7th/cmp-vsnip",
             },
-            config = function () require("packages.nvim-cmp") end
+            config = function() require("packages.nvim-cmp") end
         };
         {
             "neovim/nvim-lspconfig",
-            config = function () require("packages.nvim-lspconfig") end,
+            config = function() require("packages.nvim-lspconfig") end,
             requires = {
                 "williamboman/mason.nvim",
                 "williamboman/mason-lspconfig.nvim",
@@ -125,15 +125,15 @@ require("packer").startup(function (use)
         };
         {
             "nvim-treesitter/nvim-treesitter",
-            config = function () require("packages.nvim-treesitter") end
+            config = function() require("packages.nvim-treesitter") end
         };
         {
             "stevearc/aerial.nvim",
-            config = function () require("packages.aerial") end
+            config = function() require("packages.aerial") end
         };
         {
             "mfussenegger/nvim-dap",
-            config = function () require("packages.nvim-dap") end
+            config = function() require("packages.nvim-dap") end
         };
     }
     -- Games
@@ -171,7 +171,7 @@ if nvim_init_src == "nano" then
 elseif packer_bootstrap == nil then
     -- Load color scheme.
     if vim.tbl_contains(colorscheme_list, colorscheme) then
-        require("packages."..colorscheme)
+        require("packages." .. colorscheme)
     else
         if not pcall(vim.cmd.colorscheme, colorscheme) then
             vim.notify("Color scheme was not found.", vim.log.levels.WARN, nil)

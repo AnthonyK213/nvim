@@ -3,7 +3,6 @@ local api = vim.api
 local lib = require("utility.lib")
 local mlib = require("utility.mlib")
 
-
 ---Evaluate text.
 ---@param f function Method to evaluate the text.
 local function text_eval(f)
@@ -131,7 +130,7 @@ end
 ---@return table? Parsed tree.
 local function lisp_tree(str)
     local tree_level = 0
-    local pre_parse  = str:gsub("[%(%)]", function(s) return " "..s.." " end)
+    local pre_parse  = str:gsub("[%(%)]", function(s) return " " .. s .. " " end)
     local elem_table = vim.split(vim.trim(pre_parse), "%s+")
     local tree_table = {}
 
@@ -178,6 +177,5 @@ end
 function M.lisp_eval()
     text_eval(lisp_str_eval)
 end
-
 
 return M

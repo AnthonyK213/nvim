@@ -2,14 +2,13 @@ local M = {}
 local api = vim.api
 local lib = require("utility.lib")
 
-
 ---Surrounding pairs.
 ---@param pair_a string Left side of the surrounding.
 ---@return string pair_b Right side of the surrounding.
 local function srd_pair(pair_a)
     local pairs = {
-        ["("] = ")",   ["["] = "]", ["{"] = "}",
-        ["<"] = ">",   [" "] = " ",
+        ["("] = ")", ["["] = "]", ["{"] = "}",
+        ["<"] = ">", [" "] = " ",
         ["《"] = "》", ["“"] = "”",
     }
     if pair_a:match("^[%(%[{<%s《“]+$") then
@@ -17,7 +16,7 @@ local function srd_pair(pair_a)
             return pairs[x]
         end, lib.tbl_reverse(lib.str_explode(pair_a))))
     elseif vim.regex([[\v^(\<\w{-}\>)+$]]):match_str(pair_a) then
-        return "</"..table.concat(lib.tbl_reverse(vim.tbl_filter(function (str)
+        return "</" .. table.concat(lib.tbl_reverse(vim.tbl_filter(function(str)
             return str ~= ""
         end, vim.split(pair_a, "<"))), "</")
     else
@@ -33,11 +32,11 @@ end
 ---@return table<string, integer> result
 local function srd_collect(str, pair_a, pair_b)
     local tab_pair = {}
-    for pos in str:gmatch("()"..vim.pesc(pair_a)) do
+    for pos in str:gmatch("()" .. vim.pesc(pair_a)) do
         tab_pair[tostring(pos)] = -1
     end
 
-    for pos in str:gmatch("()"..vim.pesc(pair_b)) do
+    for pos in str:gmatch("()" .. vim.pesc(pair_b)) do
         tab_pair[tostring(pos)] = 1
     end
     return tab_pair
@@ -88,7 +87,7 @@ end
 function M.srd_add(mode, pair_a)
     ---Add surrounding.
     ---@param p_a0 string|string[] Left|Both side of the surrounding.
-    local add = function (p_a0)
+    local add = function(p_a0)
         if not p_a0 then return end
         local p_a, p_b
         if type(p_a0) == "table" then
@@ -103,7 +102,7 @@ function M.srd_add(mode, pair_a)
         if mode == "n" then
             local word, s, e = lib.get_word()
             local line, col = unpack(api.nvim_win_get_cursor(0))
-            api.nvim_buf_set_text(0, line - 1, s, line - 1, e, { p_a..word..p_b })
+            api.nvim_buf_set_text(0, line - 1, s, line - 1, e, { p_a .. word .. p_b })
             api.nvim_win_set_cursor(0, { line, col + #p_a })
         elseif mode == "v" then
             local sl, sc = unpack(api.nvim_buf_get_mark(0, "<"))
@@ -117,7 +116,7 @@ function M.srd_add(mode, pair_a)
     if pair_a then
         add(pair_a)
     else
-        vim.ui.input({ prompt = "Surrounding add: " }, function (input)
+        vim.ui.input({ prompt = "Surrounding add: " }, function(input)
             add(input)
         end)
     end
@@ -130,7 +129,7 @@ function M.srd_sub(pair_a_new, pair_a_old)
     ---Change surrounding.
     ---@param p_a_n0 string|string[] Left|Both side of the new surrounding.
     ---@param p_a_o0 string|string[] Left|Both side of the old surrounding.
-    local sub = function (p_a_n0, p_a_o0)
+    local sub = function(p_a_n0, p_a_o0)
         local context = lib.get_context()
         local back = context.b
         local fore = context.f
@@ -156,9 +155,9 @@ function M.srd_sub(pair_a_new, pair_a_old)
 
         if p_a_o == p_b_o then
             local pat = vim.pesc(p_a_o)
-            if back:match("^.*"..pat)
+            if back:match("^.*" .. pat)
                 and fore:match(pat) then
-                back_new = back:gsub("^(.*)"..pat, "%1"..p_a_n, 1)
+                back_new = back:gsub("^(.*)" .. pat, "%1" .. p_a_n, 1)
                 fore_new = fore:gsub(pat, p_b_n, 1)
             end
         else
@@ -166,16 +165,16 @@ function M.srd_sub(pair_a_new, pair_a_old)
             local pos_b = srd_locate(fore, p_a_o, p_b_o, 1)
             if pos_a and pos_b then
                 back_new = back:sub(1, pos_a - 1)
-                ..p_a_n
-                ..back:sub(pos_a + p_a_o:len())
+                    .. p_a_n
+                    .. back:sub(pos_a + p_a_o:len())
                 fore_new = fore:sub(1, pos_b - 1)
-                ..p_b_n
-                ..fore:sub(pos_b + p_b_o:len())
+                    .. p_b_n
+                    .. fore:sub(pos_b + p_b_o:len())
             end
         end
 
         if back_new and fore_new then
-            api.nvim_set_current_line(back_new..fore_new)
+            api.nvim_set_current_line(back_new .. fore_new)
             pos[2] = pos[2] + #p_a_n - #p_a_o
             api.nvim_win_set_cursor(0, pos)
         end
@@ -185,18 +184,18 @@ function M.srd_sub(pair_a_new, pair_a_old)
         if pair_a_new then
             sub(pair_a_new, pair_a_old)
         else
-            vim.ui.input({ prompt = "Change to: " }, function (input)
+            vim.ui.input({ prompt = "Change to: " }, function(input)
                 if not input then return end
                 sub(input, pair_a_old)
             end)
         end
     else
-        vim.ui.input({ prompt = "Surrounding delete: " }, function (pair_a)
+        vim.ui.input({ prompt = "Surrounding delete: " }, function(pair_a)
             if not pair_a then return end
             if pair_a_new then
                 sub(pair_a_new, pair_a)
             else
-                vim.ui.input({ prompt = "Change to: " }, function (input)
+                vim.ui.input({ prompt = "Change to: " }, function(input)
                     if not input then return end
                     sub(input, pair_a)
                 end)
@@ -204,6 +203,5 @@ function M.srd_sub(pair_a_new, pair_a_old)
         end)
     end
 end
-
 
 return M

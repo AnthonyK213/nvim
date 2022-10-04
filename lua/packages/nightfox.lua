@@ -17,7 +17,7 @@ end
 ---Set nightfox `style`.
 ---@param style string
 local function set_style(style)
-    vim.cmd.colorscheme(style.."fox")
+    vim.cmd.colorscheme(style .. "fox")
 end
 
 ---Cast onedark hightlight override table to nightfox.
@@ -63,7 +63,7 @@ local fox_style = style_table[opt_style] and opt_style or "night"
 
 require("nightfox").setup {
     options = {
-        compile_path = vim.fn.stdpath("data").."/nightfox",
+        compile_path = vim.fn.stdpath("data") .. "/nightfox",
         compile_file_suffix = "_compiled",
         transparent = _my_core_opt.tui.transparent,
         styles = {

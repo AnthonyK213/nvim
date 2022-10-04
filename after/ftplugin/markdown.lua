@@ -27,7 +27,7 @@ for key, val in pairs(srd_table) do
     end, _opt)
 end
 vim.keymap.set("n", "<F5>", "<Cmd>PresentingStart<CR>", _opt)
-vim.keymap.set("n", "<leader>mt", function ()
+vim.keymap.set("n", "<leader>mt", function()
     if vim.g.vscode then
         vim.fn.VSCodeNotify("markdown.showPreviewToSide")
     elseif vim.fn.exists(":MarkdownPreviewToggle") > 0 then

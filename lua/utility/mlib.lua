@@ -24,7 +24,7 @@ function M.fibonacci(x)
     assert(math.floor(x) == x, "Input number must be a integer.")
     local memo = { 1, 1, 2, 3, 5, 8, 13 }
     local fib
-    fib = function (n)
+    fib = function(n)
         if memo[n] then return memo[n] end
         local f
         if n % 2 == 0 then
@@ -78,7 +78,7 @@ function M.gamma(x)
         if arg_was_less_than_one then
             y = y + 1.0
         else
-            n = math.floor(y) - 1  -- will use n later
+            n = math.floor(y) - 1 -- will use n later
             y = y - n
         end
 
@@ -180,6 +180,5 @@ function M.log_gamma(x)
     local logGamma = (x - 0.5) * math.log(x) - x + halfLogTwoPi + series
     return logGamma
 end
-
 
 return M

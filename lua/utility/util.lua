@@ -3,7 +3,6 @@ local lib = require("utility.lib")
 local Process = require("utility.proc")
 local Task = require("utility.task")
 
-
 ---Open terminal and launch shell.
 function M.terminal()
     local exec
@@ -18,7 +17,7 @@ function M.terminal()
     end
 
     if vim.fn.executable(exec) ~= 1 then
-        lib.notify_err(exec.." is not a valid shell.")
+        lib.notify_err(exec .. " is not a valid shell.")
         return false
     end
 
@@ -99,7 +98,7 @@ function M.sys_open(obj, use_local)
     handle = vim.loop.spawn(cmd, {
         args = args,
         cwd = cwd,
-    }, vim.schedule_wrap(function ()
+    }, vim.schedule_wrap(function()
         handle:close()
     end))
 end
@@ -113,7 +112,7 @@ function M.auto_hl(scheme, hl_table, palette)
     ---@param color_map table<string, string>
     ---@param name string Name of the color.
     ---@return string? corlor_value
-    local c = function (color_map, name)
+    local c = function(color_map, name)
         if not name then return nil end
         if vim.startswith(name, "#") then
             return name
@@ -125,14 +124,14 @@ function M.auto_hl(scheme, hl_table, palette)
         end
     end
 
-    local id = vim.api.nvim_create_augroup(scheme.."Extd", {
+    local id = vim.api.nvim_create_augroup(scheme .. "Extd", {
         clear = true
     })
 
     vim.api.nvim_create_autocmd("ColorScheme", {
         group = id,
         pattern = scheme,
-        callback = function ()
+        callback = function()
             local map = palette()
             for k, v in pairs(hl_table) do
                 ---Highlighting definition map.
@@ -164,15 +163,15 @@ end
 function M.new_keymap(mode, lhs, new_rhs, opts)
     opts = opts or {}
     local kbd_table = opts.buffer
-    and vim.api.nvim_buf_get_keymap(opts.buffer, mode)
-    or vim.api.nvim_get_keymap(mode)
+        and vim.api.nvim_buf_get_keymap(opts.buffer, mode)
+        or vim.api.nvim_get_keymap(mode)
 
     local fallback
 
     for _, val in ipairs(kbd_table) do
         if val.lhs == lhs then
             if val.rhs then
-                fallback = function ()
+                fallback = function()
                     lib.feedkeys(val.rhs, "n", true)
                 end
             elseif val.callback then
@@ -183,12 +182,12 @@ function M.new_keymap(mode, lhs, new_rhs, opts)
     end
 
     if fallback == nil then
-        fallback = function ()
+        fallback = function()
             lib.feedkeys(lhs, "n", true)
         end
     end
 
-    vim.keymap.set(mode, lhs, function () new_rhs(fallback) end, opts)
+    vim.keymap.set(mode, lhs, function() new_rhs(fallback) end, opts)
 end
 
 ---Throw away your brain, just push it!
@@ -248,9 +247,9 @@ function M.git_push_all(arg_list)
     local git_commit = Process.new("git", {
         args = { "commit", "-m", m_arg },
         cwd = git_root,
-    }, function (proc, code, _)
+    }, function(proc, code, _)
         if code == 0 then
-            vim.notify("Commit message: "..m_arg)
+            vim.notify("Commit message: " .. m_arg)
         else
             lib.notify_err(table.concat(proc.standard_output))
         end
@@ -259,7 +258,7 @@ function M.git_push_all(arg_list)
     local git_push = Process.new("git", {
         args = { "push", "origin", b_arg, "--porcelain" },
         cwd = git_root,
-    }, function (proc, code, _)
+    }, function(proc, code, _)
         if code == 0 then
             vim.notify(table.concat(proc.standard_output):gsub("[\t\n\r]", " "))
         else
@@ -303,13 +302,13 @@ function M.nvim_upgrade(channel)
     local archive_path = bin_path:joinpath(archive)
     local backup_path = bin_path:joinpath("nvim_bak")
     local source = "https://github.com/neovim/neovim/releases/download/"
-    ..channel.."/"..archive
+        .. channel .. "/" .. archive
 
     if not backup_path:exists() then backup_path:mkdir() end
 
     if nvim_path:exists() then
         local time_stamp = os.date("%y%m%d%H%M%S_")
-        local name = time_stamp..tag..(index and "_dev"..index or "")
+        local name = time_stamp .. tag .. (index and "_dev" .. index or "")
         nvim_path:copy {
             recursive = true,
             override = true,
@@ -322,30 +321,30 @@ function M.nvim_upgrade(channel)
     local dl_exec, dl_args, ex_exec, ex_args
     if os_type == lib.Os.Windows then
         local dl_cmd = "Invoke-WebRequest"
-        .." -Uri "..source
-        .." -OutFile "..archive_path.filename
-        if use_proxy then dl_cmd = dl_cmd.." -Proxy "..proxy end
+            .. " -Uri " .. source
+            .. " -OutFile " .. archive_path.filename
+        if use_proxy then dl_cmd = dl_cmd .. " -Proxy " .. proxy end
 
         local rm_cmd = "Remove-Item"
-        .." -Path "..nvim_path.filename
-        .." -Recurse"
+            .. " -Path " .. nvim_path.filename
+            .. " -Recurse"
 
         local ex_cmd = "Expand-Archive"
-        .." -Path "..archive_path.filename
-        .." -DestinationPath "..bin_path.filename
+            .. " -Path " .. archive_path.filename
+            .. " -DestinationPath " .. bin_path.filename
 
         local rn_cmd = "Rename-Item"
-        .." -Path "..bin_path:joinpath("nvim-win64").filename
-        .." -NewName "..nvim_path.filename
+            .. " -Path " .. bin_path:joinpath("nvim-win64").filename
+            .. " -NewName " .. nvim_path.filename
 
         local cl_cmd = "Remove-Item"
-        .." -Path "..archive_path.filename
+            .. " -Path " .. archive_path.filename
 
         local pwsh_cmd = table.concat({
             dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd
         }, ";")
 
-        vim.fn.jobstart("powershell.exe -c "..pwsh_cmd, { detach = true })
+        vim.fn.jobstart("powershell.exe -c " .. pwsh_cmd, { detach = true })
         vim.cmd.quitall { bang = true }
         return
     elseif os_type == lib.Os.Linux then
@@ -372,7 +371,7 @@ function M.nvim_upgrade(channel)
     local download = Process.new(dl_exec, { args = dl_args })
     local extract = Process.new(ex_exec, { args = ex_args })
 
-    lib.async(function ()
+    lib.async(function()
         vim.notify("Downloading...")
         if download:await() ~= 0 then
             lib.notify_err(table.concat(download.standard_output))
@@ -389,7 +388,7 @@ function M.nvim_upgrade(channel)
         }
         archive_path:rm()
         Task.delay(1000):await()
-        vim.notify("Neovim has been upgraded to "..channel.." channel.")
+        vim.notify("Neovim has been upgraded to " .. channel .. " channel.")
     end)
 end
 
@@ -413,25 +412,24 @@ function M.build_dylibs()
             Process.new("cargo", {
                 args = { "build", "--release" },
                 cwd = crate_dir,
-            }, function (_, code, _)
+            }, function(_, code, _)
                 if code == 0 then
-                    local dylib_name = _name.."."..dylib_ext
-                    vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/"..dylib_name),
-                    lib.path_append(dylibs_dir, dylib_name),
-                    vim.schedule_wrap(function (err, success)
-                        if success then
-                            print("Building `".._name.."`: Succeed.")
-                        else
-                            print(err)
-                        end
-                    end))
+                    local dylib_name = _name .. "." .. dylib_ext
+                    vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/" .. dylib_name),
+                        lib.path_append(dylibs_dir, dylib_name),
+                        vim.schedule_wrap(function(err, success)
+                            if success then
+                                print("Building `" .. _name .. "`: Succeed.")
+                            else
+                                print(err)
+                            end
+                        end))
                 else
-                    lib.notify_err("Building `".._name.."`: Failed.")
+                    lib.notify_err("Building `" .. _name .. "`: Failed.")
                 end
             end):start()
         end
     end
 end
-
 
 return M

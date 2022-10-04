@@ -1,7 +1,7 @@
 local border_style = _my_core_opt.tui.border
 local border_styles = {
     single = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-    double = { "═", "║", "═", "║", "╔" ,"╗", "╝", "╚" },
+    double = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
     rounded = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 }
 
@@ -21,6 +21,6 @@ require("telescope").setup {
 local builtin = require("telescope.builtin")
 local kbd = vim.keymap.set
 local _o = { noremap = true, silent = true }
-kbd("n", "<leader>fb", function () builtin.buffers() end, _o)
-kbd("n", "<leader>ff", function () builtin.find_files() end, _o)
-kbd("n", "<leader>fg", function () builtin.live_grep() end, _o)
+kbd("n", "<leader>fb", function() builtin.buffers() end, _o)
+kbd("n", "<leader>ff", function() builtin.find_files() end, _o)
+kbd("n", "<leader>fg", function() builtin.live_grep() end, _o)

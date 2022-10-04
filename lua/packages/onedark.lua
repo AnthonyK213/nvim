@@ -7,7 +7,7 @@ local style_list = {
 }
 local opt_style = _my_core_opt.tui.style
 
-require("onedark").setup  {
+require("onedark").setup {
     style = vim.tbl_contains(style_list, opt_style) and opt_style or "dark",
     transparent = _my_core_opt.tui.transparent,
     term_colors = true,

@@ -1,10 +1,10 @@
-vim.g.vsnip_snippet_dir = vim.fn.stdpath("config").."/snippet"
+vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippet"
 
 local cmp = require("cmp")
 local lib = require("utility.lib")
-local feedkeys = function (key, mode)
+local feedkeys = function(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,
-    true, true, true), mode, true)
+        true, true, true), mode, true)
 end
 
 local cmp_setup = {
@@ -12,13 +12,13 @@ local cmp_setup = {
         keyword_length = 2,
     },
     snippet = {
-        expand = function (args) vim.fn["vsnip#anonymous"](args.body) end
+        expand = function(args) vim.fn["vsnip#anonymous"](args.body) end
     },
     mapping = {
-        ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i"}),
-        ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i"}),
+        ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
+        ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i" }),
         ["<CR>"] = cmp.mapping({
-            i = function (fallback)
+            i = function(fallback)
                 if cmp.visible() then
                     cmp.confirm {
                         behavior = cmp.ConfirmBehavior.Replace,
@@ -30,7 +30,7 @@ local cmp_setup = {
             end,
         }),
         ["<Tab>"] = cmp.mapping({
-            i = function (fallback)
+            i = function(fallback)
                 local context = lib.get_context()
                 if cmp.visible() then
                     cmp.select_next_item {
@@ -41,7 +41,7 @@ local cmp_setup = {
                     match_str(context.b) then
                     feedkeys("<C-\\><C-O>>>", "n")
                     vim.api.nvim_feedkeys(
-                    string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
+                        string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
                 elseif vim.fn["vsnip#jumpable"](1) == 1 then
                     feedkeys("<Plug>(vsnip-jump-next)", "")
                 elseif context.b:match("[%w._:]$")
@@ -51,14 +51,14 @@ local cmp_setup = {
                     fallback()
                 end
             end,
-            s = function (fallback)
+            s = function(fallback)
                 if vim.fn["vsnip#jumpable"](1) == 1 then
                     feedkeys("<Plug>(vsnip-jump-next)", "")
                 else
                     fallback()
                 end
             end,
-            c = function ()
+            c = function()
                 if cmp.visible() then
                     cmp.select_next_item {
                         behavior = cmp.SelectBehavior.Insert
@@ -69,7 +69,7 @@ local cmp_setup = {
             end
         }),
         ["<S-Tab>"] = cmp.mapping({
-            i = function (fallback)
+            i = function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item {
                         behavior = cmp.SelectBehavior.Insert
@@ -80,14 +80,14 @@ local cmp_setup = {
                     fallback()
                 end
             end,
-            s = function (fallback)
+            s = function(fallback)
                 if vim.fn["vsnip#jumpable"](-1) == 1 then
                     feedkeys("<Plug>(vsnip-jump-prev)", "")
                 else
                     fallback()
                 end
             end,
-            c = function ()
+            c = function()
                 if cmp.visible() then
                     cmp.select_prev_item({
                         behavior = cmp.SelectBehavior.Insert

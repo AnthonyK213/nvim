@@ -2,7 +2,6 @@ local M = {}
 local api = vim.api
 local lib = require("utility.lib")
 
-
 local cmt_mark_tab_single = {
     arduino = "//",
     c = "//",
@@ -43,11 +42,11 @@ function M.cmt_add_norm()
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
     if cmt_mark then
         local pos = api.nvim_win_get_cursor(0)
-        local cmd = api.nvim_replace_termcodes("I"..cmt_mark, true, false, true)
+        local cmd = api.nvim_replace_termcodes("I" .. cmt_mark, true, false, true)
         api.nvim_feedkeys(cmd, "xn", true)
         api.nvim_win_set_cursor(0, pos)
     else
-        lib.notify_err("File type "..vim.bo.filetype.." is not supported yet.")
+        lib.notify_err("File type " .. vim.bo.filetype .. " is not supported yet.")
     end
 end
 
@@ -64,12 +63,12 @@ function M.cmt_add_vis()
             local line_old = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
             if not line_old:match("^%s*$") then
                 local line_new = line_old:gsub("^(%s*)(.*)$",
-                "%1"..cmt_mark_single_esc.."%2")
-                api.nvim_buf_set_lines(0, i - 1, i, true, {line_new})
+                    "%1" .. cmt_mark_single_esc .. "%2")
+                api.nvim_buf_set_lines(0, i - 1, i, true, { line_new })
             end
         end
     else
-        lib.notify_err("File type "..vim.bo.filetype.." is not supported yet.")
+        lib.notify_err("File type " .. vim.bo.filetype .. " is not supported yet.")
     end
 end
 
@@ -81,8 +80,8 @@ local function is_cmt_line(lnum)
     local cmt_mark = cmt_mark_tab_single[vim.bo.filetype]
     if cmt_mark then
         local esc_cmt_mark = vim.pesc(cmt_mark)
-        local matched, l, r = line:match("^((%s*)"..esc_cmt_mark.."(.*))$")
-        if matched then return l..r end
+        local matched, l, r = line:match("^((%s*)" .. esc_cmt_mark .. "(.*))$")
+        if matched then return l .. r end
     end
     return nil
 end
@@ -101,19 +100,19 @@ local function del_cmt_block()
 
     for i = lnum_c - 1, 1, -1 do
         local line_p = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
-        if line_p:match(lua_cmt_mark_b..".-$")
-            and not line_p:match(lua_cmt_mark_a..".-$") then
+        if line_p:match(lua_cmt_mark_b .. ".-$")
+            and not line_p:match(lua_cmt_mark_a .. ".-$") then
             return
         end
-        if line_p:match(lua_cmt_mark_a..".-$") then
-            local pos_a = line_p:find(lua_cmt_mark_a..".-$")
-            if line_p:match(lua_cmt_mark_b..".-$") then
-                local pos_b = line_p:find(lua_cmt_mark_b..".-$")
+        if line_p:match(lua_cmt_mark_a .. ".-$") then
+            local pos_a = line_p:find(lua_cmt_mark_a .. ".-$")
+            if line_p:match(lua_cmt_mark_b .. ".-$") then
+                local pos_b = line_p:find(lua_cmt_mark_b .. ".-$")
                 if pos_a < pos_b then
                     return
                 end
             end
-            if line_p:match("^%s*"..lua_cmt_mark_a.."%s*$") then
+            if line_p:match("^%s*" .. lua_cmt_mark_a .. "%s*$") then
                 api.nvim_buf_set_lines(0, i - 1, i, true, {})
                 lnum_c = lnum_c - 1
             else
@@ -126,15 +125,15 @@ local function del_cmt_block()
 
     for i = lnum_c + 1, api.nvim_buf_line_count(0), 1 do
         local line_n = api.nvim_buf_get_lines(0, i - 1, i, true)[1]
-        if line_n:match(lua_cmt_mark_b..".*$") then
-            local pos_b = line_n:find(lua_cmt_mark_b..".*$")
-            if line_n:match(lua_cmt_mark_a..".*$") then
-                local pos_a = line_n:find(lua_cmt_mark_a..".*$")
+        if line_n:match(lua_cmt_mark_b .. ".*$") then
+            local pos_b = line_n:find(lua_cmt_mark_b .. ".*$")
+            if line_n:match(lua_cmt_mark_a .. ".*$") then
+                local pos_a = line_n:find(lua_cmt_mark_a .. ".*$")
                 if pos_a < pos_b then
                     return
                 end
             end
-            if line_n:match("^%s*"..lua_cmt_mark_b.."%s*$") then
+            if line_n:match("^%s*" .. lua_cmt_mark_b .. "%s*$") then
                 api.nvim_buf_set_lines(0, i - 1, i, true, {})
             else
                 line_n = line_n:gsub(lua_cmt_mark_b, "")
@@ -163,10 +162,9 @@ function M.cmt_del_vis()
     for i = lnum_s, lnum_e, 1 do
         local line_new = is_cmt_line(i)
         if line_new then
-            api.nvim_buf_set_lines(0, i - 1, i, true, {line_new})
+            api.nvim_buf_set_lines(0, i - 1, i, true, { line_new })
         end
     end
 end
-
 
 return M

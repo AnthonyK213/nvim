@@ -3,7 +3,7 @@ vim.cmd.packadd("bufferline.nvim")
 
 require("bufferline").setup {
     options = {
-        buffer_close_icon= '×',
+        buffer_close_icon = '×',
         modified_icon = '+',
         close_icon = '×',
         left_trunc_marker = '<',
@@ -13,8 +13,8 @@ require("bufferline").setup {
         tab_size = 18,
         ---@type string|boolean
         diagnostics = "nvim_lsp",
-        diagnostics_indicator = function (count) return "("..count..")" end,
-        custom_filter = function (buf_number)
+        diagnostics_indicator = function(count) return "(" .. count .. ")" end,
+        custom_filter = function(buf_number)
             local bt = vim.bo[buf_number].bt
             if not vim.tbl_contains({ "terminal", "quickfix" }, bt) then
                 return true

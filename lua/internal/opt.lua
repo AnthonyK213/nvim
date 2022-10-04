@@ -16,7 +16,7 @@ local opt = {
         py3 = "/usr/bin/python3",
         start = ({
             [lib.Os.Linux] = "xdg-open",
-            [lib.Os.Windows] = {"cmd", "/c", "start", '""'},
+            [lib.Os.Windows] = { "cmd", "/c", "start", '""' },
             [lib.Os.Macos] = "open"
         })[os_this],
         proxy = nil,
@@ -24,8 +24,8 @@ local opt = {
     path = {
         home = vim.env.HOME,
         cloud = vim.env.ONEDRIVE or vim.env.HOME,
-        desktop = vim.fs.normalize(vim.env.HOME.."/Desktop"),
-        bin = vim.fs.normalize(vim.env.HOME.."/bin"),
+        desktop = vim.fs.normalize(vim.env.HOME .. "/Desktop"),
+        bin = vim.fs.normalize(vim.env.HOME .. "/bin"),
     },
     tui = {
         scheme = "onedark",
@@ -89,7 +89,7 @@ end
 ---@param prefix string Prefix for the global variable.
 local function tbl_set_var(tbl, prefix)
     for k, v in pairs(tbl) do
-        vim.api.nvim_set_var(prefix..k, v)
+        vim.api.nvim_set_var(prefix .. k, v)
     end
 end
 
@@ -110,62 +110,62 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- Const paths
-opt.path.dylib = vim.fn.stdpath("data").."/dylib/"
+opt.path.dylib = vim.fn.stdpath("data") .. "/dylib/"
 
 -- Highlights
 opt.hl = {
-    FloatBorder =   { fg = "$cyan" },
-    SpellBad =      { fg = "$red", sp = "$red", fmt = "underline" },
-    SpellCap =      { fg = "$yellow", fmt = "underline" },
-    Underlined =    { sp = "$cyan", fmt = "underline" },
+    FloatBorder = { fg = "$cyan" },
+    SpellBad = { fg = "$red", sp = "$red", fmt = "underline" },
+    SpellCap = { fg = "$yellow", fmt = "underline" },
+    Underlined = { sp = "$cyan", fmt = "underline" },
     htmlUnderline = { sp = "$cyan", fmt = "underline" },
     --#region Markdown
-    markdownH1 =                  { fg = "$red", fmt = "bold" },
-    markdownH2 =                  { fg = "$red", fmt = "bold" },
-    markdownH3 =                  { fg = "$red", fmt = "bold" },
-    markdownH4 =                  { fg = "$red" },
-    markdownH5 =                  { fg = "$red" },
-    markdownH6 =                  { fg = "$red" },
-    markdownBold =                { fg = "$yellow", fmt = "bold" },
-    markdownItalic =              { fg = "$purple", fmt = "italic" },
-    markdownBoldItalic =          { fg = "$yellow", fmt = "bold,italic" },
-    markdownCode =                { fg = "$green" },
-    markdownUrl =                 { fg = "$bg3" },
-    markdownEscape =              { fg = "$cyan" },
-    markdownLinkText =            { fg = "$cyan", sp = "$cyan", fmt = "underline" },
-    markdownHeadingDelimiter =    { fg = "$red" },
-    markdownBoldDelimiter =       { fg = "$bg3" },
-    markdownItalicDelimiter =     { fg = "$bg3" },
+    markdownH1 = { fg = "$red", fmt = "bold" },
+    markdownH2 = { fg = "$red", fmt = "bold" },
+    markdownH3 = { fg = "$red", fmt = "bold" },
+    markdownH4 = { fg = "$red" },
+    markdownH5 = { fg = "$red" },
+    markdownH6 = { fg = "$red" },
+    markdownBold = { fg = "$yellow", fmt = "bold" },
+    markdownItalic = { fg = "$purple", fmt = "italic" },
+    markdownBoldItalic = { fg = "$yellow", fmt = "bold,italic" },
+    markdownCode = { fg = "$green" },
+    markdownUrl = { fg = "$bg3" },
+    markdownEscape = { fg = "$cyan" },
+    markdownLinkText = { fg = "$cyan", sp = "$cyan", fmt = "underline" },
+    markdownHeadingDelimiter = { fg = "$red" },
+    markdownBoldDelimiter = { fg = "$bg3" },
+    markdownItalicDelimiter = { fg = "$bg3" },
     markdownBoldItalicDelimiter = { fg = "$bg3" },
-    markdownCodeDelimiter =       { fg = "$bg3" },
-    markdownLinkDelimiter =       { fg = "$bg3" },
-    markdownLinkTextDelimiter =   { fg = "$bg3" },
+    markdownCodeDelimiter = { fg = "$bg3" },
+    markdownLinkDelimiter = { fg = "$bg3" },
+    markdownLinkTextDelimiter = { fg = "$bg3" },
     --#endregion
     --#region Vimwiki
-    VimwikiHeader1 =    { fg = "$red", fmt = "bold" },
-    VimwikiHeader2 =    { fg = "$red", fmt = "bold" },
-    VimwikiHeader3 =    { fg = "$red", fmt = "bold" },
-    VimwikiHeader4 =    { fg = "$red" },
-    VimwikiHeader5 =    { fg = "$red" },
-    VimwikiHeader6 =    { fg = "$red" },
+    VimwikiHeader1 = { fg = "$red", fmt = "bold" },
+    VimwikiHeader2 = { fg = "$red", fmt = "bold" },
+    VimwikiHeader3 = { fg = "$red", fmt = "bold" },
+    VimwikiHeader4 = { fg = "$red" },
+    VimwikiHeader5 = { fg = "$red" },
+    VimwikiHeader6 = { fg = "$red" },
     VimwikiHeaderChar = { fg = "$red" },
-    VimwikiBold =       { fg = "$yellow", fmt = "bold" },
-    VimwikiItalic =     { fg = "$purple", fmt = "italic" },
+    VimwikiBold = { fg = "$yellow", fmt = "bold" },
+    VimwikiItalic = { fg = "$purple", fmt = "italic" },
     VimwikiBoldItalic = { fg = "$yellow", fmt = "bold,italic" },
-    VimwikiUnderline =  { sp = "$cyan", fmt = "underline" },
-    VimwikiCode =       { fg = "$green" },
-    VimwikiPre =        { fg = "$green" },
-    VimwikiDelimiter =  { fg = "$bg3" },
-    VimwikiListTodo =   { fg = "$purple" },
-    VimwikiWeblink1 =   { fg = "$cyan", sp = "$cyan", fmt = "underline" },
+    VimwikiUnderline = { sp = "$cyan", fmt = "underline" },
+    VimwikiCode = { fg = "$green" },
+    VimwikiPre = { fg = "$green" },
+    VimwikiDelimiter = { fg = "$bg3" },
+    VimwikiListTodo = { fg = "$purple" },
+    VimwikiWeblink1 = { fg = "$cyan", sp = "$cyan", fmt = "underline" },
     --#endregion
 }
 
 -- Directional operation which won't break the history.
 local rep_term = vim.api.nvim_replace_termcodes
-vim.g._const_dir_l = rep_term("<C-G>U<Left>",  true, false, true)
-vim.g._const_dir_d = rep_term("<C-G>U<Down>",  true, false, true)
-vim.g._const_dir_u = rep_term("<C-G>U<Up>",    true, false, true)
+vim.g._const_dir_l = rep_term("<C-G>U<Left>", true, false, true)
+vim.g._const_dir_d = rep_term("<C-G>U<Down>", true, false, true)
+vim.g._const_dir_u = rep_term("<C-G>U<Up>", true, false, true)
 vim.g._const_dir_r = rep_term("<C-G>U<Right>", true, false, true)
 
 --[[Box Drawing

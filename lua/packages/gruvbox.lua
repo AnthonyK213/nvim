@@ -17,7 +17,7 @@ require("gruvbox").setup {
 
 require("utility.util").auto_hl("gruvbox", vim.tbl_extend("force", {
     EndOfBuffer = { fg = "$bg0", bg = "$bg0" }
-}, _my_core_opt.hl), function ()
+}, _my_core_opt.hl), function()
     return {
         bg0 = vim.g.terminal_color_0,
         red = vim.g.terminal_color_1,

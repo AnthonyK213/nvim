@@ -2,7 +2,6 @@ local M = {}
 local api = vim.api
 local lib = require("utility.lib")
 
-
 -- Get the day of week from a date(yyyy-mm-dd).
 ---@param year integer Year.
 ---@param month integer Month.
@@ -41,7 +40,7 @@ local function zeller(year, month, date)
     local c = math.floor(year / 100)
     local y = year - c * 100
     local x = math.floor(c / 4) + y + math.floor(y / 4) +
-              math.floor(13 * (month + 1) / 5) + date - 2 * c - 1
+        math.floor(13 * (month + 1) / 5) + date - 2 * c - 1
     local z = x % 7
     if (z <= 0) then z = z + 7 end
     local days_list = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" }
@@ -55,8 +54,7 @@ function M.append_day_from_date()
     local col = api.nvim_win_get_cursor(0)[2]
 
     local y, m, d, insert_pos
-    for pos_s, date, year, month, day, pos_e
-        in line:gmatch("()((%d%d%d%d)%-(%d%d)%-(%d%d))()") do
+    for pos_s, date, year, month, day, pos_e in line:gmatch("()((%d%d%d%d)%-(%d%d)%-(%d%d))()") do
         if pos_s <= col + 1
             and pos_e >= col + 1
             and date then
@@ -71,8 +69,8 @@ function M.append_day_from_date()
     if not insert_pos then return end
     local day_of_week = zeller(y, m, d)
     if not day_of_week then return end
-    api.nvim_win_set_cursor(0, {api.nvim_win_get_cursor(0)[1], insert_pos - 1})
-    vim.paste({" "..day_of_week}, -1)
+    api.nvim_win_set_cursor(0, { api.nvim_win_get_cursor(0)[1], insert_pos - 1 })
+    vim.paste({ " " .. day_of_week }, -1)
 end
 
 ---Count down to a timestamp.
@@ -99,10 +97,10 @@ local function countdown(date)
 
     if sub > 0 then
         local days = math.floor(sub + 0.2)
-        return days.." day"..(days > 1 and "s" or "").." left."
+        return days .. " day" .. (days > 1 and "s" or "") .. " left."
     else
         local days = math.ceil(-sub)
-        return "Overdue "..days.." day"..(days > 1 and "s" or "").."."
+        return "Overdue " .. days .. " day" .. (days > 1 and "s" or "") .. "."
     end
 end
 
@@ -112,10 +110,9 @@ function M.print_todo_list()
     for _, line in ipairs(content) do
         local todo, date, item = line:match("(TODO(%b<>):%s+(.+))$")
         if todo and not line:match("%[X%]") then
-            print(date == "<>" and item or item.." -> "..countdown(date))
+            print(date == "<>" and item or item .. " -> " .. countdown(date))
         end
     end
 end
-
 
 return M

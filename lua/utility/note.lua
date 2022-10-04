@@ -3,7 +3,6 @@ local api = vim.api
 local lib = require("utility.lib")
 local Syntax = require("utility.syn")
 
-
 ---Hanzi count, ignore comments.
 ---@param txt string|string[] Text input.
 function M.hanzi_count(txt)
@@ -17,11 +16,11 @@ function M.hanzi_count(txt)
     for _, line in ipairs(txt) do
         if not
             ((lib.has_filetype("markdown")
-            and (line:match("^%s*>%s")
-            or line:match("^#+%s")
-            or line:match("^%s*!?%[.+%]%(.+%)")))
-            or (vim.bo.filetype == "tex"
-            and (line:match("^%s*%%")))) then
+                and (line:match("^%s*>%s")
+                    or line:match("^#+%s")
+                    or line:match("^%s*!?%[.+%]%(.+%)")))
+                or (vim.bo.filetype == "tex"
+                    and (line:match("^%s*%%")))) then
             for char in lib.str_gexplode(line) do
                 local code = lib.str_char2nr(char)
                 if code >= 0x4E00 and code <= 0x9FA5 then
@@ -34,7 +33,7 @@ function M.hanzi_count(txt)
     if h_count == 0 then
         print("No Chinese character was found.")
     else
-        print("The number of Chinese characters is "..tostring(h_count)..".")
+        print("The number of Chinese characters is " .. tostring(h_count) .. ".")
     end
 end
 
@@ -45,7 +44,7 @@ local function md_check_line(lnum)
     local detect = 0
     if lstr:match("^%s*$")
         and Syntax.new(lnum, 0)
-        :match[[\v(markdownHighlight|markdownCode|textSnip)]] then
+        :match [[\v(markdownHighlight|markdownCode|textSnip)]] then
         indent = 1000
     end
     local bullet
@@ -97,7 +96,7 @@ function M.md_insert_bullet()
                     break
                 elseif (l_det == 2 and f_det == 2) then
                     local f_new = f_str:gsub(tostring(f_bul),
-                    tostring(f_bul + 1), 1)
+                        tostring(f_bul + 1), 1)
                     api.nvim_buf_set_lines(0, f_num - 1, f_num, true, { f_new })
                 end
             elseif (f_ind <= l_ind) then
@@ -107,8 +106,8 @@ function M.md_insert_bullet()
                 table.insert(move_rec, move_stp + 1)
                 break
             end
-            f_num = f_num + 1
-            move_stp  = move_stp + 1
+            f_num    = f_num + 1
+            move_stp = move_stp + 1
         end
         local count_d, l_bul_new
         if (#move_rec == 0) then
@@ -117,13 +116,13 @@ function M.md_insert_bullet()
             count_d = move_rec[1]
         end
         if (l_det == 2) then
-            l_bul_new = tostring(l_bul + 1)..". "
+            l_bul_new = tostring(l_bul + 1) .. ". "
         else
-            l_bul_new = l_bul.." "
+            l_bul_new = l_bul .. " "
         end
         local feed_string = api.nvim_replace_termcodes(string.rep("<Down>",
-        count_d).."<C-O>o<C-O>i"..string.rep("<SPACE>", l_ind)..l_bul_new,
-        true, false, true)
+            count_d) .. "<C-O>o<C-O>i" .. string.rep("<SPACE>", l_ind) .. l_bul_new,
+            true, false, true)
         api.nvim_feedkeys(feed_string, "in", true)
     end
 end
@@ -169,19 +168,18 @@ function M.md_sort_num_bullet()
         local b_len = #b_num_list
         for i, u in ipairs(b_num_list) do
             local lb_new = api.nvim_buf_get_lines(0, u - 1, u, true)[1]:gsub(
-            "%d+", tostring(b_len - i + 1), 1)
+                "%d+", tostring(b_len - i + 1), 1)
             api.nvim_buf_set_lines(0, u - 1, u, true, { lb_new })
         end
 
         for j, v in ipairs(f_num_list) do
             local lf_new = api.nvim_buf_get_lines(0, v - 1, v, true)[1]:gsub(
-            "%d+", tostring(j + b_len), 1)
+                "%d+", tostring(j + b_len), 1)
             api.nvim_buf_set_lines(0, v - 1, v, true, { lf_new })
         end
     else
         lib.notify_err("Not in a line of any numbered lists.")
     end
 end
-
 
 return M

@@ -17,7 +17,7 @@ require("tokyonight").setup {
     }
 }
 
-require("utility.util").auto_hl("tokyonight", _my_core_opt.hl, function ()
+require("utility.util").auto_hl("tokyonight", _my_core_opt.hl, function()
     return {
         red = vim.g.terminal_color_1,
         green = vim.g.terminal_color_2,

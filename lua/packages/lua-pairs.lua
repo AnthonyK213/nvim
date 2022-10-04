@@ -17,13 +17,13 @@ require("lua_pairs").setup {
             {
                 l = "<",
                 r = ">",
-                d = function (context)
+                d = function(context)
                     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
                     col = col - #context.p
                     if col == 0 then return true end
                     return not Syntax.new(row, col):match(
-                    [[\v^(type|keyword|function)$]],
-                    [[\v^rust(Identifier|Keyword|FuncName)$]])
+                        [[\v^(type|keyword|function)$]],
+                        [[\v^rust(Identifier|Keyword|FuncName)$]])
                 end
             },
         }

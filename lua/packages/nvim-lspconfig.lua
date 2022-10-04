@@ -8,28 +8,28 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Attach: Keymaps, aerial.
-local custom_attach = function (client, bufnr)
+local custom_attach = function(client, bufnr)
     local _o = { noremap = true, silent = true, buffer = bufnr }
-    kbd("n", "<F12>",      function () vim.lsp.buf.definition() end,       _o)
-    kbd("n", "K",          function () vim.lsp.buf.hover() end,            _o)
-    kbd("n", "<leader>l0", function () vim.lsp.buf.document_symbol() end,  _o)
-    kbd("n", "<leader>la", function () vim.lsp.buf.code_action() end,      _o)
-    kbd("n", "<leader>ld", function () vim.lsp.buf.declaration() end,      _o)
-    kbd("n", "<leader>lf", function () vim.lsp.buf.definition() end,       _o)
-    kbd("n", "<leader>lh", function () vim.lsp.buf.signature_help() end,   _o)
-    kbd("n", "<leader>li", function () vim.lsp.buf.implementation() end,   _o)
-    kbd("n", "<leader>lk", function ()
+    kbd("n", "<F12>", function() vim.lsp.buf.definition() end, _o)
+    kbd("n", "K", function() vim.lsp.buf.hover() end, _o)
+    kbd("n", "<leader>l0", function() vim.lsp.buf.document_symbol() end, _o)
+    kbd("n", "<leader>la", function() vim.lsp.buf.code_action() end, _o)
+    kbd("n", "<leader>ld", function() vim.lsp.buf.declaration() end, _o)
+    kbd("n", "<leader>lf", function() vim.lsp.buf.definition() end, _o)
+    kbd("n", "<leader>lh", function() vim.lsp.buf.signature_help() end, _o)
+    kbd("n", "<leader>li", function() vim.lsp.buf.implementation() end, _o)
+    kbd("n", "<leader>lk", function()
         vim.diagnostic.open_float { border = _my_core_opt.tui.border }
     end, _o)
-    kbd("n", "<leader>lm", function ()
+    kbd("n", "<leader>lm", function()
         vim.lsp.buf.format { async = false }
     end, _o)
-    kbd("n", "<leader>ln", function () vim.lsp.buf.rename() end,           _o)
-    kbd("n", "<leader>lr", function () vim.lsp.buf.references() end,       _o)
-    kbd("n", "<leader>lt", function () vim.lsp.buf.type_definition() end,  _o)
-    kbd("n", "<leader>lw", function () vim.lsp.buf.workspace_symbol() end, _o)
-    kbd("n", "<leader>l[", function () vim.diagnostic.goto_prev() end,     _o)
-    kbd("n", "<leader>l]", function () vim.diagnostic.goto_next() end,     _o)
+    kbd("n", "<leader>ln", function() vim.lsp.buf.rename() end, _o)
+    kbd("n", "<leader>lr", function() vim.lsp.buf.references() end, _o)
+    kbd("n", "<leader>lt", function() vim.lsp.buf.type_definition() end, _o)
+    kbd("n", "<leader>lw", function() vim.lsp.buf.workspace_symbol() end, _o)
+    kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev() end, _o)
+    kbd("n", "<leader>l]", function() vim.diagnostic.goto_next() end, _o)
     -- aerial.nvim
     require("aerial").on_attach(client, bufnr)
 end
@@ -40,7 +40,7 @@ require("mason-lspconfig").setup()
 
 ---LSP options.
 local server_settings = {
-    omnisharp = function (o, s)
+    omnisharp = function(o, s)
         if type(s) == "table" then
             for k, v in pairs(s) do
                 if k ~= "cmd" then

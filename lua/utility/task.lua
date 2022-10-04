@@ -19,7 +19,7 @@ function Task.new(action, callback, ...)
         callback = callback,
         callbacks = {},
         status = "Created",
-        varargs = {...},
+        varargs = { ... },
     }
     setmetatable(task, Task)
     return task
@@ -42,7 +42,7 @@ function Task:start()
     end
     -- Otherwise, regard the `action` as a sync function and execute it
     -- in a new thread.
-    return vim.loop.new_work(self.action, vim.schedule_wrap(function (r)
+    return vim.loop.new_work(self.action, vim.schedule_wrap(function(r)
         for _, f in ipairs(self.callbacks) do
             if type(f) == "function" then
                 f(r)
@@ -79,25 +79,25 @@ function Task.delay(delay)
     local _co = coroutine.running()
     local task
     if _co and coroutine.status(_co) ~= "dead" then
-        task = Task.new(function (callback)
+        task = Task.new(function(callback)
             vim.defer_fn(callback, delay)
         end,
-        function (_)
-            task.status = "RanToCompletion"
-            coroutine.resume(_co)
-        end)
+            function(_)
+                task.status = "RanToCompletion"
+                coroutine.resume(_co)
+            end)
     else
-        task = Task.new(function (callback)
+        task = Task.new(function(callback)
             vim.defer_fn(callback, delay)
         end,
-        function (_)
-            task.status = "RanToCompletion"
-            for _, f in ipairs(task.callbacks) do
-                if type(f) == "function" then
-                    f()
+            function(_)
+                task.status = "RanToCompletion"
+                for _, f in ipairs(task.callbacks) do
+                    if type(f) == "function" then
+                        f()
+                    end
                 end
-            end
-        end)
+            end)
     end
     return task
 end
@@ -115,6 +115,5 @@ function Task:reset()
     self.callbacks = {}
     self.result = nil
 end
-
 
 return Task

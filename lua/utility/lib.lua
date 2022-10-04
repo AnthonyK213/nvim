@@ -1,6 +1,5 @@
 local M = {}
 
-
 ---Os types enum.
 ---@class Os
 ---@field Unknown integer Unknown os type.
@@ -25,7 +24,7 @@ end
 ---@param height number Window height.
 function M.belowright_split(height)
     local term_h = math.min(height,
-    math.floor(vim.api.nvim_win_get_height(0) * 0.382))
+        math.floor(vim.api.nvim_win_get_height(0) * 0.382))
     vim.cmd.new { mods = { split = "belowright" } }
     vim.api.nvim_win_set_height(0, term_h)
 end
@@ -45,7 +44,7 @@ end
 ---@return boolean is_executable True if `exe` is a valid executable.
 function M.executable(exe)
     if vim.fn.executable(exe) == 1 then return true end
-    M.notify_err("Executable "..exe.." is not found.")
+    M.notify_err("Executable " .. exe .. " is not found.")
     return false
 end
 
@@ -106,17 +105,17 @@ function M.get_git_branch(git_root)
     git_root = git_root:gsub("[\\/]$", "")
 
     local head_file
-    local dot_git = git_root.."/.git"
+    local dot_git = git_root .. "/.git"
     local dot_git_stat = vim.loop.fs_stat(dot_git)
 
     if dot_git_stat.type == "directory" then
-        head_file = git_root.."/.git/HEAD"
+        head_file = git_root .. "/.git/HEAD"
     elseif dot_git_stat.type == "file" then
         local gitdir_line = vim.fn.readfile(dot_git)[1]
         if gitdir_line then
             local gitdir = gitdir_line:match("^gitdir:%s(.+)$")
             if gitdir then
-                head_file = git_root.."/"..gitdir.."/HEAD"
+                head_file = git_root .. "/" .. gitdir .. "/HEAD"
             end
         end
     end
@@ -137,7 +136,7 @@ end
 ---Gets the current list of listed buffer handles.
 ---@return integer[] bufs Loaded buffer handles.
 function M.get_listed_bufs()
-    return vim.tbl_filter(function (h)
+    return vim.tbl_filter(function(h)
         return vim.api.nvim_buf_is_loaded(h) and vim.bo[h].buflisted
     end, vim.api.nvim_list_bufs())
 end
@@ -158,13 +157,13 @@ function M.get_dotfile(name)
     for i, dir in ipairs(dir_table) do
         if dir then
             ok_index = i
-            file_name = "/."..name
-            local file_path = dir..file_name
+            file_name = "/." .. name
+            local file_path = dir .. file_name
             if M.path_exists(file_path) then
                 return true, file_path
             elseif M.has_windows() then
-                file_name = "/_"..name
-                file_path = dir..file_name
+                file_name = "/_" .. name
+                file_path = dir .. file_name
                 if M.path_exists(file_path) then
                     return true, file_path
                 end
@@ -172,7 +171,7 @@ function M.get_dotfile(name)
         end
     end
     if ok_index > 0 then
-        return false, dir_table[ok_index]..file_name
+        return false, dir_table[ok_index] .. file_name
     else
         return false, nil
     end
@@ -213,10 +212,10 @@ end
 ---@return string result Visual selection.
 function M.get_visual_selection()
     local mode = vim.api.nvim_get_mode().mode
-    local in_vis = vim.tbl_contains({"v", "V", ""}, mode)
+    local in_vis = vim.tbl_contains({ "v", "V", "" }, mode)
     local a_bak = vim.fn.getreg("a", 1)
     vim.cmd.normal {
-        (in_vis and "" or "gv")..[["ay]],
+        (in_vis and "" or "gv") .. [["ay]],
         mods = {
             bang = true,
             silent = true
@@ -235,15 +234,15 @@ function M.get_word()
     local context = M.get_context()
     local b = context.b
     local f = context.f
-    local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
-    local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
+    local s_a, _ = vim.regex([[\v([\一-\鿿0-9a-zA-Z_-]+)$]]):match_str(b)
+    local _, e_b = vim.regex([[\v^([\一-\鿿0-9a-zA-Z_-])+]]):match_str(f)
     local p_a = ""
     local p_b = ""
     if e_b then
         p_a = s_a and b:sub(s_a + 1) or ""
         p_b = f:sub(1, e_b)
     end
-    local word = p_a..p_b
+    local word = p_a .. p_b
     if word == "" then
         word = context.n
         p_b = word
@@ -297,7 +296,7 @@ function M.match_url(str)
     local url, prot, dom, colon, port, slash, path = str:match(url_pat)
 
     if (url
-        and not (dom.."."):find("%W%W")
+        and not (dom .. "."):find("%W%W")
         and protocols[prot:lower()] == (1 - #slash) * #path
         and (colon == "" or port ~= "" and port + 0 < 65536)) then
         return #url == #str, url
@@ -319,7 +318,7 @@ end
 function M.path_append(path, item)
     local path_trim = path:gsub("[\\/]$", "")
     local item_trim = item:gsub("^[\\/]", "")
-    return vim.fs.normalize(path_trim.."/"..item_trim)
+    return vim.fs.normalize(path_trim .. "/" .. item_trim)
 end
 
 ---Check if file/directory exists.
@@ -355,8 +354,8 @@ function M.str_char2nr(str)
         local c = string.byte(char, i)
         if seq == 0 then
             seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
-            c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
-            error("invalid UTF-8 character.")
+                c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
+                error("invalid UTF-8 character.")
             result = bit.band(c, 2 ^ (8 - seq) - 1)
         else
             result = bit.bor(bit.lshift(result, 6), bit.band(c, 0x3F))
@@ -387,7 +386,7 @@ end
 function M.str_gexplode(str)
     local str_len = #str
     local utf_end = 1
-    return function ()
+    return function()
         if utf_end <= str_len then
             local step = vim.str_utf_end(str, utf_end)
             local result = str:sub(utf_end, utf_end + step)
@@ -503,13 +502,12 @@ end
 ---Source a vim file.
 ---@param file string Vim script path.
 function M.vim_source(file)
-    local full_path = vim.fn.stdpath("config").."/"..file..".vim"
+    local full_path = vim.fn.stdpath("config") .. "/" .. file .. ".vim"
     if M.path_exists(full_path) then
         vim.cmd.source(full_path)
     else
-        M.notify_err("File `"..file..".vim` is not found")
+        M.notify_err("File `" .. file .. ".vim` is not found")
     end
 end
-
 
 return M

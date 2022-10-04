@@ -58,7 +58,7 @@ function Process:start()
     if self.has_exited or not self.is_valid then return end
     self.standard_output = {}
     self.standard_error = {}
-    local on_read = function (err, data)
+    local on_read = function(err, data)
         if err then
             table.insert(self.standard_error, err)
             lib.notify_err(err)
@@ -69,20 +69,20 @@ function Process:start()
     local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
     opt = vim.tbl_extend("keep", opt, self.option)
     self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(
-    function (code, signal)
-        self.stdout:read_stop()
-        self.stderr:read_stop()
-        self.stdout:close()
-        self.stderr:close()
-        self.handle:close()
-        self.has_exited = true
-        if self.on_exit then
-            self.on_exit(self, code, signal)
-        end
-        for _, f in ipairs(self.extra_cb) do
-            f(self, code, signal)
-        end
-    end))
+        function(code, signal)
+            self.stdout:read_stop()
+            self.stderr:read_stop()
+            self.stdout:close()
+            self.stderr:close()
+            self.handle:close()
+            self.has_exited = true
+            if self.on_exit then
+                self.on_exit(self, code, signal)
+            end
+            for _, f in ipairs(self.extra_cb) do
+                f(self, code, signal)
+            end
+        end))
     self.stdout:read_start(vim.schedule_wrap(on_read))
     self.stderr:read_start(vim.schedule_wrap(on_read))
 end
@@ -96,7 +96,7 @@ end
 ---Continue with a process.
 ---@param process Process
 function Process:continue_with(process)
-    self:append_cb(function (_, code, _)
+    self:append_cb(function(_, code, _)
         if code == 0 then
             process:start()
         end
@@ -132,6 +132,5 @@ function Process:await()
     coroutine.yield()
     return _c, _s
 end
-
 
 return Process

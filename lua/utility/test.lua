@@ -1,6 +1,5 @@
 local M = {}
 
-
 ---Performance test for a function.
 ---@param label string Label of the test.
 ---@param f function Function to test.
@@ -16,10 +15,10 @@ function M.p(label, f, ...)
         result = vim.inspect(result_table[1])
     else
         result = vim.inspect(result_table)
-        result = "[\n    "..result:sub(2, #result - 1).."\n  ]"
+        result = "[\n    " .. result:sub(2, #result - 1) .. "\n  ]"
     end
     vim.notify(string.format("test_%s: {\n  duration: %f,\n  result: %s\n}",
-    label, e - s, result))
+        label, e - s, result))
 end
 
 ---Reload module.
@@ -31,6 +30,5 @@ function M.r(module)
     end
     return require(module)
 end
-
 
 return M

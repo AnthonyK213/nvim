@@ -23,7 +23,7 @@ require("aerial").setup {
         },
     },
     highlight_closest = false,
-    on_attach = function (bufnr)
+    on_attach = function(bufnr)
         local _o = { noremap = true, silent = true, buffer = bufnr }
         kbd("n", "{", "<Cmd>AerialPrev<CR>", _o)
         kbd("n", "}", "<Cmd>AerialNext<CR>", _o)

@@ -121,7 +121,7 @@ end
 ---@return boolean matched True if matched.
 function Syntax:match(t_pattern, v_pattern)
     local re
-    local match = function (s)
+    local match = function(s)
         for _, obj in ipairs(s) do
             if re:match_str(obj.name) then
                 return true
@@ -156,12 +156,12 @@ function Syntax:show()
     if not vim.tbl_isempty(self.ts) then
         table.insert(lines, "# Treesitter")
         for _, obj in ipairs(self.ts) do
-            local line = "* **@"..obj.token.."** -> "..obj.id
+            local line = "* **@" .. obj.token .. "** -> " .. obj.id
             if obj.name ~= obj.id then
-                line = line.." -> **"..obj.name.."**"
+                line = line .. " -> **" .. obj.name .. "**"
             end
             if obj.metadata.priority then
-                line = line.." *(priority "..obj.metadata.priority..")*"
+                line = line .. " *(priority " .. obj.metadata.priority .. ")*"
             end
             table.insert(lines, line)
         end
@@ -170,7 +170,7 @@ function Syntax:show()
     if not vim.tbl_isempty(self.vs) then
         table.insert(lines, "# Vim_Syntax")
         for _, obj in ipairs(self.vs) do
-            table.insert(lines, "* "..obj.name.." -> **"..obj.link_name.."**")
+            table.insert(lines, "* " .. obj.name .. " -> **" .. obj.link_name .. "**")
         end
     end
 
@@ -194,6 +194,5 @@ function Syntax.match_here(t_pattern, v_pattern)
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     return Syntax.new(row, col):match(t_pattern, v_pattern)
 end
-
 
 return Syntax

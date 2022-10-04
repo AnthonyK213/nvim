@@ -49,10 +49,10 @@ gitsigns.setup {
         row = 0,
         col = 1
     },
-    on_attach = function (bufnr)
+    on_attach = function(bufnr)
         local kbd = vim.keymap.set
         local _o = { noremap = true, silent = true, buffer = bufnr }
-        kbd("n", "<leader>gj", gitsigns.next_hunk , _o)
+        kbd("n", "<leader>gj", gitsigns.next_hunk, _o)
         kbd("n", "<leader>gk", gitsigns.prev_hunk, _o)
         kbd("n", "<leader>gp", gitsigns.preview_hunk, _o)
         kbd("n", "<leader>gb", gitsigns.blame_line, _o)
