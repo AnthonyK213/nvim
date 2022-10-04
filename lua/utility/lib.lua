@@ -233,8 +233,8 @@ function M.get_word()
     local context = M.get_context()
     local b = context.b
     local f = context.f
-    local s_a, _ = vim.regex([[\v([\一-\鿿0-9a-zA-Z_-]+)$]]):match_str(b)
-    local _, e_b = vim.regex([[\v^([\一-\鿿0-9a-zA-Z_-])+]]):match_str(f)
+    local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
+    local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
     local p_a = ""
     local p_b = ""
     if e_b then
