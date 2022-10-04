@@ -6,7 +6,7 @@ lua << EOF
     require("utility.util").edit_file(opt_file, false)
     vim.api.nvim_set_current_dir(vim.fn.stdpath("config"))
   elseif opt_file then
-    vim.cmd("e "..vim.fn.fnameescape(opt_file))
+    vim.cmd.new(opt_file)
     vim.api.nvim_paste("{}", true, -1)
   else
     vim.notify("No available configuration directory")

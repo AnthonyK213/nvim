@@ -74,7 +74,7 @@ function MailConfig.get()
             lib.notify_err("Cannot create `mail.json`.")
             return
         end
-        vim.cmd("e "..vim.fn.fnameescape(config_path))
+        vim.cmd.edit(config_path)
         vim.api.nvim_paste([[
 {
   "archive": "",
@@ -83,7 +83,7 @@ function MailConfig.get()
       "label": "",
       "smtp": "",
       "imap": "",
-      "port": 993
+      "port": 993,
       "user_name": "",
       "password": ""
     }
@@ -126,7 +126,7 @@ end
 function Mail.new_file()
     local config = MailConfig.get()
     if not config then return end
-    vim.cmd("e "..vim.fn.fnameescape(lib.path_append(config.outbox_dir, os.date("OUT%Y%m%d%H%M%S.eml"))))
+    vim.cmd.edit(lib.path_append(config.outbox_dir, os.date("OUT%Y%m%d%H%M%S.eml")))
     vim.api.nvim_paste(os.date([[
 From: 
 Subject: 
@@ -312,7 +312,7 @@ function Mailbox:fetch()
             if f then
                 f:write(body)
                 f:close()
-                vim.cmd("e "..vim.fn.fnameescape(mail_path))
+                vim.cmd.edit(mail_path)
                 vim.notify("Mail fetched.")
             end
         end)):queue(provider.imap, provider.port, provider.user_name, provider.password, lib_path)

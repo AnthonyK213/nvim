@@ -7,7 +7,7 @@ vim.keymap.set("n", "s", function ()
         local mode = vim.b.runner.mode
         local index = vim.tbl_add_reverse_lookup(mode_table)[mode]
         local next = mode_table[index % 3 + 1]
-        vim.cmd("ChangeMode "..next)
+        vim.cmd.ChangeMode(next)
         vim.notify("Mode changed to "..next)
     end
 end, { noremap = true, buffer = true })

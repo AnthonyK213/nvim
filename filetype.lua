@@ -17,7 +17,7 @@ vim.filetype.add {
                     if require("utility.syn").match_here("Weblink") then
                         fallback()
                     elseif vim.fn.foldlevel(".") > 0 then
-                        require("utility.lib").normal("za")
+                        vim.cmd.normal("za")
                     end
                 end, { noremap = true, silent = true, buffer = bufnr })
                 vim.keymap.set("n", "<S-Tab>", "zA", {
@@ -28,7 +28,7 @@ vim.filetype.add {
                 require("utility.util").new_keymap("n", "<CR>", function (fallback)
                     if vim.fn.foldclosed(".") >= 0
                         or require("utility.syn").match_here("Header") then
-                        require("utility.lib").normal("za")
+                        vim.cmd.normal("za")
                     else
                         fallback()
                     end

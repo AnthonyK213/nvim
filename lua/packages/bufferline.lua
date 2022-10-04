@@ -1,5 +1,5 @@
 vim.o.showtabline = 2
-vim.cmd [[packadd bufferline.nvim]]
+vim.cmd.packadd("bufferline.nvim")
 
 require("bufferline").setup {
     options = {

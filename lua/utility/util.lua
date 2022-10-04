@@ -34,9 +34,19 @@ end
 function M.edit_file(file_path, chdir)
     local path = vim.fs.normalize(file_path)
     if vim.api.nvim_buf_get_name(0) == "" then
-        vim.cmd("silent e "..vim.fn.fnameescape(path))
+        vim.cmd.edit {
+            args = { path },
+            mods = {
+                silent = true
+            }
+        }
     else
-        vim.cmd("silent tabnew "..vim.fn.fnameescape(path))
+        vim.cmd.tabnew {
+            args = { path },
+            mods = {
+                silent = true
+            }
+        }
     end
     if chdir then
         vim.api.nvim_set_current_dir(lib.get_buf_dir())
@@ -336,7 +346,7 @@ function M.nvim_upgrade(channel)
         }, ";")
 
         vim.fn.jobstart("powershell.exe -c "..pwsh_cmd, { detach = true })
-        vim.cmd("qa!")
+        vim.cmd.quitall { bang = true }
         return
     elseif os_type == lib.Os.Linux then
         if not lib.executable("curl") then return end

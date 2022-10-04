@@ -1,4 +1,4 @@
-vim.cmd [[packadd nightfox.nvim]]
+vim.cmd.packadd("nightfox.nvim")
 
 ---Check if `style` is dark theme.
 ---@param style string

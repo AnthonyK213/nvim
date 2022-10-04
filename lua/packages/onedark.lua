@@ -1,4 +1,4 @@
-vim.cmd [[packadd onedark.nvim]]
+vim.cmd.packadd("onedark.nvim")
 
 local style_list = {
     "dark", "darker", "cool",

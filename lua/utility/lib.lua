@@ -26,7 +26,7 @@ end
 function M.belowright_split(height)
     local term_h = math.min(height,
     math.floor(vim.api.nvim_win_get_height(0) * 0.382))
-    vim.cmd("belowright new")
+    vim.cmd.new { mods = { split = "belowright" } }
     vim.api.nvim_win_set_height(0, term_h)
 end
 
@@ -215,10 +215,13 @@ function M.get_visual_selection()
     local mode = vim.api.nvim_get_mode().mode
     local in_vis = vim.tbl_contains({"v", "V", ""}, mode)
     local a_bak = vim.fn.getreg("a", 1)
-    M.normal((in_vis and "" or "gv")..[["ay]], {
-        noremap = true,
-        silent = true
-    })
+    vim.cmd.normal {
+        (in_vis and "" or "gv")..[["ay]],
+        mods = {
+            bang = true,
+            silent = true
+        }
+    }
     local a_val = vim.fn.getreg("a")
     vim.fn.setreg("a", a_bak)
     return a_val
@@ -301,14 +304,6 @@ function M.match_url(str)
     end
 
     return false, nil
-end
-
----Execute Normal mode command `cmd`.
----@param cmd string Normal command.
----@param opt? table<string, boolean> Options.
-function M.normal(cmd, opt)
-    opt = opt or { noremap = false, silent = false }
-    vim.cmd((opt.silent and "silent " or "").."normal"..(opt.noremap and "! " or " ")..cmd)
 end
 
 ---Notify the error message.
@@ -510,7 +505,7 @@ end
 function M.vim_source(file)
     local full_path = vim.fn.stdpath("config").."/"..file..".vim"
     if M.path_exists(full_path) then
-        vim.cmd("source "..vim.fn.fnameescape(full_path))
+        vim.cmd.source(full_path)
     else
         M.notify_err("File `"..file..".vim` is not found")
     end

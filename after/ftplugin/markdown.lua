@@ -31,6 +31,6 @@ vim.keymap.set("n", "<leader>mt", function ()
     if vim.g.vscode then
         vim.fn.VSCodeNotify("markdown.showPreviewToSide")
     elseif vim.fn.exists(":MarkdownPreviewToggle") > 0 then
-        vim.cmd [[MarkdownPreviewToggle]]
+        vim.cmd.MarkdownPreviewToggle()
     end
 end, _opt)
