@@ -28,8 +28,20 @@ local custom_attach = function(client, bufnr)
     kbd("n", "<leader>lr", function() vim.lsp.buf.references() end, _o)
     kbd("n", "<leader>lt", function() vim.lsp.buf.type_definition() end, _o)
     kbd("n", "<leader>lw", function() vim.lsp.buf.workspace_symbol() end, _o)
-    kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev() end, _o)
-    kbd("n", "<leader>l]", function() vim.diagnostic.goto_next() end, _o)
+    kbd("n", "<leader>l[", function()
+        vim.diagnostic.goto_prev {
+            float = {
+                border = _my_core_opt.tui.border
+            }
+        }
+    end, _o)
+    kbd("n", "<leader>l]", function()
+        vim.diagnostic.goto_next {
+            float = {
+                border = _my_core_opt.tui.border
+            }
+        }
+    end, _o)
     -- aerial.nvim
     require("aerial").on_attach(client, bufnr)
 end
