@@ -212,35 +212,9 @@ function M.git_push_all(arg_str)
     end
 
     -- Get arguments.
-    --local m_arg, b_arg
     local arg_table = lib.parse_args(arg_str)
     local m_arg = arg_table["-m"] or os.date("%y%m%d")
     local b_arg = arg_table["-b"] or git_branch
-    --if #arg_list % 2 == 0 then
-        --local m_idx = lib.tbl_find_first(arg_list, "-m")
-        --local b_idx = lib.tbl_find_first(arg_list, "-b")
-
-        --if m_idx > 0 and m_idx % 2 == 1 then
-            --m_arg = arg_list[m_idx + 1]
-        --elseif m_idx == 0 then
-            --m_arg = os.date("%y%m%d")
-        --else
-            --lib.notify_err("Invalid commit argument.")
-            --return
-        --end
-
-        --if b_idx > 0 and b_idx % 2 == 1 then
-            --b_arg = arg_list[b_idx + 1]
-        --elseif b_idx == 0 then
-            --b_arg = git_branch
-        --else
-            --lib.notify_err("Invalid branch argument.")
-            --return
-        --end
-    --else
-        --lib.notify_err("Wrong number of arguments is given.")
-        --return
-    --end
 
     local git_add = Process.new("git", {
         args = { "add", "*" },

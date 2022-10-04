@@ -38,8 +38,6 @@ cmd("Pdf", function(_)
 end, { desc = "Open pdf file, useful when finish the compilation of tex file" })
 
 cmd("PushAll", function(tbl)
-    --local arg_list = vim.split(vim.trim(tbl.args), "%s+")
-    --arg_list = vim.tbl_filter(function(s) return s ~= "" end, arg_list)
     require("utility.util").git_push_all(tbl.args)
 end, { nargs = "?", desc = "Git push all" })
 
