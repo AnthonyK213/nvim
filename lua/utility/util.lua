@@ -374,6 +374,7 @@ function M.build_dylibs()
     local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
     local dylibs_dir = _my_core_opt.path.dylib
     local dylib_ext = lib.get_dylib_ext()
+    local dylib_prefix = lib.has_windows() and "" or "lib"
     if not lib.path_exists(dylibs_dir) then
         if not vim.loop.fs_mkdir(dylibs_dir, 448) then
             lib.notify_err("Could not crate directory `dylib`.")
@@ -392,7 +393,7 @@ function M.build_dylibs()
             }, function(_, code, _)
                 if code == 0 then
                     local dylib_name = _name .. "." .. dylib_ext
-                    vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/" .. dylib_name),
+                    vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/" .. dylib_prefix .. dylib_name),
                         lib.path_append(dylibs_dir, dylib_name),
                         vim.schedule_wrap(function(err, success)
                             if success then
