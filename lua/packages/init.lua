@@ -37,7 +37,7 @@ require("packer").startup(function(use)
     -- File system
     use {
         {
-            "kyazdani42/nvim-tree.lua",
+            "nvim-tree/nvim-tree.lua",
             config = function() require("packages.nvim-tree") end
         };
         {
