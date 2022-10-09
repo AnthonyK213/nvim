@@ -29,6 +29,7 @@ require("diffview").setup {
             ["<leader>cb"] = actions.conflict_choose("base"),
             ["<leader>ca"] = actions.conflict_choose("all"),
             ["dx"]         = actions.conflict_choose("none"),
+            ["q"]          = "<Cmd>DiffviewClose<CR>",
         },
         diff1 = {},
         diff2 = {},
@@ -69,6 +70,7 @@ require("diffview").setup {
             ["g<C-X>"]        = actions.cycle_layout,
             ["[x"]            = actions.prev_conflict,
             ["]x"]            = actions.next_conflict,
+            ["q"]             = "<Cmd>DiffviewClose<CR>",
         },
         file_history_panel = {
             ["g!"]            = actions.options,
@@ -94,6 +96,7 @@ require("diffview").setup {
             ["<leader>e"]     = actions.focus_files,
             ["<leader>b"]     = actions.toggle_files,
             ["g<C-X>"]        = actions.cycle_layout,
+            ["q"]             = "<Cmd>DiffviewClose<CR>",
         },
         option_panel = {
             ["<Tab>"] = actions.select_entry,
@@ -104,6 +107,5 @@ require("diffview").setup {
 
 local kbd = vim.keymap.set
 local _o = { noremap = true, silent = true }
-kbd("n", "<leader>gdc", "<Cmd>DiffviewClose<CR>", _o)
-kbd("n", "<leader>gdh", "<Cmd>DiffviewFileHistory<CR>", _o)
-kbd("n", "<leader>gdo", "<Cmd>DiffviewOpen<CR>", _o)
+kbd("n", "<leader>gd", "<Cmd>DiffviewOpen<CR>", _o)
+kbd("n", "<leader>gh", "<Cmd>DiffviewFileHistory<CR>", _o)
