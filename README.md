@@ -294,6 +294,7 @@
 * VCS
   - [Neogit](https://github.com/TimUntersberger/neogit)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+  - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
 * Utilities
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
