@@ -52,6 +52,10 @@ require("packer").startup(function(use)
             config = function() require("packages.neogit") end
         };
         {
+            "sindrets/diffview.nvim",
+            config = function() require("packages.diffview") end
+        };
+        {
             "lewis6991/gitsigns.nvim",
             config = function() require("packages.gitsigns") end
         };
