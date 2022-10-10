@@ -316,13 +316,14 @@ end
 function M.parse_args(cmd_args)
     local pos = {}
     local result = {}
-    local iter = cmd_args:gmatch("%s*()(-+%w+)()%s*")
+    local cmd_args_spc = " " .. cmd_args .. " "
+    local iter = cmd_args_spc:gmatch("%s+()(-+%w+)()%s+")
     for s, v, e in iter do
         table.insert(pos, { s, v, e })
     end
     for i, item in ipairs(pos) do
-        local _end = i == #pos and #cmd_args or pos[i + 1][1] - 1
-        local value = vim.trim(cmd_args:sub(item[3], _end))
+        local _end = i == #pos and #cmd_args_spc or pos[i + 1][1] - 1
+        local value = vim.trim(cmd_args_spc:sub(item[3], _end))
         if #value > 0 then
             result[item[2]] = value
         end
