@@ -393,7 +393,8 @@ function M.build_dylibs()
             }, function(_, code, _)
                 if code == 0 then
                     local dylib_name = _name .. "." .. dylib_ext
-                    vim.loop.fs_copyfile(lib.path_append(crate_dir, "target/release/" .. dylib_prefix .. dylib_name),
+                    vim.loop.fs_copyfile(lib.path_append(crate_dir,
+                        "target/release/" .. dylib_prefix .. dylib_name),
                         lib.path_append(dylibs_dir, dylib_name),
                         vim.schedule_wrap(function(err, success)
                             if success then
