@@ -269,8 +269,9 @@
 - `NvimUpgrade` -> Upgrade neovim by channel input.
 - `Pdf`         -> View pdf after compiling a tex file.
 - `PushAll`     -> Just push everything to the remote origin.
-  - `-b`        -> branch  (default: current branch).
-  - `-m`        -> comment (default: date).
+  - `-b`        -> branch (default: current branch).
+  - `-m`        -> commit (default: date).
+  - `-r`        -> remote (default: origin).
 - `SshConfig`   -> Open and edit ~/.ssh/config
 - `Time`        -> Print date and time.
 
