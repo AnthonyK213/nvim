@@ -108,5 +108,5 @@ require("diffview").setup {
 local kbd = vim.keymap.set
 local _o = { noremap = true, silent = true }
 kbd("n", "<leader>gd", "<Cmd>DiffviewOpen<CR>", _o)
-kbd("n", "<leader>gn", "<Cmd>DiffviewOpen<CR>", _o)
 kbd("n", "<leader>gh", "<Cmd>DiffviewFileHistory<CR>", _o)
+kbd("n", "<leader>gn", "<Cmd>DiffviewFileHistory<CR>", _o)
