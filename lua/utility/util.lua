@@ -215,6 +215,7 @@ function M.git_push_all(arg_str)
     local arg_table = lib.parse_args(arg_str)
     local m_arg = arg_table["-m"] or os.date("%y%m%d")
     local b_arg = arg_table["-b"] or git_branch
+    local r_arg = arg_table["-r"] or "origin"
 
     local git_add = Process.new("git", {
         args = { "add", "*" },
@@ -233,7 +234,7 @@ function M.git_push_all(arg_str)
     end)
 
     local git_push = Process.new("git", {
-        args = { "push", "origin", b_arg, "--porcelain" },
+        args = { "push", r_arg, b_arg, "--porcelain" },
         cwd = git_root,
     }, function(proc, code, _)
         if code == 0 then
