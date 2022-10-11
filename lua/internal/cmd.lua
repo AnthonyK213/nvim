@@ -38,7 +38,8 @@ cmd("Pdf", function(_)
 end, { desc = "Open pdf file, useful when finish the compilation of tex file" })
 
 cmd("PushAll", function(tbl)
-    require("utility.util").git_push_all(tbl.args)
+    local arg_tbl = require("utility.lib").parse_args(tbl.args)
+    require("utility.util").git_push_all(arg_tbl)
 end, { nargs = "?", desc = "Git push all" })
 
 cmd("SshConfig", function(_)

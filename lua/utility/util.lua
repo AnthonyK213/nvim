@@ -191,8 +191,8 @@ function M.new_keymap(mode, lhs, new_rhs, opts)
 end
 
 ---Throw away your brain, just push it!
----@param arg_str string
-function M.git_push_all(arg_str)
+---@param arg_tbl table<string, string>
+function M.git_push_all(arg_tbl)
     -- Check git status.
     if not lib.executable("git") then return end
 
@@ -211,11 +211,12 @@ function M.git_push_all(arg_str)
         return
     end
 
-    -- Get arguments.
-    local arg_table = lib.parse_args(arg_str)
-    local m_arg = arg_table["-m"] or os.date("%y%m%d")
-    local b_arg = arg_table["-b"] or git_branch
-    local r_arg = arg_table["-r"] or "origin"
+    -- `-m`: commit
+    local m_arg = arg_tbl["-m"] or os.date("%y%m%d")
+    -- `-b`: branch
+    local b_arg = arg_tbl["-b"] or git_branch
+    -- `-r`: remote
+    local r_arg = arg_tbl["-r"] or "origin"
 
     local git_add = Process.new("git", {
         args = { "add", "*" },
