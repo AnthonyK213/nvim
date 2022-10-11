@@ -195,10 +195,11 @@
     - n:    <kbd>g</kbd> -> *telescope.nvim*, live_grep.
   - <kbd>leader-g-</kbd> -> **VCS**.
     - n:    <kbd>b</kbd> -> *gitsigns.nvim*, blame line.
+    - n:    <kbd>d</kbd> -> *diffview.nvim*, open diffview in tab.
+    - n:    <kbd>h</kbd> -> *diffview.nvim*, open diffview file history in tab.
     - n:    <kbd>j</kbd> -> *gitsigns.nvim*, next hunk.
     - n:    <kbd>k</kbd> -> *gitsigns.nvim*, previous hunk.
     - n:    <kbd>p</kbd> -> *gitsigns.nvim*, preview hunk.
-    - n:    <kbd>n</kbd> -> *neogit*, open neogit status window.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search text in web browser**.
     - nv:   <kbd>b</kbd> -> Search cword with Baidu.
@@ -292,7 +293,6 @@
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 * VCS
-  - [Neogit](https://github.com/TimUntersberger/neogit)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
 * Utilities

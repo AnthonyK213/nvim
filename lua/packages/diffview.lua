@@ -44,10 +44,10 @@ require("diffview").setup {
         },
         file_panel = {
             ["j"]             = actions.next_entry,
-            ["<down>"]        = actions.next_entry,
+            ["<Down>"]        = actions.next_entry,
             ["k"]             = actions.prev_entry,
-            ["<up>"]          = actions.prev_entry,
-            ["<cr>"]          = actions.select_entry,
+            ["<Up>"]          = actions.prev_entry,
+            ["<Cr>"]          = actions.select_entry,
             ["o"]             = actions.select_entry,
             ["<2-LeftMouse>"] = actions.select_entry,
             ["-"]             = actions.toggle_stage_entry,
@@ -65,8 +65,8 @@ require("diffview").setup {
             ["i"]             = actions.listing_style,
             ["f"]             = actions.toggle_flatten_dirs,
             ["R"]             = actions.refresh_files,
-            ["<localleader>e"]     = actions.focus_files,
-            ["<localleader>b"]     = actions.toggle_files,
+            ["<localleader>e"] = actions.focus_files,
+            ["<localleader>b"] = actions.toggle_files,
             ["g<C-X>"]        = actions.cycle_layout,
             ["[x"]            = actions.prev_conflict,
             ["]x"]            = actions.next_conflict,
@@ -80,10 +80,10 @@ require("diffview").setup {
             ["zR"]            = actions.open_all_folds,
             ["zM"]            = actions.close_all_folds,
             ["j"]             = actions.next_entry,
-            ["<down>"]        = actions.next_entry,
+            ["<Down>"]        = actions.next_entry,
             ["k"]             = actions.prev_entry,
-            ["<up>"]          = actions.prev_entry,
-            ["<cr>"]          = actions.select_entry,
+            ["<Up>"]          = actions.prev_entry,
+            ["<Cr>"]          = actions.select_entry,
             ["o"]             = actions.select_entry,
             ["<2-LeftMouse>"] = actions.select_entry,
             ["<C-B>"]         = actions.scroll_view(-0.25),
@@ -93,8 +93,8 @@ require("diffview").setup {
             ["gf"]            = actions.goto_file,
             ["<C-W><C-F>"]    = actions.goto_file_split,
             ["<C-W>gf"]       = actions.goto_file_tab,
-            ["<localleader>e"]     = actions.focus_files,
-            ["<localleader>b"]     = actions.toggle_files,
+            ["<localleader>e"] = actions.focus_files,
+            ["<localleader>b"] = actions.toggle_files,
             ["g<C-X>"]        = actions.cycle_layout,
             ["q"]             = "<Cmd>DiffviewClose<CR>",
         },
@@ -108,4 +108,5 @@ require("diffview").setup {
 local kbd = vim.keymap.set
 local _o = { noremap = true, silent = true }
 kbd("n", "<leader>gd", "<Cmd>DiffviewOpen<CR>", _o)
+kbd("n", "<leader>gn", "<Cmd>DiffviewOpen<CR>", _o)
 kbd("n", "<leader>gh", "<Cmd>DiffviewFileHistory<CR>", _o)
