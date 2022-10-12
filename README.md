@@ -199,6 +199,7 @@
     - n:    <kbd>h</kbd> -> *diffview.nvim*, open diffview file history in tab.
     - n:    <kbd>j</kbd> -> *gitsigns.nvim*, next hunk.
     - n:    <kbd>k</kbd> -> *gitsigns.nvim*, previous hunk.
+    - n:    <kbd>n</kbd> -> *neogit*, open neogit status window.
     - n:    <kbd>p</kbd> -> *gitsigns.nvim*, preview hunk.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search text in web browser**.

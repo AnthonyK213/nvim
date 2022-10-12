@@ -48,6 +48,10 @@ require("packer").startup(function(use)
     -- VCS
     use {
         {
+            "TimUntersberger/neogit",
+            config = function() require("packages.neogit") end
+        };
+        {
             "sindrets/diffview.nvim",
             config = function() require("packages.diffview") end
         };
