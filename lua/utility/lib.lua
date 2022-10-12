@@ -99,8 +99,8 @@ end
 ---@param git_root? string Git repository root directory.
 ---@return string? result Current branch name.
 function M.get_git_branch(git_root)
-    git_root = git_root or M.get_root(".git")
-    if not git_root then return nil end
+    git_root = git_root or M.get_root("^.git$")
+    if not git_root then return end
 
     git_root = git_root:gsub("[\\/]$", "")
 
@@ -129,8 +129,6 @@ function M.get_git_branch(git_root)
             end
         end
     end
-
-    return nil
 end
 
 ---Gets the current list of listed buffer handles.
@@ -194,18 +192,21 @@ end
 
 ---Find the root directory contains pattern `pat`.
 ---@param pat string Root pattern.
+---@param tp string? Type of the root pattern. `file`|`directory`|`nil`.
 ---@return string? result Root directory path.
-function M.get_root(pat)
-    local current_dir = M.get_buf_dir()
-    while true do
-        if vim.fn.globpath(current_dir, pat, 1) ~= "" then
-            return current_dir
-        end
-        local temp_dir = current_dir
-        current_dir = vim.fn.fnamemodify(current_dir, ":h")
-        if temp_dir == current_dir then break end
+function M.get_root(pat, tp)
+    local result = vim.fs.find(function (name)
+        return vim.regex(pat):match_str(name) and true or false
+    end, {
+        path = M.get_buf_dir(),
+        upward = true,
+        type = tp,
+        limit = 1,
+    })
+
+    if not vim.tbl_isempty(result) then
+        return vim.fs.dirname(result[1])
     end
-    return nil
 end
 
 ---Get the visual selections.
