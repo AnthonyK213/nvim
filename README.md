@@ -295,8 +295,9 @@
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 * VCS
-  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
+  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+  - [Neogit](https://github.com/TimUntersberger/neogit)
 * Utilities
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
