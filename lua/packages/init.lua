@@ -47,10 +47,11 @@ require("packer").startup(function(use)
     }
     -- VCS
     use {
-        --{
-            --"TimUntersberger/neogit",
-            --config = function() require("packages.neogit") end
-        --};
+        {
+            "TimUntersberger/neogit",
+            commit = "05386ff1e9da447d4688525d64f7611c863f05ca",
+            config = function() require("packages.neogit") end
+        };
         {
             "sindrets/diffview.nvim",
             config = function() require("packages.diffview") end
