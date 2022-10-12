@@ -6,6 +6,7 @@
 * [**Git**](https://github.com/git/git)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
+* [**lazygit**](https://github.com/jesseduffield/lazygit)
 
 
 ## Installation
