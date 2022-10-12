@@ -6,7 +6,6 @@
 * [**Git**](https://github.com/git/git)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
-* [**lazygit**](https://github.com/jesseduffield/lazygit)
 
 
 ## Installation
@@ -92,6 +91,10 @@
       "plug": {
         "matchit": false,    // Enable matchit.vim
         "matchparen": false  // Enable matchparen.vim
+      },
+      // Version control system
+      "vcs": {
+        "client": "string"   // Git client(neogit|lazygit)
       }
     }
     ```

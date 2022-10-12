@@ -70,7 +70,10 @@ local opt = {
     plug = {
         matchit = false,
         matchparen = false,
-    }
+    },
+    vcs = {
+        client = "neogit",
+    },
 }
 
 -- Merge custom options.
