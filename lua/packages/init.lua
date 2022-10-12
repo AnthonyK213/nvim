@@ -47,10 +47,10 @@ require("packer").startup(function(use)
     }
     -- VCS
     use {
-        {
-            "TimUntersberger/neogit",
-            config = function() require("packages.neogit") end
-        };
+        --{
+            --"TimUntersberger/neogit",
+            --config = function() require("packages.neogit") end
+        --};
         {
             "sindrets/diffview.nvim",
             config = function() require("packages.diffview") end
@@ -82,6 +82,11 @@ require("packer").startup(function(use)
         {
             "stevearc/dressing.nvim",
             config = function() require("packages.dressing") end
+        };
+        {
+            "akinsho/toggleterm.nvim",
+            tag = '*',
+            config = function() require("packages.toggleterm") end
         };
     }
     -- File type support
