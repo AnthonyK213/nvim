@@ -1,4 +1,4 @@
-local Terminal = require('toggleterm.terminal').Terminal
+local Terminal = require("toggleterm.terminal").Terminal
 
 local kbd = vim.keymap.set
 local _o = { noremap = true, silent = true }
