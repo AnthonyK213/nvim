@@ -274,7 +274,7 @@ kbd("Show highlight information", "n", "<leader>vs", function()
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     require("utility.syn").new(row, col):show()
 end)
-kbd("Decode selected base64 code.", "v", "<leader>zb", function ()
+kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
     to_normal()
     local sr, sc, er, ec = require("utility.lib").get_gv_mark()
     local base64_code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}))
@@ -284,4 +284,27 @@ kbd("Decode selected base64 code.", "v", "<leader>zb", function ()
     vim.api.nvim_buf_set_text(0, sr, sc, er, ec, vim.split(code, "[\n\r]", {
         trimempty = true,
     }))
+end)
+kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
+    to_normal()
+    local sr, sc, er, ec = require("utility.lib").get_gv_mark()
+    local code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}))
+    local base64_code = require("utility.base64").encode(code)
+    if not base64_code then return end
+    local replacement = {}
+    local half = vim.api.nvim_buf_get_text(0, sr, 0, sr, sc, {})[1]
+    local half_len = vim.fn.strdisplaywidth(half)
+    local start = 1
+    if half_len >= 80 then
+        table.insert(replacement, "")
+    else
+        start = 80 - half_len
+        table.insert(replacement, base64_code:sub(1, start))
+        start = start + 1
+    end
+    while start < #base64_code do
+        table.insert(replacement, base64_code:sub(start, start + 79))
+        start = start + 80
+    end
+    vim.api.nvim_buf_set_text(0, sr, sc, er, ec, replacement)
 end)
