@@ -13,13 +13,14 @@ local function text_eval(f)
     local fore = context.f
     local s, expr, e = fore:match("^()`(.-)()`")
 
-    if pcall(f, expr) then
-        local result = tostring(f(expr))
+    local ok, result = pcall(f, expr)
+
+    if ok then
         local row = vim.api.nvim_win_get_cursor(0)[1] - 1
-        api.nvim_buf_set_text(0, row, s + #back - 1, row, e + #back, { result })
+        api.nvim_buf_set_text(0, row, s + #back - 1, row, e + #back, { tostring(result) })
     else
         api.nvim_win_set_cursor(0, origin_pos)
-        lib.notify_err("No valid expression was found.")
+        lib.notify_err(result)
     end
 end
 
@@ -157,6 +158,9 @@ end
 local function lisp_tree_eval(arg)
     if type(arg) == "number" then return arg end
     local func = func_map[arg[1]]
+    if not func then
+        error("Invalid expression `" .. arg[1] .. "`.")
+    end
     table.remove(arg, 1)
     return func(vim.tbl_map(lisp_tree_eval, arg))
 end
