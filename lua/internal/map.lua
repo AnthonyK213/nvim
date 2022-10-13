@@ -288,7 +288,7 @@ end)
 kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
     to_normal()
     local sr, sc, er, ec = require("utility.lib").get_gv_mark()
-    local code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}))
+    local code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}), "\n")
     local base64_code = require("utility.base64").encode(code)
     if not base64_code then return end
     local replacement = {}
