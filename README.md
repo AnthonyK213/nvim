@@ -257,6 +257,8 @@
   - <kbd>leader-v-</kbd> -> **Visual**
     - n:    <kbd>s</kbd> -> Show highlight information.
   - <kbd>leader-w-</kbd> -> **Vimwiki**.
+  - <kbd>leader-z-</kbd> -> Misc.
+    - v:    <kbd>b</kbd> -> Base64 decode on selection.
 * **Miscellanea**
   - v:   <kbd>\*/#</kbd> -> Search for the visual selection.
   - invt:<kbd>F2</kbd>   -> Toggle mouse status.

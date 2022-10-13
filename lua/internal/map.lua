@@ -274,3 +274,14 @@ kbd("Show highlight information", "n", "<leader>vs", function()
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     require("utility.syn").new(row, col):show()
 end)
+kbd("Decode selected base64 code.", "v", "<leader>zb", function ()
+    to_normal()
+    local sr, sc, er, ec = require("utility.lib").get_gv_mark()
+    local base64_code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}))
+        :gsub("[^A-Za-z0-9+/]", "")
+    local code = require("utility.base64").decode(base64_code)
+    if not code then return end
+    vim.api.nvim_buf_set_text(0, sr, sc, er, ec, vim.split(code, "[\n\r]", {
+        trimempty = true,
+    }))
+end)
