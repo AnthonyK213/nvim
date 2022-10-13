@@ -190,24 +190,24 @@ function M.get_os_type()
     end
 end
 
----Find the root directory contains pattern `pat`.
----@param pat string Root pattern (vim regex in `magic` mode).
----@param tp string? Type of the root pattern. `file`|`directory`|`nil`.
+---Find the root directory contains `pattern`.
+---@param pattern string Root pattern (vim regex in `magic` mode).
+---@param item_type string? Type of the item to find. `file`|`directory`|`nil`.
 ---@return string? result Root directory path.
-function M.get_root(pat, tp)
-    if tp and not (tp == "file" or tp == "directory") then
+function M.get_root(pattern, item_type)
+    if item_type and not (item_type == "file" or item_type == "directory") then
         M.notify_err [[Type must be "file" or "directory".]]
         return
     end
 
-    local re = vim.regex("\\v" .. pat)
+    local re = vim.regex("\\v" .. pattern)
 
     local result = vim.fs.find(function (name)
         return re:match_str(name) and true or false
     end, {
         path = M.get_buf_dir(),
         upward = true,
-        type = tp,
+        type = item_type,
         limit = 1,
     })
 
