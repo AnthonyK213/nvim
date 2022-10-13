@@ -258,7 +258,8 @@
     - n:    <kbd>s</kbd> -> Show highlight information.
   - <kbd>leader-w-</kbd> -> **Vimwiki**.
   - <kbd>leader-z-</kbd> -> Misc.
-    - v:    <kbd>b</kbd> -> Base64 decode on selection.
+    - v:   <kbd>bd</kbd> -> Base64 decode selection.
+    - v:   <kbd>be</kbd> -> Base64 encode selection.
 * **Miscellanea**
   - v:   <kbd>\*/#</kbd> -> Search for the visual selection.
   - invt:<kbd>F2</kbd>   -> Toggle mouse status.
