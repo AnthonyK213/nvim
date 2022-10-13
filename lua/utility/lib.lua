@@ -99,7 +99,7 @@ end
 ---@param git_root? string Git repository root directory.
 ---@return string? result Current branch name.
 function M.get_git_branch(git_root)
-    git_root = git_root or M.get_root("^.git$")
+    git_root = git_root or M.get_root([[^\.git$]])
     if not git_root then return end
 
     git_root = git_root:gsub("[\\/]$", "")
@@ -191,7 +191,7 @@ function M.get_os_type()
 end
 
 ---Find the root directory contains pattern `pat`.
----@param pat string Root pattern (vim regex).
+---@param pat string Root pattern (vim regex in `magic` mode).
 ---@param tp string? Type of the root pattern. `file`|`directory`|`nil`.
 ---@return string? result Root directory path.
 function M.get_root(pat, tp)
@@ -200,8 +200,10 @@ function M.get_root(pat, tp)
         return
     end
 
+    local re = vim.regex("\\v" .. pat)
+
     local result = vim.fs.find(function (name)
-        return vim.regex(pat):match_str(name) and true or false
+        return re:match_str(name) and true or false
     end, {
         path = M.get_buf_dir(),
         upward = true,

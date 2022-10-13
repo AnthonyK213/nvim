@@ -136,7 +136,7 @@ local comp_table = {
     end,
     cs = function(tbl)
         if not lib.executable("dotnet") then return end
-        local sln_root = lib.get_root("^*.sln$", "file")
+        local sln_root = lib.get_root([[\.sln$]], "file")
         if sln_root then
             if not lib.executable("MSBuild") then return end
             return Cmd.new { "MSBuild.exe", sln_root }
@@ -209,7 +209,7 @@ local comp_table = {
     end,
     rust = function(tbl)
         if not lib.executable("cargo") then return end
-        local cargo_root = lib.get_root("^Cargo.toml$", "file")
+        local cargo_root = lib.get_root([[^Cargo\.toml$]], "file")
         if cargo_root then
             local cmd_tbl = {
                 [""]  = { "cargo", "run" },

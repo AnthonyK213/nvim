@@ -196,7 +196,7 @@ function M.git_push_all(arg_tbl)
     -- Check git status.
     if not lib.executable("git") then return end
 
-    local git_root = lib.get_root("^.git$")
+    local git_root = lib.get_root([[^\.git$]])
     local git_branch
 
     if git_root then
