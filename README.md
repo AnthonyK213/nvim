@@ -99,7 +99,7 @@
     }
     ```
     > The comments have to be removed.
-* **Install LSP servers via `nvim-lsp-installer`**
+* **Install LSP servers via `mason.nvim`**
 * **Set .vimrc for Vim (optional)**
   - Windows
     ```ps1
