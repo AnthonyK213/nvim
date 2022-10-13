@@ -175,6 +175,39 @@ function M.get_dotfile(name)
     end
 end
 
+---Get the visual selections (`gv`).
+---@return string result Visual selection.
+function M.get_gv()
+    local mode = vim.api.nvim_get_mode().mode
+    local in_vis = vim.tbl_contains({ "v", "V", "" }, mode)
+    local a_bak = vim.fn.getreg("a", 1)
+    vim.cmd.normal {
+        (in_vis and "" or "gv") .. [["ay]],
+        mods = {
+            silent = true
+        }
+    }
+    local a_val = vim.fn.getreg("a")
+    vim.fn.setreg("a", a_bak)
+    return a_val
+end
+
+---Get the start and end positions (zero-based) of visual selection.
+---@param bufnr? integer Buffer number, default 0 (current buffer).
+---@return integer row_s Start row.
+---@return unknown col_s Start column.
+---@return integer row_e End row.
+---@return integer col_e End column.
+function M.get_gv_mark(bufnr)
+    bufnr = bufnr or 0
+    local s = vim.api.nvim_buf_get_mark(bufnr, "<")
+    local e = vim.api.nvim_buf_get_mark(bufnr, ">")
+    local l = #vim.api.nvim_buf_get_lines(bufnr, e[1] - 1, e[1], true)[1]
+    if e[2] >= l then e[2] = math.max(0, l - 1) end
+    local d = #M.str_sub(vim.api.nvim_buf_get_text(bufnr, e[1] - 1, e[2], e[1] - 1, -1, {})[1], 1, 1)
+    return s[1] - 1, s[2], e[1] - 1, e[2] + d
+end
+
 ---Get OS type.
 ---@return integer os_type_enum Type of current operating system.
 function M.get_os_type()
@@ -214,23 +247,6 @@ function M.get_root(pattern, item_type)
     if not vim.tbl_isempty(result) then
         return vim.fs.dirname(result[1])
     end
-end
-
----Get the visual selections.
----@return string result Visual selection.
-function M.get_visual_selection()
-    local mode = vim.api.nvim_get_mode().mode
-    local in_vis = vim.tbl_contains({ "v", "V", "" }, mode)
-    local a_bak = vim.fn.getreg("a", 1)
-    vim.cmd.normal {
-        (in_vis and "" or "gv") .. [["ay]],
-        mods = {
-            silent = true
-        }
-    }
-    local a_val = vim.fn.getreg("a")
-    vim.fn.setreg("a", a_bak)
-    return a_val
 end
 
 ---Get the word and its position under the cursor.

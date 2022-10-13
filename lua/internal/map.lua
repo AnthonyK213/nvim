@@ -104,7 +104,7 @@ for key, val in pairs {
             local word, _, _ = lib.get_word()
             txt = lib.encode_url(word)
         elseif mode == "v" then
-            txt = lib.encode_url(lib.get_visual_selection())
+            txt = lib.encode_url(lib.get_gv())
         else
             return
         end
@@ -129,14 +129,14 @@ kbd("Show document", "n", "K", function()
     lib.try(vim.cmd, "h " .. word)
 end)
 kbd("Search visual selection forward", "v", "*", function()
-    local pat = lib.get_visual_selection()
+    local pat = lib.get_gv()
         :gsub("([/\\])", function(x)
             return "\\" .. x
         end):gsub("\n", [[\n]])
     vim.cmd([[/\V]] .. pat)
 end)
 kbd("Search visual selection backward", "v", "#", function()
-    local pat = lib.get_visual_selection():gsub("([?\\])", function(x)
+    local pat = lib.get_gv():gsub("([?\\])", function(x)
         return "\\" .. x
     end):gsub("\n", [[\n]])
     vim.cmd([[?\V]] .. pat)
@@ -214,7 +214,7 @@ kbd("Hanzi count", { "n", "v" }, "<leader>cc", function()
     if mode == "n" then
         txt = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     elseif mode == "v" then
-        txt = lib.get_visual_selection()
+        txt = lib.get_gv()
     else
         return
     end

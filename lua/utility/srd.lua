@@ -105,11 +105,9 @@ function M.srd_add(mode, pair_a)
             api.nvim_buf_set_text(0, line - 1, s, line - 1, e, { p_a .. word .. p_b })
             api.nvim_win_set_cursor(0, { line, col + #p_a })
         elseif mode == "v" then
-            local sl, sc = unpack(api.nvim_buf_get_mark(0, "<"))
-            local el, ec = unpack(api.nvim_buf_get_mark(0, ">"))
-            local d = #lib.str_sub(api.nvim_buf_get_text(0, el - 1, ec, el - 1, -1, {})[1], 1, 1)
-            api.nvim_buf_set_text(0, el - 1, ec + d, el - 1, ec + d, { p_b })
-            api.nvim_buf_set_text(0, sl - 1, sc, sl - 1, sc, { p_a })
+            local sl, sc, el, ec = lib.get_gv_mark()
+            api.nvim_buf_set_text(0, el, ec, el, ec, { p_b })
+            api.nvim_buf_set_text(0, sl, sc, sl, sc, { p_a })
         end
     end
 
