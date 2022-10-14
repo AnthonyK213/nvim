@@ -141,10 +141,10 @@ function! s:comp_processing(tbl) abort
 endfunction
 
 function! s:comp_python(tbl) abort
-  if !my#lib#executable('python')
+  if !my#lib#executable(g:_my_dep_py3)
     return [v:null, v:null]
   endif
-  return [v:null, ['python', a:tbl["fnm"]]]
+  return [v:null, [g:_my_dep_py3, a:tbl["fnm"]]]
 endfunction
 
 function! s:comp_ruby(tbl) abort
