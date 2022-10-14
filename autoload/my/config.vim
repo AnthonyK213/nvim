@@ -230,6 +230,8 @@ function! my#config#indentLine() abort
         \ 'vimwiki',
         \ 'vimwiki.markdown',
         \ 'startify',
+        \ 'vista',
+        \ 'vista_markdown',
         \ ]
   let g:indentLine_bufTypeExclude = ['help', 'terminal']
 endfunction
