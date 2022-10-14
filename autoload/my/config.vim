@@ -390,6 +390,8 @@ endfunction
 
 function! my#config#vim_fugitive() abort
   nn <silent> <leader>gb :Git blame<CR>
+  nn <silent> <leader>gd :Git diff<CR>
+  nn <silent> <leader>gh :Git log<CR>
 endfunction
 
 function! my#config#vim_ipairs() abort
