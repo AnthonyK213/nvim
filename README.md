@@ -158,6 +158,8 @@
     - n:    <kbd>g</kbd> -> *fzf.vim*, ripgrep (:Rg)
   - <kbd>leader-g-</kbd> -> **VCS**.
     - n:    <kbd>b</kbd> -> *vim-fugitive*, git blame.
+    - n:    <kbd>d</kbd> -> *vim-fugitive*, git diff.
+    - n:    <kbd>h</kbd> -> *vim-fugitive*, git log.
     - n:    <kbd>j</kbd> -> *vim-signify*, next hunk.
     - n:    <kbd>k</kbd> -> *vim-signify*, previous hunk.
     - n:    <kbd>J</kbd> -> *vim-signify*, last hunk.
