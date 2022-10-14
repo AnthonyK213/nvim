@@ -107,12 +107,31 @@ function! my#lib#get_nvimrc() abort
 endfunction
 
 " Find the root directory contains patter `pat`.
-function! my#lib#get_root(pat) abort
+function! my#lib#get_root(pattern, ...) abort
+  let l:item_type = a:0 == 0 ? "both" : a:1
+  if index(["both", "file", "directory"], l:item_type) < 0
+    call my#lib#notify_err('Type must be "file" or "directory".')
+    return v:null
+  endif
   let l:dir = expand('%:p:h')
   while 1
-    if !empty(globpath(l:dir, a:pat, 1)) | return l:dir | endif
+    let l:results = globpath(l:dir, a:pattern, 1, 1)
+    if !empty(l:results)
+      if l:item_type == "both"
+        return l:dir
+      endif
+      for l:item in l:results
+        let l:is_dir = isdirectory(l:item)
+        if (l:item_type == "file" && !l:is_dir)
+              \ || (l:item_type == "directory" && l:is_dir)
+          return l:dir
+        endif
+      endfor
+    endif
     let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
-    if l:current == l:dir | break | endif
+    if l:current == l:dir
+      break
+    endif
   endwhile
   return v:null
 endfunction

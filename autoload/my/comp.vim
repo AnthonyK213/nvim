@@ -13,7 +13,7 @@ endfunction
 
 function! s:comp_c(tbl) abort
   let l:opt = a:tbl['opt']
-  let l:root = my#lib#get_root("[Mm]akefile")
+  let l:root = my#lib#get_root("[Mm]akefile", "file")
   if l:root != v:null
     if !my#lib#executable("make")
       return [v:null, v:null]
@@ -85,7 +85,7 @@ function! s:comp_csharp(tbl) abort
   if !my#lib#executable('dotnet')
     return [v:null, v:null]
   endif
-  let l:sln_root = my#lib#get_root("*.sln")
+  let l:sln_root = my#lib#get_root("*.sln", "file")
   if l:sln_root != v:null
     if !my#lib#executable('MSBuild')
       return [v:null, v:null]
@@ -158,7 +158,7 @@ function! s:comp_rust(tbl) abort
   if !my#lib#executable('cargo')
     return [v:null, v:null]
   endif
-  let l:cargo_root = my#lib#get_root('Cargo.toml')
+  let l:cargo_root = my#lib#get_root('Cargo.toml', 'file')
   if l:cargo_root != v:null
     let l:cmd_tbl = {
           \ ''      : ['cargo', 'run'],
