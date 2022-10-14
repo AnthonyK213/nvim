@@ -137,7 +137,7 @@ function! my#lib#get_word() abort
 endfunction
 
 " Return the selections as string.
-function! my#lib#get_visual_selection() abort
+function! my#lib#get_gv() abort
   try
     let l:a_save = @a
     silent normal! gv"ay

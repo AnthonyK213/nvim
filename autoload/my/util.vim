@@ -82,13 +82,13 @@ function! my#util#search_web(mode, site) abort
   if a:mode ==? "n"
     let l:search_obj = my#lib#encode_url(my#lib#get_word()[0])
   elseif a:mode ==? "v"
-    let l:search_obj = my#lib#encode_url(my#lib#get_visual_selection())
+    let l:search_obj = my#lib#encode_url(my#lib#get_gv())
   endif
   call my#util#sys_open(a:site . l:search_obj)
 endfunction
 
 function! my#util#search_selection(cmd) abort
-  let l:pat = my#lib#get_visual_selection()
+  let l:pat = my#lib#get_gv()
   return '\V' . substitute(escape(l:pat, a:cmd . '\'), '\n', '\\n', 'g')
 endfunction
 

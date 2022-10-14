@@ -73,7 +73,7 @@ function! my#note#hanzi_count(mode) abort
   if a:mode ==# 'n'
     let l:content = getline(1, '$')
   elseif a:mode ==# 'v'
-    let l:content = split(my#lib#get_visual_selection(), "\n")
+    let l:content = split(my#lib#get_gv(), "\n")
   else
     return
   endif
