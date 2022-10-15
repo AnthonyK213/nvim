@@ -5,7 +5,7 @@ local kbd = vim.keymap.set
 -- nvim-cmp
 -- Enable LSP snippets.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Attach: Keymaps, aerial.
 local custom_attach = function(client, bufnr)
