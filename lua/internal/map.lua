@@ -102,9 +102,9 @@ for key, val in pairs {
         local mode = get_mode()
         if mode == "n" then
             local word, _, _ = lib.get_word()
-            txt = lib.str_encode_url(word)
+            txt = lib.url_encode(word)
         elseif mode == "v" then
-            txt = lib.str_encode_url(lib.get_gv())
+            txt = lib.url_encode(lib.get_gv())
         else
             return
         end

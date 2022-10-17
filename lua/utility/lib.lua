@@ -380,17 +380,6 @@ function M.str_char2nr(str)
     return result
 end
 
----Encode `str` into URL format.
----(`new_work` invocable)
----@param str string URL string to encode.
----@return string result Encoded url.
-function M.str_encode_url(str)
-    local result = str:gsub("([^%w%.%-%s])", function(x)
-        return string.format("%%%02X", string.byte(x))
-    end):gsub("[\n\r\t%s]", "%%20")
-    return result
-end
-
 ---Split string into a utfchar table.
 ---@param str string String to explode.
 ---@return table result Exploded string table.
@@ -427,32 +416,6 @@ end
 ---@return integer length Length of the unicode string.
 function M.str_len(str)
     return vim.str_utfindex(str)
-end
-
----Match URL inside a string.
----(`new_work` invocable)
----@param str string String to be matched.
----@return boolean is_url True if the input `str` is a URL itself.
----@return string? url Matched URL.
-function M.str_match_url(str)
-    local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
-    local protocols = {
-        [""] = 0,
-        ["http://"] = 0,
-        ["https://"] = 0,
-        ["ftp://"] = 0
-    }
-
-    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
-
-    if (url
-        and not (dom .. "."):find("%W%W")
-        and protocols[prot:lower()] == (1 - #slash) * #path
-        and (colon == "" or port ~= "" and port + 0 < 65536)) then
-        return #url == #str, url
-    end
-
-    return false, nil
 end
 
 ---Replace chars in a string according to a dictionary.
@@ -545,6 +508,43 @@ function M.try(func, ...)
         M.notify_err(msg and msg or "Error occured!")
     end
     return ok
+end
+
+---Encode `str` into URL format.
+---(`new_work` invocable)
+---@param str string URL string to encode.
+---@return string result Encoded url.
+function M.url_encode(str)
+    local result = str:gsub("([^%w%.%-%s])", function(x)
+        return string.format("%%%02X", string.byte(x))
+    end):gsub("[\n\r\t%s]", "%%20")
+    return result
+end
+
+---Match URL inside a string.
+---(`new_work` invocable)
+---@param str string String to be matched.
+---@return boolean is_url True if the input `str` is a URL itself.
+---@return string? url Matched URL.
+function M.url_match(str)
+    local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
+    local protocols = {
+        [""] = 0,
+        ["http://"] = 0,
+        ["https://"] = 0,
+        ["ftp://"] = 0
+    }
+
+    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
+
+    if (url
+        and not (dom .. "."):find("%W%W")
+        and protocols[prot:lower()] == (1 - #slash) * #path
+        and (colon == "" or port ~= "" and port + 0 < 65536)) then
+        return #url == #str, url
+    end
+
+    return false, nil
 end
 
 ---Escape vim regex(magic) special characters in a pattern by **backslash**.
