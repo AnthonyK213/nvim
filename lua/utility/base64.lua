@@ -26,13 +26,17 @@ local function from_binary(bin_bits)
     return tonumber(bin_bits, 2)
 end
 
-function M.encode(to_encode)
+---Encode `str` to base64 code.
+---(`new_work` invocable)
+---@param str string String to encode.
+---@return string Encoded string.
+function M.encode(str)
     local bit_pattern = ""
     local encoded = ""
     local trailing = ""
 
-    for i = 1, string.len(to_encode) do
-        bit_pattern = bit_pattern .. to_binary(string.byte(string.sub(to_encode, i, i)))
+    for i = 1, string.len(str) do
+        bit_pattern = bit_pattern .. to_binary(string.byte(string.sub(str, i, i)))
     end
 
     -- Check the number of bytes. If it"s not evenly divisible by three,
@@ -54,18 +58,22 @@ function M.encode(to_encode)
     return string.sub(encoded, 1, -1 - string.len(trailing)) .. trailing
 end
 
-function M.decode(to_decode)
-    local padded = to_decode:gsub("%s", "")
+---Decode base64 code.
+---(`new_work` invocable)
+---@param str string Base64 code.
+---@return string? Decoded string.
+function M.decode(str)
+    local padded = str:gsub("%s", "")
     local unpadded = padded:gsub("=", "")
     local bit_pattern = ""
     local decoded = ""
 
     for i = 1, string.len(unpadded) do
-        local char = string.sub(to_decode, i, i)
+        local char = string.sub(str, i, i)
         local offset, _ = string.find(index_table, char)
         if offset == nil then
             lib.notify_err("Invalid character \"" .. char .. "\" found.")
-            return
+            return nil
         end
 
         bit_pattern = bit_pattern .. string.sub(to_binary(offset - 1), 3)

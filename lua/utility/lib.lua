@@ -29,16 +29,6 @@ function M.belowright_split(height)
     vim.api.nvim_win_set_height(0, term_h)
 end
 
----Encode URL.
----@param str string URL string to encode.
----@return string result Encoded url.
-function M.encode_url(str)
-    local res = str:gsub("([^%w%.%-%s])", function(x)
-        return string.format("%%%02X", string.byte(x))
-    end):gsub("[\n\r\t%s]", "%%20")
-    return res
-end
-
 ---Check if executable exists.
 ---@param exe string Executable name.
 ---@return boolean is_executable True if `exe` is a valid executable.
@@ -86,6 +76,7 @@ function M.get_context()
 end
 
 ---Get dynamic library extension.
+---(`new_work` invocable)
 ---@return string?
 function M.get_dylib_ext()
     return ({
@@ -209,6 +200,7 @@ function M.get_gv_mark(bufnr)
 end
 
 ---Get OS type.
+---(`new_work` invocable)
 ---@return integer os_type_enum Type of current operating system.
 function M.get_os_type()
     local name = vim.loop.os_uname().sysname
@@ -281,12 +273,14 @@ function M.has_filetype(filetype)
 end
 
 ---Check if os is **Windows**.
+---(`new_work` invocable)
 ---@return boolean result True if current os is **Windows**.
 function M.has_windows()
     return M.get_os_type() == M.Os.Windows
 end
 
 ---Decode json from file.
+---(`new_work` invocable)
 ---@param file string File to decode.
 ---@return integer code Code, 1: json is invalid, 2: file does not exist.
 ---@return table? result Decode result.
@@ -303,31 +297,6 @@ function M.json_decode(file)
     return 2, nil
 end
 
----Match URL in a string.
----@param str string String to be matched.
----@return boolean is_url True if the input `str` is a URL itself.
----@return string? url Matched URL.
-function M.match_url(str)
-    local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
-    local protocols = {
-        [""] = 0,
-        ["http://"] = 0,
-        ["https://"] = 0,
-        ["ftp://"] = 0
-    }
-
-    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
-
-    if (url
-        and not (dom .. "."):find("%W%W")
-        and protocols[prot:lower()] == (1 - #slash) * #path
-        and (colon == "" or port ~= "" and port + 0 < 65536)) then
-        return #url == #str, url
-    end
-
-    return false, nil
-end
-
 ---Notify the error message.
 ---@param err string Error message.
 function M.notify_err(err)
@@ -335,6 +304,7 @@ function M.notify_err(err)
 end
 
 ---Parse the argument part of a command.
+---(`new_work` invocable)
 ---@param cmd_args string Argument part of a command.
 ---@return table<string, string> result Table of "parameter: argument".
 function M.parse_args(cmd_args)
@@ -410,6 +380,17 @@ function M.str_char2nr(str)
     return result
 end
 
+---Encode `str` into URL format.
+---(`new_work` invocable)
+---@param str string URL string to encode.
+---@return string result Encoded url.
+function M.str_encode_url(str)
+    local result = str:gsub("([^%w%.%-%s])", function(x)
+        return string.format("%%%02X", string.byte(x))
+    end):gsub("[\n\r\t%s]", "%%20")
+    return result
+end
+
 ---Split string into a utfchar table.
 ---@param str string String to explode.
 ---@return table result Exploded string table.
@@ -441,11 +422,37 @@ function M.str_gexplode(str)
     end
 end
 
----String UTF-32 length.
+---String length in unicode.
 ---@param str string
 ---@return integer length Length of the unicode string.
 function M.str_len(str)
     return vim.str_utfindex(str)
+end
+
+---Match URL inside a string.
+---(`new_work` invocable)
+---@param str string String to be matched.
+---@return boolean is_url True if the input `str` is a URL itself.
+---@return string? url Matched URL.
+function M.str_match_url(str)
+    local url_pat = "((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))"
+    local protocols = {
+        [""] = 0,
+        ["http://"] = 0,
+        ["https://"] = 0,
+        ["ftp://"] = 0
+    }
+
+    local url, prot, dom, colon, port, slash, path = str:match(url_pat)
+
+    if (url
+        and not (dom .. "."):find("%W%W")
+        and protocols[prot:lower()] == (1 - #slash) * #path
+        and (colon == "" or port ~= "" and port + 0 < 65536)) then
+        return #url == #str, url
+    end
+
+    return false, nil
 end
 
 ---Replace chars in a string according to a dictionary.
@@ -481,6 +488,7 @@ function M.str_sub(str, i, j)
 end
 
 ---Find the first item with the value `val`.
+---(`new_work` invocable)
 ---@param tbl any[] A list-like table.
 ---@param val any Value to find.
 ---@return integer index The first index of value `val`, 0 for not found.
@@ -496,6 +504,7 @@ function M.tbl_find_first(tbl, val)
 end
 
 ---Find the last item with the value `val`.
+---(`new_work` invocable)
 ---@param tbl any[] A list-like table.
 ---@param val any Value to find.
 ---@return integer index The last index of value `val`, 0 for not found.
@@ -511,6 +520,7 @@ function M.tbl_find_last(tbl, val)
 end
 
 ---Reverse a ipairs table.
+---(`new_work` invocable)
 ---@param tbl table Table to reverse.
 ---@return table result Reversed table if reversible.
 function M.tbl_reverse(tbl)

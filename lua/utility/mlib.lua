@@ -1,9 +1,12 @@
 local M = {}
 
----Factorial
+---Factorial.
+---(`new_work` invocable)
 ---@param x integer
 ---@return integer result
 function M.factorial(x)
+    assert(x >= 0, "Input number must be positive or 0.")
+    assert(math.floor(x) == x, "Input number must be a integer.")
     local result = 1
     if x == 0 then
         return result
@@ -14,13 +17,12 @@ function M.factorial(x)
     return result
 end
 
----nth Fibonacci number
+---Fibonacci sequence.
+---(`new_work` invocable)
 ---@param x integer
 ---@return integer result
 function M.fibonacci(x)
-    if x < 0 then
-        error("Input number must be positive.")
-    end
+    assert(x > 0, "Input number must be positive.")
     assert(math.floor(x) == x, "Input number must be a integer.")
     local memo = { 1, 1, 2, 3, 5, 8, 13 }
     local fib
@@ -40,11 +42,12 @@ function M.fibonacci(x)
     return fib(x)
 end
 
----Gamma function
+---Gamma function.
+---(`new_work` invocable)
 ---@param x number
 ---@return number result
 function M.gamma(x)
-    assert(x > 0, "Invalid input")
+    assert(x > 0, "Input number must be positive.")
 
     -- Split the function domain into three intervals:
     -- (0, 0.001), [0.001, 12), and (12, infinity)
@@ -143,11 +146,12 @@ function M.gamma(x)
     return math.exp(M.log_gamma(x))
 end
 
----Log gamma.
+---Log gamma function.
+---(`new_work` invocable)
 ---@param x number
 ---@return number result
 function M.log_gamma(x)
-    assert(x > 0, "Invalid input")
+    assert(x > 0, "Input number must be positive.")
 
     if x < 12.0 then
         return math.log(math.abs(M.gamma(x)))
@@ -176,9 +180,9 @@ function M.log_gamma(x)
     end
     local series = sum / x
 
-    local halfLogTwoPi = 0.91893853320467274178032973640562
-    local logGamma = (x - 0.5) * math.log(x) - x + halfLogTwoPi + series
-    return logGamma
+    local half_log_two_pi = 0.91893853320467274178032973640562
+    local result = (x - 0.5) * math.log(x) - x + half_log_two_pi + series
+    return result
 end
 
 return M

@@ -55,7 +55,7 @@ end
 ---Match path or URL under the cursor.
 ---@return string? match_result
 function M.match_path_or_url_under_cursor()
-    local _, url = lib.match_url(vim.fn.expand("<cWORD>"))
+    local _, url = lib.str_match_url(vim.fn.expand("<cWORD>"))
     if url then return url end
 
     local path = vim.fn.expand("<cfile>")
@@ -73,7 +73,7 @@ end
 function M.sys_open(obj, use_local)
     local cwd = use_local and lib.get_buf_dir() or vim.loop.cwd()
     if type(obj) ~= "string"
-        or not (lib.path_exists(obj, cwd) or lib.match_url(obj)) then
+        or not (lib.path_exists(obj, cwd) or lib.str_match_url(obj)) then
         lib.notify_err("Nothing found.")
         return
     end
