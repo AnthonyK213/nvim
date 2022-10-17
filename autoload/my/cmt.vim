@@ -67,7 +67,7 @@ function! s:is_cmt_line(lnum) abort
   let l:line = getline(a:lnum)
   if has_key(s:cmt_mark_tab_single, &ft)
     let l:cmt_mark = s:cmt_mark_tab_single[&ft]
-    let l:esc_cmt_mark = my#lib#vim_reg_esc(l:cmt_mark)
+    let l:esc_cmt_mark = my#lib#vim_pesc(l:cmt_mark)
     if l:line =~ '\v^\s*' . l:esc_cmt_mark . '.*$'
       let l:res = substitute(l:line, '\v^(\s*)' . l:esc_cmt_mark . '(.*)$',
             \ '\=submatch(1).submatch(2)', '')
@@ -85,8 +85,8 @@ function! s:del_cmt_block() abort
   let l:cmt_mark = s:cmt_mark_tab_multi[&ft]
   let l:cmt_mark_a = l:cmt_mark[0]
   let l:cmt_mark_b = l:cmt_mark[1]
-  let l:vim_cmt_mark_a = my#lib#vim_reg_esc(l:cmt_mark_a)
-  let l:vim_cmt_mark_b = my#lib#vim_reg_esc(l:cmt_mark_b)
+  let l:vim_cmt_mark_a = my#lib#vim_pesc(l:cmt_mark_a)
+  let l:vim_cmt_mark_b = my#lib#vim_pesc(l:cmt_mark_b)
   for l:i in range(l:lnum_c - 1, 1, -1)
     let l:line_p = getline(l:i)
     if (l:line_p =~ '\v' . l:vim_cmt_mark_b . '.{-}$')

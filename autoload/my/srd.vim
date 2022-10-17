@@ -23,8 +23,8 @@ function! s:srd_collect(str, pair_a, pair_b) abort
     call add(l:tab_pair, 0)
   endfor
   let l:start = 0
-  let l:pat_a = '\v' . my#lib#vim_reg_esc(a:pair_a)
-  let l:pat_b = '\v' . my#lib#vim_reg_esc(a:pair_b)
+  let l:pat_a = '\v' . my#lib#vim_pesc(a:pair_a)
+  let l:pat_b = '\v' . my#lib#vim_pesc(a:pair_b)
   while 1
     let l:match_a = match(a:str, l:pat_a, l:start)
     let l:match_b = match(a:str, l:pat_b, l:start)
@@ -89,7 +89,7 @@ function! my#srd#srd_sub(...) abort
   let l:pair_a_new = a:0 ? a:1 : input("Change to: ")
   let l:pair_b_new = s:srd_pair(l:pair_a_new)
   if l:pair_a ==# l:pair_b
-    let l:pat = my#lib#vim_reg_esc(l:pair_a)
+    let l:pat = my#lib#vim_pesc(l:pair_a)
     if l:back =~# '\v.*\zs' . l:pat && l:fore =~# '\v' . l:pat
       let l:back_new = substitute(l:back, '\v.*\zs' . l:pat, l:pair_a_new, '')
       let l:fore_new = substitute(l:fore, '\v' . l:pat, l:pair_b_new, '')

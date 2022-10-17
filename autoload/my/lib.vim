@@ -263,6 +263,6 @@ function! my#lib#url_match(str) abort
   return [0, v:null]
 endfunction
 
-function! my#lib#vim_reg_esc(str) abort
+function! my#lib#vim_pesc(str) abort
   return escape(a:str, ' ()[]{}<>.+*^$%')
 endfunction
