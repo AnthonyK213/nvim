@@ -38,7 +38,7 @@ function! my#util#edit_file(file_path, chdir=0) abort
 endfunction
 
 function! my#util#match_path_or_url_under_cursor() abort
-  let l:url = my#lib#match_url(expand('<cWORD>'))[1]
+  let l:url = my#lib#url_match(expand('<cWORD>'))[1]
   if l:url != v:null
     return l:url
   endif
@@ -52,7 +52,7 @@ endfunction
 function! my#util#sys_open(obj, use_local=0) abort
   let l:cwd = a:use_local ? expand('%:p:h') : getcwd()
   if type(a:obj) != v:t_string
-        \ || !(my#lib#path_exists(a:obj, l:cwd) || my#lib#match_url(a:obj)[0])
+        \ || !(my#lib#path_exists(a:obj, l:cwd) || my#lib#url_match(a:obj)[0])
     call my#lib#notify_err('Nothing found.')
     return
   endif
@@ -80,9 +80,9 @@ endfunction
 " Search web.
 function! my#util#search_web(mode, site) abort
   if a:mode ==? "n"
-    let l:search_obj = my#lib#encode_url(my#lib#get_word()[0])
+    let l:search_obj = my#lib#url_encode(my#lib#get_word()[0])
   elseif a:mode ==? "v"
-    let l:search_obj = my#lib#encode_url(my#lib#get_gv())
+    let l:search_obj = my#lib#url_encode(my#lib#get_gv())
   endif
   call my#util#sys_open(a:site . l:search_obj)
 endfunction

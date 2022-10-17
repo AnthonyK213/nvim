@@ -10,19 +10,6 @@ function! my#lib#defer_fn(fn, timeout) abort
   let l:timer = timer_start(a:timeout, a:fn, { "repeat": 1 })
 endfunction
 
-" Encode URL.
-function! my#lib#encode_url(str) abort
-  let l:res = ""
-  for l:char in split(a:str, '.\zs')
-    if l:char =~ '\v(\w|\.|-)'
-      let l:res .= l:char
-    else
-      let l:res .= printf("%%%02x", char2nr(l:char))
-    endif
-  endfor
-  return l:res
-endfunction
-
 " Check if executable exists.
 function! my#lib#executable(name) abort
   if executable(a:name)
@@ -172,33 +159,6 @@ function! my#lib#is_hanzi(char) abort
   return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
 
-" Match URL in a string.
-function! my#lib#match_url(str) abort
-  let l:protocols = {
-        \ '' : 0,
-        \ 'http://' : 0,
-        \ 'https://' : 0,
-        \ 'ftp://' : 0
-        \ }
-  let l:match_res = matchlist(a:str, '\v(\a+://)(\w[-.0-9A-Za-z_]*)(:?)(\d*)(/?)([0-9A-Za-z_.~!*:@&+$/?%#=-]*)')
-  if !empty(l:match_res)
-    let l:url   = l:match_res[0]
-    let l:prot  = l:match_res[1]
-    let l:dom   = l:match_res[2]
-    let l:colon = l:match_res[3]
-    let l:port  = l:match_res[4]
-    let l:slash = l:match_res[5]
-    let l:path  = l:match_res[6]
-    if !empty(url)
-          \ && dom !~ '\W\W'
-          \ && l:protocols[tolower(l:prot)] == (1 - len(l:slash)) * len(l:path)
-          \ && (empty(l:colon) || !empty(port) && str2nr(port) < 65536)
-      return [len(l:url) == len(a:str), url]
-    endif
-  endif
-  return [0, v:null]
-endfunction
-
 " Notify the error message to neovim.
 function! my#lib#notify_err(err) abort
   echohl ErrorMsg
@@ -261,6 +221,46 @@ function! my#lib#str_escape(str, esc_dict) abort
     let l:i = l:i + 1
   endfor
   return join(l:str_lst, '')
+endfunction
+
+" Encode URL.
+function! my#lib#url_encode(str) abort
+  let l:res = ""
+  for l:char in split(a:str, '.\zs')
+    if l:char =~ '\v(\w|\.|-)'
+      let l:res .= l:char
+    else
+      let l:res .= printf("%%%02x", char2nr(l:char))
+    endif
+  endfor
+  return l:res
+endfunction
+
+" Match URL in a string.
+function! my#lib#url_match(str) abort
+  let l:protocols = {
+        \ '' : 0,
+        \ 'http://' : 0,
+        \ 'https://' : 0,
+        \ 'ftp://' : 0
+        \ }
+  let l:match_res = matchlist(a:str, '\v(\a+://)(\w[-.0-9A-Za-z_]*)(:?)(\d*)(/?)([0-9A-Za-z_.~!*:@&+$/?%#=-]*)')
+  if !empty(l:match_res)
+    let l:url   = l:match_res[0]
+    let l:prot  = l:match_res[1]
+    let l:dom   = l:match_res[2]
+    let l:colon = l:match_res[3]
+    let l:port  = l:match_res[4]
+    let l:slash = l:match_res[5]
+    let l:path  = l:match_res[6]
+    if !empty(url)
+          \ && dom !~ '\W\W'
+          \ && l:protocols[tolower(l:prot)] == (1 - len(l:slash)) * len(l:path)
+          \ && (empty(l:colon) || !empty(port) && str2nr(port) < 65536)
+      return [len(l:url) == len(a:str), url]
+    endif
+  endif
+  return [0, v:null]
 endfunction
 
 function! my#lib#vim_reg_esc(str) abort
