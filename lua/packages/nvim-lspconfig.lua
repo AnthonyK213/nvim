@@ -1,6 +1,10 @@
 local lsp_option = _my_core_opt.lsp or {}
 local lspconfig = require("lspconfig")
 local kbd = vim.keymap.set
+local float_opts = {
+    border = _my_core_opt.tui.border,
+    max_width = 80,
+}
 
 -- nvim-cmp
 -- Enable LSP snippets.
@@ -18,30 +22,14 @@ local custom_attach = function(client, bufnr)
     kbd("n", "<leader>lf", function() vim.lsp.buf.definition() end, _o)
     kbd("n", "<leader>lh", function() vim.lsp.buf.signature_help() end, _o)
     kbd("n", "<leader>li", function() vim.lsp.buf.implementation() end, _o)
-    kbd("n", "<leader>lk", function()
-        vim.diagnostic.open_float { border = _my_core_opt.tui.border }
-    end, _o)
-    kbd("n", "<leader>lm", function()
-        vim.lsp.buf.format { async = false }
-    end, _o)
+    kbd("n", "<leader>lk", function() vim.diagnostic.open_float(float_opts) end, _o)
+    kbd("n", "<leader>lm", function() vim.lsp.buf.format { async = false } end, _o)
     kbd("n", "<leader>ln", function() vim.lsp.buf.rename() end, _o)
     kbd("n", "<leader>lr", function() vim.lsp.buf.references() end, _o)
     kbd("n", "<leader>lt", function() vim.lsp.buf.type_definition() end, _o)
     kbd("n", "<leader>lw", function() vim.lsp.buf.workspace_symbol() end, _o)
-    kbd("n", "<leader>l[", function()
-        vim.diagnostic.goto_prev {
-            float = {
-                border = _my_core_opt.tui.border
-            }
-        }
-    end, _o)
-    kbd("n", "<leader>l]", function()
-        vim.diagnostic.goto_next {
-            float = {
-                border = _my_core_opt.tui.border
-            }
-        }
-    end, _o)
+    kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev { float = float_opts } end, _o)
+    kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
     -- aerial.nvim
     require("aerial").on_attach(client, bufnr)
 end
@@ -120,6 +108,4 @@ vim.diagnostic.config {
 }
 
 -- Hover window border
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = _my_core_opt.tui.border,
-})
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_opts)
