@@ -349,7 +349,7 @@ function M.run_or_compile(option, callback)
         ---@type Cmd?
         local cmd = comp_table[vim.bo.ft](tbl)
         if cmd then
-            cmd:run(tbl, callback)
+            cmd:run(tbl)
         end
     else
         lib.notify_err("File type is not supported yet.")
