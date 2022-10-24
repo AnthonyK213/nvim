@@ -293,7 +293,7 @@ kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
     if not base64_code then return end
     local replacement = {}
     local half = vim.api.nvim_buf_get_text(0, sr, 0, sr, sc, {})[1]
-    local half_len = vim.fn.strdisplaywidth(half)
+    local half_len = vim.api.nvim_strwidth(half)
     local start = 1
     if half_len >= 80 then
         table.insert(replacement, "")

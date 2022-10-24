@@ -35,8 +35,9 @@ vim.keymap.set("n", "<leader>mt", function()
                     local recipe = require("utility.run").get_recipe(opt == "none" and "" or opt)
                     if recipe then
                         require("utility.lib").async(function ()
-                            recipe()
-                            require("utility.util").sys_open(pdf_path)
+                            if recipe() then
+                                require("utility.util").sys_open(pdf_path)
+                            end
                         end)
                     end
                 end)
