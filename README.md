@@ -237,7 +237,7 @@
     - n:    <kbd>v</kbd> -> *aerial.nvim*, Toc vertical.
     - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle.
   - <kbd>leader-n-</kbd> -> **GTD**.
-    - n:    <kbd>d</kbd> -> Append the day of week to yyyy-mm-dd.
+    - n:    <kbd>d</kbd> -> Append the weekday after a date(yyyy-mm-dd).
     - n:    <kbd>s</kbd> -> Insert timestamp after cursor.
     - n:    <kbd>t</kbd> -> Print TODO list.
   - <kbd>leader-o-</kbd> -> **Open**.
@@ -275,7 +275,6 @@
 - `CodeRun`     -> Run or compile the code.
 - `BuildDylibs` -> Build crates in `$config/rust/` directory.
 - `NvimUpgrade` -> Upgrade neovim by channel input.
-- `Pdf`         -> View pdf after compiling a tex file.
 - `PushAll`     -> Just push everything to the remote origin.
   - `-b`        -> branch (default: current branch).
   - `-m`        -> commit (default: date).

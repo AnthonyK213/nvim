@@ -23,7 +23,25 @@ local srd_table = {
 }
 
 vim.keymap.set("n", "<leader>mv", "<Cmd>VimtexTocToggle<CR>", _opt)
-vim.keymap.set("n", "<leader>mt", "<Cmd>Pdf<CR>", _opt)
+vim.keymap.set("n", "<leader>mt", function()
+    local pdf_path = ((vim.b.vimtex and vim.b.vimtex.base)
+        and vim.fn.fnamemodify(vim.b.vimtex.tex, ":r")
+        or vim.fn.expand("%:p:r")) .. ".pdf"
+    if not require("utility.lib").path_exists(pdf_path) then
+        vim.ui.input({ prompt = "No pdf file found. Compile the project? y/n:" }, function (y_n)
+            if y_n == "y" then
+                vim.ui.select({ "none", "biber", "bibtex" }, { prompt = "Compile option:" }, function (opt)
+                    if not opt then return end
+                    require("utility.comp").run_or_compile(opt == "none" and "" or opt, function (_, _)
+                        require("utility.util").sys_open(pdf_path)
+                    end)
+                end)
+            end
+        end)
+    else
+        require("utility.util").sys_open(pdf_path)
+    end
+end, _opt)
 for key, val in pairs(srd_table) do
     vim.keymap.set({ "n", "v" }, "<M-" .. key .. ">", function()
         local m = vim.api.nvim_get_mode().mode

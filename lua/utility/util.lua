@@ -70,12 +70,13 @@ end
 ---The environment variables should be expanded already.
 ---@param obj string? Path or URL to open.
 ---@param use_local? boolean Use current file directory as cwd.
+---@return boolean ok True if open `obj` successfully.
 function M.sys_open(obj, use_local)
     local cwd = use_local and lib.get_buf_dir() or vim.loop.cwd()
     if type(obj) ~= "string"
         or not (lib.path_exists(obj, cwd) or lib.url_match(obj)) then
         lib.notify_err("Nothing found.")
-        return
+        return false
     end
     local cmd
     local args = {}
@@ -91,7 +92,7 @@ function M.sys_open(obj, use_local)
         cmd = my_start
     else
         lib.notify_err("Invalid definition of `start`.")
-        return
+        return false
     end
     table.insert(args, obj)
     local handle
@@ -101,6 +102,7 @@ function M.sys_open(obj, use_local)
     }, vim.schedule_wrap(function()
         handle:close()
     end))
+    return true
 end
 
 ---Auto-update the color scheme highlight groups.

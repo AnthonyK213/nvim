@@ -1,6 +1,7 @@
 vim.g.tex_flavor = "latex"
 vim.g.vimtex_toc_config = {
     split_pos = "vert rightbelow",
+    split_width = 30,
     show_help = 0,
 }
 if vim.fn.has("win32") == 1 then

@@ -28,7 +28,7 @@ end
 ---@class Cmd Run/compile command.
 ---@field cmd? string|table command.
 ---@field cwd? string working directory.
----@field cb? function call_back.
+---@field callbacks function[] Callback functions.
 local Cmd = {}
 
 Cmd.__index = Cmd
@@ -36,36 +36,46 @@ Cmd.__index = Cmd
 ---Constructor.
 ---@param cmd? string|table
 ---@param cwd? string
----@param cb? function
 ---@return Cmd
-function Cmd.new(cmd, cwd, cb)
+function Cmd.new(cmd, cwd)
     local o = {
         cmd = cmd,
         cwd = cwd,
-        cb = cb
+        callbacks = {},
     }
     setmetatable(o, Cmd)
     return o
 end
 
+---Append callback function.
+---@param callback function Callback function.
+function Cmd:append_cb(callback)
+    table.insert(self.callbacks, callback)
+end
+
 ---Run command.
 ---@param tbl table
 function Cmd:run(tbl)
-    if type(self.cmd) == "table" then
+    local cmd_type = type(self.cmd)
+    if cmd_type == "table" then
         lib.belowright_split(30)
-        if self.cb then
-            vim.fn.termopen(self.cmd, {
-                cwd = self.cwd or tbl.fwd,
-                on_exit = on_event(self.cb, tbl),
-            })
-        else
-            vim.fn.termopen(self.cmd, {
-                cwd = self.cwd or tbl.fwd,
-            })
-        end
-    elseif type(self.cmd) == "string" then
+        vim.fn.termopen(self.cmd, {
+            cwd = self.cwd or tbl.fwd,
+            on_exit = on_event(function(t, c)
+                for _, f in ipairs(self.callbacks) do
+                    if type(f) == "function" then
+                        f(t, c)
+                    end
+                end
+                if type(tbl.cb) == "function" then
+                    tbl.cb(t, c)
+                end
+            end, tbl),
+        })
+    elseif cmd_type == "string" then
         vim.api.nvim_set_current_dir(tbl.fwd)
         vim.schedule(function()
+            if type(tbl.cb) == "function" then tbl.cb(tbl) end
             vim.api.nvim_set_current_dir(tbl.bwd)
         end)
         vim.cmd(self.cmd)
@@ -111,7 +121,9 @@ local comp_table = {
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
             if tbl.opt == "" then
-                return Cmd.new(cmd, nil, cb_run_bin)
+                local c = Cmd.new(cmd)
+                c:append_cb(cb_run_bin)
+                return c
             else
                 return Cmd.new(cmd)
             end
@@ -128,7 +140,9 @@ local comp_table = {
         if cc then
             if not lib.executable(cc) then return end
             if tbl.opt == "" then
-                return Cmd.new({ cc, tbl.fnm, "-o", tbl.bin }, nil, cb_run_bin)
+                local c = Cmd.new { cc, tbl.fnm, "-o", tbl.bin }
+                c:append_cb(cb_run_bin)
+                return c
             else
                 lib.notify_err("Invalid argument.")
             end
@@ -225,12 +239,19 @@ local comp_table = {
                 lib.notify_err("Invalid argument.")
             end
         else
-            return Cmd.new({ "rustc", tbl.fnm, "-o", tbl.bin }, nil, cb_run_bin)
+            local c = Cmd.new { "rustc", tbl.fnm, "-o", tbl.bin }
+            c:append_cb(cb_run_bin)
+            return c
         end
     end,
     tex = function(tbl)
         local step = 1
-        local name = vim.fn.expand("%:p:r")
+        local name = (vim.b.vimtex and vim.b.vimtex.base)
+            and vim.fn.fnamemodify(vim.b.vimtex.tex, ":r")
+            or vim.fn.expand("%:p:r")
+        local cwd = (vim.b.vimtex and vim.b.vimtex.root)
+            and vim.b.vimtex.root
+            or uv.cwd()
         ---Create tex callback.
         ---@param label string
         ---@return function
@@ -256,6 +277,9 @@ local comp_table = {
             if code == 0 then
                 vim.defer_fn(function()
                     vim.notify("Done.")
+                    if type(tbl.cb) == "function" then
+                        tbl.cb(tbl)
+                    end
                 end, 1000)
             end
         end
@@ -265,15 +289,18 @@ local comp_table = {
                 "-interaction=nonstopmode",
                 "-file-line-error",
                 name .. ".tex"
-            }
+            },
+            cwd = cwd,
         }, tex_cb("XeLaTeX"))
         ---@type table<string, Process>
         local bib_table = {
             biber = Process.new("biber", {
-                args = { name .. ".bcf" }
+                args = { name .. ".bcf" },
+                cwd = cwd,
             }, tex_cb("Biber")),
             bibtex = Process.new("bibtex", {
-                args = { name .. ".aux" }
+                args = { name .. ".aux" },
+                cwd = cwd,
             }, tex_cb("BibTeX"))
         }
         if tbl.opt == "" then
@@ -306,7 +333,8 @@ local comp_table = {
 
 ---Run or compile the code.
 ---@param option? string Option as string.
-function M.run_or_compile(option)
+---@param callback? function Callback function.
+function M.run_or_compile(option, callback)
     option = option or ""
     local file_name = vim.api.nvim_buf_get_name(0)
     local tbl = {
@@ -315,11 +343,14 @@ function M.run_or_compile(option)
         fnm = vim.fs.basename(file_name),
         fwd = vim.fs.dirname(file_name),
         opt = option,
+        cb = callback,
     }
     if comp_table[vim.bo.ft] then
         ---@type Cmd?
         local cmd = comp_table[vim.bo.ft](tbl)
-        if cmd then cmd:run(tbl) end
+        if cmd then
+            cmd:run(tbl, callback)
+        end
     else
         lib.notify_err("File type is not supported yet.")
     end

@@ -33,10 +33,6 @@ end, {
     desc = "Neovim upgrade"
 })
 
-cmd("Pdf", function(_)
-    require("utility.util").sys_open(vim.fn.expand("%:p:r") .. ".pdf")
-end, { desc = "Open pdf file, useful when finish the compilation of tex file" })
-
 cmd("PushAll", function(tbl)
     local arg_tbl = require("utility.lib").parse_args(tbl.args)
     require("utility.util").git_push_all(arg_tbl)
@@ -47,5 +43,5 @@ cmd("SshConfig", function(_)
 end, { desc = "Open ssh configuration" })
 
 cmd("Time", function(_)
-    print(os.date("%Y-%m-%d %a %T"))
+    vim.notify(os.date("%Y-%m-%d %a %T"))
 end, { desc = "Echo time(May be useful in full screen?)" })
