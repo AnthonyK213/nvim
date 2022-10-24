@@ -16,7 +16,19 @@ require("telescope").setup {
         border = border_style ~= "none",
         borderchars = border_styles[border_style] or border_styles["rounded"]
     },
+    extensions = {
+        aerial = {
+            show_nesting = {
+                ["_"] = false,
+                json = true,
+                markdown = true,
+            }
+        }
+    }
 }
+
+-- Load extensions.
+require("telescope").load_extension("aerial")
 
 local builtin = require("telescope.builtin")
 local kbd = vim.keymap.set
