@@ -26,7 +26,7 @@ Process.__index = Process
 ---@param on_exit? function
 ---@return Process
 function Process.new(path, option, on_exit)
-    local o = {
+    local process = {
         path = path,
         option = option or {},
         on_exit = on_exit,
@@ -42,8 +42,8 @@ function Process.new(path, option, on_exit)
         standard_output = {},
         standard_error = {},
     }
-    setmetatable(o, Process)
-    return o
+    setmetatable(process, Process)
+    return process
 end
 
 ---Clone a process.
@@ -101,17 +101,6 @@ function Process:continue_with(process)
             process:start()
         end
     end)
-end
-
----Execute the process one by one in `proc_list`.
----@param proc_list Process[]
-function Process.queue_all(proc_list)
-    if vim.tbl_islist(proc_list) and #proc_list > 0 then
-        for i = 1, #proc_list - 1, 1 do
-            proc_list[i]:continue_with(proc_list[i + 1])
-        end
-        proc_list[1]:start()
-    end
 end
 
 ---Await the task.

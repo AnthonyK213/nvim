@@ -247,7 +247,7 @@ function M.git_push_all(arg_tbl)
         end
     end)
 
-    Process.queue_all { git_add, git_commit, git_push }
+    lib.proc_queue { git_add, git_commit, git_push }
 end
 
 ---Upgrade neovim.

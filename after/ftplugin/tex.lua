@@ -32,9 +32,13 @@ vim.keymap.set("n", "<leader>mt", function()
             if y_n == "y" then
                 vim.ui.select({ "none", "biber", "bibtex" }, { prompt = "Compile option:" }, function (opt)
                     if not opt then return end
-                    require("utility.comp").run_or_compile(opt == "none" and "" or opt, function (_, _)
-                        require("utility.util").sys_open(pdf_path)
-                    end)
+                    local recipe = require("utility.run").get_recipe(opt == "none" and "" or opt)
+                    if recipe then
+                        require("utility.lib").async(function ()
+                            recipe()
+                            require("utility.util").sys_open(pdf_path)
+                        end)
+                    end
                 end)
             end
         end)

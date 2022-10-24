@@ -356,6 +356,17 @@ function M.path_exists(path, cwd)
     return (stat and stat.type) or false
 end
 
+---Execute the process one by one in `proc_list`.
+---@param proc_list Process[]|TermProc[]
+function M.proc_queue(proc_list)
+    if vim.tbl_islist(proc_list) and #proc_list > 0 then
+        for i = 1, #proc_list - 1, 1 do
+            proc_list[i]:continue_with(proc_list[i + 1])
+        end
+        proc_list[1]:start()
+    end
+end
+
 ---Return number value of the first char in `str`.
 ---@param str string
 ---@return integer

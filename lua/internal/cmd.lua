@@ -1,7 +1,7 @@
 local cmd = vim.api.nvim_create_user_command
 
 cmd("CodeRun", function(tbl)
-    require("utility.comp").run_or_compile(tbl.args)
+    require("utility.run").code_run(tbl.args)
 end, { nargs = "?", complete =
 function()
     local option_table = {
