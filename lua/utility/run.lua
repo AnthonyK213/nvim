@@ -45,7 +45,7 @@ local has_error = function(proc, label)
     if proc:await() ~= 0 then
         lib.belowright_split(15)
         local chan = vim.api.nvim_open_term(0, {})
-        local data = table.concat(proc.standard_output)
+        local data = table.concat(proc.standard_output):gsub("\n", "\r\n")
         vim.api.nvim_chan_send(chan, data)
         local l = ""
         if label then l = label .. ": " end
