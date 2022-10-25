@@ -11,16 +11,31 @@ Task.__index = Task
 
 ---Constructor.
 ---@param action function
----@param callback? function
+---@param option? any Optional argument.
+---  - `function`: callback
+---  - `hash_table`: "callback", "args"
+---  - `list_like_table` | `not nil`: varargs
 ---@return Task
-function Task.new(action, callback, ...)
+function Task.new(action, option)
     local task = {
         action = action,
-        callback = callback,
         callbacks = {},
         status = "Created",
-        varargs = { ... },
+        varargs = {},
     }
+    local opt_type = type(option)
+    if opt_type == "function" then
+        task.callback = option
+    elseif opt_type == "table" then
+        if vim.tbl_islist(option) then
+            task.varargs = option
+        else
+            task.callback = option.callback
+            task.varargs = option.args or {}
+        end
+    elseif opt_type ~= "nil" then
+        table.insert(task.varargs, option)
+    end
     setmetatable(task, Task)
     return task
 end
@@ -81,23 +96,22 @@ function Task.delay(delay)
     if _co and coroutine.status(_co) ~= "dead" then
         task = Task.new(function(callback)
             vim.defer_fn(callback, delay)
-        end,
-            function(_)
-                task.status = "RanToCompletion"
-                coroutine.resume(_co)
-            end)
+        end, function(_)
+            task.status = "RanToCompletion"
+            coroutine.resume(_co)
+        end
+        )
     else
         task = Task.new(function(callback)
             vim.defer_fn(callback, delay)
-        end,
-            function(_)
-                task.status = "RanToCompletion"
-                for _, f in ipairs(task.callbacks) do
-                    if type(f) == "function" then
-                        f()
-                    end
+        end, function(_)
+            task.status = "RanToCompletion"
+            for _, f in ipairs(task.callbacks) do
+                if type(f) == "function" then
+                    f()
                 end
-            end)
+            end
+        end)
     end
     return task
 end
