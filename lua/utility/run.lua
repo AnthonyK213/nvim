@@ -288,9 +288,12 @@ local comp_table = {
                 end
             end
         end
+        ---Compilation done callback.
+        ---@return boolean
         local tex_done = function()
             Task.delay(1000):await()
             vim.notify("Done")
+            return true
         end
         local xelatex = Process.new("xelatex", {
             args = {
@@ -319,7 +322,7 @@ local comp_table = {
                 vim.notify("Start compilation.")
                 if has_error(x1, "XeLaTeX-1") then return false end
                 if has_error(x2, "XeLaTeX-2") then return false end
-                tex_done()
+                return tex_done()
             end
         elseif bib_table[tbl.opt] then
             local x1 = xelatex:clone()
@@ -332,7 +335,7 @@ local comp_table = {
                 if has_error(x2, "XeLaTeX-2") then return false end
                 if has_error(b, tbl.opt) then return false end
                 if has_error(x3, "XeLaTeX-3") then return false end
-                tex_done()
+                return tex_done()
             end
         else
             lib.notify_err("Invalid argument.")
