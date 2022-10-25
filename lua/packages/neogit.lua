@@ -7,5 +7,5 @@ if _my_core_opt.vcs.client == "neogit" then
 
     local kbd = vim.keymap.set
     local _o = { noremap = true, silent = true }
-    kbd("n", "<leader>gn", "<Cmd>Neogit<CR>", _o)
+    kbd("n", "<leader>gn", require("neogit").open, _o)
 end
