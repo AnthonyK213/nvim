@@ -1,8 +1,9 @@
 local uv = vim.loop
 local lib = require("utility.lib")
-local Process = require("utility.proc")
-local Task = require("utility.task")
-local TermProc = require("utility.term")
+local futures = require("futures")
+local Process = futures.Process
+local Task = futures.Task
+local TermProc = futures.Terminal
 
 local M = {}
 
@@ -390,7 +391,7 @@ function M.code_run(option)
     local recipe, is_async = M.get_recipe(option)
     if recipe then
         if is_async then
-            lib.async(recipe)
+            futures.async(recipe)
         else
             recipe()
         end

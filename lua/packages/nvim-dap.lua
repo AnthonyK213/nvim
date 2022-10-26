@@ -1,7 +1,8 @@
 local dap = require("dap")
 local dap_option = _my_core_opt.dap or {}
 local lib = require("utility.lib")
-local Process = require("utility.proc")
+local futures = require("futures")
+local Process = futures.Process
 local dir = vim.fn.stdpath("data") .. "/dap_adapters"
 if not lib.path_exists(dir) then vim.loop.fs_mkdir(dir, 448) end
 
@@ -135,7 +136,7 @@ local dap_csharp = A.new("cs", "coreclr", {
         vim.tbl_extend("keep", curl_args, { "-x", _my_core_opt.dep.proxy })
     end
     local download = Process.new("curl", { args = curl_args })
-    lib.proc_queue { download, extract }
+    futures.proc_queue { download, extract }
 end))
 
 local dap_python = A.new("python", "python", {
@@ -164,7 +165,7 @@ local dap_python = A.new("python", "python", {
             vim.notify("Installed debugpy")
         end
     end)
-    lib.proc_queue { new_venv, install }
+    futures.proc_queue { new_venv, install }
 end))
 
 if dap_option.lldb then dap_lldb:setup() end

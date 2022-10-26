@@ -1,7 +1,8 @@
 local M = {}
 local lib = require("utility.lib")
-local Process = require("utility.proc")
-local Task = require("utility.task")
+local futures = require("futures")
+local Process = futures.Process
+local Task = futures.Task
 
 ---Open terminal and launch shell.
 function M.terminal()
@@ -247,7 +248,7 @@ function M.git_push_all(arg_tbl)
         end
     end)
 
-    lib.proc_queue { git_add, git_commit, git_push }
+    futures.proc_queue { git_add, git_commit, git_push }
 end
 
 ---Upgrade neovim.
@@ -352,7 +353,7 @@ function M.nvim_upgrade(channel)
     local download = Process.new(dl_exec, { args = dl_args })
     local extract = Process.new(ex_exec, { args = ex_args })
 
-    lib.async(function()
+    futures.async(function()
         vim.notify("Downloading...")
         if download:await() ~= 0 then
             lib.notify_err(table.concat(download.standard_output))
