@@ -139,7 +139,6 @@ require("packer").startup(function(use)
         };
         {
             "stevearc/aerial.nvim",
-            commit = "e419564cbc545a815184b0c56eb75e8ee916026a",
             config = function() require("packages.aerial") end
         };
         {

@@ -99,8 +99,7 @@ function Task.delay(delay)
         end, function(_)
             task.status = "RanToCompletion"
             coroutine.resume(_co)
-        end
-        )
+        end)
     else
         task = Task.new(function(callback)
             vim.defer_fn(callback, delay)
