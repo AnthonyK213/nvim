@@ -115,11 +115,24 @@ function Task.delay(delay)
     return task
 end
 
----Continue with a action then start the task.
----@param callback function
-function Task:continue_with(callback)
-    self:append_cb(callback)
-    self:start()
+---Continue with a action `next`.
+---If `next` is a `function`, the task will start instantly with the new callback
+--- `next`; If `next` is a `Task`, task `next` will start after this task ends
+--- (task will not start automatically).
+---@param next function|Task
+function Task:continue_with(next)
+    local next_type = type(next)
+    if next_type == "function" then
+        self:append_cb(next)
+        self:start()
+    else
+        self:append_cb(function(...)
+            if vim.tbl_isempty(next.varargs) then
+                next.varargs = { ... }
+            end
+            next:start()
+        end)
+    end
 end
 
 ---Reset the task.

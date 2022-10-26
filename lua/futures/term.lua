@@ -93,7 +93,7 @@ function TermProc:continue_with(term_proc)
     end)
 end
 
----Await the task.
+---Await the terminal process.
 ---@return integer data
 ---@return string event
 function TermProc:await()

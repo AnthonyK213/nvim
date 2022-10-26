@@ -103,7 +103,7 @@ function Process:continue_with(process)
     end)
 end
 
----Await the task.
+---Await the process.
 ---@return integer code
 ---@return integer signal
 function Process:await()

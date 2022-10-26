@@ -136,7 +136,7 @@ local dap_csharp = A.new("cs", "coreclr", {
         vim.tbl_extend("keep", curl_args, { "-x", _my_core_opt.dep.proxy })
     end
     local download = Process.new("curl", { args = curl_args })
-    futures.proc_queue { download, extract }
+    futures.queue { download, extract }
 end))
 
 local dap_python = A.new("python", "python", {
@@ -165,7 +165,7 @@ local dap_python = A.new("python", "python", {
             vim.notify("Installed debugpy")
         end
     end)
-    futures.proc_queue { new_venv, install }
+    futures.queue { new_venv, install }
 end))
 
 if dap_option.lldb then dap_lldb:setup() end
