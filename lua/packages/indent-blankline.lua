@@ -20,7 +20,7 @@ require("indent_blankline").setup {
     },
     buftype_exclude = { "help", "quickfix", "terminal" },
     filetype_exclude = {
-        "aerial", "alpha",
+        "aerial", "alpha", "packer",
         "markdown", "presenting_markdown",
         "vimwiki", "NvimTree", "mason"
     }
