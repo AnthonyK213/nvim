@@ -22,6 +22,7 @@ require("indent_blankline").setup {
     filetype_exclude = {
         "aerial", "alpha", "packer",
         "markdown", "presenting_markdown",
-        "vimwiki", "NvimTree", "mason"
+        "vimwiki", "NvimTree", "mason",
+        "NeogitCommitView", "DiffviewFiles",
     }
 }
