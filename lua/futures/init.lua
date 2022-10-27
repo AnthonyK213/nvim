@@ -13,6 +13,7 @@ end
 function M.queue(fut_list)
     if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
         lib.notify_err("`fut_list` should be a list-like table which is not empty.")
+        return
     end
     for i = 1, #fut_list - 1, 1 do
         fut_list[i]:continue_with(fut_list[i + 1])
@@ -31,6 +32,7 @@ function M.join(fut_list, timeout)
     timeout = timeout or 10000
     if not vim.tbl_islist(fut_list) then
         lib.notify_err("`fut_list` should be a list-like table.")
+        return result
     end
     local _co = coroutine.running()
     if _co and coroutine.status(_co) ~= "dead" then
