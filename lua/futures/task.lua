@@ -2,6 +2,7 @@
 ---@field action function
 ---@field callback? function
 ---@field callbacks function[]
+---@field handle? userdata
 ---@field result any
 ---@field status "Created"|"Running"|"RanToCompletion"
 ---@field varargs any[]
@@ -57,13 +58,14 @@ function Task:start()
     end
     -- Otherwise, regard the `action` as a sync function and execute it
     -- in a new thread.
-    return vim.loop.new_work(self.action, vim.schedule_wrap(function(r)
+    self.handle = vim.loop.new_work(self.action, vim.schedule_wrap(function(r)
         for _, f in ipairs(self.callbacks) do
             if type(f) == "function" then
                 f(r)
             end
         end
-    end)):queue(unpack(self.varargs))
+    end))
+    return self.handle:queue(unpack(self.varargs))
 end
 
 ---Await the task.
@@ -140,6 +142,7 @@ function Task:reset()
     self.status = "Created"
     self.callbacks = {}
     self.result = nil
+    self.handle = nil
 end
 
 return Task

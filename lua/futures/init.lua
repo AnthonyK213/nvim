@@ -23,15 +23,18 @@ end
 
 ---Polls multiple futures simultaneously.
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
----@param timeout? integer Number of milliseconds to wait, default -1(no timeout).
+---@param timeout? integer Number of milliseconds to wait, default no timeout.
 ---@return table result List of results once complete.
 function M.join(fut_list, timeout)
     local result = {}
     local count = 0
     local fut_count = #fut_list
-    timeout = timeout or 10000
     if not vim.tbl_islist(fut_list) then
         lib.notify_err("`fut_list` should be a list-like table.")
+        return result
+    end
+    if type(timeout) == "number" and timeout < 0 then
+        lib.notify_err("Invalid `timeout`.")
         return result
     end
     local _co = coroutine.running()
@@ -47,9 +50,11 @@ function M.join(fut_list, timeout)
             fut:start()
         end
         if count ~= fut_count then
-            if timeout < 0 then
+            if timeout then
                 local timer = vim.loop.new_timer()
                 timer:start(timeout, 0, vim.schedule_wrap(function()
+                    timer:stop()
+                    timer:close()
                     if coroutine.status(_co) == "suspended" then
                         if count ~= fut_count then
                             print("Time out")
@@ -68,7 +73,7 @@ function M.join(fut_list, timeout)
             end)
             fut:start()
         end
-        if timeout < 0 then
+        if not timeout then
             timeout = 100000000
         end
         local ok, code = vim.wait(timeout, function()
