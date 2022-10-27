@@ -11,7 +11,7 @@ end
 ---Execute the futrues one by one.
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
 function M.queue(fut_list)
-    if not (vim.tbl_islist(fut_list) and vim.tbl_isempty(fut_list)) then
+    if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
         lib.notify_err("`fut_list` should be a list-like table which is not empty.")
     end
     for i = 1, #fut_list - 1, 1 do
