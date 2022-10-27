@@ -30,8 +30,6 @@ local custom_attach = function(client, bufnr)
     kbd("n", "<leader>lw", function() vim.lsp.buf.workspace_symbol() end, _o)
     kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev { float = float_opts } end, _o)
     kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
-    -- aerial.nvim
-    require("aerial").on_attach(client, bufnr)
 end
 
 -- Load mason.nvim
