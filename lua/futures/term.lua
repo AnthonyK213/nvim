@@ -8,6 +8,8 @@ local lib = require("utility.lib")
 ---@field is_valid boolean
 ---@field has_exited boolean
 ---@field extra_cb function[]
+---@field winnr integer
+---@field bunnr integer
 local TermProc = {}
 
 TermProc.__index = TermProc
@@ -26,6 +28,8 @@ function TermProc.new(cmd, option, on_exit)
         has_exited = false,
         is_valid = true,
         extra_cb = {},
+        winnr = -1,
+        bufnr = -1,
     }
     setmetatable(term_proc, TermProc)
     return term_proc
@@ -71,6 +75,7 @@ function TermProc:start()
         lib.notify_err("Invalid executable.")
         return false, winnr, bufnr
     end
+    self.winnr, self.bunnr = winnr, bufnr
     return true, winnr, bufnr
 end
 
