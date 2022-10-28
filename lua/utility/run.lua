@@ -32,9 +32,14 @@ end
 ---@param tbl table
 ---@return boolean
 local run_bin = function(tbl)
-    local data, event = TermProc.new({ tbl.fwd .. "/" .. tbl.bin }, {
+    local bin = lib.path_append(tbl.fwd, tbl.bin)
+    local data, event = TermProc.new({ bin }, {
         cwd = tbl.fwd,
-    }):await()
+    }, function (_, _, data, event)
+        if ok(data, event) and lib.path_exists(bin) then
+            vim.loop.fs_unlink(bin)
+        end
+    end):await()
     if not ok(data, event) then return false end
     return true
 end

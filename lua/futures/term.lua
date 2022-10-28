@@ -56,7 +56,7 @@ function TermProc:start()
     if not ok then
         return false, winnr, bufnr
     end
-    self.option.on_exit = function(job_id, data, event)
+    self.option.on_exit = vim.schedule_wrap(function(job_id, data, event)
         self.has_exited = true
         if self.on_exit then
             self.on_exit(self, job_id, data, event)
@@ -64,7 +64,7 @@ function TermProc:start()
         for _, f in ipairs(self.extra_cb) do
             f(self, job_id, data, event)
         end
-    end
+    end)
     self.id = vim.fn.termopen(self.cmd, self.option)
     if self.id == 0 then
         self.is_valid = false
