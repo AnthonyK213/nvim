@@ -22,10 +22,7 @@ function M.terminal()
         return false
     end
 
-    lib.belowright_split(15)
-    vim.api.nvim_win_set_option(0, "number", false)
-    vim.fn.termopen(vim.tbl_flatten({ my_sh }))
-    return true
+    return futures.Terminal.new(vim.tbl_flatten({ my_sh })):start()
 end
 
 ---Open and edit text file in vim.

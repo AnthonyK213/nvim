@@ -13,15 +13,6 @@ M.Os = {
     Macos = 3,
 }
 
----Create a below right split window.
----@param height number Window height.
-function M.belowright_split(height)
-    local term_h = math.min(height,
-        math.floor(vim.api.nvim_win_get_height(0) * 0.382))
-    vim.cmd.new { mods = { split = "belowright" } }
-    vim.api.nvim_win_set_height(0, term_h)
-end
-
 ---Check if executable exists.
 ---@param exe string Executable name.
 ---@return boolean is_executable True if `exe` is a valid executable.
@@ -288,6 +279,60 @@ function M.json_decode(file)
         return 1, nil
     end
     return 2, nil
+end
+
+---Create a new split window.
+---@param position "aboveleft"|"belowright"|"topleft"|"botright"
+---@param option? table Split options:
+---  - split_size: (number) Split size;
+---  - ratio_max: (number) real_split_size <= real_win_size \* ratio_max;
+---  - vertical: (boolean) If true, split vertically.
+---  - hide_number: (boolean) If true, hide line number in split window.
+---@return boolean ok True if split window successfully.
+---@return integer winnr New split window number, -1 on failure.
+---@return integer bufnr New split buffer number, -1 on failure.
+function M.new_split(position, option)
+    option = option or {}
+    if not vim.tbl_contains({
+        "aboveleft", "belowright", "topleft", "botright"
+    }, position) then
+        print(position)
+        M.notify_err("Invalid position.")
+        return false, -1, -1
+    end
+    local vertical = option.vertical
+    if type(vertical) ~= "boolean" then
+        vertical = false
+    end
+    local size_this = vertical and vim.api.nvim_win_get_height(0) or vim.api.nvim_win_get_width(0)
+    local split_size = option.split_size
+    if type(split_size) ~= "number" or split_size <= 0 then
+        split_size = 15
+    end
+    local ratio_max = option.ratio_max
+    if type(ratio_max) ~= "number" or ratio_max <= 0 or ratio_max >= 1 then
+        ratio_max = 0.382
+    end
+    local hide_number = option.hide_number
+    if type(hide_number) ~= "boolean" then
+        hide_number = true
+    end
+    local term_size = math.min(split_size, math.floor(size_this * ratio_max))
+    vim.cmd.new {
+        mods = {
+            split = position,
+            vertical = vertical,
+        }
+    }
+    if hide_number then
+        vim.api.nvim_win_set_option(0, "number", false)
+    end
+    if vertical then
+        vim.api.nvim_win_set_width(0, term_size)
+    else
+        vim.api.nvim_win_set_height(0, term_size)
+    end
+    return true, vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf()
 end
 
 ---Notify the error message.

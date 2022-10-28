@@ -38,27 +38,21 @@ function TermProc:clone()
 end
 
 ---Run the terminal process.
+---@return boolean ok True if terminal started successfully.
+---@return integer winnr Window number of the terminal, -1 on failure.
+---@return integer bufnr Buffer number of the terminal, -1 on failure.
 function TermProc:start()
-    if self.has_exited or not self.is_valid then return end
-    local opt = vim.deepcopy(self.option)
-    if not opt.split_pos or vim.tbl_contains({
-        "aboveleft, belowright, topleft, botright"
-    }, opt.split_pos) then
-        opt.split_pos = "belowright"
+    if self.has_exited or not self.is_valid then return false, -1, -1 end
+    local ok, winnr, bufnr = lib.new_split(self.option.split_pos or "belowright", {
+        split_size = self.option.split_size,
+        ratio_max = self.option.ratio_max,
+        vertical = self.option.vertical,
+        hide_number = true,
+    })
+    if not ok then
+        return false, winnr, bufnr
     end
-    if not opt.split_size or opt.split_size <= 0 or opt.split_size >= 1 then
-        opt.split_size = 0.382
-    end
-    if opt.split_pos == "aboveleft" or opt.split_pos == "belowright" then
-        local h = math.floor(vim.api.nvim_win_get_height(0) * opt.split_size)
-        vim.cmd.new { mods = { split = opt.split_pos } }
-        vim.api.nvim_win_set_height(0, h)
-    else
-        local w = math.floor(vim.api.nvim_win_get_width(0) * opt.split_size)
-        vim.cmd.new { mods = { split = opt.split_pos } }
-        vim.api.nvim_win_set_width(0, w)
-    end
-    opt.on_exit = function (job_id, data, event)
+    self.option.on_exit = function(job_id, data, event)
         self.has_exited = true
         if self.on_exit then
             self.on_exit(self, job_id, data, event)
@@ -67,14 +61,17 @@ function TermProc:start()
             f(self, job_id, data, event)
         end
     end
-    self.id = vim.fn.termopen(self.cmd, opt)
+    self.id = vim.fn.termopen(self.cmd, self.option)
     if self.id == 0 then
         self.is_valid = false
         lib.notify_err("Invalid arguments.")
+        return false, winnr, bufnr
     elseif self.id == -1 then
         self.is_valid = false
         lib.notify_err("Invalid executable.")
+        return false, winnr, bufnr
     end
+    return true, winnr, bufnr
 end
 
 ---Append callback function.
