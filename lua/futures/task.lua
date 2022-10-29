@@ -43,9 +43,11 @@ function Task.new(action, option)
     return task
 end
 
----Create a task from libuv.
----@param uv_action string Async function name from libuv.
----@param ... any Fuction arguments.
+---Create a task from a libuv async function, the last argument of the libuv
+---function must be the {callback}, maybe an argument {index} could be added
+---later on.
+---@param uv_action string Asynchronous function name from libuv.
+---@param ... any Function arguments.
 ---@return Task
 function Task.from_uv(uv_action, ...)
     local _co = coroutine.running()
@@ -60,8 +62,8 @@ function Task.from_uv(uv_action, ...)
     task = Task.new(function(callback)
         table.insert(varargs, callback)
         vim.loop[uv_action](unpack(varargs))
-    end, function(r)
-        task.result = r
+    end, function(...)
+        task.result = { ... }
         task.status = "RanToCompletion"
         util.try_resume(_co)
     end)
@@ -111,6 +113,12 @@ function Task:await()
         if self:start() then
             self.status = "Running"
             coroutine.yield()
+            if self.callback and vim.tbl_islist(self.result) then
+                if vim.tbl_isempty(self.result) then
+                    return nil
+                end
+                return unpack(self.result)
+            end
             return self.result
         end
     end
