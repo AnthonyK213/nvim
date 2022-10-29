@@ -73,6 +73,7 @@ end
 ---Start the task.
 ---@return boolean ok True if the thread starts successfully.
 function Task:start()
+    if self.status ~= "Created" then return false end
     local cb = vim.schedule_wrap(function(...)
         self.status = "RanToCompletion"
         if self.callback then
