@@ -91,12 +91,13 @@ function M.join(fut_list, timeout)
     return result
 end
 
+---@type table<string, function>
 M.uv = {}
 
 setmetatable(M.uv, {
     __index = function(_, k)
         return function(...)
-            return M.Task.from_uv(k, ...)
+            return M.Task.from_uv(k, ...):await()
         end
     end
 })
