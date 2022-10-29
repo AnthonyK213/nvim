@@ -67,6 +67,7 @@ end
 ---Append callback function.
 ---@param callback function Callback function.
 function Task:append_cb(callback)
+    if self.status ~= "Created" then return end
     table.insert(self.callbacks, callback)
 end
 
@@ -85,6 +86,7 @@ function Task:start()
             end
         end
     end)
+    self.status = "Running"
     if self.is_async then
         self.action(cb)
         return true
@@ -106,7 +108,6 @@ function Task:await()
             util.try_resume(_co)
         end)
         if self:start() then
-            self.status = "Running"
             coroutine.yield()
             if vim.tbl_islist(self.result) then
                 if vim.tbl_isempty(self.result) then
