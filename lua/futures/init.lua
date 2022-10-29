@@ -88,7 +88,7 @@ function M.join(fut_list, timeout)
             end
         end
     end
-    return result
+    return unpack(result)
 end
 
 ---@type table<string, function>

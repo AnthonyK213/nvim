@@ -2,6 +2,7 @@ local util = require("futures.util")
 
 ---@class Task Async/await implemented with coroutine and libuv.
 ---@field action function
+---@field is_async boolean `action` is asynchronous or not, default `false`.
 ---@field callback? function
 ---@field callbacks function[]
 ---@field handle? userdata
@@ -15,26 +16,25 @@ Task.__index = Task
 ---Constructor.
 ---@param action function
 ---@param option? any Optional argument.
----  - `function`: callback
----  - `hash_table`: "callback", "args"
+---  - `hash_table`: "is_async", "args", "callback"
 ---  - `list_like_table` | `not nil`: varargs
 ---@return Task
 function Task.new(action, option)
     local task = {
         action = action,
+        is_async = false,
         callbacks = {},
         status = "Created",
         varargs = {},
     }
     local opt_type = type(option)
-    if opt_type == "function" then
-        task.callback = option
-    elseif opt_type == "table" then
+    if opt_type == "table" then
         if vim.tbl_islist(option) then
             task.varargs = option
         else
-            task.callback = option.callback
+            task.is_async = option.is_async or false
             task.varargs = option.args or {}
+            task.callback = option.callback
         end
     elseif opt_type ~= "nil" then
         table.insert(task.varargs, option)
@@ -58,16 +58,10 @@ function Task.from_uv(uv_action, ...)
         error("Libuv has no function `" .. uv_action .. "`.")
     end
     local varargs = { ... }
-    local task
-    task = Task.new(function(callback)
+    return Task.new(function(callback)
         table.insert(varargs, callback)
         vim.loop[uv_action](unpack(varargs))
-    end, function(...)
-        task.result = { ... }
-        task.status = "RanToCompletion"
-        util.try_resume(_co)
-    end)
-    return task
+    end, { is_async = true })
 end
 
 ---Append callback function.
@@ -79,21 +73,22 @@ end
 ---Start the task.
 ---@return boolean ok True if the thread starts successfully.
 function Task:start()
-    -- If the task has a callback function, regard the `action`
-    -- as an async function with a callback.
-    if self.callback then
-        self.action(vim.schedule_wrap(self.callback))
-        return true
-    end
-    -- Otherwise, regard the `action` as a sync function and execute it
-    -- in a new thread.
-    self.handle = vim.loop.new_work(self.action, vim.schedule_wrap(function(r)
+    local cb = vim.schedule_wrap(function(...)
+        self.status = "RanToCompletion"
+        if self.callback then
+            self.callback(...)
+        end
         for _, f in ipairs(self.callbacks) do
             if type(f) == "function" then
-                f(r)
+                f(...)
             end
         end
-    end))
+    end)
+    if self.is_async then
+        self.action(cb)
+        return true
+    end
+    self.handle = vim.loop.new_work(self.action, cb)
     return self.handle:queue(unpack(self.varargs))
 end
 
@@ -105,15 +100,14 @@ function Task:await()
         error("Task must await in an active async block.")
     end
     if self.status == "Created" then
-        self:append_cb(function(r)
-            self.result = r
-            self.status = "RanToCompletion"
+        self:append_cb(function(...)
+            self.result = { ... }
             util.try_resume(_co)
         end)
         if self:start() then
             self.status = "Running"
             coroutine.yield()
-            if self.callback and vim.tbl_islist(self.result) then
+            if vim.tbl_islist(self.result) then
                 if vim.tbl_isempty(self.result) then
                     return nil
                 end
@@ -125,31 +119,12 @@ function Task:await()
 end
 
 ---Creates a task that will complete after a time delay (ms).
----@param delay integer
+---@param delay integer Delay in milliseconds.
 ---@return Task task
 function Task.delay(delay)
-    local _co = coroutine.running()
-    local task
-    if _co and coroutine.status(_co) ~= "dead" then
-        task = Task.new(function(callback)
-            vim.defer_fn(callback, delay)
-        end, function(_)
-            task.status = "RanToCompletion"
-            util.try_resume(_co)
-        end)
-    else
-        task = Task.new(function(callback)
-            vim.defer_fn(callback, delay)
-        end, function(_)
-            task.status = "RanToCompletion"
-            for _, f in ipairs(task.callbacks) do
-                if type(f) == "function" then
-                    f()
-                end
-            end
-        end)
-    end
-    return task
+    return Task.new(function(callback)
+        vim.defer_fn(callback, delay)
+    end, { is_async = true })
 end
 
 ---Continue with a action `next`.
