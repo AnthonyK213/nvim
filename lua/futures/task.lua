@@ -1,3 +1,5 @@
+local util = require("futures.util")
+
 ---@class Task Async/await implemented with coroutine and libuv.
 ---@field action function
 ---@field callback? function
@@ -41,6 +43,31 @@ function Task.new(action, option)
     return task
 end
 
+---Create a task from libuv.
+---@param uv_action string Async function name from libuv.
+---@param ... any Fuction arguments.
+---@return Task
+function Task.from_uv(uv_action, ...)
+    local _co = coroutine.running()
+    if not _co or coroutine.status(_co) == "dead" then
+        error("A libuv task should be created in an active async block.")
+    end
+    if not vim.loop[uv_action] then
+        error("Libuv has no function `" .. uv_action .. "`.")
+    end
+    local varargs = { ... }
+    local task
+    task = Task.new(function(callback)
+        table.insert(varargs, callback)
+        vim.loop[uv_action](unpack(varargs))
+    end, function(r)
+        task.result = r
+        task.status = "RanToCompletion"
+        util.try_resume(_co)
+    end)
+    return task
+end
+
 ---Append callback function.
 ---@param callback function Callback function.
 function Task:append_cb(callback)
@@ -53,7 +80,7 @@ function Task:start()
     -- If the task has a callback function, regard the `action`
     -- as an async function with a callback.
     if self.callback then
-        self.action(self.callback)
+        self.action(vim.schedule_wrap(self.callback))
         return true
     end
     -- Otherwise, regard the `action` as a sync function and execute it
@@ -73,13 +100,13 @@ end
 function Task:await()
     local _co = coroutine.running()
     if not _co or coroutine.status(_co) == "dead" then
-        error("Task must await in an alive async block.")
+        error("Task must await in an active async block.")
     end
     if self.status == "Created" then
         self:append_cb(function(r)
             self.result = r
             self.status = "RanToCompletion"
-            coroutine.resume(_co)
+            util.try_resume(_co)
         end)
         if self:start() then
             self.status = "Running"
@@ -100,7 +127,7 @@ function Task.delay(delay)
             vim.defer_fn(callback, delay)
         end, function(_)
             task.status = "RanToCompletion"
-            coroutine.resume(_co)
+            util.try_resume(_co)
         end)
     else
         task = Task.new(function(callback)

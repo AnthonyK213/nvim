@@ -1,4 +1,5 @@
 local lib = require("utility.lib")
+local util = require("futures.util")
 
 ---@class TermProc
 ---@field cmd string[]
@@ -107,7 +108,7 @@ function TermProc:await()
     self:append_cb(function(_, _, data, event)
         _d = data
         _e = event
-        coroutine.resume(_co)
+        util.try_resume(_co)
     end)
     self:start()
     coroutine.yield()

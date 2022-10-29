@@ -1,5 +1,6 @@
 local uv = vim.loop
 local lib = require("utility.lib")
+local util = require("futures.util")
 
 ---@class Process
 ---@field path string
@@ -61,7 +62,7 @@ function Process:start()
     local on_read = function(err, data)
         if err then
             table.insert(self.standard_error, err)
-            lib.notify_err(err)
+            print(err)
         elseif data then
             table.insert(self.standard_output, data)
         end
@@ -115,7 +116,7 @@ function Process:await()
     self:append_cb(function(_, code, signal)
         _c = code
         _s = signal
-        coroutine.resume(_co)
+        util.try_resume(_co)
     end)
     self:start()
     coroutine.yield()

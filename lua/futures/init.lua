@@ -1,5 +1,6 @@
 local M = {}
 local lib = require("utility.lib")
+local util = require("futures.util")
 
 ---Start an async block.
 ---@param async_block function Async block to run.
@@ -44,7 +45,7 @@ function M.join(fut_list, timeout)
                 result[i] = { ... }
                 count = count + 1
                 if count == fut_count then
-                    coroutine.resume(_co)
+                    util.try_resume(_co)
                 end
             end)
             fut:start()
@@ -59,7 +60,7 @@ function M.join(fut_list, timeout)
                         if count ~= fut_count then
                             print("Time out")
                         end
-                        coroutine.resume(_co)
+                        util.try_resume(_co)
                     end
                 end))
             end
@@ -89,6 +90,16 @@ function M.join(fut_list, timeout)
     end
     return result
 end
+
+M.uv = {}
+
+setmetatable(M.uv, {
+    __index = function(_, k)
+        return function(...)
+            return M.Task.from_uv(k, ...)
+        end
+    end
+})
 
 M.Process = require("futures.proc")
 
