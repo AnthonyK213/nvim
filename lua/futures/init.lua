@@ -2,6 +2,17 @@ local M = {}
 local lib = require("utility.lib")
 local util = require("futures.util")
 
+---Check `fut_list` for `futures.join` & `futures.select`
+---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+---@return boolean
+local function check_fut_list(fut_list)
+    if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
+        lib.notify_err("`fut_list` should be a list-like table which is not empty.")
+        return false
+    end
+    return true
+end
+
 ---Start an async block.
 ---@param async_block function Async block to run.
 function M.async(async_block)
@@ -12,25 +23,11 @@ end
 ---Execute the futrues one by one.
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
 function M.queue(fut_list)
-    if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
-        lib.notify_err("`fut_list` should be a list-like table which is not empty.")
-        return
-    end
+    if not check_fut_list(fut_list) then return end
     for i = 1, #fut_list - 1, 1 do
         fut_list[i]:continue_with(fut_list[i + 1])
     end
     fut_list[1]:start()
-end
-
----Check `fut_list` for `futures.join` & `futures.select`
----@param fut_list Process[]|Task[]|TermProc[] List of futrues.
----@return boolean
-local function check_fut_list(fut_list)
-    if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
-        lib.notify_err("`fut_list` should be a list-like table which is not empty.")
-        return false
-    end
-    return true
 end
 
 ---Polls multiple futures simultaneously.
