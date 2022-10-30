@@ -1,8 +1,11 @@
 local util = require("futures.util")
+local uv_callback_index = {
+    fs_opendir = 2,
+}
 
 ---@class Task Async/await implemented with coroutine and libuv.
 ---@field action function
----@field is_async boolean `action` is asynchronous or not, default `false`.
+---@field is_async boolean|integer `action` is asynchronous or not, default `false`.
 ---@field callback? function
 ---@field callbacks function[]
 ---@field handle? userdata
@@ -57,11 +60,10 @@ function Task.from_uv(uv_action, ...)
     if not vim.loop[uv_action] then
         error("Libuv has no function `" .. uv_action .. "`.")
     end
-    local varargs = { ... }
-    return Task.new(function(callback)
-        table.insert(varargs, callback)
-        vim.loop[uv_action](unpack(varargs))
-    end, { is_async = true })
+    return Task.new(vim.loop[uv_action], {
+        is_async = uv_callback_index[uv_action] or true,
+        args = { ... }
+    })
 end
 
 ---Append callback function.
@@ -88,7 +90,17 @@ function Task:start()
     end)
     self.status = "Running"
     if self.is_async then
-        self.action(cb)
+        local args = vim.deepcopy(self.varargs)
+        if type(self.is_async) == "number" then
+            if self.is_async > 0 and self.is_async <= #args then
+                table.insert(args, self.is_async + 0, cb)
+            else
+                error("Invalid `is_async`.")
+            end
+        else
+            table.insert(args, cb)
+        end
+        self.action(unpack(args))
         return true
     end
     self.handle = vim.loop.new_work(self.action, cb)
@@ -124,9 +136,7 @@ end
 ---@param delay integer Delay in milliseconds.
 ---@return Task task
 function Task.delay(delay)
-    return Task.new(function(callback)
-        vim.defer_fn(callback, delay)
-    end, { is_async = true })
+    return Task.new(vim.defer_fn, { is_async = 1, args = { delay } })
 end
 
 ---Continue with a action `next`.

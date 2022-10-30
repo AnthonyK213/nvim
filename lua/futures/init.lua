@@ -22,6 +22,17 @@ function M.queue(fut_list)
     fut_list[1]:start()
 end
 
+---Check `fut_list` for `futures.join` & `futures.select`
+---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+---@return boolean
+local function check_fut_list(fut_list)
+    if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
+        lib.notify_err("`fut_list` should be a list-like table which is not empty.")
+        return false
+    end
+    return true
+end
+
 ---Polls multiple futures simultaneously.
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
 ---@param timeout? integer Number of milliseconds to wait, default no timeout.
@@ -29,15 +40,12 @@ end
 function M.join(fut_list, timeout)
     local result = {}
     local count = 0
-    local fut_count = #fut_list
-    if not vim.tbl_islist(fut_list) then
-        lib.notify_err("`fut_list` should be a list-like table.")
-        return result
-    end
+    if not check_fut_list(fut_list) then return result end
     if type(timeout) == "number" and timeout < 0 then
         lib.notify_err("Invalid `timeout`.")
         return result
     end
+    local fut_count = #fut_list
     local _co = coroutine.running()
     if _co and coroutine.status(_co) ~= "dead" then
         for i, fut in ipairs(fut_list) do
@@ -89,6 +97,50 @@ function M.join(fut_list, timeout)
         end
     end
     return unpack(result)
+end
+
+---Polls multiple futures simultaneously,
+---returns once the first future is complete.
+---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+function M.select(fut_list)
+    local result
+    if not check_fut_list(fut_list) then return result end
+    local done = false
+    local _co = coroutine.running()
+    if _co and coroutine.status(_co) ~= "dead" then
+        for _, fut in ipairs(fut_list) do
+            fut:append_cb(function(...)
+                if not done then
+                    result = { ... }
+                    done = true
+                    util.try_resume(_co)
+                end
+            end)
+            fut:start()
+        end
+        if not done then
+            coroutine.yield(_co)
+        end
+    else
+        for _, fut in ipairs(fut_list) do
+            fut:append_cb(function(...)
+                if not done then
+                    result = { ... }
+                    done = true
+                end
+            end)
+            fut:start()
+        end
+        local ok, code = vim.wait(100000000, function() return done end, 10)
+        if not ok then
+            if code == -1 then
+                print("Time out.")
+            else
+                print("Interruped.")
+            end
+        end
+    end
+    return result
 end
 
 ---@type table<string, function>
