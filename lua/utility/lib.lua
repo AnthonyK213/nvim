@@ -70,7 +70,7 @@ function M.get_dylib_ext()
     })[M.get_os_type()]
 end
 
----comment
+---Get dynamic library path in data/dylib/.
 ---@param dylib_name string
 ---@return string?
 function M.get_dylib_path(dylib_name)
