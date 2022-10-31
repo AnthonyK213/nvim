@@ -48,9 +48,7 @@ function Task.new(action, option)
     return task
 end
 
----Create a task from a libuv async function, the last argument of the libuv
----function must be the {callback}, maybe an argument {index} could be added
----later on.
+---Create a task from a libuv async function.
 ---@param uv_action string Asynchronous function name from libuv.
 ---@param ... any Function arguments.
 ---@return Task
