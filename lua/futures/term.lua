@@ -4,11 +4,12 @@ local util = require("futures.util")
 ---@class TermProc
 ---@field cmd string[]
 ---@field option table
----@field on_exit function<TermProc, integer, integer, string>
+---@field callback? function
 ---@field id integer
 ---@field is_valid boolean
 ---@field has_exited boolean
----@field extra_cb function[]
+---@field callbacks function[]
+---@field no_callbacks boolean
 ---@field winnr integer
 ---@field bunnr integer
 local TermProc = {}
@@ -24,11 +25,11 @@ function TermProc.new(cmd, option, on_exit)
     local term_proc = {
         cmd = cmd,
         option = option or {},
-        on_exit = on_exit,
         id = -1,
         has_exited = false,
         is_valid = true,
-        extra_cb = {},
+        callbacks = type(on_exit) == "function" and { on_exit } or {},
+        no_callbacks = false,
         winnr = -1,
         bufnr = -1,
     }
@@ -39,7 +40,9 @@ end
 ---Clone a terminal process.
 ---@return TermProc
 function TermProc:clone()
-    return TermProc.new(self.cmd, vim.deepcopy(self.option), self.on_exit)
+    local term_proc = TermProc.new(self.cmd, vim.deepcopy(self.option))
+    term_proc.callbacks = vim.deepcopy(self.callbacks)
+    return term_proc
 end
 
 ---Run the terminal process.
@@ -59,11 +62,15 @@ function TermProc:start()
     end
     self.option.on_exit = vim.schedule_wrap(function(job_id, data, event)
         self.has_exited = true
-        if self.on_exit then
-            self.on_exit(self, job_id, data, event)
+        if not self.no_callbacks then
+            for _, f in ipairs(self.callbacks) do
+                if type(f) == "function" then
+                    f(self, job_id, data, event)
+                end
+            end
         end
-        for _, f in ipairs(self.extra_cb) do
-            f(self, job_id, data, event)
+        if type(self.callback) == "function" then
+            self.callback(self, job_id, data, event)
         end
     end)
     self.id = vim.fn.termopen(self.cmd, self.option)
@@ -83,7 +90,7 @@ end
 ---Append callback function.
 ---@param callback function Callback function.
 function TermProc:append_cb(callback)
-    table.insert(self.extra_cb, callback)
+    table.insert(self.callbacks, callback)
 end
 
 ---Continue with a terimal process.
@@ -105,11 +112,11 @@ function TermProc:await()
     if not _co then
         error("Process must await in an async block.")
     end
-    self:append_cb(function(_, _, data, event)
+    self.callback = function(_, _, data, event)
         _d = data
         _e = event
         util.try_resume(_co)
-    end)
+    end
     self:start()
     coroutine.yield()
     return _d, _e

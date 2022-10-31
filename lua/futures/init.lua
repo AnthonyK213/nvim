@@ -46,13 +46,14 @@ function M.join(fut_list, timeout)
     local _co = coroutine.running()
     if _co and coroutine.status(_co) ~= "dead" then
         for i, fut in ipairs(fut_list) do
-            fut:append_cb(function(...)
+            fut.no_callbacks = true
+            fut.callback = function(...)
                 result[i] = { ... }
                 count = count + 1
                 if count == fut_count then
                     util.try_resume(_co)
                 end
-            end)
+            end
             fut:start()
         end
         if count ~= fut_count then
@@ -73,10 +74,11 @@ function M.join(fut_list, timeout)
         end
     else
         for i, fut in ipairs(fut_list) do
-            fut:append_cb(function(...)
+            fut.no_callbacks = true
+            fut.callback = function(...)
                 result[i] = { ... }
                 count = count + 1
-            end)
+            end
             fut:start()
         end
         if not timeout then
@@ -106,13 +108,14 @@ function M.select(fut_list)
     local _co = coroutine.running()
     if _co and coroutine.status(_co) ~= "dead" then
         for _, fut in ipairs(fut_list) do
-            fut:append_cb(function(...)
+            fut.no_callbacks = true
+            fut.callback = function(...)
                 if not done then
                     result = { ... }
                     done = true
                     util.try_resume(_co)
                 end
-            end)
+            end
             fut:start()
         end
         if not done then
@@ -120,12 +123,13 @@ function M.select(fut_list)
         end
     else
         for _, fut in ipairs(fut_list) do
-            fut:append_cb(function(...)
+            fut.no_callbacks = true
+            fut.callback = function(...)
                 if not done then
                     result = { ... }
                     done = true
                 end
-            end)
+            end
             fut:start()
         end
         local ok, code = vim.wait(100000000, function() return done end, 10)

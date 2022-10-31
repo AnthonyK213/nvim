@@ -8,6 +8,7 @@ local uv_callback_index = {
 ---@field is_async boolean|integer `action` is asynchronous or not, default `false`.
 ---@field callback? function
 ---@field callbacks function[]
+---@field no_callbacks boolean
 ---@field handle? userdata
 ---@field result any
 ---@field status "Created"|"Running"|"RanToCompletion"
@@ -27,6 +28,7 @@ function Task.new(action, option)
         action = action,
         is_async = false,
         callbacks = {},
+        no_callbacks = false,
         status = "Created",
         varargs = {},
     }
@@ -37,7 +39,7 @@ function Task.new(action, option)
         else
             task.is_async = option.is_async or false
             task.varargs = option.args or {}
-            task.callback = option.callback
+            task.callbacks = type(option.callback) == "function" or { option.callback } or {}
         end
     elseif opt_type ~= "nil" then
         table.insert(task.varargs, option)
@@ -79,13 +81,15 @@ function Task:start()
     if self.status ~= "Created" then return false end
     local cb = vim.schedule_wrap(function(...)
         self.status = "RanToCompletion"
-        if self.callback then
-            self.callback(...)
-        end
-        for _, f in ipairs(self.callbacks) do
-            if type(f) == "function" then
-                f(...)
+        if not self.no_callbacks then
+            for _, f in ipairs(self.callbacks) do
+                if type(f) == "function" then
+                    f(...)
+                end
             end
+        end
+        if type(self.callback) == "function" then
+            self.callback(...)
         end
     end)
     self.status = "Running"
@@ -115,10 +119,10 @@ function Task:await()
         error("Task must await in an active async block.")
     end
     if self.status == "Created" then
-        self:append_cb(function(...)
+        self.callback = function(...)
             self.result = { ... }
             util.try_resume(_co)
-        end)
+        end
         if self:start() then
             coroutine.yield()
             if vim.tbl_islist(self.result) then
@@ -162,7 +166,9 @@ end
 ---Reset the task.
 function Task:reset()
     self.status = "Created"
+    self.callback = nil
     self.callbacks = {}
+    self.no_callbacks = false
     self.result = nil
     self.handle = nil
 end

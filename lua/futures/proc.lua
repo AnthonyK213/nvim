@@ -5,12 +5,13 @@ local util = require("futures.util")
 ---@class Process
 ---@field path string
 ---@field option table
----@field on_exit function<Process, integer, integer>
+---@field callback function
 ---@field hanle userdata
 ---@field id integer
 ---@field is_valid boolean
 ---@field has_exited boolean
----@field extra_cb function[]
+---@field callbacks function[]
+---@field no_callbacks boolean
 ---@field stdin uv_pipe_t
 ---@field stdout uv_pipe_t
 ---@field stderr uv_pipe_t
@@ -30,12 +31,12 @@ function Process.new(path, option, on_exit)
     local process = {
         path = path,
         option = option or {},
-        on_exit = on_exit,
         handle = nil,
         id = -1,
         has_exited = false,
         is_valid = true,
-        extra_cb = {},
+        callbacks = type(on_exit) == "function" and { on_exit } or {},
+        no_callbacks = false,
         stdin = uv.new_pipe(false),
         stdout = uv.new_pipe(false),
         stderr = uv.new_pipe(false),
@@ -50,7 +51,9 @@ end
 ---Clone a process.
 ---@return Process
 function Process:clone()
-    return Process.new(self.path, vim.deepcopy(self.option), self.on_exit)
+    local proc = Process.new(self.path, vim.deepcopy(self.option))
+    proc.callbacks = vim.deepcopy(self.callbacks)
+    return proc
 end
 
 ---Run the process.
@@ -77,11 +80,15 @@ function Process:start()
             self.stderr:close()
             self.handle:close()
             self.has_exited = true
-            if self.on_exit then
-                self.on_exit(self, code, signal)
+            if not self.no_callbacks then
+                for _, f in ipairs(self.callbacks) do
+                    if type(f) == "function" then
+                        f(self, code, signal)
+                    end
+                end
             end
-            for _, f in ipairs(self.extra_cb) do
-                f(self, code, signal)
+            if type(self.callback) == "function" then
+                self.callback(self, code, signal)
             end
         end))
     self.stdout:read_start(vim.schedule_wrap(on_read))
@@ -91,7 +98,7 @@ end
 ---Append callback function.
 ---@param callback function Callback function.
 function Process:append_cb(callback)
-    table.insert(self.extra_cb, callback)
+    table.insert(self.callbacks, callback)
 end
 
 ---Continue with a process.
@@ -113,11 +120,11 @@ function Process:await()
     if not _co then
         error("Process must await in an async block.")
     end
-    self:append_cb(function(_, code, signal)
+    self.callback = function(_, code, signal)
         _c = code
         _s = signal
         util.try_resume(_co)
-    end)
+    end
     self:start()
     coroutine.yield()
     return _c, _s
