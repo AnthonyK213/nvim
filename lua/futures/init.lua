@@ -144,6 +144,29 @@ function M.select(fut_list)
     return result
 end
 
+M.ui = {
+    ---Prompts the user for input.
+    ---@param opts table Additional options. See `input()`.
+    ---@return string? input Content the user typed.
+    input = function(opts)
+        return M.Task.new(vim.ui.input, {
+            is_async = true,
+            args = { opts }
+        }):await()
+    end,
+    ---Prompts the user to pick a single item from a collection of entries
+    ---@param items table Arbitrary items.
+    ---@param opts table Additional options.
+    ---@return string? item The chosen item.
+    ---@return integer? idx The 1-based index of `item` within `items`.
+    select = function(items, opts)
+        return M.Task.new(vim.ui.select, {
+            is_async = true,
+            args = { items, opts }
+        }):await()
+    end,
+}
+
 ---@type table<string, function>
 M.uv = {}
 
