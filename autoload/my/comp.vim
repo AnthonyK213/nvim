@@ -224,7 +224,7 @@ function! s:comp_latex(tbl) abort
     let l:x1 = l:xelatex.clone()
     let l:x2 = l:xelatex.clone()
     call l:x2.append_cb(function("s:tex_done_cb"))
-    call my#proc#queue_all([l:x1, l:x2])
+    call my#proc#queue([l:x1, l:x2])
   elseif has_key(l:bib_table, a:tbl.opt)
     echom "Start compilation."
     let l:x1 = l:xelatex.clone()
@@ -232,7 +232,7 @@ function! s:comp_latex(tbl) abort
     let l:b = l:bib_table[a:tbl.opt].clone()
     let l:x3 = l:xelatex.clone()
     call l:x3.append_cb(function("s:tex_done_cb"))
-    call my#proc#queue_all([l:x1, l:b, l:x2, l:x3])
+    call my#proc#queue([l:x1, l:b, l:x2, l:x3])
   else
     call my#lib#notify_err("Invalid argument.")
   endif

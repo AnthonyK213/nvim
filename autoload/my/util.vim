@@ -216,7 +216,7 @@ function! my#util#git_push_all(...) abort
         \ "args": ["push", "origin", l:b_arg, "--porcelain"],
         \ "cwd": l:git_root
         \ }, function("s:git_push_cb"))
-  call my#proc#queue_all([l:git_add, l:git_commit, l:git_push])
+  call my#proc#queue([l:git_add, l:git_commit, l:git_push])
 endfunction
 
 function! my#util#auto_hl(scheme, hl_table, palette) abort
