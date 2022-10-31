@@ -80,9 +80,10 @@ function M.get_dylib_path(dylib_name)
         return
     end
     local dylib_dir = _my_core_opt.path.dylib
-    local dylib_path = dylib_dir .. dylib_name .. "." .. dylib_ext
+    local dylib_file = #dylib_ext == 0 and dylib_name or dylib_name .. "." ..dylib_ext
+    local dylib_path = M.path_append(dylib_dir, dylib_file)
     if not M.path_exists(dylib_path) then
-        M.notify_err("nmail." .. dylib_ext .. " is not found.")
+        M.notify_err(dylib_file .. " is not found.")
         return
     end
     return dylib_path
