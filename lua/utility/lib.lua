@@ -70,6 +70,24 @@ function M.get_dylib_ext()
     })[M.get_os_type()]
 end
 
+---comment
+---@param dylib_name string
+---@return string?
+function M.get_dylib_path(dylib_name)
+    local dylib_ext = M.get_dylib_ext()
+    if not dylib_ext then
+        M.notify_err("Unsupported OS.")
+        return
+    end
+    local dylib_dir = _my_core_opt.path.dylib
+    local dylib_path = dylib_dir .. dylib_name .. "." .. dylib_ext
+    if not M.path_exists(dylib_path) then
+        M.notify_err("nmail." .. dylib_ext .. " is not found.")
+        return
+    end
+    return dylib_path
+end
+
 ---Get current branch name.
 ---@param git_root? string Git repository root directory.
 ---@return string? result Current branch name.

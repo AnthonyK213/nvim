@@ -157,7 +157,7 @@ M.ui = {
     ---Prompts the user to pick a single item from a collection of entries
     ---@param items table Arbitrary items.
     ---@param opts table Additional options.
-    ---@return string? item The chosen item.
+    ---@return any? item The chosen item.
     ---@return integer? idx The 1-based index of `item` within `items`.
     select = function(items, opts)
         return M.Task.new(vim.ui.select, {
