@@ -5,7 +5,7 @@ local util = require("futures.util")
 ---@class Process
 ---@field path string
 ---@field option table
----@field callback function
+---@field callback? function
 ---@field hanle userdata
 ---@field id integer
 ---@field is_valid boolean
