@@ -1,6 +1,7 @@
 local M = {}
 local api = vim.api
 local lib = require("utility.lib")
+local futures = require("futures")
 
 ---Surrounding pairs.
 ---@param pair_a string Left side of the surrounding.
@@ -85,9 +86,8 @@ end
 ---@param mode string \"n\"|\"v\".
 ---@param pair_a? string|string[] Left|Both side of the surrounding.
 function M.srd_add(mode, pair_a)
-    ---Add surrounding.
-    ---@param p_a0 string|string[] Left|Both side of the surrounding.
-    local add = function(p_a0)
+    futures.async(function()
+        local p_a0 = pair_a or futures.ui.input { prompt = "Surrounding add: " }
         if not p_a0 then return end
         local p_a, p_b
         if type(p_a0) == "table" then
@@ -109,25 +109,20 @@ function M.srd_add(mode, pair_a)
             api.nvim_buf_set_text(0, el, ec, el, ec, { p_b })
             api.nvim_buf_set_text(0, sl, sc, sl, sc, { p_a })
         end
-    end
-
-    if pair_a then
-        add(pair_a)
-    else
-        vim.ui.input({ prompt = "Surrounding add: " }, function(input)
-            add(input)
-        end)
-    end
+    end)
 end
 
 ---Change surrounding.
 ---@param pair_a_new? string|string[] Left|Both side of the new surrounding.
 ---@param pair_a_old? string|string[] Left|Both side of the old surrounding.
 function M.srd_sub(pair_a_new, pair_a_old)
-    ---Change surrounding.
-    ---@param p_a_n0 string|string[] Left|Both side of the new surrounding.
-    ---@param p_a_o0 string|string[] Left|Both side of the old surrounding.
-    local sub = function(p_a_n0, p_a_o0)
+    futures.async(function()
+        local p_a_n0, p_a_o0
+        p_a_o0 = pair_a_old or futures.ui.input { prompt = "Surrounding delete: " }
+        if not p_a_o0 then return end
+        p_a_n0 = pair_a_new or futures.ui.input { prompt = "Change to: " }
+        if not p_a_n0 then return end
+
         local context = lib.get_context()
         local back = context.b
         local fore = context.f
@@ -176,30 +171,7 @@ function M.srd_sub(pair_a_new, pair_a_old)
             pos[2] = pos[2] + #p_a_n - #p_a_o
             api.nvim_win_set_cursor(0, pos)
         end
-    end
-
-    if pair_a_old then
-        if pair_a_new then
-            sub(pair_a_new, pair_a_old)
-        else
-            vim.ui.input({ prompt = "Change to: " }, function(input)
-                if not input then return end
-                sub(input, pair_a_old)
-            end)
-        end
-    else
-        vim.ui.input({ prompt = "Surrounding delete: " }, function(pair_a)
-            if not pair_a then return end
-            if pair_a_new then
-                sub(pair_a_new, pair_a)
-            else
-                vim.ui.input({ prompt = "Change to: " }, function(input)
-                    if not input then return end
-                    sub(input, pair_a)
-                end)
-            end
-        end)
-    end
+    end)
 end
 
 return M

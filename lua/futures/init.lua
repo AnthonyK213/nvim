@@ -3,7 +3,7 @@ local lib = require("utility.lib")
 local util = require("futures.util")
 local try = util.try_call
 
----Check `fut_list` for `futures.join` & `futures.select`
+---Check `fut_list` for `futures.join` & `futures.select`.
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
 ---@return boolean
 local function check_fut_list(fut_list)
@@ -144,6 +144,30 @@ function M.select(fut_list)
     end
     return result
 end
+
+---Wrapper of lua module `vim.ui`.
+M.ui = {
+    ---Prompts the user for input.
+    ---@param opts table Additional options. See `input()`.
+    ---@return string? input Content the user typed.
+    input = function(opts)
+        return M.Task.new(vim.ui.input, {
+            is_async = true,
+            args = { opts }
+        }):await()
+    end,
+    ---Prompts the user to pick a single item from a collection of entries.
+    ---@param items table Arbitrary items.
+    ---@param opts table Additional options.
+    ---@return any? item The chosen item.
+    ---@return integer? idx The 1-based index of `item` within `items`.
+    select = function(items, opts)
+        return M.Task.new(vim.ui.select, {
+            is_async = true,
+            args = { items, opts }
+        }):await()
+    end,
+}
 
 ---@type table<string, function>
 M.uv = {}

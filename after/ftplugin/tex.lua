@@ -28,19 +28,20 @@ vim.keymap.set("n", "<leader>mt", function()
         and vim.fn.fnamemodify(vim.b.vimtex.tex, ":r")
         or vim.fn.expand("%:p:r")) .. ".pdf"
     if not require("utility.lib").path_exists(pdf_path) then
-        vim.ui.input({ prompt = "No pdf file found. Compile the project? y/n:" }, function (y_n)
-            if y_n == "y" then
-                vim.ui.select({ "none", "biber", "bibtex" }, { prompt = "Compile option:" }, function (opt)
-                    if not opt then return end
-                    local recipe = require("utility.run").get_recipe(opt == "none" and "" or opt)
-                    if recipe then
-                        require("futures").async(function ()
-                            if recipe() then
-                                require("utility.util").sys_open(pdf_path)
-                            end
-                        end)
-                    end
-                end)
+        local futures = require("futures")
+        futures.async(function ()
+            if futures.ui.input {
+                prompt = "Compile the project? y/n: "
+            } ~= "y" then
+                return
+            end
+            local opt = futures.ui.select({ "none", "biber", "bibtex" }, {
+                prompt = "Compile option: "
+            })
+            if not opt then return end
+            local recipe = require("utility.run").get_recipe(opt == "none" and "" or opt)
+            if recipe and recipe() then
+                require("utility.util").sys_open(pdf_path)
             end
         end)
     else

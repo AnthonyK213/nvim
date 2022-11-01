@@ -1,7 +1,75 @@
 local lib = require("utility.lib")
 local util = require("utility.util")
-local dylib_dir = _my_core_opt.path.dylib
-local dylib_ext = lib.get_dylib_ext()
+local futures = require("futures")
+local dylib_name = "nmail"
+local code_send = {
+    [0] = "Email sent successfully!",
+    [1] = "Invalid mailbox `From`.",
+    [2] = "Invalid mailbox `To`.",
+    [3] = "Invalid mailbox `Reply-To`.",
+    [4] = "Failed to parse mail `Subject`.",
+    [5] = "Failed to parse mail `Body`.",
+    [6] = "Failed to parse SMTP server `user name`.",
+    [7] = "Failed to parse SMTP server `password`.",
+    [8] = "Failed to parse SMTP server `address`.",
+    [9] = "Failed to parse mailbox `From`.",
+    [10] = "Failed to parse mailbox `To`.",
+    [11] = "Failed to parse mailbox `Reply-To`.",
+    [12] = "Failed to create the email.",
+    [13] = "Failed to connect to the SMTP server.",
+    [14] = "Failed to send the email.",
+}
+
+---Send e-mail via SMTP server.
+---Wrapped from `nmail_send`.
+---@param from string
+---@param to string
+---@param reply_to string
+---@param subject string
+---@param body string
+---@param user_name string
+---@param password string
+---@param server string
+---@param path string Path to dynamic linked library `nmail`.
+---@return integer code
+local function nmail_send(from, to, reply_to, subject, body,
+                          user_name, password, server, path)
+    local ffi = require("ffi")
+    ffi.cdef([[int nmail_send(const char *from,
+                              const char *to,
+                              const char *reply_to,
+                              const char *subject,
+                              const char *body,
+                              const char *user_name,
+                              const char *password,
+                              const char *server);]])
+    local nmail = ffi.load(path)
+    return nmail.nmail_send(from, to, reply_to, subject, body,
+        user_name, password, server)
+end
+
+---Fetch e-mail from IMAP server.
+---Wrapped from `nmail_fetch`.
+---@param server string
+---@param port integer
+---@param user_name string
+---@param password string
+---@param path string Path to dynamic linked library `nmail`.
+---@return string? Body of fetched e-mails.
+local function nmail_fetch(server, port, user_name, password, path)
+    local ffi = require("ffi")
+    ffi.cdef([[char *nmail_fetch(const char *server,
+                                 int port,
+                                 const char *user_name,
+                                 const char *password);
+               void nmail_string_free(char *s);]])
+    local nmail = ffi.load(path)
+    local c_str = nmail.nmail_fetch(server, port, user_name, password)
+    if c_str == nil then return end
+    local body = ffi.string(c_str)
+    nmail.nmail_string_free(c_str)
+    return body
+end
 
 ---@class MailConfig
 ---@field archive string
@@ -124,7 +192,8 @@ end
 function Mail.new_file()
     local config = MailConfig.get()
     if not config then return end
-    vim.cmd.edit(lib.path_append(config.outbox_dir, os.date("OUT%Y%m%d%H%M%S.eml")))
+    local mail_name = tostring(os.date("OUT%Y%m%d%H%M%S.eml"))
+    vim.cmd.edit(lib.path_append(config.outbox_dir, mail_name))
     vim.api.nvim_paste(os.date([[
 From: 
 Subject: 
@@ -175,23 +244,15 @@ function Mail.from_buf()
     return mail
 end
 
----Send the e-mail.
+---Send e-mail via SMTP server.
 function Mail:send()
     -- Load configuration.
     local config = MailConfig.get()
     if not config then return end
 
     -- Check dylib.
-    if not dylib_ext then
-        lib.notify_err("Unsupported OS.")
-        return
-    end
-
-    local lib_path = dylib_dir .. "nmail." .. dylib_ext
-    if not lib.path_exists(lib_path) then
-        lib.notify_err("nmail." .. dylib_ext .. " is not found.")
-        return
-    end
+    local dylib_path = lib.get_dylib_path(dylib_name)
+    if not dylib_path then return end
 
     -- Check fields.
     if not (self.from and self.to and self.reply_to
@@ -200,50 +261,23 @@ function Mail:send()
         return
     end
 
-    -- Send mail.
-    vim.ui.select(config.providers, {
-        prompt = "Select mailbox provider:",
-        format_item = function(item)
-            return item.label
-        end
-    }, function(provider)
+    -- Send.
+    futures.async(function()
+        local provider = futures.ui.select(config.providers, {
+            prompt = "Select mailbox provider: ",
+            format_item = function(item)
+                return item.label
+            end
+        })
         if not provider then return end
-        vim.loop.new_work(function(_from, _to, _reply_to, _subject, _body,
-                                   _user_name, _password, _server, _path)
-            local ffi = require("ffi")
-            ffi.cdef([[int nmail_send(const char *from,
-                                      const char *to,
-                                      const char *reply_to,
-                                      const char *subject,
-                                      const char *body,
-                                      const char *user_name,
-                                      const char *password,
-                                      const char *server);]])
-            local nmail = ffi.load(_path)
-            return nmail.nmail_send(_from, _to, _reply_to, _subject, _body,
-                _user_name, _password, _server)
-        end,
-            vim.schedule_wrap(function(code)
-                local code_map = {
-                    [0] = "Email sent successfully!",
-                    [1] = "Invalid mailbox `From`.",
-                    [2] = "Invalid mailbox `To`.",
-                    [3] = "Invalid mailbox `Reply-To`.",
-                    [4] = "Failed to parse mail `Subject`.",
-                    [5] = "Failed to parse mail `Body`.",
-                    [6] = "Failed to parse SMTP server `user name`.",
-                    [7] = "Failed to parse SMTP server `password`.",
-                    [8] = "Failed to parse SMTP server `address`.",
-                    [9] = "Failed to parse mailbox `From`.",
-                    [10] = "Failed to parse mailbox `To`.",
-                    [11] = "Failed to parse mailbox `Reply-To`.",
-                    [12] = "Failed to create the email.",
-                    [13] = "Failed to connect to the SMTP server.",
-                    [14] = "Failed to send the email.",
-                };
-                (code == 0 and vim.notify or lib.notify_err)(code_map[code])
-            end)):queue(self.from, self.to, self.reply_to, self.subject, self.body,
-            provider.user_name, provider.password, provider.smtp, lib_path)
+
+        local code = futures.Task.new(nmail_send, {
+            self.from, self.to, self.reply_to, self.subject, self.body,
+            provider.user_name, provider.password, provider.smtp,
+            dylib_path
+        }):await();
+
+        (code == 0 and vim.notify or lib.notify_err)(code_send[code])
     end)
 end
 
@@ -261,58 +295,47 @@ function Mailbox.new()
     return mailbox
 end
 
+---Fetch e-mail from imap server.
 function Mailbox:fetch()
     -- Load configuration.
     local config = MailConfig.get()
     if not config then return end
 
     -- Check dylib.
-    if not dylib_ext then
-        lib.notify_err("Unsupported OS.")
-        return
-    end
+    local dylib_path = lib.get_dylib_path(dylib_name)
+    if not dylib_path then return end
 
-    local lib_path = dylib_dir .. "nmail." .. dylib_ext
-    if not lib.path_exists(lib_path) then
-        lib.notify_err("nmail." .. dylib_ext .. " is not found.")
-        return
-    end
-
-    vim.ui.select(config.providers, {
-        prompt = "Select IMAP server:",
-        format_item = function(item)
-            return item.label
-        end
-    }, function(provider)
+    -- Fetch.
+    futures.async(function()
+        local provider = futures.ui.select(config.providers, {
+            prompt = "Select IMAP server: ",
+            format_item = function(item)
+                return item.label
+            end
+        })
         if not provider then return end
-        vim.loop.new_work(function(_server, _port, _user_name, _password, _path)
-            local ffi = require("ffi")
-            ffi.cdef([[char *nmail_fetch(const char *server,
-                                         int port,
-                                         const char *user_name,
-                                         const char *password);
-                       void nmail_string_free(char *s);]])
-            local nmail = ffi.load(_path)
-            local c_str = nmail.nmail_fetch(_server, _port, _user_name, _password)
-            if c_str == nil then return end
-            local body = ffi.string(c_str)
-            nmail.nmail_string_free(c_str)
-            return body
-        end,
-            vim.schedule_wrap(function(body)
-                if not body then
-                    vim.notify("No unseen mails.")
-                    return
-                end
-                local mail_path = lib.path_append(config.inbox_dir, os.date("IN%Y%m%d%H%M%S.eml"))
-                local f = io.open(mail_path, "w")
-                if f then
-                    f:write(body)
-                    f:close()
-                    vim.cmd.edit(mail_path)
-                    vim.notify("Mail fetched.")
-                end
-            end)):queue(provider.imap, provider.port, provider.user_name, provider.password, lib_path)
+
+        local body = futures.Task.new(nmail_fetch, {
+            provider.imap, provider.port,
+            provider.user_name, provider.password,
+            dylib_path
+        }):await()
+
+        if not body then
+            vim.notify("No unseen mails.")
+            return
+        end
+
+        local mail_name = tostring(os.date("IN%Y%m%d%H%M%S.eml"))
+        local mail_path = lib.path_append(config.inbox_dir, mail_name)
+
+        local f = io.open(mail_path, "w")
+        if f then
+            f:write(body)
+            f:close()
+            vim.cmd.edit(mail_path)
+            vim.notify("Mail fetched.")
+        end
     end)
 end
 

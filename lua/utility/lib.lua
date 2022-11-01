@@ -64,10 +64,29 @@ end
 ---@return string?
 function M.get_dylib_ext()
     return ({
-        [M.Os.Windows] = "dll",
-        [M.Os.Linux] = "so",
-        [M.Os.Macos] = "so",
+        [M.Os.Windows] = ".dll",
+        [M.Os.Linux] = ".so",
+        [M.Os.Macos] = ".so",
     })[M.get_os_type()]
+end
+
+---Get dynamic library path in data/dylib/.
+---@param dylib_name string
+---@return string?
+function M.get_dylib_path(dylib_name)
+    local dylib_ext = M.get_dylib_ext()
+    if not dylib_ext then
+        M.notify_err("Unsupported OS.")
+        return
+    end
+    local dylib_dir = _my_core_opt.path.dylib
+    local dylib_file = dylib_name .. dylib_ext
+    local dylib_path = M.path_append(dylib_dir, dylib_file)
+    if not M.path_exists(dylib_path) then
+        M.notify_err(dylib_file .. " is not found.")
+        return
+    end
+    return dylib_path
 end
 
 ---Get current branch name.
