@@ -2,7 +2,7 @@ local M = {}
 local lib = require("utility.lib")
 local util = require("futures.util")
 
----Check `fut_list` for `futures.join` & `futures.select`
+---Check `fut_list` for `futures.join` & `futures.select`.
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
 ---@return boolean
 local function check_fut_list(fut_list)
@@ -144,6 +144,7 @@ function M.select(fut_list)
     return result
 end
 
+---Wrapper of lua module `vim.ui`.
 M.ui = {
     ---Prompts the user for input.
     ---@param opts table Additional options. See `input()`.
@@ -154,7 +155,7 @@ M.ui = {
             args = { opts }
         }):await()
     end,
-    ---Prompts the user to pick a single item from a collection of entries
+    ---Prompts the user to pick a single item from a collection of entries.
     ---@param items table Arbitrary items.
     ---@param opts table Additional options.
     ---@return any? item The chosen item.
