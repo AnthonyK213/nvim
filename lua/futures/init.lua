@@ -1,6 +1,7 @@
 local M = {}
 local lib = require("utility.lib")
 local util = require("futures.util")
+local try = util.try_call
 
 ---Check `fut_list` for `futures.join` & `futures.select`
 ---@param fut_list Process[]|Task[]|TermProc[] List of futrues.
@@ -160,5 +161,19 @@ M.Process = require("futures.proc")
 M.Task = require("futures.task")
 
 M.Terminal = require("futures.term")
+
+M.fs = {
+    ---Opens a text file, reads all the text in the file into a string,
+    ---and then closes the file.
+    ---@param path string The file to open for reading.
+    ---@return string? content A string containing all the text in the file.
+    read_all_text = function(path)
+        local fd = try(M.uv.fs_open, path, "r", 438)
+        local stat = try(M.uv.fs_fstat, fd)
+        local data = try(M.uv.fs_read, fd, stat.size, 0)
+        try(M.uv.fs_close, fd)
+        return data
+    end
+}
 
 return M

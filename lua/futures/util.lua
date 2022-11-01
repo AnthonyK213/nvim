@@ -8,4 +8,15 @@ function M.try_resume(co)
     if not ok then print(err) end
 end
 
+---Call `action`, whose first return value stands for `error`.
+---Throw the error or return the rest of return values.
+---@param action function
+---@param ... any
+---@return any
+function M.try_call(action, ...)
+    local result = { action(...) }
+    assert(not result[1], result[1])
+    return unpack(result, 2, #result)
+end
+
 return M
