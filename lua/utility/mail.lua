@@ -209,6 +209,7 @@ Date: %c
 end
 
 ---Instantiate a mail object from current buffer.
+---@return Mail
 function Mail.from_buf()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local from, subject, to, reply_to
