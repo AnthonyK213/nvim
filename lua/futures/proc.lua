@@ -145,7 +145,7 @@ end
 
 ---Print `stderr`.
 function Process:notify_err()
-    if not vim.tbl_isempty then
+    if not vim.tbl_isempty(self.stderr_buf) then
         lib.notify_err(table.concat(self.stderr_buf))
     end
 end
