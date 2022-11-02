@@ -12,12 +12,15 @@ local util = require("futures.util")
 ---@field has_exited boolean
 ---@field callbacks function[]
 ---@field no_callbacks boolean
+---@field on_stdin function?
+---@field on_stdout function?
+---@field on_stderr function?
 ---@field stdin uv_pipe_t
 ---@field stdout uv_pipe_t
 ---@field stderr uv_pipe_t
----@field standard_input string[]
----@field standard_output string[]
----@field standard_error string[]
+---@field stdin_buf string[]
+---@field stdout_buf string[]
+---@field stderr_buf string[]
 local Process = {}
 
 Process.__index = Process
@@ -40,9 +43,9 @@ function Process.new(path, option, on_exit)
         stdin = uv.new_pipe(false),
         stdout = uv.new_pipe(false),
         stderr = uv.new_pipe(false),
-        standard_input = {},
-        standard_output = {},
-        standard_error = {},
+        stdin_buf = {},
+        stdout_buf = {},
+        stderr_buf = {},
     }
     setmetatable(process, Process)
     return process
@@ -60,22 +63,16 @@ end
 function Process:start()
     if not lib.executable(self.path) then self.is_valid = false end
     if self.has_exited or not self.is_valid then return end
-    self.standard_output = {}
-    self.standard_error = {}
-    local on_read = function(err, data)
-        if err then
-            table.insert(self.standard_error, err)
-            print(err)
-        elseif data then
-            table.insert(self.standard_output, data)
-        end
-    end
+    self.stdout_buf = {}
+    self.stderr_buf = {}
     local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
     opt = vim.tbl_extend("keep", opt, self.option)
     self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(
         function(code, signal)
+            uv.shutdown(self.stdin)
             self.stdout:read_stop()
             self.stderr:read_stop()
+            self.stdin:close()
             self.stdout:close()
             self.stderr:close()
             self.handle:close()
@@ -91,8 +88,24 @@ function Process:start()
                 self.callback(self, code, signal)
             end
         end))
-    self.stdout:read_start(vim.schedule_wrap(on_read))
-    self.stderr:read_start(vim.schedule_wrap(on_read))
+    self.stdout:read_start(vim.schedule_wrap(function(err, data)
+        assert(not err, err)
+        if data then
+            table.insert(self.stdout_buf, data)
+            if type(self.on_stdout) == "function" then
+                self.on_stdout(data)
+            end
+        end
+    end))
+    self.stderr:read_start(vim.schedule_wrap(function(err, data)
+        assert(not err, err)
+        if data then
+            table.insert(self.stderr_buf, data)
+            if type(self.on_stderr) == "function" then
+                self.on_stderr(data)
+            end
+        end
+    end))
 end
 
 ---Append callback function.
@@ -128,6 +141,13 @@ function Process:await()
     self:start()
     coroutine.yield()
     return _c, _s
+end
+
+---Print `stderr`.
+function Process:notify_err()
+    if not vim.tbl_isempty then
+        lib.notify_err(table.concat(self.stderr_buf))
+    end
 end
 
 return Process

@@ -35,7 +35,7 @@ local run_bin = function(tbl)
     local bin = lib.path_append(tbl.fwd, tbl.bin)
     local data, event = TermProc.new({ bin }, {
         cwd = tbl.fwd,
-    }, function (_, _, data, event)
+    }, function(_, _, data, event)
         if ok(data, event) and lib.path_exists(bin) then
             vim.loop.fs_unlink(bin)
         end
@@ -51,7 +51,25 @@ local has_error = function(proc, label)
     if proc:await() ~= 0 then
         if not lib.new_split("belowright") then return false end
         local chan = vim.api.nvim_open_term(0, {})
-        local data = table.concat(proc.standard_output):gsub("\n", "\r\n")
+        local stderr = vim.tbl_isempty(proc.stderr_buf) and "" or
+            [[
+
+--------------------------------------------------------------------------------
+                                 STANDARD ERROR
+--------------------------------------------------------------------------------
+
+]]
+            .. table.concat(proc.stderr_buf)
+        local stdout = vim.tbl_isempty(proc.stdout_buf) and "" or
+            [[
+
+--------------------------------------------------------------------------------
+                                  STANDARD OUT
+--------------------------------------------------------------------------------
+
+]]
+            .. table.concat(proc.stdout_buf)
+        local data = (stderr .. stdout):gsub("\n", "\r\n")
         vim.api.nvim_chan_send(chan, data)
         local l = ""
         if label then l = label .. ": " end

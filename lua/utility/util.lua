@@ -230,7 +230,7 @@ function M.git_push_all(arg_tbl)
         if code == 0 then
             vim.notify("Commit message: " .. m_arg)
         else
-            lib.notify_err(table.concat(proc.standard_output))
+            proc:notify_err()
         end
     end)
 
@@ -239,9 +239,9 @@ function M.git_push_all(arg_tbl)
         cwd = git_root,
     }, function(proc, code, _)
         if code == 0 then
-            vim.notify(table.concat(proc.standard_output):gsub("[\t\n\r]", " "))
+            vim.notify(table.concat(proc.stdout_buf):gsub("[\t\n\r]", " "))
         else
-            lib.notify_err(table.concat(proc.standard_output))
+            proc:notify_err()
         end
     end)
 
@@ -353,12 +353,12 @@ function M.nvim_upgrade(channel)
     futures.async(function()
         vim.notify("Downloading...")
         if download:await() ~= 0 then
-            lib.notify_err(table.concat(download.standard_output))
+            download:notify_err()
             return
         end
         vim.notify("Package downloaded. Installing...")
         if extract:await() ~= 0 then
-            lib.notify_err(table.concat(extract.standard_output))
+            extract:notify_err()
             return
         end
         nvim_path:rm { recursive = true }
