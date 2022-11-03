@@ -193,9 +193,20 @@ function Mail.new_file()
     local config = MailConfig.get()
     if not config then return end
     local mail_name = tostring(os.date("OUT%Y%m%d%H%M%S.eml"))
-    vim.cmd.edit(lib.path_append(config.outbox_dir, mail_name))
-    vim.api.nvim_paste(os.date([[
-From: 
+
+    futures.async(function()
+        local provider = futures.ui.select(config.providers, {
+            prompt = "Select mailbox provider: ",
+            format_item = function(item)
+                return item.label
+            end
+        })
+        if not provider then return end
+        vim.cmd.edit(lib.path_append(config.outbox_dir, mail_name))
+        local from = "<" .. provider.user_name .. ">"
+        vim.api.nvim_paste(os.date([[
+From: ]] .. from .. [[
+
 Subject: 
 To: 
 Reply-To: 
@@ -204,8 +215,9 @@ Date: %c
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------]]), true, -1)
-    lib.feedkeys("gg", "n", true)
-    vim.bo.fileformat = "dos"
+        lib.feedkeys("gg05l", "n", true)
+        vim.bo.fileformat = "dos"
+    end)
 end
 
 ---Instantiate a mail object from current buffer.
@@ -264,13 +276,24 @@ function Mail:send()
 
     -- Send.
     futures.async(function()
-        local provider = futures.ui.select(config.providers, {
-            prompt = "Select mailbox provider: ",
-            format_item = function(item)
-                return item.label
+        local provider
+
+        local user_name = self.from:match("<(.+)>")
+
+        if not user_name then
+            lib.notify_err("Invalid user name.")
+        end
+
+        for _, p in ipairs(config.providers) do
+            if p.user_name == user_name then
+                provider = p
+                break
             end
-        })
-        if not provider then return end
+        end
+
+        if not provider then
+            lib.notify_err("Did not fide mailbox with user name: " .. user_name)
+        end
 
         local code = futures.Task.new(nmail_send, {
             self.from, self.to, self.reply_to, self.subject, self.body,
