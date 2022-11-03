@@ -276,6 +276,8 @@ function Mail:send()
 
     -- Send.
     futures.async(function()
+        if futures.ui.input { prompt = "Send?" } ~= "y" then return end
+
         local provider
 
         local user_name = self.from:match("<(.+)>")
