@@ -4,7 +4,7 @@ local util = require("futures.util")
 local try = util.try_call
 
 ---Check `fut_list` for `futures.join` & `futures.select`.
----@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 ---@return boolean
 local function check_fut_list(fut_list)
     if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
@@ -22,7 +22,7 @@ function M.async(async_block)
 end
 
 ---Execute the futrues one by one.
----@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 function M.queue(fut_list)
     if not check_fut_list(fut_list) then return end
     for i = 1, #fut_list - 1, 1 do
@@ -32,7 +32,7 @@ function M.queue(fut_list)
 end
 
 ---Polls multiple futures simultaneously.
----@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 ---@param timeout? integer Number of milliseconds to wait, default no timeout.
 ---@return table result List of results once complete.
 function M.join(fut_list, timeout)
@@ -101,7 +101,7 @@ end
 
 ---Polls multiple futures simultaneously,
 ---returns once the first future is complete.
----@param fut_list Process[]|Task[]|TermProc[] List of futrues.
+---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 function M.select(fut_list)
     local result
     if not check_fut_list(fut_list) then return result end

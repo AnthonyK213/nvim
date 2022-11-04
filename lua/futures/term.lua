@@ -1,7 +1,7 @@
 local lib = require("utility.lib")
 local util = require("futures.util")
 
----@class TermProc
+---@class futures.Terminal
 ---@field cmd string[]
 ---@field option table
 ---@field callback? function
@@ -12,17 +12,17 @@ local util = require("futures.util")
 ---@field no_callbacks boolean
 ---@field winnr integer
 ---@field bunnr integer
-local TermProc = {}
+local Terminal = {}
 
-TermProc.__index = TermProc
+Terminal.__index = Terminal
 
 ---Constructor.
 ---@param cmd string[]
 ---@param option? table
 ---@param on_exit? function
----@return TermProc
-function TermProc.new(cmd, option, on_exit)
-    local term_proc = {
+---@return futures.Terminal
+function Terminal.new(cmd, option, on_exit)
+    local terminal = {
         cmd = cmd,
         option = option or {},
         id = -1,
@@ -33,23 +33,23 @@ function TermProc.new(cmd, option, on_exit)
         winnr = -1,
         bufnr = -1,
     }
-    setmetatable(term_proc, TermProc)
-    return term_proc
+    setmetatable(terminal, Terminal)
+    return terminal
 end
 
 ---Clone a terminal process.
----@return TermProc
-function TermProc:clone()
-    local term_proc = TermProc.new(self.cmd, vim.deepcopy(self.option))
-    term_proc.callbacks = vim.deepcopy(self.callbacks)
-    return term_proc
+---@return futures.Terminal
+function Terminal:clone()
+    local terminal = Terminal.new(self.cmd, vim.deepcopy(self.option))
+    terminal.callbacks = vim.deepcopy(self.callbacks)
+    return terminal
 end
 
 ---Run the terminal process.
 ---@return boolean ok True if terminal started successfully.
 ---@return integer winnr Window number of the terminal, -1 on failure.
 ---@return integer bufnr Buffer number of the terminal, -1 on failure.
-function TermProc:start()
+function Terminal:start()
     if self.has_exited or not self.is_valid then return false, -1, -1 end
     local ok, winnr, bufnr = lib.new_split(self.option.split_pos or "belowright", {
         split_size = self.option.split_size,
@@ -89,16 +89,16 @@ end
 
 ---Append callback function.
 ---@param callback function Callback function.
-function TermProc:append_cb(callback)
+function Terminal:append_cb(callback)
     table.insert(self.callbacks, callback)
 end
 
 ---Continue with a terimal process.
----@param term_proc TermProc
-function TermProc:continue_with(term_proc)
+---@param terminal futures.Terminal
+function Terminal:continue_with(terminal)
     self:append_cb(function(_, _, data, event)
         if data == 0 and event == "exit" then
-            term_proc:start()
+            terminal:start()
         end
     end)
 end
@@ -106,7 +106,7 @@ end
 ---Await the terminal process.
 ---@return integer data
 ---@return string event
-function TermProc:await()
+function Terminal:await()
     local _d, _e
     local _co = coroutine.running()
     if not _co then
@@ -122,4 +122,4 @@ function TermProc:await()
     return _d, _e
 end
 
-return TermProc
+return Terminal

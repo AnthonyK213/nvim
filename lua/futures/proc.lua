@@ -2,7 +2,7 @@ local uv = vim.loop
 local lib = require("utility.lib")
 local util = require("futures.util")
 
----@class Process
+---@class futures.Process
 ---@field path string
 ---@field option table
 ---@field callback? function
@@ -29,7 +29,7 @@ Process.__index = Process
 ---@param path string
 ---@param option? table
 ---@param on_exit? function
----@return Process
+---@return futures.Process
 function Process.new(path, option, on_exit)
     local process = {
         path = path,
@@ -52,7 +52,7 @@ function Process.new(path, option, on_exit)
 end
 
 ---Clone a process.
----@return Process
+---@return futures.Process
 function Process:clone()
     local proc = Process.new(self.path, vim.deepcopy(self.option))
     proc.callbacks = vim.deepcopy(self.callbacks)
@@ -115,7 +115,7 @@ function Process:append_cb(callback)
 end
 
 ---Continue with a process.
----@param process Process
+---@param process futures.Process
 function Process:continue_with(process)
     self:append_cb(function(_, code, _)
         if code == 0 then

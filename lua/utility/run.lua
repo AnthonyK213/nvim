@@ -3,11 +3,11 @@ local lib = require("utility.lib")
 local futures = require("futures")
 local Process = futures.Process
 local Task = futures.Task
-local TermProc = futures.Terminal
+local Terminal = futures.Terminal
 
 local M = {}
 
----Determine if the TermProc has run and exited successfully.
+---Determine if the terminal process has run and exited successfully.
 ---@param data integer
 ---@param event string
 ---@return boolean ok
@@ -16,11 +16,11 @@ local ok = function(data, event)
 end
 
 ---Wrap a termianl process to a recipe function.
----@param term_proc TermProc
+---@param terminal futures.Terminal
 ---@return function
-local wrap = function(term_proc)
+local wrap = function(terminal)
     return function()
-        local data, event = term_proc:await()
+        local data, event = terminal:await()
         if not ok(data, event) then
             return false
         end
@@ -33,7 +33,7 @@ end
 ---@return boolean
 local run_bin = function(tbl)
     local bin = lib.path_append(tbl.fwd, tbl.bin)
-    local data, event = TermProc.new({ bin }, {
+    local data, event = Terminal.new({ bin }, {
         cwd = tbl.fwd,
     }, function(_, _, data, event)
         if ok(data, event) and lib.path_exists(bin) then
@@ -45,7 +45,7 @@ local run_bin = function(tbl)
 end
 
 ---Check if `proc` has error, if so, print the `stderr`.
----@param proc Process
+---@param proc futures.Process
 ---@param label string?
 local has_error = function(proc, label)
     if proc:await() ~= 0 then
@@ -90,7 +90,7 @@ local comp_table = {
             output_dir = "/tmp/nvim_processing/" .. sketch_name
         end
         if tbl.opt == "" then
-            return wrap(TermProc.new({
+            return wrap(Terminal.new({
                 "processing-java",
                 "--sketch=" .. tbl.fwd,
                 "--output=" .. output_dir,
@@ -106,7 +106,7 @@ local comp_table = {
         if root then
             if not lib.executable("make") then return end
             return function()
-                return wrap(TermProc.new(tbl.opt == ""
+                return wrap(Terminal.new(tbl.opt == ""
                     and { "make" } or { "make", tbl.opt }, {
                     cwd = root
                 }))()
@@ -133,7 +133,7 @@ local comp_table = {
                 end
             else
                 return function()
-                    return wrap(TermProc.new(cmd, { cwd = tbl.fwd }))()
+                    return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
                 end
             end
         else
@@ -169,7 +169,7 @@ local comp_table = {
         if sln_root then
             if not lib.executable("MSBuild") then return end
             return function()
-                return wrap(TermProc.new({ "MSBuild.exe", sln_root }, {
+                return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
                     cwd = sln_root
                 }))()
             end
@@ -183,7 +183,7 @@ local comp_table = {
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
             return function()
-                return wrap(TermProc.new(cmd, { cwd = tbl.fwd }))()
+                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
             end
         else
             lib.notify_err("Invalid argument.")
@@ -205,7 +205,7 @@ local comp_table = {
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
             return function()
-                return wrap(TermProc.new(cmd, { cwd = tbl.fwd }))()
+                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
             end
         else
             lib.notify_err("Invalid argument.")
@@ -217,7 +217,7 @@ local comp_table = {
         elseif tbl.opt == "nojit" then
             if not lib.executable("lua") then return end
             return function()
-                return wrap(TermProc.new({ "lua", tbl.fnm }, {
+                return wrap(Terminal.new({ "lua", tbl.fnm }, {
                     cwd = tbl.fwd
                 }))()
             end
@@ -230,7 +230,7 @@ local comp_table = {
     make = function(tbl)
         if not lib.executable("make") then return end
         return function()
-            return wrap(TermProc.new(tbl.opt == ""
+            return wrap(Terminal.new(tbl.opt == ""
                 and { "make" } or { "make", tbl.opt }, {
                 cwd = tbl.fwd
             }))()
@@ -241,7 +241,7 @@ local comp_table = {
         if not lib.executable(py) then return end
         if tbl.opt == "" then
             return function()
-                return wrap(TermProc.new({ py, tbl.fnm }, {
+                return wrap(Terminal.new({ py, tbl.fnm }, {
                     cwd = tbl.fwd
                 }))()
             end
@@ -253,7 +253,7 @@ local comp_table = {
         if not lib.executable("ruby") then return end
         if tbl.opt == "" then
             return function()
-                return wrap(TermProc.new({ "ruby", tbl.fnm }, {
+                return wrap(Terminal.new({ "ruby", tbl.fnm }, {
                     cwd = tbl.fwd
                 }))()
             end
@@ -285,7 +285,7 @@ local comp_table = {
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
             return function()
-                return wrap(TermProc.new(cmd, { cwd = cargo_root }))()
+                return wrap(Terminal.new(cmd, { cwd = cargo_root }))()
             end
         else
             lib.notify_err("Invalid argument.")
@@ -328,7 +328,7 @@ local comp_table = {
             },
             cwd = cwd,
         }, tex_cb("XeLaTeX"))
-        ---@type table<string, Process>
+        ---@type table<string, futures.Process>
         local bib_table = {
             biber = Process.new("biber", {
                 args = { name .. ".bcf" },
@@ -389,17 +389,17 @@ function M.get_recipe(option)
         opt = option,
     }
     if comp_table[vim.bo.filetype] then
-        local term_proc = comp_table[vim.bo.filetype](tbl)
-        local proc_type = type(term_proc)
+        local terminal = comp_table[vim.bo.filetype](tbl)
+        local proc_type = type(terminal)
         if proc_type == "function" then
-            return term_proc, true
+            return terminal, true
         elseif proc_type == "string" then
             return function()
                 vim.api.nvim_set_current_dir(tbl.fwd)
                 vim.schedule(function()
                     vim.api.nvim_set_current_dir(tbl.bwd)
                 end)
-                vim.cmd(term_proc)
+                vim.cmd(terminal)
             end, false
         end
     else

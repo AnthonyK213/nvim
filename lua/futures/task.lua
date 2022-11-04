@@ -3,7 +3,7 @@ local uv_callback_index = {
     fs_opendir = 2,
 }
 
----@class Task Async/await implemented with coroutine and libuv.
+---@class futures.Task
 ---@field action function
 ---@field is_async boolean|integer `action` is asynchronous or not, default `false`.
 ---@field callback? function
@@ -22,7 +22,7 @@ Task.__index = Task
 ---@param option? any Optional argument.
 ---  - `hash_table`: "is_async", "args", "callback"
 ---  - `list_like_table` | `not nil`: varargs
----@return Task
+---@return futures.Task
 function Task.new(action, option)
     local task = {
         action = action,
@@ -51,7 +51,7 @@ end
 ---Create a task from a libuv async function.
 ---@param uv_action string Asynchronous function name from libuv.
 ---@param ... any Function arguments.
----@return Task
+---@return futures.Task
 function Task.from_uv(uv_action, ...)
     local _co = coroutine.running()
     if not _co or coroutine.status(_co) == "dead" then
@@ -136,7 +136,7 @@ end
 
 ---Creates a task that will complete after a time delay (ms).
 ---@param delay integer Delay in milliseconds.
----@return Task task
+---@return futures.Task task
 function Task.delay(delay)
     return Task.new(vim.defer_fn, { is_async = 1, args = { delay } })
 end
@@ -145,7 +145,7 @@ end
 ---If `next` is a `function`, the task will start instantly with the new callback
 --- `next`; If `next` is a `Task`, task `next` will start after this task ends
 --- (task will not start automatically).
----@param next function|Task
+---@param next function|futures.Task
 function Task:continue_with(next)
     local next_type = type(next)
     if next_type == "function" then
