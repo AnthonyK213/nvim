@@ -196,7 +196,7 @@ function M.git_push_all(arg_tbl)
     -- Check git status.
     if not lib.executable("git") then return end
 
-    local git_root = lib.get_root([[^\.git$]])
+    local git_root = lib.get_root([[^\.git$]], "directory")
     local git_branch
 
     if git_root then
@@ -373,6 +373,8 @@ end
 
 ---Build crates in `$config/rust/` directory.
 function M.build_dylibs()
+    if not lib.executable("cargo") then return end
+
     local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
     local dylibs_dir = _my_core_opt.path.dylib
     local dylib_ext = lib.get_dylib_ext()
@@ -384,12 +386,12 @@ function M.build_dylibs()
         end
     end
 
-    if not lib.executable("cargo") then return end
+    local build_tasks = {}
 
     for _name, _type in vim.fs.dir(crates_dir) do
         if _type == "directory" then
             local crate_dir = lib.path_append(crates_dir, _name)
-            Process.new("cargo", {
+            table.insert(build_tasks, Process.new("cargo", {
                 args = { "build", "--release" },
                 cwd = crate_dir,
             }, function(_, code, _)
@@ -400,17 +402,28 @@ function M.build_dylibs()
                         lib.path_append(dylibs_dir, dylib_name),
                         vim.schedule_wrap(function(err, success)
                             if success then
-                                print("Building `" .. _name .. "`: Succeed.")
+                                print(_name .. ": Build successfully.")
                             else
                                 print(err)
                             end
                         end))
                 else
-                    lib.notify_err("Building `" .. _name .. "`: Failed.")
+                    lib.notify_err(_name .. ": Build failed.")
                 end
-            end):start()
+            end))
         end
     end
+
+    if vim.tbl_isempty(build_tasks) then
+        vim.notify("No building task.")
+        return
+    end
+
+    futures.async(function ()
+        futures.join(build_tasks)
+        Task.delay(1000):await()
+        print("Done")
+    end)
 end
 
 return M

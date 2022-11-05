@@ -47,7 +47,6 @@ function M.join(fut_list, timeout)
     local _co = coroutine.running()
     if _co and coroutine.status(_co) ~= "dead" then
         for i, fut in ipairs(fut_list) do
-            fut.no_callbacks = true
             fut.callback = function(...)
                 result[i] = { ... }
                 count = count + 1
@@ -75,7 +74,6 @@ function M.join(fut_list, timeout)
         end
     else
         for i, fut in ipairs(fut_list) do
-            fut.no_callbacks = true
             fut.callback = function(...)
                 result[i] = { ... }
                 count = count + 1
@@ -101,6 +99,7 @@ end
 
 ---Polls multiple futures simultaneously,
 ---returns once the first future is complete.
+---Callbacks of each future will be ignored.
 ---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 function M.select(fut_list)
     local result

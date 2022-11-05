@@ -93,32 +93,16 @@ end
 ---@param git_root? string Git repository root directory.
 ---@return string? result Current branch name.
 function M.get_git_branch(git_root)
-    git_root = git_root or M.get_root([[^\.git$]])
+    git_root = git_root or M.get_root([[^\.git$]], "directory")
     if not git_root then return end
-
-    git_root = git_root:gsub("[\\/]$", "")
-
-    local head_file
-    local dot_git = git_root .. "/.git"
-    local dot_git_stat = vim.loop.fs_stat(dot_git)
-
-    if dot_git_stat.type == "directory" then
-        head_file = git_root .. "/.git/HEAD"
-    elseif dot_git_stat.type == "file" then
-        local gitdir_line = vim.fn.readfile(dot_git)[1]
+    local head_file = M.path_append(git_root, "/.git/HEAD")
+    local file = io.open(head_file)
+    if file then
+        local gitdir_line = file:read("*l")
+        file:close()
         if gitdir_line then
-            local gitdir = gitdir_line:match("^gitdir:%s(.+)$")
-            if gitdir then
-                head_file = git_root .. "/" .. gitdir .. "/HEAD"
-            end
-        end
-    end
-
-    if head_file and head_file ~= "" and M.path_exists(head_file) then
-        local ref_line = vim.fn.readfile(head_file)[1]
-        if ref_line then
-            local branch = ref_line:match("^ref:%s.+/(.-)$")
-            if branch and branch ~= "" then
+            local branch = gitdir_line:match("^ref:%s.+/([^%s]-)$")
+            if branch and #branch > 0 then
                 return branch
             end
         end
@@ -282,16 +266,15 @@ function M.has_windows()
     return M.get_os_type() == M.Os.Windows
 end
 
----Decode json from file.
+---Decode json from file path.
 ---(`new_work` invocable)
----@param file string File to decode.
+---@param path string Path of file to decode.
 ---@return integer code Code, 1: json is invalid, 2: file does not exist.
 ---@return table? result Decode result.
-function M.json_decode(file)
-    local f = io.open(file, "r")
-    if f then
-        local ok, result = pcall(vim.json.decode, f:read("*a"))
-        f:close()
+function M.json_decode(path)
+    local content = M.read_all_text(path)
+    if content then
+        local ok, result = pcall(vim.json.decode, content)
         if ok then
             return 0, result
         end
@@ -411,6 +394,19 @@ function M.path_exists(path, cwd)
     end
     local stat = vim.loop.fs_stat(path)
     return (stat and stat.type) or false
+end
+
+---Opens a text file, reads all the text in the file into a string,
+---and then closes the file.
+---@param path string The file to open for reading.
+---@return string? content A string containing all the text in the file.
+function M.read_all_text(path)
+    local file = io.open(path, "r")
+    if file then
+        local content = file:read("*a")
+        file:close()
+        return content
+    end
 end
 
 ---Return number value of the first char in `str`.
