@@ -278,13 +278,14 @@ function Mail:send()
     futures.async(function()
         if futures.ui.input { prompt = "Send?" } ~= "y" then return end
 
-        local provider
-
         local user_name = self.from:match("<(.+)>")
 
         if not user_name then
             lib.notify_err("Invalid user name.")
+            return
         end
+
+        local provider
 
         for _, p in ipairs(config.providers) do
             if p.user_name == user_name then
@@ -295,7 +296,10 @@ function Mail:send()
 
         if not provider then
             lib.notify_err("Did not fide mailbox with user name: " .. user_name)
+            return
         end
+
+        vim.notify("Sending...")
 
         local code = futures.Task.new(nmail_send, {
             self.from, self.to, self.reply_to, self.subject, self.body,
@@ -339,7 +343,10 @@ function Mailbox:fetch()
                 return item.label
             end
         })
+
         if not provider then return end
+
+        vim.notify("Fetching...")
 
         local body = futures.Task.new(nmail_fetch, {
             provider.imap, provider.port,
