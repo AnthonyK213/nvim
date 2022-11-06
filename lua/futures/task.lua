@@ -102,7 +102,7 @@ function Task:start()
         else
             table.insert(args, cb)
         end
-        self.action(unpack(args))
+        self.handle = self.action(unpack(args))
         return true
     end
     self.handle = vim.loop.new_work(self.action, cb)
