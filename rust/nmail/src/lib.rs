@@ -38,7 +38,7 @@ fn fetch_inbox_top(
         .login_with_id(
             user_name,
             password,
-            &HashMap::from_iter([("name", "IMAPClient"), ("version", "2.1.0")]),
+            &HashMap::from_iter([("name", "Nmail"), ("version", "0.1.0")]),
         )
         .map_err(|e| e.0)?;
 
