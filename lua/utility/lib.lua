@@ -486,7 +486,7 @@ function M.str_replace(str, esc_table)
 end
 
 ---Returns the Unicode substring of the string that starts at `i` and continues until `j`.
----@see [string.sub](http://www.lua.org/manual/5.1/manual.html#pdf-string.sub)
+---@see string.sub
 ---@param str string
 ---@param i integer
 ---@param j? integer

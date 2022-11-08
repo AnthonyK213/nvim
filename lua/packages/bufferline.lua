@@ -13,12 +13,15 @@ require("bufferline").setup {
         tab_size = 18,
         ---@type string|boolean
         diagnostics = "nvim_lsp",
-        diagnostics_indicator = function(count) return "(" .. count .. ")" end,
-        custom_filter = function(buf_number)
-            local bt = vim.bo[buf_number].bt
+        diagnostics_indicator = function(count, _, _, _)
+            return "(" .. count .. ")"
+        end,
+        custom_filter = function(bufnr, _)
+            local bt = vim.bo[bufnr].bt
             if not vim.tbl_contains({ "terminal", "quickfix" }, bt) then
                 return true
             end
+            return false
         end,
         show_buffer_icons = false,
         show_buffer_close_icons = true,
