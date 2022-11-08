@@ -420,6 +420,7 @@ function M.build_dylibs()
     end
 
     futures.async(function ()
+        print("Building...")
         futures.join(build_tasks)
         Task.delay(1000):await()
         print("Done")

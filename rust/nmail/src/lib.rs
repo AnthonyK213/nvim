@@ -135,7 +135,7 @@ pub extern "C" fn nmail_fetch(
 
     if let Ok(Some(_body)) = fetch_inbox_top(_server, _port, _user_name, _password) {
         if let Ok(body) = CString::new(_body) {
-            return body.into_raw()
+            return body.into_raw();
         }
     }
     std::ptr::null_mut()
