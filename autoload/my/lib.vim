@@ -34,21 +34,9 @@ function! my#lib#get_context() abort
 endfunction
 
 " Get the branch name.
-function! my#lib#get_git_branch(git_root = my#lib#get_root(".git")) abort
+function! my#lib#get_git_branch(git_root = my#lib#get_root(".git", "directory")) abort
   if a:git_root == v:null | return v:null | endif
-  let l:git_root = substitute(a:git_root, '\v[\\/]$', '', '')
-  let l:dot_git = l:git_root . '/.git'
-  let l:head_file = ""
-  if isdirectory(l:dot_git)
-    let l:head_file = l:git_root . '/.git/HEAD'
-  elseif !empty(glob(l:dot_git))
-    let l:gitdir_line = readfile(l:dot_git)[0]
-    let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-    if len(l:gitdir_matches) > 0
-      let l:gitdir = l:gitdir_matches[1]
-      let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
-    endif
-  endif
+  let l:head_file = my#lib#path_append(a:git_root, "/.git/HEAD")
   if !empty(l:head_file) && !empty(glob(l:head_file))
     let l:ref_line = readfile(l:head_file)[0]
     let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
@@ -166,6 +154,13 @@ function! my#lib#notify_err(err) abort
   echohl None
 endfunction
 
+" Append file/directory/sub-path to a path.
+function! my#lib#path_append(path, item) abort
+  let l:path_trim = substitute(a:path, '\v[\/]+$', "", "")
+  let l:item_trim = substitute(a:item, '\v^[\/]+', "", "")
+  return expand(l:path_trim . "/" . l:item_trim)
+endfunction
+
 " Check if file/directory exists.
 function! my#lib#path_exists(path, ...) abort
   let l:is_rel = 1
@@ -185,8 +180,7 @@ function! my#lib#path_exists(path, ...) abort
     else
       let l:cwd = a:1
     endif
-    let l:cwd = substitute(l:cwd, '\v[\\/]$', '', '')
-    let l:path = l:cwd . '/' . l:path
+    let l:path = my#lib#path_append(l:cwd, l:path)
   endif
   if empty(glob(l:path))
     return 0

@@ -477,7 +477,7 @@ function! my#config#vsession() abort
   function! s:save_session() closure
     if &filetype ==# 'startify' | return | end
     let l:file = getcwd()
-    let l:file = substitute(l:file, '\v[\\/]', '__', 'g')
+    let l:file = substitute(l:file, '\v[\/]', '__', 'g')
     let l:file = substitute(l:file, ':', '++', 'g')
     let l:path = s:session_dir . '/' . l:file
     execute 'silent mksession!' l:path
