@@ -371,8 +371,8 @@ end
 ---@param item string Item to append to the path.
 ---@return string
 function M.path_append(path, item)
-    local path_trim = path:gsub("[\\/]$", "")
-    local item_trim = item:gsub("^[\\/]", "")
+    local path_trim = path:gsub("[\\/]+$", "")
+    local item_trim = item:gsub("^[\\/]+", "")
     return vim.fs.normalize(path_trim .. "/" .. item_trim)
 end
 
