@@ -24,8 +24,8 @@ local opt = {
     path = {
         home = vim.env.HOME,
         cloud = vim.env.ONEDRIVE or vim.env.HOME,
-        desktop = vim.fs.normalize(vim.env.HOME .. "/Desktop"),
-        bin = vim.fs.normalize(vim.env.HOME .. "/bin"),
+        desktop = vim.env.HOME .. "/Desktop",
+        bin = vim.env.HOME .. "/bin",
     },
     tui = {
         scheme = "onedark",
@@ -85,6 +85,11 @@ if exists and opt_file then
     else
         vim.notify("Invalid option file", vim.log.levels.WARN, nil)
     end
+end
+
+-- Normalize the paths.
+for k, v in pairs(opt.path) do
+    opt.path[k] = vim.fs.normalize(v)
 end
 
 ---Set global variables according to a table.
