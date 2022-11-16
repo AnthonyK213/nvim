@@ -99,6 +99,11 @@ require("nvim-tree").setup {
         ignore = false,
         timeout = 400
     },
+    filesystem_watchers = {
+        enable = false,
+        debounce_delay = 50,
+        ignore_dirs = {},
+    },
     actions = {
         change_dir = {
             enable = false,
