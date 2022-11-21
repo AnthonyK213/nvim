@@ -356,8 +356,8 @@ local comp_table = {
             return function()
                 vim.notify("Start compilation.")
                 if has_error(x1, "XeLaTeX-1") then return false end
-                if has_error(x2, "XeLaTeX-2") then return false end
                 if has_error(b, tbl.opt) then return false end
+                if has_error(x2, "XeLaTeX-2") then return false end
                 if has_error(x3, "XeLaTeX-3") then return false end
                 return tex_done()
             end
