@@ -43,5 +43,5 @@ cmd("SshConfig", function(_)
 end, { desc = "Open ssh configuration" })
 
 cmd("Time", function(_)
-    vim.notify(os.date("%Y-%m-%d %a %T"))
+    vim.notify(os.date("%Y-%m-%d %a %T") --[[@as string]])
 end, { desc = "Echo time(May be useful in full screen?)" })

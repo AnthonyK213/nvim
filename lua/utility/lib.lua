@@ -1,11 +1,7 @@
 local M = {}
 
 ---Os types enum.
----@class Os
----@field Unknown integer Unknown os type.
----@field Linux integer Linux distribution.
----@field Windows integer Microsoft Windows with NT kernel.
----@field Macos integer Apple macOS with Darwin kernel.
+---@enum Os
 M.Os = {
     Unknown = 0,
     Linux = 1,
@@ -188,7 +184,7 @@ end
 
 ---Get OS type.
 ---(`new_work` invocable)
----@return integer os_type_enum Type of current operating system.
+---@return Os os_type_enum Type of current operating system.
 function M.get_os_type()
     local name = vim.loop.os_uname().sysname
     if name == "Linux" then

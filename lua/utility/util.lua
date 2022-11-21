@@ -3,6 +3,7 @@ local lib = require("utility.lib")
 local futures = require("futures")
 local Process = futures.Process
 local Task = futures.Task
+local _bg_timer
 
 ---Open terminal and launch shell.
 function M.terminal()
@@ -419,12 +420,44 @@ function M.build_dylibs()
         return
     end
 
-    futures.async(function ()
+    futures.async(function()
         print("Building...")
         futures.join(build_tasks)
         Task.delay(1000):await()
         print("Done")
     end)
+end
+
+---Determine if the background lock is active.
+---@return boolean is_active
+function M.bg_lock_is_active()
+    return _bg_timer ~= nil and _bg_timer:is_active()
+end
+
+---Set background according to the time.
+function M.bg_lock_toggle()
+    if _bg_timer then
+        if _bg_timer:is_active() then
+            _bg_timer:stop()
+            vim.notify("Background is unlocked.")
+        else
+            _bg_timer:again()
+            vim.notify("Background is locked.")
+        end
+    else
+        _bg_timer = vim.loop.new_timer()
+        _bg_timer:start(0, 600, vim.schedule_wrap(function()
+            local hour = os.date("*t").hour
+            local bg = (hour > 6 and hour < 18) and "light" or "dark"
+            if vim.g._my_theme_switchable == true then
+                if vim.o.bg ~= bg then vim.o.bg = bg end
+            elseif type(vim.g._my_theme_switchable) == "function" then
+                vim.g._my_theme_switchable(bg)
+            else
+                _bg_timer:stop()
+            end
+        end))
+    end
 end
 
 return M

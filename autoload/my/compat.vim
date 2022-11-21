@@ -19,21 +19,9 @@ function! my#compat#require(modname) abort
   call v:lua.require(a:modname)
 endfunction
 
-" Set background according to time.
-function! my#compat#time_background() abort
-lua << EOF
-  local timer = vim.loop.new_timer()
-  timer:start(0, 600, vim.schedule_wrap(function ()
-    if not vim.g._my_lock_background then return end
-    local hour = tonumber(os.date("%H"))
-    local bg = (hour > 6 and hour < 18) and "light" or "dark"
-    if vim.g._my_theme_switchable == true then
-      if vim.o.bg ~= bg then vim.o.bg = bg end
-    elseif type(vim.g._my_theme_switchable) == "function" then
-      vim.g._my_theme_switchable(bg)
-    end
-  end))
-EOF
+" Set background according to the time.
+function! my#compat#bg_lock_toggle() abort
+  call v:lua.require("utility.util").bg_lock_toggle()
 endfunction
 
 " Source vim file.

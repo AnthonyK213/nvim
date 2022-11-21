@@ -192,7 +192,7 @@ end
 function Mail.new_file()
     local config = MailConfig.get()
     if not config then return end
-    local mail_name = tostring(os.date("OUT%Y%m%d%H%M%S.eml"))
+    local mail_name = os.date("OUT%Y%m%d%H%M%S.eml") --[[@as string]]
 
     futures.async(function()
         local provider = futures.ui.select(config.providers, {
@@ -359,7 +359,7 @@ function Mailbox:fetch()
             return
         end
 
-        local mail_name = tostring(os.date("IN%Y%m%d%H%M%S.eml"))
+        local mail_name = os.date("IN%Y%m%d%H%M%S.eml") --[[@as string]]
         local mail_path = lib.path_append(config.inbox_dir, mail_name)
 
         local f = io.open(mail_path, "w")

@@ -126,7 +126,7 @@ kbd("Run test", "n", "<F41>", function() require("utility.run").code_run("test")
 kbd("Run test", "n", "<C-S-F5>", function() require("utility.run").code_run("test") end)
 kbd("Show document", "n", "K", function()
     local word, _, _ = lib.get_word()
-    lib.try(vim.cmd, "h " .. word)
+    lib.try(vim.cmd.help, word)
 end)
 kbd("Search visual selection forward", "v", "*", function()
     local pat = lib.get_gv()
@@ -169,7 +169,10 @@ kbd("Delete current buffer", "n", "<leader>bd", function()
     end
 end)
 kbd("Background toggle", "n", "<leader>bg", function()
-    if not vim.g._my_theme_switchable or vim.g._my_lock_background then return end
+    if not vim.g._my_theme_switchable
+        or require("utility.util").bg_lock_is_active() then
+        return
+    end
     if vim.g._my_theme_switchable == true then
         vim.o.bg = vim.o.bg == "dark" and "light" or "dark"
     elseif type(vim.g._my_theme_switchable) == "function" then
@@ -200,7 +203,7 @@ kbd("Evaluate lisp math expression surrounded by `", "n", "<leader>el", function
     require("utility.eval").lisp_eval()
 end)
 kbd("Insert a timestamp after cursor", "n", "<leader>ns", function()
-    vim.paste({ os.date("<%Y-%m-%d %a %H:%M>") }, -1)
+    vim.paste({ os.date("<%Y-%m-%d %a %H:%M>") --[[@as string]] }, -1)
 end)
 kbd("Append weekday after a date(yyyy-mm-dd)", "n", "<leader>nd", function()
     require("utility.gtd").append_day_from_date()
