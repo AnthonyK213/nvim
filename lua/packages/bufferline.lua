@@ -3,6 +3,8 @@ vim.cmd.packadd("bufferline.nvim")
 
 require("bufferline").setup {
     options = {
+        right_mouse_command = "",
+        middle_mouse_command = "bdelete! %d",
         buffer_close_icon = '×',
         modified_icon = '+',
         close_icon = '×',
@@ -30,7 +32,7 @@ require("bufferline").setup {
         separator_style = "thin",
         enforce_regular_tabs = false,
         always_show_bufferline = true,
-        sort_by = "extension"
+        sort_by = "id"
     }
 }
 
