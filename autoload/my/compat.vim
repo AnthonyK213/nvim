@@ -1,13 +1,15 @@
+let s:_bg_timer = v:null
+let s:_bg_locked = 0
+
 " Check background according to time.
-function! s:background_checker(bg_timer) abort
-  if !g:_my_lock_background | return | end
+function! s:bg_checker(bg_timer) abort
   let l:hour = str2nr(strftime('%H'))
   let l:bg = l:hour >= 6 && l:hour < 18 ? 'light' : 'dark'
   if &bg != l:bg | let &bg = l:bg | endif
 endfunction
 
 " MarkdownPreviewToggle
-function! s:markdownPreviewToggle() abort
+function! s:markdown_preview_toggle() abort
   if exists("g:vscode") > 0
     call VSCodeNotify("markdown.showPreviewToSide")
   elseif exists(":MarkdownPreviewToggle")
@@ -15,10 +17,36 @@ function! s:markdownPreviewToggle() abort
   endif
 endfunction
 
+" Determine if the Background lock is active.
+function! my#compat#bg_lock_is_active() abort
+  return s:_bg_locked
+endfunction
+
+" Set background according to time.
+function! my#compat#bg_lock_toggle() abort
+  if s:_bg_timer != v:null
+    if s:_bg_locked
+      call timer_pause(s:_bg_timer, 1)
+      let s:_bg_locked = 0
+      echom "Background is unlocked."
+    else
+      call timer_pause(s:_bg_timer, 0)
+      let s:_bg_locked = 1
+      echom "Background is locked."
+    end
+  else
+    let s:_bg_timer = timer_start(
+          \ 600,
+          \ function('s:bg_checker'),
+          \ { 'repeat': -1 })
+    call s:bg_checker(s:_bg_timer)
+    let s:_bg_locked = 1
+  endif
+endfunction
+
 " Background toggle.
 function! my#compat#bg_toggle() abort
-  if !g:_my_theme_switchable
-        \ || (exists("g:_my_lock_background") && g:_my_lock_background)
+  if !g:_my_theme_switchable || s:_bg_locked
     return
   else
     let &bg = &bg ==# 'dark' ? 'light' : 'dark'
@@ -44,7 +72,7 @@ function my#compat#md_kbd() abort
   endfor
   nnoremap <buffer><silent> <F5> <Cmd>PresentingStart<CR>
   call my#util#set_keymap("n", "<leader>mt",
-        \ function("s:markdownPreviewToggle"), {
+        \ function("s:markdown_preview_toggle"), {
           \ "noremap": 1,
           \ "silent": 1,
           \ })
@@ -146,15 +174,6 @@ function! my#compat#stdpath(what, nvim = 1) abort
     echoerr 'E6100: "' . a:what . '" is not a valid stdpath'
     return
   endif
-endfunction
-
-" Set background according to time.
-function! my#compat#time_background() abort
-  let bg_timer = timer_start(
-        \ 600,
-        \ function('<SID>background_checker'),
-        \ { 'repeat': -1 })
-  call s:background_checker(bg_timer)
 endfunction
 
 " Source vim file.
