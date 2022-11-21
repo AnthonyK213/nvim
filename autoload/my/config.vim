@@ -226,10 +226,11 @@ function! my#config#indentLine() abort
   let g:indentLine_char = '▏'
   let g:vim_json_conceal = 0
   let g:indentLine_fileTypeExclude = [
+        \ 'coc-explorer',
         \ 'markdown',
+        \ 'startify',
         \ 'vimwiki',
         \ 'vimwiki.markdown',
-        \ 'startify',
         \ 'vista',
         \ 'vista_markdown',
         \ ]
