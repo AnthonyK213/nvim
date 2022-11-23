@@ -24,7 +24,16 @@ endfunction
 
 " Set background according to time.
 function! my#compat#bg_lock_toggle() abort
-  if s:_bg_timer != v:null
+  if !g:_my_theme_switchable
+    let s:_bg_locked = 0
+  elseif s:_bg_timer == v:null
+    let s:_bg_timer = timer_start(
+          \ 600,
+          \ function('s:bg_checker'),
+          \ { 'repeat': -1 })
+    call s:bg_checker(s:_bg_timer)
+    let s:_bg_locked = 1
+  else
     if s:_bg_locked
       call timer_pause(s:_bg_timer, 1)
       let s:_bg_locked = 0
@@ -34,13 +43,6 @@ function! my#compat#bg_lock_toggle() abort
       let s:_bg_locked = 1
       echom "Background is locked."
     end
-  else
-    let s:_bg_timer = timer_start(
-          \ 600,
-          \ function('s:bg_checker'),
-          \ { 'repeat': -1 })
-    call s:bg_checker(s:_bg_timer)
-    let s:_bg_locked = 1
   endif
 endfunction
 
