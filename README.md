@@ -321,7 +321,7 @@
   - [editorconfig.nvim](https://github.com/gpanders/editorconfig.nvim)
 * Completion; Snippet; LSP; TreeSitter; DAP
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
-  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+  - [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
   - [mason.nvim](https://github.com/williamboman/mason.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)

@@ -1,5 +1,8 @@
-vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippet"
+require("luasnip.loaders.from_vscode").lazy_load {
+    paths = { vim.fn.stdpath("config") .. "/snippet" }
+}
 
+local luasnip = require("luasnip")
 local cmp = require("cmp")
 local lib = require("utility.lib")
 local feedkeys = function(key, mode)
@@ -12,7 +15,7 @@ local cmp_setup = {
         keyword_length = 2,
     },
     snippet = {
-        expand = function(args) vim.fn["vsnip#anonymous"](args.body) end
+        expand = function(args) require("luasnip").lsp_expand(args.body) end
     },
     mapping = {
         ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
@@ -42,8 +45,8 @@ local cmp_setup = {
                     feedkeys("<C-\\><C-O>>>", "n")
                     vim.api.nvim_feedkeys(
                         string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
-                elseif vim.fn["vsnip#jumpable"](1) == 1 then
-                    feedkeys("<Plug>(vsnip-jump-next)", "")
+                elseif luasnip.expand_or_jumpable() then
+                    luasnip.expand_or_jump()
                 elseif context.b:match("[%w._:]$")
                     and vim.bo.bt ~= "prompt" then
                     cmp.complete()
@@ -52,8 +55,8 @@ local cmp_setup = {
                 end
             end,
             s = function(fallback)
-                if vim.fn["vsnip#jumpable"](1) == 1 then
-                    feedkeys("<Plug>(vsnip-jump-next)", "")
+                if luasnip.expand_or_jumpable() then
+                    luasnip.expand_or_jump()
                 else
                     fallback()
                 end
@@ -74,15 +77,15 @@ local cmp_setup = {
                     cmp.select_prev_item {
                         behavior = cmp.SelectBehavior.Insert
                     }
-                elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-                    feedkeys("<Plug>(vsnip-jump-prev)", "")
+                elseif luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
                 else
                     fallback()
                 end
             end,
             s = function(fallback)
-                if vim.fn["vsnip#jumpable"](-1) == 1 then
-                    feedkeys("<Plug>(vsnip-jump-prev)", "")
+                if luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
                 else
                     fallback()
                 end
@@ -100,7 +103,7 @@ local cmp_setup = {
     },
     sources = cmp.config.sources({
         { name = "nvim_lsp" },
-        { name = "vsnip" },
+        { name = "luasnip" },
         { name = "path" },
         { name = "nvim_lsp_signature_help" },
     }, {

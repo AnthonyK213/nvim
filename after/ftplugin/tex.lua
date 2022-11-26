@@ -9,7 +9,7 @@ require("cmp").setup.buffer {
         end,
     },
     sources = {
-        { name = "vsnip" },
+        { name = "luasnip" },
         { name = "omni" },
         { name = "buffer" },
         { name = "path" },
