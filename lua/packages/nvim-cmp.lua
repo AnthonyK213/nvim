@@ -1,7 +1,3 @@
-require("luasnip.loaders.from_vscode").lazy_load {
-    paths = { vim.fn.stdpath("config") .. "/snippet" }
-}
-
 local luasnip = require("luasnip")
 local cmp = require("cmp")
 local lib = require("utility.lib")
@@ -9,6 +5,16 @@ local feedkeys = function(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,
         true, true, true), mode, true)
 end
+
+require("luasnip.loaders.from_vscode").lazy_load {
+    paths = { vim.fn.stdpath("config") .. "/snippet" }
+}
+
+luasnip.config.set_config {
+    history = true,
+    updateevents = "TextChanged,TextChangedI",
+    delete_check_events = "TextChanged,TextChangedI"
+}
 
 local cmp_setup = {
     completion = {
@@ -45,8 +51,10 @@ local cmp_setup = {
                     feedkeys("<C-\\><C-O>>>", "n")
                     vim.api.nvim_feedkeys(
                         string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
-                elseif luasnip.expand_or_locally_jumpable() then
-                    luasnip.expand_or_jump()
+                elseif luasnip.locally_jumpable(1) then
+                    luasnip.jump(1)
+                elseif luasnip.expandable() then
+                    luasnip.expand {}
                 elseif context.b:match("[%w._:]$")
                     and vim.bo.bt ~= "prompt" then
                     cmp.complete()
@@ -55,8 +63,10 @@ local cmp_setup = {
                 end
             end,
             s = function(fallback)
-                if luasnip.expand_or_locally_jumpable() then
-                    luasnip.expand_or_jump()
+                if luasnip.locally_jumpable(1) then
+                    luasnip.jump(1)
+                elseif luasnip.expandable() then
+                    luasnip.expand {}
                 else
                     fallback()
                 end
