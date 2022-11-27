@@ -3,15 +3,20 @@
     "prefix": "align",
     "body": [
       "\\begin{align*}",
-      "\t${1}",
-      "\\end{align*}",
-      "\t${0}"
+      "\t${0}",
+      "\\end{align*}"
     ]
   },
   "fraction": {
     "prefix": "frac",
     "body": [
       "\\frac{${1}}{$2}${0}"
+    ]
+  },
+  "constant": {
+    "prefix": "const",
+    "body": [
+      "\\textrm{${1:${TM_SELECTED_TEXT}}}${0}"
     ]
   },
   "bold": {
@@ -60,27 +65,24 @@
     "prefix": "itemize",
     "body": [
       "\\begin{itemize}",
-      "\t\\item ${1}",
-      "\\end{itemize}",
-      "${0}"
+      "\t\\item ${0}",
+      "\\end{itemize}"
     ]
   },
   "enumerate": {
     "prefix": "enum",
     "body": [
       "\\begin{enumerate}",
-      "\t\\item ${1}",
-      "\\end{enumerate}",
-      "${0}"
+      "\t\\item ${0}",
+      "\\end{enumerate}"
     ]
   },
   "Environment": {
     "prefix": "beg",
     "body": [
       "\\begin{${1:name}}",
-      "\t${2}",
-      "\\end{${1:name}}",
-      "${0}"
+      "\t${0}",
+      "\\end{${1:name}}"
     ]
   },
   "Text": {
@@ -146,19 +148,19 @@
   "parenthesis1": {
     "prefix": "(",
     "body": [
-      "\\left(${1}\\right"
+      "\\left(${0}\\right"
     ]
   },
   "parenthesis2": {
     "prefix": "[",
     "body": [
-      "\\left[${1}\\right"
+      "\\left[${0}\\right"
     ]
   },
   "parenthesis3": {
     "prefix": "{",
     "body": [
-      "\\left{${1}\\right"
+      "\\left{${0}\\right"
     ]
   },
   "average": {
@@ -209,9 +211,8 @@
     "prefix": "formula",
     "body": [
       "\\$\\$",
-      "${1}",
-      "\\$\\$",
-      "${0}"
+      "${0}",
+      "\\$\\$"
     ]
   }
 }
