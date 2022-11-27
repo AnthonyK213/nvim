@@ -20,6 +20,7 @@ local _opt = { noremap = true, silent = true, buffer = true }
 local srd_table = {
     I = { { "\\textit{", "}" }, [[\vtexStyle(Ital|Both)]] },
     B = { { "\\textbf{", "}" }, [[\vtexStyleBo(ld|th)]] },
+    N = { { "\\textrm{", "}" }, [[\vtex(StyleArgConc|MathTextConcArg)]] },
 }
 
 vim.keymap.set("n", "<leader>mv", "<Cmd>VimtexTocToggle<CR>", _opt)

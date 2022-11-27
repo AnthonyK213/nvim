@@ -12,6 +12,7 @@ require("lua_pairs").setup {
         tex = {
             { k = "<M-B>", l = "\\textbf{", r = "}" },
             { k = "<M-I>", l = "\\textit{", r = "}" },
+            { k = "<M-N>", l = "\\textrm{", r = "}" },
         },
         rust = {
             {

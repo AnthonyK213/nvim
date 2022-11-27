@@ -13,6 +13,12 @@
       "\\frac{${1}}{$2}${0}"
     ]
   },
+  "constant": {
+    "prefix": "const",
+    "body": [
+      "\\textrm{${1:${TM_SELECTED_TEXT}}}${0}"
+    ]
+  },
   "bold": {
     "prefix": "bold",
     "body": [
