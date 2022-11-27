@@ -45,7 +45,7 @@ local cmp_setup = {
                     feedkeys("<C-\\><C-O>>>", "n")
                     vim.api.nvim_feedkeys(
                         string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
-                elseif luasnip.expand_or_jumpable() then
+                elseif luasnip.expand_or_locally_jumpable() then
                     luasnip.expand_or_jump()
                 elseif context.b:match("[%w._:]$")
                     and vim.bo.bt ~= "prompt" then
@@ -55,7 +55,7 @@ local cmp_setup = {
                 end
             end,
             s = function(fallback)
-                if luasnip.expand_or_jumpable() then
+                if luasnip.expand_or_locally_jumpable() then
                     luasnip.expand_or_jump()
                 else
                     fallback()
@@ -77,14 +77,14 @@ local cmp_setup = {
                     cmp.select_prev_item {
                         behavior = cmp.SelectBehavior.Insert
                     }
-                elseif luasnip.jumpable(-1) then
+                elseif luasnip.locally_jumpable(-1) then
                     luasnip.jump(-1)
                 else
                     fallback()
                 end
             end,
             s = function(fallback)
-                if luasnip.jumpable(-1) then
+                if luasnip.locally_jumpable(-1) then
                     luasnip.jump(-1)
                 else
                     fallback()
