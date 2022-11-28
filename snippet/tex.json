@@ -233,12 +233,12 @@
       "\\newcommand{\\tm}{\\texttrademark}",
       "",
       "\\begin{document}",
-      "\t\\title{${5:title}}",
-      "\t\\author{${6:author}}",
-      "\t\\date{\\today}",
-      "\t\\maketitle",
+      "\\title{${5:title}}",
+      "\\author{${6:author}}",
+      "\\date{\\today}",
+      "\\maketitle",
       "",
-      "\t${0}",
+      "${0}",
       "\\end{document}"
     ]
   }
