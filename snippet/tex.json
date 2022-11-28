@@ -214,5 +214,32 @@
       "${0}",
       "\\$\\$"
     ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "% !TEX program = xelatex",
+      "\\documentclass[UTF8, a4paper, ${1:10pt}]{ctexart}",
+      "\\ctexset{section={format={\\Large\\bfseries}}}",
+      "\\linespread{${2:1.2}}",
+      "\\usepackage[left=${3:2.5}cm, right=${3:2.5}cm, top=${4:2.5}cm, bottom=${4:2.5}cm]{geometry}",
+      "\\usepackage[style=gb7714-2015]{biblatex}",
+      "\\newcommand{\\md}{\\mathrm{d}}",
+      "\\newcommand{\\me}{\\mathrm{e}}",
+      "\\newcommand{\\mi}{\\mathrm{i}}",
+      "\\newcommand{\\mD}[2]{\\frac{\\mathrm{d}{#1}}{\\mathrm{d}{#2}}}",
+      "\\newcommand{\\mP}[2]{\\frac{\\partial{#1}}{\\partial{#2}}}",
+      "\\newcommand{\\reg}{\\textsuperscript\\textregistered}",
+      "\\newcommand{\\tm}{\\texttrademark}",
+      "",
+      "\\begin{document}",
+      "\\title{${5:title}}",
+      "\\author{${6:author}}",
+      "\\date{\\today}",
+      "\\maketitle",
+      "",
+      "${0}",
+      "\\end{document}"
+    ]
   }
 }

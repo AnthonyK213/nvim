@@ -58,17 +58,17 @@ function! my#config#asyncomplete() abort
           \   'max_buffer_size': 5000000,
           \ },
           \ }))
-  im  <silent><expr> <TAB>
+  im <silent><expr> <TAB>
         \ pumvisible() ?
         \ "\<C-N>" : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
         \ "\<C-\>\<C-O>>>" . repeat(g:_const_dir_r, &ts) : vsnip#jumpable(1) ?
         \ "\<Plug>(vsnip-jump-next)" : my#lib#get_context()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ "\<Plug>(asyncomplete_force_refresh)" : "\<TAB>"
-  im  <silent><expr> <S-TAB>
+  im <silent><expr> <S-TAB>
         \ pumvisible() ?
         \ "\<C-P>" : vsnip#jumpable(-1) ?
         \ "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
-  im  <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "\<Plug>(ipairs_enter)"
+  im <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "\<Plug>(ipairs_enter)"
   " vim-vsnip
   let g:vsnip_snippet_dir = my#compat#stdpath('config') . '/snippet'
   smap <silent><expr> <TAB>   vsnip#jumpable(1)  ? "\<Plug>(vsnip-jump-next)" : "<TAB>"
@@ -124,19 +124,30 @@ function! my#config#coc() abort
     call coc#config(l:key, l:val)
   endfor
   " Input.
+  let g:coc_snippet_next = "<tab>"
+  let g:coc_snippet_prev = "<s-tab>"
+  let g:_snippets_expand_jump = "\<C-R>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>"
   ino <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
         \: "\<C-G>u\<CR>\<C-R>=coc#on_enter()\<CR>"
-  im <silent><expr> <TAB>
+  ino <silent><expr> <TAB>
         \ coc#pum#visible() ?
         \ coc#pum#next(1) : my#lib#get_context()['b'] =~ '\v^\s*(\+\|-\|*\|\d+\.)\s$' ?
         \ "\<C-\>\<C-O>>>" . repeat(g:_const_dir_r, &ts) : coc#expandableOrJumpable() ?
-        \ "\<C-R>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ g:_snippets_expand_jump :
         \ my#lib#get_context()['p'] =~ '\v[a-z\._\u4e00-\u9fa5]' ?
         \ coc#refresh() : "\<TAB>"
-  im  <silent><expr> <S-TAB>
+  ino <silent><expr> <S-TAB>
         \ coc#pum#visible() ?
-        \ coc#pum#prev(1) : coc#expandableOrJumpable() ?
-        \ "\<C-R>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ coc#pum#prev(1) : coc#jumpable() ?
+        \ g:_snippets_expand_jump :
+        \ "\<S-TAB>"
+  smap <silent><expr> <TAB>
+        \ coc#expandableOrJumpable() ?
+        \ g:_snippets_expand_jump :
+        \ "\<TAB>"
+  smap <silent><expr> <S-TAB>
+        \ coc#jumpable() ?
+        \ g:_snippets_expand_jump :
         \ "\<S-TAB>"
   " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
   nmap <silent> <leader>l[ <Plug>(coc-diagnostic-prev)
