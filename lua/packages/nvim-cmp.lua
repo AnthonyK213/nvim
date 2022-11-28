@@ -65,8 +65,6 @@ local cmp_setup = {
             s = function(fallback)
                 if luasnip.locally_jumpable(1) then
                     luasnip.jump(1)
-                elseif luasnip.expandable() then
-                    luasnip.expand {}
                 else
                     fallback()
                 end
