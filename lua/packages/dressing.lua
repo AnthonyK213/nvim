@@ -24,8 +24,9 @@ require("dressing").setup {
         anchor = "SW",
         relative = "cursor",
         border = _my_core_opt.tui.border,
-        winblend = 10,
-        winhighlight = "NormalFloat:Normal",
+        win_options = {
+            winblend = 10,
+        },
         get_config = nil,
     },
     select = {
