@@ -86,8 +86,13 @@ require("packer").startup(function(use)
         };
         {
             "akinsho/toggleterm.nvim",
-            tag = '*',
+            tag = "*",
             config = function() require("packages.toggleterm") end
+        };
+        {
+            "saecki/crates.nvim",
+            tag = "v0.3.0",
+            config = function() require("packages.crates") end
         };
     }
     -- File type support
