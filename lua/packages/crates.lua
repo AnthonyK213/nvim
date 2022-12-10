@@ -9,6 +9,7 @@ require("crates").setup {
         error = "  Error fetching crate",
     },
     popup = {
+        border = _my_core_opt.tui.border,
         text = {
             title = "# %s",
             pill_left = "",

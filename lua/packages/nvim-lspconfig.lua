@@ -12,7 +12,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Attach: Keymaps, aerial.
-local custom_attach = function(client, bufnr)
+local custom_attach = function(_, bufnr)
     local _o = { noremap = true, silent = true, buffer = bufnr }
     kbd("n", "<F12>", function() vim.lsp.buf.definition() end, _o)
     kbd("n", "K", function() vim.lsp.buf.hover() end, _o)
