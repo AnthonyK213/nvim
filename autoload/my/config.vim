@@ -43,6 +43,11 @@ function! s:coc_show_doc() abort
   endif
 endfunction
 
+function! s:crates_attach() abort
+  call crates#toggle()
+  nn <buffer><silent> <leader>cU :call crates#up()<CR>
+endfunction
+
 function! my#config#asyncomplete() abort
   " asyncomplete.vim
   let g:asyncomplete_auto_pop = 1
@@ -206,6 +211,13 @@ function! my#config#coc() abort
   augroup end
   " Add (Neo)Vim's native statusline support.
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+endfunction
+
+function! my#config#crates() abort
+  augroup CratesAttach
+    autocmd!
+    au BufRead Cargo.toml call <SID>crates_attach()
+  augroup END
 endfunction
 
 function! my#config#gruvbox() abort
