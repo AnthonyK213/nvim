@@ -51,7 +51,5 @@ require("onenord").setup({
     custom_colors = {},
 })
 
-vim.pretty_print(hl_cast(_my_core_opt.hl))
-
 vim.g._my_theme_switchable = true
 vim.cmd.colorscheme("onenord")
