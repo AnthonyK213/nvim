@@ -68,7 +68,8 @@ require("nightfox").setup {
         transparent = _my_core_opt.tui.transparent,
         styles = {
             comments = "italic"
-        }
+        },
+        dim_inactive = _my_core_opt.tui.auto_dim,
     },
     groups = {
         all = hl_cast(_my_core_opt.hl)

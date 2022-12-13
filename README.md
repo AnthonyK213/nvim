@@ -50,7 +50,7 @@
         "global_statusline": false,  // Global statusline
         "border": "string",          // Floating window border style
         "cmp_ghost": false,          // nvim-cmp ghost text
-        "fade_nc": false             // Fade non-current windows
+        "auto_dim": false             // Dim inactive window automatically
       },
       // GUI (neovim-qt, fvim)
       "gui": {

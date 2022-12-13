@@ -30,7 +30,7 @@ end
 
 require("onenord").setup({
     borders = true,
-    fade_nc = _my_core_opt.tui.fade_nc,
+    fade_nc = _my_core_opt.tui.auto_dim,
     styles = {
         comments = "NONE",
         strings = "NONE",
