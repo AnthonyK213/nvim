@@ -20,7 +20,7 @@ local function set_style(style)
     vim.cmd.colorscheme(style .. "fox")
 end
 
----Cast onedark hightlight override table to nightfox.
+---Cast configured hightlight override table to nightfox format.
 ---@param hl table<string, table<string, string>>
 local function hl_cast(hl)
     ---@type table<string, table<string, string>>
@@ -31,19 +31,19 @@ local function hl_cast(hl)
         ["$purple"] = "palette.magenta",
     }
     for _, attr in pairs(result) do
-        local fmt
+        local style
         for k, v in pairs(attr) do
-            if k == "style" then
-                fmt = v
+            if k == "fmt" then
+                style = v
             elseif map[v] then
                 attr[k] = map[v]
             else
                 attr[k] = v:gsub("^%$", "palette.")
             end
         end
-        if fmt then
-            attr.fmt = fmt
-            attr.style = nil
+        if style then
+            attr.fmt = nil
+            attr.style = style
         end
     end
     return result

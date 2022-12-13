@@ -35,6 +35,7 @@ local opt = {
         global_statusline = false,
         border = "none",
         cmp_ghost = false,
+        fade_nc = false,
     },
     gui = {
         theme = "auto",

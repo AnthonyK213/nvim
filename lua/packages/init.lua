@@ -33,6 +33,7 @@ require("packer").startup(function(use)
         { "folke/tokyonight.nvim", opt = true };
         { "ellisonleao/gruvbox.nvim", opt = true };
         { "EdenEast/nightfox.nvim", opt = true };
+        { "rmehri01/onenord.nvim", opt = true };
     }
     -- File system
     use {
@@ -174,7 +175,7 @@ if _my_core_opt.plug then
 end
 
 -- Optional packages.
-local colorscheme_list = { "onedark", "tokyonight", "gruvbox", "nightfox" }
+local colorscheme_list = { "onedark", "tokyonight", "gruvbox", "nightfox", "onenord" }
 local colorscheme = _my_core_opt.tui.scheme
 vim.o.tgc = true
 vim.o.bg = _my_core_opt.tui.theme or "dark"

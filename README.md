@@ -43,13 +43,14 @@
       },
       // Terminal UI
       "tui": {
-        "scheme": "string", // Color scheme(onedark|tokyonight|gruvbox|nightfox)
+        "scheme": "string", // Color scheme(onedark|tokyonight|gruvbox|nightfox|onenord)
         "theme": "string",  // Tui background theme(dark|light)
         "style": "string",  // Style of color scheme
         "transparent": false,        // Make background transparent
         "global_statusline": false,  // Global statusline
         "border": "string",          // Floating window border style
-        "cmp_ghost": false           // nvim-cmp ghost text
+        "cmp_ghost": false,          // nvim-cmp ghost text
+        "fade_nc": false             // Fade non-current windows
       },
       // GUI (neovim-qt, fvim)
       "gui": {
@@ -297,6 +298,7 @@
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
   - [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim)
+  - [onenord.nvim](https://github.com/rmehri01/onenord.nvim)
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
