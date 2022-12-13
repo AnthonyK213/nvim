@@ -26,8 +26,8 @@ local function hl_cast(hl)
     ---@type table<string, table<string, string>>
     local result = vim.deepcopy(hl)
     local map = {
-        ["$bg3"] = "bg3",
-        ["$light_grey"] = "fg3",
+        ["$bg3"] = "palette.bg4",
+        ["$light_grey"] = "palette.fg3",
         ["$purple"] = "palette.magenta",
     }
     for _, attr in pairs(result) do
