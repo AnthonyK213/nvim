@@ -32,6 +32,13 @@ vim.filetype.add {
         end
     },
     extension = {
+        fs = function()
+            return "fsharp", function(bufnr)
+                vim.bo[bufnr].tabstop = 4
+                vim.bo[bufnr].shiftwidth = 4
+                vim.bo[bufnr].softtabstop = 4
+            end
+        end,
         lua = function()
             return "lua", function(bufnr)
                 vim.bo[bufnr].tabstop = 4
