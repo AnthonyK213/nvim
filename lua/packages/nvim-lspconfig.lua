@@ -77,6 +77,14 @@ local function setup_server(server, config)
             capabilities = capabilities,
             on_attach = custom_attach
         }
+        -- Disable semantic tokens.
+        if type(config) == "table" and config.disable_semantic_tokens then
+            opts.on_attach = function(client, bufnr)
+                client.server_capabilities.semanticTokensProvider = nil
+                custom_attach(client, bufnr)
+            end
+        end
+        -- Merge custom LSP configurations.
         local option_settings
         if type(config) == "table" and type(config.settings) == "table" then
             option_settings = config.settings
