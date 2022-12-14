@@ -13,6 +13,7 @@ require("gruvbox").setup {
     inverse = true,
     contrast = "soft",
     overrides = {},
+    dim_inactive = _my_core_opt.tui.auto_dim,
 }
 
 require("utility.util").auto_hl("gruvbox", vim.tbl_extend("force", {

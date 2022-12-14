@@ -14,7 +14,8 @@ require("tokyonight").setup {
     sidebars = {
         "help", "qf", "terminal",
         "aerial", "packer",
-    }
+    },
+    dim_inactive = _my_core_opt.tui.auto_dim,
 }
 
 require("utility.util").auto_hl("tokyonight", _my_core_opt.hl, function()
