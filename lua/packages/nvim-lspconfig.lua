@@ -36,7 +36,7 @@ end
 require("mason").setup { ui = { border = _my_core_opt.tui.border } }
 require("mason-lspconfig").setup()
 
----LSP options.
+-- LSP options.
 local server_settings = {
     omnisharp = function(o, s)
         if type(s) == "table" then
@@ -102,7 +102,7 @@ local function setup_server(server, config)
     end
 end
 
----Setup servers.
+-- Setup servers.
 for server, option in pairs(lsp_option) do setup_server(server, option) end
 
 -- Diagnostics
