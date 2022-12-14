@@ -7,6 +7,7 @@ function()
     local option_table = {
         c = { "build", "check" },
         cs = { "build", "clean", "test" },
+        fsharp = { "build", "clean", "test" },
         lisp = { "build" },
         lua = { "nojit" },
         rust = { "build", "check", "clean", "test" },

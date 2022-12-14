@@ -189,6 +189,45 @@ local comp_table = {
             lib.notify_err("Invalid argument.")
         end
     end,
+    fsharp = function(tbl)
+        if not lib.executable("dotnet") then return end
+        local sln_root = lib.get_root([[\.sln$]], "file")
+        if sln_root then
+            if not lib.executable("MSBuild") then return end
+            return function()
+                return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
+                    cwd = sln_root
+                }))()
+            end
+        end
+        local cmd_tbl = {
+            [""]  = { "dotnet", "run" },
+            build = { "dotnet", "build", "--configuration", "Release" },
+            clean = { "dotnet", "clean" },
+            test  = { "dotnet", "test" },
+        }
+        local cmd = cmd_tbl[tbl.opt]
+        if cmd then
+            return function()
+                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
+            end
+        else
+            lib.notify_err("Invalid argument.")
+        end
+    end,
+    javascript = function(tbl)
+        local js = "node"
+        if not lib.executable(js) then return end
+        if tbl.opt == "" then
+            return function()
+                return wrap(Terminal.new({ js, tbl.fnm }, {
+                    cwd = tbl.fwd
+                }))()
+            end
+        else
+            lib.notify_err("Invalid argument.")
+        end
+    end,
     lisp = function(tbl)
         if not lib.executable("sbcl") then return end
         local cmd_tbl = {
