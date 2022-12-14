@@ -114,6 +114,7 @@ require("packer").startup(function(use)
         };
         "sotte/presenting.vim";
         "gpanders/editorconfig.nvim";
+        "PhilT/vim-fsharp";
     }
     -- Completion; Snippet; LSP; Treesitter; DAP
     use {
@@ -154,12 +155,12 @@ require("packer").startup(function(use)
     }
     -- Games
     use {
-        "alec-gibson/nvim-tetris",
-        "AndrewRadev/gnugo.vim"
+        "alec-gibson/nvim-tetris";
+        "AndrewRadev/gnugo.vim";
     }
     -- Documentation
     use {
-        "nanotee/luv-vimdocs",
+        "nanotee/luv-vimdocs";
     }
 
     if packer_bootstrap then
