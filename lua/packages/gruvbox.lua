@@ -14,6 +14,7 @@ require("gruvbox").setup {
     contrast = "soft",
     overrides = {},
     dim_inactive = _my_core_opt.tui.auto_dim,
+    transparent_mode = _my_core_opt.tui.transparent,
 }
 
 require("utility.util").auto_hl("gruvbox", vim.tbl_extend("force", {
