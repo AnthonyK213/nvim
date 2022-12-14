@@ -9,8 +9,10 @@ local cmt_mark_tab_single = {
     cpp = "//",
     cs = "//",
     dosbatch = "::",
+    fsharp = "//",
     gitconfig = "#",
     java = "//",
+    javascript = "//",
     lisp = ";",
     lua = "--",
     make = "#",
@@ -24,6 +26,7 @@ local cmt_mark_tab_single = {
     sshconfig = "#",
     tex = "%",
     toml = "#",
+    typescript = "//",
     vim = '"',
     yaml = "#",
 }
@@ -33,8 +36,10 @@ local cmt_mark_tab_multi = {
     cpp = { "/*", "*/" },
     cs = { "/*", "*/" },
     java = { "/*", "*/" },
+    javascript = { "/*", "*/" },
     lua = { "--[[", "]]" },
     rust = { "/*", "*/" },
+    typescript = { "/*", "*/" },
 }
 
 ---Comment current line in normal mode.
