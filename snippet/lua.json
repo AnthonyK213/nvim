@@ -48,5 +48,13 @@
       "${0}"
     ],
     "description": "Import a module."
+  },
+  "Separator": {
+    "prefix": "separator",
+    "body": [
+      "--------------------------------------------------------------------------------",
+      "${0}"
+    ],
+    "description": "Separator."
   }
 }
