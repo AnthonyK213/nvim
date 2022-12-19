@@ -87,20 +87,23 @@ function Terminal:start()
     return true, winnr, bufnr
 end
 
----Append callback function.
----@param callback function Callback function.
-function Terminal:append_cb(callback)
-    table.insert(self.callbacks, callback)
+---Wrap a terminal process into a callback function which will start automatically.
+---@return function
+function Terminal:to_callback()
+    return function(_, _, data, event)
+        if data == 0 and event == "exit" then
+            self:start()
+        end
+    end
 end
 
----Continue with a terimal process.
----@param terminal futures.Terminal
-function Terminal:continue_with(terminal)
-    self:append_cb(function(_, _, data, event)
-        if data == 0 and event == "exit" then
-            terminal:start()
-        end
-    end)
+---Continue with a callback function `next`.
+---The terminal process will not start automatically.
+---@param next function
+---@return futures.Terminal self
+function Terminal:continue_with(next)
+    table.insert(self.callbacks, next)
+    return self
 end
 
 ---Await the terminal process.

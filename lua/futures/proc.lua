@@ -108,20 +108,23 @@ function Process:start()
     end))
 end
 
----Append callback function.
----@param callback function Callback function.
-function Process:append_cb(callback)
-    table.insert(self.callbacks, callback)
+---Wrap a process into a callback function which will start automatically.
+---@return function
+function Process:to_callback()
+    return function(_, code, _)
+        if code == 0 then
+            self:start()
+        end
+    end
 end
 
----Continue with a process.
----@param process futures.Process
-function Process:continue_with(process)
-    self:append_cb(function(_, code, _)
-        if code == 0 then
-            process:start()
-        end
-    end)
+---Continue with a callback function `next`.
+---The process will not start automatically.
+---@param next function
+---@return futures.Process self
+function Process:continue_with(next)
+    table.insert(self.callbacks, next)
+    return self
 end
 
 ---Await the process.

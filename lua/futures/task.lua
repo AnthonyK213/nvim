@@ -11,7 +11,7 @@ local uv_callback_index = {
 ---@field no_callbacks boolean
 ---@field handle? userdata
 ---@field result any
----@field status "Created"|"Running"|"RanToCompletion"
+---@field status 0|-1|-2 0: Created; -1: Running; -2: RanToCompletion
 ---@field varargs any[]
 local Task = {}
 
@@ -66,19 +66,12 @@ function Task.from_uv(uv_action, ...)
     })
 end
 
----Append callback function.
----@param callback function Callback function.
-function Task:append_cb(callback)
-    if self.status ~= "Created" then return end
-    table.insert(self.callbacks, callback)
-end
-
 ---Start the task.
 ---@return boolean ok True if the thread starts successfully.
 function Task:start()
-    if self.status ~= "Created" then return false end
+    if self.status ~= 0 then return false end
     local cb = vim.schedule_wrap(function(...)
-        self.status = "RanToCompletion"
+        self.status = -2
         if not self.no_callbacks then
             for _, f in ipairs(self.callbacks) do
                 if type(f) == "function" then
@@ -90,7 +83,7 @@ function Task:start()
             self.callback(...)
         end
     end)
-    self.status = "Running"
+    self.status = -1
     if self.is_async then
         local args = vim.deepcopy(self.varargs)
         if type(self.is_async) == "number" then
@@ -109,6 +102,28 @@ function Task:start()
     return self.handle:queue(unpack(self.varargs))
 end
 
+---Wrap a task into a callback function which will start automatically.
+---@return function
+function Task:to_callback()
+    return function(...)
+        if vim.tbl_isempty(self.varargs) then
+            self.varargs = { ... }
+        end
+        self:start()
+    end
+end
+
+---Continue with a callback function `next`.
+---The task will not start automatically.
+---@param next function
+---@return futures.Task self
+function Task:continue_with(next)
+    if self.status == 0 then
+        table.insert(self.callbacks, next)
+    end
+    return self
+end
+
 ---Await the task.
 ---@return any
 function Task:await()
@@ -116,7 +131,7 @@ function Task:await()
     if not _co or coroutine.status(_co) == "dead" then
         error("Task must await in an active async block.")
     end
-    if self.status == "Created" then
+    if self.status == 0 then
         self.callback = function(...)
             self.result = { ... }
             util.try_resume(_co)
@@ -141,29 +156,9 @@ function Task.delay(delay)
     return Task.new(vim.defer_fn, { is_async = 1, args = { delay } })
 end
 
----Continue with a action `next`.
----If `next` is a `function`, the task will start instantly with the new callback
---- `next`; If `next` is a `Task`, task `next` will start after this task ends
---- (task will not start automatically).
----@param next function|futures.Task
-function Task:continue_with(next)
-    local next_type = type(next)
-    if next_type == "function" then
-        self:append_cb(next)
-        self:start()
-    else
-        self:append_cb(function(...)
-            if vim.tbl_isempty(next.varargs) then
-                next.varargs = { ... }
-            end
-            next:start()
-        end)
-    end
-end
-
 ---Reset the task.
 function Task:reset()
-    self.status = "Created"
+    self.status = 0
     self.callback = nil
     self.callbacks = {}
     self.no_callbacks = false

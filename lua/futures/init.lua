@@ -26,7 +26,7 @@ end
 function M.queue(fut_list)
     if not check_fut_list(fut_list) then return end
     for i = 1, #fut_list - 1, 1 do
-        fut_list[i]:continue_with(fut_list[i + 1])
+        fut_list[i]:continue_with(fut_list[i + 1]:to_callback())
     end
     fut_list[1]:start()
 end
