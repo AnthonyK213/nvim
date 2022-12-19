@@ -29,7 +29,7 @@ function Task.new(action, option)
         is_async = false,
         callbacks = {},
         no_callbacks = false,
-        status = "Created",
+        status = 0,
         varargs = {},
     }
     local opt_type = type(option)
