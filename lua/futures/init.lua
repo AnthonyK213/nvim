@@ -90,7 +90,7 @@ function M.join(fut_list, timeout)
             if code == -1 then
                 print("Time out.")
             else
-                print("Interruped.")
+                print("Interrupted.")
             end
         end
     end
@@ -137,7 +137,7 @@ function M.select(fut_list)
             if code == -1 then
                 print("Time out.")
             else
-                print("Interruped.")
+                print("Interrupted.")
             end
         end
     end
