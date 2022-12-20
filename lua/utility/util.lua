@@ -227,7 +227,7 @@ function M.git_push_all(arg_tbl)
     local git_commit = Process.new("git", {
         args = { "commit", "-m", m_arg },
         cwd = git_root,
-    }, function(proc, code, _)
+    }):continue_with(function(proc, code, _)
         if code == 0 then
             vim.notify("Commit message: " .. m_arg)
         else
@@ -238,7 +238,7 @@ function M.git_push_all(arg_tbl)
     local git_push = Process.new("git", {
         args = { "push", r_arg, b_arg, "--porcelain" },
         cwd = git_root,
-    }, function(proc, code, _)
+    }):continue_with(function(proc, code, _)
         if code == 0 then
             vim.notify(table.concat(proc.stdout_buf):gsub("[\t\n\r]", " "))
         else
@@ -395,7 +395,7 @@ function M.build_dylibs()
             table.insert(build_tasks, Process.new("cargo", {
                 args = { "build", "--release" },
                 cwd = crate_dir,
-            }, function(_, code, _)
+            }):continue_with(function(_, code, _)
                 if code == 0 then
                     local dylib_name = _name .. dylib_ext
                     vim.loop.fs_copyfile(lib.path_append(crate_dir,

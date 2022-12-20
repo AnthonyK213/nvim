@@ -35,7 +35,7 @@ local run_bin = function(tbl)
     local bin = lib.path_append(tbl.fwd, tbl.bin)
     local data, event = Terminal.new({ bin }, {
         cwd = tbl.fwd,
-    }, function(_, _, data, event)
+    }):continue_with(function(_, _, data, event)
         if ok(data, event) and lib.path_exists(bin) then
             vim.loop.fs_unlink(bin)
         end
@@ -366,17 +366,17 @@ local comp_table = {
                 name .. ".tex"
             },
             cwd = cwd,
-        }, tex_cb("XeLaTeX"))
+        }):continue_with(tex_cb("XeLaTeX"))
         ---@type table<string, futures.Process>
         local bib_table = {
             biber = Process.new("biber", {
                 args = { name .. ".bcf" },
                 cwd = cwd,
-            }, tex_cb("Biber")),
+            }):continue_with(tex_cb("Biber")),
             bibtex = Process.new("bibtex", {
                 args = { name .. ".aux" },
                 cwd = cwd,
-            }, tex_cb("BibTeX"))
+            }):continue_with(tex_cb("BibTeX"))
         }
         if tbl.opt == "" then
             local x1 = xelatex:clone()
@@ -447,9 +447,50 @@ function M.get_recipe(option)
     return nil, false
 end
 
+---Run task of .vscode/task.json.
+---@return boolean
+local function vscode_tasks()
+    local root = lib.get_root(".vscode", "directory")
+    if not root then return false end
+
+    local path = lib.path_append(root, ".vscode/tasks.json")
+    if not lib.path_exists(path) then return false end
+
+    local _, content = lib.json_decode(path)
+    if not content then return false end
+
+    if not content.tasks
+        or not vim.tbl_islist(content.tasks)
+        or vim.tbl_isempty(content.tasks) then
+        return false
+    end
+
+    futures.async(function()
+        local task = futures.ui.select(content.tasks, {
+            prompt = "Select a task: ",
+            format_item = function(item)
+                return item.label
+            end
+        })
+
+        if vim.stricmp(task.type, "shell") == 0 then
+            local cmd = task.command
+            local args = task.args or {}
+            if cmd and vim.tbl_islist(args) then
+                print(task.label .. ": running...")
+                Process.new(cmd, { args = args, cwd = root }):await()
+                print(task.label .. ": exit.")
+            end
+        end
+    end)
+
+    return true
+end
+
 ---Run or compile the code.
 ---@param option? string Option as string.
 function M.code_run(option)
+    if vscode_tasks() then return end
     local recipe, is_async = M.get_recipe(option)
     if recipe then
         if is_async then

@@ -200,7 +200,7 @@ end
 
 ---Find the root directory contains `pattern`.
 ---@param pattern string Root pattern (vim regex in `magic` mode).
----@param item_type string? Type of the item to find. `file`|`directory`|`nil`.
+---@param item_type? "directory"|"file" Type of the item to find.
 ---@return string? result Root directory path.
 function M.get_root(pattern, item_type)
     if item_type and not (item_type == "file" or item_type == "directory") then

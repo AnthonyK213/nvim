@@ -120,13 +120,13 @@ local dap_csharp = A.new("cs", "coreclr", {
         archive_path = dir .. "/" .. archive
         extract = Process.new("powershell", {
             args = { "-c", "Expand-Archive -Path " .. archive_path .. " -DestinationPath " .. dir }
-        }, extract_cb)
+        }):continue_with(extract_cb)
     elseif os_type == lib.Os.Linux then
         archive = "netcoredbg-linux-amd64.tar.gz"
         archive_path = dir .. "/" .. archive
         extract = Process.new("tar", {
             args = { "-xf", archive_path, "-C", dir }
-        }, extract_cb)
+        }):continue_with(extract_cb)
     else
         return
     end
@@ -160,7 +160,7 @@ local dap_python = A.new("python", "python", {
     end
     local install = Process.new(a.option.command, {
         args = pip_args
-    }, function(_, code, _)
+    }):continue_with(function(_, code, _)
         if code == 0 then
             vim.notify("Installed debugpy")
         end
