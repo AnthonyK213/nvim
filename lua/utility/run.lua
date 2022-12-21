@@ -413,6 +413,47 @@ local comp_table = {
     end,
 }
 
+---Run task of .vscode/task.json.
+---@return boolean
+local function vscode_tasks()
+    local root = lib.get_root(".vscode", "directory")
+    if not root then return false end
+
+    local path = lib.path_append(root, ".vscode/tasks.json")
+    if not lib.path_exists(path) then return false end
+
+    local _, content = lib.json_decode(path)
+    if not content then return false end
+
+    if not content.tasks
+        or not vim.tbl_islist(content.tasks)
+        or vim.tbl_isempty(content.tasks) then
+        return false
+    end
+
+    futures.async(function()
+        local task = futures.ui.select(content.tasks, {
+            prompt = "Select a task: ",
+            format_item = function(item)
+                return item.label
+            end
+        })
+
+        if vim.stricmp(task.type, "shell") == 0 then
+            local cmd = task.command
+            local args = task.args or {}
+            if cmd and vim.tbl_islist(args) then
+                table.insert(args, 1, cmd)
+                print(task.label .. ": running...")
+                Terminal.new(args, { cwd = root }):await()
+                print(task.label .. ": exit.")
+            end
+        end
+    end)
+
+    return true
+end
+
 ---Get the recipe running or compiling the code.
 ---@param option? string The option.
 ---@return function? recipe The recipe.
@@ -445,46 +486,6 @@ function M.get_recipe(option)
         lib.notify_err("File type is not supported yet.")
     end
     return nil, false
-end
-
----Run task of .vscode/task.json.
----@return boolean
-local function vscode_tasks()
-    local root = lib.get_root(".vscode", "directory")
-    if not root then return false end
-
-    local path = lib.path_append(root, ".vscode/tasks.json")
-    if not lib.path_exists(path) then return false end
-
-    local _, content = lib.json_decode(path)
-    if not content then return false end
-
-    if not content.tasks
-        or not vim.tbl_islist(content.tasks)
-        or vim.tbl_isempty(content.tasks) then
-        return false
-    end
-
-    futures.async(function()
-        local task = futures.ui.select(content.tasks, {
-            prompt = "Select a task: ",
-            format_item = function(item)
-                return item.label
-            end
-        })
-
-        if vim.stricmp(task.type, "shell") == 0 then
-            local cmd = task.command
-            local args = task.args or {}
-            if cmd and vim.tbl_islist(args) then
-                print(task.label .. ": running...")
-                Process.new(cmd, { args = args, cwd = root }):await()
-                print(task.label .. ": exit.")
-            end
-        end
-    end)
-
-    return true
 end
 
 ---Run or compile the code.
