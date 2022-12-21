@@ -30,7 +30,7 @@ vim.keymap.set("n", "<leader>mt", function()
         or vim.fn.expand("%:p:r")) .. ".pdf"
     if not require("utility.lib").path_exists(pdf_path) then
         local futures = require("futures")
-        futures.async(function ()
+        futures.spawn(function ()
             if futures.ui.input {
                 prompt = "Compile the project? y/n: "
             } ~= "y" then

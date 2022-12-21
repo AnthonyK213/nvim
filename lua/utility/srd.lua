@@ -86,7 +86,7 @@ end
 ---@param mode string \"n\"|\"v\".
 ---@param pair_a? string|string[] Left|Both side of the surrounding.
 function M.srd_add(mode, pair_a)
-    futures.async(function()
+    futures.spawn(function()
         local p_a0 = pair_a or futures.ui.input { prompt = "Surrounding add: " }
         if not p_a0 then return end
         local p_a, p_b
@@ -116,7 +116,7 @@ end
 ---@param pair_a_new? string|string[] Left|Both side of the new surrounding.
 ---@param pair_a_old? string|string[] Left|Both side of the old surrounding.
 function M.srd_sub(pair_a_new, pair_a_old)
-    futures.async(function()
+    futures.spawn(function()
         local p_a_n0, p_a_o0
         p_a_o0 = pair_a_old or futures.ui.input { prompt = "Surrounding delete: " }
         if not p_a_o0 then return end

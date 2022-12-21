@@ -3,6 +3,34 @@ local lib = require("utility.lib")
 local util = require("futures.util")
 local try = util.try_call
 
+---@class futures.Future
+---@field action function
+---@field varargs table
+---@field result any
+local Future = {}
+
+Future.__index = Future
+
+---Constructor.
+---@param action function
+---@param varargs? table
+---@return futures.Future
+function Future.new(action, varargs)
+    local future = {
+        action = action,
+        varargs = varargs or {},
+    }
+    setmetatable(future, Future)
+    return future
+end
+
+---Poll the future.
+---@return any result
+function Future:poll()
+    self.result = { self.action(unpack(self.varargs)) }
+    return unpack(self.result)
+end
+
 ---Check `fut_list` for `futures.join` & `futures.select`.
 ---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 ---@return boolean
@@ -14,10 +42,31 @@ local function check_fut_list(fut_list)
     return true
 end
 
----Start an async block.
----@param async_block function Async block to run.
-function M.async(async_block)
-    local _co = coroutine.create(async_block)
+---Wrap a function into an asynchronous function.
+---@param func function Funtion to wrap.
+---@return fun(...):futures.Future async_func Wrapped asynchronous function.
+function M.async(func)
+    return function (...)
+        return Future.new(func, { ... })
+    end
+end
+
+---Spawns a new asynchronous task.
+---@param task function|futures.Future
+function M.spawn(task)
+    ---@type function
+    local _f
+    local _type = type(task)
+
+    if _type == "function" then
+        _f = task
+    elseif _type == "table" and task.poll then
+        _f = function () return task:poll() end
+    else
+        error("`task` is inalid.")
+    end
+
+    local _co = coroutine.create(_f)
     coroutine.resume(_co)
 end
 

@@ -351,7 +351,7 @@ function M.nvim_upgrade(channel)
     local download = Process.new(dl_exec, { args = dl_args })
     local extract = Process.new(ex_exec, { args = ex_args })
 
-    futures.async(function()
+    futures.spawn(function()
         vim.notify("Downloading...")
         if download:await() ~= 0 then
             download:notify_err()
@@ -420,7 +420,7 @@ function M.build_dylibs()
         return
     end
 
-    futures.async(function()
+    futures.spawn(function()
         print("Building...")
         futures.join(build_tasks)
         Task.delay(1000):await()

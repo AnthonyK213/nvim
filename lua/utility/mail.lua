@@ -194,7 +194,7 @@ function Mail.new_file()
     if not config then return end
     local mail_name = os.date("OUT%Y%m%d%H%M%S.eml") --[[@as string]]
 
-    futures.async(function()
+    futures.spawn(function()
         local provider = futures.ui.select(config.providers, {
             prompt = "Select mailbox provider: ",
             format_item = function(item)
@@ -275,7 +275,7 @@ function Mail:send()
     end
 
     -- Send.
-    futures.async(function()
+    futures.spawn(function()
         if futures.ui.input { prompt = "Send?" } ~= "y" then return end
 
         local user_name = self.from:match("<(.+)>")
@@ -336,7 +336,7 @@ function Mailbox:fetch()
     if not dylib_path then return end
 
     -- Fetch.
-    futures.async(function()
+    futures.spawn(function()
         local provider = futures.ui.select(config.providers, {
             prompt = "Select IMAP server: ",
             format_item = function(item)

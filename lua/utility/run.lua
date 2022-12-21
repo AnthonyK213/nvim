@@ -431,7 +431,7 @@ local function vscode_tasks()
         return false
     end
 
-    futures.async(function()
+    futures.spawn(function()
         local task = futures.ui.select(content.tasks, {
             prompt = "Select a task: ",
             format_item = function(item)
@@ -495,7 +495,7 @@ function M.code_run(option)
     local recipe, is_async = M.get_recipe(option)
     if recipe then
         if is_async then
-            futures.async(recipe)
+            futures.spawn(recipe)
         else
             recipe()
         end
