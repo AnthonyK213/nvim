@@ -51,13 +51,10 @@ local opt = {
     },
     lsp = {
         clangd = false,
-        jedi_language_server = false,
         omnisharp = false,
-        powershell_es = false,
         pyright = false,
         rust_analyzer = false,
         sumneko_lua = false,
-        texlab = false,
         vimls = false,
     },
     ts = {

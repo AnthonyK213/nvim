@@ -29,117 +29,129 @@
     {
       // Dependencies
       "dep": {
-        // Shell
-        "sh": "string|table",
-        // C compiler
-        "cc": "string",
-        // Python3 executable path
-        "py3": "string",
-        // Proxy
-        "proxy": "string"
+        // (string|array) Shell
+        "sh": ["pwsh", "-nologo"],
+        // (string) C compiler
+        "cc": "clang",
+        // (string) Python3 executable path
+        "py3": "python3/executable/path",
+        // (string) Proxy
+        "proxy": "http://127.0.0.1:7890"
       },
       // Paths
       "path": {
-        // Home directory
-        "home": "string",
-        // Cloud drive directory
-        "cloud": "string",
-        // Desktop directory
-        "desktop": "string",
-        // Binaries directory
-        "bin": "string"
+        // (string) Home directory
+        "home": "$HOME",
+        // (string) Cloud drive directory
+        "cloud": "$HOME/cloud",
+        // (string) Desktop directory
+        "desktop": "$HOME/Desktop",
+        // (string) Binaries directory
+        "bin": "$HOME/bin"
       },
       // Terminal UI
       "tui": {
-        // Color scheme(onedark|tokyonight|gruvbox|nightfox|onenord)
-        "scheme": "string",
-        // Tui background theme(dark|light)
-        "theme": "string",
-        // Style of color scheme
-        "style": "string",
-        // Make background transparent
+        // ("onedark"|"tokyonight"|"gruvbox"|"nightfox"|"onenord") Color scheme
+        "scheme": "nightfox",
+        // ("dark"|"light") Tui background theme
+        "theme": "dark",
+        // (string) Style of color scheme
+        "style": "nord",
+        // (boolean) Make background transparent
         "transparent": false,
-        // Global statusline
+        // (boolean) Global statusline
         "global_statusline": false,
-        // Floating window border style
-        "border": "string",
-        // nvim-cmp ghost text
+        // (string) Floating window border style
+        "border": "single",
+        // (boolean) nvim-cmp ghost text
         "cmp_ghost": false,
-        // Dim inactive window automatically
+        // (boolean) Dim inactive window automatically
         "auto_dim": false
       },
       // GUI (neovim-qt, fvim)
       "gui": {
-        // GUI background theme
-        "theme": "string",
-        // Window opacity
+        // ("auto"|"dark"|"light") GUI background theme
+        "theme": "auto",
+        // (number) Window opacity
         "opacity": 0.98,
-        // Render ligatures
+        // (boolean) Render ligatures
         "ligature": false,
-        // Use GUI popup menu
+        // (boolean) Use GUI popup menu
         "popup_menu": false,
-        // Use GUI tabline
+        // (boolean) Use GUI tabline
         "tabline": false,
-        // Use GUI scroll bar
+        // (boolean) Use GUI scroll bar
         "scroll_bar": false,
-        // Line space
+        // (number) Line space
         "line_space": 0.0,
-        // GUI font size
+        // (number) GUI font size
         "font_size": 13,
-        // See `guifont`
-        "font_half": "string",
-        // See `guifontwide`
-        "font_full": "string"
+        // (string) See `guifont`
+        "font_half": "Monospace",
+        // (string) See `guifontwide`
+        "font_full": "Monospace"
       },
       // Language Server Protocol
       "lsp": {
-        // https://github.com/clangd/clangd
+        // (boolean|object) https://github.com/clangd/clangd
         "clangd": false,
-        // https://github.com/pappasam/jedi-language-server
-        "jedi-language-server": false,
-        // https://github.com/OmniSharp/omnisharp-roslyn
-        "omnisharp": false,
-        // https://github.com/PowerShell/PowerShellEditorServices
-        "powershell_es": false,
-        // https://github.com/microsoft/pyright
-        "pyright": false,
-        // https://github.com/rust-analyzer/rust-analyzer
+        // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
+        "omnisharp": {
+          "load": false,
+          // Some LSPs' semantic tokens are not usable
+          "disable_semantic_tokens": true
+        },
+        // (boolean|object) https://github.com/microsoft/pyright
+        "pyright": {
+          "load": true,
+          // Extra settings, depends on the LSP
+          "settings": {
+            "python": {
+              "analysis": {
+                "autoSearchPaths": true,
+                "diagnosticMode": "workspace",
+                "useLibraryCodeForTypes": true,
+                "stubPath": "stubPath",
+                "typeCheckingMode": "off"
+              }
+            }
+          }
+        },
+        // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
         "rust_analyzer": false,
-        // https://github.com/sumneko/lua-language-server
+        // (boolean|object) https://github.com/sumneko/lua-language-server
         "sumneko_lua": false,
-        // https://github.com/latex-lsp/texlab
-        "texlab": false,
-        // https://github.com/iamcco/vim-language-server
+        // (boolean|object) https://github.com/iamcco/vim-language-server
         "vimls": false
         // And so on...
       },
       // Treesitter
       "ts": {
-        // Parsers to install automatically
+        // (array) Parsers to install automatically
         "ensure": [],
-        // File type to disable treesitter highlight
+        // (array) File type to disable treesitter highlight
         "hi_disable": []
       },
       // Debug Adapter Protocol
       "dap": {
-        // https://github.com/llvm/llvm-project
+        // (boolean) https://github.com/llvm/llvm-project
         "lldb": false,
-        // https://github.com/Samsung/netcoredbg
+        // (boolean) https://github.com/Samsung/netcoredbg
         "csharp": false,
-        // https://github.com/microsoft/debugpy
+        // (boolean) https://github.com/microsoft/debugpy
         "python": false
       },
       // Built-in plugins
       "plug": {
-        // Enable matchit.vim
+        // (boolean) Enable matchit.vim
         "matchit": false,
-        // Enable matchparen.vim
+        // (boolean) Enable matchparen.vim
         "matchparen": false
       },
       // Version control system
       "vcs": {
-        // Git client(neogit|lazygit)
-        "client": "string"
+        // ("neogit"|"lazygit") Git client
+        "client": "neogit"
       }
     }
     ```

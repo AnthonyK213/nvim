@@ -265,10 +265,10 @@ end
 ---Decode json from file path.
 ---(`new_work` invocable)
 ---@param path string Path of file to decode.
----@param strict? boolean If false, try to ignore comments and trailing commas.
+---@param strictly? boolean If false, try to ignore comment lines, possibly including trailing commas(discouraged).
 ---@return 0|1|2 code Code, 0: ok, 1: json is invalid, 2: file does not exist.
 ---@return table? result Decode result.
-function M.json_decode(path, strict)
+function M.json_decode(path, strictly)
     local content = M.read_all_text(path)
     if content then
         local ok, result
@@ -276,7 +276,7 @@ function M.json_decode(path, strict)
         ok, result = pcall(vim.json.decode, content)
         if ok then return 0, result end
 
-        if not strict then
+        if not strictly then
             local lines = vim.split(content, "[\n\r]", {
                 plain = false,
                 trimempty = true,
@@ -287,7 +287,7 @@ function M.json_decode(path, strict)
                     return false
                 end
                 return true
-            end, lines)):gsub(",%s*[\n\r]?%s*([%]%}])", "%1")
+            end, lines)):gsub(",%s*([%]%}])", "%1")
 
             ok, result = pcall(vim.json.decode, lines_noc)
             if ok then return 0, result end
