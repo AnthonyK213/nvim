@@ -37,7 +37,7 @@ function M.get_buf_dir(bufnr)
 end
 
 ---Get characters around the cursor.
----@return table<string, string> context Context table with keys below:
+---@return { b: string, f: string, p: string, n: string } context
 ---  - *p* -> The character before cursor (previous);
 ---  - *n* -> The character after cursor  (next);
 ---  - *b* -> The half line before cursor (backward);
@@ -169,7 +169,7 @@ end
 ---Get the start and end positions (zero-based) of visual selection.
 ---@param bufnr? integer Buffer number, default 0 (current buffer).
 ---@return integer row_s Start row.
----@return unknown col_s Start column.
+---@return integer col_s Start column.
 ---@return integer row_e End row.
 ---@return integer col_e End column.
 function M.get_gv_mark(bufnr)
@@ -265,27 +265,47 @@ end
 ---Decode json from file path.
 ---(`new_work` invocable)
 ---@param path string Path of file to decode.
----@return integer code Code, 1: json is invalid, 2: file does not exist.
+---@param strict? boolean If false, try to ignore comments and trailing commas.
+---@return 0|1|2 code Code, 0: ok, 1: json is invalid, 2: file does not exist.
 ---@return table? result Decode result.
-function M.json_decode(path)
+function M.json_decode(path, strict)
     local content = M.read_all_text(path)
     if content then
-        local ok, result = pcall(vim.json.decode, content)
-        if ok then
-            return 0, result
+        local ok, result
+
+        ok, result = pcall(vim.json.decode, content)
+        if ok then return 0, result end
+
+        if not strict then
+            local lines = vim.split(content, "[\n\r]", {
+                plain = false,
+                trimempty = true,
+            })
+
+            local lines_noc = table.concat(vim.tbl_filter(function(v)
+                if vim.startswith(vim.trim(v), "//") then
+                    return false
+                end
+                return true
+            end, lines)):gsub(",%s*[\n\r]?%s*([%]%}])", "%1")
+
+            ok, result = pcall(vim.json.decode, lines_noc)
+            if ok then return 0, result end
         end
+
         return 1, nil
     end
+
     return 2, nil
 end
 
 ---Create a new split window.
 ---@param position "aboveleft"|"belowright"|"topleft"|"botright"
----@param option? table Split options:
----  - split_size: (number) Split size;
----  - ratio_max: (number) real_split_size <= real_win_size \* ratio_max;
----  - vertical: (boolean) If true, split vertically.
----  - hide_number: (boolean) If true, hide line number in split window.
+---@param option? { split_size: integer, ratio_max: number, vertical: boolean, hide_number: boolean } Split options:
+---  - *split_size*: Split size;
+---  - *ratio_max*: real_split_size <= real_win_size \* ratio_max;
+---  - *vertical*: If true, split vertically.
+---  - *hide_number*: If true, hide line number in split window.
 ---@return boolean ok True if split window successfully.
 ---@return integer winnr New split window number, -1 on failure.
 ---@return integer bufnr New split buffer number, -1 on failure.
@@ -431,7 +451,7 @@ end
 
 ---Split string into a utfchar table.
 ---@param str string String to explode.
----@return table result Exploded string table.
+---@return string[] result Exploded string list.
 function M.str_explode(str)
     local str_len = #str
     local result = {}
@@ -446,7 +466,7 @@ end
 
 ---Split string into a utfchar iterator.
 ---@param str string String to explode.
----@return function result Exploded string iterator.
+---@return fun():string|nil result Exploded string iterator.
 function M.str_gexplode(str)
     local str_len = #str
     local utf_end = 1

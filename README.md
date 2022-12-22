@@ -29,77 +29,120 @@
     {
       // Dependencies
       "dep": {
-        "sh": "string|table", // Shell
-        "cc": "string",       // C compiler
-        "py3": "string",      // Python3 executable path
-        "proxy": "string"     // Proxy
+        // Shell
+        "sh": "string|table",
+        // C compiler
+        "cc": "string",
+        // Python3 executable path
+        "py3": "string",
+        // Proxy
+        "proxy": "string"
       },
       // Paths
       "path": {
-        "home": "string",     // Home directory
-        "cloud": "string",    // Cloud drive directory
-        "desktop": "string",  // Desktop directory
-        "bin": "string"       // Binaries directory
+        // Home directory
+        "home": "string",
+        // Cloud drive directory
+        "cloud": "string",
+        // Desktop directory
+        "desktop": "string",
+        // Binaries directory
+        "bin": "string"
       },
       // Terminal UI
       "tui": {
-        "scheme": "string", // Color scheme(onedark|tokyonight|gruvbox|nightfox|onenord)
-        "theme": "string",  // Tui background theme(dark|light)
-        "style": "string",  // Style of color scheme
-        "transparent": false,        // Make background transparent
-        "global_statusline": false,  // Global statusline
-        "border": "string",          // Floating window border style
-        "cmp_ghost": false,          // nvim-cmp ghost text
-        "auto_dim": false             // Dim inactive window automatically
+        // Color scheme(onedark|tokyonight|gruvbox|nightfox|onenord)
+        "scheme": "string",
+        // Tui background theme(dark|light)
+        "theme": "string",
+        // Style of color scheme
+        "style": "string",
+        // Make background transparent
+        "transparent": false,
+        // Global statusline
+        "global_statusline": false,
+        // Floating window border style
+        "border": "string",
+        // nvim-cmp ghost text
+        "cmp_ghost": false,
+        // Dim inactive window automatically
+        "auto_dim": false
       },
       // GUI (neovim-qt, fvim)
       "gui": {
-        "theme": "string",     // GUI background theme
-        "opacity": 0.98,       // Window opacity
-        "ligature": false,     // Render ligatures
-        "popup_menu": false,   // Use GUI popup menu
-        "tabline": false,      // Use GUI tabline
-        "scroll_bar": false,   // Use GUI scroll bar
-        "line_space": 0.0,     // Line space
-        "font_size": 13,       // GUI font size
-        "font_half": "string", // See `guifont`
-        "font_full": "string"  // See `guifontwide`
+        // GUI background theme
+        "theme": "string",
+        // Window opacity
+        "opacity": 0.98,
+        // Render ligatures
+        "ligature": false,
+        // Use GUI popup menu
+        "popup_menu": false,
+        // Use GUI tabline
+        "tabline": false,
+        // Use GUI scroll bar
+        "scroll_bar": false,
+        // Line space
+        "line_space": 0.0,
+        // GUI font size
+        "font_size": 13,
+        // See `guifont`
+        "font_half": "string",
+        // See `guifontwide`
+        "font_full": "string"
       },
       // Language Server Protocol
       "lsp": {
-        "clangd": false,               // https://github.com/clangd/clangd
-        "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
-        "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
-        "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
-        "pyright": false,              // https://github.com/microsoft/pyright
-        "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
-        "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
-        "texlab": false,               // https://github.com/latex-lsp/texlab
-        "vimls": false                 // https://github.com/iamcco/vim-language-server
+        // https://github.com/clangd/clangd
+        "clangd": false,
+        // https://github.com/pappasam/jedi-language-server
+        "jedi-language-server": false,
+        // https://github.com/OmniSharp/omnisharp-roslyn
+        "omnisharp": false,
+        // https://github.com/PowerShell/PowerShellEditorServices
+        "powershell_es": false,
+        // https://github.com/microsoft/pyright
+        "pyright": false,
+        // https://github.com/rust-analyzer/rust-analyzer
+        "rust_analyzer": false,
+        // https://github.com/sumneko/lua-language-server
+        "sumneko_lua": false,
+        // https://github.com/latex-lsp/texlab
+        "texlab": false,
+        // https://github.com/iamcco/vim-language-server
+        "vimls": false
+        // And so on...
       },
       // Treesitter
       "ts": {
-        "ensure": [],        // Parsers to install automatically
-        "hi_disable": []     // File type to disable treesitter highlight
+        // Parsers to install automatically
+        "ensure": [],
+        // File type to disable treesitter highlight
+        "hi_disable": []
       },
       // Debug Adapter Protocol
       "dap": {
-        "lldb": false,       // https://github.com/llvm/llvm-project
-        "csharp": false,     // https://github.com/Samsung/netcoredbg
-        "python": false      // https://github.com/microsoft/debugpy
+        // https://github.com/llvm/llvm-project
+        "lldb": false,
+        // https://github.com/Samsung/netcoredbg
+        "csharp": false,
+        // https://github.com/microsoft/debugpy
+        "python": false
       },
       // Built-in plugins
       "plug": {
-        "matchit": false,    // Enable matchit.vim
-        "matchparen": false  // Enable matchparen.vim
+        // Enable matchit.vim
+        "matchit": false,
+        // Enable matchparen.vim
+        "matchparen": false
       },
       // Version control system
       "vcs": {
-        "client": "string"   // Git client(neogit|lazygit)
+        // Git client(neogit|lazygit)
+        "client": "string"
       }
     }
     ```
-    > The comments have to be removed.
 * **Install LSP servers via `mason.nvim`**
 * **Set .vimrc for Vim (optional)**
   - Windows
