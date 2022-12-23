@@ -17,7 +17,7 @@ end
 
 ---Wrap a termianl process to a recipe function.
 ---@param terminal futures.Terminal
----@return function
+---@return fun():boolean
 local wrap = function(terminal)
     return function()
         local data, event = terminal:await()
@@ -340,7 +340,7 @@ local comp_table = {
             or uv.cwd()
         ---Create tex callback.
         ---@param label string
-        ---@return function
+        ---@return fun(self:futures.Process, code:integer, signal:integer)
         local tex_cb = function(label)
             ---Callback function.
             ---@param code integer

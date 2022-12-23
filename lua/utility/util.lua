@@ -107,7 +107,7 @@ end
 ---Auto-update the color scheme highlight groups.
 ---@param scheme string Name of color scheme.
 ---@param hl_table table<string, table<string, string>> See onedark.nvim
----@param palette function Returns a color map (table).
+---@param palette fun():table<string, string> Returns a color map (table).
 function M.auto_hl(scheme, hl_table, palette)
     ---Get color value from a color table.
     ---@param color_map table<string, string>

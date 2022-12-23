@@ -5,16 +5,16 @@ local util = require("futures.util")
 ---@class futures.Process
 ---@field path string
 ---@field option table
----@field callback? function
+---@field callback? fun(self:futures.Process, code:integer, signal:integer)
 ---@field hanle userdata
 ---@field id integer
 ---@field is_valid boolean
 ---@field has_exited boolean
----@field callbacks function[]
+---@field callbacks fun(self:futures.Process, code:integer, signal:integer)[]
 ---@field no_callbacks boolean
----@field on_stdin function?
----@field on_stdout function?
----@field on_stderr function?
+---@field on_stdin? fun(data:string)
+---@field on_stdout? fun(data:string)
+---@field on_stderr? fun(data:string)
 ---@field stdin uv_pipe_t
 ---@field stdout uv_pipe_t
 ---@field stderr uv_pipe_t
@@ -28,7 +28,7 @@ Process.__index = Process
 ---Constructor.
 ---@param path string
 ---@param option? table
----@param on_exit? function
+---@param on_exit? fun(self:futures.Process, code:integer, signal:integer)
 ---@return futures.Process
 function Process.new(path, option, on_exit)
     local process = {
@@ -109,7 +109,7 @@ function Process:start()
 end
 
 ---Wrap a process into a callback function which will start automatically.
----@return function
+---@return fun(self:futures.Process, code:integer, signal:integer)
 function Process:to_callback()
     return function(_, code, _)
         if code == 0 then
@@ -120,7 +120,7 @@ end
 
 ---Continue with a callback function `next`.
 ---The process will not start automatically.
----@param next function
+---@param next fun(self:futures.Process, code:integer, signal:integer)
 ---@return futures.Process self
 function Process:continue_with(next)
     table.insert(self.callbacks, next)

@@ -206,7 +206,7 @@ M.ui = {
     end,
     ---Prompts the user to pick a single item from a collection of entries.
     ---@param items table Arbitrary items.
-    ---@param opts table Additional options.
+    ---@param opts table Additional options. See `select()`.
     ---@return any? item The chosen item.
     ---@return integer? idx The 1-based index of `item` within `items`.
     select = function(items, opts)
