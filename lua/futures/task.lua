@@ -53,10 +53,6 @@ end
 ---@param ... any Function arguments.
 ---@return futures.Task
 function Task.from_uv(uv_action, ...)
-    local _co = coroutine.running()
-    if not _co or coroutine.status(_co) == "dead" then
-        error("A libuv task should be created in an active async block.")
-    end
     if not vim.loop[uv_action] then
         error("Libuv has no function `" .. uv_action .. "`.")
     end
@@ -85,7 +81,8 @@ function Task:start()
     end)
     self.status = -1
     if self.is_async then
-        local args = vim.deepcopy(self.varargs)
+        -- Avoid modifying the structure of table `self.varargs`.
+        local args = { unpack(self.varargs) }
         if type(self.is_async) == "number" then
             if self.is_async > 0 and self.is_async <= #args then
                 table.insert(args, self.is_async + 0, cb)
@@ -124,6 +121,18 @@ function Task:continue_with(next)
     return self
 end
 
+---@private
+---@return any
+function Task:return_result()
+    if vim.tbl_islist(self.result) then
+        if vim.tbl_isempty(self.result) then
+            return nil
+        end
+        return unpack(self.result)
+    end
+    return self.result
+end
+
 ---Await the task.
 ---@return any
 function Task:await()
@@ -138,13 +147,22 @@ function Task:await()
         end
         if self:start() then
             coroutine.yield()
-            if vim.tbl_islist(self.result) then
-                if vim.tbl_isempty(self.result) then
-                    return nil
-                end
-                return unpack(self.result)
-            end
-            return self.result
+            return self:return_result()
+        end
+    end
+end
+
+---Blocking wait for the task.
+function Task:wait()
+    if self.status == 0 then
+        self.callback = function(...)
+            self.result = { ... }
+        end
+        if self:start() then
+            vim.wait(1e8, function()
+                return self.status == -2
+            end)
+            return self:return_result()
         end
     end
 end

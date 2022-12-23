@@ -158,10 +158,6 @@ require("packer").startup(function(use)
         "alec-gibson/nvim-tetris";
         "AndrewRadev/gnugo.vim";
     }
-    -- Documentation
-    use {
-        "nanotee/luv-vimdocs";
-    }
 
     if packer_bootstrap then
         require("packer").sync()

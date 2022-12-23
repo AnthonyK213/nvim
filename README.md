@@ -388,5 +388,3 @@
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
   - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)
-* Documentation
-  - [luv-vimdocs](https://github.com/nanotee/luv-vimdocs)

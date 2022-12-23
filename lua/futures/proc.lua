@@ -67,27 +67,26 @@ function Process:start()
     self.stderr_buf = {}
     local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
     opt = vim.tbl_extend("keep", opt, self.option)
-    self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(
-        function(code, signal)
-            uv.shutdown(self.stdin)
-            self.stdout:read_stop()
-            self.stderr:read_stop()
-            self.stdin:close()
-            self.stdout:close()
-            self.stderr:close()
-            self.handle:close()
-            self.has_exited = true
-            if not self.no_callbacks then
-                for _, f in ipairs(self.callbacks) do
-                    if type(f) == "function" then
-                        f(self, code, signal)
-                    end
+    self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(function(code, signal)
+        uv.shutdown(self.stdin)
+        self.stdout:read_stop()
+        self.stderr:read_stop()
+        self.stdin:close()
+        self.stdout:close()
+        self.stderr:close()
+        self.handle:close()
+        self.has_exited = true
+        if not self.no_callbacks then
+            for _, f in ipairs(self.callbacks) do
+                if type(f) == "function" then
+                    f(self, code, signal)
                 end
             end
-            if type(self.callback) == "function" then
-                self.callback(self, code, signal)
-            end
-        end))
+        end
+        if type(self.callback) == "function" then
+            self.callback(self, code, signal)
+        end
+    end))
     self.stdout:read_start(vim.schedule_wrap(function(err, data)
         assert(not err, err)
         if data then
@@ -151,6 +150,39 @@ function Process:notify_err()
     if not vim.tbl_isempty(self.stderr_buf) then
         lib.notify_err(table.concat(self.stderr_buf))
     end
+end
+
+---Write to standard input.
+---@param data string|string[] Data to write.
+---@return boolean is_writable True if `stdin` is writable.
+function Process:write(data)
+    if uv.is_writable(self.stdin) then
+        uv.write(self.stdin, data)
+        return true
+    end
+    return false
+end
+
+---Write to standard input and wait for the response.
+---@param data string|string[] Data to write.
+---@return string? err Error message.
+function Process:write_and_wait(data)
+    local task = require("futures.task").from_uv("write", self.stdin, data)
+    if coroutine.running() then
+        return task:await()
+    else
+        return task:wait()
+    end
+end
+
+---Sends te specified signal to the process and kill it.
+---@param signum? integer|string Signal, default 15.
+---@return integer ok 0 or fail.
+function Process:kill(signum)
+    if self.has_exited then
+        return 0
+    end
+    return self.handle:kill(signum or 15)
 end
 
 return Process
