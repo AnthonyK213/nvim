@@ -4,11 +4,11 @@ local util = require("futures.util")
 ---@class futures.Terminal
 ---@field cmd string[]
 ---@field option table
----@field callback? fun(self:futures.Terminal, job_id:integer, data:integer, event:string)
+---@field callback? fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
 ---@field id integer
 ---@field is_valid boolean
 ---@field has_exited boolean
----@field callbacks fun(self:futures.Terminal, job_id:integer, data:integer, event:string)[]
+---@field callbacks fun(term:futures.Terminal, job_id:integer, data:integer, event:string)[]
 ---@field no_callbacks boolean
 ---@field winnr integer
 ---@field bunnr integer
@@ -19,7 +19,7 @@ Terminal.__index = Terminal
 ---Constructor.
 ---@param cmd string[]
 ---@param option? table
----@param on_exit? fun(self:futures.Terminal, job_id:integer, data:integer, event:string)
+---@param on_exit? fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
 ---@return futures.Terminal
 function Terminal.new(cmd, option, on_exit)
     local terminal = {
@@ -88,7 +88,7 @@ function Terminal:start()
 end
 
 ---Wrap a terminal process into a callback function which will start automatically.
----@return fun(self:futures.Terminal, job_id:integer, data:integer, event:string)
+---@return fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
 function Terminal:to_callback()
     return function(_, _, data, event)
         if data == 0 and event == "exit" then
@@ -99,7 +99,7 @@ end
 
 ---Continue with a callback function `next`.
 ---The terminal process will not start automatically.
----@param next fun(self:futures.Terminal, job_id:integer, data:integer, event:string)
+---@param next fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
 ---@return futures.Terminal self
 function Terminal:continue_with(next)
     table.insert(self.callbacks, next)

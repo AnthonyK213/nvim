@@ -5,12 +5,12 @@ local util = require("futures.util")
 ---@class futures.Process
 ---@field path string
 ---@field option table
----@field callback? fun(self:futures.Process, code:integer, signal:integer)
+---@field callback? fun(proc:futures.Process, code:integer, signal:integer)
 ---@field hanle userdata
 ---@field id integer
 ---@field is_valid boolean
 ---@field has_exited boolean
----@field callbacks fun(self:futures.Process, code:integer, signal:integer)[]
+---@field callbacks fun(proc:futures.Process, code:integer, signal:integer)[]
 ---@field no_callbacks boolean
 ---@field on_stdin? fun(data:string)
 ---@field on_stdout? fun(data:string)
@@ -28,7 +28,7 @@ Process.__index = Process
 ---Constructor.
 ---@param path string
 ---@param option? table
----@param on_exit? fun(self:futures.Process, code:integer, signal:integer)
+---@param on_exit? fun(proc:futures.Process, code:integer, signal:integer)
 ---@return futures.Process
 function Process.new(path, option, on_exit)
     local process = {
@@ -60,13 +60,16 @@ function Process:clone()
 end
 
 ---Run the process.
+---@return boolean ok True if process starts successfully.
 function Process:start()
     if not lib.executable(self.path) then self.is_valid = false end
-    if self.has_exited or not self.is_valid then return end
+    if self.has_exited or not self.is_valid then return false end
+
     self.stdout_buf = {}
     self.stderr_buf = {}
     local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
     opt = vim.tbl_extend("keep", opt, self.option)
+
     self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(function(code, signal)
         uv.shutdown(self.stdin)
         self.stdout:read_stop()
@@ -87,6 +90,9 @@ function Process:start()
             self.callback(self, code, signal)
         end
     end))
+
+    if not self.handle then return false end
+
     self.stdout:read_start(vim.schedule_wrap(function(err, data)
         assert(not err, err)
         if data then
@@ -96,6 +102,7 @@ function Process:start()
             end
         end
     end))
+
     self.stderr:read_start(vim.schedule_wrap(function(err, data)
         assert(not err, err)
         if data then
@@ -105,10 +112,12 @@ function Process:start()
             end
         end
     end))
+
+    return true
 end
 
 ---Wrap a process into a callback function which will start automatically.
----@return fun(self:futures.Process, code:integer, signal:integer)
+---@return fun(proc:futures.Process, code:integer, signal:integer)
 function Process:to_callback()
     return function(_, code, _)
         if code == 0 then
@@ -119,7 +128,7 @@ end
 
 ---Continue with a callback function `next`.
 ---The process will not start automatically.
----@param next fun(self:futures.Process, code:integer, signal:integer)
+---@param next fun(proc:futures.Process, code:integer, signal:integer)
 ---@return futures.Process self
 function Process:continue_with(next)
     table.insert(self.callbacks, next)
