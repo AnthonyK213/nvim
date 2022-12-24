@@ -2,39 +2,38 @@ local uv = vim.loop
 local lib = require("utility.lib")
 local util = require("futures.util")
 
----@class futures.Process
----@field path string
----@field option table
----@field callback? fun(proc:futures.Process, code:integer, signal:integer)
----@field hanle userdata
----@field id integer
----@field is_valid boolean
----@field has_exited boolean
----@field callbacks fun(proc:futures.Process, code:integer, signal:integer)[]
----@field no_callbacks boolean
----@field on_stdin? fun(data:string)
----@field on_stdout? fun(data:string)
----@field on_stderr? fun(data:string)
----@field stdin uv_pipe_t
----@field stdout uv_pipe_t
----@field stderr uv_pipe_t
----@field stdin_buf string[]
----@field stdout_buf string[]
----@field stderr_buf string[]
+---@class futures.Process Provides access and control to local processes.
+---@field path string Path to the system local executable.
+---@field option table See `vim.loop.spawn()`.
+---@field callback? fun(proc:futures.Process, code:integer, signal:integer) Callback invoked when the process exits.
+---@field protected handle? userdata Process handle.
+---@field id integer Process pid.
+---@field is_valid boolean True if the process is valid.
+---@field has_exited boolean True if the process has already exited.
+---@field protected callbacks fun(proc:futures.Process, code:integer, signal:integer)[]
+---@field no_callbacks boolean Mark the process that its `callbacks` will not be executed.
+---@field on_stdin? fun(data:string) Callback on standard input.
+---@field on_stdout? fun(data:string) Callback on standard output.
+---@field on_stderr? fun(data:string) Callbakc on standard error.
+---@field protected stdin uv_pipe_t Standard input handle.
+---@field protected stdout uv_pipe_t Standard output handle.
+---@field protected stderr uv_pipe_t Standard error handle.
+---@field stdin_buf string[] Standard input buffer.
+---@field stdout_buf string[] Standard output buffer.
+---@field stderr_buf string[] Standard error buffer.
 local Process = {}
 
 Process.__index = Process
 
 ---Constructor.
----@param path string
----@param option? table
----@param on_exit? fun(proc:futures.Process, code:integer, signal:integer)
+---@param path string Path to the system local executable.
+---@param option? table See `vim.loop.spawn()`.
+---@param on_exit? fun(proc:futures.Process, code:integer, signal:integer) Callback invoked when the process exits (discouraged, use `continue_with` instead).
 ---@return futures.Process
 function Process.new(path, option, on_exit)
     local process = {
         path = path,
         option = option or {},
-        handle = nil,
         id = -1,
         has_exited = false,
         is_valid = true,

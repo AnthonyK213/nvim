@@ -1,25 +1,25 @@
 local lib = require("utility.lib")
 local util = require("futures.util")
 
----@class futures.Terminal
----@field cmd string[]
----@field option table
----@field callback? fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
----@field id integer
----@field is_valid boolean
----@field has_exited boolean
----@field callbacks fun(term:futures.Terminal, job_id:integer, data:integer, event:string)[]
----@field no_callbacks boolean
----@field winnr integer
----@field bunnr integer
+---@class futures.Terminal Represents a neovim terminal.
+---@field cmd string[] Command with arguments.
+---@field option table See `termopen()`.
+---@field callback? fun(term:futures.Terminal, job_id:integer, data:integer, event:string) Callback invoked when the terminal process exits.
+---@field id integer `channel-id`
+---@field is_valid boolean True if the terminal process is valid.
+---@field has_exited boolean True if the terminal process has already exited.
+---@field protected callbacks fun(term:futures.Terminal, job_id:integer, data:integer, event:string)[]
+---@field no_callbacks boolean Mark the terminal process that its `callbacks` will not be executed.
+---@field winnr integer Window number.
+---@field bunnr integer Buffer number.
 local Terminal = {}
 
 Terminal.__index = Terminal
 
 ---Constructor.
----@param cmd string[]
----@param option? table
----@param on_exit? fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
+---@param cmd string[] Command with arguments.
+---@param option? table See `termopen()`.
+---@param on_exit? fun(term:futures.Terminal, job_id:integer, data:integer, event:string) Callback invoked when the terminal process exits (discouraged, use `continue_with` instead).
 ---@return futures.Terminal
 function Terminal.new(cmd, option, on_exit)
     local terminal = {

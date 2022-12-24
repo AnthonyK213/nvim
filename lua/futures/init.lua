@@ -3,17 +3,17 @@ local lib = require("utility.lib")
 local util = require("futures.util")
 local try = util.try_call
 
----@class futures.Future
----@field action function
----@field varargs table
----@field result any
+---@class futures.Future Represents an operation which will produce values in the future.
+---@field action function Function that represents the code to execute.
+---@field varargs table Arguments for `action`.
+---@field result any[] Result of the `Future`, stored in a list.
 local Future = {}
 
 Future.__index = Future
 
 ---Constructor.
----@param action function
----@param varargs? table
+---@param action function Function that represents the code to execute.
+---@param varargs? table Arguments for `action`.
 ---@return futures.Future
 function Future.new(action, varargs)
     local future = {

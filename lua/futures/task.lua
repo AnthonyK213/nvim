@@ -3,22 +3,22 @@ local uv_callback_index = {
     fs_opendir = 2,
 }
 
----@class futures.Task
----@field action function
+---@class futures.Task Represents an asynchronous operation.
+---@field action function Function that represents the code to execute in the task.
+---@field varargs any[] Arguments for `action`.
 ---@field is_async boolean|integer `action` is asynchronous or not, default `false`.
----@field callback? function
----@field callbacks function[]
----@field no_callbacks boolean
----@field handle? userdata
----@field result any
----@field status 0|-1|-2 0: Created; -1: Running; -2: RanToCompletion
----@field varargs any[]
+---@field callback? function Callback invoked when the task runs to complete.
+---@field protected callbacks function[]
+---@field no_callbacks boolean Mark the task that its `callbacks` will not be executed.
+---@field protected handle? userdata Task handle.
+---@field result any[] Result of the task, stored in a list.
+---@field status 0|-1|-2 Task status, 0: Created; -1: Running; -2: RanToCompletion
 local Task = {}
 
 Task.__index = Task
 
 ---Constructor.
----@param action function
+---@param action function Function that represents the code to execute in the task.
 ---@param option? any Optional argument.
 ---  - `hash_table`: "is_async", "args", "callback"
 ---  - `list_like_table` | `not nil`: varargs
@@ -32,8 +32,7 @@ function Task.new(action, option)
         status = 0,
         varargs = {},
     }
-    local opt_type = type(option)
-    if opt_type == "table" then
+    if type(option) == "table" then
         if vim.tbl_islist(option) then
             task.varargs = option
         else
@@ -41,7 +40,7 @@ function Task.new(action, option)
             task.varargs = option.args or {}
             task.callbacks = type(option.callback) == "function" or { option.callback } or {}
         end
-    elseif opt_type ~= "nil" then
+    elseif type(option) ~= "nil" then
         table.insert(task.varargs, option)
     end
     setmetatable(task, Task)
