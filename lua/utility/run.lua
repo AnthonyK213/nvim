@@ -46,7 +46,7 @@ end
 
 ---Check if `proc` has error, if so, print the `stderr`.
 ---@param proc futures.Process
----@param label string?
+---@param label? string
 local has_error = function(proc, label)
     if proc:await() ~= 0 then
         if not lib.new_split("belowright") then return false end

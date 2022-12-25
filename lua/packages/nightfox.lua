@@ -77,7 +77,7 @@ require("nightfox").setup {
 }
 
 ---Background switching interface.
----@param bg string?
+---@param bg? string
 vim.g._my_theme_switchable = function(bg)
     local colors_name = vim.g.colors_name:sub(1, vim.g.colors_name:len() - 3)
     if bg == "light" and is_light(colors_name)
