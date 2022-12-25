@@ -329,13 +329,13 @@ function M.json_decode(path, strictly)
         end,
     }
 
-    local ok, result; local i = 0
+    local ok, result; local i = 0; local n = #filters
 
     while true do
         ok, result = pcall(vim.json.decode, content)
         if ok then
             return 0, result
-        elseif strictly or i == #filters then
+        elseif strictly or i == n then
             break
         end
         i = i + 1
