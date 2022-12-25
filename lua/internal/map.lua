@@ -281,9 +281,9 @@ kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
     to_normal()
     local futures = require("futures")
     local bufnr = vim.api.nvim_get_current_buf()
-    local sr, sc, er, ec = require("utility.lib").get_gv_mark()
-    local base64_code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {})):gsub("[^A-Za-z0-9+/]", "")
     futures.spawn(function()
+        local sr, sc, er, ec = require("utility.lib").get_gv_mark()
+        local base64_code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {})):gsub("[^A-Za-z0-9+/]", "")
         print("Decoding...")
         local code = futures.Task.new(require("utility.base64").decode, base64_code):await()
         if not code then
@@ -302,9 +302,9 @@ kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
     local bufnr = vim.api.nvim_get_current_buf()
     local width = vim.bo.textwidth
     if width == 0 then width = 80 end
-    local sr, sc, er, ec = require("utility.lib").get_gv_mark()
-    local code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {}), "\n")
     futures.spawn(function()
+        local sr, sc, er, ec = require("utility.lib").get_gv_mark()
+        local code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {}), "\n")
         print("Encoding...")
         local base64_code = futures.Task.new(require("utility.base64").encode, code):await()
         if not base64_code then
