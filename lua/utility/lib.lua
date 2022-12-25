@@ -9,6 +9,37 @@ M.Os = {
     Macos = 3,
 }
 
+---Convert `integer` to a binary string.
+---(`new_work` invocable)
+---@param x integer Integer to be converted.
+---@param n? integer Limit of bits.
+---@return string digits String of binary digits.
+function M.bit_tobin(x, n)
+    local digits = ""
+
+    if x <= -1 then
+        x = -x
+        digits = digits .. "-"
+    elseif x < 1 then
+        return (n and n >= 1) and string.rep("0", n) or "0"
+    end
+
+    n = (n and n >= 1) and n - 1 or math.floor(math.log(x, 2))
+
+    for i = n, 0, -1 do
+        local current_power = 2 ^ i
+
+        if x >= current_power then
+            digits = digits .. "1"
+            x = x - current_power
+        else
+            digits = digits .. "0"
+        end
+    end
+
+    return digits
+end
+
 ---Check if executable exists.
 ---@param exe string Executable name.
 ---@return boolean is_executable True if `exe` is a valid executable.

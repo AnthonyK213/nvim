@@ -279,35 +279,54 @@ kbd("Show highlight information", "n", "<leader>vs", function()
 end)
 kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
     to_normal()
+    local futures = require("futures")
+    local bufnr = vim.api.nvim_get_current_buf()
     local sr, sc, er, ec = require("utility.lib").get_gv_mark()
-    local base64_code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}))
-        :gsub("[^A-Za-z0-9+/]", "")
-    local code = require("utility.base64").decode(base64_code)
-    if not code then return end
-    vim.api.nvim_buf_set_text(0, sr, sc, er, ec, vim.split(code, "[\n\r]", {
-        trimempty = true,
-    }))
+    local base64_code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {})):gsub("[^A-Za-z0-9+/]", "")
+    futures.spawn(function()
+        print("Decoding...")
+        local code = futures.Task.new(require("utility.base64").decode, base64_code):await()
+        if not code then
+            print("Decode failed")
+            return
+        end
+        vim.api.nvim_buf_set_text(bufnr, sr, sc, er, ec, vim.split(code, "[\r\n]", {
+            trimempty = true,
+        }))
+        print("Decode finished")
+    end)
 end)
 kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
     to_normal()
+    local futures = require("futures")
+    local bufnr = vim.api.nvim_get_current_buf()
+    local width = vim.bo.textwidth
+    if width == 0 then width = 80 end
     local sr, sc, er, ec = require("utility.lib").get_gv_mark()
-    local code = table.concat(vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}), "\n")
-    local base64_code = require("utility.base64").encode(code)
-    if not base64_code then return end
-    local replacement = {}
-    local half = vim.api.nvim_buf_get_text(0, sr, 0, sr, sc, {})[1]
-    local half_len = vim.api.nvim_strwidth(half)
-    local start = 1
-    if half_len >= 80 then
-        table.insert(replacement, "")
-    else
-        start = 80 - half_len
-        table.insert(replacement, base64_code:sub(1, start))
-        start = start + 1
-    end
-    while start < #base64_code do
-        table.insert(replacement, base64_code:sub(start, start + 79))
-        start = start + 80
-    end
-    vim.api.nvim_buf_set_text(0, sr, sc, er, ec, replacement)
+    local code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {}), "\n")
+    futures.spawn(function()
+        print("Encoding...")
+        local base64_code = futures.Task.new(require("utility.base64").encode, code):await()
+        if not base64_code then
+            print("Encode failed")
+            return
+        end
+        local replacement = {}
+        local half = vim.api.nvim_buf_get_text(bufnr, sr, 0, sr, sc, {})[1]
+        local half_len = vim.api.nvim_strwidth(half)
+        local start = 1
+        if half_len >= width then
+            table.insert(replacement, "")
+        else
+            start = width - half_len
+            table.insert(replacement, base64_code:sub(1, start))
+            start = start + 1
+        end
+        while start < #base64_code do
+            table.insert(replacement, base64_code:sub(start, start + width - 1))
+            start = start + width
+        end
+        vim.api.nvim_buf_set_text(bufnr, sr, sc, er, ec, replacement)
+        print("Encode finished")
+    end)
 end)
