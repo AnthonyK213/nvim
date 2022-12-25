@@ -301,33 +301,48 @@ end
 ---@return table? result Decode result.
 function M.json_decode(path, strictly)
     local content = M.read_all_text(path)
-    if content then
-        local ok, result
+    if not content then return 2, nil end
 
-        ok, result = pcall(vim.json.decode, content)
-        if ok then return 0, result end
-
-        if not strictly then
-            local lines = vim.split(content, "[\n\r]", {
+    ---@type (fun(chunk:string):string)[]
+    local filters = {
+        ---Remove comment lines.
+        ---@param chunk string
+        ---@return string
+        function (chunk)
+            local lines = vim.split(chunk, "[\n\r]", {
                 plain = false,
                 trimempty = true,
             })
-
-            local lines_noc = table.concat(vim.tbl_filter(function(v)
+            return table.concat(vim.tbl_filter(function(v)
                 if vim.startswith(vim.trim(v), "//") then
                     return false
                 end
                 return true
-            end, lines)):gsub(",%s*([%]%}])", "%1")
+            end, lines))
+        end,
+        ---Remove trailing commas.
+        ---@param chunk string
+        ---@return string
+        ---@return integer
+        function (chunk)
+            return chunk:gsub(",%s*([%]%}])", "%1")
+        end,
+    }
 
-            ok, result = pcall(vim.json.decode, lines_noc)
-            if ok then return 0, result end
+    local ok, result; local i = 0
+
+    while true do
+        ok, result = pcall(vim.json.decode, content)
+        if ok then
+            return 0, result
+        elseif strictly or i == #filters then
+            break
         end
-
-        return 1, nil
+        i = i + 1
+        content = filters[i](content)
     end
 
-    return 2, nil
+    return 1, nil
 end
 
 ---Create a new split window.
