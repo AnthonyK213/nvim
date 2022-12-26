@@ -14,14 +14,16 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 -- Attaches.
 local custom_attach = function(_, bufnr)
     local _o = { noremap = true, silent = true, buffer = bufnr }
+    local lsp_fmt = function() vim.lsp.buf.format { async = false } end
     -- VSCode
     local builtin = require("telescope.builtin")
+    local lsp_ref = function() builtin.lsp_references { show_line = false } end
     kbd("n", "<F12>", builtin.lsp_definitions, _o)
-    kbd("n", "<S-F12>", builtin.lsp_references, _o)
-    kbd("n", "<F24>", builtin.lsp_references, _o)
+    kbd("n", "<S-F12>", lsp_ref, _o)
+    kbd("n", "<F24>", lsp_ref, _o)
     kbd("n", "<C-F12>", builtin.lsp_implementations, _o)
     kbd("n", "<F36>", builtin.lsp_implementations, _o)
-    kbd("n", "<M-F>", function() vim.lsp.buf.format { async = false } end, _o)
+    kbd("n", "<M-F>", lsp_fmt, _o)
     -- Neovim LSP
     kbd("n", "K", vim.lsp.buf.hover, _o)
     kbd("n", "<leader>l0", vim.lsp.buf.document_symbol, _o)
@@ -30,12 +32,12 @@ local custom_attach = function(_, bufnr)
     kbd("n", "<leader>lf", vim.lsp.buf.definition, _o)
     kbd("n", "<leader>lh", vim.lsp.buf.signature_help, _o)
     kbd("n", "<leader>li", vim.lsp.buf.implementation, _o)
-    kbd("n", "<leader>lk", function() vim.diagnostic.open_float(float_opts) end, _o)
-    kbd("n", "<leader>lm", function() vim.lsp.buf.format { async = false } end, _o)
+    kbd("n", "<leader>lm", lsp_fmt, _o)
     kbd("n", "<leader>ln", vim.lsp.buf.rename, _o)
     kbd("n", "<leader>lr", vim.lsp.buf.references, _o)
     kbd("n", "<leader>lt", vim.lsp.buf.type_definition, _o)
     kbd("n", "<leader>lw", vim.lsp.buf.workspace_symbol, _o)
+    kbd("n", "<leader>lk", function() vim.diagnostic.open_float(float_opts) end, _o)
     kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev { float = float_opts } end, _o)
     kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
 end
