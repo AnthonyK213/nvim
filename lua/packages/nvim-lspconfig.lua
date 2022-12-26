@@ -14,7 +14,15 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 -- Attaches.
 local custom_attach = function(_, bufnr)
     local _o = { noremap = true, silent = true, buffer = bufnr }
-    kbd("n", "<F12>", vim.lsp.buf.definition, _o)
+    -- VSCode
+    local builtin = require("telescope.builtin")
+    kbd("n", "<F12>", builtin.lsp_definitions, _o)
+    kbd("n", "<S-F12>", builtin.lsp_references, _o)
+    kbd("n", "<F24>", builtin.lsp_references, _o)
+    kbd("n", "<C-F12>", builtin.lsp_implementations, _o)
+    kbd("n", "<F36>", builtin.lsp_implementations, _o)
+    kbd("n", "<M-F>", function() vim.lsp.buf.format { async = false } end, _o)
+    -- Neovim LSP
     kbd("n", "K", vim.lsp.buf.hover, _o)
     kbd("n", "<leader>l0", vim.lsp.buf.document_symbol, _o)
     kbd("n", "<leader>la", vim.lsp.buf.code_action, _o)
