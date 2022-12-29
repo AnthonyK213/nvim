@@ -152,13 +152,14 @@ function Task:await()
 end
 
 ---Blocking wait for the task.
-function Task:wait()
+---@param timeout? integer Timeout.
+function Task:wait(timeout)
     if self.status == 0 then
         self.callback = function(...)
             self.result = { ... }
         end
         if self:start() then
-            vim.wait(1e8, function()
+            vim.wait(timeout or 1e8, function()
                 return self.status == -2
             end)
             return self:return_result()

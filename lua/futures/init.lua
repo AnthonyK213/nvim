@@ -129,10 +129,7 @@ function M.join(fut_list, timeout)
             end
             fut:start()
         end
-        if not timeout then
-            timeout = 1e8
-        end
-        local ok, code = vim.wait(timeout, function()
+        local ok, code = vim.wait(timeout or 1e8, function()
             return count == fut_count
         end, 10)
         if not ok then
