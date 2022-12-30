@@ -21,6 +21,7 @@ local util = require("futures.util")
 ---@field stdin_buf string[] Standard input buffer.
 ---@field stdout_buf string[] Standard output buffer.
 ---@field stderr_buf string[] Standard error buffer.
+---@field record boolean If true, `stdout` and `stderr` will be recorded into the buffer.
 local Process = {}
 
 Process.__index = Process
@@ -45,6 +46,7 @@ function Process.new(path, option, on_exit)
         stdin_buf = {},
         stdout_buf = {},
         stderr_buf = {},
+        record = false,
     }
     setmetatable(process, Process)
     return process
@@ -95,7 +97,9 @@ function Process:start()
     self.stdout:read_start(vim.schedule_wrap(function(err, data)
         assert(not err, err)
         if data then
-            table.insert(self.stdout_buf, data)
+            if self.record then
+                table.insert(self.stdout_buf, data)
+            end
             if type(self.on_stdout) == "function" then
                 self.on_stdout(data)
             end
@@ -105,7 +109,9 @@ function Process:start()
     self.stderr:read_start(vim.schedule_wrap(function(err, data)
         assert(not err, err)
         if data then
-            table.insert(self.stderr_buf, data)
+            if self.record then
+                table.insert(self.stderr_buf, data)
+            end
             if type(self.on_stderr) == "function" then
                 self.on_stderr(data)
             end
@@ -155,7 +161,7 @@ end
 
 ---Print `stderr`.
 function Process:notify_err()
-    if not vim.tbl_isempty(self.stderr_buf) then
+    if self.record and not vim.tbl_isempty(self.stderr_buf) then
         lib.notify_err(table.concat(self.stderr_buf))
     end
 end

@@ -48,6 +48,7 @@ end
 ---@param proc futures.Process
 ---@param label? string
 local has_error = function(proc, label)
+    proc.record = true
     if proc:await() ~= 0 then
         if not lib.new_split("belowright") then return false end
         local chan = vim.api.nvim_open_term(0, {})
