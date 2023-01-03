@@ -114,7 +114,7 @@ function Syntax.new(row, col)
     return syntax
 end
 
----Match syntax name by vim.regex.
+---Match syntax name using vim regex.
 ---@param t_pattern string Matching pattern among `self.ts` and `self.vs`,
 --- but if `v_pattern` is given and not empty, then just match among `self.ts`.
 ---@param v_pattern? string Matching pattern among `self.vs`.

@@ -254,10 +254,10 @@ end)
 kbd("Comment current/selected line(s)", { "n", "v" }, "<leader>kc", function()
     local mode = get_mode()
     if mode == "n" then
-        require("utility.cmt").cmt_add_norm()
+        require("utility.cmt").cmt_add_n()
     elseif mode == "v" then
         to_normal()
-        require("utility.cmt").cmt_add_vis()
+        require("utility.cmt").cmt_add_v()
     else
         return
     end
@@ -265,10 +265,10 @@ end)
 kbd("Uncomment current/selected line(s)", { "n", "v" }, "<leader>ku", function()
     local mode = get_mode()
     if mode == "n" then
-        require("utility.cmt").cmt_del_norm()
+        require("utility.cmt").cmt_del_n()
     elseif mode == "v" then
         to_normal()
-        require("utility.cmt").cmt_del_vis()
+        require("utility.cmt").cmt_del_v()
     else
         return
     end
