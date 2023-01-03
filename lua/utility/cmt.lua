@@ -125,12 +125,25 @@ local function is_cmt_line(lnum)
     end
 end
 
+---Determine if line is empty.
+---@param lnum? integer
+---@return boolean
+local function is_empty_line(lnum)
+    lnum = lnum or vim.api.nvim_win_get_cursor(0)[1]
+    local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
+    if line:match("^%s*$") then
+        return true
+    end
+    return false
+end
+
 ---Comment current line in normal mode.
 function M.cmt_add_n()
     local cmt_mark = get_cmt_mark(true)
     if not cmt_mark then return end
     local pos = vim.api.nvim_win_get_cursor(0)
     if cmt_mark.s then
+        if is_empty_line() then return end
         local cmd = vim.api.nvim_replace_termcodes("I" .. cmt_mark.s .. _s, true, false, true)
         vim.api.nvim_feedkeys(cmd, "xn", true)
         vim.api.nvim_win_set_cursor(0, pos)
