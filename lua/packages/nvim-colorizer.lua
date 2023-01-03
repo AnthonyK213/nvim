@@ -1,11 +1,12 @@
 vim.cmd.packadd("nvim-colorizer.lua")
 
 require("colorizer").setup({
-    css = { names = true, rgb_fn = true },
     "html",
     "javascript",
+    "json",
     "typescript",
-    "json"
+    css = { names = true, rgb_fn = true },
+    vue = { names = true, rgb_fn = true },
 }, {
     RGB      = true,
     RRGGBB   = true,
