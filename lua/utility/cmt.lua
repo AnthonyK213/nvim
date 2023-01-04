@@ -4,7 +4,7 @@ local Syntax = require("utility.syn")
 
 local space = true
 local _s = space and " " or ""
-local _s_pat = space and "%s*" or ""
+local _s_pat = space and "%s?" or ""
 local _k_c_fam = { s = "//", s_pat = "///*", d = { "/*", "*/" } }
 local _k_sharp = { s = "#" }
 local _k_lisps = { s = ";" }
@@ -211,43 +211,24 @@ function M.cmt_del_n()
     local lua_cmt_mark_a = (cmt_mark.d_pat and cmt_mark.d_pat[1] or vim.pesc(cmt_mark_a)) .. _s_pat
     local lua_cmt_mark_b = _s_pat .. (cmt_mark.d_pat and cmt_mark.d_pat[2] or vim.pesc(cmt_mark_b))
 
-    for i = lnum_c - 1, 1, -1 do
+    for i = lnum_c, 1, -1 do
         local line_p = vim.api.nvim_buf_get_lines(0, i - 1, i, true)[1]
-        if line_p:match(lua_cmt_mark_b .. ".-$")
-            and not line_p:match(lua_cmt_mark_a .. ".-$") then
-            return
-        end
-        if line_p:match(lua_cmt_mark_a .. ".-$") then
-            local pos_a = line_p:find(lua_cmt_mark_a .. ".-$")
-            if line_p:match(lua_cmt_mark_b .. ".-$") then
-                local pos_b = line_p:find(lua_cmt_mark_b .. ".-$")
-                if pos_a < pos_b then
-                    return
-                end
-            end
+        if line_p:match("^%s*" .. lua_cmt_mark_a .. ".*$") then
             if line_p:match("^%s*" .. lua_cmt_mark_a .. "%s*$") then
-                vim.api.nvim_buf_set_lines(0, i - 1, i, true, {})
-                lnum_c = lnum_c - 1
+                vim.api.nvim_buf_set_lines(0, i - 1, i, true, { "" })
             else
-                line_p = line_p:gsub(lua_cmt_mark_a, "")
+                line_p = line_p:gsub(lua_cmt_mark_a, "", 1)
                 vim.api.nvim_buf_set_lines(0, i - 1, i, true, { line_p })
             end
             break
         end
     end
 
-    for i = lnum_c + 1, vim.api.nvim_buf_line_count(0), 1 do
+    for i = lnum_c, vim.api.nvim_buf_line_count(0), 1 do
         local line_n = vim.api.nvim_buf_get_lines(0, i - 1, i, true)[1]
-        if line_n:match(lua_cmt_mark_b .. ".*$") then
-            local pos_b = line_n:find(lua_cmt_mark_b .. ".*$")
-            if line_n:match(lua_cmt_mark_a .. ".*$") then
-                local pos_a = line_n:find(lua_cmt_mark_a .. ".*$")
-                if pos_a < pos_b then
-                    return
-                end
-            end
-            if line_n:match("^%s*" .. lua_cmt_mark_b .. "%s*$") then
-                vim.api.nvim_buf_set_lines(0, i - 1, i, true, {})
+        if line_n:match(lua_cmt_mark_b .. "$") then
+            if line_n:match("^%s*" .. lua_cmt_mark_b .. "$") then
+                vim.api.nvim_buf_set_lines(0, i - 1, i, true, { "" })
             else
                 line_n = line_n:gsub(lua_cmt_mark_b, "")
                 vim.api.nvim_buf_set_lines(0, i - 1, i, true, { line_n })
