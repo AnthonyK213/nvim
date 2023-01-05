@@ -155,7 +155,9 @@ function Process:await()
         util.try_resume(_co)
     end
     self:start()
-    coroutine.yield()
+    if not self.has_exited then
+        coroutine.yield()
+    end
     return _c, _s
 end
 

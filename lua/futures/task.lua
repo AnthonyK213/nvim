@@ -132,7 +132,9 @@ function Task:await()
             util.try_resume(_co)
         end
         if self:start() then
-            coroutine.yield()
+            if self.status == -1 then
+                coroutine.yield()
+            end
             return lib.tbl_unpack(self.result)
         end
     end
