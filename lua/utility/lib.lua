@@ -597,6 +597,32 @@ function M.tbl_find_last(tbl, val)
     return 0
 end
 
+---Inserts element `value` at position `pos` in the packed table `pack`.
+---@param pack table
+---@param pos integer
+---@param value any
+function M.tbl_insert(pack, pos, value)
+    for i = pack.n, pos, -1 do
+        pack[i + 1] = pack[i]
+    end
+    pack[pos] = value
+    pack.n = pack.n + 1
+end
+
+---@see table.pack https://www.lua.org/manual/5.4/manual.html#pdf-table.pack
+---@param ... any
+---@return table
+function M.tbl_pack(...)
+    local pack = {}
+    local n = select("#", ...)
+    for i = 1, n do
+        local v = select(i, ...)
+        pack[i] = v
+    end
+    pack.n = n
+    return pack
+end
+
 ---Reverse a ipairs table.
 ---(`new_work` invocable)
 ---@param tbl table Table to reverse.
@@ -610,6 +636,13 @@ function M.tbl_reverse(tbl)
         return tmp
     end
     return tbl
+end
+
+---Unpack a packed table.
+---@param pack table Packed table.
+---@param i? integer
+function M.tbl_unpack(pack, i)
+    return unpack(pack, i or 1, pack.n)
 end
 
 ---Use **pcall()** to catch error and display it.

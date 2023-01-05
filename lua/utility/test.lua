@@ -1,3 +1,5 @@
+local lib = require("utility.lib")
+
 local M = {}
 
 ---Performance test for a function.
@@ -6,14 +8,15 @@ local M = {}
 ---@param ... any Arguments for `f`.
 function M.p(label, f, ...)
     local s = os.clock()
-    local result_table = { f(...) }
+    local result_table = lib.tbl_pack(f(...))
     local e = os.clock()
     local result
-    if #result_table == 0 then
+    if result_table.n == 0 then
         result = "None"
-    elseif #result_table == 1 then
+    elseif result_table.n == 1 then
         result = vim.inspect(result_table[1])
     else
+        result_table.n = nil
         result = vim.inspect(result_table)
         result = "[\n    " .. result:sub(2, #result - 1) .. "\n  ]"
     end

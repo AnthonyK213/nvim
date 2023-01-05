@@ -1,3 +1,4 @@
+local lib = require("utility.lib")
 local util = require("futures.util")
 local uv_callback_index = {
     fs_opendir = 2,
@@ -5,13 +6,13 @@ local uv_callback_index = {
 
 ---@class futures.Task Represents an asynchronous operation.
 ---@field action function Function that represents the code to execute in the task.
----@field varargs any[] Arguments for `action`.
----@field is_async boolean|integer `action` is asynchronous or not, default `false`.
+---@field protected varargs table Arguments for `action`.
+---@field protected is_async boolean|integer `action` is asynchronous or not, default `false`.
 ---@field callback? function Callback invoked when the task runs to complete.
 ---@field protected callbacks function[]
 ---@field no_callbacks boolean Mark the task that its `callbacks` will not be executed.
 ---@field protected handle? userdata Task handle.
----@field result any[] Result of the task, stored in a list.
+---@field result table Result of the task, stored in a packed table.
 ---@field status 0|-1|-2 Task status, 0: Created; -1: Running; -2: RanToCompletion
 local Task = {}
 
@@ -19,32 +20,31 @@ Task.__index = Task
 
 ---Constructor.
 ---@param action function Function that represents the code to execute in the task.
----@param option? any Optional argument.
+---@param ... any Arguments.
 ---  - `hash_table`: "is_async", "args", "callback"
 ---  - `list_like_table` | `not nil`: varargs
 ---@return futures.Task
-function Task.new(action, option)
+function Task.new(action, ...)
     local task = {
         action = action,
         is_async = false,
         callbacks = {},
         no_callbacks = false,
         status = 0,
-        varargs = {},
+        varargs = lib.tbl_pack(...),
     }
-    if type(option) == "table" then
-        if vim.tbl_islist(option) then
-            task.varargs = option
-        else
-            task.is_async = option.is_async or false
-            task.varargs = option.args or {}
-            task.callbacks = type(option.callback) == "function" or { option.callback } or {}
-        end
-    elseif type(option) ~= "nil" then
-        table.insert(task.varargs, option)
-    end
     setmetatable(task, Task)
     return task
+end
+
+---If set `true`, regard `action` as an asynchronous function;
+---if set an integer `n`, regard it as an asynchronous function with the nth
+---argument to be the callback function.
+---@param is_async boolean|integer
+---@return futures.Task
+function Task:set_async(is_async)
+    self.is_async = is_async
+    return self
 end
 
 ---Create a task from a libuv async function.
@@ -55,10 +55,8 @@ function Task.from_uv(uv_action, ...)
     if not vim.loop[uv_action] then
         error("Libuv has no function `" .. uv_action .. "`.")
     end
-    return Task.new(vim.loop[uv_action], {
-        is_async = uv_callback_index[uv_action] or true,
-        args = { ... }
-    })
+    return Task.new(vim.loop[uv_action], ...)
+        :set_async(uv_callback_index[uv_action] or true)
 end
 
 ---Start the task.
@@ -81,29 +79,30 @@ function Task:start()
     self.status = -1
     if self.is_async then
         -- Avoid modifying the structure of table `self.varargs`.
-        local args = { unpack(self.varargs) }
+        local args = lib.tbl_pack(lib.tbl_unpack(self.varargs))
         if type(self.is_async) == "number" then
-            if self.is_async > 0 and self.is_async <= #args then
-                table.insert(args, self.is_async + 0, cb)
+            if self.is_async > 0 and self.is_async <= args.n then
+                lib.tbl_insert(args, self.is_async + 0, cb)
             else
                 error("Invalid `is_async`.")
             end
         else
-            table.insert(args, cb)
+            args[args.n + 1] = cb
+            args.n = args.n + 1
         end
-        self.handle = self.action(unpack(args))
+        self.handle = self.action(lib.tbl_unpack(args))
         return true
     end
     self.handle = vim.loop.new_work(self.action, cb)
-    return self.handle:queue(unpack(self.varargs))
+    return self.handle:queue(lib.tbl_unpack(self.varargs))
 end
 
 ---Wrap a task into a callback function which will start automatically.
 ---@return function
 function Task:to_callback()
     return function(...)
-        if vim.tbl_isempty(self.varargs) then
-            self.varargs = { ... }
+        if self.varargs.n == 0 then
+            self.varargs = lib.tbl_pack(...)
         end
         self:start()
     end
@@ -120,18 +119,6 @@ function Task:continue_with(next)
     return self
 end
 
----@private
----@return any
-function Task:return_result()
-    if vim.tbl_islist(self.result) then
-        if vim.tbl_isempty(self.result) then
-            return nil
-        end
-        return unpack(self.result)
-    end
-    return self.result
-end
-
 ---Await the task.
 ---@return any
 function Task:await()
@@ -141,12 +128,12 @@ function Task:await()
     end
     if self.status == 0 then
         self.callback = function(...)
-            self.result = { ... }
+            self.result = lib.tbl_pack(...)
             util.try_resume(_co)
         end
         if self:start() then
             coroutine.yield()
-            return self:return_result()
+            return lib.tbl_unpack(self.result)
         end
     end
 end
@@ -156,13 +143,13 @@ end
 function Task:wait(timeout)
     if self.status == 0 then
         self.callback = function(...)
-            self.result = { ... }
+            self.result = lib.tbl_pack(...)
         end
         if self:start() then
             vim.wait(timeout or 1e8, function()
                 return self.status == -2
             end)
-            return self:return_result()
+            return lib.tbl_unpack(self.result)
         end
     end
 end
@@ -171,7 +158,7 @@ end
 ---@param delay integer Delay in milliseconds.
 ---@return futures.Task task
 function Task.delay(delay)
-    return Task.new(vim.defer_fn, { is_async = 1, args = { delay } })
+    return Task.new(vim.defer_fn, delay):set_async(1)
 end
 
 ---Reset the task.

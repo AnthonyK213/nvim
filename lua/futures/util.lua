@@ -1,3 +1,5 @@
+local lib = require("utility.lib")
+
 local M = {}
 
 ---Try resume the coroutine `co`, if not successful, print the error.
@@ -14,9 +16,9 @@ end
 ---@param ... any
 ---@return any
 function M.try_call(action, ...)
-    local result = { action(...) }
+    local result = lib.tbl_pack(action(...))
     assert(not result[1], result[1])
-    return unpack(result, 2, #result)
+    return lib.tbl_unpack(result, 2)
 end
 
 return M

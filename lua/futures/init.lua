@@ -13,12 +13,12 @@ Future.__index = Future
 
 ---Constructor.
 ---@param action function Function that represents the code to execute.
----@param varargs? table Arguments for `action`.
+---@param ... any Arguments for `action`.
 ---@return futures.Future
-function Future.new(action, varargs)
+function Future.new(action, ...)
     local future = {
         action = action,
-        varargs = varargs or {},
+        varargs = lib.tbl_pack(...)
     }
     setmetatable(future, Future)
     return future
@@ -27,8 +27,8 @@ end
 ---Poll the future.
 ---@return any result
 function Future:poll()
-    self.result = { self.action(unpack(self.varargs)) }
-    return unpack(self.result)
+    self.result = lib.tbl_pack(self.action(lib.tbl_unpack(self.varargs)))
+    return lib.tbl_unpack(self.result)
 end
 
 ---Check `fut_list` for `futures.join` & `futures.select`.
@@ -42,12 +42,13 @@ local function check_fut_list(fut_list)
     return true
 end
 
+---@async
 ---Wrap a function into an asynchronous function.
 ---@param func function Funtion to wrap.
 ---@return fun(...):futures.Future async_func Wrapped asynchronous function.
 function M.async(func)
     return function (...)
-        return Future.new(func, { ... })
+        return Future.new(func, ...)
     end
 end
 
@@ -60,7 +61,7 @@ function M.spawn(task)
 
     if _type == "function" then
         _f = task
-    elseif _type == "table" and task.poll then
+    elseif _type == "table" and getmetatable(task) == Future then
         _f = function () return task:poll() end
     else
         error("`task` is inalid.")
@@ -97,7 +98,7 @@ function M.join(fut_list, timeout)
     if _co and coroutine.status(_co) ~= "dead" then
         for i, fut in ipairs(fut_list) do
             fut.callback = function(...)
-                result[i] = { ... }
+                result[i] = lib.tbl_pack(...)
                 count = count + 1
                 if count == fut_count then
                     util.try_resume(_co)
@@ -124,7 +125,7 @@ function M.join(fut_list, timeout)
     else
         for i, fut in ipairs(fut_list) do
             fut.callback = function(...)
-                result[i] = { ... }
+                result[i] = lib.tbl_pack(...)
                 count = count + 1
             end
             fut:start()
@@ -140,7 +141,7 @@ function M.join(fut_list, timeout)
             end
         end
     end
-    return unpack(result)
+    return lib.tbl_unpack(result)
 end
 
 ---Polls multiple futures simultaneously,
@@ -157,7 +158,7 @@ function M.select(fut_list)
             fut.no_callbacks = true
             fut.callback = function(...)
                 if not done then
-                    result = { ... }
+                    result = lib.tbl_pack(...)
                     done = true
                     util.try_resume(_co)
                 end
@@ -172,7 +173,7 @@ function M.select(fut_list)
             fut.no_callbacks = true
             fut.callback = function(...)
                 if not done then
-                    result = { ... }
+                    result = lib.tbl_pack(...)
                     done = true
                 end
             end
@@ -196,10 +197,7 @@ M.ui = {
     ---@param opts table Additional options. See `input()`.
     ---@return string? input Content the user typed.
     input = function(opts)
-        return M.Task.new(vim.ui.input, {
-            is_async = true,
-            args = { opts }
-        }):await()
+        return M.Task.new(vim.ui.input, opts):set_async(true):await()
     end,
     ---Prompts the user to pick a single item from a collection of entries.
     ---@param items table Arbitrary items.
@@ -207,10 +205,7 @@ M.ui = {
     ---@return any? item The chosen item.
     ---@return integer? idx The 1-based index of `item` within `items`.
     select = function(items, opts)
-        return M.Task.new(vim.ui.select, {
-            is_async = true,
-            args = { items, opts }
-        }):await()
+        return M.Task.new(vim.ui.select, items, opts):set_async(true):await()
     end,
 }
 

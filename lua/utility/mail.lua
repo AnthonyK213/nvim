@@ -301,11 +301,11 @@ function Mail:send()
 
         vim.notify("Sending...")
 
-        local code = futures.Task.new(nmail_send, {
+        local code = futures.Task.new(nmail_send,
             self.from, self.to, self.reply_to, self.subject, self.body,
             provider.user_name, provider.password, provider.smtp,
             dylib_path
-        }):await();
+        ):await();
 
         (code == 0 and vim.notify or lib.notify_err)(code_send[code])
     end)
@@ -348,11 +348,11 @@ function Mailbox:fetch()
 
         vim.notify("Fetching...")
 
-        local body = futures.Task.new(nmail_fetch, {
+        local body = futures.Task.new(nmail_fetch,
             provider.imap, provider.port,
             provider.user_name, provider.password,
             dylib_path
-        }):await()
+        ):await()
 
         if not body then
             vim.notify("No unseen mails.")
