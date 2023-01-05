@@ -42,7 +42,6 @@ local function check_fut_list(fut_list)
     return true
 end
 
----@async
 ---Wrap a function into an asynchronous function.
 ---@param func function Funtion to wrap.
 ---@return fun(...):futures.Future async_func Wrapped asynchronous function.
