@@ -12,13 +12,17 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Attaches.
-local custom_attach = function(_, bufnr)
+local custom_attach = function(client, bufnr)
     local _o = { noremap = true, silent = true, buffer = bufnr }
     local lsp_fmt = function() vim.lsp.buf.format { async = false } end
     -- VSCode
     local builtin = require("telescope.builtin")
     local lsp_ref = function() builtin.lsp_references { show_line = false } end
-    kbd("n", "<F12>", builtin.lsp_definitions, _o)
+    if client.name == "omnisharp" then
+        kbd("n", "<F12>", require("omnisharp_extended").telescope_lsp_definitions, _o)
+    else
+        kbd("n", "<F12>", builtin.lsp_definitions, _o)
+    end
     kbd("n", "<S-F12>", lsp_ref, _o)
     kbd("n", "<F24>", lsp_ref, _o)
     kbd("n", "<C-F12>", builtin.lsp_implementations, _o)
@@ -49,6 +53,9 @@ require("mason-lspconfig").setup()
 -- LSP options.
 local server_settings = {
     omnisharp = function(o, s)
+        o.handlers = {
+            ["textDocument/definition"] = require("omnisharp_extended").handler,
+        }
         if type(s) == "table" then
             for k, v in pairs(s) do
                 if k ~= "cmd" then
