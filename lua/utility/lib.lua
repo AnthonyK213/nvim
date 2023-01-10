@@ -442,20 +442,21 @@ end
 ---@param path string File/directory path.
 ---@param cwd? string The working directory.
 ---@return boolean exists True if path exists.
+---@return string? full_path
 function M.path_exists(path, cwd)
-    if type(path) ~= "string" then return false end
+    if type(path) ~= "string" then return false, nil end
     local is_rel = true
-    path = vim.fs.normalize(path)
+    local _path = vim.fs.normalize(path)
     if M.has_windows() then
-        if path:match("^%a:[\\/]") then is_rel = false end
+        if _path:match("^%a:[\\/]") then is_rel = false end
     else
-        if path:match("^/") then is_rel = false end
+        if _path:match("^/") then is_rel = false end
     end
     if is_rel then
-        path = M.path_append(cwd or vim.loop.cwd(), path)
+        _path = M.path_append(cwd or vim.loop.cwd(), _path)
     end
-    local stat = vim.loop.fs_stat(path)
-    return (stat and stat.type) or false
+    local stat = vim.loop.fs_stat(_path)
+    return (stat and stat.type) or false, _path
 end
 
 ---Opens a text file, reads all the text in the file into a string,

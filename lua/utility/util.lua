@@ -58,8 +58,9 @@ function M.match_path_or_url_under_cursor()
     if url then return url end
 
     local path = vim.fn.expand("<cfile>")
-    if lib.path_exists(path, lib.get_buf_dir()) then
-        return vim.fs.normalize(path)
+    local exists, full_path = lib.path_exists(path, lib.get_buf_dir())
+    if exists then
+        return vim.fs.normalize(full_path)
     end
 
     return nil
