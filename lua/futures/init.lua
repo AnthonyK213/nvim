@@ -25,10 +25,47 @@ function Future.new(action, ...)
 end
 
 ---Poll the future.
----@return any result
 function Future:poll()
     self.result = lib.tbl_pack(self.action(lib.tbl_unpack(self.varargs)))
-    return lib.tbl_unpack(self.result)
+end
+
+---@class futures.JoinHandle
+---@field private co thread
+---@field private context? thread
+local JoinHandle = {}
+
+JoinHandle.__index = JoinHandle
+
+---@private
+---Constructor.
+---@param co thread
+---@return futures.JoinHandle
+function JoinHandle.new(co)
+    local o = {
+        co = co,
+    }
+    setmetatable(o, JoinHandle)
+    return o
+end
+
+---Wait for the spawned task synchronously.
+function JoinHandle:join()
+    vim.wait(1e8, function()
+        return coroutine.status(self.co) == "dead"
+    end)
+    self.co = nil
+end
+
+---Await the spawned task.
+function JoinHandle:await()
+    if not coroutine.isyieldable() then
+        vim.notify("Not in any asynchronous block", vim.log.levels.WARN)
+        return
+    end
+    while coroutine.status(self.co) ~= "dead" do
+        coroutine.yield()
+    end
+    self.co = nil
 end
 
 ---Check `fut_list` for `futures.join` & `futures.select`.
@@ -46,7 +83,7 @@ end
 ---@param func function Funtion to wrap.
 ---@return fun(...):futures.Future async_func Wrapped asynchronous function.
 function M.async(func)
-    return function (...)
+    return function(...)
         return Future.new(func, ...)
     end
 end
@@ -57,17 +94,38 @@ function M.spawn(task)
     ---@type function
     local _f
     local _type = type(task)
+    local _context = coroutine.running()
 
     if _type == "function" then
-        _f = task
+        if _context then
+            _f = function()
+                task()
+                vim.loop.new_async(function()
+                    coroutine.resume(_context)
+                end):send()
+            end
+        else
+            _f = task
+        end
     elseif _type == "table" and getmetatable(task) == Future then
-        _f = function () return task:poll() end
+        if _context then
+            _f = function()
+                task:poll()
+                vim.loop.new_async(function()
+                    coroutine.resume(_context)
+                end):send()
+            end
+        else
+            _f = function() task:poll() end
+        end
     else
-        error("`task` is inalid.")
+        error("`task` is invalid.")
     end
 
     local _co = coroutine.create(_f)
     coroutine.resume(_co)
+
+    return JoinHandle.new(_co)
 end
 
 ---Execute the futrues one by one.
@@ -119,7 +177,7 @@ function M.join(fut_list, timeout)
                     end
                 end))
             end
-            coroutine.yield(_co)
+            coroutine.yield()
         end
     else
         for i, fut in ipairs(fut_list) do
@@ -165,7 +223,7 @@ function M.select(fut_list)
             fut:start()
         end
         if not done then
-            coroutine.yield(_co)
+            coroutine.yield()
         end
     else
         for _, fut in ipairs(fut_list) do
