@@ -47,7 +47,7 @@ function M.start()
         print("Marp: Exit")
     end)
 
-    _marp.on_stderr = function (data)
+    _marp.on_stderr = function(data)
         local m = data:match("Start server listened at (http://localhost:%d+/)")
         if not m then return end
         if util.sys_open(m) then
@@ -81,5 +81,7 @@ function M.toggle()
         M.start()
     end
 end
+
+vim.api.nvim_create_autocmd("VimLeave", { callback = M.stop })
 
 return M
