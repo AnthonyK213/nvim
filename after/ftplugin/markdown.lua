@@ -34,6 +34,8 @@ vim.keymap.set("n", "<F5>", "<Cmd>PresentingStart<CR>", _opt)
 vim.keymap.set("n", "<leader>mt", function()
     if vim.g.vscode then
         vim.fn.VSCodeNotify("markdown.showPreviewToSide")
+    elseif require("utility.marp").is_marp() then
+        require("utility.marp").toggle()
     elseif vim.api.nvim_buf_get_commands(0, {}).MarkdownPreviewToggle then
         vim.cmd.MarkdownPreviewToggle()
     end
