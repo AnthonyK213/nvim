@@ -60,6 +60,7 @@ function M.start()
     if _marp:start() then
         print("Marp: started")
     else
+        _marp = nil
         print("Marp: Failed to start")
     end
 end
