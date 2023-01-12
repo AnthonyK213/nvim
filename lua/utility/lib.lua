@@ -279,11 +279,14 @@ function M.get_word()
     return word, #b - #p_a, #b + #p_b
 end
 
----Check if current **filetype** has `filetype`.
----@param filetype string File type to be checked.
----@return boolean result True if current **filetype** has `filetype`.
-function M.has_filetype(filetype)
-    return vim.tbl_contains(vim.split(vim.bo.ft, "%."), filetype)
+---Check if `filetype` has `dst`.
+---@param dst string Destination file type.
+---@param filetype? string File type to be checked, default *filetype* of current buffer.
+---@return boolean result True if `filetype` has `dst`.
+function M.has_filetype(dst, filetype)
+    filetype = filetype or vim.bo.filetype
+    if not filetype then return false end
+    return vim.tbl_contains(vim.split(filetype, "%."), dst)
 end
 
 ---Check if os is **Windows**.

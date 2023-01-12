@@ -14,8 +14,7 @@ function M.is_marp()
     local line_count = vim.api.nvim_buf_line_count(0)
 
     if line_count < 3
-        or not vim.bo.filetype
-        or vim.tbl_contains(vim.split(vim.bo.filetype, "."), "markdown")
+        or not lib.has_filetype("markdown")
         or vim.trim(vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]) ~= "---" then
         return false
     end
