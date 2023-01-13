@@ -5,7 +5,10 @@ vim.bo.textwidth = 0
 vim.wo.wrap = false
 vim.wo.linebreak = false
 vim.b.table_mode_corner = "|"
-vim.b.presenting_slide_separator = [[\v(^|\n)(-{3,}|\ze#{1,3}[^#])]]
+
+if vim.fn.executable("marp") ~= 1 then
+    vim.b.presenting_slide_separator = [[\v(^|\n)(-{3,}|\ze#{1,3}[^#])]]
+end
 
 local srd_table = {
     P = { "`", [[\v(markdown|Vimwiki)Code]] },
