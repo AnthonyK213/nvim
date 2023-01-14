@@ -5,28 +5,28 @@ local Syntax = require("utility.syn")
 local space = true
 local _s = space and " " or ""
 local _s_pat = space and "%s?" or ""
-local _k_c_fam = { s = "//", s_pat = "///*", d = { "/*", "*/" } }
+local _k_slash = { s = "//", s_pat = "///*", d = { "/*", "*/" } }
 local _k_sharp = { s = "#" }
 local _k_lisps = { s = ";" }
 
 local _cmt_table = {
-    arduino = _k_c_fam,
-    c = _k_c_fam,
+    arduino = _k_slash,
+    c = _k_slash,
     cmake = _k_sharp,
-    cpp = _k_c_fam,
+    cpp = _k_slash,
     dosbatch = { s = "::" },
-    cs = _k_c_fam,
+    cs = _k_slash,
     css = { d = { "/*", "*/" } },
-    fsharp = _k_c_fam,
+    fsharp = _k_slash,
     gitconfig = _k_sharp,
     html = { d = { "<!--", "-->" } },
-    java = _k_c_fam,
-    javascript = _k_c_fam,
+    java = _k_slash,
+    javascript = _k_slash,
     lisp = _k_lisps,
     lua = { s = "--", s_pat = "%-%-%-*" },
     make = _k_sharp,
     markdown = { s = ">" },
-    rust = _k_c_fam,
+    rust = _k_slash,
     perl = _k_sharp,
     ps1 = _k_sharp,
     python = _k_sharp,
@@ -35,9 +35,10 @@ local _cmt_table = {
     sshconfig = _k_sharp,
     tex = { s = "%" },
     toml = _k_sharp,
-    typescript = _k_c_fam,
+    typescript = _k_slash,
     vim = { s = '"' },
     yaml = _k_sharp,
+    zsh = _k_sharp,
 }
 
 ---Get current file type.
