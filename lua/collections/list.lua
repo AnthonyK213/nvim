@@ -133,15 +133,29 @@ end
 ---Returns a string that represents the current object.
 ---@return string
 function List:__tostring()
-    local result = "List { "
-    for i = 1, self.length - 1, 1 do
-        result = result .. tostring(self.data[i]) .. ", "
+    local stack = {}
+
+    local function _str(obj)
+        if getmetatable(obj) == List then
+            local index = require("utility.lib").tbl_find_first(stack, obj)
+            if index > 0 then
+                return "List<" .. index - 1 .. ">"
+            else
+                table.insert(stack, obj)
+                local result = "List<" .. #stack - 1 .. ">{ "
+                for i = 1, obj.length, 1 do
+                    result = result .. _str(obj.data[i])
+                    if i ~= obj.length then
+                        result = result .. ", "
+                    end
+                end
+                return result .. " }"
+            end
+        end
+        return tostring(obj)
     end
-    if self.length > 0 then
-        result = result .. tostring(self.data[self.length])
-    end
-    result = result .. " }"
-    return result
+
+    return _str(self)
 end
 
 return List
