@@ -15,6 +15,7 @@ end
 ---@class collections.List Represents a list of objects that can be accessed by index. Provides methods to search, sort, and manipulate lists.
 ---@field private data any[]
 ---@field private length integer
+---@operator call:collections.List
 local List = {}
 
 List.__index = function(o, key)
@@ -25,6 +26,8 @@ List.__index = function(o, key)
         return List[key]
     end
 end
+
+setmetatable(List, { __call = function(o, ...) return o.new(...) end })
 
 ---Constructor.
 ---@param ... any List elements.
@@ -42,6 +45,38 @@ function List.new(...)
     }
     setmetatable(list, List)
     return list
+end
+
+---Create `List` from a list-like table or another `List`.
+---@param list any[]|collections.List
+---@param count? integer
+---@return collections.List
+function List.from(list, count)
+    vim.validate { list = { list, "table" } }
+
+    local function new(source, length)
+        local data = {}
+        for i = 1, length, 1 do
+            data[i] = source[i]
+        end
+        local o = {
+            data = data,
+            length = length,
+        }
+        setmetatable(o, List)
+        return o
+    end
+
+    if vim.tbl_islist(list) then
+        if not count then
+            vim.notify("It's better to specify the count of list", vim.log.levels.WARN)
+        end
+        return new(list, count or #list)
+    elseif getmetatable(list) == List then
+        return new(list.data, list.length)
+    end
+
+    error("Input list is invalid")
 end
 
 ---Set the element at the specified index of the `List`.
@@ -156,6 +191,58 @@ function List:__tostring()
     end
 
     return _str(self)
+end
+
+---Sort the elements in the entire `List` using the specified `comparison`.
+---@param comparison? fun(a:any, b:any):boolean The function to use when comparing elements.
+function List:sort(comparison)
+    table.sort(self.data, comparison)
+end
+
+---Get the iterator of the `List`.
+---@return fun():integer?,any iterator
+function List:iter()
+    local index = 0
+    return function()
+        index = index + 1
+        if index <= self.length then
+            return index, self.data[index]
+        end
+    end
+end
+
+---Creates a shallow copy of a range of elements in the source `List`.
+---@param index integer The one-based `List` index at which the range starts.
+---@param count integer The number of elements in the range.
+---@return collections.List slice A shallow copy of a range of elements in the source `List`.
+function List:get_range(index, count)
+    local data = {}
+    for i = 1, count, 1 do
+        data[i] = self[index + i - 1]
+    end
+    return List.from(data, count)
+end
+
+---Add the elements of the specified collection to the end of the `List`.
+---@param collection any The collection whose elements should be added to the end of the `List`.
+function List:add_range(collection)
+    vim.validate { collection = { collection, "table" } }
+
+    local f
+    if vim.tbl_islist(collection) then
+        f = ipairs
+    elseif type(collection.iter) == "function" then
+        f = collection.iter
+    end
+    assert(f, "Failed to get the iterator")
+
+    local i = 0
+    for _, v in f(collection) do
+        i = i + 1
+        self.data[self.length + i] = v
+    end
+
+    self.length = self.length + i
 end
 
 return List
