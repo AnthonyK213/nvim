@@ -1,14 +1,35 @@
 ---Boundary check.
 ---@param list collections.List
 ---@param index integer
+---@param count? integer
 ---@param min? integer
 ---@param max? integer
-local function boundary_check(list, index, min, max)
+local function boundary_check(list, index, count, min, max)
     if math.floor(index) ~= index then
         error("Index must be an integer")
     end
+    if count then
+        if math.floor(count) ~= count then
+            error("Count must be an integer")
+        elseif count < 0 or index + count > list:count() + 1 then
+            error("Count out of bounds")
+        end
+    end
     if index < (min or 1) or index > (max or list:count()) then
         error("Index out of bounds")
+    end
+end
+
+---Get iterator of a collection.
+---@param collection any
+---@return fun(collection:any):fun():integer,any
+local function get_iter(collection)
+    if vim.tbl_islist(collection) then
+        return ipairs
+    elseif type(collection.iter) == "function" then
+        return collection.iter
+    else
+        error("Failed to get the iterator")
     end
 end
 
@@ -111,7 +132,7 @@ end
 ---@param index integer The one-based index at which item should be inserted.
 ---@param item any The object to insert.
 function List:insert(index, item)
-    boundary_check(self, index, 1, self.length + 1)
+    boundary_check(self, index, nil, 1, self.length + 1)
     for i = self.length, index, -1 do
         self.data[i + 1] = self.data[i]
     end
@@ -228,13 +249,7 @@ end
 function List:add_range(collection)
     vim.validate { collection = { collection, "table" } }
 
-    local f
-    if vim.tbl_islist(collection) then
-        f = ipairs
-    elseif type(collection.iter) == "function" then
-        f = collection.iter
-    end
-    assert(f, "Failed to get the iterator")
+    local f = get_iter(collection)
 
     local i = 0
     for _, v in f(collection) do
@@ -243,6 +258,74 @@ function List:add_range(collection)
     end
 
     self.length = self.length + i
+end
+
+---Inserts the elements of a collection into the `List` at the specified index.
+---@param index integer The one-based index at which the new elements should be inserted.
+---@param collection any The collection whose elements should be inserted into the `List`.
+function List:insert_range(index, collection)
+    boundary_check(self, index, nil, 1, self.length + 1)
+    vim.validate { collection = { collection, "table" } }
+
+    local f = get_iter(collection)
+
+    local buf = {}
+    for i = index, self.length, 1 do
+        buf[i] = self.data[i]
+    end
+
+    local j = 0
+    for _, v in f(collection) do
+        self.data[index + j] = v
+        j = j + 1
+    end
+
+    self.length = self.length + j
+
+    for i = index + j, self.length, 1 do
+        self.data[i] = buf[i - j]
+    end
+end
+
+---Removes a range of elements from the `List`.
+---@param index integer The one-based starting index of the range of elements to remove.
+---@param count integer The number of elements to remove.
+function List:remove_range(index, count)
+    boundary_check(self, index, count)
+    if count == 0 then return end
+
+    local c = self.length - count
+
+    for i = index, self.length, 1 do
+        if i <= c then
+            self.data[i] = self[i + count]
+        else
+            self.data[i] = nil
+        end
+    end
+
+    self.length = c
+end
+
+---Reverses the order of the elements in the `List` or a portion of it.
+---@param index? integer The one-based starting index of the range to reverse.
+---@param count? integer The number of elements in the range to reverse.
+function List:reverse(index, count)
+    if index and not count then
+        error("Count should be specified")
+    end
+
+    index = index or 1
+    count = count or self.length
+
+    boundary_check(self, index, count)
+    if count == 0 then return end
+
+    local sum = index * 2 + count - 1
+
+    for i = index, index + bit.rshift(count, 1) - 1, 1 do
+        self[i], self[sum - i] = self[sum - i], self[i]
+    end
 end
 
 return List
