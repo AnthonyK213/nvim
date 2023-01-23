@@ -4,14 +4,16 @@
 ---@param count? integer
 ---@param min? integer
 ---@param max? integer
-local function boundary_check(list, index, count, min, max)
+---@param backward? boolean
+local function boundary_check(list, index, count, min, max, backward)
     if math.floor(index) ~= index then
         error("Index must be an integer")
     end
     if count then
         if math.floor(count) ~= count then
             error("Count must be an integer")
-        elseif count < 0 or index + count > list:count() + 1 then
+        elseif count < 0
+            or (backward and index < count or index + count > list:count() + 1) then
             error("Count out of bounds")
         end
     end
@@ -37,6 +39,7 @@ end
 ---@field private data any[]
 ---@field private length integer
 ---@operator call:collections.List
+---@operator add(any[]|collections.List):collections.List
 local List = {}
 
 List.__index = function(o, key)
@@ -125,7 +128,12 @@ end
 ---@param item any The object to locate in the `List`.
 ---@return boolean result `true` if `item` is found in the `List`; otherwise, `false`.
 function List:contains(item)
-    return vim.tbl_contains(self.data, item)
+    for _, v in self:iter() do
+        if item == v then
+            return true
+        end
+    end
+    return false
 end
 
 ---Inserts an element into the `List` at the specified index.
@@ -319,13 +327,114 @@ function List:reverse(index, count)
     count = count or self.length
 
     boundary_check(self, index, count)
-    if count == 0 then return end
+    if count < 2 then return end
 
     local sum = index * 2 + count - 1
 
     for i = index, index + bit.rshift(count, 1) - 1, 1 do
         self[i], self[sum - i] = self[sum - i], self[i]
     end
+end
+
+---Determines whether the `List` contains elements that match the conditions defined by the specified predicate.
+---@param match fun(v:any):boolean The function that defines the conditions of the elements to search for.
+---@return boolean
+function List:exists(match)
+    vim.validate { match = { match, "function" } }
+    for _, v in self:iter() do
+        if match(v) then
+            return true
+        end
+    end
+    return false
+end
+
+---Searches for an element that matches the conditions defined by the specified predicate, and returns the one-based index of the first occurrence within the range of elements in the `List` that starts at the specified index and contains the specified number of elements.
+---@param match fun(v:any):boolean The function that defines the conditions of the element to search for.
+---@param startIndex? integer The one-based starting index of the search.
+---@param count? integer The number of elements in the section to search.
+---@return integer index The one-based index of the first occurrence of an element that matches the conditions defined by match, if found; otherwise, `0`.
+function List:find_index(match, startIndex, count)
+    vim.validate { match = { match, "function" } }
+    if startIndex then
+        boundary_check(self, startIndex, count)
+    else
+        startIndex = 1
+    end
+    local endIndex = count and startIndex + count - 1 or self.length
+
+    for i = startIndex, endIndex, 1 do
+        if match(self.data[i]) then
+            return i
+        end
+    end
+    return 0
+end
+
+---Searches for an element that matches the conditions defined by the specified predicate, and returns the one-based index of the last occurrence within the range of elements in the `List` that contains the specified number of elements and ends at the specified index.
+---@param match fun(v:any):boolean The function that defines the conditions of the element to search for.
+---@param startIndex? integer The one-based starting index of the backward search.
+---@param count? integer The number of elements in the section to search.
+---@return integer index The one-based index of the last occurrence of an element that matches the conditions defined by match, if found; otherwise, `0`.
+function List:find_last_index(match, startIndex, count)
+    vim.validate { match = { match, "function" } }
+    if startIndex then
+        boundary_check(self, startIndex, count, nil, nil, true)
+    else
+        startIndex = self.length
+    end
+    local endIndex = count and startIndex - count + 1 or 1
+
+    for i = startIndex, endIndex, -1 do
+        if match(self.data[i]) then
+            return i
+        end
+    end
+    return 0
+end
+
+---Retrieves all the elements that match the conditions defined by the specified predicate.
+---@param match fun(v:any):boolean The function that defines the conditions of the elements to search for.
+---@return collections.List result A `List` containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty `List`.
+function List:find_all(match)
+    vim.validate { match = { match, "function" } }
+    local result = List()
+    for i = 1, self.length, 1 do
+        if match(self.data[i]) then
+            result:add(self.data[i])
+        end
+    end
+    return result
+end
+
+---Determines whether a `List` contains any elements.
+---@return boolean
+function List:any()
+    return self.length > 0
+end
+
+---Removes all the elements that match the conditions defined by the specified predicate.
+---@param match fun(v:any):boolean The function that defines the conditions of the elements to remove.
+---@return integer count The number of elements removed from the `List`.
+function List:remove_all(match)
+    vim.validate { match = { match, "function" } }
+    local count = 0
+    for i = self.length, 1, -1 do
+        if match(self.data[i]) then
+            self:remove_at(i)
+            count = count + 1
+        end
+    end
+    return count
+end
+
+---Add up two lists.
+---@param collection any The collection whose elements should be added to the end of the `List`.
+---@return collections.List
+function List:__add(collection)
+    local result = self:get_range(1, self.length)
+    result:add_range(collection)
+    return result
 end
 
 return List
