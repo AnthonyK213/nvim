@@ -1,4 +1,7 @@
 local M = {}
+-- lua-language-server wtf: [[\一]] -> [[\一]] ???
+local _p_word_first_half = [[\v([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-]+)$]]
+local _p_word_last_half = [[\v^([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-])+]]
 
 ---Os types enum.
 ---@enum Os
@@ -16,19 +19,16 @@ M.Os = {
 ---@return string digits String of binary digits.
 function M.bit_tobin(x, n)
     local digits = ""
-
     if x <= -1 then
         x = -x
         digits = digits .. "-"
     elseif x < 1 then
         return (n and n >= 1) and string.rep("0", n) or "0"
     end
-
     n = (n and n >= 1) and n - 1 or math.floor(math.log(x, 2))
 
     for i = n, 0, -1 do
         local current_power = 2 ^ i
-
         if x >= current_power then
             digits = digits .. "1"
             x = x - current_power
@@ -241,7 +241,7 @@ function M.get_root(pattern, item_type)
 
     local re = vim.regex("\\v" .. pattern)
 
-    local result = vim.fs.find(function (name)
+    local result = vim.fs.find(function(name)
         return re:match_str(name) and true or false
     end, {
         path = M.get_buf_dir(),
@@ -263,8 +263,8 @@ function M.get_word()
     local context = M.get_context()
     local b = context.b
     local f = context.f
-    local s_a, _ = vim.regex([[\v([\u4e00-\u9fff0-9a-zA-Z_-]+)$]]):match_str(b)
-    local _, e_b = vim.regex([[\v^([\u4e00-\u9fff0-9a-zA-Z_-])+]]):match_str(f)
+    local s_a, _ = vim.regex(_p_word_first_half):match_str(b)
+    local _, e_b = vim.regex(_p_word_last_half):match_str(f)
     local p_a = ""
     local p_b = ""
     if e_b then
@@ -311,7 +311,7 @@ function M.json_decode(path, strictly)
         ---Remove comment lines.
         ---@param chunk string
         ---@return string
-        function (chunk)
+        function(chunk)
             local lines = vim.split(chunk, "[\n\r]", {
                 plain = false,
                 trimempty = true,
@@ -327,12 +327,14 @@ function M.json_decode(path, strictly)
         ---@param chunk string
         ---@return string
         ---@return integer
-        function (chunk)
+        function(chunk)
             return chunk:gsub(",%s*([%]%}])", "%1")
         end,
     }
 
-    local ok, result; local i = 0; local n = #filters
+    local ok, result;
+    local i = 0;
+    local n = #filters
 
     while true do
         ok, result = pcall(vim.json.decode, content)

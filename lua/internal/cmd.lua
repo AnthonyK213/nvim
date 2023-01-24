@@ -2,14 +2,13 @@ local cmd = vim.api.nvim_create_user_command
 
 cmd("CodeRun", function(tbl)
     require("utility.run").code_run(tbl.args)
-end, { nargs = "?", complete =
-function()
+end, { nargs = "?", complete = function()
     local option_table = {
         c = { "build", "check" },
         cs = { "build", "clean", "test" },
         fsharp = { "build", "clean", "test" },
         lisp = { "build" },
-        lua = { "nojit" },
+        lua = { "lua", "jit" },
         rust = { "build", "check", "clean", "test" },
         tex = { "biber", "bibtex" },
     }
@@ -44,5 +43,5 @@ cmd("SshConfig", function(_)
 end, { desc = "Open ssh configuration" })
 
 cmd("Time", function(_)
-    vim.notify(os.date("%Y-%m-%d %a %T") --[[@as string]])
+    vim.notify(os.date("%Y-%m-%d %a %T")--[[@as string]] )
 end, { desc = "Echo time(May be useful in full screen?)" })

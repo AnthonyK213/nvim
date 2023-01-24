@@ -254,15 +254,26 @@ local comp_table = {
     lua = function(tbl)
         if tbl.opt == "" then
             return "luafile %"
-        elseif tbl.opt == "nojit" then
+        elseif tbl.opt == "lua" then
             if not lib.executable("lua") then return end
             return function()
                 return wrap(Terminal.new({ "lua", tbl.fnm }, {
                     cwd = tbl.fwd
                 }))()
             end
+        elseif tbl.opt == "jit" then
+            if not lib.executable("luajit") then return end
+            return function()
+                return wrap(Terminal.new({ "luajit", tbl.fnm }, {
+                    cwd = tbl.fwd
+                }))()
+            end
         elseif tbl.opt == "test" then
-            lib.feedkeys("<Plug>PlenaryTestFile", "n", false)
+            if lib.has_windows() then
+                lib.notify_err("Test is not supported on Windows")
+            else
+                lib.feedkeys("<Plug>PlenaryTestFile", "n", false)
+            end
         else
             lib.notify_err("Invalid arguments.")
         end
