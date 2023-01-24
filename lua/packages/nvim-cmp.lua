@@ -10,18 +10,12 @@ require("luasnip.loaders.from_vscode").lazy_load {
     paths = { vim.fn.stdpath("config") .. "/snippet" }
 }
 
-luasnip.config.set_config {
-    history = true,
-    updateevents = "TextChanged,TextChangedI",
-    delete_check_events = "TextChanged,TextChangedI"
-}
-
 local cmp_setup = {
     completion = {
         keyword_length = 2,
     },
     snippet = {
-        expand = function(args) require("luasnip").lsp_expand(args.body) end
+        expand = function(args) luasnip.lsp_expand(args.body) end
     },
     mapping = {
         ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
@@ -115,7 +109,7 @@ local cmp_setup = {
         { name = "path" },
         { name = "nvim_lsp_signature_help" },
     }, {
-        { name = "buffer", keyword_length = 5 },
+        { name = "buffer", keyword_length = 4 },
     }),
     experimental = {}
 }
