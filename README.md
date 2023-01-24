@@ -286,12 +286,14 @@
     - n:    <kbd>[</kbd> -> Jump to previous diagnostic mark.
     - n:    <kbd>]</kbd> -> Jump to next diagnostic mark.
   - <kbd>leader-m-</kbd> -> **Markdown**, **Mail**
-    - n:    <kbd>f</kbd> -> Fetch recently unseen mails from imap server.
+    - n:    <kbd>f</kbd> -> Fetch recently unseen mails from IMAP server.
     - n:    <kbd>l</kbd> -> Regenerate list bullets.
     - n:    <kbd>n</kbd> -> Create a new mail(.eml file).
-    - n:    <kbd>s</kbd> -> Send the mail from current buffer.
-    - n:    <kbd>v</kbd> -> *aerial.nvim*, Toc vertical.
-    - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle.
+    - n:    <kbd>s</kbd> -> Send current buffer as an e-mail.
+    - n:    <kbd>v</kbd> -> *aerial.nvim*/*VimTeX*, Toc toggle.
+    - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle;
+                            [marp](https://marp.app/) server toggle;
+                            LaTeX project pdf preview.
   - <kbd>leader-n-</kbd> -> **GTD**.
     - n:    <kbd>d</kbd> -> Append the weekday after a date(yyyy-mm-dd).
     - n:    <kbd>s</kbd> -> Insert timestamp after cursor.
