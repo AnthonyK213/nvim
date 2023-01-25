@@ -64,23 +64,6 @@ local server_settings = {
             end
         end
     end,
-    sumneko_lua = {
-        Lua = {
-            runtime = {
-                version = "LuaJIT",
-            },
-            diagnostics = {
-                globals = { "vim" },
-            },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false,
-            },
-            telemetry = {
-                enable = false,
-            }
-        },
-    }
 }
 
 ---Setup servers via nvim-lspconfig.

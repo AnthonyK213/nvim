@@ -49,14 +49,7 @@ local opt = {
         font_half = "Monospace",
         font_full = "Monospace",
     },
-    lsp = {
-        clangd = false,
-        omnisharp = false,
-        pyright = false,
-        rust_analyzer = false,
-        sumneko_lua = false,
-        vimls = false,
-    },
+    lsp = {},
     ts = {
         ensure = {},
         hi_disable = {},
@@ -93,17 +86,17 @@ end
 ---Set global variables according to a table.
 ---@param tbl table Table of configurations.
 ---@param prefix string Prefix for the global variable.
-local function tbl_set_var(tbl, prefix)
+local function _tbl_set_var(tbl, prefix)
     for k, v in pairs(tbl) do
         vim.api.nvim_set_var(prefix .. k, v)
     end
 end
 
 -- Path
-tbl_set_var(opt.path, "_my_path_")
+_tbl_set_var(opt.path, "_my_path_")
 
 -- GUI
-tbl_set_var(opt.gui, "_my_gui_")
+_tbl_set_var(opt.gui, "_my_gui_")
 
 -- Misc
 vim.g.mapleader = " "
@@ -180,5 +173,30 @@ vim.g._const_dir_r = rep_term("<C-G>U<Right>", true, false, true)
 ││ │││ │┃┃ ┃┃┃ ┃││ │││ │║║ ║║║ ║
 └┴─┘┕┷━┙┖┸─┚┗┻━┛╰┴─╯╘╧═╛╙╨─╜╚╩═╝
 ]]
+
+---Evaluate string values in option table.
+---@param tbl table
+local function _eval(tbl)
+    if type(tbl) == "table" then
+        for k, v in pairs(tbl) do
+            local t = type(v)
+            if t == "string" then
+                local m = v:match("^%${(.+)}$")
+                if m then
+                    local ok, result = pcall(vim.fn.luaeval, m)
+                    if ok then
+                        tbl[k] = result
+                    else
+                        vim.notify("Invalid expression for key `" .. k .. "`", vim.log.levels.WARN)
+                    end
+                end
+            elseif t == "table" then
+                _eval(v)
+            end
+        end
+    end
+end
+
+_eval(opt)
 
 _G._my_core_opt = opt

@@ -94,10 +94,10 @@
       // Language Server Protocol
       "lsp": {
         // (boolean|object) https://github.com/clangd/clangd
-        "clangd": false,
+        "clangd": true,
         // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
         "omnisharp": {
-          "load": false,
+          "load": true,
           // Some LSPs' semantic tokens are not usable
           "disable_semantic_tokens": true
         },
@@ -118,11 +118,31 @@
           }
         },
         // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
-        "rust_analyzer": false,
+        "rust_analyzer": true,
         // (boolean|object) https://github.com/sumneko/lua-language-server
-        "sumneko_lua": false,
+        "sumneko_lua": {
+          "load": true,
+          "settings": {
+            "Lua": {
+              "runtime": {
+                "version": "LuaJIT"
+              },
+              "diagnostics": {
+                "globals": [ "vim" ]
+              },
+              "workspace": {
+                // "${lua_expression}" is allowed.
+                "library": "${vim.api.nvim_get_runtime_file(\"\", true)}",
+                "checkThirdParty": false
+              },
+              "telemetry": {
+                "enable": false
+              }
+            }
+          }
+        },
         // (boolean|object) https://github.com/iamcco/vim-language-server
-        "vimls": false
+        "vimls": true
         // And so on...
       },
       // Treesitter
