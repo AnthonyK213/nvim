@@ -230,12 +230,12 @@
   - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
   - i:   <kbd>M-CR</kbd> -> Begin a new line below the cursor and insert bullet.
   - in:  <kbd>M-Nr</kbd> -> Jump to tab (Number: 1, 2, 3, ..., 9, 0).
-  - in:  <kbd>M-B</kbd>  -> Markdown/HTML/LaTeX **bold**.
-  - in:  <kbd>M-I</kbd>  -> Markdown/HTML/LaTeX *italic*.
-  - in:  <kbd>M-M</kbd>  -> Markdown/HTML ***bold_italic***;
+  - in:  <kbd>M-B</kbd>  -> Markdown/LaTeX **bold**.
+  - in:  <kbd>M-I</kbd>  -> Markdown/LaTeX *italic*.
+  - in:  <kbd>M-M</kbd>  -> Markdown ***bold_italic***;
                             LaTeX Roman Family.
   - in:  <kbd>M-P</kbd>  -> Markdown `block`.
-  - inv: <kbd>M-U</kbd>  ->  <u>underscore</u>.
+  - inv: <kbd>M-U</kbd>  -> Markdown <u>underscore</u>.
 * **Emacs**
   - inv: <kbd>C-N</kbd>  -> Cursor down.
   - inv: <kbd>C-P</kbd>  -> Cursor up.
