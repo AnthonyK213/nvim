@@ -463,4 +463,30 @@ function M.bg_lock_toggle()
     end
 end
 
+---Set surrounding keybindings.
+---@param srd_table table<string, table>
+---@param opts? table A table of *:map-arguments*
+function M.set_srd_shortcuts(srd_table, opts)
+    for key, val in pairs(srd_table) do
+        vim.keymap.set({ "n", "v" }, key, function()
+            local m = vim.api.nvim_get_mode().mode
+            local mode
+            if m == "n" then
+                mode = "n"
+            elseif vim.tbl_contains({ "v", "V", "" }, m)
+                then mode = "v"
+            else
+                return
+            end
+            local _esc = vim.api.nvim_replace_termcodes("<Esc>", false, true, true)
+            vim.api.nvim_feedkeys(_esc, "nx", false)
+            if require("utility.syn").match_here(val[2]) then
+                require("utility.srd").srd_sub("", val[1])
+            else
+                require("utility.srd").srd_add(mode, val[1])
+            end
+        end, opts)
+    end
+end
+
 return M

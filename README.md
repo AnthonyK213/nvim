@@ -22,7 +22,7 @@
     ```
 * **Start Neovim and wait for the installation to complete**
 * **Customize with `nvimrc`**
-  - In the `home`|`config` directory, names `.nvimrc`
+  - In the `home`|`config` directory, named `.nvimrc`
     (also can be `_nvimrc` on Windows)
   - Example
     ``` json
@@ -188,7 +188,7 @@
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
 * **Set mailboxes (optional)**
-  - In the `home`|`config` directory, names `.mail.json`
+  - In the `home`|`config` directory, named `.mail.json`
     (also can be `_mail.json` on Windows)
   - Example
     ``` json
@@ -210,8 +210,8 @@
 
 ## Key bindings
 * **Ctrl**
-  - in:  <kbd>C-S</kbd>  -> Save.
-  - n:   <kbd>C-Dt</kbd> -> Adjust window size.
+  - in:  <kbd>C-S</kbd>     -> Save.
+  - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
 * **Meta**
   - in:  <kbd>M-a</kbd>  -> Select all.
   - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
@@ -228,14 +228,15 @@
   - inv: <kbd>M-w</kbd>  -> Jump to the window in turns.
   - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
   - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
-  - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
-  - in:  <kbd>M-Nr</kbd> -> Goto tab(Number: 1, 2, 3, ..., 9, 0).
-  - in:  <kbd>M-B</kbd>  -> Markdown **bold**.
-  - in:  <kbd>M-I</kbd>  -> Markdown *italic*.
-  - in:  <kbd>M-M</kbd>  -> Markdown ***bold_italic***.
+  - i:   <kbd>M-CR</kbd> -> Begin a new line below the cursor and insert bullet.
+  - in:  <kbd>M-Nr</kbd> -> Jump to tab (Number: 1, 2, 3, ..., 9, 0).
+  - in:  <kbd>M-B</kbd>  -> Markdown/HTML/LaTeX **bold**.
+  - in:  <kbd>M-I</kbd>  -> Markdown/HTML/LaTeX *italic*.
+  - in:  <kbd>M-M</kbd>  -> Markdown/HTML ***bold_italic***;
+                            LaTeX Roman Family.
   - in:  <kbd>M-P</kbd>  -> Markdown `block`.
-  - inv: <kbd>M-U</kbd>  -> Markdown/HTML <u>underscore</u>.
-* **Emacs shit**
+  - inv: <kbd>M-U</kbd>  ->  <u>underscore</u>.
+* **Emacs**
   - inv: <kbd>C-N</kbd>  -> Cursor down.
   - inv: <kbd>C-P</kbd>  -> Cursor up.
   - ci:  <kbd>C-B</kbd>  -> Cursor left.
