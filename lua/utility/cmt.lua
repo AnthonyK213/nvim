@@ -204,7 +204,7 @@ function M.cmt_del_n()
         return
     end
 
-    if not cmt_mark.d or not Syntax.match_here("[Cc]omment") then return end
+    if not cmt_mark.d or not Syntax.new():match("[Cc]omment") then return end
     local lnum_c = vim.api.nvim_win_get_cursor(0)[1]
 
     local cmt_mark_a = cmt_mark.d[1]

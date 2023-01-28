@@ -480,7 +480,7 @@ function M.set_srd_shortcuts(srd_table, opts)
             end
             local _esc = vim.api.nvim_replace_termcodes("<Esc>", false, true, true)
             vim.api.nvim_feedkeys(_esc, "nx", false)
-            if require("utility.syn").match_here(val[2]) then
+            if require("utility.syn").new():match(val[2]) then
                 require("utility.srd").srd_sub("", val[1])
             else
                 require("utility.srd").srd_add(mode, val[1])

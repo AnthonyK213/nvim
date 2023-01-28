@@ -22,9 +22,10 @@ require("lua_pairs").setup {
                     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
                     col = col - #context.p
                     if col == 0 then return true end
-                    return not Syntax.new(row, col):match(
-                        [[\v^(type|keyword|function)$]],
-                        [[\v^rust(Identifier|Keyword|FuncName)$]])
+                    return not Syntax.new(0, row, col):match {
+                        vs = [[\v^rust(Identifier|Keyword|FuncName)$]],
+                        ts = [[\v^(type|keyword|function)$]],
+                    }
                 end
             },
         }
