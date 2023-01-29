@@ -53,7 +53,7 @@ end
 
 ---Match path or URL under the cursor.
 ---@return string? match_result
-function M.match_path_or_url_under_cursor()
+function M.match_path_or_url_at_point()
     local _, url = lib.url_match(vim.fn.expand("<cWORD>"))
     if url then return url end
 
