@@ -1,6 +1,7 @@
+local aerial = require("aerial")
 local kbd = vim.keymap.set
 
-require("aerial").setup {
+aerial.setup {
     backends = {
         ["_"] = { "lsp", "treesitter" },
         markdown = { "markdown" }
@@ -28,11 +29,11 @@ require("aerial").setup {
     highlight_closest = false,
     on_attach = function(bufnr)
         local _o = { noremap = true, silent = true, buffer = bufnr }
-        kbd("n", "{", "<Cmd>AerialPrev<CR>", _o)
-        kbd("n", "}", "<Cmd>AerialNext<CR>", _o)
-        kbd("n", "[[", "<Cmd>AerialPrevUp<CR>", _o)
-        kbd("n", "]]", "<Cmd>AerialNextUp<CR>", _o)
-        kbd("n", "<leader>mv", "<Cmd>AerialToggle<CR>", _o)
+        kbd("n", "{", aerial.prev, _o)
+        kbd("n", "}", aerial.next, _o)
+        kbd("n", "[[", aerial.prev_up, _o)
+        kbd("n", "]]", aerial.next_up, _o)
+        kbd("n", "<leader>mv", aerial.toggle, _o)
         kbd("n", "<leader>fa", "<Cmd>Telescope aerial<CR>", _o)
     end,
     float = {

@@ -1,14 +1,13 @@
 # Neovim Configuration
+Configuration for Neovim with some personal hacks.
 
-
-## Requirements
+# Requirements
 * [**Neovim**](https://github.com/neovim/neovim) 0.9+
 * [**Git**](https://github.com/git/git)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
 
-
-## Installation
+# Installation
 * **Clone repository**
   - Windows
     ```ps1
@@ -132,7 +131,7 @@
               },
               "workspace": {
                 // "${lua_expression}" is allowed.
-                "library": "${vim.api.nvim_get_runtime_file(\"\", true)}",
+                "library": "${vim.api.nvim_get_runtime_file('', true)}",
                 "checkThirdParty": false
               },
               "telemetry": {
@@ -207,8 +206,7 @@
     }
     ```
 
-
-## Key bindings
+# Key bindings
 * **Ctrl**
   - in:  <kbd>C-S</kbd>     -> Save.
   - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
@@ -349,8 +347,7 @@
   - n:   <kbd>S-F5</kbd> -> `CodeRun`.
   - n:   <kbd>C-S-F5</kbd> -> `CodeRun test`.
 
-
-## Commands
+# Commands
 - `CodeRun`     -> Run or compile the code.
 - `BuildDylibs` -> Build crates in `$config/rust/` directory.
 - `NvimUpgrade` -> Upgrade neovim by channel input.
@@ -361,8 +358,7 @@
 - `SshConfig`   -> Open and edit ~/.ssh/config
 - `Time`        -> Print date and time.
 
-
-## Packages
+# Packages
 * Package manager
   - [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * Display(Optional)
@@ -411,3 +407,17 @@
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
   - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)
+
+# API
+
+## `collections`
+* [collection.List](./lua/collections/list.lua) type
+
+## `futures`
+* [futures.Task](./lua/futures/task.lua) type
+* [futures.Process](./lua/futures/proc.lua) type
+* [futures.Terminal](./lua/futures/term.lua) type
+
+## `utility`
+* [utility.lib](./lua/utility/lib.lua) library
+* [utility.Syntax](./lua/utility/syn.lua) type

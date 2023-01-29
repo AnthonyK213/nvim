@@ -69,10 +69,10 @@ end
 
 ---Get characters around the cursor.
 ---@return { b: string, f: string, p: string, n: string } context
----  - *p* -> The character before cursor (previous);
----  - *n* -> The character after cursor  (next);
----  - *b* -> The half line before cursor (backward);
----  - *f* -> The half line after cursor  (forward).
+---  - *p*: The character before cursor (previous);
+---  - *n*: The character after cursor  (next);
+---  - *b*: The half line before cursor (backward);
+---  - *f*: The half line after cursor  (forward).
 function M.get_context()
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_get_current_line()

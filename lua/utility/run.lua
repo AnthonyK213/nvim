@@ -358,7 +358,7 @@ local comp_table = {
             ---@param code integer
             return function(_, code, _)
                 if code == 0 then
-                    vim.notify(step .. " -> " .. label)
+                    vim.notify(string.format("Step %d: %s", step, label))
                     step = step + 1
                 end
             end
