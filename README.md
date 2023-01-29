@@ -411,7 +411,7 @@ Configuration for Neovim with some personal hacks.
 # API
 
 ## `collections`
-* [collection.List](./lua/collections/list.lua) type
+* [collections.List](./lua/collections/list.lua) type
 
 ## `futures`
 * [futures.Task](./lua/futures/task.lua) type
