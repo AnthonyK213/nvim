@@ -57,15 +57,9 @@ setmetatable(List, { __call = function(o, ...) return o.new(...) end })
 ---@param ... any List elements.
 ---@return collections.List
 function List.new(...)
-    local data = {}
-    local length = select("#", ...)
-    for i = 1, length, 1 do
-        local v = select(i, ...)
-        data[i] = v
-    end
     local list = {
-        data = data,
-        length = length,
+        data = { ... },
+        length = select("#", ...),
     }
     setmetatable(list, List)
     return list

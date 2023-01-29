@@ -619,14 +619,7 @@ end
 ---@param ... any
 ---@return table
 function M.tbl_pack(...)
-    local pack = {}
-    local n = select("#", ...)
-    for i = 1, n do
-        local v = select(i, ...)
-        pack[i] = v
-    end
-    pack.n = n
-    return pack
+    return { n = select("#", ...), ... }
 end
 
 ---Reverse a ipairs table.
