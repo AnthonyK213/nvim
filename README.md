@@ -386,7 +386,7 @@
   - [Neogit](https://github.com/TimUntersberger/neogit)
 * Utilities
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
+  - [dial.nvim](https://github.com/monaqa/dial.nvim)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
   - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
   - [vim-matchup](https://github.com/andymass/vim-matchup)

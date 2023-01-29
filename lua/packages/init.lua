@@ -65,7 +65,10 @@ require("packer").startup(function(use)
     -- Utilities
     use {
         "nvim-lua/plenary.nvim";
-        "tpope/vim-speeddating";
+        {
+            "monaqa/dial.nvim",
+            config = function() require("packages.dial") end
+        },
         {
             "dhruvasagar/vim-table-mode",
             config = function() require("packages.vim-table-mode") end
