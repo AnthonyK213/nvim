@@ -273,7 +273,7 @@ kbd("Uncomment current/selected line(s)", { "n", "v" }, "<leader>ku", function()
         return
     end
 end)
-kbd("Show highlight information", "n", "<leader>vs", vim.show_pos)
+kbd("Show highlight information", "n", "<leader>vs", function() vim.show_pos() end)
 kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
     to_normal()
     local futures = require("futures")
