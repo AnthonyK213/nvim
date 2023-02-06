@@ -1,5 +1,3 @@
-vim.cmd.packadd("gruvbox.nvim")
-
 require("gruvbox").setup {
     undercurl = true,
     underline = true,

@@ -1,4 +1,3 @@
-vim.cmd.packadd("onenord.nvim")
 local colors = require("onenord.colors").load()
 
 ---Cast configured hightlight override table to onenord format.

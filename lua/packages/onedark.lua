@@ -1,5 +1,3 @@
-vim.cmd.packadd("onedark.nvim")
-
 local style_list = {
     "dark", "darker", "cool",
     "deep", "warm", "warmer",

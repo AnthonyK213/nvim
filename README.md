@@ -360,7 +360,7 @@ Configuration for Neovim with some personal hacks.
 
 # Packages
 * Package manager
-  - [packer.nvim](https://github.com/wbthomason/packer.nvim)
+  - [lazy.nvim](https://github.com/folke/lazy.nvim)
 * Display(Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
@@ -389,6 +389,7 @@ Configuration for Neovim with some personal hacks.
   - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
   - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
   - [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
+  - [crates.nvim](https://github.com/Saecki/crates.nvim)
 * File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)

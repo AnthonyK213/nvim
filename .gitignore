@@ -4,3 +4,4 @@ Cargo.lock
 [._]mail.json
 [._]nvimrc
 packer_compiled.*
+lazy-lock.json

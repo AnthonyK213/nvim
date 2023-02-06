@@ -29,10 +29,3 @@ require("telescope").setup {
 
 -- Load extensions.
 require("telescope").load_extension("aerial")
-
-local builtin = require("telescope.builtin")
-local kbd = vim.keymap.set
-local _o = { noremap = true, silent = true }
-kbd("n", "<leader>fb", function() builtin.buffers() end, _o)
-kbd("n", "<leader>ff", function() builtin.find_files() end, _o)
-kbd("n", "<leader>fg", function() builtin.live_grep() end, _o)

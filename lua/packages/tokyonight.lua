@@ -1,5 +1,3 @@
-vim.cmd.packadd("tokyonight.nvim")
-
 require("tokyonight").setup {
     style = _my_core_opt.tui.style or "storm",
     transparent = _my_core_opt.tui.transparent,
