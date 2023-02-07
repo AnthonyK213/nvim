@@ -761,7 +761,21 @@ require("lazy").setup({
         lazy = true,
         event = "VeryLazy",
         version = "*",
-        config = function() require("packages.toggleterm") end
+        config = function()
+            if _my_core_opt.vcs.client == "lazygit" then
+                vim.keymap.set("n", "<leader>gn", function()
+                    if not require("utility.lib").executable("lazygit") then return end
+                    require("toggleterm.terminal"):new {
+                        cmd = "lazygit",
+                        hidden = true,
+                        direction = "float",
+                        float_opts = {
+                            border = _my_core_opt.tui.border,
+                        },
+                    }:toggle()
+                end, { noremap = true, silent = true })
+            end
+        end
     },
     {
         "saecki/crates.nvim",
@@ -913,7 +927,21 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter",
         lazy = true,
         event = "VeryLazy",
-        config = function() require("packages.nvim-treesitter") end
+        config = function()
+            local ts_option = _my_core_opt.ts or {}
+            require("nvim-treesitter.configs").setup {
+                ensure_installed = ts_option.ensure or {},
+                highlight = {
+                    enable = true,
+                    disable = ts_option.hi_disable or {},
+                    additional_vim_regex_highlighting = false,
+                },
+                matchup = {
+                    enable = true,
+                    disable = {}
+                }
+            }
+        end
     },
     {
         "stevearc/aerial.nvim",
