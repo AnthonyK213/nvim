@@ -215,15 +215,15 @@ require("lazy").setup({
                 css = { names = true, rgb_fn = true },
                 vue = { names = true, rgb_fn = true },
             }, {
-                RGB      = true,
-                RRGGBB   = true,
-                names    = false,
+                RGB = true,
+                RRGGBB = true,
+                names = false,
                 RRGGBBAA = false,
-                rgb_fn   = false,
-                hsl_fn   = false,
-                css      = false,
-                css_fn   = false,
-                mode     = "background"
+                rgb_fn = false,
+                hsl_fn = false,
+                css = false,
+                css_fn = false,
+                mode = "background"
             })
         end
     },
@@ -425,7 +425,113 @@ require("lazy").setup({
     {
         "sindrets/diffview.nvim",
         lazy = true,
-        config = function() require("packages.diffview") end,
+        config = function()
+            local actions = require("diffview.actions")
+            require("diffview").setup {
+                use_icons = false,
+                icons = {
+                    folder_closed = ">",
+                    folder_open = "v",
+                },
+                signs = {
+                    fold_closed = ">",
+                    fold_open = "v",
+                    done = "✓",
+                },
+                keymaps = {
+                    disable_defaults = true,
+                    view = {
+                        ["<Tab>"] = actions.select_next_entry,
+                        ["<S-Tab>"] = actions.select_prev_entry,
+                        ["gf"] = actions.goto_file,
+                        ["<C-W><C-F>"] = actions.goto_file_split,
+                        ["<C-W>gf"] = actions.goto_file_tab,
+                        ["<localleader>e"] = actions.focus_files,
+                        ["<localleader>b"] = actions.toggle_files,
+                        ["g<C-X>"] = actions.cycle_layout,
+                        ["[x"] = actions.prev_conflict,
+                        ["]x"] = actions.next_conflict,
+                        ["<localleader>co"] = actions.conflict_choose("ours"),
+                        ["<localleader>ct"] = actions.conflict_choose("theirs"),
+                        ["<localleader>cb"] = actions.conflict_choose("base"),
+                        ["<localleader>ca"] = actions.conflict_choose("all"),
+                        ["dx"] = actions.conflict_choose("none"),
+                        ["q"] = "<Cmd>DiffviewClose<CR>",
+                    },
+                    diff1 = {},
+                    diff2 = {},
+                    diff3 = {
+                        { { "n", "x" }, "2do", actions.diffget("ours") },
+                        { { "n", "x" }, "3do", actions.diffget("theirs") },
+                    },
+                    diff4 = {
+                        { { "n", "x" }, "1do", actions.diffget("base") },
+                        { { "n", "x" }, "2do", actions.diffget("ours") },
+                        { { "n", "x" }, "3do", actions.diffget("theirs") },
+                    },
+                    file_panel = {
+                        ["j"] = actions.next_entry,
+                        ["<Down>"] = actions.next_entry,
+                        ["k"] = actions.prev_entry,
+                        ["<Up>"] = actions.prev_entry,
+                        ["<Cr>"] = actions.select_entry,
+                        ["o"] = actions.select_entry,
+                        ["<2-LeftMouse>"] = actions.select_entry,
+                        ["-"] = actions.toggle_stage_entry,
+                        ["S"] = actions.stage_all,
+                        ["U"] = actions.unstage_all,
+                        ["X"] = actions.restore_entry,
+                        ["L"] = actions.open_commit_log,
+                        ["<C-B>"] = actions.scroll_view( -0.25),
+                        ["<C-F>"] = actions.scroll_view(0.25),
+                        ["<Tab>"] = actions.select_next_entry,
+                        ["<S-Tab>"] = actions.select_prev_entry,
+                        ["gf"] = actions.goto_file,
+                        ["<C-W><C-F>"] = actions.goto_file_split,
+                        ["<C-W>gf"] = actions.goto_file_tab,
+                        ["i"] = actions.listing_style,
+                        ["f"] = actions.toggle_flatten_dirs,
+                        ["R"] = actions.refresh_files,
+                        ["<localleader>e"] = actions.focus_files,
+                        ["<localleader>b"] = actions.toggle_files,
+                        ["g<C-X>"] = actions.cycle_layout,
+                        ["[x"] = actions.prev_conflict,
+                        ["]x"] = actions.next_conflict,
+                        ["q"] = "<Cmd>DiffviewClose<CR>",
+                    },
+                    file_history_panel = {
+                        ["g!"] = actions.options,
+                        ["<C-M-d>"] = actions.open_in_diffview,
+                        ["y"] = actions.copy_hash,
+                        ["L"] = actions.open_commit_log,
+                        ["zR"] = actions.open_all_folds,
+                        ["zM"] = actions.close_all_folds,
+                        ["j"] = actions.next_entry,
+                        ["<Down>"] = actions.next_entry,
+                        ["k"] = actions.prev_entry,
+                        ["<Up>"] = actions.prev_entry,
+                        ["<Cr>"] = actions.select_entry,
+                        ["o"] = actions.select_entry,
+                        ["<2-LeftMouse>"] = actions.select_entry,
+                        ["<C-B>"] = actions.scroll_view( -0.25),
+                        ["<C-F>"] = actions.scroll_view(0.25),
+                        ["<Tab>"] = actions.select_next_entry,
+                        ["<S-Tab>"] = actions.select_prev_entry,
+                        ["gf"] = actions.goto_file,
+                        ["<C-W><C-F>"] = actions.goto_file_split,
+                        ["<C-W>gf"] = actions.goto_file_tab,
+                        ["<localleader>e"] = actions.focus_files,
+                        ["<localleader>b"] = actions.toggle_files,
+                        ["g<C-X>"] = actions.cycle_layout,
+                        ["q"] = "<Cmd>DiffviewClose<CR>",
+                    },
+                    option_panel = {
+                        ["<Tab>"] = actions.select_entry,
+                        ["q"] = actions.close,
+                    },
+                },
+            }
+        end,
         keys = {
             { "<leader>gd", "<Cmd>DiffviewOpen<CR>" },
             { "<leader>gh", "<Cmd>DiffviewFileHistory<CR>" },
@@ -436,33 +542,33 @@ require("lazy").setup({
         opts = {
             signs = {
                 add = {
-                    hl     = "GitSignsAdd",
-                    text   = "│",
-                    numhl  = "GitSignsAddNr",
+                    hl = "GitSignsAdd",
+                    text = "│",
+                    numhl = "GitSignsAddNr",
                     linehl = "GitSignsAddLn"
                 },
                 change = {
-                    hl     = "GitSignsChange",
-                    text   = "│",
-                    numhl  = "GitSignsChangeNr",
+                    hl = "GitSignsChange",
+                    text = "│",
+                    numhl = "GitSignsChangeNr",
                     linehl = "GitSignsChangeLn"
                 },
                 delete = {
-                    hl     = "GitSignsDelete",
-                    text   = "_",
-                    numhl  = "GitSignsDeleteNr",
+                    hl = "GitSignsDelete",
+                    text = "_",
+                    numhl = "GitSignsDeleteNr",
                     linehl = "GitSignsDeleteLn"
                 },
                 topdelete = {
-                    hl     = "GitSignsDelete",
-                    text   = "‾",
-                    numhl  = "GitSignsDeleteNr",
+                    hl = "GitSignsDelete",
+                    text = "‾",
+                    numhl = "GitSignsDeleteNr",
                     linehl = "GitSignsDeleteLn"
                 },
                 changedelete = {
-                    hl     = "GitSignsChange",
-                    text   = "~",
-                    numhl  = "GitSignsChangeNr",
+                    hl = "GitSignsChange",
+                    text = "~",
+                    numhl = "GitSignsChangeNr",
                     linehl = "GitSignsChangeLn"
                 },
             },
@@ -669,17 +775,17 @@ require("lazy").setup({
             vim.g.mkdp_auto_start = 0
             vim.g.mkdp_auto_close = 1
             vim.g.mkdp_preview_options = {
-                mkit                = {},
-                katex               = {},
-                uml                 = {},
-                maid                = {},
+                mkit = {},
+                katex = {},
+                uml = {},
+                maid = {},
                 disable_sync_scroll = 0,
-                sync_scroll_type    = "relative",
-                hide_yaml_meta      = 1,
-                sequence_diagrams   = {},
-                flowchart_diagrams  = {},
-                content_editable    = false,
-                disable_filename    = 0
+                sync_scroll_type = "relative",
+                hide_yaml_meta = 1,
+                sequence_diagrams = {},
+                flowchart_diagrams = {},
+                content_editable = false,
+                disable_filename = 0
             }
             vim.g.mkdp_filetypes = {
                 "markdown",
