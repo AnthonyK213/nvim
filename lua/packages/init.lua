@@ -27,9 +27,9 @@ if nvim_init_src == "nano" then
     _my_core_opt.tui.scheme = "nanovim"
 else
     if not vim.tbl_contains({
-        "onedark", "tokyonight", "gruvbox",
-        "nightfox", "onenord"
-    }, _my_core_opt.tui.scheme) then
+            "onedark", "tokyonight", "gruvbox",
+            "nightfox", "onenord"
+        }, _my_core_opt.tui.scheme) then
         if not pcall(vim.cmd.colorscheme, _my_core_opt.tui.scheme) then
             vim.notify("Color scheme was not found.", vim.log.levels.WARN)
         end
@@ -51,41 +51,64 @@ require("lazy").setup({
         priority = 1000,
         enabled = function() return _my_core_opt.tui.scheme == "onedark" end,
         config = function() require("packages.onedark") end
-    };
+    },
     {
         "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
         enabled = function() return _my_core_opt.tui.scheme == "tokyonight" end,
         config = function() require("packages.tokyonight") end
-    };
+    },
     {
         "ellisonleao/gruvbox.nvim",
         lazy = false,
         priority = 1000,
         enabled = function() return _my_core_opt.tui.scheme == "gruvbox" end,
         config = function() require("packages.gruvbox") end
-    };
+    },
     {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
         enabled = function() return _my_core_opt.tui.scheme == "nightfox" end,
         config = function() require("packages.nightfox") end
-    };
+    },
     {
         "rmehri01/onenord.nvim",
         lazy = false,
         priority = 1000,
         enabled = function() return _my_core_opt.tui.scheme == "onenord" end,
         config = function() require("packages.onenord") end
-    };
+    },
     -- Optional
     {
         "goolord/alpha-nvim",
         enabled = load_optional,
-        config = function() require("packages.alpha-nvim") end
-    };
+        config = function()
+            local alpha = require("alpha")
+            local dashboard = require("alpha.themes.dashboard")
+            dashboard.section.header.val = {
+                [[                                                    ]],
+                [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+                [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+                [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+                [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+                [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+                [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+                [[                                                    ]],
+            }
+            dashboard.section.buttons.val = {
+                dashboard.button("e", "∅  Empty File", ":enew<CR>"),
+                dashboard.button("f", "⊕  Find File", ":Telescope find_files<CR>"),
+                dashboard.button("s", "↺  Load Session", ":SessionManager load_session<CR>"),
+                dashboard.button(",", "⚙  Options", ":call my#compat#open_nvimrc()<CR>"),
+                dashboard.button("p", "⟲  Packages Sync", ":Lazy sync<CR>"),
+                dashboard.button("q", "⊗  Quit Nvim", ":qa<CR>"),
+            }
+
+            alpha.setup(dashboard.opts)
+        end
+    },
     {
         "nvim-lualine/lualine.nvim",
         enabled = load_optional,
@@ -101,20 +124,20 @@ require("lazy").setup({
                 lualine_a = {
                     function()
                         return ({
-                            i = "I", ic = "I", ix = "I",
-                            v = "v", V = "V", [""] = "B",
-                            n = "N", niI = "Ĩ", no = "N", nt = "N",
-                            R = "R", Rv = "R",
-                            s = "s", S = "S",
-                            c = "C", t = "T",
-                            multi = "M",
-                        })[vim.api.nvim_get_mode().mode] or "_"
+                                i = "I", ic = "I", ix = "I",
+                                v = "v", V = "V",[""] = "B",
+                                n = "N", niI = "Ĩ", no = "N", nt = "N",
+                                R = "R", Rv = "R",
+                                s = "s", S = "S",
+                                c = "C", t = "T",
+                                multi = "M",
+                            })[vim.api.nvim_get_mode().mode] or "_"
                     end
                 },
                 lualine_b = { "branch" },
                 lualine_c = {
                     { "filename", path = 2 },
-                    { "aerial", sep = "::" },
+                    { "aerial",   sep = "::" },
                     "diff"
                 },
                 lualine_x = {
@@ -134,7 +157,7 @@ require("lazy").setup({
             },
             extensions = { "nvim-tree", "quickfix" }
         }
-    };
+    },
     {
         "akinsho/bufferline.nvim",
         lazy = false,
@@ -177,9 +200,11 @@ require("lazy").setup({
         keys = {
             { "<leader>bb", "<Cmd>BufferLinePick<CR>" }
         }
-    };
+    },
     {
         "norcalli/nvim-colorizer.lua",
+        lazy = true,
+        ft = { "html", "javascript", "json", "typescript", "css", "vue" },
         enabled = load_optional,
         config = function()
             require("colorizer").setup({
@@ -201,7 +226,7 @@ require("lazy").setup({
                 mode     = "background"
             })
         end
-    };
+    },
     {
         "lukas-reineke/indent-blankline.nvim",
         enabled = load_optional,
@@ -231,7 +256,7 @@ require("lazy").setup({
                 "NeogitCommitView", "DiffviewFiles",
             }
         }
-    };
+    },
     -- File system
     {
         "nvim-tree/nvim-tree.lua",
@@ -244,32 +269,32 @@ require("lazy").setup({
                     custom_only = true,
                     list = {
                         { key = { "<CR>", "<2-LeftMouse>" }, action = "edit" },
-                        { key = { "C", "<2-RightMouse>" }, action = "cd" },
-                        { key = "<C-J>", action = "next_sibling" },
-                        { key = "<C-K>", action = "prev_sibling" },
-                        { key = "<C-R>", action = "full_rename" },
-                        { key = "<M-Y>", action = "copy_absolute_path" },
-                        { key = "<M-y>", action = "copy_path" },
-                        { key = "<S-CR>", action = "close_node" },
-                        { key = "<Tab>", action = "preview" },
-                        { key = "D", action = "remove" },
-                        { key = "H", action = "toggle_dotfiles" },
-                        { key = "I", action = "toggle_ignored" },
-                        { key = "R", action = "refresh" },
-                        { key = "a", action = "create" },
-                        { key = "c", action = "copy" },
-                        { key = "gj", action = "next_git_item" },
-                        { key = "gk", action = "prev_git_item" },
-                        { key = "i", action = "split" },
-                        { key = "o", action = "system_open" },
-                        { key = "p", action = "paste" },
-                        { key = "q", action = "close" },
-                        { key = "r", action = "rename" },
-                        { key = "s", action = "vsplit" },
-                        { key = "t", action = "tabnew" },
-                        { key = "u", action = "dir_up" },
-                        { key = "x", action = "cut" },
-                        { key = "y", action = "copy_name" },
+                        { key = { "C", "<2-RightMouse>" },   action = "cd" },
+                        { key = "<C-J>",                     action = "next_sibling" },
+                        { key = "<C-K>",                     action = "prev_sibling" },
+                        { key = "<C-R>",                     action = "full_rename" },
+                        { key = "<M-Y>",                     action = "copy_absolute_path" },
+                        { key = "<M-y>",                     action = "copy_path" },
+                        { key = "<S-CR>",                    action = "close_node" },
+                        { key = "<Tab>",                     action = "preview" },
+                        { key = "D",                         action = "remove" },
+                        { key = "H",                         action = "toggle_dotfiles" },
+                        { key = "I",                         action = "toggle_ignored" },
+                        { key = "R",                         action = "refresh" },
+                        { key = "a",                         action = "create" },
+                        { key = "c",                         action = "copy" },
+                        { key = "gj",                        action = "next_git_item" },
+                        { key = "gk",                        action = "prev_git_item" },
+                        { key = "i",                         action = "split" },
+                        { key = "o",                         action = "system_open" },
+                        { key = "p",                         action = "paste" },
+                        { key = "q",                         action = "close" },
+                        { key = "r",                         action = "rename" },
+                        { key = "s",                         action = "vsplit" },
+                        { key = "t",                         action = "tabnew" },
+                        { key = "u",                         action = "dir_up" },
+                        { key = "x",                         action = "cut" },
+                        { key = "y",                         action = "copy_name" },
                     }
                 }
             },
@@ -368,10 +393,10 @@ require("lazy").setup({
         },
         keys = {
             { "<leader>op", "<Cmd>NvimTreeToggle<CR>" },
-            { "<M-e>", "<Cmd>NvimTreeFindFile<CR>" },
-            { "<M-e>", "<Cmd>NvimTreeFindFile<CR>", mode = "i" },
+            { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>" },
+            { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>", mode = "i" },
         }
-    };
+    },
     {
         "nvim-telescope/telescope.nvim",
         lazy = false,
@@ -381,7 +406,7 @@ require("lazy").setup({
             { "<leader>ff", function() require("telescope.builtin").find_files() end },
             { "<leader>fg", function() require("telescope.builtin").live_grep() end },
         }
-    };
+    },
     -- VCS
     {
         "TimUntersberger/neogit",
@@ -396,7 +421,7 @@ require("lazy").setup({
         keys = {
             { "<leader>gn", "<Cmd>Neogit<CR>" }
         }
-    };
+    },
     {
         "sindrets/diffview.nvim",
         lazy = true,
@@ -405,7 +430,7 @@ require("lazy").setup({
             { "<leader>gd", "<Cmd>DiffviewOpen<CR>" },
             { "<leader>gh", "<Cmd>DiffviewFileHistory<CR>" },
         }
-    };
+    },
     {
         "lewis6991/gitsigns.nvim",
         opts = {
@@ -465,12 +490,18 @@ require("lazy").setup({
                 vim.keymap.set("n", "<leader>gb", require("gitsigns").blame_line, _o)
             end
         }
-    };
+    },
     -- Utilities
-    "nvim-lua/plenary.nvim";
+    "nvim-lua/plenary.nvim",
     {
         "monaqa/dial.nvim",
-        config = function() require("packages.dial") end,
+        lazy = true,
+        keys = {
+            { "<C-A>",  "<Plug>(dial-increment)",                                mode = { "n", "v" } },
+            { "<C-X>",  "<Plug>(dial-decrement)",                                mode = { "n", "v" } },
+            { "g<C-A>", function() return require("dial.map").inc_gvisual() end, mode = "v",         expr = true },
+            { "g<C-X>", function() return require("dial.map").dec_gvisual() end, mode = "v",         expr = true },
+        }
     },
     {
         "dhruvasagar/vim-table-mode",
@@ -481,15 +512,15 @@ require("lazy").setup({
             { "<leader>tc", "<Cmd>TableEvalFormulaLine<CR>" },
             { "<leader>tf", "<Cmd>TableModeRealign<CR>" },
         }
-    };
+    },
     {
         "AnthonyK213/lua-pairs",
         opts = {
             extd = {
                 markdown = {
-                    { k = "<M-P>", l = "`", r = "`" },
-                    { k = "<M-I>", l = "*", r = "*" },
-                    { k = "<M-B>", l = "**", r = "**" },
+                    { k = "<M-P>", l = "`",   r = "`" },
+                    { k = "<M-I>", l = "*",   r = "*" },
+                    { k = "<M-B>", l = "**",  r = "**" },
                     { k = "<M-M>", l = "***", r = "***" },
                     { k = "<M-U>", l = "<u>", r = "</u>" },
                 },
@@ -507,9 +538,9 @@ require("lazy").setup({
                             col = col - #context.p
                             if col == 0 then return true end
                             return not require("utility.syn").new(0, row, col):match {
-                                vs = [[\v^rust(Identifier|Keyword|FuncName)$]],
-                                ts = [[\v^(type|keyword|function)$]],
-                            }
+                                    vs = [[\v^rust(Identifier|Keyword|FuncName)$]],
+                                    ts = [[\v^(type|keyword|function)$]],
+                                }
                         end
                     },
                 }
@@ -519,23 +550,33 @@ require("lazy").setup({
                 filetype = { "DressingInput" },
             },
         }
-    };
+    },
     {
         "andymass/vim-matchup"
-    };
+    },
     {
         "Shatur/neovim-session-manager",
-        config = function() require("packages.neovim-session-manager") end
-    };
+        config = function()
+            require("session_manager").setup {
+                sessions_dir = require("plenary.path"):new(vim.fn.stdpath("data"), "sessions"),
+                path_replacer = "__",
+                colon_replacer = "++",
+                autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
+                autosave_last_session = true,
+                autosave_ignore_not_normal = true,
+                autosave_only_in_session = false,
+            }
+        end
+    },
     {
         "stevearc/dressing.nvim",
         config = function() require("packages.dressing") end
-    };
+    },
     {
         "akinsho/toggleterm.nvim",
         version = "*",
         config = function() require("packages.toggleterm") end
-    };
+    },
     {
         "saecki/crates.nvim",
         lazy = true,
@@ -585,7 +626,7 @@ require("lazy").setup({
                 },
             },
         }
-    };
+    },
     -- File type support
     {
         "lervag/vimtex",
@@ -603,7 +644,7 @@ require("lazy").setup({
                 vim.g.vimtex_view_method = "zathura"
             end
         end
-    };
+    },
     {
         "vimwiki/vimwiki",
         branch = "dev",
@@ -620,7 +661,7 @@ require("lazy").setup({
             vim.g.vimwiki_filetypes = { "markdown" }
             vim.g.vimwiki_ext2syntax = { [".markdown"] = "markdown" }
         end
-    };
+    },
     {
         "iamcco/markdown-preview.nvim",
         build = function() vim.fn["mkdp#util#install"]() end,
@@ -646,10 +687,10 @@ require("lazy").setup({
                 "vimwiki.markdown"
             }
         end
-    };
-    "sotte/presenting.vim";
-    "gpanders/editorconfig.nvim";
-    "PhilT/vim-fsharp";
+    },
+    "sotte/presenting.vim",
+    "gpanders/editorconfig.nvim",
+    "PhilT/vim-fsharp",
     -- Completion; Snippet; LSP; Treesitter; DAP
     {
         "hrsh7th/nvim-cmp",
@@ -664,7 +705,7 @@ require("lazy").setup({
             "saadparwaiz1/cmp_luasnip",
         },
         config = function() require("packages.nvim-cmp") end
-    };
+    },
     {
         "neovim/nvim-lspconfig",
         config = function() require("packages.nvim-lspconfig") end,
@@ -673,11 +714,11 @@ require("lazy").setup({
             "williamboman/mason-lspconfig.nvim",
             "Hoffs/omnisharp-extended-lsp.nvim",
         }
-    };
+    },
     {
         "nvim-treesitter/nvim-treesitter",
         config = function() require("packages.nvim-treesitter") end
-    };
+    },
     {
         "stevearc/aerial.nvim",
         opts = {
@@ -724,14 +765,14 @@ require("lazy").setup({
                 override = function(conf, _) return conf end,
             },
         }
-    };
+    },
     {
         "mfussenegger/nvim-dap",
         config = function() require("packages.nvim-dap") end
-    };
+    },
     -- Games
-    "alec-gibson/nvim-tetris";
-    "AndrewRadev/gnugo.vim";
+    "alec-gibson/nvim-tetris",
+    "AndrewRadev/gnugo.vim",
 }, {
     ui = {
         border = _my_core_opt.tui.border,
