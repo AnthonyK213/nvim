@@ -752,7 +752,7 @@ require("lazy").setup({
             if _my_core_opt.vcs.client == "lazygit" then
                 vim.keymap.set("n", "<leader>gn", function()
                     if not require("utility.lib").executable("lazygit") then return end
-                    require("toggleterm.terminal"):new {
+                    require("toggleterm.terminal").Terminal:new {
                         cmd = "lazygit",
                         hidden = true,
                         direction = "float",
