@@ -160,13 +160,12 @@ Configuration for Neovim with some personal hacks.
         // (boolean) https://github.com/microsoft/debugpy
         "python": false
       },
-      // Built-in plugins
-      "plug": {
-        // (boolean) Enable matchit.vim
-        "matchit": false,
-        // (boolean) Enable matchparen.vim
-        "matchparen": false
-      },
+      // Disabled built-in plugins
+      "disable": [
+        "matchit",
+        "matchparen",
+        "netrwPlugin"
+      ],
       // Version control system
       "vcs": {
         // ("neogit"|"lazygit") Git client

@@ -58,9 +58,10 @@ local opt = {
         python = false,
         csharp = false
     },
-    plug = {
-        matchit = false,
-        matchparen = false,
+    disable = {
+        "matchit",
+        "matchparen",
+        "netrwPlugin"
     },
     vcs = {
         client = "neogit",

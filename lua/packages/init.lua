@@ -36,12 +36,6 @@ else
     end
 end
 
--- Built-in plugins.
-if _my_core_opt.plug then
-    if not _my_core_opt.plug.matchit then vim.g.loaded_matchit = 1 end
-    if not _my_core_opt.plug.matchparen then vim.g.loaded_matchparen = 1 end
-end
-
 -- Setup lazy.nvim.
 require("lazy").setup({
     -- Color scheme
@@ -897,4 +891,9 @@ require("lazy").setup({
             lazy = "💤 ",
         },
     },
+    performance = {
+        rtp = {
+            disabled_plugins = _my_core_opt.disable
+        }
+    }
 })
