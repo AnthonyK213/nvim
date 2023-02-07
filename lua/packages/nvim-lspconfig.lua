@@ -46,8 +46,6 @@ local custom_attach = function(client, bufnr)
     kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
 end
 
-require("mason-lspconfig").setup()
-
 -- LSP options.
 local server_settings = {
     omnisharp = function(o, s)

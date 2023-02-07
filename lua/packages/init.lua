@@ -104,6 +104,7 @@ require("lazy").setup({
     },
     {
         "nvim-lualine/lualine.nvim",
+        lazy = false,
         enabled = load_optional,
         opts = {
             options = {
@@ -196,7 +197,6 @@ require("lazy").setup({
     },
     {
         "norcalli/nvim-colorizer.lua",
-        lazy = true,
         ft = { "html", "javascript", "json", "typescript", "css", "vue" },
         enabled = load_optional,
         config = function()
@@ -222,7 +222,6 @@ require("lazy").setup({
     },
     {
         "lukas-reineke/indent-blankline.nvim",
-        lazy = true,
         event = "VeryLazy",
         enabled = load_optional,
         opts = {
@@ -247,7 +246,7 @@ require("lazy").setup({
             filetype_exclude = {
                 "aerial", "alpha", "packer", "lazy",
                 "markdown", "presenting_markdown",
-                "vimwiki", "NvimTree", "mason",
+                "vimwiki", "NvimTree", "mason", "lspinfo",
                 "NeogitCommitView", "DiffviewFiles",
             }
         }
@@ -255,7 +254,6 @@ require("lazy").setup({
     -- File system
     {
         "nvim-tree/nvim-tree.lua",
-        lazy = true,
         opts = {
             disable_netrw = true,
             hijack_cursor = true,
@@ -394,7 +392,6 @@ require("lazy").setup({
     },
     {
         "nvim-telescope/telescope.nvim",
-        lazy = true,
         event = "VeryLazy",
         config = function()
             local border_style = _my_core_opt.tui.border
@@ -436,7 +433,6 @@ require("lazy").setup({
     -- VCS
     {
         "TimUntersberger/neogit",
-        lazy = true,
         opts = {
             integrations = {
                 diffview = true
@@ -450,7 +446,6 @@ require("lazy").setup({
     },
     {
         "sindrets/diffview.nvim",
-        lazy = true,
         config = function()
             local actions = require("diffview.actions")
             require("diffview").setup {
@@ -565,7 +560,6 @@ require("lazy").setup({
     },
     {
         "lewis6991/gitsigns.nvim",
-        lazy = true,
         event = "VeryLazy",
         opts = {
             signs = {
@@ -629,7 +623,6 @@ require("lazy").setup({
     "nvim-lua/plenary.nvim",
     {
         "monaqa/dial.nvim",
-        lazy = true,
         keys = {
             { "<C-A>",  "<Plug>(dial-increment)",                                mode = { "n", "v" } },
             { "<C-X>",  "<Plug>(dial-decrement)",                                mode = { "n", "v" } },
@@ -639,7 +632,6 @@ require("lazy").setup({
     },
     {
         "dhruvasagar/vim-table-mode",
-        lazy = false,
         init = function() vim.g.table_mode_corner = "+" end,
         keys = {
             { "<leader>ta", "<Cmd>TableAddFormula<CR>" },
@@ -649,7 +641,6 @@ require("lazy").setup({
     },
     {
         "AnthonyK213/lua-pairs",
-        lazy = true,
         event = "InsertEnter",
         opts = {
             extd = {
@@ -689,12 +680,10 @@ require("lazy").setup({
     },
     {
         "andymass/vim-matchup",
-        lazy = true,
         event = "VeryLazy",
     },
     {
         "Shatur/neovim-session-manager",
-        lazy = true,
         event = "VeryLazy",
         config = function()
             require("session_manager").setup {
@@ -710,7 +699,6 @@ require("lazy").setup({
     },
     {
         "stevearc/dressing.nvim",
-        lazy = true,
         event = "VeryLazy",
         config = function()
             local border_style = _my_core_opt.tui.border
@@ -758,7 +746,6 @@ require("lazy").setup({
     },
     {
         "akinsho/toggleterm.nvim",
-        lazy = true,
         event = "VeryLazy",
         version = "*",
         config = function()
@@ -779,7 +766,6 @@ require("lazy").setup({
     },
     {
         "saecki/crates.nvim",
-        lazy = true,
         event = "BufRead Cargo.toml",
         version = "0.3.0",
         opts = {
@@ -891,14 +877,12 @@ require("lazy").setup({
     "sotte/presenting.vim",
     {
         "gpanders/editorconfig.nvim",
-        lazy = true,
         event = "VeryLazy",
     },
     "PhilT/vim-fsharp",
     -- Completion; Snippet; LSP; Treesitter; DAP
     {
         "hrsh7th/nvim-cmp",
-        lazy = true,
         event = "VeryLazy",
         dependencies = {
             "hrsh7th/cmp-buffer",
@@ -914,7 +898,6 @@ require("lazy").setup({
     },
     {
         "neovim/nvim-lspconfig",
-        lazy = true,
         event = "BufReadPre",
         config = function() require("packages.nvim-lspconfig") end,
         dependencies = {
@@ -935,13 +918,15 @@ require("lazy").setup({
                     end
                 end,
             },
-            "williamboman/mason-lspconfig.nvim",
+            {
+                "williamboman/mason-lspconfig.nvim",
+                config = true,
+            },
             "Hoffs/omnisharp-extended-lsp.nvim",
         }
     },
     {
         "nvim-treesitter/nvim-treesitter",
-        lazy = true,
         event = "VeryLazy",
         config = function()
             local ts_option = _my_core_opt.ts or {}
@@ -961,7 +946,6 @@ require("lazy").setup({
     },
     {
         "stevearc/aerial.nvim",
-        lazy = true,
         event = "VeryLazy",
         opts = {
             backends = {
@@ -1010,14 +994,12 @@ require("lazy").setup({
     },
     {
         "mfussenegger/nvim-dap",
-        lazy = true,
         event = "VeryLazy",
         config = function() require("packages.nvim-dap") end
     },
     -- Games
     {
         "alec-gibson/nvim-tetris",
-        lazy = true,
         event = "VeryLazy",
     },
 }, {
