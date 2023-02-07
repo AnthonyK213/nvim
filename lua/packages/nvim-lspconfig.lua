@@ -46,8 +46,6 @@ local custom_attach = function(client, bufnr)
     kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
 end
 
--- Load mason.nvim
-require("mason").setup { ui = { border = _my_core_opt.tui.border } }
 require("mason-lspconfig").setup()
 
 -- LSP options.
@@ -72,7 +70,7 @@ local server_settings = {
 local function setup_server(server, config)
     config = config or false
     if (type(config) == "boolean" and config)
-        or (type(config) == "table" and config.load == true) then
+        or (type(config) == "table" and config.load) then
         local opts = {
             capabilities = capabilities,
             on_attach = custom_attach

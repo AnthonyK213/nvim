@@ -915,10 +915,26 @@ require("lazy").setup({
     {
         "neovim/nvim-lspconfig",
         lazy = true,
-        event = "VeryLazy",
+        event = "BufReadPre",
         config = function() require("packages.nvim-lspconfig") end,
         dependencies = {
-            "williamboman/mason.nvim",
+            {
+                "williamboman/mason.nvim",
+                cmd = "Mason",
+                config = function()
+                    require("mason").setup { ui = { border = _my_core_opt.tui.border } }
+                    local mapping = require("mason-lspconfig.mappings.server").lspconfig_to_package
+                    for name, conf in pairs(_my_core_opt.lsp) do
+                        if (type(conf) == "boolean" and conf)
+                            or (type(conf) == "table" and conf.load) then
+                            local p = require("mason-registry").get_package(mapping[name])
+                            if not p:is_installed() then
+                                p:install()
+                            end
+                        end
+                    end
+                end,
+            },
             "williamboman/mason-lspconfig.nvim",
             "Hoffs/omnisharp-extended-lsp.nvim",
         }

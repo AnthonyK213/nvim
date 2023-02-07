@@ -93,16 +93,16 @@ Configuration for Neovim with some personal hacks.
       // Language Server Protocol
       "lsp": {
         // (boolean|object) https://github.com/clangd/clangd
-        "clangd": true,
+        "clangd": false,
         // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
         "omnisharp": {
-          "load": true,
+          "load": false,
           // Some LSPs' semantic tokens are not usable
           "disable_semantic_tokens": true
         },
         // (boolean|object) https://github.com/microsoft/pyright
         "pyright": {
-          "load": true,
+          "load": false,
           // Extra settings, depends on the LSP
           "settings": {
             "python": {
@@ -117,10 +117,10 @@ Configuration for Neovim with some personal hacks.
           }
         },
         // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
-        "rust_analyzer": true,
+        "rust_analyzer": false,
         // (boolean|object) https://github.com/sumneko/lua-language-server
         "sumneko_lua": {
-          "load": true,
+          "load": false,
           "settings": {
             "Lua": {
               "runtime": {
@@ -141,7 +141,7 @@ Configuration for Neovim with some personal hacks.
           }
         },
         // (boolean|object) https://github.com/iamcco/vim-language-server
-        "vimls": true
+        "vimls": false
         // And so on...
       },
       // Treesitter
