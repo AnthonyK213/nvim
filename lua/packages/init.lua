@@ -27,8 +27,7 @@ if nvim_init_src == "nano" then
     _my_core_opt.tui.scheme = "nanovim"
 else
     if not vim.tbl_contains({
-            "onedark", "tokyonight", "gruvbox",
-            "nightfox", "onenord"
+            "onedark", "tokyonight", "gruvbox", "nightfox", "onenord"
         }, _my_core_opt.tui.scheme) then
         if not pcall(vim.cmd.colorscheme, _my_core_opt.tui.scheme) then
             vim.notify("Color scheme was not found.", vim.log.levels.WARN)
@@ -131,7 +130,7 @@ require("lazy").setup({
                 lualine_b = { "branch" },
                 lualine_c = {
                     { "filename", path = 2 },
-                    { "aerial", sep = "::" },
+                    { "aerial",   sep = "::" },
                     "diff"
                 },
                 lualine_x = {
@@ -223,6 +222,8 @@ require("lazy").setup({
     },
     {
         "lukas-reineke/indent-blankline.nvim",
+        lazy = true,
+        event = "VeryLazy",
         enabled = load_optional,
         opts = {
             char = "▏",
@@ -244,7 +245,7 @@ require("lazy").setup({
             },
             buftype_exclude = { "help", "quickfix", "terminal" },
             filetype_exclude = {
-                "aerial", "alpha", "packer",
+                "aerial", "alpha", "packer", "lazy",
                 "markdown", "presenting_markdown",
                 "vimwiki", "NvimTree", "mason",
                 "NeogitCommitView", "DiffviewFiles",
@@ -263,32 +264,32 @@ require("lazy").setup({
                     custom_only = true,
                     list = {
                         { key = { "<CR>", "<2-LeftMouse>" }, action = "edit" },
-                        { key = { "C", "<2-RightMouse>" }, action = "cd" },
-                        { key = "<C-J>", action = "next_sibling" },
-                        { key = "<C-K>", action = "prev_sibling" },
-                        { key = "<C-R>", action = "full_rename" },
-                        { key = "<M-Y>", action = "copy_absolute_path" },
-                        { key = "<M-y>", action = "copy_path" },
-                        { key = "<S-CR>", action = "close_node" },
-                        { key = "<Tab>", action = "preview" },
-                        { key = "D", action = "remove" },
-                        { key = "H", action = "toggle_dotfiles" },
-                        { key = "I", action = "toggle_ignored" },
-                        { key = "R", action = "refresh" },
-                        { key = "a", action = "create" },
-                        { key = "c", action = "copy" },
-                        { key = "gj", action = "next_git_item" },
-                        { key = "gk", action = "prev_git_item" },
-                        { key = "i", action = "split" },
-                        { key = "o", action = "system_open" },
-                        { key = "p", action = "paste" },
-                        { key = "q", action = "close" },
-                        { key = "r", action = "rename" },
-                        { key = "s", action = "vsplit" },
-                        { key = "t", action = "tabnew" },
-                        { key = "u", action = "dir_up" },
-                        { key = "x", action = "cut" },
-                        { key = "y", action = "copy_name" },
+                        { key = { "C", "<2-RightMouse>" },   action = "cd" },
+                        { key = "<C-J>",                     action = "next_sibling" },
+                        { key = "<C-K>",                     action = "prev_sibling" },
+                        { key = "<C-R>",                     action = "full_rename" },
+                        { key = "<M-Y>",                     action = "copy_absolute_path" },
+                        { key = "<M-y>",                     action = "copy_path" },
+                        { key = "<S-CR>",                    action = "close_node" },
+                        { key = "<Tab>",                     action = "preview" },
+                        { key = "D",                         action = "remove" },
+                        { key = "H",                         action = "toggle_dotfiles" },
+                        { key = "I",                         action = "toggle_ignored" },
+                        { key = "R",                         action = "refresh" },
+                        { key = "a",                         action = "create" },
+                        { key = "c",                         action = "copy" },
+                        { key = "gj",                        action = "next_git_item" },
+                        { key = "gk",                        action = "prev_git_item" },
+                        { key = "i",                         action = "split" },
+                        { key = "o",                         action = "system_open" },
+                        { key = "p",                         action = "paste" },
+                        { key = "q",                         action = "close" },
+                        { key = "r",                         action = "rename" },
+                        { key = "s",                         action = "vsplit" },
+                        { key = "t",                         action = "tabnew" },
+                        { key = "u",                         action = "dir_up" },
+                        { key = "x",                         action = "cut" },
+                        { key = "y",                         action = "copy_name" },
                     }
                 }
             },
@@ -387,14 +388,45 @@ require("lazy").setup({
         },
         keys = {
             { "<leader>op", "<Cmd>NvimTreeToggle<CR>" },
-            { "<M-e>", "<Cmd>NvimTreeFindFile<CR>" },
-            { "<M-e>", "<Cmd>NvimTreeFindFile<CR>", mode = "i" },
+            { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>" },
+            { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>", mode = "i" },
         }
     },
     {
         "nvim-telescope/telescope.nvim",
-        lazy = false,
-        config = function() require("packages.telescope") end,
+        lazy = true,
+        event = "VeryLazy",
+        config = function()
+            local border_style = _my_core_opt.tui.border
+            local border_styles = {
+                single = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+                double = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
+                rounded = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+            }
+            require("telescope").setup {
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<C-Down>"] = require("telescope.actions").cycle_history_next,
+                            ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
+                        },
+                    },
+                    border = border_style ~= "none",
+                    borderchars = border_styles[border_style] or border_styles["rounded"]
+                },
+                extensions = {
+                    aerial = {
+                        show_nesting = {
+                            ["_"] = false,
+                            json = true,
+                            markdown = true,
+                        }
+                    }
+                }
+            }
+            -- Load extensions.
+            require("telescope").load_extension("aerial")
+        end,
         keys = {
             { "<leader>fb", function() require("telescope.builtin").buffers() end },
             { "<leader>ff", function() require("telescope.builtin").find_files() end },
@@ -533,6 +565,8 @@ require("lazy").setup({
     },
     {
         "lewis6991/gitsigns.nvim",
+        lazy = true,
+        event = "VeryLazy",
         opts = {
             signs = {
                 add = {
@@ -597,10 +631,10 @@ require("lazy").setup({
         "monaqa/dial.nvim",
         lazy = true,
         keys = {
-            { "<C-A>", "<Plug>(dial-increment)", mode = { "n", "v" } },
-            { "<C-X>", "<Plug>(dial-decrement)", mode = { "n", "v" } },
-            { "g<C-A>", function() return require("dial.map").inc_gvisual() end, mode = "v", expr = true },
-            { "g<C-X>", function() return require("dial.map").dec_gvisual() end, mode = "v", expr = true },
+            { "<C-A>",  "<Plug>(dial-increment)",                                mode = { "n", "v" } },
+            { "<C-X>",  "<Plug>(dial-decrement)",                                mode = { "n", "v" } },
+            { "g<C-A>", function() return require("dial.map").inc_gvisual() end, mode = "v",         expr = true },
+            { "g<C-X>", function() return require("dial.map").dec_gvisual() end, mode = "v",         expr = true },
         }
     },
     {
@@ -615,12 +649,14 @@ require("lazy").setup({
     },
     {
         "AnthonyK213/lua-pairs",
+        lazy = true,
+        event = "InsertEnter",
         opts = {
             extd = {
                 markdown = {
-                    { k = "<M-P>", l = "`", r = "`" },
-                    { k = "<M-I>", l = "*", r = "*" },
-                    { k = "<M-B>", l = "**", r = "**" },
+                    { k = "<M-P>", l = "`",   r = "`" },
+                    { k = "<M-I>", l = "*",   r = "*" },
+                    { k = "<M-B>", l = "**",  r = "**" },
                     { k = "<M-M>", l = "***", r = "***" },
                     { k = "<M-U>", l = "<u>", r = "</u>" },
                 },
@@ -652,10 +688,14 @@ require("lazy").setup({
         }
     },
     {
-        "andymass/vim-matchup"
+        "andymass/vim-matchup",
+        lazy = true,
+        event = "VeryLazy",
     },
     {
         "Shatur/neovim-session-manager",
+        lazy = true,
+        event = "VeryLazy",
         config = function()
             require("session_manager").setup {
                 sessions_dir = require("plenary.path"):new(vim.fn.stdpath("data"), "sessions"),
@@ -670,10 +710,56 @@ require("lazy").setup({
     },
     {
         "stevearc/dressing.nvim",
-        config = function() require("packages.dressing") end
+        lazy = true,
+        event = "VeryLazy",
+        config = function()
+            local border_style = _my_core_opt.tui.border
+            local border_styles = {
+                single = {
+                    prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+                    results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+                    preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+                },
+                double = {
+                    prompt = { "═", "║", " ", "║", "╔", "╗", "║", "║" },
+                    results = { "═", "║", "═", "║", "╠", "╣", "╝", "╚" },
+                    preview = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
+                },
+                rounded = {
+                    prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+                    results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+                    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+                },
+            }
+
+            require("dressing").setup {
+                input = {
+                    default_prompt = "> ",
+                    insert_only = true,
+                    anchor = "SW",
+                    relative = "cursor",
+                    border = _my_core_opt.tui.border,
+                    win_options = {
+                        winblend = 10,
+                    },
+                    get_config = nil,
+                },
+                select = {
+                    backend = { "telescope" },
+                    format_item_override = {},
+                    telescope = require("telescope.themes").get_dropdown {
+                        border = border_style ~= "none",
+                        borderchars = border_styles[border_style] or border_styles["rounded"],
+                    },
+                    get_config = nil,
+                },
+            }
+        end
     },
     {
         "akinsho/toggleterm.nvim",
+        lazy = true,
+        event = "VeryLazy",
         version = "*",
         config = function() require("packages.toggleterm") end
     },
@@ -789,11 +875,17 @@ require("lazy").setup({
         end
     },
     "sotte/presenting.vim",
-    "gpanders/editorconfig.nvim",
+    {
+        "gpanders/editorconfig.nvim",
+        lazy = true,
+        event = "VeryLazy",
+    },
     "PhilT/vim-fsharp",
     -- Completion; Snippet; LSP; Treesitter; DAP
     {
         "hrsh7th/nvim-cmp",
+        lazy = true,
+        event = "VeryLazy",
         dependencies = {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-cmdline",
@@ -808,6 +900,8 @@ require("lazy").setup({
     },
     {
         "neovim/nvim-lspconfig",
+        lazy = true,
+        event = "VeryLazy",
         config = function() require("packages.nvim-lspconfig") end,
         dependencies = {
             "williamboman/mason.nvim",
@@ -817,10 +911,14 @@ require("lazy").setup({
     },
     {
         "nvim-treesitter/nvim-treesitter",
+        lazy = true,
+        event = "VeryLazy",
         config = function() require("packages.nvim-treesitter") end
     },
     {
         "stevearc/aerial.nvim",
+        lazy = true,
+        event = "VeryLazy",
         opts = {
             backends = {
                 ["_"] = { "lsp", "treesitter" },
@@ -868,11 +966,16 @@ require("lazy").setup({
     },
     {
         "mfussenegger/nvim-dap",
+        lazy = true,
+        event = "VeryLazy",
         config = function() require("packages.nvim-dap") end
     },
     -- Games
-    "alec-gibson/nvim-tetris",
-    "AndrewRadev/gnugo.vim",
+    {
+        "alec-gibson/nvim-tetris",
+        lazy = true,
+        event = "VeryLazy",
+    },
 }, {
     ui = {
         border = _my_core_opt.tui.border,

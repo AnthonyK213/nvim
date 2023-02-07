@@ -28,6 +28,7 @@ vim.filetype.add {
                 kbd("n", "<leader>cR", crates.open_repository, _o)
                 kbd("n", "<leader>cD", crates.open_documentation, _o)
                 kbd("n", "<leader>cC", crates.open_crates_io, _o)
+                crates.show()
             end
         end
     },

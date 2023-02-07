@@ -406,7 +406,6 @@ Configuration for Neovim with some personal hacks.
   - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
 * Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
-  - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)
 
 # API
 
