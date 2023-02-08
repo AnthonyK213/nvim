@@ -641,7 +641,7 @@ require("lazy").setup({
     },
     {
         "AnthonyK213/lua-pairs",
-        event = "InsertEnter",
+        event = "VeryLazy",
         opts = {
             extd = {
                 markdown = {
