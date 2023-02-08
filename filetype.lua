@@ -45,6 +45,19 @@ vim.filetype.add {
                 vim.bo[bufnr].tabstop = 4
                 vim.bo[bufnr].shiftwidth = 4
                 vim.bo[bufnr].softtabstop = 4
+                require("cmp").setup.buffer {
+                    sources = {
+                        {
+                            name = "nvim_lsp",
+                            entry_filter = function(entry, _)
+                                return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
+                            end
+                        },
+                        { name = "nvim_lua" },
+                        { name = "path" },
+                        { name = "nvim_lsp_signature_help" },
+                    },
+                }
             end
         end,
         markdown = function()
