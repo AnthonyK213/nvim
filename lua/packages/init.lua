@@ -1023,7 +1023,8 @@ require("lazy").setup({
     },
     performance = {
         rtp = {
-            disabled_plugins = _my_core_opt.disable
+            reset = false,
+            disabled_plugins = _my_core_opt.disable,
         }
     }
 })
