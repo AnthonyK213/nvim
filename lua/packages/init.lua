@@ -222,7 +222,7 @@ require("lazy").setup({
     },
     {
         "lukas-reineke/indent-blankline.nvim",
-        event = "VeryLazy",
+        event = { "VeryLazy", "BufReadPre" },
         enabled = load_optional,
         opts = {
             char = "▏",
@@ -680,7 +680,7 @@ require("lazy").setup({
     },
     {
         "andymass/vim-matchup",
-        event = "VeryLazy",
+        event = { "VeryLazy", "BufReadPre" },
     },
     {
         "Shatur/neovim-session-manager",
