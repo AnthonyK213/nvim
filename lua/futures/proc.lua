@@ -24,6 +24,7 @@ local util = require("futures.util")
 ---@field record boolean If true, `stdout` and `stderr` will be recorded into the buffer.
 local Process = {}
 
+---@private
 Process.__index = Process
 
 ---Constructor.

@@ -5,6 +5,7 @@
 ---@field private st table Semantic tokens.
 local Syntax = {}
 
+---@private
 Syntax.__index = Syntax
 
 ---Constructor.

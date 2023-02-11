@@ -42,6 +42,7 @@ end
 ---@operator add(any[]|collections.List):collections.List
 local List = {}
 
+---@private
 List.__index = function(o, key)
     if type(key) == "number" then
         boundary_check(o, key)

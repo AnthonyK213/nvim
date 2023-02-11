@@ -16,6 +16,7 @@ local uv_callback_index = {
 ---@field status 0|-1|-2 Task status, 0: Created; -1: Running; -2: RanToCompletion
 local Task = {}
 
+---@private
 Task.__index = Task
 
 ---Constructor.

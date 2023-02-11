@@ -6,6 +6,7 @@
       "---@field ${3} any",
       "local ${2:ClassName} = {}",
       "",
+      "---@private",
       "${2}.__index = ${2}",
       "",
       "---Constructor.",

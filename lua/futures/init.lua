@@ -4,13 +4,15 @@ local util = require("futures.util")
 local try = util.try_call
 
 ---@class futures.Future Represents an operation which will produce values in the future.
----@field action function Function that represents the code to execute.
----@field varargs table Arguments for `action`.
----@field result any[] Result of the `Future`, stored in a list.
+---@field private action function Function that represents the code to execute.
+---@field private varargs table Arguments for `action`.
+---@field private result any[] Result of the `Future`, stored in a list.
 local Future = {}
 
+---@private
 Future.__index = Future
 
+---@private
 ---Constructor.
 ---@param action function Function that represents the code to execute.
 ---@param ... any Arguments for `action`.
@@ -25,8 +27,9 @@ function Future.new(action, ...)
 end
 
 ---Poll the future.
-function Future:poll()
+function Future:await()
     self.result = lib.tbl_pack(self.action(lib.tbl_unpack(self.varargs)))
+    return lib.tbl_unpack(self.result)
 end
 
 ---@class futures.JoinHandle
@@ -34,6 +37,7 @@ end
 ---@field private context? thread
 local JoinHandle = {}
 
+---@private
 JoinHandle.__index = JoinHandle
 
 ---@private
@@ -88,6 +92,13 @@ function M.async(func)
     end
 end
 
+---Await an asynchronous method or an awaitable object.
+---@param obj any Object to await.
+---@return any
+function M.await(obj)
+    return obj:await()
+end
+
 ---Spawns a new asynchronous task.
 ---@param task function|futures.Future
 function M.spawn(task)
@@ -110,13 +121,13 @@ function M.spawn(task)
     elseif _type == "table" and getmetatable(task) == Future then
         if _context then
             _f = function()
-                task:poll()
+                M.await(task)
                 vim.loop.new_async(function()
                     coroutine.resume(_context)
                 end):send()
             end
         else
-            _f = function() task:poll() end
+            _f = function() M.await(task) end
         end
     else
         error("`task` is invalid.")

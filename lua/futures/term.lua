@@ -14,6 +14,7 @@ local util = require("futures.util")
 ---@field bunnr integer Buffer number.
 local Terminal = {}
 
+---@private
 Terminal.__index = Terminal
 
 ---Constructor.
