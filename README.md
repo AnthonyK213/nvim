@@ -94,6 +94,28 @@ Configuration for Neovim with some personal hacks.
       "lsp": {
         // (boolean|object) https://github.com/clangd/clangd
         "clangd": false,
+        // (boolean|object) https://github.com/LuaLS/lua-language-server
+        "lua_ls": {
+          "load": false,
+          "settings": {
+            "Lua": {
+              "runtime": {
+                "version": "LuaJIT"
+              },
+              "diagnostics": {
+                "globals": [ "vim" ]
+              },
+              "workspace": {
+                // "${lua_expression}" is allowed.
+                "library": "${vim.api.nvim_get_runtime_file('', true)}",
+                "checkThirdParty": false
+              },
+              "telemetry": {
+                "enable": false
+              }
+            }
+          }
+        },
         // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
         "omnisharp": {
           "load": false,
@@ -118,28 +140,6 @@ Configuration for Neovim with some personal hacks.
         },
         // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
         "rust_analyzer": false,
-        // (boolean|object) https://github.com/sumneko/lua-language-server
-        "sumneko_lua": {
-          "load": false,
-          "settings": {
-            "Lua": {
-              "runtime": {
-                "version": "LuaJIT"
-              },
-              "diagnostics": {
-                "globals": [ "vim" ]
-              },
-              "workspace": {
-                // "${lua_expression}" is allowed.
-                "library": "${vim.api.nvim_get_runtime_file('', true)}",
-                "checkThirdParty": false
-              },
-              "telemetry": {
-                "enable": false
-              }
-            }
-          }
-        },
         // (boolean|object) https://github.com/iamcco/vim-language-server
         "vimls": false
         // And so on...
