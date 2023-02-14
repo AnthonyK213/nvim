@@ -247,7 +247,7 @@ require("lazy").setup({
                 "aerial", "alpha", "packer", "lazy",
                 "markdown", "presenting_markdown",
                 "vimwiki", "NvimTree", "mason", "lspinfo",
-                "NeogitCommitView", "DiffviewFiles",
+                "NeogitStatus", "NeogitCommitView", "DiffviewFiles",
             }
         }
     },
