@@ -441,8 +441,8 @@ hi! link VimwikiPre Nano_Face_Faded
 hi! link VimwikiPreDelim Nano_Face_Subtle
 " Neogit
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_critical })
+call s:h("NeogitNotificationWarning", { "fg": s:nano_color_popout })
+call s:h("NeogitNotificationError", { "fg": s:nano_color_critical })
 call s:h("NeogitDiffAddHighlight", {
       \ "fg": s:nano_color_salient,
       \ "bg": s:nano_color_subtle
