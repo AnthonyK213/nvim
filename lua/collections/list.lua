@@ -1,39 +1,4 @@
----Boundary check.
----@param list collections.List
----@param index integer
----@param count? integer
----@param min? integer
----@param max? integer
----@param backward? boolean
-local function boundary_check(list, index, count, min, max, backward)
-    if math.floor(index) ~= index then
-        error("Index must be an integer")
-    end
-    if count then
-        if math.floor(count) ~= count then
-            error("Count must be an integer")
-        elseif count < 0
-            or (backward and index < count or index + count > list:count() + 1) then
-            error("Count out of bounds")
-        end
-    end
-    if index < (min or 1) or index > (max or list:count()) then
-        error("Index out of bounds")
-    end
-end
-
----Get iterator of a collection.
----@param collection any
----@return fun(collection:any):fun():integer,any
-local function get_iter(collection)
-    if vim.tbl_islist(collection) then
-        return ipairs
-    elseif type(collection.iter) == "function" then
-        return collection.iter
-    else
-        error("Failed to get the iterator")
-    end
-end
+local util = require("collections.util")
 
 ---@class collections.List Represents a list of objects that can be accessed by index. Provides methods to search, sort, and manipulate lists.
 ---@field private data any[]
@@ -45,7 +10,7 @@ local List = {}
 ---@private
 List.__index = function(o, key)
     if type(key) == "number" then
-        boundary_check(o, key)
+        o:boundary_check(key)
         return o.data[key]
     elseif List[key] then
         return List[key]
@@ -64,6 +29,30 @@ function List.new(...)
     }
     setmetatable(list, List)
     return list
+end
+
+---@private
+---Boundary check.
+---@param index integer
+---@param count? integer
+---@param min? integer
+---@param max? integer
+---@param backward? boolean
+function List:boundary_check(index, count, min, max, backward)
+    if math.floor(index) ~= index then
+        error("Index must be an integer")
+    end
+    if count then
+        if math.floor(count) ~= count then
+            error("Count must be an integer")
+        elseif count < 0
+            or (backward and index < count or index + count > self:count() + 1) then
+            error("Count out of bounds")
+        end
+    end
+    if index < (min or 1) or index > (max or self:count()) then
+        error("Index out of bounds")
+    end
 end
 
 ---Create `List` from a list-like table or another `List`.
@@ -98,11 +87,12 @@ function List.from(list, count)
     error("Input list is invalid")
 end
 
+---@private
 ---Set the element at the specified index of the `List`.
 ---@param index integer
 ---@param value any
 function List:__newindex(index, value)
-    boundary_check(self, index)
+    self:boundary_check(index)
     self.data[index] = value
 end
 
@@ -135,7 +125,7 @@ end
 ---@param index integer The one-based index at which item should be inserted.
 ---@param item any The object to insert.
 function List:insert(index, item)
-    boundary_check(self, index, nil, 1, self.length + 1)
+    self:boundary_check(index, nil, 1, self.length + 1)
     for i = self.length, index, -1 do
         self.data[i + 1] = self.data[i]
     end
@@ -143,15 +133,18 @@ function List:insert(index, item)
     self.length = self.length + 1
 end
 
----Removes the element at the specified index of the `List`.
+---Removes and returns the element at the specified index of the `List`.
 ---@param index integer The one-based index of the element to remove.
+---@return any item The removed item.
 function List:remove_at(index)
-    boundary_check(self, index)
+    self:boundary_check(index)
+    local item = self.data[index]
     for i = index, self.length - 1, 1 do
         self.data[i] = self.data[i + 1]
     end
     self.data[self.length] = nil
     self.length = self.length - 1
+    return item
 end
 
 ---Performs the specified action on each element of the `List`.
@@ -189,19 +182,20 @@ function List:unpack(i, j)
     return unpack(self.data, i or 1, j or self.length)
 end
 
+---@private
 ---Returns a string that represents the current object.
 ---@return string
 function List:__tostring()
-    local stack = {}
+    local visited = {}
 
     local function _str(obj)
         if getmetatable(obj) == List then
-            local index = require("utility.lib").tbl_find_first(stack, obj)
+            local index = require("utility.lib").tbl_find_first(visited, obj)
             if index > 0 then
                 return "List<" .. index - 1 .. ">"
             else
-                table.insert(stack, obj)
-                local result = "List<" .. #stack - 1 .. ">{ "
+                table.insert(visited, obj)
+                local result = "List<" .. #visited - 1 .. ">{ "
                 for i = 1, obj.length, 1 do
                     result = result .. _str(obj.data[i])
                     if i ~= obj.length then
@@ -252,7 +246,7 @@ end
 function List:add_range(collection)
     vim.validate { collection = { collection, "table" } }
 
-    local f = get_iter(collection)
+    local f = util.get_iter(collection)
 
     local i = 0
     for _, v in f(collection) do
@@ -267,10 +261,10 @@ end
 ---@param index integer The one-based index at which the new elements should be inserted.
 ---@param collection any The collection whose elements should be inserted into the `List`.
 function List:insert_range(index, collection)
-    boundary_check(self, index, nil, 1, self.length + 1)
+    self:boundary_check(index, nil, 1, self.length + 1)
     vim.validate { collection = { collection, "table" } }
 
-    local f = get_iter(collection)
+    local f = util.get_iter(collection)
 
     local buf = {}
     for i = index, self.length, 1 do
@@ -294,7 +288,7 @@ end
 ---@param index integer The one-based starting index of the range of elements to remove.
 ---@param count integer The number of elements to remove.
 function List:remove_range(index, count)
-    boundary_check(self, index, count)
+    self:boundary_check(index, count)
     if count == 0 then return end
 
     local c = self.length - count
@@ -321,7 +315,7 @@ function List:reverse(index, count)
     index = index or 1
     count = count or self.length
 
-    boundary_check(self, index, count)
+    self:boundary_check(index, count)
     if count < 2 then return end
 
     local sum = index * 2 + count - 1
@@ -352,7 +346,7 @@ end
 function List:find_index(match, startIndex, count)
     vim.validate { match = { match, "function" } }
     if startIndex then
-        boundary_check(self, startIndex, count)
+        self:boundary_check(startIndex, count)
     else
         startIndex = 1
     end
@@ -374,7 +368,7 @@ end
 function List:find_last_index(match, startIndex, count)
     vim.validate { match = { match, "function" } }
     if startIndex then
-        boundary_check(self, startIndex, count, nil, nil, true)
+        self:boundary_check(startIndex, count, nil, nil, true)
     else
         startIndex = self.length
     end
@@ -423,6 +417,7 @@ function List:remove_all(match)
     return count
 end
 
+---@private
 ---Add up two lists.
 ---@param collection any The collection whose elements should be added to the end of the `List`.
 ---@return collections.List

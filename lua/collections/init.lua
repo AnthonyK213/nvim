@@ -1,7 +1,5 @@
-local M = {}
-
-M.Deque = require("collections.deque")
-
-M.List = require("collections.list")
-
-return M
+return {
+    get_iter = require("collections.util").get_iter;
+    Deque = require("collections.deque");
+    List = require("collections.list");
+}
