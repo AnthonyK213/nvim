@@ -1,4 +1,4 @@
-local util = require("collections.util")
+local Iterator = require("collections.iter")
 
 ---@class collections.List Represents a list of objects that can be accessed by index. Provides methods to search, sort, and manipulate lists.
 ---@field private data any[]
@@ -148,15 +148,15 @@ function List:remove_at(index)
 end
 
 ---Performs the specified action on each element of the `List`.
----@param action fun(item:any) The action to perform on each element of the `List`.
+---@param action fun(item: any, index?: integer) The action to perform on each element of the `List`.
 function List:for_each(action)
     for i = 1, self.length, 1 do
-        action(self.data[i])
+        action(self.data[i], i)
     end
 end
 
 ---Projects each element of a `List` into a new form.
----@param selector fun(item:any, index?:integer):any Transform function.
+---@param selector fun(item: any, index?: integer):any Transform function.
 ---@return collections.List
 function List:select(selector)
     local result = List.new()
@@ -212,13 +212,13 @@ function List:__tostring()
 end
 
 ---Sort the elements in the entire `List` using the specified `comparison`.
----@param comparison? fun(a:any, b:any):boolean The function to use when comparing elements.
+---@param comparison? fun(a: any, b: any):boolean The function to use when comparing elements.
 function List:sort(comparison)
     table.sort(self.data, comparison)
 end
 
 ---Get the iterator of the `List`.
----@return fun():integer?,any iterator
+---@return fun():integer?, any iterator
 function List:iter()
     local index = 0
     return function()
@@ -242,14 +242,10 @@ function List:get_range(index, count)
 end
 
 ---Add the elements of the specified collection to the end of the `List`.
----@param collection any The collection whose elements should be added to the end of the `List`.
-function List:add_range(collection)
-    vim.validate { collection = { collection, "table" } }
-
-    local f = util.get_iter(collection)
-
+---@param iterable any The collection whose elements should be added to the end of the `List`.
+function List:add_range(iterable)
     local i = 0
-    for _, v in f(collection) do
+    for _, v in Iterator.get(iterable)() do
         i = i + 1
         self.data[self.length + i] = v
     end
@@ -259,12 +255,9 @@ end
 
 ---Inserts the elements of a collection into the `List` at the specified index.
 ---@param index integer The one-based index at which the new elements should be inserted.
----@param collection any The collection whose elements should be inserted into the `List`.
-function List:insert_range(index, collection)
+---@param iterable any The collection whose elements should be inserted into the `List`.
+function List:insert_range(index, iterable)
     self:boundary_check(index, nil, 1, self.length + 1)
-    vim.validate { collection = { collection, "table" } }
-
-    local f = util.get_iter(collection)
 
     local buf = {}
     for i = index, self.length, 1 do
@@ -272,7 +265,7 @@ function List:insert_range(index, collection)
     end
 
     local j = 0
-    for _, v in f(collection) do
+    for _, v in Iterator.get(iterable)() do
         self.data[index + j] = v
         j = j + 1
     end
@@ -326,7 +319,7 @@ function List:reverse(index, count)
 end
 
 ---Determines whether the `List` contains elements that match the conditions defined by the specified predicate.
----@param match fun(v:any):boolean The function that defines the conditions of the elements to search for.
+---@param match fun(v: any):boolean The function that defines the conditions of the elements to search for.
 ---@return boolean
 function List:exists(match)
     vim.validate { match = { match, "function" } }
@@ -339,7 +332,7 @@ function List:exists(match)
 end
 
 ---Searches for an element that matches the conditions defined by the specified predicate, and returns the one-based index of the first occurrence within the range of elements in the `List` that starts at the specified index and contains the specified number of elements.
----@param match fun(v:any):boolean The function that defines the conditions of the element to search for.
+---@param match fun(v: any):boolean The function that defines the conditions of the element to search for.
 ---@param startIndex? integer The one-based starting index of the search.
 ---@param count? integer The number of elements in the section to search.
 ---@return integer index The one-based index of the first occurrence of an element that matches the conditions defined by match, if found; otherwise, `0`.
@@ -361,7 +354,7 @@ function List:find_index(match, startIndex, count)
 end
 
 ---Searches for an element that matches the conditions defined by the specified predicate, and returns the one-based index of the last occurrence within the range of elements in the `List` that contains the specified number of elements and ends at the specified index.
----@param match fun(v:any):boolean The function that defines the conditions of the element to search for.
+---@param match fun(v: any):boolean The function that defines the conditions of the element to search for.
 ---@param startIndex? integer The one-based starting index of the backward search.
 ---@param count? integer The number of elements in the section to search.
 ---@return integer index The one-based index of the last occurrence of an element that matches the conditions defined by match, if found; otherwise, `0`.
@@ -383,7 +376,7 @@ function List:find_last_index(match, startIndex, count)
 end
 
 ---Retrieves all the elements that match the conditions defined by the specified predicate.
----@param match fun(v:any):boolean The function that defines the conditions of the elements to search for.
+---@param match fun(v: any):boolean The function that defines the conditions of the elements to search for.
 ---@return collections.List result A `List` containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty `List`.
 function List:find_all(match)
     vim.validate { match = { match, "function" } }
@@ -403,7 +396,7 @@ function List:any()
 end
 
 ---Removes all the elements that match the conditions defined by the specified predicate.
----@param match fun(v:any):boolean The function that defines the conditions of the elements to remove.
+---@param match fun(v: any):boolean The function that defines the conditions of the elements to remove.
 ---@return integer count The number of elements removed from the `List`.
 function List:remove_all(match)
     vim.validate { match = { match, "function" } }

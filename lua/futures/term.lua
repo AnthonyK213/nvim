@@ -4,11 +4,11 @@ local util = require("futures.util")
 ---@class futures.Terminal Represents a neovim terminal.
 ---@field cmd string[] Command with arguments.
 ---@field option table See `termopen()`.
----@field callback? fun(term:futures.Terminal, job_id:integer, data:integer, event:string) Callback invoked when the terminal process exits.
+---@field callback? fun(term: futures.Terminal, job_id: integer, data: integer, event: string) Callback invoked when the terminal process exits.
 ---@field id integer `channel-id`
 ---@field is_valid boolean True if the terminal process is valid.
 ---@field has_exited boolean True if the terminal process has already exited.
----@field protected callbacks fun(term:futures.Terminal, job_id:integer, data:integer, event:string)[]
+---@field protected callbacks fun(term: futures.Terminal, job_id: integer, data: integer, event:string)[]
 ---@field no_callbacks boolean Mark the terminal process that its `callbacks` will not be executed.
 ---@field winnr integer Window number.
 ---@field bunnr integer Buffer number.
@@ -20,7 +20,7 @@ Terminal.__index = Terminal
 ---Constructor.
 ---@param cmd string[] Command with arguments.
 ---@param option? table See `termopen()`.
----@param on_exit? fun(term:futures.Terminal, job_id:integer, data:integer, event:string) Callback invoked when the terminal process exits (discouraged, use `continue_with` instead).
+---@param on_exit? fun(term: futures.Terminal, job_id: integer, data: integer, event: string) Callback invoked when the terminal process exits (discouraged, use `continue_with` instead).
 ---@return futures.Terminal
 function Terminal.new(cmd, option, on_exit)
     local terminal = {
@@ -89,7 +89,7 @@ function Terminal:start()
 end
 
 ---Wrap a terminal process into a callback function which will start automatically.
----@return fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
+---@return fun(term: futures.Terminal, job_id: integer, data: integer, event: string)
 function Terminal:to_callback()
     return function(_, _, data, event)
         if data == 0 and event == "exit" then
@@ -100,7 +100,7 @@ end
 
 ---Continue with a callback function `next`.
 ---The terminal process will not start automatically.
----@param next fun(term:futures.Terminal, job_id:integer, data:integer, event:string)
+---@param next fun(term: futures.Terminal, job_id: integer, data: integer, event: string)
 ---@return futures.Terminal self
 function Terminal:continue_with(next)
     table.insert(self.callbacks, next)

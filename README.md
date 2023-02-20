@@ -411,6 +411,7 @@ Configuration for Neovim with some personal hacks.
 
 ## `collections`
 * [collections.List](./lua/collections/list.lua) type
+* [collections.Deque](./lua/collections/deque.lua) type
 
 ## `futures`
 * [futures.Task](./lua/futures/task.lua) type

@@ -352,7 +352,7 @@ local comp_table = {
             or uv.cwd()
         ---Create tex callback.
         ---@param label string
-        ---@return fun(proc:futures.Process, code:integer, signal:integer)
+        ---@return fun(proc: futures.Process, code: integer, signal: integer)
         local tex_cb = function(label)
             ---Callback function.
             ---@param code integer

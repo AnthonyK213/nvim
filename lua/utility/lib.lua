@@ -306,7 +306,7 @@ function M.json_decode(path, strictly)
     local content = M.read_all_text(path)
     if not content then return 2, nil end
 
-    ---@type (fun(chunk:string):string)[]
+    ---@type (fun(chunk: string):string)[]
     local filters = {
         ---Remove comment lines.
         ---@param chunk string

@@ -5,16 +5,16 @@ local util = require("futures.util")
 ---@class futures.Process Provides access and control to local processes.
 ---@field path string Path to the system local executable.
 ---@field option table See `vim.loop.spawn()`.
----@field callback? fun(proc:futures.Process, code:integer, signal:integer) Callback invoked when the process exits.
+---@field callback? fun(proc: futures.Process, code: integer, signal: integer) Callback invoked when the process exits.
 ---@field protected handle? userdata Process handle.
 ---@field id integer Process pid.
 ---@field is_valid boolean True if the process is valid.
 ---@field has_exited boolean True if the process has already exited.
----@field protected callbacks fun(proc:futures.Process, code:integer, signal:integer)[]
+---@field protected callbacks fun(proc: futures.Process, code: integer, signal: integer)[]
 ---@field no_callbacks boolean Mark the process that its `callbacks` will not be executed.
----@field on_stdin? fun(data:string) Callback on standard input.
----@field on_stdout? fun(data:string) Callback on standard output.
----@field on_stderr? fun(data:string) Callbakc on standard error.
+---@field on_stdin? fun(data: string) Callback on standard input.
+---@field on_stdout? fun(data: string) Callback on standard output.
+---@field on_stderr? fun(data: string) Callbakc on standard error.
 ---@field protected stdin uv_pipe_t Standard input handle.
 ---@field protected stdout uv_pipe_t Standard output handle.
 ---@field protected stderr uv_pipe_t Standard error handle.
@@ -30,7 +30,7 @@ Process.__index = Process
 ---Constructor.
 ---@param path string Path to the system local executable.
 ---@param option? table See `vim.loop.spawn()`.
----@param on_exit? fun(proc:futures.Process, code:integer, signal:integer) Callback invoked when the process exits (discouraged, use `continue_with` instead).
+---@param on_exit? fun(proc: futures.Process, code: integer, signal: integer) Callback invoked when the process exits (discouraged, use `continue_with` instead).
 ---@return futures.Process
 function Process.new(path, option, on_exit)
     local process = {
@@ -123,7 +123,7 @@ function Process:start()
 end
 
 ---Wrap a process into a callback function which will start automatically.
----@return fun(proc:futures.Process, code:integer, signal:integer)
+---@return fun(proc: futures.Process, code: integer, signal: integer)
 function Process:to_callback()
     return function(_, code, _)
         if code == 0 then
@@ -134,7 +134,7 @@ end
 
 ---Continue with a callback function `next`.
 ---The process will not start automatically.
----@param next fun(proc:futures.Process, code:integer, signal:integer)
+---@param next fun(proc: futures.Process, code: integer, signal: integer)
 ---@return futures.Process self
 function Process:continue_with(next)
     table.insert(self.callbacks, next)

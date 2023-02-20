@@ -1,8 +1,8 @@
----@class collections.deque
+---@class collections.Deque Represents a double-ended queue.
 ---@field private data any[]
 ---@field private front integer
 ---@field private back integer
----@operator call:collections.deque
+---@operator call:collections.Deque
 local Deque = {}
 
 ---@private
@@ -11,7 +11,7 @@ Deque.__index = Deque
 setmetatable(Deque, { __call = function(o) return o.new() end })
 
 ---Creates an empty deque.
----@return collections.deque
+---@return collections.Deque
 function Deque.new()
     local deque = {
         data = {},
