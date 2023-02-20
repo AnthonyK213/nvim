@@ -1,3 +1,5 @@
+local Iterator = require("collections.iter")
+
 ---@class collections.Deque Represents a double-ended queue.
 ---@field private data any[]
 ---@field private front integer
@@ -17,6 +19,25 @@ function Deque.new()
         data = {},
         front = 0,
         back = -1,
+    }
+    setmetatable(deque, Deque)
+    return deque
+end
+
+---Create `List` from a list-like table or another `List`.
+---@param iterable any An iterable collection.
+---@return collections.Deque
+function Deque.from(iterable)
+    local data = {}
+    local index = 0
+    for _, v in Iterator.get(iterable):consume() do
+        index = index + 1
+        data[index] = v
+    end
+    local deque = {
+        data = data,
+        front = 1,
+        back = index,
     }
     setmetatable(deque, Deque)
     return deque
@@ -142,6 +163,25 @@ function Deque:remove_at(index)
     self.data[self.back] = nil
     self.back = self.back - 1
     return item
+end
+
+---Get the iterator of the deque.
+---@return fun():integer?, any iterator
+function Deque:iter()
+    local index = self.front - 1
+    return function()
+        index = index + 1
+        if index <= self.back then
+            return index + 1 - self.front, self.data[index]
+        end
+    end
+end
+
+---@private
+---Returns a string that represents the current object.
+---@return string
+function Deque:__tostring()
+    return require("collections.util").iter_inspect(self, Deque, "Deque")
 end
 
 return Deque

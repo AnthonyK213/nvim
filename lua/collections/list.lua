@@ -31,6 +31,24 @@ function List.new(...)
     return list
 end
 
+---Create `List` from an iterable collection.
+---@param iterable any An iterable collection.
+---@return collections.List
+function List.from(iterable)
+    local data = {}
+    local index = 0
+    for _, v in Iterator.get(iterable):consume() do
+        index = index + 1
+        data[index] = v
+    end
+    local list = {
+        data = data,
+        length = index,
+    }
+    setmetatable(list, List)
+    return list
+end
+
 ---@private
 ---Boundary check.
 ---@param index integer
@@ -53,47 +71,6 @@ function List:boundary_check(index, count, min, max, backward)
     if index < (min or 1) or index > (max or self:count()) then
         error("Index out of bounds")
     end
-end
-
----Create `List` from a list-like table or another `List`.
----@param list any[]|collections.List
----@param count? integer
----@return collections.List
-function List.from(list, count)
-    vim.validate { list = { list, "table" } }
-
-    local function new(source, length)
-        local data = {}
-        for i = 1, length, 1 do
-            data[i] = source[i]
-        end
-        local o = {
-            data = data,
-            length = length,
-        }
-        setmetatable(o, List)
-        return o
-    end
-
-    if vim.tbl_islist(list) then
-        if not count then
-            vim.notify("It's better to specify the count of list", vim.log.levels.WARN)
-        end
-        return new(list, count or #list)
-    elseif getmetatable(list) == List then
-        return new(list.data, list.length)
-    end
-
-    error("Input list is invalid")
-end
-
----@private
----Set the element at the specified index of the `List`.
----@param index integer
----@param value any
-function List:__newindex(index, value)
-    self:boundary_check(index)
-    self.data[index] = value
 end
 
 ---Gets the number of elements contained in the `List`.
@@ -182,35 +159,6 @@ function List:unpack(i, j)
     return unpack(self.data, i or 1, j or self.length)
 end
 
----@private
----Returns a string that represents the current object.
----@return string
-function List:__tostring()
-    local visited = {}
-
-    local function _str(obj)
-        if getmetatable(obj) == List then
-            local index = require("utility.lib").tbl_find_first(visited, obj)
-            if index > 0 then
-                return "List<" .. index - 1 .. ">"
-            else
-                table.insert(visited, obj)
-                local result = "List<" .. #visited - 1 .. ">{ "
-                for i = 1, obj.length, 1 do
-                    result = result .. _str(obj.data[i])
-                    if i ~= obj.length then
-                        result = result .. ", "
-                    end
-                end
-                return result .. " }"
-            end
-        end
-        return tostring(obj)
-    end
-
-    return _str(self)
-end
-
 ---Sort the elements in the entire `List` using the specified `comparison`.
 ---@param comparison? fun(a: any, b: any):boolean The function to use when comparing elements.
 function List:sort(comparison)
@@ -234,18 +182,19 @@ end
 ---@param count integer The number of elements in the range.
 ---@return collections.List slice A shallow copy of a range of elements in the source `List`.
 function List:get_range(index, count)
-    local data = {}
+    local list = List()
     for i = 1, count, 1 do
-        data[i] = self[index + i - 1]
+        list.data[i] = self[index + i - 1]
     end
-    return List.from(data, count)
+    list.length = count
+    return list
 end
 
 ---Add the elements of the specified collection to the end of the `List`.
 ---@param iterable any The collection whose elements should be added to the end of the `List`.
 function List:add_range(iterable)
     local i = 0
-    for _, v in Iterator.get(iterable)() do
+    for _, v in Iterator.get(iterable):consume() do
         i = i + 1
         self.data[self.length + i] = v
     end
@@ -265,7 +214,7 @@ function List:insert_range(index, iterable)
     end
 
     local j = 0
-    for _, v in Iterator.get(iterable)() do
+    for _, v in Iterator.get(iterable):consume() do
         self.data[index + j] = v
         j = j + 1
     end
@@ -418,6 +367,22 @@ function List:__add(collection)
     local result = self:get_range(1, self.length)
     result:add_range(collection)
     return result
+end
+
+---@private
+---Set the element at the specified index of the `List`.
+---@param index integer
+---@param value any
+function List:__newindex(index, value)
+    self:boundary_check(index)
+    self.data[index] = value
+end
+
+---@private
+---Returns a string that represents the current object.
+---@return string
+function List:__tostring()
+    return require("collections.util").iter_inspect(self, List, "List")
 end
 
 return List

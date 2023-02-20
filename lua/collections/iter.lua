@@ -23,10 +23,9 @@ function Iterator.get(iterable)
     return iter
 end
 
----@private
 ---Consume the iterator.
 ---@return unknown
-function Iterator:__call()
+function Iterator:consume()
     return lib.tbl_unpack(self.args)
 end
 
