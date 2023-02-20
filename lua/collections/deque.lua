@@ -177,6 +177,24 @@ function Deque:iter()
     end
 end
 
+---Rotates the deque `mid` places to the left.
+---@param mid integer
+function Deque:rotate_left(mid)
+    mid = mid % self:count()
+    for _ = 1, mid, 1 do
+        self:push_back(self:pop_front())
+    end
+end
+
+---Rotates the deque `mid` places to the right.
+---@param mid integer
+function Deque:rotate_right(mid)
+    mid = mid % self:count()
+    for _ = 1, mid, 1 do
+        self:push_front(self:pop_back())
+    end
+end
+
 ---@private
 ---Returns a string that represents the current object.
 ---@return string
