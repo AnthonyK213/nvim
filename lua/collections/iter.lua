@@ -1,5 +1,5 @@
 ---@class collections.Iterator
----@field move_next fun():integer?, any
+---@field private move_next fun():integer?, any
 ---@operator call:collections.Iterator
 local Iterator = {}
 
@@ -36,6 +36,12 @@ function Iterator:consume()
     return self.move_next
 end
 
+---Get the next element of the iterator.
+---@return any
+function Iterator:next()
+    return select(2, self.move_next())
+end
+
 ---Applies a specified function to the corresponding elements of two sequences,
 ---producing a sequence of the results.
 ---@param iterator collections.Iterator
@@ -47,7 +53,7 @@ function Iterator:zip(iterator, selector)
         move_next = function()
             index = index + 1
             local i, v1 = self.move_next()
-            local j, v2 = iterator.move_next()
+            local j, v2 = iterator:consume()()
             if not (i or j) then return end
             return index, selector and selector(v1, v2) or { v1, v2 }
         end
