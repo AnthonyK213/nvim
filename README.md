@@ -413,6 +413,7 @@ Configuration for Neovim with some personal hacks.
 * [collections.Deque](./lua/collections/deque.lua) type
 * [collections.Iterator](./lua/collections/iter.lua) type
 * [collections.List](./lua/collections/list.lua) type
+* [collections.Stack](./lua/collections/stack.lua) type
 
 ## `futures`
 * [futures.Process](./lua/futures/proc.lua) type

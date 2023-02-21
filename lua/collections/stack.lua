@@ -1,10 +1,13 @@
 ---@class collections.Stack
 ---@field private data table
 ---@field private top integer
+---@operator call:collections.Stack
 local Stack = {}
 
 ---@private
 Stack.__index = Stack
+
+setmetatable(Stack, { __call = function(o) return o.new() end })
 
 ---Constructor.
 ---@return collections.Stack
