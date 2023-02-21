@@ -64,11 +64,11 @@ function List:boundary_check(index, count, min, max, backward)
         if math.floor(count) ~= count then
             error("Count must be an integer")
         elseif count < 0
-            or (backward and index < count or index + count > self:count() + 1) then
+            or (backward and index < count or index + count > self.length + 1) then
             error("Count out of bounds")
         end
     end
-    if index < (min or 1) or index > (max or self:count()) then
+    if index < (min or 1) or index > (max or self.length) then
         error("Index out of bounds")
     end
 end
@@ -160,9 +160,10 @@ function List:unpack(i, j)
 end
 
 ---Sort the elements in the entire `List` using the specified `comparison`.
----@param comparison? fun(a: any, b: any):boolean The function to use when comparing elements.
-function List:sort(comparison)
-    table.sort(self.data, comparison)
+---@generic T
+---@param comparer? fun(a: T, b: T):boolean The function to use when comparing elements.
+function List:sort(comparer)
+    table.sort(self.data, comparer)
 end
 
 ---Get the iterator of the `List`.
@@ -357,6 +358,60 @@ function List:remove_all(match)
         end
     end
     return count
+end
+
+---Searches a range of elements in the sorted `List` for a element using the
+---specified comparer and returns the one-based index of the element.
+---@generic T
+---@param item T The object to locate.
+---@param index? integer The one-based starting index of the range to search.
+---@param count? integer The length of the range to search.
+---@param comparer? fun(x: T, y: T):integer Comparer to compare elements.
+---  - `x` is less than `y`: Less than zero;
+---  - `x` equals `y`: 0;
+---  - `x` is greater than `y`: Greater than zero.
+---@return integer position The one-based index of item in the sorted `List`, if item is found; otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or, if there is no larger element, the bitwise complement of Count.
+function List:binary_search(item, index, count, comparer)
+    index = index or 1
+    count = count or self.length
+    comparer = comparer or function (x, y)
+        if x < y then return -1
+        elseif x == y then return 0
+        else return 1 end
+    end
+    self:boundary_check(index, count)
+    local u, v = index, index + count - 1
+    local c_u = comparer(item, self[u])
+    local c_v = comparer(item, self[v])
+    if c_u == 0 then
+        return u
+    elseif c_v == 0 then
+        return v
+    elseif c_u < 0 then
+        return bit.bnot(u)
+    elseif c_v > 0 then
+        return bit.bnot(v + 1)
+    end
+    while u < v - 1 do
+        local mid = bit.rshift(u + v, 1)
+        local c = comparer(item, self[mid])
+        if c < 0 then
+            v = mid
+        elseif c == 0 then
+            return mid
+        else
+            u = mid
+        end
+    end
+    c_u = comparer(item, self[u])
+    c_v = comparer(item, self[v])
+    if c_u == 0 then
+        return u
+    elseif c_v == 0 then
+        return v
+    else
+        return bit.bnot(v)
+    end
 end
 
 ---@private
