@@ -410,12 +410,13 @@ Configuration for Neovim with some personal hacks.
 # API
 
 ## `collections`
-* [collections.List](./lua/collections/list.lua) type
 * [collections.Deque](./lua/collections/deque.lua) type
+* [collections.Iterator](./lua/collections/iter.lua) type
+* [collections.List](./lua/collections/list.lua) type
 
 ## `futures`
-* [futures.Task](./lua/futures/task.lua) type
 * [futures.Process](./lua/futures/proc.lua) type
+* [futures.Task](./lua/futures/task.lua) type
 * [futures.Terminal](./lua/futures/term.lua) type
 
 ## `utility`

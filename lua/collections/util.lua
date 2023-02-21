@@ -1,3 +1,4 @@
+local Iterator = require("collections.iter")
 local M = {}
 
 ---Gets a human-readable representation of the given iterable collection.
@@ -30,6 +31,25 @@ function M.iter_inspect(iterable, meta, name)
         end
     end
     return str(iterable)
+end
+
+---Equality test.
+---@param a any
+---@param b any
+---@return boolean
+function M.is_equal(a, b)
+    if not getmetatable(a) or getmetatable(a) ~= getmetatable(b) then
+        return rawequal(a, b)
+    end
+    if a:count() ~= b:count() then
+        return false
+    end
+    for _, tup in Iterator(a):zip(Iterator(b)):consume() do
+        if not M.is_equal(tup[1], tup[2]) then
+            return false
+        end
+    end
+    return true
 end
 
 return M
