@@ -70,7 +70,7 @@ function Stack:contains(item)
     return false
 end
 
----Get the iterator of the `List`.
+---Get the iterator of the `Stack`.
 ---@return fun():integer?, any iterator
 function Stack:iter()
     local index = 0

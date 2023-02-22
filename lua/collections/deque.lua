@@ -127,6 +127,18 @@ function Deque:count()
     return self.back - self.front + 1
 end
 
+---Determines whether an element is in the deque.
+---@param item any The object to locate in the deque.
+---@return boolean result `true` if `item` is found in the deque; otherwise, `false`.
+function Deque:contains(item)
+    for i = self.front, self.back, 1 do
+        if self.data[i] == item then
+            return true
+        end
+    end
+    return false
+end
+
 ---Clears the deque, removing all values.
 function Deque:clear()
     for i = self.front, self.back, 1 do

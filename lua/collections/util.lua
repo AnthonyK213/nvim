@@ -6,15 +6,17 @@ local M = {}
 ---@param name string
 ---@return string
 function M.iter_inspect(iterable, meta, name)
+    local count = 0
     local visited = {}
     local function str(obj)
         if getmetatable(obj) == meta then
-            local index = require("utility.lib").tbl_find_first(visited, obj)
-            if index > 0 then
-                return string.format("%s<%d>", name, index - 1)
+            local index = visited[obj]
+            if index then
+                return string.format("%s<%d>", name, index)
             else
-                table.insert(visited, obj)
-                local result = string.format("%s<%d>{ ", name, #visited - 1)
+                visited[obj] = count
+                local result = string.format("%s<%d>{ ", name, count)
+                count = count + 1
                 for i, v in obj:iter() do
                     result = result .. str(v)
                     if i ~= obj:count() then
