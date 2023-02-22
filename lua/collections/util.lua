@@ -34,4 +34,32 @@ function M.iter_inspect(iterable, meta, name)
     return str(iterable)
 end
 
+---Get `contains` method of `iterable`.
+---@param iterable any
+---@return (fun(iterable: any, item: any):boolean)|nil
+function M.get_contains(iterable)
+    if vim.tbl_islist(iterable) then
+        return vim.tbl_contains
+    elseif vim.is_callable(iterable.contains) then
+        return iterable.contains
+    else
+        return
+    end
+end
+
+---Get `count` method of `iterable`.
+---@param iterable any
+---@return (fun(iterable: any):integer)|nil
+function M.get_count(iterable)
+    if vim.tbl_islist(iterable) then
+        return function(x)
+            return #x
+        end
+    elseif vim.is_callable(iterable.count) then
+        return iterable.count
+    else
+        return
+    end
+end
+
 return M
