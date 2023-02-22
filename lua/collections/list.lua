@@ -374,11 +374,15 @@ end
 function List:binary_search(item, index, count, comparer)
     index = index or 1
     count = count or self.length
-    comparer = comparer or function (x, y)
-        if x < y then return -1
-        elseif x == y then return 0
-        else return 1 end
-    end
+    comparer = comparer or function(x, y)
+            if x < y then
+                return -1
+            elseif x == y then
+                return 0
+            else
+                return 1
+            end
+        end
     self:boundary_check(index, count)
     local u, v = index, index + count - 1
     local c_u = comparer(item, self[u])
@@ -414,6 +418,13 @@ function List:binary_search(item, index, count, comparer)
     end
 end
 
+---Equality test (raw).
+---@param list collections.List
+---@return boolean
+function List:eq(list)
+    return rawequal(self, list)
+end
+
 ---@private
 ---Add up two lists.
 ---@param collection any The collection whose elements should be added to the end of the `List`.
@@ -422,6 +433,22 @@ function List:__add(collection)
     local result = self:get_range(1, self.length)
     result:add_range(collection)
     return result
+end
+
+---@private
+---Equality test.
+---@param list collections.List
+---@return boolean
+function List:__eq(list)
+    if getmetatable(list) ~= List or self:count() ~= list:count() then
+        return false
+    end
+    for i, v in self:iter() do
+        if v ~= list[i] then
+            return false
+        end
+    end
+    return true
 end
 
 ---@private
