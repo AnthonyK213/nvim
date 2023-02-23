@@ -9,7 +9,7 @@ Stack.__index = Stack
 
 setmetatable(Stack, { __call = function(o) return o.new() end })
 
----Constructor.
+---Create an empty stack.
 ---@return collections.Stack
 function Stack.new()
     local stack = {

@@ -11,7 +11,8 @@ LinkedListNode.__index = LinkedListNode
 
 setmetatable(LinkedListNode, { __call = function(o, v) return o.new(v) end })
 
----Constructor.
+---Create a node which contains `value`.
+---The created node does not belong to any `LinkedList`.
 ---@param value any
 ---@return collections.LinkedListNode
 function LinkedListNode.new(value)
@@ -22,7 +23,7 @@ function LinkedListNode.new(value)
     return node
 end
 
----Get the node value.
+---Get the node value it contains.
 ---@return any
 function LinkedListNode:value()
     return self._data
@@ -47,7 +48,7 @@ function LinkedListNode:next()
 end
 
 ---@private
----comment
+---Returns a string that represents the current object.
 ---@return string
 function LinkedListNode:__tostring()
     return string.format("Node(%s)", tostring(self._data))
@@ -67,7 +68,7 @@ LinkedList.__index = LinkedList
 
 setmetatable(LinkedList, { __call = function(o) return o.new() end })
 
----Constructor.
+---Creat an empty linked list.
 ---@return collections.LinkedList
 function LinkedList.new()
     local linked_list = {
@@ -308,11 +309,13 @@ function LinkedList:find_last(value)
 end
 
 ---@private
+---Returns a string that represents the current object.
+---@return string
 function LinkedList:__tostring()
     return require("collections.util").iter_inspect(self, LinkedList, "LinkedList", " <-> ")
 end
 
 return {
-    LinkedListNode = LinkedListNode,
     LinkedList = LinkedList,
+    LinkedListNode = LinkedListNode,
 }
