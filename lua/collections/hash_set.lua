@@ -32,6 +32,17 @@ function HashSet.new(...)
     return hash_set
 end
 
+---Create `HashSet` from an iterable collection.
+---@param iterable any An iterable collection.
+---@return collections.HashSet
+function HashSet.from(iterable)
+    local hash_set = HashSet()
+    for _, v in Iterator(iterable):consume() do
+        hash_set:add(v)
+    end
+    return hash_set
+end
+
 ---Adds the specified element to a set.
 ---@param item any The element to add to the set.
 ---@return boolean ok `true` if the element is added to the `HashSet`; false if the element is already present.

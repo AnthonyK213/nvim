@@ -10,21 +10,26 @@ local Deque = {}
 ---@private
 Deque.__index = Deque
 
-setmetatable(Deque, { __call = function(o) return o.new() end })
+setmetatable(Deque, { __call = function(o, ...) return o.new(...) end })
 
----Creates an empty deque.
+---Constructor.
 ---@return collections.Deque
-function Deque.new()
+function Deque.new(...)
+    local count = select("#", ...)
+    local front = -bit.rshift(count, 1)
     local deque = {
         data = {},
-        front = 0,
-        back = -1,
+        front = front,
+        back = front + count - 1,
     }
+    for i = 1, count, 1 do
+        deque.data[i + front - 1] = select(i, ...)
+    end
     setmetatable(deque, Deque)
     return deque
 end
 
----Create `List` from a list-like table or another `List`.
+---Create `Deque` from an iterable collection.
 ---@param iterable any An iterable collection.
 ---@return collections.Deque
 function Deque.from(iterable)
@@ -107,29 +112,29 @@ function Deque:pop_front()
     return item
 end
 
----Appends an element to the back of the deque.
+---Appends an element to the back of the `Deque`.
 ---@param item any
 function Deque:push_back(item)
     self.back = self.back + 1
     self.data[self.back] = item
 end
 
----Prepends an element to the deque.
+---Prepends an element to the `Deque`.
 ---@param item any
 function Deque:push_front(item)
     self.front = self.front - 1
     self.data[self.front] = item
 end
 
----Returns the number of the elements in the deque.
+---Returns the number of the elements in the `Deque`.
 ---@return integer
 function Deque:count()
     return self.back - self.front + 1
 end
 
----Determines whether an element is in the deque.
----@param item any The object to locate in the deque.
----@return boolean result `true` if `item` is found in the deque; otherwise, `false`.
+---Determines whether an element is in the `Deque`.
+---@param item any The object to locate in the `Deque`.
+---@return boolean result `true` if `item` is found in the `Deque`; otherwise, `false`.
 function Deque:contains(item)
     for i = self.front, self.back, 1 do
         if self.data[i] == item then
@@ -162,7 +167,7 @@ function Deque:insert(index, item)
     self.back = self.back + 1
 end
 
----Removes and returns the element at one-based `index` from the deque.
+---Removes and returns the element at one-based `index` from the `Deque`.
 ---@param index integer The one-based index of the element to remove.
 ---@return any item The removed item.
 function Deque:remove_at(index)
@@ -177,7 +182,7 @@ function Deque:remove_at(index)
     return item
 end
 
----Get the iterator of the deque.
+---Get the iterator of the `Deque`.
 ---@return fun():integer?, any iterator
 function Deque:iter()
     local index = self.front - 1
