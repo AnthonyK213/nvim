@@ -6,9 +6,9 @@ if not _G.NULL then
     _G.NULL = {}
 end
 
----@class collections.HashSet
----@field private length integer
----@field private data table
+---@class collections.HashSet : collections.Iterable
+---@field private _length integer
+---@field private _data table
 ---@operator call:collections.HashSet
 local HashSet = {}
 
@@ -21,8 +21,8 @@ setmetatable(HashSet, { __call = function(o, ...) return o.new(...) end })
 ---@return collections.HashSet
 function HashSet.new(...)
     local hash_set = {
-        length = 0,
-        data = {},
+        _length = 0,
+        _data = {},
     }
     setmetatable(hash_set, HashSet)
     for i = 1, select("#", ...), 1 do
@@ -33,7 +33,7 @@ function HashSet.new(...)
 end
 
 ---Create `HashSet` from an iterable collection.
----@param iterable any An iterable collection.
+---@param iterable any[]|collections.Iterable An iterable collection.
 ---@return collections.HashSet
 function HashSet.from(iterable)
     local hash_set = HashSet()
@@ -50,20 +50,20 @@ function HashSet:add(item)
     if item == nil then
         item = NULL
     end
-    if self.data[item] ~= nil then
+    if self._data[item] ~= nil then
         return false
     end
-    self.data[item] = true
-    self.length = self.length + 1
+    self._data[item] = true
+    self._length = self._length + 1
     return true
 end
 
 ---Removes all elements from a `HashSet`.
 function HashSet:clear()
-    for v, _ in pairs(self.data) do
+    for v, _ in pairs(self._data) do
         self[v] = nil
     end
-    self.length = 0
+    self._length = 0
 end
 
 ---Determines whether a `HashSet` contains the specified element.
@@ -73,17 +73,17 @@ function HashSet:contains(item)
     if item == nil then
         item = NULL
     end
-    return self.data[item] ~= nil
+    return self._data[item] ~= nil
 end
 
 ---Gets the number of elements that are contained in a set.
 ---@return integer
 function HashSet:count()
-    return self.length
+    return self._length
 end
 
 ---Removes all elements in the specified collection from the current `HashSet`.
----@param iterable any The collection of items to remove from the `HashSet`.
+---@param iterable any[]|collections.Iterable The collection of items to remove from the `HashSet`.
 function HashSet:except_with(iterable)
     for _, v in Iterator(iterable):consume() do
         self:remove(v)
@@ -93,15 +93,16 @@ end
 ---Get the iterator of the `HashSet`.
 ---@return fun():integer?, any iterator
 function HashSet:iter()
-    local keys = vim.tbl_keys(self.data)
     local index = 0
+    local v
     return function()
         index = index + 1
-        if index <= self.length then
-            if keys[index] == NULL then
+        v = next(self._data, v)
+        if v ~= nil then
+            if v == NULL then
                 return index, nil
             else
-                return index, keys[index]
+                return index, v
             end
         end
     end
@@ -109,13 +110,13 @@ end
 
 ---Modifies the current `HashSet` to contain only elements that are present in
 ---that object and in the specified collection.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 function HashSet:intersect_with(iterable)
     local contains = util.get_contains(iterable)
     if not contains then
         return
     end
-    for v, _ in pairs(self.data) do
+    for v, _ in pairs(self._data) do
         local u
         if v == NULL then
             u = nil
@@ -123,15 +124,15 @@ function HashSet:intersect_with(iterable)
             u = v
         end
         if not contains(iterable, u) then
-            self.data[v] = nil
-            self.length = self.length - 1
+            self._data[v] = nil
+            self._length = self._length - 1
         end
     end
 end
 
 ---@private
 ---Determines whether a `HashSet` is a [proper] subset of the specified collection.
----@param iterable any
+---@param iterable any[]|collections.Iterable
 ---@param proper boolean
 ---@return boolean
 function HashSet:_is_subset_of(iterable, proper)
@@ -148,7 +149,7 @@ function HashSet:_is_subset_of(iterable, proper)
     if not contains then
         return false
     end
-    for v, _ in pairs(self.data) do
+    for v, _ in pairs(self._data) do
         local u
         if v == NULL then
             u = nil
@@ -164,7 +165,7 @@ end
 
 ---@private
 ---Determines whether a `HashSet` is a [proper] superset of the specified collection.
----@param iterable any
+---@param iterable any[]|collections.Iterable
 ---@param proper boolean
 ---@return boolean
 function HashSet:_is_superset_of(iterable, proper)
@@ -186,35 +187,35 @@ function HashSet:_is_superset_of(iterable, proper)
 end
 
 ---Determines whether a `HashSet` is a proper subset of the specified collection.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 ---@return boolean result `true` if the `HashSet` is a proper subset of other; otherwise, `false`.
 function HashSet:is_proper_subset_of(iterable)
     return self:_is_subset_of(iterable, true)
 end
 
 ---Determines whether a `HashSet` is a proper superset of the specified collection.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 ---@return boolean result `true` if the `HashSet` is a proper superset of other; otherwise, `false`.
 function HashSet:is_proper_superset_of(iterable)
     return self:_is_superset_of(iterable, true)
 end
 
 ---Determines whether a `HashSet` is a subset of the specified collection.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 ---@return boolean result `true` if the `HashSet` is a subset of other; otherwise, `false`.
 function HashSet:is_subset_of(iterable)
     return self:_is_subset_of(iterable, false)
 end
 
 ---Determines whether a `HashSet` is a superset of the specified collection.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 ---@return boolean result `true` if the `HashSet` is a superset of other; otherwise, `false`.
 function HashSet:is_superset_of(iterable)
     return self:_is_superset_of(iterable, false)
 end
 
 ---Determines whether a `HashSet` and the specified collection contain the same elements.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 ---@return boolean is_equal `true` if the HashSet is equal to other; otherwise, false.
 function HashSet:set_equals(iterable)
     local count = util.get_count(iterable)
@@ -230,7 +231,7 @@ function HashSet:set_equals(iterable)
 end
 
 ---Determines whether the current `HashSet` and a specified collection share common elements.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 ---@return boolean overlapped `true` if the `HashSet` and other share at least one common element; otherwise, `false`.
 function HashSet:overlaps(iterable)
     for _, v in Iterator(iterable):consume() do
@@ -248,11 +249,11 @@ function HashSet:remove(item)
     if item == nil then
         item = NULL
     end
-    if self.data[item] == nil then
+    if self._data[item] == nil then
         return false
     end
-    self.data[item] = nil
-    self.length = self.length - 1
+    self._data[item] = nil
+    self._length = self._length - 1
     return true
 end
 
@@ -262,7 +263,7 @@ end
 ---@return integer count The number of elements that were removed from the `HashSet`.
 function HashSet:remove_where(match)
     local count = 0
-    for v, _ in pairs(self.data) do
+    for v, _ in pairs(self._data) do
         local u
         if v == NULL then
             u = nil
@@ -271,15 +272,15 @@ function HashSet:remove_where(match)
         end
         if match(u) then
             count = count + 1
-            self.data[v] = nil
-            self.length = self.length - 1
+            self._data[v] = nil
+            self._length = self._length - 1
         end
     end
     return count
 end
 
 ---Modifies the current `HashSet` to contain only elements that are present either in that object or in the specified collection, but not both.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 function HashSet:symmetric_except_with(iterable)
     for _, v in Iterator(iterable):consume() do
         if self:contains(v) then
@@ -291,7 +292,7 @@ function HashSet:symmetric_except_with(iterable)
 end
 
 ---Modifies the current `HashSet` to contain all elements that are present in itself, the specified collection, or both.
----@param iterable any The collection to compare to the current `HashSet`.
+---@param iterable any[]|collections.Iterable The collection to compare to the current `HashSet`.
 function HashSet:union_with(iterable)
     for _, v in Iterator(iterable):consume() do
         self:add(v)

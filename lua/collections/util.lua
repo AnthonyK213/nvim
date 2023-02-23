@@ -4,10 +4,12 @@ local M = {}
 ---@param iterable any
 ---@param meta table
 ---@param name string
+---@param separator? string
 ---@return string
-function M.iter_inspect(iterable, meta, name)
+function M.iter_inspect(iterable, meta, name, separator)
     local count = 0
     local visited = {}
+    separator = separator or ", "
     local function str(obj)
         if getmetatable(obj) == meta then
             local index = visited[obj]
@@ -20,7 +22,7 @@ function M.iter_inspect(iterable, meta, name)
                 for i, v in obj:iter() do
                     result = result .. str(v)
                     if i ~= obj:count() then
-                        result = result .. ", "
+                        result = result .. separator
                     end
                 end
                 return result .. " }"
@@ -35,8 +37,8 @@ function M.iter_inspect(iterable, meta, name)
 end
 
 ---Get `contains` method of `iterable`.
----@param iterable any
----@return (fun(iterable: any, item: any):boolean)|nil
+---@param iterable any[]|collections.Iterable
+---@return (fun(iterable: any[]|collections.Iterable, item: any):boolean)|nil
 function M.get_contains(iterable)
     if vim.tbl_islist(iterable) then
         return vim.tbl_contains
@@ -48,8 +50,8 @@ function M.get_contains(iterable)
 end
 
 ---Get `count` method of `iterable`.
----@param iterable any
----@return (fun(iterable: any):integer)|nil
+---@param iterable any[]|collections.Iterable
+---@return (fun(iterable: any[]|collections.Iterable):integer)?
 function M.get_count(iterable)
     if vim.tbl_islist(iterable) then
         return function(x)

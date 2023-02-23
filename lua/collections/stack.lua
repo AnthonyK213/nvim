@@ -1,6 +1,6 @@
----@class collections.Stack
----@field private data table
----@field private top integer
+---@class collections.Stack : collections.Iterable
+---@field private _data table
+---@field private _top integer
 ---@operator call:collections.Stack
 local Stack = {}
 
@@ -13,8 +13,8 @@ setmetatable(Stack, { __call = function(o) return o.new() end })
 ---@return collections.Stack
 function Stack.new()
     local stack = {
-        top = 0,
-        data = {},
+        _top = 0,
+        _data = {},
     }
     setmetatable(stack, Stack)
     return stack
@@ -22,48 +22,48 @@ end
 
 ---Removes all objects from the `Stack`.
 function Stack:clear()
-    for i = 1, self.top, 1 do
-        self.data[i] = nil
+    for i = 1, self._top, 1 do
+        self._data[i] = nil
     end
-    self.top = 0
+    self._top = 0
 end
 
 ---Gets the number of elements contained in the `Stack`.
 ---@return integer
 function Stack:count()
-    return self.top
+    return self._top
 end
 
 ---Returns the object at the top of the Stack without removing it.
 ---@return any
 function Stack:peek()
-    if self.top == 0 then error("Stack is empty") end
-    return self.data[self.top]
+    if self._top == 0 then error("Stack is empty") end
+    return self._data[self._top]
 end
 
 ---Removes and returns the object at the top of the `Stack`.
 ---@return any
 function Stack:pop()
-    if self.top == 0 then error("Stack is empty") end
-    local item = self.data[self.top]
-    self.data[self.top] = nil
-    self.top = self.top - 1
+    if self._top == 0 then error("Stack is empty") end
+    local item = self._data[self._top]
+    self._data[self._top] = nil
+    self._top = self._top - 1
     return item
 end
 
 ---Inserts an object at the top of the `Stack`.
 ---@param item any
 function Stack:push(item)
-    self.top = self.top + 1
-    self.data[self.top] = item
+    self._top = self._top + 1
+    self._data[self._top] = item
 end
 
 ---Determines whether an element is in the `Stack`.
 ---@param item any
 ---@return boolean
 function Stack:contains(item)
-    for i = 1, self.top, 1 do
-        if self.data[i] == item then
+    for i = 1, self._top, 1 do
+        if self._data[i] == item then
             return true
         end
     end
@@ -76,8 +76,8 @@ function Stack:iter()
     local index = 0
     return function()
         index = index + 1
-        if index <= self.top then
-            return index, self.data[index]
+        if index <= self._top then
+            return index, self._data[index]
         end
     end
 end
