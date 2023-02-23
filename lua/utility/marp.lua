@@ -57,7 +57,7 @@ function M.start()
     end
 
     if _marp:start() then
-        print("Marp: started")
+        print("Marp: Started")
     else
         _marp = nil
         print("Marp: Failed to start")
