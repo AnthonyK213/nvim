@@ -119,12 +119,12 @@ function LinkedList:add_after(node, new_node)
         error("`node` is not owned by the LinkedList")
     end
     local next = node:next()
-    new_node._list = self
-    new_node._next = next
-    new_node._prev = node
-    node._next = new_node
+    rawset(new_node, "_list", self)
+    rawset(new_node, "_next", next)
+    rawset(new_node, "_prev", node)
+    rawset(node, "_next", new_node)
     if next then
-        next._prev = new_node
+        rawset(next, "_prev", new_node)
     else
         self._last = new_node
     end
@@ -139,12 +139,12 @@ function LinkedList:add_before(node, new_node)
         error("`node` is not owned by the LinkedList")
     end
     local prev = node:prev()
-    new_node._list = self
-    new_node._prev = prev
-    new_node._next = node
-    node._prev = new_node
+    rawset(new_node, "_list", self)
+    rawset(new_node, "_prev", prev)
+    rawset(new_node, "_next", node)
+    rawset(node, "_prev", new_node)
     if prev then
-        prev._next = new_node
+        rawset(prev, "_next", new_node)
     else
         self._first = new_node
     end
@@ -155,11 +155,11 @@ end
 ---@param node collections.LinkedListNode
 function LinkedList:add_first(node)
     local first = self._first
-    node._list = self
-    node._next = first
-    node._prev = nil
+    rawset(node, "_list", self)
+    rawset(node, "_next", first)
+    rawset(node, "_prev", nil)
     if first then
-        first._prev = node
+        rawset(first, "_prev", node)
     else
         self._last = node
     end
@@ -171,11 +171,11 @@ end
 ---@param node collections.LinkedListNode
 function LinkedList:add_last(node)
     local last = self._last
-    node._list = self
-    node._prev = last
-    node._next = nil
+    rawset(node, "_list", self)
+    rawset(node, "_prev", last)
+    rawset(node, "_next", nil)
     if last then
-        last._next = node
+        rawset(last, "_next", node)
     else
         self._first = node
     end
@@ -187,7 +187,7 @@ end
 function LinkedList:clear()
     local node = self._first
     while node do
-        node._prev = nil
+        rawset(node, "_prev", nil)
         node = node:next()
         if node then
             node:prev().next = nil
@@ -231,20 +231,20 @@ function LinkedList:remove(node)
     if not self:_has_node(node) then
         error("`node` is not owned by the LinkedList")
     end
-    local prev = node._prev
-    local next = node._next
+    local prev = node:prev()
+    local next = node:next()
     if prev then
-        prev._next = next
+        rawset(prev, "_next", next)
     else
         self._first = next
     end
     if next then
-        next._prev = prev
+        rawset(next, "_prev", prev)
     else
         self._last = prev
     end
-    node._prev = nil
-    node._next = nil
+    rawset(node, "_prev", nil)
+    rawset(node, "_next", nil)
     self._length = self._length - 1
 end
 
@@ -257,11 +257,11 @@ function LinkedList:remove_first()
     local next = first:next()
     self._first = next
     if next then
-        next._prev = nil
+        rawset(next, "_prev", nil)
     else
         self._last = nil
     end
-    first._next = nil
+    rawset(first, "_next", nil)
     self._length = self._length - 1
 end
 
@@ -273,12 +273,12 @@ function LinkedList:remove_last()
     end
     local prev = last:prev()
     if prev then
-        prev._next = nil
+        rawset(prev, "_next", nil)
     else
         self._first = nil
     end
     self._last = prev
-    last._prev = nil
+    rawset(last, "_prev", nil)
     self._length = self._length - 1
 end
 
