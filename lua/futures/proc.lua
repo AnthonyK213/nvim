@@ -193,13 +193,13 @@ function Process:write_and_wait(data)
 end
 
 ---Sends te specified signal to the process and kill it.
----@param signum? integer|string Signal, default 15.
+---@param signum? integer|string Signal, default `SIGTERM`.
 ---@return integer ok 0 or fail.
 function Process:kill(signum)
     if self.has_exited then
         return 0
     end
-    return self.handle:kill(signum or 15)
+    return self.handle:kill(signum or vim.loop.constants.SIGTERM)
 end
 
 return Process
