@@ -97,8 +97,35 @@ function LinkedList:last()
 end
 
 ---@private
-function LinkedList:_has_node(node)
-    if getmetatable(node) ~= LinkedListNode or node:list() ~= self then
+---@return collections.LinkedListNode
+function LinkedList:_add_check(item)
+    local node
+
+    if getmetatable(item) == LinkedListNode then
+        if item:list() == self then
+            node = item
+        elseif item:list() == nil then
+            node = item
+            rawset(node, "_list", self)
+        else
+            error("The node is owned by another `LinkedList`")
+        end
+    else
+        node = LinkedListNode(item)
+        rawset(node, "_list", self)
+    end
+
+    return node
+end
+
+---@private
+function LinkedList:_owns_node(node)
+    return getmetatable(node) == LinkedListNode and node:list() == self
+end
+
+---@private
+function LinkedList:_contains_node(node)
+    if not self:_owns_node(node) then
         return false
     end
     local c = self._first
@@ -131,15 +158,13 @@ function LinkedList:has_loop()
     return false
 end
 
----Adds the specified new node after the specified existing node in the `LinkedList`.
+---Adds the specified new node or value after the specified existing node in the `LinkedList`.
 ---@param node collections.LinkedListNode
----@param new_node collections.LinkedListNode
-function LinkedList:add_after(node, new_node)
-    if not self:_has_node(node) then
-        error("`node` is not owned by the LinkedList")
-    end
+---@param item any
+function LinkedList:add_after(node, item)
+    assert(self:_contains_node(node), "LinkedList does not contain the `node`")
+    local new_node = self:_add_check(item)
     local next = node:next()
-    rawset(new_node, "_list", self)
     rawset(new_node, "_next", next)
     rawset(new_node, "_prev", node)
     rawset(node, "_next", new_node)
@@ -151,15 +176,13 @@ function LinkedList:add_after(node, new_node)
     self._length = self._length + 1
 end
 
----Adds a new node before an existing node in the `LinkedList`.
+---Adds a new node or value before an existing node in the `LinkedList`.
 ---@param node collections.LinkedListNode
----@param new_node collections.LinkedListNode
-function LinkedList:add_before(node, new_node)
-    if not self:_has_node(node) then
-        error("`node` is not owned by the LinkedList")
-    end
+---@param item any
+function LinkedList:add_before(node, item)
+    assert(self:_contains_node(node), "LinkedList does not contain the `node`")
+    local new_node = self:_add_check(item)
     local prev = node:prev()
-    rawset(new_node, "_list", self)
     rawset(new_node, "_prev", prev)
     rawset(new_node, "_next", node)
     rawset(node, "_prev", new_node)
@@ -172,10 +195,10 @@ function LinkedList:add_before(node, new_node)
 end
 
 ---Adds a new node or value at the start of the `LinkedList`.
----@param node collections.LinkedListNode
-function LinkedList:add_first(node)
+---@param item any
+function LinkedList:add_first(item)
+    local node = self:_add_check(item)
     local first = self._first
-    rawset(node, "_list", self)
     rawset(node, "_next", first)
     rawset(node, "_prev", nil)
     if first then
@@ -188,10 +211,10 @@ function LinkedList:add_first(node)
 end
 
 ---Adds a new node at the end of the `LinkedList`.
----@param node collections.LinkedListNode
-function LinkedList:add_last(node)
+---@param item any
+function LinkedList:add_last(item)
+    local node = self:_add_check(item)
     local last = self._last
-    rawset(node, "_list", self)
     rawset(node, "_prev", last)
     rawset(node, "_next", nil)
     if last then
@@ -248,9 +271,7 @@ end
 ---Removes the specified node from the `LinkedList`.
 ---@param node collections.LinkedListNode
 function LinkedList:remove(node)
-    if not self:_has_node(node) then
-        error("`node` is not owned by the LinkedList")
-    end
+    assert(self:_contains_node(node), "LinkedList does not contain the `node`")
     local prev = node:prev()
     local next = node:next()
     if prev then

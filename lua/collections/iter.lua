@@ -54,7 +54,7 @@ function Iterator:zip(iterator, selector)
             index = index + 1
             local i, v1 = self._next()
             local j, v2 = iterator:consume()()
-            if not (i or j) then return end
+            if not (i and j) then return end
             return index, selector and selector(v1, v2) or { v1, v2 }
         end
     }

@@ -4,7 +4,7 @@ local Iterator = require("collections.iter")
 ---@field private _data any[]
 ---@field private _length integer
 ---@operator call:collections.List
----@operator add(any[]|collections.List):collections.List
+---@operator add(any[]|collections.Iterable):collections.List
 local List = {}
 
 ---@private
