@@ -98,7 +98,7 @@ end
 
 ---@private
 function LinkedList:_has_node(node)
-    if node:list() ~= self then
+    if getmetatable(node) ~= LinkedListNode or node:list() ~= self then
         return false
     end
     local c = self._first
@@ -108,6 +108,26 @@ function LinkedList:_has_node(node)
         end
         c = c:next()
     end
+    return false
+end
+
+---Determines whether any loops in the `LinkedList`
+---@return boolean
+function LinkedList:has_loop()
+    local fast, slow = self._first, self._first
+
+    while fast and slow do
+        slow = slow:next()
+        fast = fast:next()
+        if not fast then
+            return false
+        end
+        fast = fast:next()
+        if fast == slow then
+            return true
+        end
+    end
+
     return false
 end
 
@@ -312,6 +332,7 @@ end
 ---Returns a string that represents the current object.
 ---@return string
 function LinkedList:__tostring()
+    assert(not self:has_loop(), "Loop found")
     return require("collections.util").iter_inspect(self, LinkedList, "LinkedList", " <-> ")
 end
 
