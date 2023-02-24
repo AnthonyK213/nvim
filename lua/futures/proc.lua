@@ -15,9 +15,9 @@ local util = require("futures.util")
 ---@field on_stdin? fun(data: string) Callback on standard input.
 ---@field on_stdout? fun(data: string) Callback on standard output.
 ---@field on_stderr? fun(data: string) Callbakc on standard error.
----@field protected stdin uv_pipe_t Standard input handle.
----@field protected stdout uv_pipe_t Standard output handle.
----@field protected stderr uv_pipe_t Standard error handle.
+---@field protected stdin userdata Standard input handle.
+---@field protected stdout userdata Standard output handle.
+---@field protected stderr userdata Standard error handle.
 ---@field stdin_buf string[] Standard input buffer.
 ---@field stdout_buf string[] Standard output buffer.
 ---@field stderr_buf string[] Standard error buffer.
