@@ -1,5 +1,15 @@
 local M = {}
 
+---Receives a value of any type and converts it to a string in a human-readable format.
+---@param v any
+---@return string
+function M.to_string(v)
+    if type(v) == "string" or not getmetatable(v) then
+        return vim.inspect(v)
+    end
+    return tostring(v)
+end
+
 ---Gets a human-readable representation of the given iterable collection.
 ---@param iterable any
 ---@param meta table
@@ -27,10 +37,8 @@ function M.iter_inspect(iterable, meta, name, separator)
                 end
                 return result .. " }"
             end
-        elseif type(obj) == "string" then
-            return vim.inspect(obj)
         else
-            return tostring(obj)
+            return M.to_string(obj)
         end
     end
     return str(iterable)

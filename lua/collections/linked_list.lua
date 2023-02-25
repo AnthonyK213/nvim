@@ -51,7 +51,7 @@ end
 ---Returns a string that represents the current object.
 ---@return string
 function LinkedListNode:__tostring()
-    return string.format("Node(%s)", tostring(self._data))
+    return string.format("Node(%s)", require("collections.util").to_string(self._data))
 end
 
 --------------------------------------------------------------------------------
