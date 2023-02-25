@@ -48,6 +48,7 @@ local opt = {
         font_size = 13,
         font_half = "Monospace",
         font_full = "Monospace",
+        cursor_blink = false,
     },
     lsp = {},
     ts = {

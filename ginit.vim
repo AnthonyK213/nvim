@@ -151,6 +151,12 @@ set mouse=a
 
 
 " GUI
+"" Cursor blink
+if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
+  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+        \,a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor
+        \,sm:block-blinkwait240-blinkoff150-blinkon150
+endif
 "" neovim-qt
 call s:gui_set_option_table(s:nvimqt_option_table)
 "" Fvim

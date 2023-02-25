@@ -83,6 +83,8 @@ Configuration for Neovim with some personal hacks.
         "scroll_bar": false,
         // (number) Line space
         "line_space": 0.0,
+        // (boolean) Cursor blink
+        "cursor_blink": true,
         // (number) GUI font size
         "font_size": 13,
         // (string) See `guifont`
