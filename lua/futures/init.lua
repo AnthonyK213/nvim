@@ -118,7 +118,7 @@ function M.spawn(task)
         else
             _f = task
         end
-    elseif _type == "table" and getmetatable(task) == Future then
+    elseif getmetatable(task) == Future then
         if _context then
             _f = function()
                 M.await(task)

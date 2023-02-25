@@ -175,7 +175,7 @@ kbd("Background toggle", "n", "<leader>bg", function()
     end
     if vim.g._my_theme_switchable == true then
         vim.o.bg = vim.o.bg == "dark" and "light" or "dark"
-    elseif type(vim.g._my_theme_switchable) == "function" then
+    elseif vim.is_callable(vim.g._my_theme_switchable) then
         vim.g._my_theme_switchable()
     end
 end)

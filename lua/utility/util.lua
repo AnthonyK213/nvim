@@ -454,7 +454,7 @@ function M.bg_lock_toggle()
             local bg = (hour > 6 and hour < 18) and "light" or "dark"
             if vim.g._my_theme_switchable == true then
                 if vim.o.bg ~= bg then vim.o.bg = bg end
-            elseif type(vim.g._my_theme_switchable) == "function" then
+            elseif vim.is_callable(vim.g._my_theme_switchable) then
                 vim.g._my_theme_switchable(bg)
             else
                 _bg_timer:stop()
