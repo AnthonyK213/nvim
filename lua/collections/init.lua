@@ -8,9 +8,9 @@ local files = {
     "util",
 }
 
----@class collection
----@field reload fun():collection
-local collection = {
+---@class collections
+---@field reload fun():collections
+local collections = {
     Deque = require("collections.deque"),
     HashSet = require("collections.hash_set"),
     Iterator = require("collections.iter"),
@@ -20,7 +20,7 @@ local collection = {
     Stack = require("collections.stack"),
 }
 
-setmetatable(collection, {
+setmetatable(collections, {
     __index = {
         _VERSION = "0.1.0",
         _DESCRIPTION = [[Contains interfaces and classes that define various ]]
@@ -36,4 +36,4 @@ setmetatable(collection, {
     }
 })
 
-return collection
+return collections
