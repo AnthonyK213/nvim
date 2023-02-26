@@ -1,6 +1,5 @@
 local uv = vim.loop
 local lib = require("utility.lib")
-local util = require("futures.util")
 
 ---@class futures.Process Provides access and control to local processes.
 ---@field path string Path to the system local executable.
@@ -153,7 +152,7 @@ function Process:await()
     self.callback = function(_, code, signal)
         _c = code
         _s = signal
-        util.try_resume(_co)
+        assert(coroutine.resume(_co))
     end
     self:start()
     if not self.has_exited then

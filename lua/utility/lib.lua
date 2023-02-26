@@ -644,17 +644,53 @@ function M.tbl_unpack(pack, i)
     return unpack(pack, i or 1, pack.n)
 end
 
----Use **pcall()** to catch error and display it.
----@param func function The function to test.
----@param ... any Function arguments.
----@return boolean ok True if error free.
-function M.try(func, ...)
-    local ok, err = pcall(func, ...)
-    if not ok then
-        local msg = err:match("(E%d+:%s.+)$")
-        M.notify_err(msg and msg or "Error occured!")
+---Try-Catch-Finally.
+---@param try_block function
+---@return { catch: fun(catch_block: fun(ex: string)):{ finally: fun(finally_block: function) }, finally: fun(finally_block: function) }
+function M.try(try_block)
+    local status, err = true, nil
+
+    if type(try_block) == "function" then
+        status, err = xpcall(try_block, debug.traceback)
     end
-    return ok
+
+    ---Finally.
+    ---@param finally_block function
+    ---@param catch_block_declared boolean
+    local finally = function(finally_block, catch_block_declared)
+        if type(finally_block) == "function" then
+            finally_block()
+        end
+
+        if not catch_block_declared and not status then
+            error(err)
+        end
+    end
+
+    ---Catch.
+    ---@param catch_block fun(ex: string)
+    ---@return { finally: fun(finally_block: function) }
+    local catch = function(catch_block)
+        local catch_block_declared = type(catch_block) == "function"
+
+        if not status and catch_block_declared then
+            local ex = err or "Unknown error"
+            catch_block(ex)
+        end
+
+        return {
+            finally = function(finally_block)
+                finally(finally_block, catch_block_declared)
+            end
+        }
+    end
+
+    return {
+        catch = catch,
+        finally = function(finally_block)
+            finally(finally_block, false)
+        end
+    }
 end
 
 ---Encode `str` into URL format.

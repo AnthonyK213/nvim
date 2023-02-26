@@ -126,7 +126,9 @@ kbd("Run test", "n", "<F41>", function() require("utility.run").code_run("test")
 kbd("Run test", "n", "<C-S-F5>", function() require("utility.run").code_run("test") end)
 kbd("Show document", "n", "K", function()
     local word, _, _ = lib.get_word()
-    lib.try(vim.cmd.help, word)
+    if not pcall(vim.cmd.help, word) then
+        lib.notify_err(string.format("No help for %s", word))
+    end
 end)
 kbd("Search visual selection forward", "v", "*", function()
     local pat = lib.get_gv()

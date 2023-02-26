@@ -1,5 +1,4 @@
 local lib = require("utility.lib")
-local util = require("futures.util")
 local uv_callback_index = {
     fs_opendir = 2,
 }
@@ -130,7 +129,7 @@ function Task:await()
     if self.status == 0 then
         self.callback = function(...)
             self.result = lib.tbl_pack(...)
-            util.try_resume(_co)
+            assert(coroutine.resume(_co))
         end
         if self:start() then
             if self.status == -1 then

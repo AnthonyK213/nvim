@@ -1,7 +1,5 @@
 local M = {}
 local lib = require("utility.lib")
-local util = require("futures.util")
-local try = util.try_call
 
 ---@class futures.Future Represents an operation which will produce values in the future.
 ---@field private action function Function that represents the code to execute.
@@ -169,7 +167,7 @@ function M.join(fut_list, timeout)
                 result[i] = lib.tbl_pack(...)
                 count = count + 1
                 if count == fut_count then
-                    util.try_resume(_co)
+                    assert(coroutine.resume(_co))
                 end
             end
             fut:start()
@@ -184,7 +182,7 @@ function M.join(fut_list, timeout)
                         if count ~= fut_count then
                             print("Time out")
                         end
-                        util.try_resume(_co)
+                        assert(coroutine.resume(_co))
                     end
                 end))
             end
@@ -228,7 +226,7 @@ function M.select(fut_list)
                 if not done then
                     result = lib.tbl_pack(...)
                     done = true
-                    util.try_resume(_co)
+                    assert(coroutine.resume(_co))
                 end
             end
             fut:start()
@@ -300,10 +298,20 @@ M.fs = {
     ---@param path string The file to open for reading.
     ---@return string? content A string containing all the text in the file.
     read_all_text = function(path)
-        local fd = try(M.uv.fs_open, path, "r", 438)
-        local stat = try(M.uv.fs_fstat, fd)
-        local data = try(M.uv.fs_read, fd, stat.size, 0)
-        try(M.uv.fs_close, fd)
+        local err, fd, stat, data
+        err, fd = M.uv.fs_open(path, "r", 438)
+        assert(not err, err)
+        lib.try(function()
+            err, stat = M.uv.fs_fstat(fd)
+            assert(not err, err)
+            error("Fuck")
+            err, data = M.uv.fs_read(fd, stat.size, 0)
+            assert(not err, err)
+        end).catch(function(ex)
+            print(ex)
+        end).finally(function()
+            M.uv.fs_close(fd)
+        end)
         return data
     end
 }

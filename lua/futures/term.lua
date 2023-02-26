@@ -1,5 +1,4 @@
 local lib = require("utility.lib")
-local util = require("futures.util")
 
 ---@class futures.Terminal Represents a neovim terminal.
 ---@field cmd string[] Command with arguments.
@@ -119,7 +118,7 @@ function Terminal:await()
     self.callback = function(_, _, data, event)
         _d = data
         _e = event
-        util.try_resume(_co)
+        assert(coroutine.resume(_co))
     end
     self:start()
     if not self.has_exited then
