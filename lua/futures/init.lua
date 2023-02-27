@@ -304,7 +304,6 @@ M.fs = {
         lib.try(function()
             err, stat = M.uv.fs_fstat(fd)
             assert(not err, err)
-            error("Fuck")
             err, data = M.uv.fs_read(fd, stat.size, 0)
             assert(not err, err)
         end).catch(function(ex)
