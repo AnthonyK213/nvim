@@ -129,7 +129,6 @@ function Task:await()
     if self.status == 0 then
         self.callback = function(...)
             self.result = lib.tbl_pack(...)
-            print("Fuck", _co)
             assert(coroutine.resume(_co))
         end
         if self:start() then

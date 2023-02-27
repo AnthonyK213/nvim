@@ -49,14 +49,19 @@ function JoinHandle.new(co)
     return handle
 end
 
----Wait for the spawned task synchronously.
+---Wait for the associated thread to finish.
 function JoinHandle:join()
-    vim.wait(1e8, function()
-        return coroutine.status(self.co) == "dead"
-    end)
-    self.co = nil
+    if not coroutine.isyieldable() then
+        vim.wait(1e8, function()
+            return coroutine.status(self.co) == "dead"
+        end)
+        self.co = nil
+    else
+        self:await()
+    end
 end
 
+---@private
 ---Await the spawned task.
 function JoinHandle:await()
     if not coroutine.isyieldable() then
