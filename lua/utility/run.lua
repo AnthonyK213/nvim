@@ -451,6 +451,10 @@ local function vscode_tasks()
             end
         })
 
+        if not task then
+            return
+        end
+
         if vim.stricmp(task.type, "shell") == 0 then
             local cmd = task.command
             local args = task.args or {}
