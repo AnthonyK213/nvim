@@ -32,7 +32,6 @@ end
 
 ---@class futures.JoinHandle
 ---@field private co thread
----@field private context? thread
 local JoinHandle = {}
 
 ---@private
@@ -43,11 +42,11 @@ JoinHandle.__index = JoinHandle
 ---@param co thread
 ---@return futures.JoinHandle
 function JoinHandle.new(co)
-    local o = {
+    local handle = {
         co = co,
     }
-    setmetatable(o, JoinHandle)
-    return o
+    setmetatable(handle, JoinHandle)
+    return handle
 end
 
 ---Wait for the spawned task synchronously.
