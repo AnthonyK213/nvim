@@ -47,6 +47,7 @@ let g:_my_gui_line_space = 0
 let g:_my_gui_font_size = 13
 let g:_my_gui_font_half = 'Monospace'
 let g:_my_gui_font_full = 'Monospace'
+let g:_my_gui_cursor_blink = v:false
 let g:_my_use_coc = v:false
 let g:_my_lsp_clangd = v:false
 let g:_my_lsp_jedi_language_server = v:false

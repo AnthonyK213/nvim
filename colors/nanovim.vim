@@ -295,7 +295,7 @@ hi! link SpellCap SpellBad
 hi! link SpellRare SpellBad
 hi! link SpellLocal SpellBad
 " Diff
-hi! link DiffAdd Nano_Face_Strong
+hi! link DiffAdd Nano_Face_Salient
 hi! link DiffChange Nano_Face_Critical
 hi! link DiffDelete Nano_Face_Popout
 hi! link DiffText Nano_Face_Faded
@@ -441,8 +441,8 @@ hi! link VimwikiPre Nano_Face_Faded
 hi! link VimwikiPreDelim Nano_Face_Subtle
 " Neogit
 call s:h("NeogitNotificationInfo", { "fg": s:nano_color_salient })
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_popout })
-call s:h("NeogitNotificationInfo", { "fg": s:nano_color_critical })
+call s:h("NeogitNotificationWarning", { "fg": s:nano_color_popout })
+call s:h("NeogitNotificationError", { "fg": s:nano_color_critical })
 call s:h("NeogitDiffAddHighlight", {
       \ "fg": s:nano_color_salient,
       \ "bg": s:nano_color_subtle
