@@ -637,6 +637,7 @@ require("lazy").setup({
             { "<leader>ta", "<Cmd>TableAddFormula<CR>" },
             { "<leader>tc", "<Cmd>TableEvalFormulaLine<CR>" },
             { "<leader>tf", "<Cmd>TableModeRealign<CR>" },
+            { "<leader>tm", "<Cmd>TableModeToggle<CR>" },
         }
     },
     {
