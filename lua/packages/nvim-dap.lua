@@ -72,7 +72,7 @@ local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
 
 local dap_netcoredbg = A.new("cs", "coreclr", {
     type = "executable",
-    command = dir .. "/packages/netcoredbg/netcoredbg/netcoredbg",
+    command = vim.fn.exepath("netcoredbg"),
     args = { "--interpreter=vscode" }
 }, {
     {
@@ -98,8 +98,7 @@ local dap_netcoredbg = A.new("cs", "coreclr", {
 
 local dap_debugpy = A.new("python", "python", {
     type = "executable",
-    command = string.format("%s/packages/debugpy/venv/%s/python", dir, lib.has_windows() and "Scripts/" or "bin/"),
-    args = { "-m", "debugpy.adapter" },
+    command = vim.fn.exepath("debugpy-adapter"),
 }, {
     {
         type = "python",

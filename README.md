@@ -156,11 +156,11 @@ Configuration for Neovim with some personal hacks.
       // Debug Adapter Protocol
       "dap": {
         // (boolean) https://github.com/llvm/llvm-project
-        "lldb": false,
+        "lldb": true,
         // (boolean) https://github.com/Samsung/netcoredbg
-        "csharp": false,
+        "netcoredbg": true,
         // (boolean) https://github.com/microsoft/debugpy
-        "python": false
+        "debugpy": true
       },
       // Disabled built-in plugins
       "disable": [

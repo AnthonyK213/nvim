@@ -666,9 +666,9 @@ require("lazy").setup({
                             col = col - #context.p
                             if col == 0 then return true end
                             return not require("utility.syn").new(0, row, col):match {
-                                    vs = [[\v^rust(Identifier|Keyword|FuncName)$]],
-                                    ts = [[\v^(type|keyword|function)$]],
-                                }
+                                vs = [[\v^rust(Identifier|Keyword|FuncName)$]],
+                                ts = [[\v^(type|keyword|function)$]],
+                            }
                         end
                     },
                 }
@@ -935,6 +935,28 @@ require("lazy").setup({
                 config = true,
             },
             "Hoffs/omnisharp-extended-lsp.nvim",
+            {
+                "rcarriga/nvim-dap-ui",
+                event = "VeryLazy",
+                config = function()
+                    local dap, dapui = require("dap"), require("dapui")
+                    dapui.setup()
+                    dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+                    dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+                    dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+                end,
+                keys = {
+                    { "<leader>dn", function() require("dapui").toggle() end },
+                    { "<leader>df", function() require("dapui").float_element() end },
+                    { "<leader>dv", function() require("dapui").eval() end, mode = "v" },
+                },
+                dependencies = {
+                    {
+                        "mfussenegger/nvim-dap",
+                        config = function() require("packages.nvim-dap") end,
+                    },
+                }
+            }
         }
     },
     {
@@ -1001,28 +1023,6 @@ require("lazy").setup({
                 max_height = 0.9,
                 height = nil,
                 override = function(conf, _) return conf end,
-            },
-        }
-    },
-    {
-        "rcarriga/nvim-dap-ui",
-        event = "VeryLazy",
-        config = function ()
-            local dap, dapui = require("dap"), require("dapui")
-            dapui.setup()
-            dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
-            dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
-            dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
-        end,
-        keys = {
-            { "<leader>dn", function() require("dapui").toggle() end },
-            { "<leader>df", function() require("dapui").float_element() end },
-            { "<leader>dv", function() require("dapui").eval() end, mode = "v" },
-        },
-        dependencies = {
-            {
-                "mfussenegger/nvim-dap",
-                config = function() require("packages.nvim-dap") end,
             },
         }
     },
