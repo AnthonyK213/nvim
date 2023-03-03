@@ -1005,9 +1005,26 @@ require("lazy").setup({
         }
     },
     {
-        "mfussenegger/nvim-dap",
+        "rcarriga/nvim-dap-ui",
         event = "VeryLazy",
-        config = function() require("packages.nvim-dap") end,
+        config = function ()
+            local dap, dapui = require("dap"), require("dapui")
+            dapui.setup()
+            dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+            dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+            dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+        end,
+        keys = {
+            { "<leader>dn", function() require("dapui").toggle() end },
+            { "<leader>df", function() require("dapui").float_element() end },
+            { "<leader>dv", function() require("dapui").eval() end, mode = "v" },
+        },
+        dependencies = {
+            {
+                "mfussenegger/nvim-dap",
+                config = function() require("packages.nvim-dap") end,
+            },
+        }
     },
     -- Games
     {
