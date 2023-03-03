@@ -100,7 +100,7 @@ local dap_netcoredbg = A.new("cs", "coreclr", {
 
 local dap_debugpy = A.new("python", "python", lib.has_windows() and {
     type = "executable",
-    command = string.format("%s/packages/debugpy/venv/Scripts/python"),
+    command = string.format("%s/packages/debugpy/venv/Scripts/python", dir),
     args = { "-m", "debugpy.adapter" }
 } or {
     type = "executable",
