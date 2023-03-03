@@ -1,10 +1,7 @@
 local dap = require("dap")
 local dap_option = _my_core_opt.dap or {}
 local lib = require("utility.lib")
-local futures = require("futures")
-local Process = futures.Process
-local dir = vim.fn.stdpath("data") .. "/dap_adapters"
-if not lib.path_exists(dir) then vim.loop.fs_mkdir(dir, 448) end
+local dir = vim.fn.stdpath("data") .. "/mason"
 
 --#region Adapter
 ---@class A
@@ -12,7 +9,6 @@ if not lib.path_exists(dir) then vim.loop.fs_mkdir(dir, 448) end
 ---@field filetype string|string[]
 ---@field option table
 ---@field configuration table
----@field installer function
 local A = {}
 
 A.__index = A
@@ -22,15 +18,13 @@ A.__index = A
 ---@param typename string
 ---@param option table
 ---@param configuration table[]
----@param installer? function
 ---@return A
-function A.new(filetype, typename, option, configuration, installer)
+function A.new(filetype, typename, option, configuration)
     local o = {
         filetype = filetype,
         typename = typename,
         option = option,
         configuration = configuration,
-        installer = installer
     }
     setmetatable(o, A)
     return o
@@ -38,30 +32,26 @@ end
 
 ---Setup the adapter.
 function A:setup()
-    if vim.fn.executable(self.option.command) == 1 then
-        dap.adapters[self.typename] = self.option
-        for _, config in ipairs(self.configuration) do
-            config.type = self.typename
+    dap.adapters[self.typename] = self.option
+    for _, config in ipairs(self.configuration) do
+        config.type = self.typename
+    end
+    local ft = self.filetype
+    if type(ft) == "string" then
+        dap.configurations[ft] = self.configuration
+    elseif type(ft) == "table" then
+        for _, t in ipairs(ft) do
+            dap.configurations[t] = self.configuration
         end
-        if type(self.filetype) == "string" then
-            dap.configurations[self.filetype] = self.configuration
-        elseif type(self.filetype) == "table" then
-            for _, t in ipairs(self.filetype) do
-                dap.configurations[t] = self.configuration
-            end
-        end
-    else
-        if self.installer then self.installer(self) end
     end
 end
-
 --#endregion
 
 --#region Adapter instances
 local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
     type = "executable",
     command = "lldb-vscode",
-    name = "lldb"
+    name = "lldb",
 }, {
     {
         name = "Launch",
@@ -78,13 +68,11 @@ local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
         stopOnEntry = false,
         args = {},
     }
-}, vim.schedule_wrap(function()
-    vim.notify("Please install llvm with lldb-vscode")
-end))
+})
 
-local dap_csharp = A.new("cs", "coreclr", {
+local dap_netcoredbg = A.new("cs", "coreclr", {
     type = "executable",
-    command = dir .. "/netcoredbg/netcoredbg",
+    command = dir .. "/packages/netcoredbg/netcoredbg/netcoredbg",
     args = { "--interpreter=vscode" }
 }, {
     {
@@ -106,71 +94,27 @@ local dap_csharp = A.new("cs", "coreclr", {
         processId = require("dap.utils").pick_process,
         args = {}
     }
-}, vim.schedule_wrap(function()
-    local archive, archive_path, extract
-    local extract_cb = function(_, code, _)
-        if code == 0 then
-            vim.loop.fs_unlink(archive_path)
-            vim.notify("Installed netcoredbg")
-        end
-    end
-    local os_type = lib.get_os_type()
-    if os_type == lib.Os.Windows then
-        archive = "netcoredbg-win64.zip"
-        archive_path = dir .. "/" .. archive
-        extract = Process.new("powershell", {
-            args = { "-c", "Expand-Archive -Path " .. archive_path .. " -DestinationPath " .. dir }
-        }):continue_with(extract_cb)
-    elseif os_type == lib.Os.Linux then
-        archive = "netcoredbg-linux-amd64.tar.gz"
-        archive_path = dir .. "/" .. archive
-        extract = Process.new("tar", {
-            args = { "-xf", archive_path, "-C", dir }
-        }):continue_with(extract_cb)
-    else
-        return
-    end
-    local source = "https://github.com/Samsung/netcoredbg/releases/latest/download/" .. archive
-    local curl_args = { "-L", source, "-o", archive_path }
-    if _my_core_opt.dep.proxy then
-        vim.tbl_extend("keep", curl_args, { "-x", _my_core_opt.dep.proxy })
-    end
-    local download = Process.new("curl", { args = curl_args })
-    futures.queue { download, extract }
-end))
+})
 
-local dap_python = A.new("python", "python", {
+local dap_debugpy = A.new("python", "python", {
     type = "executable",
-    command = dir .. "/debugpy/" .. (lib.has_windows() and "Scripts/" or "bin/") .. "python",
-    args = { "-m", "debugpy.adapter" }
+    command = string.format("%s/packages/debugpy/venv/%s/python", dir, lib.has_windows() and "Scripts/" or "bin/"),
+    args = { "-m", "debugpy.adapter" },
 }, {
     {
+        type = "python",
         name = "Launch",
         request = "launch",
         program = "${file}",
         pythonPath = function() return _my_core_opt.dep.py3 end,
     }
-}, vim.schedule_wrap(function(a)
-    local new_venv = Process.new("python", {
-        args = { "-m", "venv", dir .. "/debugpy" }
-    })
-    local pip_args = { "-m", "pip", "install", "debugpy" }
-    if _my_core_opt.dep.proxy then
-        vim.tbl_extend("keep", pip_args, { "--proxy", _my_core_opt.dep.proxy })
-    end
-    local install = Process.new(a.option.command, {
-        args = pip_args
-    }):continue_with(function(_, code, _)
-        if code == 0 then
-            vim.notify("Installed debugpy")
-        end
-    end)
-    futures.queue { new_venv, install }
-end))
+})
 
 if dap_option.lldb then dap_lldb:setup() end
-if dap_option.csharp then dap_csharp:setup() end
-if dap_option.python then dap_python:setup() end
+if dap_option.netcoredbg then dap_netcoredbg:setup() end
+if dap_option.debugpy then dap_debugpy:setup() end
+
+-- dap.set_log_level("TRACE")
 --#endregion
 
 --#region Key mappings
