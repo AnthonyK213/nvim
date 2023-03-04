@@ -23,6 +23,7 @@ local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
 local load_optional = nvim_init_src ~= "neatUI" and nvim_init_src ~= "nano"
 if nvim_init_src == "nano" then
     vim.g._my_theme_switchable = true
+    vim.g.nano_transparent = _my_core_opt.tui.transparent and 1 or 0
     vim.cmd.colorscheme("nanovim")
     _my_core_opt.tui.scheme = "nanovim"
 else
@@ -681,7 +682,9 @@ require("lazy").setup({
     },
     {
         "andymass/vim-matchup",
-        event = { "VeryLazy", "BufReadPre" },
+        init = function()
+            vim.g.matchup_matchparen_offscreen = { method = "popup" }
+        end,
     },
     {
         "Shatur/neovim-session-manager",

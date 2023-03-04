@@ -6,10 +6,11 @@ hi clear
 set laststatus=2 signcolumn=yes noshowmode nonumber
 if exists('g:syntax_on') | syntax reset | endif
 let g:colors_name = 'nanovim'
+let s:transparent = get(g:, "nano_transparent", 0)
 
 " Colors {{
 if &background ==# 'light'
-  let s:nano_color_background = { "gui": "#FFFFFF", "cterm": "15"  }
+  let s:nano_color_background = s:transparent ? { "gui": "NONE", "cterm": "NONE" } : { "gui": "#FFFFFF", "cterm": "15" }
   let s:nano_color_strong     = { "gui": "#000000", "cterm": "0"   }
   let s:nano_color_critical   = { "gui": "#FF6F00", "cterm": "207" }
   let s:nano_color_popout     = { "gui": "#FFAB91", "cterm": "216" }
@@ -19,7 +20,7 @@ if &background ==# 'light'
   let s:nano_color_faded      = { "gui": "#B0BEC5", "cterm": "249" }
   let s:nano_color_foreground = { "gui": "#37474F", "cterm": "237" }
 elseif &background ==# 'dark'
-  let s:nano_color_background = { "gui": "#2E3440", "cterm": "235" }
+  let s:nano_color_background = s:transparent ? { "gui": "NONE", "cterm": "NONE" } : { "gui": "#2E3440", "cterm": "235" }
   let s:nano_color_strong     = { "gui": "#ECEFF4", "cterm": "15"  }
   let s:nano_color_critical   = { "gui": "#EBCB8B", "cterm": "222" }
   let s:nano_color_popout     = { "gui": "#D08770", "cterm": "209" }
