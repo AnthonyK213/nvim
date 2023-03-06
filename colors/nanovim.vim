@@ -221,7 +221,7 @@ call s:h("SpellBad", {
       \ })
 " __EndOfBuffer__
 call s:h("EndOfBuffer", {
-      \ "fg": s:nano_color_background,
+      \ "fg": s:transparent ? s:nano_color_highlight : s:nano_color_background,
       \ "bg": s:nano_color_background
       \ })
 " __Underlined__
