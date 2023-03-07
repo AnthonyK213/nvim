@@ -52,7 +52,6 @@ call s:plug('vimwiki/vimwiki', function("my#config#vimwiki"), {'branch': 'dev'})
 call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview"), {'do': {-> mkdp#util#install()}})
 call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
-call s:plug('AndrewRadev/gnugo.vim')
 call s:plug('skanehira/vsession', function("my#config#vsession"))
 
 if has("termguicolors")
@@ -67,6 +66,7 @@ let g:_my_theme_switchable = 0
 let &bg = g:_my_tui_theme
 if s:nvim_init_src ==? 'nano'
   let g:_my_theme_switchable = 1
+  let g:nano_transparent = g:_my_tui_transparent ? 1 : 0
   colorscheme nanovim
 else
   if has_key(s:colorscheme_table, g:_my_tui_scheme)

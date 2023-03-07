@@ -1,6 +1,5 @@
 # Neovim Configuration
 
-
 ## Requirements
 * [**Neovim**](https://github.com/neovim/neovim)
 * [**Git**](https://github.com/git/git)
@@ -9,7 +8,6 @@
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
 * [**lazygit**](https://github.com/jesseduffield/lazygit)
-
 
 ## Installation
 * **Clone repository**
@@ -25,62 +23,90 @@
     ```
 * **Start Neovim and wait for the installation to complete**
 * **Customize with `nvimrc`**
-  ``` json
-  {
-    // Dependencies
-    "dep": {
-      "sh": "string|table", // Shell
-      "cc": "string",       // C compiler
-      "py3": "string"       // Python3 executable path
-    },
-    // Paths
-    "path": {
-      "home": "string",     // Home directory
-      "cloud": "string",    // Cloud drive directory
-      "desktop": "string",  // Desktop directory
-      "bin": "string"       // Binaries directory
-    },
-    // Terminal UI
-    "tui": {
-      "scheme": "string", // Color scheme(onedark|gruvbox)
-      "theme": "string",  // Tui background theme(dark|light)
-      "style": "string",  // Style of color scheme
-      "transparent": false,        // Make background transparent
-      "global_statusline": false,  // Global statusline
-    },
-    // GUI (neovim-qt, fvim)
-    "gui": {
-      "theme": "string",     // GUI background theme
-      "opacity": 0.98,       // Window opacity
-      "ligature": false,     // Render ligatures
-      "popup_menu": false,   // Use GUI popup menu
-      "scroll_bar": false,   // Use GUI scroll bar
-      "tabline": false,      // Use GUI tabline
-      "line_space": 0.0,     // Line space
-      "font_size": 13,       // GUI font size
-      "font_half": "string", // See `guifont`
-      "font_full": "string"  // See `guifontwide`
-    },
-    // Language Server Protocol
-    "lsp": {
-      "clangd": false,               // https://github.com/clangd/clangd
-      "jedi-language-server": false, // https://github.com/pappasam/jedi-language-server
-      "omnisharp": false,            // https://github.com/OmniSharp/omnisharp-roslyn
-      "powershell_es": false,        // https://github.com/PowerShell/PowerShellEditorServices
-      "rust_analyzer": false,        // https://github.com/rust-analyzer/rust-analyzer
-      "sumneko_lua": false,          // https://github.com/sumneko/lua-language-server
-      "vimls": false                 // https://github.com/iamcco/vim-language-server
-    },
-    // Built-in plugins
-    "plug": {
-      "matchit": false,    // Enable matchit.vim
-      "matchparen": false  // Enable matchparen.vim
-    },
-    // Use coc.nvim
-    "use_coc": false
-  }
-  ```
-  > The comments have to be removed.
+  - In the `home`|`config` directory, named `.nvimrc`
+    (also can be `_nvimrc` on Windows)
+  - Example
+    ``` json
+    {
+      // Dependencies
+      "dep": {
+        // (string|array) Shell
+        "sh": ["pwsh", "-nologo"],
+        // (string) C compiler
+        "cc": "clang",
+        // (string) Python3 executable path
+        "py3": "python3/executable/path",
+        // (string) Proxy
+        "proxy": "http://127.0.0.1:7890"
+      },
+      // Paths
+      "path": {
+        // (string) Home directory
+        "home": "$HOME",
+        // (string) Cloud drive directory
+        "cloud": "$HOME/cloud",
+        // (string) Desktop directory
+        "desktop": "$HOME/Desktop",
+        // (string) Binaries directory
+        "bin": "$HOME/bin"
+      },
+      // Terminal UI
+      "tui": {
+        // ("onedark"|"tokyonight"|"gruvbox"|"nightfox"|"onenord") Color scheme
+        "scheme": "nightfox",
+        // ("dark"|"light") Tui background theme
+        "theme": "dark",
+        // (string) Style of color scheme
+        "style": "nord",
+        // (boolean) Make background transparent
+        "transparent": false,
+        // (boolean) Global statusline
+        "global_statusline": false,
+        // (string) Floating window border style
+        "border": "single",
+        // (boolean) Dim inactive window automatically
+        "auto_dim": false
+      },
+      // GUI (neovim-qt, fvim)
+      "gui": {
+        // ("auto"|"dark"|"light") GUI background theme
+        "theme": "auto",
+        // (number) Window opacity
+        "opacity": 0.98,
+        // (boolean) Render ligatures
+        "ligature": false,
+        // (boolean) Use GUI popup menu
+        "popup_menu": false,
+        // (boolean) Use GUI tabline
+        "tabline": false,
+        // (boolean) Use GUI scroll bar
+        "scroll_bar": false,
+        // (number) Line space
+        "line_space": 0.0,
+        // (boolean) Cursor blink
+        "cursor_blink": false,
+        // (number) GUI font size
+        "font_size": 13,
+        // (string) See `guifont`
+        "font_half": "Monospace",
+        // (string) See `guifontwide`
+        "font_full": "Monospace"
+      },
+      // Language Server Protocol
+      "lsp": {
+        "clangd": false,
+        "jedi-language-server": false,
+        "omnisharp": false,
+        "powershell_es": false,
+        "rust_analyzer": false,
+        "sumneko_lua": false,
+        "vimls": false
+      },
+      // Use coc.nvim
+      "use_coc": false
+    }
+    ```
+    > The comments have to be removed.
 * **Set .vimrc for Vim (optional)**
   - Windows
     ```ps1
@@ -92,7 +118,6 @@
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
-
 
 ## Key bindings
 * **Ctrl**
@@ -209,7 +234,6 @@
   - invt:<kbd>F2</kbd>   -> Toggle mouse status.
   - n:   <kbd>S-F5</kbd> -> `CodeRun`
 
-
 ## Commands
 - `CodeRun`     -> Run or compile the code.
 - `Pdf`         -> View pdf after compiling a tex file.
@@ -218,7 +242,6 @@
   - `-m`        -> comment (default: date).
 - `SshConfig`   -> Open and edit ~/.ssh/config
 - `Time`        -> Print date and time.
-
 
 ## Packages
 * Package manager
@@ -258,5 +281,3 @@
 * Completion; Snippet; LSP (Provided by `coc.nvim`)
   - [coc.nvim](https://github.com/neoclide/coc.nvim)
   - [vista.vim](https://github.com/liuchengxu/vista.vim)
-* Games
-  - [gnugo.vim](https://github.com/AndrewRadev/gnugo.vim)
