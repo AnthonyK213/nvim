@@ -84,7 +84,7 @@ Configuration for Neovim with some personal hacks.
         // (number) Line space
         "line_space": 0.0,
         // (boolean) Cursor blink
-        "cursor_blink": true,
+        "cursor_blink": false,
         // (number) GUI font size
         "font_size": 13,
         // (string) See `guifont`
@@ -156,11 +156,11 @@ Configuration for Neovim with some personal hacks.
       // Debug Adapter Protocol
       "dap": {
         // (boolean) https://github.com/llvm/llvm-project
-        "lldb": true,
+        "lldb": false,
         // (boolean) https://github.com/Samsung/netcoredbg
-        "netcoredbg": true,
+        "netcoredbg": false,
         // (boolean) https://github.com/microsoft/debugpy
-        "debugpy": true
+        "debugpy": false
       },
       // Disabled built-in plugins
       "disable": [
