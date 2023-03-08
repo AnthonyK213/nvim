@@ -17,6 +17,7 @@ local collections = {
     LinkedList = require("collections.linked_list").LinkedList,
     LinkedListNode = require("collections.linked_list").LinkedListNode,
     List = require("collections.list"),
+    RbTree = require("collections.rb_tree"),
     Stack = require("collections.stack"),
 }
 
