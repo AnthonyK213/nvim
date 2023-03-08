@@ -396,7 +396,6 @@ Configuration for Neovim with some personal hacks.
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
-  - [editorconfig.nvim](https://github.com/gpanders/editorconfig.nvim)
   - [vim-fsharp](https://github.com/PhilT/vim-fsharp)
 * Completion; Snippet; LSP; TreeSitter; DAP
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)

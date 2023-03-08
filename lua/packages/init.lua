@@ -879,10 +879,6 @@ require("lazy").setup({
         end
     },
     "sotte/presenting.vim",
-    {
-        "gpanders/editorconfig.nvim",
-        event = "VeryLazy",
-    },
     "PhilT/vim-fsharp",
     -- Completion; Snippet; LSP; Treesitter; DAP
     {
