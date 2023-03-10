@@ -106,7 +106,6 @@
       "use_coc": false
     }
     ```
-    > The comments have to be removed.
 * **Set .vimrc for Vim (optional)**
   - Windows
     ```ps1

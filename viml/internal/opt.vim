@@ -59,8 +59,8 @@ let g:_my_lsp_texlab = v:false
 let g:_my_lsp_vimls = v:false
 
 " Merge custom options.
-function s:json_set_var(json) abort
-  let l:table = json_decode(a:json)
+function s:json_set_var(opt_file) abort
+  let l:table = my#lib#json_decode(a:opt_file)[1]
   for [l:key, l:val] in items(l:table)
     if type(l:val) == v:t_dict
       for [l:k, l:v] in items(l:val)
@@ -74,9 +74,8 @@ endfunction
 
 let [s:exists, s:opt_file] = my#lib#get_nvimrc()
 if s:exists
-  let s:opt_json = join(readfile(s:opt_file))
   try
-    call s:json_set_var(s:opt_json)
+    call s:json_set_var(s:opt_file)
   catch
     echomsg "Invalid option file"
   endtry

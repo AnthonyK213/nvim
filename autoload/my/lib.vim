@@ -147,6 +147,37 @@ function! my#lib#is_hanzi(char) abort
   return l:code >= 0x4E00 && l:code <= 0x9FA5 ? 1 : 0
 endfunction
 
+" Decode json from file path.
+function! my#lib#json_decode(path, strictly = 0) abort
+  let l:content = readfile(a:path)
+  if empty(l:content)
+    return [2, v:null]
+  endif
+  try
+    let l:result = json_decode(l:content)
+    return [0, l:result]
+  catch
+    if a:strictly
+      return [1, v:null]
+    endif
+    let l:content = filter(l:content, {idx, val -> val !~ '\v^\s*//'})
+  endtry
+  try
+    let l:result = json_decode(l:content)
+    return [0, l:result]
+  catch
+    let l:content = join(l:content)
+    let l:content = substitute(l:content, '\v,\s*([\]\}])', '\=submatch(1)', 'g')
+    echo l:content
+  endtry
+  try
+    let l:result = json_decode(l:content)
+    return [0, l:result]
+  catch
+    return [1, v:null]
+  endtry
+endfunction
+
 " Notify the error message to neovim.
 function! my#lib#notify_err(err) abort
   echohl ErrorMsg
