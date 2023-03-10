@@ -168,7 +168,6 @@ function! my#lib#json_decode(path, strictly = 0) abort
   catch
     let l:content = join(l:content)
     let l:content = substitute(l:content, '\v,\s*([\]\}])', '\=submatch(1)', 'g')
-    echo l:content
   endtry
   try
     let l:result = json_decode(l:content)
