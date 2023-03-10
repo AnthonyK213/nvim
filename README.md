@@ -52,12 +52,12 @@
       },
       // Terminal UI
       "tui": {
-        // ("onedark"|"tokyonight"|"gruvbox"|"nightfox"|"onenord") Color scheme
-        "scheme": "nightfox",
+        // ("one"|"gruvbox") Color scheme
+        "scheme": "one",
         // ("dark"|"light") Tui background theme
         "theme": "dark",
         // (string) Style of color scheme
-        "style": "nord",
+        "style": "one",
         // (boolean) Make background transparent
         "transparent": false,
         // (boolean) Global statusline
