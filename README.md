@@ -120,8 +120,8 @@
 
 ## Key bindings
 * **Ctrl**
-  - in:  <kbd>C-S</kbd>  -> Save.
-  - n:   <kbd>C-Dt</kbd> -> Adjust window size.
+  - in:  <kbd>C-S</kbd>     -> Save.
+  - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
 * **Meta**
   - in:  <kbd>M-a</kbd>  -> Select all.
   - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
@@ -140,12 +140,12 @@
   - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
   - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
   - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
-  - inv: <kbd>M-B</kbd>  -> Markdown bold: **bold** 
-  - inv: <kbd>M-I</kbd>  -> Markdown italic: *italic*
-  - inv: <kbd>M-M</kbd>  -> Markdown bold_italic: ***bold_italic***
-  - inv: <kbd>M-P</kbd>  -> Markdown block: `block`
-  - inv: <kbd>M-U</kbd>  -> Markdown/HTML underscore: <u>bold</u>
-* **Emacs shit**
+  - inv: <kbd>M-B</kbd>  -> Markdown **bold** 
+  - inv: <kbd>M-I</kbd>  -> Markdown *italic*
+  - inv: <kbd>M-M</kbd>  -> Markdown ***bold_italic***
+  - inv: <kbd>M-P</kbd>  -> Markdown `block`
+  - inv: <kbd>M-U</kbd>  -> Markdown <u>underscore</u>
+* **Emacs**
   - inv: <kbd>C-N</kbd>  -> Emacs next line.
   - inv: <kbd>C-P</kbd>  -> Emacs previous line.
   - ci:  <kbd>C-F</kbd>  -> Emacs forward.
@@ -177,9 +177,9 @@
     - n:    <kbd>v</kbd> -> Evaluate viml chunk surrounded by backquote.
     - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd> -> **Find**.
-    - n:    <kbd>b</kbd> -> *fzf.vim*, switch buffer.
-    - n:    <kbd>f</kbd> -> *fzf.vim*, fzf  (:Files)
-    - n:    <kbd>g</kbd> -> *fzf.vim*, ripgrep (:Rg)
+    - n:    <kbd>b</kbd> -> *vim-clap*, buffers.
+    - n:    <kbd>f</kbd> -> *vim-clap*, find files.
+    - n:    <kbd>g</kbd> -> *vim-clap*, live grep.
   - <kbd>leader-g-</kbd> -> **VCS**.
     - n:    <kbd>b</kbd> -> *vim-fugitive*, git blame.
     - n:    <kbd>d</kbd> -> *vim-fugitive*, git diff.
@@ -191,10 +191,10 @@
     - n:    <kbd>n</kbd> -> *vim-floaterm*, open lazygit.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search text in web browser**.
-    - nv:   <kbd>b</kbd> -> Baidu
-    - nv:   <kbd>g</kbd> -> Google
-    - nv:   <kbd>h</kbd> -> Github
-    - nv:   <kbd>y</kbd> -> Youdao
+    - nv:   <kbd>b</kbd> -> Search cword with Baidu.
+    - nv:   <kbd>g</kbd> -> Search cword with Google.
+    - nv:   <kbd>h</kbd> -> Search cword with Github.
+    - nv:   <kbd>y</kbd> -> Search cword with Youdao.
   - <kbd>leader-k-</kbd> -> **Comment**.
     - nv:   <kbd>c</kbd> -> Comment line/block.
     - nv:   <kbd>u</kbd> -> Un-comment line/block.
