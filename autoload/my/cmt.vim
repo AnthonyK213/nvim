@@ -5,15 +5,19 @@ let s:cmt_mark_tab_single = {
       \ 'cpp'       : "//",
       \ 'cs'        : "//",
       \ 'dosbatch'  : "::",
+      \ 'fsharp'    : "//",
       \ 'gitconfig' : '#',
       \ 'java'      : "//",
+      \ 'javascript': "//",
       \ 'lisp'      : ";",
       \ 'lua'       : "--",
       \ 'make'      : "#",
       \ 'markdown'  : "> ",
-      \ 'rust'      : "//",
       \ 'perl'      : '#',
+      \ 'ps1'       : '#',
       \ 'python'    : "#",
+      \ 'rust'      : "//",
+      \ 'scheme'    : ";",
       \ 'sh'        : "#",
       \ 'sshconfig' : '#',
       \ 'tex'       : "%",
@@ -21,6 +25,7 @@ let s:cmt_mark_tab_single = {
       \ 'vim'       : '"',
       \ 'vimwiki'   : "%% ",
       \ 'yaml'      : '#',
+      \ 'zsh'      : '#',
       \ }
 
 let s:cmt_mark_tab_multi = {
