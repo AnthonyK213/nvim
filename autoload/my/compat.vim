@@ -126,12 +126,12 @@ function! my#compat#require(modname) abort
 endfunction
 
 " `CodeRun` complete option list.
-function! my#compat#run_code_option(arglead, cmdline, cursorpos) abort
+function! my#compat#code_run_option(arglead, cmdline, cursorpos) abort
   let l:option_table = {
         \ 'c'    : "build\ncheck",
         \ 'cs'   : "build\nclean\ntest",
         \ 'lisp' : "build",
-        \ 'lua'  : "nojit",
+        \ 'lua'  : "lua\njit",
         \ 'rust' : "build\ncheck\nclean\ntest",
         \ 'tex'  : "biber\nbibtex",
         \ }

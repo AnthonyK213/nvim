@@ -245,10 +245,11 @@
 ## Packages
 * Package manager
   - [vim-plug](https://github.com/junegunn/vim-plug)
-* Display
+* Display (Optional)
   - [vim-airline](https://github.com/vim-airline/vim-airline)
   - [vim-startify](https://github.com/mhinz/vim-startify)
-* Color scheme
+  - [indentLine](https://github.com/Yggdroot/indentLine)
+* Color scheme (Optional)
   - [vim-one](https://github.com/rakr/vim-one)
   - [gruvbox](https://github.com/morhetz/gruvbox)
 * File system
@@ -259,7 +260,6 @@
 * Utilities
   - [vim-speeddating](https://github.com/tpope/vim-speeddating)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
-  - [indentLine](https://github.com/Yggdroot/indentLine)
   - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
   - [vim-matchup](https://github.com/andymass/vim-matchup)
   - [vim-floaterm](https://github.com/voldikss/vim-floaterm)
@@ -270,7 +270,7 @@
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
   - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
-* Completion; Snippet (Provided by pure vim script)
+* Completion; Snippet (Provided by vimscript)
   - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
   - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
   - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)

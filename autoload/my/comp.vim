@@ -110,11 +110,16 @@ endfunction
 function! s:comp_lua(tbl) abort
   if a:tbl['opt'] == ''
     return [v:null, 'luafile %']
-  elseif a:tbl['opt'] == 'nojit'
+  elseif a:tbl['opt'] == 'lua'
     if !my#lib#executable('lua')
       return [v:null, v:null]
     endif
     return [v:null, ['lua', a:tbl['fnm']]]
+  elseif a:tbl['opt'] == 'jit'
+    if !my#lib#executable('luajit')
+      return [v:null, v:null]
+    endif
+    return [v:null, ['luajit', a:tbl['fnm']]]
   else
     call my#lib#notify_err('Invalid arguments.')
     return [v:null, v:null]
@@ -181,10 +186,12 @@ endfunction
 
 function! s:comp_latex(tbl) abort
   let l:step = 1
-  let l:name = expand('%:p:r')
+  let l:vimtex = exists("b:vimtex") && has_key(b:vimtex, "base")
+  let l:name = l:vimtex ? fnamemodify(b:vimtex.tex, ":r") : expand('%:p:r')
+  let l:cwd = l:vimtex ? b:vimtex.root : getcwd()
   function! s:tex_cb(label, proc, job_id, data, event) closure
     if a:data == 0
-      echomsg l:step "->" a:label
+      echomsg "Step" l:step ":" a:label
       let l:step += 1
     else
       for l:item in a:proc.standard_output + a:proc.standard_error
@@ -204,15 +211,15 @@ function! s:comp_latex(tbl) abort
           \ '-interaction=nonstopmode',
           \ '-file-line-error',
           \ l:name..'.tex'
-          \ ]
+          \ ], "cwd": l:cwd,
           \ }, {proc, job_id, data, event ->
           \ s:tex_cb("XeLaTeX", proc, job_id, data, event)})
   let l:biber = my#proc#new("biber", {
-        \ "args": [l:name . ".bcf"]
+        \ "args": [l:name . ".bcf"], "cwd": l:cwd,
         \ }, {proc, job_id, data, event ->
         \ s:tex_cb("Biber", proc, job_id, data, event)})
   let l:bibtex = my#proc#new("bibtex", {
-        \ "args": [l:name . ".aux"]
+        \ "args": [l:name . ".aux"], "cwd": l:cwd,
         \ }, {proc, job_id, data, event ->
         \ s:tex_cb("BibTeX", proc, job_id, data, event)})
   let l:bib_table = {
@@ -257,7 +264,7 @@ let s:comp_table = {
       \ "vim" : function('s:comp_vim')
       \ }
 
-function! my#comp#run_or_compile(option) abort
+function! my#comp#code_run(option) abort
   let l:tbl = {
         \ "bin" : '_' . expand('%:t:r') . (has("win32") ? '.exe' : ''),
         \ "bwd" : getcwd(),
