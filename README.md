@@ -362,13 +362,13 @@ Configuration for Neovim with some personal hacks.
 # Packages
 * Package manager
   - [lazy.nvim](https://github.com/folke/lazy.nvim)
-* Display(Optional)
+* Display (Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
-* Color scheme(Optional)
+* Color scheme (Optional)
   - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
