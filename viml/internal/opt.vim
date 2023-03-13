@@ -60,7 +60,10 @@ let g:_my_lsp_vimls = v:false
 
 " Merge custom options.
 function s:json_set_var(opt_file) abort
-  let l:table = my#lib#json_decode(a:opt_file)[1]
+  let [l:code, l:table] = my#lib#json_decode(a:opt_file)
+  if l:code != 0
+    call my#lib#notify_err("Invalid option file")
+  endif
   for [l:key, l:val] in items(l:table)
     if type(l:val) == v:t_dict
       for [l:k, l:v] in items(l:val)
