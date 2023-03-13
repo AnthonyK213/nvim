@@ -92,10 +92,10 @@ for i = 1, 10, 1 do
     end)
 end
 for key, val in pairs {
-    Baidu  = { "b", "https://www.baidu.com/s?wd=" },
-    Google = { "g", "https://www.google.com/search?q=" },
-    GitHub = { "h", "https://github.com/search?q=" },
-    Youdao = { "y", "https://dict.youdao.com/w/eng/" }
+    Baidu      = { "b", "https://www.baidu.com/s?wd=" },
+    DuckDuckGo = { "d", "https://duckduckgo.com/?q=" },
+    Google     = { "g", "https://www.google.com/search?q=" },
+    Youdao     = { "y", "https://dict.youdao.com/w/eng/" }
 } do
     kbd("Search cword with " .. key, { "n", "v" }, "<leader>h" .. val[1], function()
         local txt
@@ -111,6 +111,18 @@ for key, val in pairs {
         require("utility.util").sys_open(val[2] .. txt)
     end)
 end
+kbd("Look up the word in the dictionary", { "n", "v" }, "<leader>hh", function()
+    local word
+    local mode = get_mode()
+    if mode == "n" then
+        word = lib.get_word()
+    elseif mode == "v" then
+        word = lib.get_gv()
+    else
+        return
+    end
+    require("utility.stardict").stardict(word)
+end)
 kbd("Mouse toggle", { "n", "v", "i", "t" }, "<F2>", function()
     if #(vim.o.mouse) == 0 then
         vim.o.mouse = "a"

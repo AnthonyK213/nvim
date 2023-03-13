@@ -282,11 +282,12 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>n</kbd> -> *neogit*/*toggleterm.nvim*, open git client window.
     - n:    <kbd>p</kbd> -> *gitsigns.nvim*, preview hunk.
     - n:    <kbd>s</kbd> -> Git status.
-  - <kbd>leader-h-</kbd> -> **Search text in web browser**.
-    - nv:   <kbd>b</kbd> -> Search cword with Baidu.
-    - nv:   <kbd>g</kbd> -> Search cword with Google.
-    - nv:   <kbd>h</kbd> -> Search cword with Github.
-    - nv:   <kbd>y</kbd> -> Search cword with Youdao.
+  - <kbd>leader-h-</kbd> -> **Search cword/selection with ...**.
+    - nv:   <kbd>b</kbd> -> Baidu.
+    - nv:   <kbd>d</kbd> -> DuckDuckGo.
+    - nv:   <kbd>g</kbd> -> Google.
+    - nv:   <kbd>h</kbd> -> StarDict (requires `sdcv` and local dictionary).
+    - nv:   <kbd>y</kbd> -> Youdao.
   - <kbd>leader-k-</kbd> -> **Comment**.
     - nv:   <kbd>c</kbd> -> Comment current/selected line(s).
     - nv:   <kbd>u</kbd> -> Uncomment current/selected line(s).
