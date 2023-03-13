@@ -4,6 +4,8 @@ local files = {
     "iter",
     "linked_list",
     "list",
+    "priority_queue",
+    "rb_tree",
     "stack",
     "util",
 }
@@ -17,6 +19,7 @@ local collections = {
     LinkedList = require("collections.linked_list").LinkedList,
     LinkedListNode = require("collections.linked_list").LinkedListNode,
     List = require("collections.list"),
+    PriorityQueue = require("collections.priority_queue"),
     RbTree = require("collections.rb_tree"),
     Stack = require("collections.stack"),
 }
