@@ -17,18 +17,16 @@ end
 ---@param separator? string
 ---@return string
 function M.iter_inspect(iterable, meta, name, separator)
-    local count = 0
     local visited = {}
     separator = separator or ", "
     local function str(obj)
         if getmetatable(obj) == meta then
             local index = visited[obj]
             if index then
-                return string.format("%s<%d>", name, index)
+                return string.format("%s<%p>", name, obj)
             else
-                visited[obj] = count
-                local result = string.format("%s<%d>{ ", name, count)
-                count = count + 1
+                visited[obj] = 0
+                local result = string.format("%s<%p>{ ", name, obj)
                 for i, v in obj:iter() do
                     result = result .. str(v)
                     if i ~= obj:count() then
