@@ -47,6 +47,26 @@ local function on_stdout(data)
     end
 end
 
+local function check_dict()
+    if not lib.executable("sdcv") then return end
+    local p = Process.new("sdcv", { args = { "-n", "-j", "-l" } })
+    p.on_stdout = function(data)
+        local ok, results = pcall(vim.json.decode, data)
+        if not ok or #results == 0 then
+            spawn(function()
+                if futures.ui.input {
+                        prompt = "Local dictinary not found, get one?",
+                    } == "y" then
+                    require("utility.util").sys_open("http://download.huzheng.org/")
+                end
+            end)
+        end
+    end
+    p:start()
+end
+
+check_dict()
+
 function M.stardict(word)
     if not lib.executable("sdcv") then return end
     try_focus()
