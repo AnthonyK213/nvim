@@ -407,7 +407,7 @@ end
 ---Notify the error message.
 ---@param err string Error message.
 function M.notify_err(err)
-    vim.notify(err, vim.log.levels.ERROR, nil)
+    vim.notify(err, vim.log.levels.WARN, nil)
 end
 
 ---Parse the argument part of a command.
