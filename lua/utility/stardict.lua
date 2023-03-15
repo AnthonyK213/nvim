@@ -13,6 +13,9 @@ local stardict_path = vim.loop.os_homedir() .. "/.stardict/dic/"
 ---@return string?
 local function nstardict(dict_dir, word, path)
     local ffi = require("ffi")
+    if word:match("^%s*$") then
+        return "[]"
+    end
     ffi.cdef [[char *nstardict(const char *dict_dir, const char *word);
                void str_free(char *s);]]
     local nstartdict = ffi.load(path)
