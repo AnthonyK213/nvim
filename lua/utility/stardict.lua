@@ -1,8 +1,25 @@
 local M = {}
 local lib = require("utility.lib")
 local futures = require("futures")
-local spawn, Process = futures.spawn, futures.Process
+local spawn, Process, Task = futures.spawn, futures.Process, futures.Task
 local _bufnr, _winnr = -1, -1
+
+---Look up `word` among dictionaries.
+---@param dict_dir string
+---@param word string
+---@param path string Path to dynamic linked library `nmail`.
+---@return string?
+local function nstardict(dict_dir, word, path)
+    local ffi = require("ffi")
+    ffi.cdef [[char *nstardict(const char *dict_dir, const char *word);
+               void nstardict_string_free(char *s);]]
+    local nstartdict = ffi.load(path)
+    local c_str = nstartdict.nstardict(dict_dir, word)
+    if c_str == nil then return end
+    local result = ffi.string(c_str)
+    nstartdict.nstardict_string_free(c_str)
+    return result
+end
 
 local function try_focus()
     if vim.api.nvim_buf_is_valid(_bufnr)
@@ -12,7 +29,7 @@ local function try_focus()
 end
 
 local function preview(result)
-    local def = result.definition:gsub("^[\n\r]%*", "\r")
+    local def = result.definition:gsub("^[\n\r]?%*", "\r")
     def = string.format("# %s\r\n__%s__\n%s", result.dict, result.word, def)
     local contents = vim.split(def, "[\r\n]")
     _bufnr, _winnr = vim.lsp.util.open_floating_preview(contents, "markdown", {
@@ -67,12 +84,21 @@ end
 
 check_dict()
 
-function M.stardict(word)
+function M.stardict_sdcv(word)
     if not lib.executable("sdcv") then return end
     try_focus()
     local p = Process.new("sdcv", { args = { "-n", "-j", word } })
     p.on_stdout = on_stdout
     p:start()
+end
+
+function M.stardict(word)
+    try_focus()
+    spawn(function()
+        local dylib_path = lib.get_dylib_path("nstardict")
+        local stardict_path = vim.fs.normalize("$HOME/.stardict")
+        on_stdout(Task.new(nstardict, stardict_path, word, dylib_path):await())
+    end)
 end
 
 return M
