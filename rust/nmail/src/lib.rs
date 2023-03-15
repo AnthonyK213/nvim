@@ -1,17 +1,8 @@
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
-use libc::c_char;
 use std::collections::HashMap;
-use std::ffi::{CStr, CString};
-
-macro_rules! string_parse {
-    ($c_buf: expr, $code: expr) => {
-        match c_buf_to_string($c_buf) {
-            Ok(v) => v,
-            Err(_) => return $code,
-        }
-    };
-}
+use std::ffi::{c_char, CString};
+use ex_util::{str_try_parse, str_buf_to_string};
 
 macro_rules! mailbox_parse {
     ($string: expr, $code: expr) => {
@@ -20,10 +11,6 @@ macro_rules! mailbox_parse {
             Err(_) => return $code,
         }
     };
-}
-
-fn c_buf_to_string(c_buf: *const c_char) -> Result<String, std::str::Utf8Error> {
-    Ok(unsafe { CStr::from_ptr(c_buf) }.to_str()?.to_owned())
 }
 
 fn fetch_inbox_top(
@@ -83,14 +70,14 @@ pub extern "C" fn nmail_send(
     password: *const c_char,
     server: *const c_char,
 ) -> i32 {
-    let _from = mailbox_parse!(string_parse!(from, 1), 9);
-    let _to = mailbox_parse!(string_parse!(to, 2), 10);
-    let _reply_to = mailbox_parse!(string_parse!(reply_to, 3), 11);
-    let _subject = string_parse!(subject, 4);
-    let _body = string_parse!(body, 5);
-    let _user_name = string_parse!(user_name, 6);
-    let _password = string_parse!(password, 7);
-    let _server = string_parse!(server, 8);
+    let _from = mailbox_parse!(str_try_parse!(from, 1), 9);
+    let _to = mailbox_parse!(str_try_parse!(to, 2), 10);
+    let _reply_to = mailbox_parse!(str_try_parse!(reply_to, 3), 11);
+    let _subject = str_try_parse!(subject, 4);
+    let _body = str_try_parse!(body, 5);
+    let _user_name = str_try_parse!(user_name, 6);
+    let _password = str_try_parse!(password, 7);
+    let _server = str_try_parse!(server, 8);
 
     let email = match Message::builder()
         .from(_from)
@@ -125,13 +112,13 @@ pub extern "C" fn nmail_fetch(
     user_name: *const c_char,
     password: *const c_char,
 ) -> *mut c_char {
-    let _server = string_parse!(server, std::ptr::null_mut());
+    let _server = str_try_parse!(server, std::ptr::null_mut());
     let _port: u16 = match port.try_into() {
         Ok(p) => p,
         Err(_) => return std::ptr::null_mut(),
     };
-    let _user_name = string_parse!(user_name, std::ptr::null_mut());
-    let _password = string_parse!(password, std::ptr::null_mut());
+    let _user_name = str_try_parse!(user_name, std::ptr::null_mut());
+    let _password = str_try_parse!(password, std::ptr::null_mut());
 
     if let Ok(Some(_body)) = fetch_inbox_top(_server, _port, _user_name, _password) {
         if let Ok(body) = CString::new(_body) {
@@ -139,12 +126,4 @@ pub extern "C" fn nmail_fetch(
         }
     }
     std::ptr::null_mut()
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn nmail_string_free(s: *mut c_char) {
-    if s.is_null() {
-        return;
-    }
-    drop(CString::from_raw(s));
 }

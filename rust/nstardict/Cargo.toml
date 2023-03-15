@@ -8,3 +8,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 rust-stardict = { git = "https://github.com/AnthonyK213/rust-stardict" }
+ex-util = { git = "https://github.com/AnthonyK213/ex-util" }

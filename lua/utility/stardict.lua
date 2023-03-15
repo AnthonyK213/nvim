@@ -14,12 +14,12 @@ local stardict_path = vim.loop.os_homedir() .. "/.stardict/dic/"
 local function nstardict(dict_dir, word, path)
     local ffi = require("ffi")
     ffi.cdef [[char *nstardict(const char *dict_dir, const char *word);
-               void nstardict_string_free(char *s);]]
+               void str_free(char *s);]]
     local nstartdict = ffi.load(path)
     local c_str = nstartdict.nstardict(dict_dir, word)
     if c_str == nil then return end
     local result = ffi.string(c_str)
-    nstartdict.nstardict_string_free(c_str)
+    nstartdict.str_free(c_str)
     return result
 end
 
@@ -27,7 +27,9 @@ local function try_focus()
     if vim.api.nvim_buf_is_valid(_bufnr)
         and vim.api.nvim_win_is_valid(_winnr) then
         vim.api.nvim_set_current_win(_winnr)
+        return true
     end
+    return false
 end
 
 local function preview(result)
@@ -88,14 +90,14 @@ check_dict()
 
 function M.stardict_sdcv(word)
     if not lib.executable("sdcv") then return end
-    try_focus()
+    if try_focus() then return end
     local p = Process.new("sdcv", { args = { "-n", "-j", word } })
     p.on_stdout = on_stdout
     p:start()
 end
 
 function M.stardict(word)
-    try_focus()
+    if try_focus() then return end
     spawn(function()
         on_stdout(Task.new(nstardict, stardict_path, word, dylib_path):await())
     end)
