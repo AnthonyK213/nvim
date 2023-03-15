@@ -3,6 +3,8 @@ local lib = require("utility.lib")
 local futures = require("futures")
 local spawn, Process, Task = futures.spawn, futures.Process, futures.Task
 local _bufnr, _winnr = -1, -1
+local dylib_path = lib.get_dylib_path("nstardict")
+local stardict_path = vim.loop.os_homedir() .. "/.stardict/dic/"
 
 ---Look up `word` among dictionaries.
 ---@param dict_dir string
@@ -95,8 +97,6 @@ end
 function M.stardict(word)
     try_focus()
     spawn(function()
-        local dylib_path = lib.get_dylib_path("nstardict")
-        local stardict_path = vim.fs.normalize("$HOME/.stardict")
         on_stdout(Task.new(nstardict, stardict_path, word, dylib_path):await())
     end)
 end
