@@ -34,7 +34,7 @@ for s:tab_num in range(1, 10)
   exe 'nn  <silent> <M-' . s:tab_key . '>           :tabn' s:tab_num . '<CR>'
   exe 'ino <silent> <M-' . s:tab_key . '> <C-\><C-O>:tabn' s:tab_num . '<CR>'
 endfor
-" Command mode
+" Command mode.
 cm <C-A>  <C-B>
 cm <C-B>  <LEFT>
 cm <C-F>  <RIGHT>
@@ -44,7 +44,7 @@ cm <M-f>  <C-RIGHT>
 cm <M-BS> <C-W>
 
 
-" Windows shit.
+" Windows.
 nn  <silent><expr> <C-S> empty(&bt) ? "\<Cmd>w\<CR>" : ""
 ino <silent><expr> <C-S> empty(&bt) ? "\<C-\>\<C-O>\<Cmd>w\<CR>" : ""
 vn  <silent> <M-c> "+y
@@ -53,7 +53,7 @@ nn  <silent> <M-v> "+p
 vn  <silent> <M-v> "+p
 ino <silent> <M-v> <C-R>=@+<CR>
 nn  <silent> <M-a> ggVG
-" Emacs shit.
+" Emacs.
 for [s:key, s:val] in items({"n": "j", "p": "k"})
   exe 'nn  <C-' . s:key . '> g' . s:val
   exe 'vn  <C-' . s:key . '> g' . s:val
@@ -126,6 +126,8 @@ for [s:key, s:val] in items(s:web_list)
   exe 'nn <silent> <leader>h' . s:key ':call my#util#search_web("n", "' . s:val . '")<CR>'
   exe 'vn <silent> <leader>h' . s:key ':<C-U>call my#util#search_web("v", "' . s:val . '")<CR>'
 endfor
+nn <silent> <leader>hh :call my#stardict#stardict_sdcv(my#lib#get_word()[0])<CR>
+vn <silent> <leader>hh :<C-U>call my#stardict#stardict_sdcv(my#lib#get_gv())<CR>
 " Surround
 nn <silent> <leader>sa :call my#srd#srd_add('n')<CR>
 vn <silent> <leader>sa :<C-U>call my#srd#srd_add('v')<CR>

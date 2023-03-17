@@ -56,8 +56,12 @@ function! s:Process.continue_with(process) dict
         \ s:continue_cb(proc, job_id, data, event, a:process)})
 endfunction
 
+function s:Process.kill() dict
+  return jobstop(self.id)
+endfunction
+
 function! my#proc#new(path, option = {}, on_exit = v:null) abort
-  let l:o = {
+  let l:proc = {
         \ "path": a:path,
         \ "option": a:option,
         \ "on_exit": a:on_exit,
@@ -70,10 +74,10 @@ function! my#proc#new(path, option = {}, on_exit = v:null) abort
         \ "standard_error": [],
         \ }
   if !my#lib#executable(a:path)
-    let l:o.is_valid = 0
+    let l:proc.is_valid = 0
   endif
-  call extend(l:o, s:Process)
-  return l:o
+  call extend(l:proc, s:Process)
+  return l:proc
 endfunction
 
 function! my#proc#queue(proc_list) abort
