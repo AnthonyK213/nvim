@@ -43,41 +43,41 @@ require("lazy").setup({
         "navarasu/onedark.nvim",
         lazy = false,
         priority = 1000,
-        enabled = function() return _my_core_opt.tui.scheme == "onedark" end,
+        cond = function() return _my_core_opt.tui.scheme == "onedark" end,
         config = function() require("packages.onedark") end
     },
     {
         "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
-        enabled = function() return _my_core_opt.tui.scheme == "tokyonight" end,
+        cond = function() return _my_core_opt.tui.scheme == "tokyonight" end,
         config = function() require("packages.tokyonight") end
     },
     {
         "ellisonleao/gruvbox.nvim",
         lazy = false,
         priority = 1000,
-        enabled = function() return _my_core_opt.tui.scheme == "gruvbox" end,
+        cond = function() return _my_core_opt.tui.scheme == "gruvbox" end,
         config = function() require("packages.gruvbox") end
     },
     {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
-        enabled = function() return _my_core_opt.tui.scheme == "nightfox" end,
+        cond = function() return _my_core_opt.tui.scheme == "nightfox" end,
         config = function() require("packages.nightfox") end
     },
     {
         "rmehri01/onenord.nvim",
         lazy = false,
         priority = 1000,
-        enabled = function() return _my_core_opt.tui.scheme == "onenord" end,
+        cond = function() return _my_core_opt.tui.scheme == "onenord" end,
         config = function() require("packages.onenord") end
     },
     -- Optional
     {
         "goolord/alpha-nvim",
-        enabled = load_optional,
+        cond = load_optional,
         config = function()
             local alpha = require("alpha")
             local dashboard = require("alpha.themes.dashboard")
@@ -106,7 +106,7 @@ require("lazy").setup({
     {
         "nvim-lualine/lualine.nvim",
         lazy = false,
-        enabled = load_optional,
+        cond = load_optional,
         opts = {
             options = {
                 theme = "auto",
@@ -156,50 +156,50 @@ require("lazy").setup({
     {
         "akinsho/bufferline.nvim",
         lazy = false,
-        enabled = load_optional,
-        init = function() vim.o.showtabline = 2 end,
-        opts = {
-            options = {
-                right_mouse_command = "",
-                middle_mouse_command = "bdelete! %d",
-                buffer_close_icon = "×",
-                modified_icon = "+",
-                close_icon = "×",
-                left_trunc_marker = "<",
-                right_trunc_marker = ">",
-                max_name_length = 18,
-                max_prefix_length = 15,
-                tab_size = 18,
-                ---@type string|boolean
-                diagnostics = "nvim_lsp",
-                diagnostics_indicator = function(count, _, _, _)
-                    return "(" .. count .. ")"
-                end,
-                custom_filter = function(bufnr, _)
-                    local bt = vim.bo[bufnr].bt
-                    if not vim.tbl_contains({ "terminal", "quickfix" }, bt) then
-                        return true
-                    end
-                    return false
-                end,
-                show_buffer_icons = false,
-                show_buffer_close_icons = true,
-                show_close_icon = false,
-                persist_buffer_sort = true,
-                separator_style = "thin",
-                enforce_regular_tabs = false,
-                always_show_bufferline = true,
-                sort_by = "id"
+        cond = load_optional,
+        config = function()
+            vim.o.showtabline = 2
+            require("bufferline").setup {
+                options = {
+                    right_mouse_command = "",
+                    middle_mouse_command = "bdelete! %d",
+                    buffer_close_icon = "×",
+                    modified_icon = "+",
+                    close_icon = "×",
+                    left_trunc_marker = "<",
+                    right_trunc_marker = ">",
+                    max_name_length = 18,
+                    max_prefix_length = 15,
+                    tab_size = 18,
+                    ---@type string|boolean
+                    diagnostics = "nvim_lsp",
+                    diagnostics_indicator = function(count)
+                        return "(" .. count .. ")"
+                    end,
+                    custom_filter = function(bufnr)
+                        local bt = vim.bo[bufnr].bt
+                        if not vim.tbl_contains({ "terminal", "quickfix" }, bt) then
+                            return true
+                        end
+                        return false
+                    end,
+                    show_buffer_icons = false,
+                    show_buffer_close_icons = true,
+                    show_close_icon = false,
+                    persist_buffer_sort = true,
+                    separator_style = "thin",
+                    enforce_regular_tabs = false,
+                    always_show_bufferline = true,
+                    sort_by = "id"
+                }
             }
-        },
-        keys = {
-            { "<leader>bb", "<Cmd>BufferLinePick<CR>" }
-        }
+        end,
+        keys = { { "<leader>bb", "<Cmd>BufferLinePick<CR>" } }
     },
     {
         "norcalli/nvim-colorizer.lua",
         ft = { "html", "javascript", "json", "typescript", "css", "vue" },
-        enabled = load_optional,
+        cond = load_optional,
         config = function()
             require("colorizer").setup({
                 "html",
@@ -224,7 +224,7 @@ require("lazy").setup({
     {
         "lukas-reineke/indent-blankline.nvim",
         event = { "VeryLazy", "BufReadPre" },
-        enabled = load_optional,
+        cond = load_optional,
         opts = {
             char = "▏",
             context_char = "▏",
@@ -440,7 +440,7 @@ require("lazy").setup({
             }
         },
         commit = "05386ff1e9da447d4688525d64f7611c863f05ca",
-        enabled = function() return _my_core_opt.vcs.client == "neogit" end,
+        cond = function() return _my_core_opt.vcs.client == "neogit" end,
         keys = {
             { "<leader>gn", "<Cmd>Neogit<CR>" }
         }
