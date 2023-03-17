@@ -149,7 +149,7 @@ for s:direct in ['h', 'j', 'k', 'l', 'w']
 endfor
 
 
-" Emacs shit
+" Emacs
 nn  <M-x> :
 ino <M-x> <C-\><C-O>:
 ino <M-b> <C-\><C-O>b
