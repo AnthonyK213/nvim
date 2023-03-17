@@ -34,11 +34,21 @@ function! s:plug(repo, config = v:null, option = {})
   endif
 endfunction
 
+function! s:post_clap(info) abort
+  let &rtp = &rtp
+  call clap#installer#force_download()
+endfunction
+
+function! s:post_mkdp(info) abort
+  let &rtp = &rtp
+  call mkdp#util#install()
+endfunction
+
 " Load plug-ins
 call plug#begin(my#compat#stdpath('data') . '/plugged')
 call s:plug('rakr/vim-one')
 call s:plug('morhetz/gruvbox')
-call s:plug('liuchengxu/vim-clap', function("my#config#vim_clap"), { 'do': {-> clap#installer#force_download()} })
+call s:plug('liuchengxu/vim-clap', function("my#config#vim_clap"), { 'do': funcref('s:post_clap') })
 call s:plug('tpope/vim-fugitive', function("my#config#vim_fugitive"))
 call s:plug('mhinz/vim-signify', function("my#config#vim_signify"))
 call s:plug('mhinz/vim-crates', function("my#config#crates"))
@@ -49,7 +59,7 @@ call s:plug('voldikss/vim-floaterm', function("my#config#vim_floatterm"))
 call s:plug('dhruvasagar/vim-table-mode', function("my#config#vim_table_mode"))
 call s:plug('lervag/vimtex', function("my#config#vimtex"))
 call s:plug('vimwiki/vimwiki', function("my#config#vimwiki"), {'branch': 'dev'})
-call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview"), {'do': {-> mkdp#util#install()}})
+call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview"), { 'do': funcref('s:post_mkdp') })
 call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
 call s:plug('skanehira/vsession', function("my#config#vsession"))
@@ -101,7 +111,7 @@ call s:plug('liuchengxu/vista.vim', function("my#config#vista"))
 call plug#end()
 
 if s:plug_bootstrap
-  PlugInstall
+  PlugInstall!
 else
   for s:conf in s:plug_config_list
     call s:conf()
