@@ -1,20 +1,8 @@
 function! s:preview(result) abort
   let l:def = a:result.definition
   let l:def = substitute(l:def, '\v^[\n\r]?\*', '', '')
-  let l:def = printf("# %s\r\n__%s__\n%s", a:result.dict, a:result.word, l:def)
-  if has('nvim-0.5')
-    let l:lines = split(l:def, "\n")
-    call v:lua.vim.lsp.util.open_floating_preview(l:lines, "markdown", {
-        \ "border": g:_my_tui_border,
-        \ "pad_left": 4,
-        \ "pad_right": 4,
-        \ "max_height": 20,
-        \ "max_width": 50,
-        \ "wrap": v:true,
-        \ })
-  else
-    echo substitute(l:def, "\r", "\n", '')
-  endif
+  let l:def = printf("# %s\r\n%s\r\n%s", a:result.dict, a:result.word, l:def)
+  echo substitute(l:def, "\r", "\n", 'g')
 endfunction
 
 function! s:on_exit(proc, job_id, data, event) abort
