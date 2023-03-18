@@ -100,6 +100,10 @@ function M.stardict_sdcv(word)
 end
 
 function M.stardict(word)
+    if not dylib_path then
+        lib.notify_err("Dynamic library is not found")
+        return
+    end
     if try_focus() then return end
     spawn(function()
         on_stdout(Task.new(nstardict, stardict_path, word, dylib_path):await())
