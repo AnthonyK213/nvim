@@ -334,13 +334,13 @@ function M.nvim_upgrade(channel)
         if not lib.executable("curl") then return end
         dl_exec = "curl"
         dl_args = use_proxy and {
-            "-L", source,
-            "-o", archive_path.filename,
-            "-x", proxy
-        } or {
-            "-L", source,
-            "-o", archive_path.filename,
-        }
+                "-L", source,
+                "-o", archive_path.filename,
+                "-x", proxy
+            } or {
+                "-L", source,
+                "-o", archive_path.filename,
+            }
         ex_exec = "tar"
         ex_args = {
             "-xf", archive_path.filename,
@@ -395,37 +395,51 @@ function M.build_dylibs()
     for _name, _type in vim.fs.dir(crates_dir) do
         if _type == "directory" then
             local crate_dir = lib.path_append(crates_dir, _name)
-            table.insert(build_tasks, Process.new("cargo", {
-                args = { "build", "--release" },
-                cwd = crate_dir,
-            }):continue_with(function(_, code, _)
-                if code == 0 then
-                    local dylib_name = _name .. dylib_ext
-                    vim.loop.fs_copyfile(lib.path_append(crate_dir,
-                        "target/release/" .. dylib_prefix .. dylib_name),
-                        lib.path_append(dylibs_dir, dylib_name),
-                        vim.schedule_wrap(function(err, success)
-                            if success then
-                                print(_name .. ": Build successfully.")
-                            else
-                                print(err)
-                            end
-                        end))
-                else
-                    lib.notify_err(_name .. ": Build failed.")
+            local task = futures.async(function()
+                local code
+                code = Process.new("cargo", {
+                    args = { "update" },
+                    cwd = crate_dir,
+                }):await()
+                if code ~= 0 then
+                    lib.notify_err(_name .. ": Could not update the dependencies")
+                    return
                 end
-            end))
+                code = Process.new("cargo", {
+                    args = { "build", "--release" },
+                    cwd = crate_dir,
+                }):await()
+                if code ~= 0 then
+                    lib.notify_err(_name .. ": Built failed")
+                    return
+                end
+                local dylib_name = _name .. dylib_ext
+                local path_from = lib.path_append(crate_dir, "target/release/" .. dylib_prefix .. dylib_name)
+                local path_to = lib.path_append(dylibs_dir, dylib_name)
+                local err, success = futures.uv.fs_copyfile(path_from, path_to)
+                if success then
+                    print(_name .. ": Built successfully")
+                else
+                    lib.notify_err(err)
+                end
+            end)
+            table.insert(build_tasks, task)
         end
     end
 
     if vim.tbl_isempty(build_tasks) then
-        vim.notify("No building task.")
+        vim.notify("No crate to build")
         return
     end
 
     futures.spawn(function()
         print("Building...")
-        futures.join(build_tasks)
+        local handles = vim.tbl_map(function (task)
+            return futures.spawn(task())
+        end, build_tasks)
+        for _, handle in ipairs(handles) do
+            handle:await()
+        end
         Task.delay(1000):await()
         print("Done")
     end)
@@ -474,7 +488,8 @@ function M.set_srd_shortcuts(srd_table, opts)
             if m == "n" then
                 mode = "n"
             elseif vim.tbl_contains({ "v", "V", "" }, m)
-                then mode = "v"
+            then
+                mode = "v"
             else
                 return
             end
