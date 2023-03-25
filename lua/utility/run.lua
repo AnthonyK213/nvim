@@ -35,8 +35,10 @@ local run_bin = function(tbl)
     local bin = lib.path_append(tbl.fwd, tbl.bin)
     local data, event = Terminal.new({ bin }, {
         cwd = tbl.fwd,
-    }):continue_with(function(_, _, data, event)
-        if ok(data, event) and lib.path_exists(bin) then
+    }):continue_with(function()
+        -- `jobstart()` cannot handle negative return code, so this callback
+        -- for cleaning up may not be called if the process faulted...
+        if lib.path_exists(bin) then
             vim.loop.fs_unlink(bin)
         end
     end):await()
