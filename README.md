@@ -425,6 +425,7 @@ Configuration for Neovim with some personal hacks.
 * [futures.Process](./lua/futures/proc.lua) type
 * [futures.Task](./lua/futures/task.lua) type
 * [futures.Terminal](./lua/futures/term.lua) type
+* [futures.Terminal2](./lua/futures/term2.lua) type
 
 ## `utility`
 * [utility.lib](./lua/utility/lib.lua) library

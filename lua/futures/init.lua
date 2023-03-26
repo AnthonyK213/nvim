@@ -296,6 +296,8 @@ M.Task = require("futures.task")
 
 M.Terminal = require("futures.term")
 
+M.Terminal2 = require("futures.term2")
+
 M.fs = {
     ---Opens a text file, reads all the text in the file into a string,
     ---and then closes the file.

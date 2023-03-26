@@ -38,6 +38,7 @@ local run_bin = function(tbl)
     }):continue_with(function()
         -- `jobstart()` cannot handle negative return code, so this callback
         -- for cleaning up may not be called if the process faulted...
+        -- Perhaps I would try `futures.Terminal2` someday.
         if lib.path_exists(bin) then
             vim.loop.fs_unlink(bin)
         end
