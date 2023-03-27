@@ -4,6 +4,7 @@ local futures = require("futures")
 local Process = futures.Process
 local Task = futures.Task
 local Terminal = futures.Terminal
+local Terminal2 = futures.Terminal2
 
 local M = {}
 
@@ -33,17 +34,12 @@ end
 ---@return boolean
 local run_bin = function(tbl)
     local bin = lib.path_append(tbl.fwd, tbl.bin)
-    local data, event = Terminal.new({ bin }, {
-        cwd = tbl.fwd,
-    }):continue_with(function()
-        -- `jobstart()` cannot handle negative return code, so this callback
-        -- for cleaning up may not be called if the process faulted...
-        -- Perhaps I would try `futures.Terminal2` someday.
+    local code = Terminal2.new(bin, { cwd = tbl.fwd }):continue_with(function()
         if lib.path_exists(bin) then
             vim.loop.fs_unlink(bin)
         end
     end):await()
-    if not ok(data, event) then return false end
+    if code ~= 0 then return false end
     return true
 end
 
@@ -112,8 +108,8 @@ local comp_table = {
             return function()
                 return wrap(Terminal.new(tbl.opt == ""
                     and { "make" } or { "make", tbl.opt }, {
-                    cwd = root
-                }))()
+                        cwd = root
+                    }))()
             end
         end
         local my_cc = _my_core_opt.dep.cc
@@ -128,9 +124,9 @@ local comp_table = {
             if tbl.opt == "" then
                 return function()
                     if has_error(Process.new(cmd[1], {
-                        args = vim.list_slice(cmd, 2, #cmd),
-                        cwd = tbl.fwd,
-                    })) then
+                            args = vim.list_slice(cmd, 2, #cmd),
+                            cwd = tbl.fwd,
+                        })) then
                         return false
                     end
                     return run_bin(tbl)
@@ -155,9 +151,9 @@ local comp_table = {
             if tbl.opt == "" then
                 return function()
                     if has_error(Process.new(cc, {
-                        args = { tbl.fnm, "-o", tbl.bin },
-                        cwd = tbl.fwd,
-                    })) then
+                            args = { tbl.fnm, "-o", tbl.bin },
+                            cwd = tbl.fwd,
+                        })) then
                         return false
                     end
                     return run_bin(tbl)
@@ -242,7 +238,7 @@ local comp_table = {
             build = {
                 "sbcl", "--noinform", "--load", tbl.fnm, "--eval",
                 [[(sb-ext:save-lisp-and-die "]] .. tbl.bin
-                    .. [[" :toplevel (quote main) :executable t)]],
+                .. [[" :toplevel (quote main) :executable t)]],
             },
         }
         local cmd = cmd_tbl[tbl.opt]
@@ -286,8 +282,8 @@ local comp_table = {
         return function()
             return wrap(Terminal.new(tbl.opt == ""
                 and { "make" } or { "make", tbl.opt }, {
-                cwd = tbl.fwd
-            }))()
+                    cwd = tbl.fwd
+                }))()
         end
     end,
     python = function(tbl)
@@ -321,9 +317,9 @@ local comp_table = {
         if not cargo_root then
             return function()
                 if has_error(Process.new("rustc", {
-                    args = { tbl.fnm, "-o", tbl.bin },
-                    cwd = tbl.fwd,
-                })) then
+                        args = { tbl.fnm, "-o", tbl.bin },
+                        cwd = tbl.fwd,
+                    })) then
                     return false
                 end
                 return run_bin(tbl)
