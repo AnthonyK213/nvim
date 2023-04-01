@@ -4,6 +4,13 @@
     "snippets": [
       {
         "language": [
+          "c",
+          "cpp"
+        ],
+        "path": "./c.json"
+      },
+      {
+        "language": [
           "lua"
         ],
         "path": "./lua.json"
