@@ -9,7 +9,7 @@ local stardict_path = vim.loop.os_homedir() .. "/.stardict/dic/"
 ---Look up `word` among dictionaries.
 ---@param dict_dir string
 ---@param word string
----@param path string Path to dynamic linked library `nmail`.
+---@param path string Path to dynamic linked library `nstardict`.
 ---@return string?
 local function nstardict(dict_dir, word, path)
     local ffi = require("ffi")
