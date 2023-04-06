@@ -196,18 +196,18 @@ for [s:k, s:v] in items(s:gui_font_size_kbd)
   exe 'nn'  '<silent>' s:k '<Cmd>call' '<SID>gui_font_' . s:v . '()<CR>'
   exe 'ino' '<silent>' s:k '<C-\><C-O>:call' '<SID>gui_font_' . s:v . '()<CR>'
 endfor
-"" Toggle line number display
-nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
-ino <silent> <F9> <C-\><C-o>:call <SID>gui_number_toggle()<CR>
-"" Toggle relative line number display
-nn  <silent> <F10> :call <SID>gui_relative_number_toggle()<CR>
-ino <silent> <F10> <C-\><C-o>:call <SID>gui_relative_number_toggle()<CR>
-"" Toggle full screen
-nn  <silent> <F11> :call <SID>gui_fullscreen_toggle()<CR>
-ino <silent> <F11> <C-\><C-o>:call <SID>gui_fullscreen_toggle()<CR>
 "" Lazy save the memo.
 nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 "" Toggle GUI built-in file explorer
 nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
 "" Lock/unlock background
 nn <silent> <F4> :call my#compat#bg_lock_toggle()<CR>
+"" Toggle line number display
+nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
+ino <silent> <F9> <C-\><C-o>:call <SID>gui_number_toggle()<CR>
+"" Toggle relative line number display
+nn  <silent> <S-F9> :call <SID>gui_relative_number_toggle()<CR>
+ino <silent> <S-F9> <C-\><C-o>:call <SID>gui_relative_number_toggle()<CR>
+"" Toggle full screen
+nn  <silent> <F11> :call <SID>gui_fullscreen_toggle()<CR>
+ino <silent> <F11> <C-\><C-o>:call <SID>gui_fullscreen_toggle()<CR>
