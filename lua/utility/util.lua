@@ -257,13 +257,10 @@ end
 ---@param channel? string Upgrade channel, "stable" or "nightly".
 function M.nvim_upgrade(channel)
     local proxy = _my_core_opt.dep.proxy
-
-    local version = vim.api.nvim_exec("version", true)
-    local tag, build = version:match("NVIM%sv([%d.]+)(.-)\n")
-    local index = build:match("^%-dev%+(%d+)%-.+$")
+    local version = vim.version()
 
     if not channel then
-        channel = index and "nightly" or "stable"
+        channel = version.prerelease and "nightly" or "stable"
     elseif channel ~= "stable" and channel ~= "nightly" then
         lib.notify_err("Invalid neovim release channel.")
         return
@@ -290,8 +287,9 @@ function M.nvim_upgrade(channel)
     if not backup_path:exists() then backup_path:mkdir() end
 
     if nvim_path:exists() then
-        local time_stamp = os.date("%y%m%d%H%M%S_")
-        local name = time_stamp .. tag .. (index and "_dev" .. index or "")
+        local name = string.format("%s_%d.%d.%d%s", os.date("%y%m%d%H%M%S"),
+            version.major, version.minor, version.patch,
+            version.prerelease and "_dev" or "")
         nvim_path:copy {
             recursive = true,
             override = true,
@@ -307,22 +305,17 @@ function M.nvim_upgrade(channel)
             .. " -Uri " .. source
             .. " -OutFile " .. archive_path.filename
         if use_proxy then dl_cmd = dl_cmd .. " -Proxy " .. proxy end
-
         local rm_cmd = "Remove-Item"
             .. " -Path " .. nvim_path.filename
             .. " -Recurse"
-
         local ex_cmd = "Expand-Archive"
             .. " -Path " .. archive_path.filename
             .. " -DestinationPath " .. bin_path.filename
-
         local rn_cmd = "Rename-Item"
             .. " -Path " .. bin_path:joinpath("nvim-win64").filename
             .. " -NewName " .. nvim_path.filename
-
         local cl_cmd = "Remove-Item"
             .. " -Path " .. archive_path.filename
-
         local pwsh_cmd = table.concat({
             dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd
         }, ";")
@@ -434,7 +427,7 @@ function M.build_dylibs()
 
     futures.spawn(function()
         print("Building...")
-        local handles = vim.tbl_map(function (task)
+        local handles = vim.tbl_map(function(task)
             return futures.spawn(task())
         end, build_tasks)
         for _, handle in ipairs(handles) do
