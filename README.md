@@ -340,14 +340,15 @@ Configuration for Neovim with some personal hacks.
     - v:   <kbd>bd</kbd> -> Base64 decode selection.
     - v:   <kbd>be</kbd> -> Base64 encode selection.
 * **Miscellanea**
-  - v:   <kbd>\*/#</kbd> -> Search for the visual selection.
-  - invt:<kbd>F2</kbd>   -> Toggle mouse status.
-  - n:   <kbd>F5</kbd>   -> *nvim-dap*, continue debugging.
-  - n:   <kbd>F6</kbd>   -> *nvim-dap*, step over.
-  - n:   <kbd>F7</kbd>   -> *nvim-dap*, step into.
-  - n:   <kbd>F8</kbd>   -> *nvim-dap*, step out.
-  - n:   <kbd>S-F5</kbd> -> `CodeRun`.
-  - n:   <kbd>C-S-F5</kbd> -> `CodeRun test`.
+  - v:   <kbd>\*/#</kbd>    -> Search for the visual selection.
+  - invt:<kbd>F2</kbd>      -> Toggle mouse status.
+  - n:   <kbd>F5</kbd>      -> *nvim-dap*, continue debugging;
+                               *presenting.vim*, presenting view
+  - n:   <kbd>S-F5</kbd>    -> `CodeRun`.
+  - n:   <kbd>C-S-F5</kbd>  -> `CodeRun test`.
+  - n:   <kbd>F10</kbd>     -> *nvim-dap*, step over.
+  - n:   <kbd>S-F11</kbd>   -> *nvim-dap*, step into.
+  - n:   <kbd>C-S-F11</kbd> -> *nvim-dap*, step out.
 
 # Commands
 - `CodeRun`     -> Run or compile the code.

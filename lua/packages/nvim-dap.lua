@@ -126,9 +126,11 @@ if dap_option.debugpy then dap_debugpy:setup() end
 local kbd = vim.keymap.set
 local ntst = { noremap = true, silent = true }
 kbd("n", "<F5>", function() dap.continue() end, ntst)
-kbd("n", "<F6>", function() dap.step_over() end, ntst)
-kbd("n", "<F7>", function() dap.step_into() end, ntst)
-kbd("n", "<F8>", function() dap.step_out() end, ntst)
+kbd("n", "<F10>", function() dap.step_over() end, ntst)
+kbd("n", "<F23>", function() dap.step_into() end, ntst)
+kbd("n", "<S-F11>", function() dap.step_into() end, ntst)
+kbd("n", "<F47>", function() dap.step_out() end, ntst)
+kbd("n", "<S-C-F11>", function() dap.step_out() end, ntst)
 kbd("n", "<leader>db", function() dap.toggle_breakpoint() end, ntst)
 kbd("n", "<leader>dc", function() dap.clear_breakpoints() end, ntst)
 kbd("n", "<leader>dl", function() dap.run_last() end, ntst)
