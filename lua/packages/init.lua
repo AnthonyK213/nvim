@@ -507,6 +507,17 @@ require("lazy").setup({
                         ["[x"] = actions.prev_conflict,
                         ["]x"] = actions.next_conflict,
                         ["q"] = "<Cmd>DiffviewClose<CR>",
+                        ["c"] = function() print("commit") end,
+                        ["p"] = function()
+                            if require("logit").pull():start() then
+                                print("Pulling from remote...")
+                            end
+                        end,
+                        ["P"] = function()
+                            if require("logit").push():start() then
+                                print("Pushing...")
+                            end
+                        end,
                     },
                     file_history_panel = {
                         ["g!"] = actions.options,
