@@ -46,7 +46,7 @@ function M.push(remote, branch, root)
     if not root then return end
     local args = { "push", "--porcelain" }
     if remote and branch then
-        args = { "pull", remote, branch, "--porcelain" }
+        args = { "push", remote, branch, "--porcelain" }
     end
     local git_push = Process.new("git", {
         args = args,
