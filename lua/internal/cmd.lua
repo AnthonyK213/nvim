@@ -35,7 +35,7 @@ end, {
 
 cmd("PushAll", function(tbl)
     local arg_tbl = require("utility.lib").parse_args(tbl.args)
-    require("utility.util").git_push_all(arg_tbl)
+    require("logit").push_all(arg_tbl)
 end, { nargs = "?", desc = "Git push all" })
 
 cmd("SshConfig", function(_)

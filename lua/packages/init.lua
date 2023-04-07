@@ -442,7 +442,7 @@ require("lazy").setup({
         commit = "05386ff1e9da447d4688525d64f7611c863f05ca",
         cond = function() return _my_core_opt.vcs.client == "neogit" end,
         keys = {
-            { "<leader>gn", "<Cmd>Neogit<CR>" }
+            { "<leader>gl", "<Cmd>Neogit<CR>" }
         }
     },
     {
@@ -555,7 +555,7 @@ require("lazy").setup({
             }
         end,
         keys = {
-            { "<leader>gd", "<Cmd>DiffviewOpen<CR>" },
+            { "<leader>gn", "<Cmd>DiffviewOpen<CR>" },
             { "<leader>gh", "<Cmd>DiffviewFileHistory<CR>" },
         }
     },
@@ -754,7 +754,7 @@ require("lazy").setup({
         version = "*",
         config = function()
             if _my_core_opt.vcs.client == "lazygit" then
-                vim.keymap.set("n", "<leader>gn", function()
+                vim.keymap.set("n", "<leader>gl", function()
                     if not require("utility.lib").executable("lazygit") then return end
                     require("toggleterm.terminal").Terminal:new {
                         cmd = "lazygit",

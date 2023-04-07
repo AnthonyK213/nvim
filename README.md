@@ -273,13 +273,13 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>b</kbd> -> *telescope.nvim*, buffers.
     - n:    <kbd>f</kbd> -> *telescope.nvim*, find_files.
     - n:    <kbd>g</kbd> -> *telescope.nvim*, live_grep.
-  - <kbd>leader-g-</kbd> -> **VCS**.
+  - <kbd>leader-g-</kbd> -> **Git**.
     - n:    <kbd>b</kbd> -> *gitsigns.nvim*, blame line.
-    - n:    <kbd>d</kbd> -> *diffview.nvim*, open diffview in tab.
+    - n:    <kbd>n</kbd> -> *diffview.nvim*, open diffview in tab.
     - n:    <kbd>h</kbd> -> *diffview.nvim*, open diffview file history in tab.
     - n:    <kbd>j</kbd> -> *gitsigns.nvim*, next hunk.
     - n:    <kbd>k</kbd> -> *gitsigns.nvim*, previous hunk.
-    - n:    <kbd>n</kbd> -> *neogit*/*toggleterm.nvim*, open git client window.
+    - n:    <kbd>l</kbd> -> *neogit*/*toggleterm.nvim*, open git client window.
     - n:    <kbd>p</kbd> -> *gitsigns.nvim*, preview hunk.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search cword/selection with ...**.
