@@ -374,7 +374,7 @@ Configuration for Neovim with some personal hacks.
 * File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-* VCS
+* Git
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 * Utilities
