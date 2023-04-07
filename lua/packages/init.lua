@@ -431,20 +431,7 @@ require("lazy").setup({
             { "<leader>fg", function() require("telescope.builtin").live_grep() end },
         }
     },
-    -- VCS
-    {
-        "TimUntersberger/neogit",
-        opts = {
-            integrations = {
-                diffview = true
-            }
-        },
-        commit = "05386ff1e9da447d4688525d64f7611c863f05ca",
-        cond = function() return _my_core_opt.vcs.client == "neogit" end,
-        keys = {
-            { "<leader>gl", "<Cmd>Neogit<CR>" }
-        }
-    },
+    -- Git
     {
         "sindrets/diffview.nvim",
         config = function()
@@ -752,21 +739,19 @@ require("lazy").setup({
         "akinsho/toggleterm.nvim",
         event = "VeryLazy",
         version = "*",
-        config = function()
-            if _my_core_opt.vcs.client == "lazygit" then
-                vim.keymap.set("n", "<leader>gl", function()
-                    if not require("utility.lib").executable("lazygit") then return end
-                    require("toggleterm.terminal").Terminal:new {
-                        cmd = "lazygit",
-                        hidden = true,
-                        direction = "float",
-                        float_opts = {
-                            border = _my_core_opt.tui.border,
-                        },
-                    }:toggle()
-                end, { noremap = true, silent = true })
-            end
-        end
+        keys = {
+            { "<leader>gl", function()
+                if not require("utility.lib").executable("lazygit") then return end
+                require("toggleterm.terminal").Terminal:new {
+                    cmd = "lazygit",
+                    hidden = true,
+                    direction = "float",
+                    float_opts = {
+                        border = _my_core_opt.tui.border,
+                    },
+                }:toggle()
+            end }
+        }
     },
     {
         "saecki/crates.nvim",

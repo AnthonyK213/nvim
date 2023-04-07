@@ -64,9 +64,6 @@ local opt = {
         "matchparen",
         "netrwPlugin"
     },
-    vcs = {
-        client = "neogit",
-    },
 }
 
 -- Merge custom options.

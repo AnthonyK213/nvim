@@ -167,12 +167,7 @@ Configuration for Neovim with some personal hacks.
         "matchit",
         "matchparen",
         "netrwPlugin"
-      ],
-      // Version control system
-      "vcs": {
-        // ("neogit"|"lazygit") Git client
-        "client": "neogit"
-      }
+      ]
     }
     ```
 * **Install LSP servers via `mason.nvim`**
@@ -279,7 +274,7 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>h</kbd> -> *diffview.nvim*, open diffview file history in tab.
     - n:    <kbd>j</kbd> -> *gitsigns.nvim*, next hunk.
     - n:    <kbd>k</kbd> -> *gitsigns.nvim*, previous hunk.
-    - n:    <kbd>l</kbd> -> *neogit*/*toggleterm.nvim*, open git client window.
+    - n:    <kbd>l</kbd> -> *toggleterm.nvim*, open lazygit.
     - n:    <kbd>p</kbd> -> *gitsigns.nvim*, preview hunk.
     - n:    <kbd>s</kbd> -> Git status.
   - <kbd>leader-h-</kbd> -> **Search cword/selection with ...**.
@@ -382,7 +377,6 @@ Configuration for Neovim with some personal hacks.
 * VCS
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
-  - [Neogit](https://github.com/TimUntersberger/neogit)
 * Utilities
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
   - [dial.nvim](https://github.com/monaqa/dial.nvim)
