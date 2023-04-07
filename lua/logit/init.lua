@@ -70,9 +70,9 @@ end
 function M.pull(remote, branch, root)
     root = root or repo()
     if not root then return end
-    local args = { "pull", "--porcelain" }
+    local args = { "pull" }
     if remote and branch then
-        args = { "pull", remote, branch, "--porcelain" }
+        args = { "pull", remote, branch }
     end
     local git_pull = Process.new("git", {
         args = args,
