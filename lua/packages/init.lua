@@ -158,7 +158,12 @@ require("lazy").setup({
         dependencies = "nvim-tree/nvim-web-devicons",
         lazy = false,
         cond = load_optional,
-        init = function() vim.g.barbar_auto_setup = false end,
+        init = function()
+            vim.g.barbar_auto_setup = false
+            if load_optional then
+                vim.o.showtabline = 2
+            end
+        end,
         opts = {
             animation = _my_core_opt.tui.animation,
             icons = {
