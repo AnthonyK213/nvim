@@ -1025,7 +1025,11 @@ require("lazy").setup({
     -- Games
     {
         "alec-gibson/nvim-tetris",
-        event = "VeryLazy",
+        cmd = "Tetris",
+    },
+    {
+        "seandewar/nvimesweeper",
+        cmd = "Nvimesweeper",
     },
 }, {
     ui = {
