@@ -154,45 +154,33 @@ require("lazy").setup({
         }
     },
     {
-        "akinsho/bufferline.nvim",
+        "romgrk/barbar.nvim",
+        dependencies = "nvim-tree/nvim-web-devicons",
         lazy = false,
         cond = load_optional,
-        config = function()
-            vim.o.showtabline = 2
-            require("bufferline").setup {
-                options = {
-                    right_mouse_command = "",
-                    middle_mouse_command = "bdelete! %d",
-                    buffer_close_icon = "×",
-                    modified_icon = "+",
-                    close_icon = "×",
-                    left_trunc_marker = "<",
-                    right_trunc_marker = ">",
-                    max_name_length = 18,
-                    max_prefix_length = 15,
-                    tab_size = 18,
-                    ---@type string|boolean
-                    diagnostics = "nvim_lsp",
-                    diagnostics_indicator = function(count)
-                        return "(" .. count .. ")"
-                    end,
-                    custom_filter = function(bufnr)
-                        return not vim.tbl_contains({
-                            "terminal", "quickfix", "prompt"
-                            }, vim.api.nvim_buf_get_option(bufnr, "buftype"))
-                    end,
-                    show_buffer_icons = false,
-                    show_buffer_close_icons = true,
-                    show_close_icon = false,
-                    persist_buffer_sort = true,
-                    separator_style = "thin",
-                    enforce_regular_tabs = false,
-                    always_show_bufferline = true,
-                    sort_by = "id"
-                }
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            animation = false,
+            icons = {
+                button = "×",
+                diagnostics = {
+                    [vim.diagnostic.severity.ERROR] = { enabled = true, icon = "E" },
+                    [vim.diagnostic.severity.WARN] = { enabled = false },
+                    [vim.diagnostic.severity.INFO] = { enabled = false },
+                    [vim.diagnostic.severity.HINT] = { enabled = false },
+                },
+                modified = { button = "●" },
+                inactive = { button = "×" },
+            },
+            sidebar_filetypes = {
+                NvimTree = true,
             }
-        end,
-        keys = { { "<leader>bb", "<Cmd>BufferLinePick<CR>" } }
+        },
+        keys = {
+            { "<leader>bb", "<Cmd>BufferPick<CR>" },
+            { "<leader>bP", "<Cmd>BufferMovePrevious<CR>" },
+            { "<leader>bN", "<Cmd>BufferMoveNext<CR>" },
+        }
     },
     {
         "norcalli/nvim-colorizer.lua",
