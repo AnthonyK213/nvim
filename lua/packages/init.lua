@@ -507,7 +507,18 @@ require("lazy").setup({
                         ["[x"] = actions.prev_conflict,
                         ["]x"] = actions.next_conflict,
                         ["q"] = "<Cmd>DiffviewClose<CR>",
-                        ["c"] = function() print("commit") end,
+                        ["c"] = function()
+                            local futures = require("futures")
+                            futures.spawn(function ()
+                                local msg = futures.ui.input { prompt = "Commit" }
+                                if not msg or #msg == 0 then return end
+                                if futures.ui.input { prompt = "Commit?" } == "y" then
+                                    if require("logit").commit(msg):start() then
+                                        print("Commiting...")
+                                    end
+                                end
+                            end)
+                        end,
                         ["p"] = function()
                             if require("logit").pull():start() then
                                 print("Pulling from remote...")
