@@ -160,7 +160,7 @@ require("lazy").setup({
         cond = load_optional,
         init = function() vim.g.barbar_auto_setup = false end,
         opts = {
-            animation = false,
+            animation = _my_core_opt.tui.animation,
             icons = {
                 button = "×",
                 diagnostics = {
@@ -174,7 +174,8 @@ require("lazy").setup({
             },
             sidebar_filetypes = {
                 NvimTree = true,
-            }
+            },
+            maximum_length = 13,
         },
         keys = {
             { "<leader>bb", "<Cmd>BufferPick<CR>" },

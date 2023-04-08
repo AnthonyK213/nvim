@@ -65,7 +65,9 @@ Configuration for Neovim with some personal hacks.
         // (boolean) nvim-cmp ghost text
         "cmp_ghost": false,
         // (boolean) Dim inactive window automatically
-        "auto_dim": false
+        "auto_dim": false,
+        // (boolean) Animation effects
+        "animation": false
       },
       // GUI (neovim-qt, fvim)
       "gui": {
