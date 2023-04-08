@@ -177,11 +177,9 @@ require("lazy").setup({
                         return "(" .. count .. ")"
                     end,
                     custom_filter = function(bufnr)
-                        local bt = vim.bo[bufnr].bt
-                        if not vim.tbl_contains({ "terminal", "quickfix" }, bt) then
-                            return true
-                        end
-                        return false
+                        return not vim.tbl_contains({
+                            "terminal", "quickfix", "prompt"
+                            }, vim.api.nvim_buf_get_option(bufnr, "buftype"))
                     end,
                     show_buffer_icons = false,
                     show_buffer_close_icons = true,
