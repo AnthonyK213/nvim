@@ -45,7 +45,7 @@ end
 
 ---Locate surrounding pair in direction `dir`
 ---FIXME: If there are imbalanced pairs in string, how to get this work?
----@param dir integer (-1|1) -1 for backward, 1 for forward.
+---@param dir -1|1 -1 for backward, 1 for forward.
 local function srd_locate(str, pair_a, pair_b, dir)
     local tab_pair = srd_collect(str, pair_a, pair_b)
     local list_pos = {}
@@ -83,7 +83,7 @@ local function srd_locate(str, pair_a, pair_b, dir)
 end
 
 ---Add surrounding.
----@param mode string \"n\"|\"v\".
+---@param mode "n"|"v".
 ---@param pair_a? string|string[] Left|Both side of the surrounding.
 function M.srd_add(mode, pair_a)
     futures.spawn(function()

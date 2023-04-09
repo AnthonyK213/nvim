@@ -232,26 +232,32 @@ end
 ---Find the root directory contains `pattern`.
 ---@param pattern string Root pattern (vim regex in `magic` mode).
 ---@param item_type? "directory"|"file" Type of the item to find.
+---@param start_dir? string Directory to start searching.
 ---@return string? result Root directory path.
-function M.get_root(pattern, item_type)
+function M.get_root(pattern, item_type, start_dir)
     if item_type and not (item_type == "file" or item_type == "directory") then
         M.notify_err [[Type must be "file" or "directory".]]
         return
     end
 
+    start_dir = start_dir or M.get_buf_dir()
     local re = vim.regex("\\v" .. pattern)
-
     local result = vim.fs.find(function(name)
-        return re:match_str(name) and true or false
+        return re:match_str(name)
     end, {
-        path = M.get_buf_dir(),
+        path = start_dir,
         upward = true,
         type = item_type,
         limit = 1,
     })
 
     if not vim.tbl_isempty(result) then
-        return vim.fs.dirname(result[1])
+        -- `vim.fs.parents` cannot get directories under `C:\` correctly?
+        local item = result[1]
+        local stat = vim.loop.fs_stat(item)
+        if stat and stat.type == item_type then
+            return vim.fs.dirname(item)
+        end
     end
 end
 
