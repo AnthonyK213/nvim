@@ -22,7 +22,22 @@ end
 ---@param hl table<string, table<string, string>>
 local function hl_cast(hl)
     ---@type table<string, table<string, string>>
-    local result = vim.deepcopy(hl)
+    local result = vim.tbl_extend("force", vim.deepcopy(hl), {
+        BufferCurrent = { fg = "$fg0", bg = "none" },
+        BufferCurrentERROR = { fg = "$red", bg = "none" },
+        BufferCurrentWARN = { fg = "$yellow", bg = "none" },
+        BufferCurrentHINT = { fg = "$green", bg = "none" },
+        BufferCurrentINFO = { fg = "$blue", bg = "none" },
+        BufferVisibleERROR = { fg = "$red", bg = "$bg0" },
+        BufferVisibleWARN = { fg = "$yellow", bg = "bg0" },
+        BufferVisibleHINT = { fg = "$green", bg = "bg0" },
+        BufferVisibleINFO = { fg = "$blue", bg = "bg0" },
+        BufferCurrentIndex = { fg = "$fg0", bg = "none" },
+        BufferCurrentNumber = { fg = "$fg0", bg = "none" },
+        BufferCurrentSign = { fg = "$cyan", bg = "none" },
+        BufferCurrentTarget = { fg = "$red", bg = "none" },
+        BufferCurrentMod = { fg = "$orange", bg = "none" },
+    })
     local map = {
         ["$bg3"] = "palette.bg4",
         ["$light_grey"] = "palette.fg3",
