@@ -125,7 +125,7 @@ kbd("Look up the word in the dictionary", { "n", "v" }, "<leader>hh", function()
 end)
 kbd("Mouse toggle", { "n", "v", "i", "t" }, "<F8>", function()
     if #(vim.o.mouse) == 0 then
-        vim.o.mouse = "a"
+        vim.o.mouse = "nvi"
         vim.notify("Mouse enabled")
     else
         vim.o.mouse = ""
