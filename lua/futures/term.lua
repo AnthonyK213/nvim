@@ -120,8 +120,7 @@ function Terminal:await()
         _e = event
         assert(coroutine.resume(_co))
     end
-    self:start()
-    if not self.has_exited then
+    if self:start() and not self.has_exited then
         coroutine.yield()
     end
     return _d, _e
