@@ -276,6 +276,7 @@ require("lazy").setup({
                         { key = "p",                         action = "paste" },
                         { key = "q",                         action = "close" },
                         { key = "r",                         action = "rename" },
+                        { key = "<F2>",                      action = "rename" },
                         { key = "s",                         action = "vsplit" },
                         { key = "t",                         action = "tabnew" },
                         { key = "u",                         action = "dir_up" },

@@ -123,7 +123,7 @@ kbd("Look up the word in the dictionary", { "n", "v" }, "<leader>hh", function()
     end
     require("utility.stardict").stardict(word)
 end)
-kbd("Mouse toggle", { "n", "v", "i", "t" }, "<F2>", function()
+kbd("Mouse toggle", { "n", "v", "i", "t" }, "<F8>", function()
     if #(vim.o.mouse) == 0 then
         vim.o.mouse = "a"
         vim.notify("Mouse enabled")

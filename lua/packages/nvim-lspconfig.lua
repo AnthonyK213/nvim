@@ -23,6 +23,7 @@ local custom_attach = function(client, bufnr)
     else
         kbd("n", "<F12>", builtin.lsp_definitions, _o)
     end
+    kbd("n", "<F2>", vim.lsp.buf.rename, _o)
     kbd("n", "<S-F12>", lsp_ref, _o)
     kbd("n", "<F24>", lsp_ref, _o)
     kbd("n", "<C-F12>", builtin.lsp_implementations, _o)
