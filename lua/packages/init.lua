@@ -235,7 +235,7 @@ require("lazy").setup({
                 "block",
                 "arguments",
             },
-            buftype_exclude = { "help", "quickfix", "terminal" },
+            buftype_exclude = { "help", "quickfix", "terminal", "nofile" },
             filetype_exclude = {
                 "aerial", "alpha", "packer", "lazy",
                 "markdown", "presenting_markdown",
