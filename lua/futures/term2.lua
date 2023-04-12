@@ -1,5 +1,6 @@
 local lib = require("utility.lib")
 local Process = require("futures.proc")
+local augroup = vim.api.nvim_create_augroup("Terminal2", { clear = true })
 
 ---@class futures.Terminal2 Represents a neovim terminal which implemented with lua api.
 ---@field protected proc futures.Process
@@ -60,11 +61,16 @@ function Terminal:_prelude()
     if not ok then
         return false, self.winnr, self.bufnr
     end
+    vim.api.nvim_create_autocmd({ "BufDelete", "BufUnload" }, {
+        group = augroup,
+        buffer = self.bufnr,
+        callback = function() self:close() end,
+    })
     self.chan = vim.api.nvim_open_term(self.bufnr, {
         on_input = function(_, _, _, data)
             if data then
                 if self.proc.has_exited then
-                    self:close()
+                    self:close(true)
                 else
                     data = data:gsub("\r", "\r\n")
                     vim.api.nvim_chan_send(self.chan, data)
@@ -75,15 +81,21 @@ function Terminal:_prelude()
     })
     self.proc.on_stdout = function(data)
         data = data:gsub("\n", "\r\n")
-        vim.api.nvim_chan_send(self.chan, data)
+        if vim.api.nvim_buf_is_valid(self.bufnr) then
+            vim.api.nvim_chan_send(self.chan, data)
+        end
     end
     self.proc.on_stderr = function(data)
         data = data:gsub("\n", "\r\n")
-        vim.api.nvim_chan_send(self.chan, data)
+        if vim.api.nvim_buf_is_valid(self.bufnr) then
+            vim.api.nvim_chan_send(self.chan, data)
+        end
     end
     self.proc:continue_with(function(_, code, _)
-        vim.api.nvim_chan_send(self.chan,
-            string.format("\r\n[Process exited %d]", code))
+        if vim.api.nvim_buf_is_valid(self.bufnr) then
+            vim.api.nvim_chan_send(self.chan,
+                string.format("\r\n[Process exited %d]", code))
+        end
     end)
     return ok, self.winnr, self.bufnr
 end
@@ -120,9 +132,13 @@ function Terminal:await()
 end
 
 ---Close the terminal process.
-function Terminal:close()
+---@param del_buf? boolean
+function Terminal:close(del_buf)
     self.proc:kill()
-    lib.feedkeys(string.format("<C-\\><C-N><Cmd>bd! %d<CR>", self.bufnr), "n", true)
+    if (del_buf) then
+        lib.feedkeys(string.format("<C-\\><C-N><Cmd>bd! %d<CR>", self.bufnr),
+            "n", true)
+    end
 end
 
 return Terminal
