@@ -458,8 +458,10 @@ local function vscode_tasks()
             local cmd = task.command
             local args = task.args or {}
             if cmd and vim.tbl_islist(args) then
+                table.insert(args, 1, cmd)
                 print(task.label .. ": running...")
-                Terminal2.new(cmd, { args = args, cwd = root }):await()
+                Terminal.new(args, { cwd = root }):await()
+                Task.delay(1000):await()
                 print(task.label .. ": exit.")
             end
         end

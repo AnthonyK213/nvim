@@ -50,6 +50,7 @@ end
 ---@return integer winnr Window number of the terminal, -1 on failure.
 ---@return integer bufnr Buffer number of the terminal, -1 on failure.
 function Terminal:start()
+    if not lib.executable(self.cmd[1]) then self.is_valid = false end
     if self.has_exited or not self.is_valid then return false, -1, -1 end
     local ok, winnr, bufnr = lib.new_split(self.option.split_pos or "belowright", {
         split_size = self.option.split_size,
