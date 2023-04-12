@@ -84,7 +84,7 @@ function M.pull(remote, branch, root)
         cwd = root,
     }):continue_with(function(proc, code, _)
         if code == 0 then
-            vim.notify(table.concat(proc.stdout_buf):gsub("[\t\n\r]", " "))
+            vim.notify(table.concat(proc.stdout_buf))
         else
             proc:notify_err()
         end
