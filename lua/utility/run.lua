@@ -252,6 +252,8 @@ local comp_table = {
     end,
     lua = function(tbl)
         if tbl.opt == "" then
+            -- [#23027](https://github.com/neovim/neovim/issues/23027)
+            vim.loader.disable()
             return "luafile %"
         elseif tbl.opt == "lua" then
             if not lib.executable("lua") then return end
