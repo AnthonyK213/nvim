@@ -194,7 +194,7 @@ end
 ---@param signum? integer|string Signal, default `SIGTERM`.
 ---@return integer ok 0 or fail.
 function Process:kill(signum)
-    if self.has_exited then
+    if self.has_exited or not self.handle then
         return 0
     end
     return self.handle:kill(signum or vim.loop.constants.SIGTERM)

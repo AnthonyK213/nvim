@@ -62,9 +62,10 @@ function Terminal:_prelude()
         return false, self.winnr, self.bufnr
     end
     vim.api.nvim_buf_set_name(self.bufnr,
-        string.format("%s %s",
+        string.format("%s %s [%d]",
             self.proc.path,
-            table.concat(self.proc.option.args or {}, " ")))
+            table.concat(self.proc.option.args or {}, " "),
+            self.bufnr))
     vim.api.nvim_create_autocmd({ "BufDelete", "BufUnload" }, {
         group = augroup,
         buffer = self.bufnr,
