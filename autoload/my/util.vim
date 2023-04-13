@@ -248,5 +248,5 @@ function! my#util#auto_hl(scheme, hl_table, palette) abort
   exe "augroup" a:scheme . "Extd"
   exe "autocmd!"
   exe "au ColorScheme" a:scheme "call <SID>hl()"
-  exe "augroup end"
+  exe "augroup END"
 endfunction

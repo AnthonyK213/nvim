@@ -1,0 +1,25 @@
+{
+  "Include guard": {
+    "prefix": "once",
+    "body": [
+      "#ifndef ${1:X}",
+      "#define ${1:X}",
+      "",
+      "${0}",
+      "",
+      "#endif"
+    ],
+    "description": "Include guard."
+  },
+  "Main function": {
+    "prefix": "main",
+    "body": [
+      "int main(int argc, char *argv[]) {",
+      "\t${0}",
+      "",
+      "\treturn 0;",
+      "}"
+    ],
+    "description": "Main function."
+  }
+}

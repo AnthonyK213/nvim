@@ -95,11 +95,9 @@
       // Language Server Protocol
       "lsp": {
         "clangd": false,
-        "jedi-language-server": false,
-        "omnisharp": false,
         "powershell_es": false,
         "rust_analyzer": false,
-        "sumneko_lua": false,
+        "lua_ls": false,
         "vimls": false
       },
       // Use coc.nvim

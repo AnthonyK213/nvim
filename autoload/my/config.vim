@@ -90,12 +90,10 @@ function! my#config#coc() abort
         \ ]
   let g:coc_config_table = {}
   call s:coc_lsp_check('clangd', 'coc-clangd', 'clangd.enabled')
-  call s:coc_lsp_check('jedi_language_server', 'coc-jedi', 'jedi.enable')
-  call s:coc_lsp_check('omnisharp', 'coc-omnisharp')
   call s:coc_lsp_check('powershell_es', 'coc-powershell')
   call s:coc_lsp_check('pyright', 'coc-pyright', 'pyright.enable')
   call s:coc_lsp_check('rust_analyzer', 'coc-rust-analyzer', 'rust-analyzer.enable')
-  call s:coc_lsp_check('sumneko_lua', 'coc-sumneko-lua', 'sumneko-lua.enable')
+  call s:coc_lsp_check('lua_ls', 'coc-sumneko-lua', 'sumneko-lua.enable')
   call s:coc_lsp_check('vimls', 'coc-vimlsp', 'vimlsp.diagnostic.enable')
   let l:snippet_dir = my#compat#stdpath('config') . '/snippet'
   let l:float_config = {
@@ -208,7 +206,7 @@ function! my#config#coc() abort
     au FileType typescript,json setl formatexpr=CocAction('formatSelected')
     " Update signature help on jump placeholder.
     au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  augroup end
+  augroup END
   " Add (Neo)Vim's native statusline support.
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 endfunction
@@ -397,6 +395,20 @@ function! my#config#vim_clap() abort
   nn <silent> <leader>fb :Clap buffers<CR>
   nn <silent> <leader>ff :Clap files<CR>
   nn <silent> <leader>fg :Clap grep<CR>
+  if has("nvim")
+    augroup _clap_custom
+      autocmd!
+      au FileType clap_input inoremap <silent> <buffer> <C-n>
+            \ <C-R>=clap#navigation#linewise_scroll('down')<CR>
+      au FileType clap_input inoremap <silent> <buffer> <C-p>
+            \ <C-R>=clap#navigation#linewise_scroll('up')<CR>
+    augroup END
+  else
+    let g:clap_popup_move_manager = {
+          \ "\<C-N>": "\<Down>",
+          \ "\<C-P>": "\<Up>",
+          \ }
+  endif
 endfunction
 
 function! my#config#vim_floatterm() abort

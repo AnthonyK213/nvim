@@ -1,0 +1,61 @@
+{
+  "Class": {
+    "prefix": "class",
+    "body": [
+      "---@class ${1:ClassWithNamespace}",
+      "---@field ${3} any",
+      "local ${2:ClassName} = {}",
+      "",
+      "---@private",
+      "${2}.__index = ${2}",
+      "",
+      "---Constructor.",
+      "---@param ${3} any",
+      "---@return ${1}",
+      "function ${2}.new(${3:field})",
+      "\tlocal o = {",
+      "\t\t${3} = ${3},",
+      "\t}",
+      "\tsetmetatable(o, ${2})",
+      "\treturn o",
+      "end",
+      "${0}"
+    ],
+    "description": "Class in lua style."
+  },
+  "Module": {
+    "prefix": "module",
+    "body": [
+      "local ${1:M} = {}",
+      "",
+      "${0}",
+      "",
+      "return ${1}"
+    ],
+    "description": "Create a lua module."
+  },
+  "Import": {
+    "prefix": "import",
+    "body": [
+      "local ${1:module} = require(\"${2:path}\")",
+      "${0}"
+    ],
+    "description": "Import a module."
+  },
+  "From": {
+    "prefix": "from",
+    "body": [
+      "local ${1:item} = require(\"${2:path}\").${3:member}",
+      "${0}"
+    ],
+    "description": "Import a module."
+  },
+  "Separator": {
+    "prefix": "separator",
+    "body": [
+      "--------------------------------------------------------------------------------",
+      "${0}"
+    ],
+    "description": "Separator."
+  }
+}
