@@ -230,8 +230,8 @@
   - <kbd>leader-w-</kbd> -> **Vimwiki**.
 * **Miscellanea**
   - v:   <kbd>\*/#</kbd> -> Search visual selection.
-  - invt:<kbd>F2</kbd>   -> Toggle mouse status.
   - n:   <kbd>S-F5</kbd> -> `CodeRun`
+  - invt:<kbd>F8</kbd>   -> Toggle mouse status.
 
 ## Commands
 - `CodeRun`     -> Run or compile the code.

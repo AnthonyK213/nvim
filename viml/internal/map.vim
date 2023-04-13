@@ -81,10 +81,10 @@ vn <silent> <M-n> :<C-U>exe "'<,'>move" min([line("'>") + 1, line("$")])<CR>gv
 vn <silent> * :<C-U>/<C-R>=my#util#search_selection('/')<CR><CR>
 vn <silent> # :<C-U>?<C-R>=my#util#search_selection('?')<CR><CR>
 " Mouse toggle.
-nn  <silent> <F2> :call           my#compat#mouse_toggle()<CR>
-vn  <silent> <F2> :<C-U>call      my#compat#mouse_toggle()<CR>
-ino <silent> <F2> <C-\><C-O>:call my#compat#mouse_toggle()<CR>
-tno <silent> <F2> <C-\><C-N>:call my#compat#mouse_toggle()<CR>a
+nn  <silent> <F8> :call           my#compat#mouse_toggle()<CR>
+vn  <silent> <F8> :<C-U>call      my#compat#mouse_toggle()<CR>
+ino <silent> <F8> <C-\><C-O>:call my#compat#mouse_toggle()<CR>
+tno <silent> <F8> <C-\><C-N>:call my#compat#mouse_toggle()<CR>a
 " Run code.
 nn <silent> <F17> :call my#comp#code_run("")<CR>
 nn <silent> <S-F5> :call my#comp#code_run("")<CR>
