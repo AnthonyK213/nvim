@@ -250,41 +250,41 @@ require("lazy").setup({
         opts = {
             disable_netrw = true,
             hijack_cursor = true,
-            view = {
-                mappings = {
-                    custom_only = true,
-                    list = {
-                        { key = { "<CR>", "<2-LeftMouse>" }, action = "edit" },
-                        { key = { "C", "<2-RightMouse>" },   action = "cd" },
-                        { key = "<C-J>",                     action = "next_sibling" },
-                        { key = "<C-K>",                     action = "prev_sibling" },
-                        { key = "<C-R>",                     action = "full_rename" },
-                        { key = "<M-Y>",                     action = "copy_absolute_path" },
-                        { key = "<M-y>",                     action = "copy_path" },
-                        { key = "<S-CR>",                    action = "close_node" },
-                        { key = "<Tab>",                     action = "preview" },
-                        { key = "D",                         action = "remove" },
-                        { key = "H",                         action = "toggle_dotfiles" },
-                        { key = "I",                         action = "toggle_ignored" },
-                        { key = "R",                         action = "refresh" },
-                        { key = "a",                         action = "create" },
-                        { key = "c",                         action = "copy" },
-                        { key = "gj",                        action = "next_git_item" },
-                        { key = "gk",                        action = "prev_git_item" },
-                        { key = "i",                         action = "split" },
-                        { key = "o",                         action = "system_open" },
-                        { key = "p",                         action = "paste" },
-                        { key = "q",                         action = "close" },
-                        { key = "r",                         action = "rename" },
-                        { key = "<F2>",                      action = "rename" },
-                        { key = "s",                         action = "vsplit" },
-                        { key = "t",                         action = "tabnew" },
-                        { key = "u",                         action = "dir_up" },
-                        { key = "x",                         action = "cut" },
-                        { key = "y",                         action = "copy_name" },
-                    }
-                }
-            },
+            on_attach = function(bufnr)
+                local k = vim.keymap.set
+                local n = require("nvim-tree.api")
+                local o = { buffer = bufnr, noremap = true, silent = true }
+                k("n", "<2-LeftMouse>", n.node.open.edit, o)
+                k("n", "<2-RightMouse>", n.tree.change_root_to_node, o)
+                k("n", "<C-J>", n.node.navigate.sibling.next, o)
+                k("n", "<C-K>", n.node.navigate.sibling.prev, o)
+                k("n", "<CR>", n.node.open.edit, o)
+                k("n", "<F2>", n.fs.rename, o)
+                k("n", "<M-Y>", n.fs.copy.absolute_path, o)
+                k("n", "<M-y>", n.fs.copy.relative_path, o)
+                k("n", "<Tab>", n.node.open.preview, o)
+                k("n", "C", n.tree.change_root_to_node, o)
+                k("n", "D", n.fs.remove, o)
+                k("n", "H", n.tree.toggle_hidden_filter, o)
+                k("n", "I", n.tree.toggle_gitignore_filter, o)
+                k("n", "K", n.node.show_info_popup, o)
+                k("n", "R", n.tree.reload, o)
+                k("n", "U", n.tree.change_root_to_parent, o)
+                k("n", "a", n.fs.create, o)
+                k("n", "c", n.fs.copy.node, o)
+                k("n", "gj", n.node.navigate.git.next, o)
+                k("n", "gk", n.node.navigate.git.prev, o)
+                k("n", "i", n.node.open.horizontal, o)
+                k("n", "o", n.node.run.system, o)
+                k("n", "p", n.fs.paste, o)
+                k("n", "q", n.tree.close, o)
+                k("n", "r", n.fs.rename, o)
+                k("n", "s", n.node.open.vertical, o)
+                k("n", "t", n.node.open.tab, o)
+                k("n", "u", n.node.navigate.parent, o)
+                k("n", "x", n.fs.cut, o)
+                k("n", "y", n.fs.copy.filename, o)
+            end,
             renderer = {
                 highlight_git = true,
                 indent_markers = {
@@ -359,6 +359,11 @@ require("lazy").setup({
                     enable = false,
                     global = false,
                 },
+                file_popup = {
+                    open_win_config = {
+                        border = _my_core_opt.tui.border,
+                    }
+                },
                 open_file = {
                     quit_on_open = false,
                     resize_window = false,
@@ -381,7 +386,6 @@ require("lazy").setup({
         keys = {
             { "<leader>op", "<Cmd>NvimTreeToggle<CR>" },
             { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>" },
-            { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>", mode = "i" },
         }
     },
     {
@@ -502,7 +506,7 @@ require("lazy").setup({
                         ["q"] = "<Cmd>DiffviewClose<CR>",
                         ["c"] = function()
                             local futures = require("futures")
-                            futures.spawn(function ()
+                            futures.spawn(function()
                                 local msg = futures.ui.input { prompt = "Commit" }
                                 if not msg or #msg == 0 then return end
                                 if futures.ui.input { prompt = "Commit?" } == "y" then
@@ -945,7 +949,7 @@ require("lazy").setup({
                 keys = {
                     { "<leader>dn", function() require("dapui").toggle() end },
                     { "<leader>df", function() require("dapui").float_element() end },
-                    { "<leader>dv", function() require("dapui").eval() end, mode = "v" },
+                    { "<leader>dv", function() require("dapui").eval() end,         mode = "v" },
                 },
                 dependencies = {
                     {

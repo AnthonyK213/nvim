@@ -212,7 +212,7 @@ Configuration for Neovim with some personal hacks.
   - in:  <kbd>M-a</kbd>  -> Select all.
   - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>  -> Close the terminal.
-  - in:  <kbd>M-e</kbd>  -> *nvim-tree.lua*, nvim-tree find file.
+  - n:   <kbd>M-e</kbd>  -> *nvim-tree.lua*, nvim-tree find file.
   - nv:  <kbd>M-g</kbd>  -> Find and replace.
   - nv:  <kbd>M-h</kbd>  -> Jump to the window left.
   - nv:  <kbd>M-j</kbd>  -> Jump to the window below.
