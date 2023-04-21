@@ -884,6 +884,7 @@ require("lazy").setup({
     },
     "sotte/presenting.vim",
     "PhilT/vim-fsharp",
+    "tikhomirov/vim-glsl",
     -- Completion; Snippet; LSP; Treesitter; DAP
     {
         "hrsh7th/nvim-cmp",
