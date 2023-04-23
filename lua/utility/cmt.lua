@@ -15,6 +15,7 @@ local _cmt_table = {
     cmake = _k_sharp,
     cpp = _k_slash,
     dosbatch = { s = "::" },
+    dosini = _k_sharp,
     cs = _k_slash,
     css = { d = { "/*", "*/" } },
     fsharp = _k_slash,
