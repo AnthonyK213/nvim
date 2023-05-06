@@ -20,6 +20,7 @@ local _cmt_table = {
     css = { d = { "/*", "*/" } },
     fsharp = _k_slash,
     gitconfig = _k_sharp,
+    glsl = _k_slash,
     html = { d = { "<!--", "-->" } },
     java = _k_slash,
     javascript = _k_slash,
