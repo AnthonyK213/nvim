@@ -81,6 +81,6 @@ function M.toggle()
     end
 end
 
-vim.api.nvim_create_autocmd("VimLeave", { callback = M.stop })
+vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.stop })
 
 return M

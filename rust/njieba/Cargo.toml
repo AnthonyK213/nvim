@@ -1,0 +1,11 @@
+[package]
+name = "njieba"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+jieba-rs = "0.6"
+ex-util = { git = "https://github.com/AnthonyK213/ex-util" }

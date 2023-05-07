@@ -341,3 +341,13 @@ kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
         print("Encode finished")
     end)
 end)
+kbd("Toggle jieba-mode.", "n", "<leader>jm", function ()
+    local jieba = require("utility.jieba")
+    if jieba.is_enabled() then
+        jieba.disable()
+        vim.print("Jieba disabled")
+    else
+        jieba.enable()
+        vim.print("Jieba enabled")
+    end
+end)
