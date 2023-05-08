@@ -266,23 +266,38 @@ end
 ---@return integer start_column Start index of the line (0-based, included).
 ---@return integer end_column End index of the line (0-based, not included).
 function M.get_word()
-    local context = M.get_context()
-    local b = context.b
-    local f = context.f
-    local s_a, _ = vim.regex(_p_word_first_half):match_str(b)
-    local _, e_b = vim.regex(_p_word_last_half):match_str(f)
-    local p_a = ""
-    local p_b = ""
-    if e_b then
-        p_a = s_a and b:sub(s_a + 1) or ""
-        p_b = f:sub(1, e_b)
+    local jieba = package.loaded["utility.jieba"]
+    if jieba and jieba.is_enabled() then
+        local line = vim.api.nvim_get_current_line()
+        local _, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
+        local pos_utf = vim.str_utfindex(line, pos_byte)
+        local s_utf, e_utf = jieba.get_pos(line, pos_utf)
+        if not s_utf or not e_utf then
+            error("No word found")
+        end
+        local word = M.str_sub(line, s_utf + 1, e_utf + 1)
+        local s_byte = vim.str_byteindex(line, s_utf)
+        local e_byte = vim.str_byteindex(line, e_utf + 1)
+        return word, s_byte, e_byte
+    else
+        local context = M.get_context()
+        local b = context.b
+        local f = context.f
+        local s_a, _ = vim.regex(_p_word_first_half):match_str(b)
+        local _, e_b = vim.regex(_p_word_last_half):match_str(f)
+        local p_a = ""
+        local p_b = ""
+        if e_b then
+            p_a = s_a and b:sub(s_a + 1) or ""
+            p_b = f:sub(1, e_b)
+        end
+        local word = p_a .. p_b
+        if word == "" then
+            word = context.n
+            p_b = word
+        end
+        return word, #b - #p_a, #b + #p_b
     end
-    local word = p_a .. p_b
-    if word == "" then
-        word = context.n
-        p_b = word
-    end
-    return word, #b - #p_a, #b + #p_b
 end
 
 ---Check if `filetype` has `dst`.

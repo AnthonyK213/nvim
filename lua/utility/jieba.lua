@@ -28,9 +28,9 @@ end
 ---Get start and end position of the word at `position` (in unicode).
 ---@param sentence string The sentence.
 ---@param position integer Unicode postion in `sentence`.
----@return integer? start_pos Start postion (included).
----@return integer? end_pos End position (included).
-function M.njieba_pos(sentence, position)
+---@return integer? start_pos Start position (0-based, included).
+---@return integer? end_pos End position (0-based, included).
+function M.get_pos(sentence, position)
     local s, e = ffi.new("int[1]", 0), ffi.new("int[1]", 0)
     if jieba and njieba.njieba_pos(jieba, sentence, position, s, e) == 0 then
         return s[0], e[0] - 1
@@ -50,10 +50,10 @@ local function goto_word_begin()
         line = vim.api.nvim_get_current_line()
     end
     local pos_utf = vim.str_utfindex(line, pos_byte)
-    local s_utf, _ = M.njieba_pos(line, pos_utf)
+    local s_utf, _ = M.get_pos(line, pos_utf)
     if not s_utf then return end
     if s_utf == pos_utf then
-        s_utf, _ = M.njieba_pos(line, pos_utf - 1)
+        s_utf, _ = M.get_pos(line, pos_utf - 1)
         if not s_utf then return end
     end
     local s_byte = vim.str_byteindex(line, s_utf)
@@ -69,10 +69,10 @@ local function goto_word_end()
         return
     end
     local pos_utf = vim.str_utfindex(line, pos_byte)
-    local _, e_utf = M.njieba_pos(line, pos_utf)
+    local _, e_utf = M.get_pos(line, pos_utf)
     if not e_utf then return end
     if e_utf == pos_utf then
-        _, e_utf = M.njieba_pos(line, pos_utf + 1)
+        _, e_utf = M.get_pos(line, pos_utf + 1)
         if not e_utf then return end
     end
     local e_byte = vim.str_byteindex(line, e_utf)
@@ -84,7 +84,7 @@ local function inner_word()
     if #line == 0 then return end
     local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
     local pos_utf = vim.str_utfindex(line, pos_byte)
-    local s_utf, e_utf = M.njieba_pos(line, pos_utf)
+    local s_utf, e_utf = M.get_pos(line, pos_utf)
     if not s_utf or not e_utf then return end
     local s_byte = vim.str_byteindex(line, s_utf)
     local e_byte = vim.str_byteindex(line, e_utf)
