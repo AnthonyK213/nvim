@@ -268,8 +268,8 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
   - <kbd>leader-f-</kbd> -> **Find**.
     - n:    <kbd>b</kbd> -> *telescope.nvim*, buffers.
-    - n:    <kbd>f</kbd> -> *telescope.nvim*, find_files.
-    - n:    <kbd>g</kbd> -> *telescope.nvim*, live_grep.
+    - n:    <kbd>f</kbd> -> *telescope.nvim*, find\_files.
+    - n:    <kbd>g</kbd> -> *telescope.nvim*, live\_grep.
   - <kbd>leader-g-</kbd> -> **Git**.
     - n:    <kbd>b</kbd> -> *gitsigns.nvim*, blame line.
     - n:    <kbd>n</kbd> -> *diffview.nvim*, open diffview in tab.
@@ -283,8 +283,10 @@ Configuration for Neovim with some personal hacks.
     - nv:   <kbd>b</kbd> -> Baidu.
     - nv:   <kbd>d</kbd> -> DuckDuckGo.
     - nv:   <kbd>g</kbd> -> Google.
-    - nv:   <kbd>h</kbd> -> StarDict (requires `sdcv` and local dictionary).
+    - nv:   <kbd>h</kbd> -> StarDict (requires local dictionary).
     - nv:   <kbd>y</kbd> -> Youdao.
+  - <kbd>leader-j-</kbd> -> **Jieba**.
+    - n:    <kbd>m</kbd> -> Toggle jieba-mode.
   - <kbd>leader-k-</kbd> -> **Comment**.
     - nv:   <kbd>c</kbd> -> Comment current/selected line(s).
     - nv:   <kbd>u</kbd> -> Uncomment current/selected line(s).
@@ -355,7 +357,7 @@ Configuration for Neovim with some personal hacks.
   - `-b`        -> branch (default: current branch).
   - `-m`        -> commit (default: date).
   - `-r`        -> remote (default: origin).
-- `SshConfig`   -> Open and edit ~/.ssh/config
+- `SshConfig`   -> Open and edit `~/.ssh/config`
 - `Time`        -> Print date and time.
 
 # Packages
