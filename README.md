@@ -67,7 +67,9 @@ Configuration for Neovim with some personal hacks.
         // (boolean) Dim inactive window automatically
         "auto_dim": false,
         // (boolean) Animation effects
-        "animation": false
+        "animation": false,
+        // (boolean) Show current context by indent line
+        "show_context": false
       },
       // GUI (neovim-qt, fvim)
       "gui": {

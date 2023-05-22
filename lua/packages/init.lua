@@ -222,7 +222,7 @@ require("lazy").setup({
             context_char = "▏",
             use_treesitter = true,
             space_char_blankline = " ",
-            show_current_context = true,
+            show_current_context = _my_core_opt.tui.show_context,
             context_patterns = {
                 "class",
                 "function",

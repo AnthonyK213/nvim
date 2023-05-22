@@ -37,6 +37,7 @@ local opt = {
         cmp_ghost = false,
         auto_dim = false,
         animation = false,
+        show_context = false,
     },
     gui = {
         theme = "auto",
