@@ -220,7 +220,7 @@ require("lazy").setup({
         opts = {
             char = "▏",
             context_char = "▏",
-            use_treesitter = true,
+            use_treesitter = false,
             space_char_blankline = " ",
             show_current_context = _my_core_opt.tui.show_context,
             context_patterns = {
