@@ -102,16 +102,6 @@ local comp_table = {
         end
     end,
     c = function(tbl)
-        local root = lib.get_root("^[Mm]akefile$", "file")
-        if root then
-            if not lib.executable("make") then return end
-            return function()
-                return wrap(Terminal.new(tbl.opt == ""
-                    and { "make" } or { "make", tbl.opt }, {
-                        cwd = root
-                    }))()
-            end
-        end
         local my_cc = _my_core_opt.dep.cc
         if not lib.executable(my_cc) then return end
         local cmd_tbl = {
@@ -472,6 +462,17 @@ local function vscode_tasks()
     return true
 end
 
+function M.make_file(option)
+    local root = lib.get_root("^[Mm]akefile$", "file")
+    if root then
+        return comp_table.make {
+            opt = option,
+            fwd = root,
+        }, true
+    end
+    return nil, false
+end
+
 ---Get the recipe running or compiling the code.
 ---@param option? string The option.
 ---@return function? recipe The recipe.
@@ -510,7 +511,11 @@ end
 ---@param option? string Option as string.
 function M.code_run(option)
     if vscode_tasks() then return end
-    local recipe, is_async = M.get_recipe(option)
+    local recipe, is_async
+    recipe, is_async = M.make_file(option)
+    if recipe then goto run end
+    recipe, is_async = M.get_recipe(option)
+    ::run::
     if recipe then
         if is_async then
             futures.spawn(recipe)
