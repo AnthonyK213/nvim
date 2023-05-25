@@ -5,7 +5,7 @@ local Process = futures.Process
 local Task = futures.Task
 local Terminal = futures.Terminal
 local Terminal2 = futures.Terminal2
-local comp_table, build_table
+local comp_table, proj_table
 
 local M = {}
 
@@ -358,7 +358,7 @@ comp_table = {
 -- Brothers from dotnet.
 comp_table.fsharp = comp_table.cs
 
-build_table = {
+proj_table = {
     cargo_toml = function(option)
         local cargo_root = lib.get_root([[^Cargo\.toml$]], "file")
         local cmd_tbl = {
@@ -486,19 +486,36 @@ end
 function M.code_run(option)
     if vscode_tasks() then return end
     local recipe, is_async
-    for _, v in pairs(build_table) do
+    for _, v in pairs(proj_table) do
         recipe, is_async = v(option or "")
-        if recipe then goto run end
+        if recipe then break end
     end
-    recipe, is_async = M.get_recipe(option)
-    ::run::
-    if recipe then
-        if is_async then
-            futures.spawn(recipe)
-        else
-            recipe()
+    local _recipe, _is_async = M.get_recipe(option)
+    futures.spawn(function()
+        if recipe and _recipe then
+            local _, index = futures.ui.select({
+                "Project",
+                "Current file",
+                "Quit",
+            }, { prompt = "Please select one target to run" })
+            if index == 2 then
+                recipe = _recipe
+                is_async = _is_async
+            elseif index ~= 1 then
+                return
+            end
+        elseif _recipe then
+            recipe = _recipe
+            is_async = _is_async
         end
-    end
+        if recipe then
+            if is_async then
+                futures.spawn(recipe)
+            else
+                recipe()
+            end
+        end
+    end)
 end
 
 return M
