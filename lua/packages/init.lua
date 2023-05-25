@@ -897,7 +897,13 @@ require("lazy").setup({
             "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-omni",
             "hrsh7th/cmp-path",
-            "L3MON4D3/LuaSnip",
+            {
+                "L3MON4D3/LuaSnip",
+                opts = {
+                    region_check_events = { "CursorMoved", "InsertEnter" },
+                    delete_check_events = { "TextChanged" },
+                }
+            },
             "saadparwaiz1/cmp_luasnip",
         },
         config = function() require("packages.nvim-cmp") end
