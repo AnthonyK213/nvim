@@ -5,6 +5,7 @@ local Process = futures.Process
 local Task = futures.Task
 local Terminal = futures.Terminal
 local Terminal2 = futures.Terminal2
+local comp_table, build_table
 
 local M = {}
 
@@ -79,7 +80,7 @@ local has_error = function(proc, label)
     return false
 end
 
-local comp_table = {
+comp_table = {
     arduino = function(tbl)
         if not lib.executable("processing-java") then return end
         local output_dir
@@ -155,41 +156,6 @@ local comp_table = {
     end,
     cs = function(tbl)
         if not lib.executable("dotnet") then return end
-        local sln_root = lib.get_root([[\.sln$]], "file")
-        if sln_root then
-            if not lib.executable("MSBuild") then return end
-            return function()
-                return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
-                    cwd = sln_root
-                }))()
-            end
-        end
-        local cmd_tbl = {
-            [""]  = { "dotnet", "run" },
-            build = { "dotnet", "build", "--configuration", "Release" },
-            clean = { "dotnet", "clean" },
-            test  = { "dotnet", "test" },
-        }
-        local cmd = cmd_tbl[tbl.opt]
-        if cmd then
-            return function()
-                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
-            end
-        else
-            lib.notify_err("Invalid argument.")
-        end
-    end,
-    fsharp = function(tbl)
-        if not lib.executable("dotnet") then return end
-        local sln_root = lib.get_root([[\.sln$]], "file")
-        if sln_root then
-            if not lib.executable("MSBuild") then return end
-            return function()
-                return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
-                    cwd = sln_root
-                }))()
-            end
-        end
         local cmd_tbl = {
             [""]  = { "dotnet", "run" },
             build = { "dotnet", "build", "--configuration", "Release" },
@@ -269,15 +235,6 @@ local comp_table = {
             lib.notify_err("Invalid arguments.")
         end
     end,
-    make = function(tbl)
-        if not lib.executable("make") then return end
-        return function()
-            return wrap(Terminal.new(tbl.opt == ""
-                and { "make" } or { "make", tbl.opt }, {
-                    cwd = tbl.fwd
-                }))()
-        end
-    end,
     python = function(tbl)
         local py = _my_core_opt.dep.py or "python"
         if not lib.executable(py) then return end
@@ -304,33 +261,15 @@ local comp_table = {
         end
     end,
     rust = function(tbl)
-        if not lib.executable("cargo") then return end
-        local cargo_root = lib.get_root([[^Cargo\.toml$]], "file")
-        if not cargo_root then
-            return function()
-                if has_error(Process.new("rustc", {
-                        args = { tbl.fnm, "-o", tbl.bin },
-                        cwd = tbl.fwd,
-                    })) then
-                    return false
-                end
-                return run_bin(tbl)
+        if not lib.executable("rustc") then return end
+        return function()
+            if has_error(Process.new("rustc", {
+                    args = { tbl.fnm, "-o", tbl.bin },
+                    cwd = tbl.fwd,
+                })) then
+                return false
             end
-        end
-        local cmd_tbl = {
-            [""]  = { "cargo", "run" },
-            build = { "cargo", "build", "--release" },
-            check = { "cargo", "check" },
-            clean = { "cargo", "clean" },
-            test  = { "cargo", "test" }
-        }
-        local cmd = cmd_tbl[tbl.opt]
-        if cmd then
-            return function()
-                return wrap(Terminal.new(cmd, { cwd = cargo_root }))()
-            end
-        else
-            lib.notify_err("Invalid argument.")
+            return run_bin(tbl)
         end
     end,
     tex = function(tbl)
@@ -416,7 +355,53 @@ local comp_table = {
     end,
 }
 
----Run task of .vscode/task.json.
+-- Brothers from dotnet.
+comp_table.fsharp = comp_table.cs
+
+build_table = {
+    cargo_toml = function(option)
+        local cargo_root = lib.get_root([[^Cargo\.toml$]], "file")
+        local cmd_tbl = {
+            [""]  = { "cargo", "run" },
+            build = { "cargo", "build", "--release" },
+            check = { "cargo", "check" },
+            clean = { "cargo", "clean" },
+            test  = { "cargo", "test" }
+        }
+        local cmd = cmd_tbl[option]
+        if cargo_root and cmd and lib.executable("cargo") then
+            return function()
+                return wrap(Terminal.new(cmd, { cwd = cargo_root }))()
+            end, true
+        end
+        return nil, false
+    end,
+    make_file = function(option)
+        local root = lib.get_root("^[Mm]akefile$", "file")
+        if root and lib.executable("make") then
+            return function()
+                return wrap(Terminal.new(#option == 0
+                    and { "make" } or { "make", option }, {
+                        cwd = root
+                    }))()
+            end, true
+        end
+        return nil, false
+    end,
+    vs_sln = function(_)
+        local sln_root = lib.get_root([[\.sln$]], "file")
+        if sln_root and lib.executable("MSBuild") then
+            return function()
+                return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
+                    cwd = sln_root
+                }))()
+            end, true
+        end
+        return nil, false
+    end
+}
+
+---Run task from .vscode/task.json.
 ---@return boolean
 local function vscode_tasks()
     local root = lib.get_root(".vscode", "directory")
@@ -462,17 +447,6 @@ local function vscode_tasks()
     return true
 end
 
-function M.make_file(option)
-    local root = lib.get_root("^[Mm]akefile$", "file")
-    if root then
-        return comp_table.make {
-            opt = option,
-            fwd = root,
-        }, true
-    end
-    return nil, false
-end
-
 ---Get the recipe running or compiling the code.
 ---@param option? string The option.
 ---@return function? recipe The recipe.
@@ -512,8 +486,10 @@ end
 function M.code_run(option)
     if vscode_tasks() then return end
     local recipe, is_async
-    recipe, is_async = M.make_file(option)
-    if recipe then goto run end
+    for _, v in pairs(build_table) do
+        recipe, is_async = v(option or "")
+        if recipe then goto run end
+    end
     recipe, is_async = M.get_recipe(option)
     ::run::
     if recipe then
