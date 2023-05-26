@@ -359,7 +359,7 @@ comp_table = {
 comp_table.fsharp = comp_table.cs
 
 proj_table = {
-    cargo_toml = function(option)
+    ["Cargo"] = function(option)
         local cargo_root = lib.get_root([[^Cargo\.toml$]], "file")
         local cmd_tbl = {
             [""]  = { "cargo", "run" },
@@ -376,7 +376,7 @@ proj_table = {
         end
         return nil, false
     end,
-    make_file = function(option)
+    ["Make file"] = function(option)
         local root = lib.get_root("^[Mm]akefile$", "file")
         if root and lib.executable("make") then
             return function()
@@ -388,7 +388,7 @@ proj_table = {
         end
         return nil, false
     end,
-    vs_sln = function(_)
+    ["VS solution"] = function(_)
         local sln_root = lib.get_root([[\.sln$]], "file")
         if sln_root and lib.executable("MSBuild") then
             return function()
@@ -485,35 +485,38 @@ end
 ---@param option? string Option as string.
 function M.code_run(option)
     if vscode_tasks() then return end
-    local recipe, is_async
-    for _, v in pairs(proj_table) do
-        recipe, is_async = v(option or "")
-        if recipe then break end
+    local res = {}
+    for k, v in pairs(proj_table) do
+        local _recipe, _is_async = v(option or "")
+        if _recipe then
+            table.insert(res, {
+                name = k,
+                recipe = _recipe,
+                is_async = _is_async,
+            })
+        end
     end
     local _recipe, _is_async = M.get_recipe(option)
+    if _recipe then
+        table.insert(res, {
+            name = "Current file",
+            recipe = _recipe,
+            is_async = _is_async,
+        })
+    end
     futures.spawn(function()
-        if recipe and _recipe then
-            local _, index = futures.ui.select({
-                "Project",
-                "Current file",
-                "Quit",
-            }, { prompt = "Please select one target to run" })
-            if index == 2 then
-                recipe = _recipe
-                is_async = _is_async
-            elseif index ~= 1 then
-                return
+        if #res == 0 then return end
+        local choice, _ = futures.ui.select(res, {
+            prompt = "Please select one target to run",
+            format_item = function(item)
+                return item.name
             end
-        elseif _recipe then
-            recipe = _recipe
-            is_async = _is_async
-        end
-        if recipe then
-            if is_async then
-                futures.spawn(recipe)
-            else
-                recipe()
-            end
+        })
+        if not choice then return end
+        if choice.is_async then
+            futures.spawn(choice.recipe)
+        else
+            choice.recipe()
         end
     end)
 end
