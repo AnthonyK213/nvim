@@ -79,8 +79,7 @@ kbd("Move block down", "v", "<M-n>", [[:<C-U>exe "'<,'>move" min([line("'>") + 1
 kbd("Cursor down", { "n", "v", "i" }, "<C-N>", function() vim.cmd.normal("gj") end)
 kbd("Cursor up", { "n", "v", "i" }, "<C-P>", function() vim.cmd.normal("gk") end)
 for direct, desc in pairs { h = "left", j = "down", k = "up", l = "right", w = "toggle" } do
-    kbd("Navigate window: " .. desc, { "n", "t" }, "<M-" .. direct .. ">", function()
-        to_normal()
+    kbd("Navigate window: " .. desc, "n", "<M-" .. direct .. ">", function()
         lib.feedkeys("<C-W>" .. direct, "nx", false)
     end)
 end
