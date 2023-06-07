@@ -143,6 +143,19 @@ function List:select(selector)
     return result
 end
 
+---Filters a sequence of values based on a predicate.
+---@param predicate fun(item: any, index?: integer):any Filter function.
+---@return collections.List
+function List:where(predicate)
+    local result = List.new()
+    for i = 1, self._length, 1 do
+        if predicate(self._data[i], i) then
+            result:add(self._data[i])
+        end
+    end
+    return result
+end
+
 ---Removes all elements from the `List`.
 function List:clear()
     for i = 1, self._length, 1 do
