@@ -1,4 +1,6 @@
-local List = require("collections").List;
+local collections = require("collections")
+local List = collections.List
+local Stack = collections.Stack
 
 local M = {}
 
@@ -41,15 +43,39 @@ local function _check_predicate(predicate)
     return predicate
 end
 
+---@param node TSNode Current node.
+---@param predicate fun(node: TSNode):boolean The predicate.
+---@param stack collections.Stack
+---@param option table
+local function _find_children(node, predicate, stack, option)
+    if not node then return end
+    for child in node:iter_children() do
+        if predicate(child) then
+            if option.limit
+                and option.limit ~= 0
+                and stack:count() >= option.limit then
+                return
+            end
+            stack:push(Node.new(child))
+        else
+            if option.recursive then
+                _find_children(child, predicate, stack, option)
+            end
+        end
+    end
+end
+
 ---Find the first child node by a predicate.
 ---@param predicate string|fun(node: TSNode):boolean The predicate.
+---@param recursive? boolean
 ---@return ts.Node
-function Node:find_child(predicate)
+function Node:find_first_child(predicate, recursive)
     local p = _check_predicate(predicate)
-    if self:is_nil() or not p then return Node.new() end
-    for child in self.node:iter_children() do
-        if p(child) then
-            return Node.new(child)
+    if p then
+        local option = { limit = 1, recursive = recursive }
+        local list = self:find_children(p, option)
+        if list:any() then
+            return list[1]
         end
     end
     return Node.new()
@@ -57,17 +83,15 @@ end
 
 ---Find all child node by a predicate.
 ---@param predicate string|fun(node: TSNode):boolean The predicate.
+---@param option? table
 ---@return collections.List
-function Node:find_all_children(predicate)
+function Node:find_children(predicate, option)
+    option = option or {}
     local p = _check_predicate(predicate)
     if self:is_nil() or not p then return List.new() end
-    local result = List()
-    for child in self.node:iter_children() do
-        if p(child) then
-            result:add(Node.new(child))
-        end
-    end
-    return result
+    local stack = Stack()
+    _find_children(self.node, p, stack, option)
+    return List.from(stack)
 end
 
 M.cpp = {
@@ -95,11 +119,11 @@ M.cpp = {
     ---@param bufnr integer Buffer number.
     ---@return string? return_type
     ---@return collections.List? param_list
-    get_func_def = function(node, bufnr)
-        if not node or node:type() ~= "function_definition" then return end
+    get_func_signature = function(node, bufnr)
+        if not node then return end
         local root = Node.new(node)
 
-        local type_ = root:find_child(function(item)
+        local type_ = root:find_first_child(function(item)
             return item:type() == "primitive_type"
                 or item:type() == "type_identifier"
         end)
@@ -108,12 +132,16 @@ M.cpp = {
             type__name = vim.treesitter.get_node_text(type_.node, bufnr)
         end
 
-        local params = root
-            :find_child("function_declarator")
-            :find_child("parameter_list")
-            :find_all_children("parameter_declaration")
+        local param_list = root
+            :find_first_child("function_declarator")
+            :find_first_child("parameter_list")
+
+        if param_list:is_nil() then return end
+
+        local params = param_list
+            :find_children("parameter_declaration")
             :select(function(item)
-                local ident = item:find_child("identifier")
+                local ident = item:find_first_child("identifier", true)
                 if ident:is_nil() then return end
                 return vim.treesitter.get_node_text(ident.node, bufnr)
             end)
