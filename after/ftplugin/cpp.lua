@@ -28,6 +28,7 @@ vim.defer_fn(function()
                     "function_definition",
                     "declaration",
                     "field_declaration",
+                    "template_declaration",
                     -- "friend_declaration",
                 }, item:type())
             end)
@@ -46,9 +47,10 @@ vim.defer_fn(function()
         end
 
         if not set_text then
-            --- Find struct/class specifier from **next line**.
+            --- Find struct/class/namespace from **next line**.
             local spec_obj = lang.cpp.find_parent(bufnr, row + 1, col, function(item)
                 return vim.endswith(item:type(), "_specifier")
+                    or item:type() == "namespace_definition"
             end)
             if spec_obj and spec_obj:range() == row then
                 set_text = true

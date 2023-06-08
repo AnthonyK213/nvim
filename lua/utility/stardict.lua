@@ -4,7 +4,7 @@ local futures = require("futures")
 local spawn, Process, Task = futures.spawn, futures.Process, futures.Task
 local _bufnr, _winnr = -1, -1
 local dylib_path = lib.get_dylib_path("nstardict")
-local stardict_path = vim.loop.os_homedir() .. "/.stardict/dic/"
+local stardict_path = vim.uv.os_homedir() .. "/.stardict/dic/"
 
 ---Look up `word` among dictionaries.
 ---@param dict_dir string

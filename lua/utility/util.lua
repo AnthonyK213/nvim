@@ -72,7 +72,7 @@ end
 ---@param use_local? boolean Use current file directory as cwd.
 ---@return boolean ok True if open `obj` successfully.
 function M.sys_open(obj, use_local)
-    local cwd = use_local and lib.get_buf_dir() or vim.loop.cwd()
+    local cwd = use_local and lib.get_buf_dir() or vim.uv.cwd()
     if type(obj) ~= "string"
         or not (lib.path_exists(obj, cwd) or lib.url_match(obj)) then
         lib.notify_err("Nothing found.")
@@ -96,7 +96,7 @@ function M.sys_open(obj, use_local)
     end
     table.insert(args, obj)
     local handle
-    handle = vim.loop.spawn(cmd, {
+    handle = vim.uv.spawn(cmd, {
         args = args,
         cwd = cwd,
     }, vim.schedule_wrap(function()
@@ -217,7 +217,7 @@ function M.nvim_upgrade(channel)
         return
     end
 
-    local nvim_path = Path:new(vim.loop.exepath()):parent():parent()
+    local nvim_path = Path:new(vim.uv.exepath()):parent():parent()
     local bin_path = nvim_path:parent()
     local archive_path = bin_path:joinpath(archive)
     local backup_path = bin_path:joinpath("nvim_bak")
@@ -317,7 +317,7 @@ function M.build_dylibs()
     local dylib_ext = lib.get_dylib_ext()
     local dylib_prefix = lib.has_windows() and "" or "lib"
     if not lib.path_exists(dylibs_dir) then
-        if not vim.loop.fs_mkdir(dylibs_dir, 448) then
+        if not vim.uv.fs_mkdir(dylibs_dir, 448) then
             lib.notify_err("Could not crate directory `dylib`.")
             return
         end
@@ -395,7 +395,7 @@ function M.bg_lock_toggle()
             vim.notify("Background is locked.")
         end
     else
-        _bg_timer = vim.loop.new_timer()
+        _bg_timer = vim.uv.new_timer()
         _bg_timer:start(0, 600, vim.schedule_wrap(function()
             local hour = os.date("*t").hour
             local bg = (hour > 6 and hour < 18) and "light" or "dark"

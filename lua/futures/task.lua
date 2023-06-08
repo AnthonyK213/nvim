@@ -52,10 +52,10 @@ end
 ---@param ... any Function arguments.
 ---@return futures.Task
 function Task.from_uv(uv_action, ...)
-    if not vim.loop[uv_action] then
+    if not vim.uv[uv_action] then
         error("Libuv has no function `" .. uv_action .. "`.")
     end
-    return Task.new(vim.loop[uv_action], ...)
+    return Task.new(vim.uv[uv_action], ...)
         :set_async(uv_callback_index[uv_action] or true)
 end
 
@@ -93,7 +93,7 @@ function Task:start()
         self.handle = self.action(lib.tbl_unpack(args))
         return true
     end
-    self.handle = vim.loop.new_work(self.action, cb)
+    self.handle = vim.uv.new_work(self.action, cb)
     return self.handle:queue(lib.tbl_unpack(self.varargs))
 end
 

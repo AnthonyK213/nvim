@@ -1,9 +1,8 @@
-local uv = vim.loop
 local lib = require("utility.lib")
 
 ---@class futures.Process Provides access and control to local processes.
 ---@field path string Path to the system local executable.
----@field option table See `vim.loop.spawn()`.
+---@field option table See `vim.uv.spawn()`.
 ---@field callback? fun(proc: futures.Process, code: integer, signal: integer) Callback invoked when the process exits.
 ---@field protected handle? userdata Process handle.
 ---@field id integer Process pid.
@@ -28,7 +27,7 @@ Process.__index = Process
 
 ---Constructor.
 ---@param path string Path to the system local executable.
----@param option? table See `vim.loop.spawn()`.
+---@param option? table See `vim.uv.spawn()`.
 ---@param on_exit? fun(proc: futures.Process, code: integer, signal: integer) Callback invoked when the process exits (discouraged, use `continue_with` instead).
 ---@return futures.Process
 function Process.new(path, option, on_exit)
@@ -40,9 +39,9 @@ function Process.new(path, option, on_exit)
         is_valid = true,
         callbacks = type(on_exit) == "function" and { on_exit } or {},
         no_callbacks = false,
-        stdin = uv.new_pipe(false),
-        stdout = uv.new_pipe(false),
-        stderr = uv.new_pipe(false),
+        stdin = vim.uv.new_pipe(false),
+        stdout = vim.uv.new_pipe(false),
+        stderr = vim.uv.new_pipe(false),
         stdin_buf = {},
         stdout_buf = {},
         stderr_buf = {},
@@ -71,8 +70,8 @@ function Process:start()
     local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
     opt = vim.tbl_extend("keep", opt, self.option)
 
-    self.handle, self.id = uv.spawn(self.path, opt, vim.schedule_wrap(function(code, signal)
-        uv.shutdown(self.stdin)
+    self.handle, self.id = vim.uv.spawn(self.path, opt, vim.schedule_wrap(function(code, signal)
+        vim.uv.shutdown(self.stdin)
         self.stdout:read_stop()
         self.stderr:read_stop()
         self.stdin:close()
@@ -171,8 +170,8 @@ end
 ---@param data string|string[] Data to write.
 ---@return boolean is_writable True if `stdin` is writable.
 function Process:write(data)
-    if uv.is_writable(self.stdin) then
-        uv.write(self.stdin, data)
+    if vim.uv.is_writable(self.stdin) then
+        vim.uv.write(self.stdin, data)
         return true
     end
     return false
@@ -197,7 +196,7 @@ function Process:kill(signum)
     if self.has_exited or not self.handle then
         return 0
     end
-    return self.handle:kill(signum or vim.loop.constants.SIGTERM)
+    return self.handle:kill(signum or vim.uv.constants.SIGTERM)
 end
 
 return Process

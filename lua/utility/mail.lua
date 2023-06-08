@@ -90,15 +90,15 @@ function MailConfig.get()
         if code == 0 and result then
             if type(result.archive) == "string" then
                 if not lib.path_exists(result.archive) then
-                    vim.loop.fs_mkdir(result.archive, 448)
+                    vim.uv.fs_mkdir(result.archive, 448)
                 end
                 local inbox = lib.path_append(result.archive, "INBOX/")
                 local outbox = lib.path_append(result.archive, "OUTBOX/")
                 if not lib.path_exists(inbox) then
-                    vim.loop.fs_mkdir(inbox, 448)
+                    vim.uv.fs_mkdir(inbox, 448)
                 end
                 if not lib.path_exists(outbox) then
-                    vim.loop.fs_mkdir(outbox, 448)
+                    vim.uv.fs_mkdir(outbox, 448)
                 end
                 mailConfig.archive = result.archive
                 mailConfig.inbox_dir = inbox

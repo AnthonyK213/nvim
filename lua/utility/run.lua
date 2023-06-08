@@ -1,4 +1,3 @@
-local uv = vim.loop
 local lib = require("utility.lib")
 local futures = require("futures")
 local Process = futures.Process
@@ -37,7 +36,7 @@ local run_bin = function(tbl)
     local bin = lib.path_append(tbl.fwd, tbl.bin)
     local code = Terminal2.new(bin, { cwd = tbl.fwd }):continue_with(function()
         if lib.path_exists(bin) then
-            vim.loop.fs_unlink(bin)
+            vim.uv.fs_unlink(bin)
         end
     end):await()
     if code ~= 0 then return false end
@@ -279,7 +278,7 @@ comp_table = {
             or vim.fn.expand("%:p:r")
         local cwd = (vim.b.vimtex and vim.b.vimtex.root)
             and vim.b.vimtex.root
-            or uv.cwd()
+            or vim.uv.cwd()
         ---Create tex callback.
         ---@param label string
         ---@return fun(proc: futures.Process, code: integer, signal: integer)
@@ -451,7 +450,7 @@ function M.get_recipe(option)
     local file_name = vim.api.nvim_buf_get_name(0)
     local tbl = {
         bin = "_" .. vim.fn.expand("%:t:r") .. (lib.has_windows() and ".exe" or ""),
-        bwd = uv.cwd(),
+        bwd = vim.uv.cwd(),
         fnm = vim.fs.basename(file_name),
         fwd = vim.fs.dirname(file_name),
         opt = option,

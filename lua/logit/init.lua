@@ -12,7 +12,7 @@ local function repo()
     if git_root then
         return git_root, lib.get_git_branch(git_root)
     else
-        git_root = lib.get_root([[^\.git$]], "directory", vim.loop.cwd())
+        git_root = lib.get_root([[^\.git$]], "directory", vim.uv.cwd())
         if git_root then
             return git_root, lib.get_git_branch(git_root)
         else

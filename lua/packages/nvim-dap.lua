@@ -60,7 +60,7 @@ local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
         program = function()
             return vim.fn.input {
                 prompt = "Path to executable: ",
-                default = vim.loop.cwd() .. "/",
+                default = vim.uv.cwd() .. "/",
                 completion = "file"
             }
         end,
@@ -84,7 +84,7 @@ local dap_netcoredbg = A.new("cs", "coreclr", {
         program = function()
             return vim.fn.input {
                 prompt = "Path to dll: ",
-                default = vim.loop.cwd() .. "/bin/Debug/",
+                default = vim.uv.cwd() .. "/bin/Debug/",
                 completion = "file"
             }
         end,

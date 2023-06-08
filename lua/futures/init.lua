@@ -51,7 +51,7 @@ end
 
 ---Wait for the associated thread to finish.
 function JoinHandle:join()
-    if not coroutine.isyieldable() then
+    if not coroutine.running() then
         vim.wait(1e8, function()
             return coroutine.status(self.co) == "dead"
         end)
@@ -64,7 +64,7 @@ end
 ---@private
 ---Await the spawned task.
 function JoinHandle:await()
-    if not coroutine.isyieldable() then
+    if not coroutine.running() then
         vim.notify("Not in any asynchronous block", vim.log.levels.WARN)
         return
     end
@@ -113,7 +113,7 @@ function M.spawn(task)
         if _context then
             _f = function()
                 task()
-                vim.loop.new_async(function()
+                vim.uv.new_async(function()
                     coroutine.resume(_context)
                 end):send()
             end
@@ -124,7 +124,7 @@ function M.spawn(task)
         if _context then
             _f = function()
                 M.await(task)
-                vim.loop.new_async(function()
+                vim.uv.new_async(function()
                     coroutine.resume(_context)
                 end):send()
             end
@@ -178,7 +178,7 @@ function M.join(fut_list, timeout)
         end
         if count ~= fut_count then
             if timeout then
-                local timer = vim.loop.new_timer()
+                local timer = vim.uv.new_timer()
                 timer:start(timeout, 0, vim.schedule_wrap(function()
                     timer:stop()
                     timer:close()

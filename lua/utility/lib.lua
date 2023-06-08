@@ -153,7 +153,7 @@ end
 function M.get_dotfile(name)
     local dir_table = {
         vim.fn.stdpath("config"),
-        vim.loop.os_homedir(),
+        vim.uv.os_homedir(),
     }
     local ok_index = 0
     local file_name
@@ -217,7 +217,7 @@ end
 ---(`new_work` invocable)
 ---@return Os os_type_enum Type of current operating system.
 function M.get_os_type()
-    local name = vim.loop.os_uname().sysname
+    local name = vim.uv.os_uname().sysname
     if name == "Linux" then
         return M.Os.Linux
     elseif name == "Windows_NT" then
@@ -254,7 +254,7 @@ function M.get_root(pattern, item_type, start_dir)
     if not vim.tbl_isempty(result) then
         -- `vim.fs.parents` cannot get directories under `C:\` correctly?
         local item = result[1]
-        local stat = vim.loop.fs_stat(item)
+        local stat = vim.uv.fs_stat(item)
         if stat and stat.type == item_type then
             return vim.fs.dirname(item)
         end
@@ -479,9 +479,9 @@ function M.path_exists(path, cwd)
         if _path:match("^/") then is_rel = false end
     end
     if is_rel then
-        _path = M.path_append(cwd or vim.loop.cwd(), _path)
+        _path = M.path_append(cwd or vim.uv.cwd(), _path)
     end
-    local stat = vim.loop.fs_stat(_path)
+    local stat = vim.uv.fs_stat(_path)
     return (stat and stat.type) or false, _path
 end
 

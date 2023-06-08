@@ -124,8 +124,11 @@ M.cpp = {
         local root = Node.new(node)
 
         local type_ = root:find_first_child(function(item)
-            return item:type() == "primitive_type"
-                or item:type() == "type_identifier"
+            return vim.list_contains({
+                "primitive_type",
+                "type_identifier",
+                "qualified_identifier",
+            }, item:type())
         end)
         local type__name
         if not type_:is_nil() then
@@ -133,7 +136,7 @@ M.cpp = {
         end
 
         local param_list = root
-            :find_first_child("function_declarator")
+            :find_first_child("function_declarator", true)
             :find_first_child("parameter_list")
 
         if param_list:is_nil() then return end
