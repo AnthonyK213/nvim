@@ -217,6 +217,42 @@ function M.find_parent(bufnr, row, col, predicate)
     return node
 end
 
+M.cs = {
+    ---Get function definition information.
+    ---@param node TSNode The `function_definition` node.
+    ---@param bufnr integer Buffer number.
+    ---@return string? return_type
+    ---@return collections.List? param_list
+    get_func_signature = function(node, bufnr)
+        if not node then return end
+        local root = Node.new(node)
+
+        local type_ = root:find_first_child(function(item)
+            return vim.list_contains({
+                "predefined_type",
+            }, item:type())
+        end)
+        local type__name
+        if not type_:is_nil() then
+            type__name = vim.treesitter.get_node_text(type_.node, bufnr)
+        end
+
+        local param_list = root:find_first_child("parameter_list")
+        if param_list:is_nil() then return end
+
+        local params = param_list
+            :find_children("parameter")
+            :select(function(item)
+                local ident = item.node:named_child(item.node:named_child_count() - 1)
+                if not ident then return end
+                return vim.treesitter.get_node_text(ident, bufnr)
+            end)
+            :where(function(item) return item ~= nil end)
+
+        return type__name, params
+    end,
+}
+
 M.cpp = {
     ---Get function definition information.
     ---@param node TSNode The `function_definition` node.

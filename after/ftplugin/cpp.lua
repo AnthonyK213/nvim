@@ -57,23 +57,26 @@ vim.defer_fn(function()
             return
         end
 
-        local summary = "/ @brief "
-        if not vim.treesitter.highlighter.active[bufnr] then
-            lib.feedkeys(summary, "n", true)
-            return
-        end
-
-        local feed = { summary }
+        local summary = { "/ @brief " }
         local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+        local ready = false
 
-        for _, f in ipairs(find_seq) do
-            if f(bufnr, row, col, indent, feed) then
-                vim.api.nvim_buf_set_text(bufnr, row - 1, col, row - 1, col, feed)
-                vim.api.nvim_win_set_cursor(0, { row, col + #summary })
-                return
+        if vim.treesitter.highlighter.active[bufnr] then
+            for _, f in ipairs(find_seq) do
+                if f(bufnr, row, col, indent, summary) then
+                    ready = true
+                    break
+                end
             end
+        else
+            ready = true
         end
 
-        fallback()
+        if ready then
+            vim.api.nvim_buf_set_text(bufnr, row - 1, col, row - 1, col, summary)
+            vim.api.nvim_win_set_cursor(0, { row, col + #summary[1] })
+        else
+            fallback()
+        end
     end, { noremap = true, silent = true, buffer = bufnr })
 end, 500)
