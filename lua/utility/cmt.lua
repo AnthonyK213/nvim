@@ -1,6 +1,6 @@
 local M = {}
 local lib = require("utility.lib")
-local Syntax = require("utility.syn")
+local Syntax = require("utility.syn").Syntax
 
 local space = true
 local _s = space and " " or ""

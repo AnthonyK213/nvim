@@ -64,7 +64,7 @@ vim.filetype.add {
         markdown = function()
             return "vimwiki.markdown", function(bufnr)
                 require("utility.util").new_keymap("n", "<Tab>", function(fallback)
-                    if require("utility.syn").new():match("Weblink") then
+                    if require("utility.syn").Syntax.new():match("Weblink") then
                         fallback()
                     elseif vim.fn.foldlevel(".") > 0 then
                         vim.cmd.normal("za")
@@ -77,7 +77,7 @@ vim.filetype.add {
                 })
                 require("utility.util").new_keymap("n", "<CR>", function(fallback)
                     if vim.fn.foldclosed(".") >= 0
-                        or require("utility.syn").new():match("Header") then
+                        or require("utility.syn").Syntax.new():match("Header") then
                         vim.cmd.normal("za")
                     else
                         fallback()

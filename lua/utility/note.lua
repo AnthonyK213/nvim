@@ -1,7 +1,7 @@
 local M = {}
 local api = vim.api
 local lib = require("utility.lib")
-local Syntax = require("utility.syn")
+local Syntax = require("utility.syn").Syntax
 
 ---Hanzi count, ignore comments.
 ---@param txt string|string[] Text input.

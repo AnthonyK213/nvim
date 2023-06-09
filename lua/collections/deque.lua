@@ -78,14 +78,14 @@ function Deque:get(index)
     return self._data[index]
 end
 
----Get the front element.
+---Get the back element.
 ---@return any
 function Deque:get_back()
     self:boundary_check()
     return self._data[self._back]
 end
 
----Get the back element.
+---Get the front element.
 ---@return any
 function Deque:get_front()
     self:boundary_check()

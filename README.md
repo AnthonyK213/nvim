@@ -432,4 +432,4 @@ Configuration for Neovim with some personal hacks.
 
 ## `utility`
 * [utility.lib](./lua/utility/lib.lua) library
-* [utility.Syntax](./lua/utility/syn.lua) type
+* [utility.syn](./lua/utility/syn.lua) library
