@@ -2,7 +2,7 @@
 Configuration for Neovim with some personal hacks.
 
 # Requirements
-* [**Neovim**](https://github.com/neovim/neovim) 0.9+
+* [**Neovim**](https://github.com/neovim/neovim) 0.10+
 * [**Git**](https://github.com/git/git)
 * [**ripgrep**](https://github.com/BurntSushi/ripgrep)
   & [**fd**](https://github.com/sharkdp/fd)
