@@ -50,7 +50,7 @@ let s:fvim_option_table = {
       \ 'FVimFontNoBuiltInSymbols': v:true,
       \ 'FVimBackgroundOpacity': string(g:_my_gui_opacity),
       \ 'FVimCursorSmoothMove': v:true,
-      \ 'FVimBackgroundComposition': "none",
+      \ 'FVimBackgroundComposition': '"none"',
       \ 'FVimCustomTitleBar': v:false,
       \ 'FVimKeyAutoIme': v:true,
       \ }
