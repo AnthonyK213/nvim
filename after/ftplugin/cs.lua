@@ -1,88 +1,65 @@
-local lib = require("utility.lib")
-local syn = require("utility.syn")
 local bufnr = vim.api.nvim_get_current_buf()
 
----Find function definition/declaration from **next line**.
+---Check if next line needs docmentation.
+---@param bufnr_ integer Buffer number.
+---@param row_ integer Row (1-indexed)
+---@param col_ integer Colomn (0-indexed)
+---@param indent_ string Indentation.
+---@param feed_ collections.List List to feed.
 ---@return boolean
-local function func_next_line(bufnr_, row_, col_, indent_, feed_)
-    local func_obj = syn.find_parent(bufnr_, row_ + 1, col_, function(item)
-        return vim.list_contains({
-            "constructor_declaration",
-            "field_declaration",
-            "method_declaration",
-            "property_declaration",
-        }, item:type())
-    end)
-    if func_obj and func_obj:range() == row_ then
-        local return_type, param_list = syn.cs.get_func_signature(func_obj, bufnr_)
-        if param_list and param_list:any() then
-            for _, v in param_list:iter() do
-                table.insert(feed_, string.format([[%s/// <param name="%s"></param>]], indent_, v))
+local function check_next_line(bufnr_, row_, col_, indent_, feed_)
+    local syn = require("utility.syn")
+    local node = vim.treesitter.get_node {
+        bufnr = bufnr_,
+        pos = { row_ - 1, col_ }
+    }
+    local query = vim.treesitter.query.get("c_sharp", "cmtdoc")
+    local end_ = node:end_()
+    local captures = syn.captures_reverse_lookup(query)
+    for _, match, metadata in query:iter_matches(node, bufnr_, row_, end_) do
+        local root = match[captures.type]
+        if root and root:start() == row_ then
+            if metadata.kind == "function" then
+                local type_ = match[captures["return-type"]]
+                local param_list = match[captures.params]
+                local params = syn.cs.extract_params(param_list, bufnr_)
+                if params and params:any() then
+                    for _, v in params:iter() do
+                        table.insert(feed_,
+                            string.format([[%s/// <param name="%s"></param>]],
+                                indent_, v))
+                    end
+                end
+                if type_ then
+                    table.insert(feed_, indent_ .. "/// <returns></returns>")
+                end
             end
+            return true
         end
-        if return_type and return_type ~= "void" then
-            table.insert(feed_, indent_ .. "/// <returns></returns>")
-        end
-        return true
     end
     return false
 end
-
----Find struct/class/namespace from **next line**.
----@return boolean
-local function spec_next_line(bufnr_, row_, col_, _, _)
-    local spec_obj = syn.find_parent(bufnr_, row_ + 1, col_, function(item)
-        return vim.list_contains({
-            "class_declaration",
-            "struct_declaration",
-            "namespace_declaration",
-        }, item:type())
-    end)
-    if spec_obj and spec_obj:range() == row_ then
-        return true
-    end
-    return false
-end
-
----@type (fun(bufnr: integer, row: integer, col: integer, indent?: string, feed?: string[]):boolean)[]
-local find_seq = {
-    func_next_line,
-    spec_next_line,
-}
 
 -- XML comment (///).
 vim.defer_fn(function()
     require("utility.util").new_keymap("i", "/", function(fallback)
-        local indent = lib.get_context().b:match("^(%s*)//$")
-        if not indent then
-            fallback()
-            return
-        end
+        local indent = require("utility.lib").get_context().b:match("^(%s*)//$")
+        if indent then
+            local summary = {
+                "/ <summary>",
+                indent .. "/// ",
+                indent .. "/// </summary>",
+            }
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+            local bufnr_ = vim.api.nvim_get_current_buf()
 
-        local summary = {
-            "/ <summary>",
-            indent .. "/// ",
-            indent .. "/// </summary>",
-        }
-        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-        local ready = false
-
-        if vim.treesitter.highlighter.active[bufnr] then
-            for _, f in ipairs(find_seq) do
-                if f(bufnr, row, col, indent, summary) then
-                    ready = true
-                    break
-                end
+            if not vim.treesitter.highlighter.active[bufnr_]
+                or check_next_line(bufnr_, row, col, indent, summary) then
+                vim.api.nvim_buf_set_text(bufnr, row - 1, col, row - 1, col, summary)
+                vim.api.nvim_win_set_cursor(0, { row + 1, col + #summary[2] })
+                return
             end
-        else
-            ready = true
         end
-
-        if ready then
-            vim.api.nvim_buf_set_text(bufnr, row - 1, col, row - 1, col, summary)
-            vim.api.nvim_win_set_cursor(0, { row + 1, col + #summary[2] })
-        else
-            fallback()
-        end
+        fallback()
     end, { noremap = true, silent = true, buffer = bufnr })
 end, 500)

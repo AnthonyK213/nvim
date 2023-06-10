@@ -3,27 +3,31 @@ local bufnr = vim.api.nvim_get_current_buf()
 ---Check if next line needs docmentation.
 ---@param bufnr_ integer Buffer number.
 ---@param row_ integer Row (1-indexed)
----@param _ integer Colomn (0-indexed)
+---@param col_ integer Colomn (0-indexed)
 ---@param indent_ string Indentation.
 ---@param feed_ collections.List List to feed.
 ---@return boolean
-local function check_next_line(bufnr_, row_, _, indent_, feed_)
+local function check_next_line(bufnr_, row_, col_, indent_, feed_)
     local syn = require("utility.syn")
-    local node = vim.treesitter.get_node()
+    local node = vim.treesitter.get_node {
+        bufnr = bufnr_,
+        pos = { row_ - 1, col_ }
+    }
     local query = vim.treesitter.query.get("cpp", "cmtdoc")
     local end_ = node:end_()
+    local captures = syn.captures_reverse_lookup(query)
     for _, match, metadata in query:iter_matches(node, bufnr_, row_, end_) do
-        local root = match[1]
+        local root = match[captures.type]
         if metadata.kind == "func_decl" then
             root = syn.Node.new(root):find_ancestor {
                 "function_definition",
-                "function_declaration",
+                "field_declaration",
                 "declaration",
             }.node
         end
         if root and root:start() == row_ then
             if metadata.kind == "func_decl" then
-                local param_list = match[3]
+                local param_list = match[captures.params]
                 local params = syn.cpp.extract_params(param_list, bufnr_)
                 if params and params:any() then
                     for _, v in params:iter() do

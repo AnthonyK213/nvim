@@ -217,30 +217,22 @@ function Node:find_ancestor(predicate)
     return Node.new()
 end
 
+---Get reverse lookup table for query.
+---@param query Query
+---@return table
+function M.captures_reverse_lookup(query)
+    local captures = vim.deepcopy(query.captures)
+    vim.tbl_add_reverse_lookup(captures)
+    return captures
+end
+
 M.cs = {
-    ---Get function definition information.
-    ---@param node TSNode The `function_definition` node.
+    ---Extract method/constructor parameter list.
+    ---@param param_list_node TSNode The `parameter_list` node.
     ---@param bufnr integer Buffer number.
-    ---@return string? return_type
     ---@return collections.List? param_list
-    get_func_signature = function(node, bufnr)
-        if not node then return end
-        local root = Node.new(node)
-
-        local type_ = root:find_first_child(function(item)
-            return vim.list_contains({
-                "predefined_type",
-            }, item:type())
-        end)
-        local type__name
-        if not type_:is_nil() then
-            type__name = vim.treesitter.get_node_text(type_.node, bufnr)
-        end
-
-        local param_list = root:find_first_child("parameter_list")
-        if param_list:is_nil() then return end
-
-        local params = param_list
+    extract_params = function(param_list_node, bufnr)
+        return Node.new(param_list_node)
             :find_children("parameter")
             :select(function(item)
                 local ident = item.node:named_child(item.node:named_child_count() - 1)
@@ -248,50 +240,10 @@ M.cs = {
                 return vim.treesitter.get_node_text(ident, bufnr)
             end)
             :where(function(item) return item ~= nil end)
-
-        return type__name, params
     end,
 }
 
 M.cpp = {
-    ---Get function definition information.
-    ---@param node TSNode The `function_definition` node.
-    ---@param bufnr integer Buffer number.
-    ---@return string? return_type
-    ---@return collections.List? param_list
-    get_func_signature = function(node, bufnr)
-        if not node then return end
-        local root = Node.new(node)
-
-        local type_ = root:find_first_child(function(item)
-            return vim.list_contains({
-                "primitive_type",
-                "type_identifier",
-                "qualified_identifier",
-            }, item:type())
-        end)
-        local type__name
-        if not type_:is_nil() then
-            type__name = vim.treesitter.get_node_text(type_.node, bufnr)
-        end
-
-        local param_list = root
-            :find_first_child("function_declarator", { recursive = true })
-            :find_first_child("parameter_list")
-
-        if param_list:is_nil() then return end
-
-        local params = param_list
-            :find_children("parameter_declaration")
-            :select(function(item)
-                local ident = item:find_first_child("identifier", { recursive = true })
-                if ident:is_nil() then return end
-                return vim.treesitter.get_node_text(ident.node, bufnr)
-            end)
-            :where(function(item) return item ~= nil end)
-
-        return type__name, params
-    end,
     ---Extract function parameter list.
     ---@param param_list_node TSNode The `parameter_list` node.
     ---@param bufnr integer Buffer number.
