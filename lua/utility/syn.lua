@@ -292,6 +292,20 @@ M.cpp = {
 
         return type__name, params
     end,
+    ---Extract function parameter list.
+    ---@param param_list_node TSNode The `parameter_list` node.
+    ---@param bufnr integer Buffer number.
+    ---@return collections.List
+    extract_params = function(param_list_node, bufnr)
+        return Node.new(param_list_node)
+            :find_children("parameter_declaration")
+            :select(function(item)
+                local ident = item:find_first_child("identifier", { recursive = true })
+                if ident:is_nil() then return end
+                return vim.treesitter.get_node_text(ident.node, bufnr)
+            end)
+            :where(function(item) return item ~= nil end)
+    end
 }
 
 M.Syntax = Syntax

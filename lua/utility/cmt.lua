@@ -32,6 +32,7 @@ local _cmt_table = {
     perl = _k_sharp,
     ps1 = _k_sharp,
     python = _k_sharp,
+    query = _k_lisps,
     scheme = _k_lisps,
     sh = _k_sharp,
     sshconfig = _k_sharp,

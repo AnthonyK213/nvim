@@ -14,7 +14,7 @@ local function func_next_line(bufnr_, row_, col_, indent_, feed_)
         }, item:type())
     end)
     if func_obj and func_obj:range() == row_ then
-        local return_type, param_list = syn.cs.get_func_signature(func_obj, bufnr)
+        local return_type, param_list = syn.cs.get_func_signature(func_obj, bufnr_)
         if param_list and param_list:any() then
             for _, v in param_list:iter() do
                 table.insert(feed_, string.format([[%s/// <param name="%s"></param>]], indent_, v))
