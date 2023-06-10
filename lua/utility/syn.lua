@@ -58,7 +58,6 @@ function Syntax:match(pattern)
     return false
 end
 
----@private
 ---@class ts.Node
 ---@field node TSNode
 local Node = {}
@@ -84,7 +83,7 @@ end
 ---@private
 ---Make sure the predicate is a function, except for `string` which means the
 ---predicate is to find the exact `type`.
----@param predicate string|fun(node: TSNode):boolean The predicate.
+---@param predicate string|string[]|fun(node: TSNode):boolean The predicate.
 ---@return nil|fun(node: TSNode):boolean
 local function _check_predicate(predicate)
     if type(predicate) == "function" then
@@ -92,6 +91,10 @@ local function _check_predicate(predicate)
     elseif type(predicate) == "string" then
         return function(item)
             return item:type() == predicate
+        end
+    elseif vim.tbl_islist(predicate) then
+        return function(item)
+            return vim.list_contains(predicate, item:type())
         end
     end
 end
@@ -168,7 +171,7 @@ local function _find_children_dfs(node, predicate, option)
 end
 
 ---Find the first child node by a predicate.
----@param predicate string|fun(node: TSNode):boolean The predicate.
+---@param predicate string|string[]|fun(node: TSNode):boolean The predicate.
 ---@param option? { limit: integer, recursive: boolean, type: "bfs"|"dfs" }
 ---@return ts.Node
 function Node:find_first_child(predicate, option)
@@ -185,7 +188,7 @@ function Node:find_first_child(predicate, option)
 end
 
 ---Find all child node by a predicate.
----@param predicate string|fun(node: TSNode):boolean The predicate.
+---@param predicate string|string[]|fun(node: TSNode):boolean The predicate.
 ---@param option? { limit: integer, recursive: boolean, type: "bfs"|"dfs" }
 ---@return collections.List
 function Node:find_children(predicate, option)
@@ -197,24 +200,21 @@ function Node:find_children(predicate, option)
         or _find_children_dfs)(self.node, p, option)
 end
 
----Find node upward by a predicate at position (row, col).
----@param bufnr integer Buffer number.
----@param row integer Row number, 1-indexed.
----@param col integer Column number, 0-indexed.
----@param predicate string|fun(node: TSNode):boolean The predicate.
----@return TSNode?
-function M.find_parent(bufnr, row, col, predicate)
+---Find the first appeared ancestor by `predicate`.
+---@param predicate string|string[]|fun(node: TSNode):boolean The predicate.
+---@return ts.Node
+function Node:find_ancestor(predicate)
     local p = _check_predicate(predicate)
-    if not p then return end
-    local node = vim.treesitter.get_node {
-        bufnr = bufnr,
-        pos = { row - 1, col },
-    }
-    while node do
-        if p(node) then break end
-        node = node:parent()
+    if not self:is_nil() and p then
+        local current = self.node:parent()
+        while current do
+            if p(current) then
+                return Node.new(current)
+            end
+            current = current:parent()
+        end
     end
-    return node
+    return Node.new()
 end
 
 M.cs = {
@@ -309,5 +309,7 @@ M.cpp = {
 }
 
 M.Syntax = Syntax
+
+M.Node = Node
 
 return M
