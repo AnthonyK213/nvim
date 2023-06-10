@@ -4,11 +4,7 @@ vim.filetype.add {
         [".nvimrc"] = "json",
         ["Cargo.toml"] = function()
             return "toml", function(bufnr)
-                require("cmp").setup.buffer {
-                    sources = {
-                        { name = "crates" },
-                    },
-                }
+                require("cmp").setup.buffer { sources = { { name = "crates" } } }
                 local crates = require("crates")
                 local kbd = vim.keymap.set
                 local _o = { noremap = true, silent = true, buffer = bufnr }
@@ -33,24 +29,15 @@ vim.filetype.add {
         end
     },
     extension = {
-        fs = function()
-            return "fsharp", function(bufnr)
-                vim.bo[bufnr].tabstop = 4
-                vim.bo[bufnr].shiftwidth = 4
-                vim.bo[bufnr].softtabstop = 4
-            end
-        end,
         lua = function()
-            return "lua", function(bufnr)
-                vim.bo[bufnr].tabstop = 4
-                vim.bo[bufnr].shiftwidth = 4
-                vim.bo[bufnr].softtabstop = 4
+            return "lua", function(_)
                 require("cmp").setup.buffer {
                     sources = {
                         {
                             name = "nvim_lsp",
                             entry_filter = function(entry, _)
-                                return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
+                                return require("cmp.types").lsp
+                                    .CompletionItemKind[entry:get_kind()] ~= "Text"
                             end
                         },
                         { name = "nvim_lua" },
@@ -83,13 +70,6 @@ vim.filetype.add {
                         fallback()
                     end
                 end, { noremap = true, silent = true, buffer = bufnr })
-            end
-        end,
-        rs = function()
-            return "rust", function(bufnr)
-                vim.bo[bufnr].tabstop = 4
-                vim.bo[bufnr].shiftwidth = 4
-                vim.bo[bufnr].softtabstop = 4
             end
         end,
         urdf = "xml",

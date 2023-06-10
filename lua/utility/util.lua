@@ -160,7 +160,7 @@ end
 ---Create new mapping with fallback.
 ---@param mode string Mode short-name.
 ---@param lhs string Left-hand-side of the mapping.
----@param new_rhs function A function passed with argument `fallback`.
+---@param new_rhs fun(fallback: function) New `rhs`.
 ---@param opts? table<string, boolean|integer> Optional parameters map.
 function M.new_keymap(mode, lhs, new_rhs, opts)
     opts = opts or {}
