@@ -38,6 +38,7 @@ local opt = {
         auto_dim = false,
         animation = false,
         show_context = false,
+        devicons = false,
     },
     gui = {
         theme = "auto",

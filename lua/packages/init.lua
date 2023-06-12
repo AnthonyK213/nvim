@@ -154,8 +154,12 @@ require("lazy").setup({
         }
     },
     {
+        "nvim-tree/nvim-web-devicons",
+        lazy = false,
+        cond = _my_core_opt.tui.devicons,
+    },
+    {
         "romgrk/barbar.nvim",
-        dependencies = "nvim-tree/nvim-web-devicons",
         lazy = false,
         cond = load_optional,
         init = function()
@@ -176,6 +180,10 @@ require("lazy").setup({
                 },
                 modified = { button = "●" },
                 inactive = { button = "×" },
+                filetype = {
+                    custom_colors = false,
+                    enabled = _my_core_opt.tui.devicons,
+                },
             },
             sidebar_filetypes = {
                 NvimTree = true,

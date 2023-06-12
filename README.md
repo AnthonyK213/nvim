@@ -69,7 +69,9 @@ Configuration for Neovim with some personal hacks.
         // (boolean) Animation effects
         "animation": false,
         // (boolean) Show current context by indent line
-        "show_context": false
+        "show_context": false,
+        // (boolean) Enable devicons
+        "devicons": false
       },
       // GUI (neovim-qt, fvim)
       "gui": {
