@@ -2,7 +2,7 @@
 ---@param style string
 ---@return boolean
 local function is_dark(style)
-    return vim.tbl_contains({ "night", "dusk", "nord", "tera", "carbon" }, style)
+    return vim.list_contains({ "night", "dusk", "nord", "tera", "carbon" }, style)
 end
 
 ---Check if `style` is light theme.

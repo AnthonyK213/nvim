@@ -420,7 +420,7 @@ function M.set_srd_shortcuts(srd_table, opts)
             local mode
             if m == "n" then
                 mode = "n"
-            elseif vim.tbl_contains({ "v", "V", "" }, m)
+            elseif vim.list_contains({ "v", "V", "" }, m)
             then
                 mode = "v"
             else

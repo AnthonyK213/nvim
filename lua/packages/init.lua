@@ -27,7 +27,7 @@ if nvim_init_src == "nano" then
     vim.cmd.colorscheme("nanovim")
     _my_core_opt.tui.scheme = "nanovim"
 else
-    if not vim.tbl_contains({
+    if not vim.list_contains({
             "onedark", "tokyonight", "gruvbox", "nightfox", "onenord"
         }, _my_core_opt.tui.scheme) then
         if not pcall(vim.cmd.colorscheme, _my_core_opt.tui.scheme) then

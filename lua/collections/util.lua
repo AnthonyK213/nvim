@@ -47,7 +47,7 @@ end
 ---@return (fun(iterable: any[]|collections.Iterable, item: any):boolean)|nil
 function M.get_contains(iterable)
     if vim.tbl_islist(iterable) then
-        return vim.tbl_contains
+        return vim.list_contains
     elseif vim.is_callable(iterable.contains) then
         return iterable.contains
     else

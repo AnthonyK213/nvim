@@ -184,7 +184,7 @@ end
 ---@return string result Visual selection.
 function M.get_gv()
     local mode = vim.api.nvim_get_mode().mode
-    local in_vis = vim.tbl_contains({ "v", "V", "" }, mode)
+    local in_vis = vim.list_contains({ "v", "V", "" }, mode)
     local a_bak = vim.fn.getreg("a", 1)
     vim.cmd.normal {
         (in_vis and "" or "gv") .. [["ay]],
@@ -307,7 +307,7 @@ end
 function M.has_filetype(dst, filetype)
     filetype = filetype or vim.bo.filetype
     if not filetype then return false end
-    return vim.tbl_contains(vim.split(filetype, "%."), dst)
+    return vim.list_contains(vim.split(filetype, "%."), dst)
 end
 
 ---Check if os is **Windows**.
@@ -383,7 +383,7 @@ end
 ---@return integer bufnr New split buffer number, -1 on failure.
 function M.new_split(position, option)
     option = option or {}
-    if not vim.tbl_contains({
+    if not vim.list_contains({
         "aboveleft", "belowright", "topleft", "botright"
     }, position) then
         print(position)

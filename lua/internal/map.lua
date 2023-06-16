@@ -19,7 +19,7 @@ local get_mode = function()
     local m = vim.api.nvim_get_mode().mode
     if m == "n" then
         return m
-    elseif vim.tbl_contains({ "v", "V", "" }, m) then
+    elseif vim.list_contains({ "v", "V", "" }, m) then
         return "v"
     else
         return nil
@@ -160,7 +160,7 @@ kbd("Change cwd to current buffer", "n", "<leader>bc", function()
 end, { silent = false })
 kbd("Delete current buffer", "n", "<leader>bd", function()
     local bufs = lib.get_listed_bufs()
-    local sp = vim.tbl_contains({
+    local sp = vim.list_contains({
         "help", "terminal", "quickfix", "nofile"
     }, vim.bo.bt)
     local handle = vim.api.nvim_get_current_buf()
