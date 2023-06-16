@@ -2,13 +2,13 @@
 Configuration for Neovim with some personal hacks.
 
 # Requirements
-* [**Neovim**](https://github.com/neovim/neovim) 0.10+
-* [**Git**](https://github.com/git/git)
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep)
-  & [**fd**](https://github.com/sharkdp/fd)
+- [**Neovim**](https://github.com/neovim/neovim) 0.9+
+- [**Git**](https://github.com/git/git)
+- [**ripgrep**](https://github.com/BurntSushi/ripgrep) &
+  [**fd**](https://github.com/sharkdp/fd)
 
 # Installation
-* **Clone repository**
+- **Clone repository**
   - Windows
     ```ps1
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
@@ -19,8 +19,8 @@ Configuration for Neovim with some personal hacks.
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-* **Start Neovim and wait for the installation to complete**
-* **Customize with `nvimrc`**
+- **Start Neovim and wait for the installation to complete**
+- **Customize with `nvimrc`**
   - In the `home`|`config` directory, named `.nvimrc`
     (also can be `_nvimrc` on Windows)
   - Example
@@ -176,8 +176,8 @@ Configuration for Neovim with some personal hacks.
       ]
     }
     ```
-* **Install LSP servers via `mason.nvim`**
-* **Set .vimrc for Vim (optional)**
+- **Install LSP servers via `mason.nvim`**
+- **Set .vimrc for Vim (optional)**
   - Windows
     ```ps1
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
@@ -188,7 +188,7 @@ Configuration for Neovim with some personal hacks.
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
-* **Set mailboxes (optional)**
+- **Set mailboxes (optional)**
   - In the `home`|`config` directory, named `.mail.json`
     (also can be `_mail.json` on Windows)
   - Example
@@ -209,10 +209,10 @@ Configuration for Neovim with some personal hacks.
     ```
 
 # Key bindings
-* **Ctrl**
+- **Ctrl**
   - in:  <kbd>C-S</kbd>     -> Save.
   - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
-* **Meta**
+- **Meta**
   - in:  <kbd>M-a</kbd>  -> Select all.
   - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
   - t:   <kbd>M-d</kbd>  -> Close the terminal.
@@ -236,7 +236,7 @@ Configuration for Neovim with some personal hacks.
                             LaTeX Roman Family.
   - in:  <kbd>M-P</kbd>  -> Markdown `block`.
   - inv: <kbd>M-U</kbd>  -> Markdown <u>underscore</u>.
-* **Emacs**
+- **Emacs**
   - inv: <kbd>C-N</kbd>  -> Cursor down.
   - inv: <kbd>C-P</kbd>  -> Cursor up.
   - ci:  <kbd>C-B</kbd>  -> Cursor left.
@@ -248,7 +248,7 @@ Configuration for Neovim with some personal hacks.
   - cin: <kbd>M-f</kbd>  -> Cursor one word right.
   - i:   <kbd>M-d</kbd>  -> Kill text until the end of the word.
   - in:  <kbd>M-x</kbd>  -> Command-line mode.
-* **Leader**
+- **Leader**
   > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd> -> **Buffer**.
     - n:    <kbd>b</kbd> -> *barbar.nvim*, BufferPick.
@@ -342,7 +342,7 @@ Configuration for Neovim with some personal hacks.
   - <kbd>leader-z-</kbd> -> Misc.
     - v:   <kbd>bd</kbd> -> Base64 decode selection.
     - v:   <kbd>be</kbd> -> Base64 encode selection.
-* **Miscellanea**
+- **Miscellanea**
   - v:   <kbd>\*/#</kbd>    -> Search for the visual selection.
   - n:   <kbd>F5</kbd>      -> *nvim-dap*, continue debugging;
                                *presenting.vim*, presenting view
@@ -365,27 +365,27 @@ Configuration for Neovim with some personal hacks.
 - `Time`        -> Print date and time.
 
 # Packages
-* Package manager
+- Package manager
   - [lazy.nvim](https://github.com/folke/lazy.nvim)
-* Display (Optional)
+- Display (Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [barbar.nvim](https://github.com/romgrk/barbar.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
-* Color scheme (Optional)
+- Color scheme (Optional)
   - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
   - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
   - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
   - [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim)
   - [onenord.nvim](https://github.com/rmehri01/onenord.nvim)
-* File system
+- File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-* Git
+- Git
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
-* Utilities
+- Utilities
   - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
   - [dial.nvim](https://github.com/monaqa/dial.nvim)
   - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
@@ -395,14 +395,14 @@ Configuration for Neovim with some personal hacks.
   - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
   - [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
   - [crates.nvim](https://github.com/Saecki/crates.nvim)
-* File type support
+- File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.vim](https://github.com/sotte/presenting.vim)
   - [vim-fsharp](https://github.com/PhilT/vim-fsharp)
   - [vim-glsl](https://github.com/tikhomirov/vim-glsl)
-* Completion; Snippet; LSP; TreeSitter; DAP
+- Completion; Snippet; LSP; TreeSitter; DAP
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
   - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
@@ -410,28 +410,28 @@ Configuration for Neovim with some personal hacks.
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
   - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
-* Games
+- Games
   - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
   - [nvimesweeper](https://github.com/seandewar/nvimesweeper)
 
 # API
 
 ## `collections`
-* [collections.Deque](./lua/collections/deque.lua) type
-* [collections.HashSet](./lua/collections/hash_set.lua) type
-* [collections.Iterator](./lua/collections/iter.lua) type
-* [collections.LinkedList](./lua/collections/linked_list.lua) type
-* [collections.List](./lua/collections/list.lua) type
-* [collections.PriorityQueue](./lua/collections/priority_queue.lua) type
-* [collections.RbTree](./lua/collections/rb_tree.lua) type
-* [collections.Stack](./lua/collections/stack.lua) type
+- [collections.Deque](./lua/collections/deque.lua) type
+- [collections.HashSet](./lua/collections/hash_set.lua) type
+- [collections.Iterator](./lua/collections/iter.lua) type
+- [collections.LinkedList](./lua/collections/linked_list.lua) type
+- [collections.List](./lua/collections/list.lua) type
+- [collections.PriorityQueue](./lua/collections/priority_queue.lua) type
+- [collections.RbTree](./lua/collections/rb_tree.lua) type
+- [collections.Stack](./lua/collections/stack.lua) type
 
 ## `futures`
-* [futures.Process](./lua/futures/proc.lua) type
-* [futures.Task](./lua/futures/task.lua) type
-* [futures.Terminal](./lua/futures/term.lua) type
-* [futures.Terminal2](./lua/futures/term2.lua) type
+- [futures.Process](./lua/futures/proc.lua) type
+- [futures.Task](./lua/futures/task.lua) type
+- [futures.Terminal](./lua/futures/term.lua) type
+- [futures.Terminal2](./lua/futures/term2.lua) type
 
 ## `utility`
-* [utility.lib](./lua/utility/lib.lua) library
-* [utility.syn](./lua/utility/syn.lua) library
+- [utility.lib](./lua/utility/lib.lua) library
+- [utility.syn](./lua/utility/syn.lua) library
