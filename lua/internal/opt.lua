@@ -39,7 +39,7 @@ local opt = {
         animation = false,
         show_context = false,
         devicons = false,
-        welcome_title = {
+        welcome_header = {
             [[                                                    ]],
             [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
             [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],

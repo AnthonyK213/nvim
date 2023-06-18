@@ -73,7 +73,7 @@ Configuration for Neovim with some personal hacks.
         // (boolean) Enable devicons
         "devicons": false,
         // (string|array) Welcome page title
-        "welcome_title": "NEOVIM"
+        "welcome_header": "NEOVIM"
       },
       // GUI (neovim-qt, fvim)
       "gui": {
