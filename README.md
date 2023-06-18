@@ -71,7 +71,9 @@ Configuration for Neovim with some personal hacks.
         // (boolean) Show current context by indent line
         "show_context": false,
         // (boolean) Enable devicons
-        "devicons": false
+        "devicons": false,
+        // (string|array) Welcome page title
+        "welcome_title": "NEOVIM"
       },
       // GUI (neovim-qt, fvim)
       "gui": {

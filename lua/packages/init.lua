@@ -81,16 +81,7 @@ require("lazy").setup({
         config = function()
             local alpha = require("alpha")
             local dashboard = require("alpha.themes.dashboard")
-            dashboard.section.header.val = {
-                [[                                                    ]],
-                [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
-                [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
-                [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
-                [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
-                [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
-                [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
-                [[                                                    ]],
-            }
+            dashboard.section.header.val = _my_core_opt.tui.welcome_title
             dashboard.section.buttons.val = {
                 dashboard.button("e", "∅  Empty File", ":enew<CR>"),
                 dashboard.button("f", "⊕  Find File", ":Telescope find_files<CR>"),
