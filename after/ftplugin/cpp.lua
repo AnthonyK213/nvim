@@ -26,6 +26,16 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
             }.node
         end
         if root and root:start() == row_ then
+            -- No more comments after comment.
+            if row_ > 1 then
+                local prev = vim.treesitter.get_node {
+                    bufnr = bufnr_,
+                    pos = { row_ - 2, col_ }
+                }
+                if prev and prev:type() == "comment" then
+                    return false
+                end
+            end
             if metadata.kind == "func_decl" then
                 local param_list = match[captures.params]
                 local params = syn.cpp.extract_params(param_list, bufnr_)
@@ -39,7 +49,6 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
                     "type_identifier",
                     "qualified_identifier",
                 }
-                -- TODO: After any comment should not insert the doxygen comment.
                 -- TODO: `void` return type should not insert the `@return` field.
                 if not type_:is_nil() then
                     table.insert(feed_, indent_ .. "/// @return ")

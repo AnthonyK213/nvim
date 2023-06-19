@@ -19,6 +19,16 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
     for _, match, metadata in query:iter_matches(node, bufnr_, row_, end_) do
         local root = match[captures.type]
         if root and root:start() == row_ then
+            -- No more comments after comment.
+            if row_ > 1 then
+                local prev = vim.treesitter.get_node {
+                    bufnr = bufnr_,
+                    pos = { row_ - 2, col_ }
+                }
+                if prev and prev:type() == "comment" then
+                    return false
+                end
+            end
             if metadata.kind == "function" then
                 local type_ = match[captures["return-type"]]
                 local param_list = match[captures.params]
