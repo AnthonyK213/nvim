@@ -29,6 +29,7 @@ function M.start(bufnr, fargs)
         return
     end
 
+    table.insert(fargs, "--noncurses")
     local viewer = futures.Process.new("glslViewer", {
         args = fargs,
         cwd = lib.get_buf_dir(bufnr),
@@ -90,8 +91,16 @@ function M.input(bufnr)
         local data = futures.ui.input { prompt = "glslViewer", kind = "editor" }
         if not data or #data == 0 then return end
         print("// > " .. data)
-        M.tbl[bufnr]:write(data .. "\r\n")
+        M.tbl[bufnr]:write(data .. "\n")
     end)
 end
+
+function M.cleanup()
+    for _, proc in pairs(M.tbl) do
+        proc:kill()
+    end
+end
+
+vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.cleanup })
 
 return M
