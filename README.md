@@ -311,15 +311,17 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>w</kbd> -> Work space symbol.
     - n:    <kbd>[</kbd> -> Jump to previous diagnostic mark.
     - n:    <kbd>]</kbd> -> Jump to next diagnostic mark.
-  - <kbd>leader-m-</kbd> -> **Markdown**, **Mail**
+  - <kbd>leader-m-</kbd> -> **Markdown**, **Mail**, **Misc**
     - n:    <kbd>f</kbd> -> Fetch recently unseen mails from IMAP server.
     - n:    <kbd>l</kbd> -> Regenerate list bullets.
     - n:    <kbd>n</kbd> -> Create a new mail(.eml file).
     - n:    <kbd>s</kbd> -> Send current buffer as an e-mail.
     - n:    <kbd>v</kbd> -> *aerial.nvim*/*VimTeX*, Toc toggle.
-    - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, markdown preview toggle;
-                            [marp](https://marp.app/) server toggle;
-                            LaTeX project pdf preview.
+    - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, toggle markdown preview;
+                            toggle marp preview (requires [marp](https://github.com/marp-team/marp-cli));
+                            LaTeX project pdf preview;
+                            toggle glsl preview (requires [glslViewer](https://github.com/patriciogonzalezvivo/glslViewer)).
+    - n:    <kbd>i</kbd> -> glslViewer input.
   - <kbd>leader-n-</kbd> -> **GTD**.
     - n:    <kbd>d</kbd> -> Append the weekday after a date(yyyy-mm-dd).
     - n:    <kbd>s</kbd> -> Insert timestamp after cursor.

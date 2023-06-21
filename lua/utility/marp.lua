@@ -6,11 +6,21 @@ local M = {}
 ---@type table<integer, futures.Process>
 M.tbl = {}
 
+---@private
+---@param bufnr integer
+---@return boolean
+function M.is_alive(bufnr)
+    if M.tbl[bufnr] and not M.tbl[bufnr].has_exited then
+        return true
+    end
+    return false
+end
+
 ---Check if current file can use marp.
 ---@param bufnr? integer
 ---@return boolean
 function M.is_marp(bufnr)
-    bufnr = bufnr or vim.api.nvim_get_current_buf()
+    bufnr = lib.bufnr(bufnr)
     local line_count = vim.api.nvim_buf_line_count(bufnr)
 
     if line_count < 3
@@ -35,9 +45,14 @@ end
 
 ---@private
 function M.start(bufnr)
-    bufnr = bufnr or vim.api.nvim_get_current_buf()
-    local buf_dir = lib.get_buf_dir(bufnr)
+    bufnr = lib.bufnr(bufnr)
 
+    if M.is_alive(bufnr) then
+        vim.notify("marp is already running")
+        return
+    end
+
+    local buf_dir = lib.get_buf_dir(bufnr)
     local marp = require("futures").Process.new("marp", {
         args = { "--html", "--server", buf_dir, },
         cwd = buf_dir,
@@ -66,7 +81,7 @@ end
 
 ---@private
 function M.stop(bufnr)
-    bufnr = bufnr or vim.api.nvim_get_current_buf()
+    bufnr = lib.bufnr(bufnr)
     if M.tbl[bufnr] then
         M.tbl[bufnr]:kill()
         M.tbl[bufnr] = nil
@@ -76,7 +91,7 @@ end
 ---Toggle marp server.
 function M.toggle()
     local bufnr = vim.api.nvim_get_current_buf()
-    if M.tbl[bufnr] then
+    if M.is_alive(bufnr) then
         M.stop(bufnr)
     else
         M.start(bufnr)

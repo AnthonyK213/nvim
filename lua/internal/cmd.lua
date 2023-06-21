@@ -2,26 +2,34 @@ local cmd = vim.api.nvim_create_user_command
 
 cmd("CodeRun", function(tbl)
     require("utility.run").code_run(tbl.args)
-end, { nargs = "?", complete = function()
-    local option_table = {
-        c = { "build", "check" },
-        cs = { "build", "clean", "test" },
-        fsharp = { "build", "clean", "test" },
-        lisp = { "build" },
-        lua = { "lua", "jit" },
-        rust = { "build", "check", "clean", "test" },
-        tex = { "biber", "bibtex" },
-    }
-    if option_table[vim.bo.filetype] then
-        return option_table[vim.bo.filetype]
-    else
-        return {}
-    end
-end, desc = "Run or compile" })
+end, {
+    nargs = "?",
+    complete = function()
+        local option_table = {
+            c = { "build", "check" },
+            cs = { "build", "clean", "test" },
+            fsharp = { "build", "clean", "test" },
+            lisp = { "build" },
+            lua = { "lua", "jit" },
+            rust = { "build", "check", "clean", "test" },
+            tex = { "biber", "bibtex" },
+        }
+        if option_table[vim.bo.filetype] then
+            return option_table[vim.bo.filetype]
+        else
+            return {}
+        end
+    end,
+    desc = "Run or compile"
+})
 
 cmd("BuildDylibs", function(_)
     require("utility.util").build_dylibs()
 end, { desc = "Build crates in `$config/rust/` directory" })
+
+cmd("GlslViewer", function(tbl)
+    require("utility.glsl").start(0, tbl.fargs)
+end, { nargs = "*", desc = "Start glslViewer", complete = "file" })
 
 cmd("NvimUpgrade", function(tbl)
     local arg = tbl.args

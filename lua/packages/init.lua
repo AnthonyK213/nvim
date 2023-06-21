@@ -732,14 +732,17 @@ require("lazy").setup({
             require("dressing").setup {
                 input = {
                     default_prompt = "> ",
+                    title_pos = "center",
                     insert_only = true,
                     anchor = "SW",
                     relative = "cursor",
                     border = _my_core_opt.tui.border,
-                    win_options = {
-                        winblend = 10,
-                    },
-                    get_config = nil,
+                    win_options = { winblend = 10, },
+                    get_config = function(opts)
+                        if opts.kind == "editor" then
+                            return { relative = "editor" }
+                        end
+                    end,
                 },
                 select = {
                     backend = { "telescope" },

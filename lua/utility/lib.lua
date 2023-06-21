@@ -40,6 +40,16 @@ function M.bit_tobin(x, n)
     return digits
 end
 
+---Returns the real buffer handle, current handle on `nil` input.
+---@param bufnr? integer
+---@return integer
+function M.bufnr(bufnr)
+    if bufnr == 0 or not bufnr then
+        return vim.api.nvim_get_current_buf()
+    end
+    return bufnr
+end
+
 ---Check if executable exists.
 ---@param exe string Executable name.
 ---@return boolean is_executable True if `exe` is a valid executable.
