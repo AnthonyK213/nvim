@@ -98,6 +98,7 @@ function M.toggle()
     end
 end
 
+---@private
 function M.cleanup()
     for _, proc in pairs(M.tbl) do
         proc:kill()

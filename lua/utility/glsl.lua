@@ -1,5 +1,27 @@
 local lib = require("utility.lib")
 local futures = require("futures")
+local comp_list = {
+    "void", "bool", "int", "float", "vec2", "vec3", "vec4", "bvec2", "bvec3",
+    "bvec4", "ivec2", "ivec3", "ivec4", "mat2", "mat2x2", "mat3", "mat3x3",
+    "mat4x4", "mat2x3", "mat2x4", "mat3x2", "mat3x4", "mat4x2", "mat4x3",
+    "sampler1D", "sampler2D", "sampler3D", "samplerCube", "sampler1DShadow",
+    "sampler2DShadow", "struct",
+    "gl_Color", "gl_SecondaryColor", "gl_Normal", "gl_Vertex", "gl_MultiTexCoordn",
+    "gl_FogCoord", "gl_Position", "gl_ClipVertex", "gl_PointSize", "gl_FrontColor",
+    "gl_BackColor", "gl_FrontSecondaryColor", "gl_BackSecondaryColor", "gl_TexCoord",
+    "gl_FogFragCoord", "gl_FragCoord", "gl_FrontFacing", "gl_PointCoord",
+    "gl_FragData", "gl_FragColor", "gl_FragDepth",
+    "const", "attribute", "uniform", "varying", "centroid varying", "invariant",
+    "in", "out", "inout",
+    "radians", "degrees", "sin", "cos", "tan", "asin", "atan",
+    "pow", "exp", "log", "exp2", "log2", "sqrt", "inversesqrt", "step", "smoothstep",
+    "abs", "sign", "floor", "ceil", "fract", "mod", "min", "max", "clamp", "mix",
+    "length", "distance", "dot", "cross", "normalize", "faceforward", "reflect", "refract",
+    "matrixCompMult", "lessThan", "lessThanEqual", "greaterThan", "greaterThanEqual",
+    "equal", "notEqual", "any", "all", "not",
+    "texture2D", "texture2DProj", "texture2DLod", "texture2DProjLod",
+    "textureCube", "textureCubeLod",
+}
 
 local M = {}
 
@@ -95,9 +117,30 @@ function M.input(bufnr)
     end)
 end
 
+---@private
 function M.cleanup()
     for _, proc in pairs(M.tbl) do
         proc:kill()
+    end
+end
+
+---GLSL omnifunc.
+---@param findstart integer
+---@param base string
+---@return integer|string[]
+function M.omnifunc(findstart, base)
+    if findstart == 1 then
+        local line = vim.api.nvim_get_current_line()
+        local start = vim.api.nvim_win_get_cursor(0)[2]
+        while start > 0 and line:sub(start, start):match("[%a_]") do
+            start = start - 1
+        end
+        return start
+    else
+        local base_ = base:lower()
+        return vim.tbl_filter(function(item)
+            return vim.startswith(item:lower(), base_)
+        end, comp_list)
     end
 end
 
