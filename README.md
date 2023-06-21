@@ -360,6 +360,7 @@ Configuration for Neovim with some personal hacks.
 # Commands
 - `CodeRun`     -> Run or compile the code.
 - `BuildDylibs` -> Build crates in `$config/rust/` directory.
+- `GlslViewer`  -> Open glslViewer.
 - `NvimUpgrade` -> Upgrade neovim by channel input.
 - `PushAll`     -> Just push everything to the remote origin.
   - `-b`        -> branch (default: current branch).
