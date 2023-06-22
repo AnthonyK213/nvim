@@ -122,9 +122,7 @@ comp_table = {
                     return run_bin(tbl)
                 end
             else
-                return function()
-                    return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
-                end
+                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))
             end
         else
             lib.notify_err("Invalid argument.")
@@ -163,9 +161,7 @@ comp_table = {
         }
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
-            return function()
-                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
-            end
+            return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))
         else
             lib.notify_err("Invalid argument.")
         end
@@ -174,11 +170,7 @@ comp_table = {
         local js = "node"
         if not lib.executable(js) then return end
         if tbl.opt == "" then
-            return function()
-                return wrap(Terminal.new({ js, tbl.fnm }, {
-                    cwd = tbl.fwd
-                }))()
-            end
+            return wrap(Terminal.new({ js, tbl.fnm }, { cwd = tbl.fwd }))
         else
             lib.notify_err("Invalid argument.")
         end
@@ -198,9 +190,7 @@ comp_table = {
         }
         local cmd = cmd_tbl[tbl.opt]
         if cmd then
-            return function()
-                return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))()
-            end
+            return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))
         else
             lib.notify_err("Invalid argument.")
         end
@@ -212,18 +202,10 @@ comp_table = {
             return "luafile %"
         elseif tbl.opt == "lua" then
             if not lib.executable("lua") then return end
-            return function()
-                return wrap(Terminal.new({ "lua", tbl.fnm }, {
-                    cwd = tbl.fwd
-                }))()
-            end
+            return wrap(Terminal.new({ "lua", tbl.fnm }, { cwd = tbl.fwd }))
         elseif tbl.opt == "jit" then
             if not lib.executable("luajit") then return end
-            return function()
-                return wrap(Terminal.new({ "luajit", tbl.fnm }, {
-                    cwd = tbl.fwd
-                }))()
-            end
+            return wrap(Terminal.new({ "luajit", tbl.fnm }, { cwd = tbl.fwd }))
         elseif tbl.opt == "test" then
             if lib.has_windows() then
                 lib.notify_err("Test is not supported on Windows")
@@ -238,11 +220,7 @@ comp_table = {
         local py = _my_core_opt.dep.py or "python"
         if not lib.executable(py) then return end
         if tbl.opt == "" then
-            return function()
-                return wrap(Terminal.new({ py, tbl.fnm }, {
-                    cwd = tbl.fwd
-                }))()
-            end
+            return wrap(Terminal.new({ py, tbl.fnm }, { cwd = tbl.fwd }))
         else
             lib.notify_err("Invalid argument.")
         end
@@ -250,11 +228,7 @@ comp_table = {
     ruby = function(tbl)
         if not lib.executable("ruby") then return end
         if tbl.opt == "" then
-            return function()
-                return wrap(Terminal.new({ "ruby", tbl.fnm }, {
-                    cwd = tbl.fwd
-                }))()
-            end
+            return wrap(Terminal.new({ "ruby", tbl.fnm }, { cwd = tbl.fwd }))
         else
             lib.notify_err("Invalid argument.")
         end
@@ -369,32 +343,25 @@ proj_table = {
         }
         local cmd = cmd_tbl[option]
         if cargo_root and cmd and lib.executable("cargo") then
-            return function()
-                return wrap(Terminal.new(cmd, { cwd = cargo_root }))()
-            end, true
+            return wrap(Terminal.new(cmd, { cwd = cargo_root })), true
         end
         return nil, false
     end,
     ["Make file"] = function(option)
         local root = lib.get_root("^[Mm]akefile$", "file")
         if root and lib.executable("make") then
-            return function()
-                return wrap(Terminal.new(#option == 0
-                    and { "make" } or { "make", option }, {
-                        cwd = root
-                    }))()
-            end, true
+            return wrap(Terminal.new(#option == 0 and { "make" } or { "make", option }, {
+                cwd = root
+            })), true
         end
         return nil, false
     end,
     ["VS solution"] = function(_)
         local sln_root = lib.get_root([[\.sln$]], "file")
         if sln_root and lib.executable("MSBuild") then
-            return function()
-                return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
-                    cwd = sln_root
-                }))()
-            end, true
+            return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
+                cwd = sln_root
+            })), true
         end
         return nil, false
     end,
