@@ -48,6 +48,7 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
                     "primitive_type",
                     "type_identifier",
                     "qualified_identifier",
+                    "template_type",
                 }
                 -- TODO: `void` return type should not insert the `@return` field.
                 if not type_:is_nil() then
