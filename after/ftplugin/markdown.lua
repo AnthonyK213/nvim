@@ -10,10 +10,10 @@ end
 local _opt = { noremap = true, silent = true, buffer = true }
 
 require("utility.util").set_srd_shortcuts({
-    ["<M-P>"] = { "`", [[\v(markdown|Vimwiki)Code]] },
-    ["<M-I>"] = { "*", [[\v(markdown|Vimwiki)Italic]] },
-    ["<M-B>"] = { "**", [[\v(markdown|Vimwiki)Bold]] },
-    ["<M-M>"] = { "***", [[\v(markdown|Vimwiki)BoldItalic]] },
+    ["<M-P>"] = { "`", [[\v(markdown|Vimwiki)Code|literal]] },
+    ["<M-I>"] = { "*", [[\v(markdown|Vimwiki)Italic|emphasis]] },
+    ["<M-B>"] = { "**", [[\v(markdown|Vimwiki)Bold|strong]] },
+    ["<M-M>"] = { "***", [[\v(markdown|Vimwiki)BoldItalic|strong|emphasis]] },
     ["<M-U>"] = { "<u>", [[\v(html|Vimwiki)Underline]] },
 }, _opt)
 vim.keymap.set("n", "<F5>", "<Cmd>PresentingStart<CR>", _opt)

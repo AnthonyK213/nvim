@@ -2,7 +2,8 @@ local colors = require("onenord.colors").load()
 
 ---Cast configured hightlight override table to onenord format.
 ---@param hl table<string, table<string, string>>
-local function hl_cast(hl)
+---@param hl_link table<string, string>
+local function hl_cast(hl, hl_link)
     ---@type table<string, table<string, string>>
     local result = vim.deepcopy(hl)
     local map = {
@@ -23,6 +24,9 @@ local function hl_cast(hl)
             attr.fmt = nil
             attr.style = style
         end
+    end
+    for k, v in pairs(hl_link) do
+        result[k] = { link = v }
     end
     return result
 end
@@ -46,7 +50,7 @@ require("onenord").setup({
     inverse = {
         match_paren = false,
     },
-    custom_highlights = hl_cast(_my_core_opt.hl),
+    custom_highlights = hl_cast(_my_core_opt.hl, _my_core_opt.hl_link),
     custom_colors = {},
 })
 

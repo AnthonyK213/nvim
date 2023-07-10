@@ -20,7 +20,8 @@ end
 
 ---Cast configured hightlight override table to nightfox format.
 ---@param hl table<string, table<string, string>>
-local function hl_cast(hl)
+---@param hl_link table<string, string>
+local function hl_cast(hl, hl_link)
     ---@type table<string, table<string, string>>
     local result = vim.tbl_extend("force", vim.deepcopy(hl), {
         BufferCurrent = { fg = "$fg0", bg = "none" },
@@ -59,6 +60,9 @@ local function hl_cast(hl)
             attr.style = style
         end
     end
+    for k, v in pairs(hl_link) do
+        result[k] = { link = v }
+    end
     return result
 end
 
@@ -85,7 +89,7 @@ require("nightfox").setup {
         dim_inactive = _my_core_opt.tui.auto_dim,
     },
     groups = {
-        all = hl_cast(_my_core_opt.hl)
+        all = hl_cast(_my_core_opt.hl, _my_core_opt.hl_link)
     }
 }
 

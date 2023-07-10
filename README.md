@@ -10,12 +10,13 @@ Configuration for Neovim with some personal hacks.
 # Installation
 - **Clone repository**
   - Windows
-    ```ps1
+    ``` ps1
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
                         "$env:LOCALAPPDATA\nvim"
     ```
+    blk
   - GNU/Linux
-    ```sh
+    ``` sh
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
@@ -181,12 +182,12 @@ Configuration for Neovim with some personal hacks.
 - **Install LSP servers via `mason.nvim`**
 - **Set .vimrc for Vim (optional)**
   - Windows
-    ```ps1
+    ``` ps1
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
               -Destination "$env:HOMEPATH\_vimrc"
     ```
   - GNU/Linux
-    ```sh
+    ``` sh
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```

@@ -107,9 +107,10 @@ end
 
 ---Auto-update the color scheme highlight groups.
 ---@param scheme string Name of color scheme.
----@param hl_table table<string, table<string, string>> See onedark.nvim
+---@param hl_table? table<string, table<string, string>> See _my_core_opt.hl
+---@param hl_link_table? table<string, string> _my_core_opt.hl_link
 ---@param palette fun():table<string, string> Returns a color map (table).
-function M.auto_hl(scheme, hl_table, palette)
+function M.auto_hl(scheme, hl_table, hl_link_table, palette)
     ---Get color value from a color table.
     ---@param color_map table<string, string>
     ---@param name string Name of the color.
@@ -126,6 +127,10 @@ function M.auto_hl(scheme, hl_table, palette)
         end
     end
 
+    if not (hl_table or hl_link_table) then
+        return
+    end
+
     local id = vim.api.nvim_create_augroup(scheme .. "Extd", {
         clear = true
     })
@@ -135,23 +140,30 @@ function M.auto_hl(scheme, hl_table, palette)
         pattern = scheme,
         callback = function()
             local map = palette()
-            for k, v in pairs(hl_table) do
-                ---Highlighting definition map.
-                ---@type table<string, any>
-                local val = {
-                    fg = c(map, v["fg"]),
-                    bg = c(map, v["bg"]),
-                    sp = c(map, v["sp"]),
-                }
-                if v["fmt"] then
-                    for _, attr in ipairs(vim.split(v["fmt"], ",", {
-                        plain = false,
-                        trimempty = true
-                    })) do
-                        val[vim.trim(attr)] = true
+            if hl_table then
+                for k, v in pairs(hl_table) do
+                    ---Highlighting definition map.
+                    ---@type table<string, any>
+                    local val = {
+                        fg = c(map, v["fg"]),
+                        bg = c(map, v["bg"]),
+                        sp = c(map, v["sp"]),
+                    }
+                    if v["fmt"] then
+                        for _, attr in ipairs(vim.split(v["fmt"], ",", {
+                            plain = false,
+                            trimempty = true
+                        })) do
+                            val[vim.trim(attr)] = true
+                        end
                     end
+                    vim.api.nvim_set_hl(0, k, val)
                 end
-                vim.api.nvim_set_hl(0, k, val)
+            end
+            if hl_link_table then
+                for k, v in pairs(hl_link_table) do
+                    vim.api.nvim_set_hl(0, k, { link = v })
+                end
             end
         end
     })
@@ -267,13 +279,13 @@ function M.nvim_upgrade(channel)
         if not lib.executable("curl") then return end
         dl_exec = "curl"
         dl_args = use_proxy and {
-                "-L", source,
-                "-o", archive_path.filename,
-                "-x", proxy
-            } or {
-                "-L", source,
-                "-o", archive_path.filename,
-            }
+            "-L", source,
+            "-o", archive_path.filename,
+            "-x", proxy
+        } or {
+            "-L", source,
+            "-o", archive_path.filename,
+        }
         ex_exec = "tar"
         ex_args = {
             "-xf", archive_path.filename,
