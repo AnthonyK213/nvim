@@ -445,7 +445,6 @@ end
 ---Run or compile the code.
 ---@param option? string Option as string.
 function M.code_run(option)
-    -- if vscode_tasks() then return end
     local res = {}
     for k, v in pairs(proj_table) do
         local _recipe, _is_async = v(option or "")
