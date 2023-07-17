@@ -14,7 +14,7 @@ let s:my_gui_table = {
       \ '_my_gui_line_space': 0,
       \ '_my_gui_font_size': 13,
       \ '_my_gui_font_half': 'Monospace',
-      \ '_my_gui_font_full': 'Monospace',
+      \ '_my_gui_font_wide': 'Monospace',
       \ }
 
 for [s:name, s:value] in items(s:my_gui_table)
@@ -69,21 +69,21 @@ endfunction
 function! s:gui_font_expand() abort
   let g:_my_gui_font_size += s:gui_font_step
   call s:gui_font_set(g:_my_gui_font_half,
-        \ g:_my_gui_font_full,
+        \ g:_my_gui_font_wide,
         \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_font_shrink() abort
   let g:_my_gui_font_size = max([g:_my_gui_font_size - s:gui_font_step, 3])
   call s:gui_font_set(g:_my_gui_font_half,
-        \ g:_my_gui_font_full,
+        \ g:_my_gui_font_wide,
         \ g:_my_gui_font_size)
 endfunction
 
 function! s:gui_font_origin() abort
   let g:_my_gui_font_size = s:gui_font_size_origin
   call s:gui_font_set(g:_my_gui_font_half,
-        \ g:_my_gui_font_full,
+        \ g:_my_gui_font_wide,
         \ g:_my_gui_font_size)
 endfunction
 
@@ -180,7 +180,7 @@ endif
 " Font
 let s:gui_font_step = 2
 let s:gui_font_size_origin = g:_my_gui_font_size
-call s:gui_font_set(g:_my_gui_font_half, g:_my_gui_font_full, g:_my_gui_font_size)
+call s:gui_font_set(g:_my_gui_font_half, g:_my_gui_font_wide, g:_my_gui_font_size)
 
 
 " GUI key bindings

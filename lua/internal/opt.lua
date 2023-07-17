@@ -60,7 +60,7 @@ local opt = {
         line_space = 0.0,
         font_size = 13,
         font_half = "Monospace",
-        font_full = "Monospace",
+        font_wide = "Monospace",
         cursor_blink = false,
     },
     lsp = {},
