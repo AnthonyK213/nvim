@@ -343,10 +343,10 @@ end)
 kbd("Toggle jieba-mode.", "n", "<leader>jm", function ()
     local jieba = require("utility.jieba")
     if jieba.is_enabled() then
-        jieba.disable()
+        jieba:disable()
         vim.print("Jieba disabled")
     else
-        jieba.enable()
+        jieba:enable()
         vim.print("Jieba enabled")
     end
 end)

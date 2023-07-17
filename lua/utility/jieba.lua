@@ -1,28 +1,38 @@
-local M = {}
-
 local ffi = require("ffi")
 local lib = require("utility.lib")
-local njieba, jieba
-local enabled = false
-local dylib_path = lib.get_dylib_path("njieba")
+
+local M = {}
 
 ---@private
-function M.init()
-    if jieba then return true end
+---FFI module.
+M.njieba = nil
+
+---@private
+---Jieba instance.
+M.jieba = nil
+
+---@private
+M.enabled = false
+
+---@private
+function M:init()
+    if self.jieba then return true end
+    local dylib_path = lib.get_dylib_path("njieba")
     if not dylib_path then
         lib.notify_err("Dynamic library is not found")
         return false
     end
     ffi.cdef [[void *njieba_new();
-               int njieba_pos(void *jieba, const char *line, int pos, int *start, int *end);
+               int njieba_pos(void *jieba, const char *line, int pos,
+                              int *start, int *end);
                void njieba_drop(void *jieba);]]
-    njieba = ffi.load(dylib_path)
-    jieba = njieba.njieba_new()
+    self.njieba = ffi.load(dylib_path)
+    self.jieba = self.njieba.njieba_new()
     return true
 end
 
 function M.is_enabled()
-    return enabled
+    return M.enabled
 end
 
 ---Get start and end position of the word at `position` (in unicode).
@@ -32,7 +42,8 @@ end
 ---@return integer? end_pos End position (0-based, included).
 function M.get_pos(sentence, position)
     local s, e = ffi.new("int[1]", 0), ffi.new("int[1]", 0)
-    if jieba and njieba.njieba_pos(jieba, sentence, position, s, e) == 0 then
+    if M.jieba
+        and M.njieba.njieba_pos(M.jieba, sentence, position, s, e) == 0 then
         return s[0], e[0] - 1
     end
 end
@@ -93,29 +104,29 @@ local function inner_word()
     vim.cmd.normal { bang = true, args = { "gv" }, mods = { silent = true } }
 end
 
-function M.enable()
-    if M.init() and not enabled then
+function M:enable()
+    if self:init() and not self.enabled then
         vim.keymap.set({ "n", "v" }, "b", goto_word_begin, {})
         vim.keymap.set({ "n", "v" }, "e", goto_word_end, {})
         vim.keymap.set({ "v", "o" }, "iw", inner_word, {})
-        enabled = true
+        self.enabled = true
     end
 end
 
-function M.disable()
-    if enabled then
+function M:disable()
+    if self.enabled then
         pcall(vim.keymap.del, { "n", "v" }, "b", {})
         pcall(vim.keymap.del, { "n", "v" }, "e", {})
         pcall(vim.keymap.del, { "v", "o" }, "iw", {})
-        enabled = false
+        self.enabled = false
     end
 end
 
 ---@private
 function M.drop()
-    if not jieba then return end
-    njieba.njieba_drop(jieba)
-    jieba = nil
+    if not M.jieba then return end
+    M.njieba.njieba_drop(M.jieba)
+    M.jieba = nil
 end
 
 vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.drop })
