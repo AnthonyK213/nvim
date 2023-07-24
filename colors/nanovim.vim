@@ -336,30 +336,34 @@ hi! link markdownCodeDelimiter Nano_Face_Subtle
 hi! link markdownLinkDelimiter Nano_Face_Subtle
 hi! link markdownLinkTextDelimiter Nano_Face_Subtle
 hi! link markdownListMarker Nano_Face_Salient
-hi! link @text.title.1.marker.markdown markdownH1
-hi! link @text.title.2.marker.markdown markdownH2
-hi! link @text.title.3.marker.markdown markdownH3
-hi! link @text.title.4.marker.markdown markdownH4
-hi! link @text.title.5.marker.markdown markdownH5
-hi! link @text.title.6.marker.markdown markdownH6
-hi! link @text.title.1.markdown markdownH1
-hi! link @text.title.2.markdown markdownH2
-hi! link @text.title.3.markdown markdownH3
-hi! link @text.title.4.markdown markdownH4
-hi! link @text.title.5.markdown markdownH5
-hi! link @text.title.6.markdown markdownH6
-hi! link @text.strong.markdown_inline markdownBold
-hi! link @text.emphasis.markdown_inline markdownItalic
-hi! link @text.literal.markdown_inline markdownCode
-hi! link @text.uri.markdown_inline markdownUrl
-hi! link @punctuation.special.markdown markdownListMarker
-hi! link @punctuation.delimiter.markdown_inline markdownBoldDelimiter
-hi! link @punctuation.delimiter.markdown markdownCodeDelimiter
-hi! link @punctuation.bracket.markdown_inline markdownLinkDelimiter
-hi! link @text.escape.markdown_inline markdownEscape
-hi! link @text.reference.markdown_inline markdownLinkText
-hi! link @text.literal.block.markdown markdownCode
-hi! link @label.markdown markdownCodeDelimiter
+
+if has("nvim")
+  hi! link @text.title.1.marker.markdown markdownH1
+  hi! link @text.title.2.marker.markdown markdownH2
+  hi! link @text.title.3.marker.markdown markdownH3
+  hi! link @text.title.4.marker.markdown markdownH4
+  hi! link @text.title.5.marker.markdown markdownH5
+  hi! link @text.title.6.marker.markdown markdownH6
+  hi! link @text.title.1.markdown markdownH1
+  hi! link @text.title.2.markdown markdownH2
+  hi! link @text.title.3.markdown markdownH3
+  hi! link @text.title.4.markdown markdownH4
+  hi! link @text.title.5.markdown markdownH5
+  hi! link @text.title.6.markdown markdownH6
+  hi! link @text.strong.markdown_inline markdownBold
+  hi! link @text.emphasis.markdown_inline markdownItalic
+  hi! link @text.literal.markdown_inline markdownCode
+  hi! link @text.uri.markdown_inline markdownUrl
+  hi! link @punctuation.special.markdown markdownListMarker
+  hi! link @punctuation.delimiter.markdown_inline markdownBoldDelimiter
+  hi! link @punctuation.delimiter.markdown markdownCodeDelimiter
+  hi! link @punctuation.bracket.markdown_inline markdownLinkDelimiter
+  hi! link @text.escape.markdown_inline markdownEscape
+  hi! link @text.reference.markdown_inline markdownLinkText
+  hi! link @text.literal.block.markdown markdownCode
+  hi! link @label.markdown markdownCodeDelimiter
+endif
+
 " Misc
 hi! link yamlBlockMappingKey Nano_Face_Salient
 hi! link pythonOperator Nano_Face_Salient
