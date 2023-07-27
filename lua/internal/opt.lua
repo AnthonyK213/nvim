@@ -65,8 +65,9 @@ local opt = {
     },
     lsp = {},
     ts = {
-        ensure = {},
-        hi_disable = {},
+        ensure_installed = {},
+        highlight_disable = {},
+        matchup_disable = {},
     },
     dap = {
         python = false,

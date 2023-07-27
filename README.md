@@ -158,9 +158,11 @@ Configuration for Neovim with some personal hacks.
       // Treesitter
       "ts": {
         // (array) Parsers to install automatically
-        "ensure": [],
+        "ensure_installed": [],
         // (array) File type to disable treesitter highlight
-        "hi_disable": []
+        "highlight_disable": [],
+        // (array) File type to disable vim-matchup
+        "matchup_disable": []
       },
       // Debug Adapter Protocol
       "dap": {

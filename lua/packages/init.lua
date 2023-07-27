@@ -975,15 +975,15 @@ require("lazy").setup({
         config = function()
             local ts_option = _my_core_opt.ts or {}
             require("nvim-treesitter.configs").setup {
-                ensure_installed = ts_option.ensure or {},
+                ensure_installed = ts_option.ensure_installed or {},
                 highlight = {
                     enable = true,
-                    disable = ts_option.hi_disable or {},
+                    disable = ts_option.highlight_disable or {},
                     additional_vim_regex_highlighting = false,
                 },
                 matchup = {
                     enable = true,
-                    disable = {}
+                    disable = ts_option.matchup_disable or {},
                 }
             }
         end
