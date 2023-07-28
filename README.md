@@ -90,7 +90,7 @@
         // (string) See `guifont`
         "font_half": "Monospace",
         // (string) See `guifontwide`
-        "font_full": "Monospace"
+        "font_wide": "Monospace"
       },
       // Language Server Protocol
       "lsp": {
