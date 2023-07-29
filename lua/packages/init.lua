@@ -110,14 +110,14 @@ require("lazy").setup({
                 lualine_a = {
                     function()
                         return ({
-                                i = "I", ic = "I", ix = "I",
-                                v = "v", V = "V",[""] = "B",
-                                n = "N", niI = "Ĩ", no = "N", nt = "N",
-                                R = "R", Rv = "R",
-                                s = "s", S = "S",
-                                c = "C", t = "T",
-                                multi = "M",
-                            })[vim.api.nvim_get_mode().mode] or "_"
+                            i = "I", ic = "I", ix = "I",
+                            v = "v", V = "V", [""] = "B",
+                            n = "N", niI = "Ĩ", no = "N", nt = "N",
+                            R = "R", Rv = "R",
+                            s = "s", S = "S",
+                            c = "C", t = "T",
+                            multi = "M",
+                        })[vim.api.nvim_get_mode().mode] or "_"
                     end
                 },
                 lualine_b = { "branch" },
@@ -150,41 +150,58 @@ require("lazy").setup({
         cond = _my_core_opt.tui.devicons,
     },
     {
-        "romgrk/barbar.nvim",
+        "akinsho/bufferline.nvim",
         lazy = false,
         cond = load_optional,
-        init = function()
-            vim.g.barbar_auto_setup = false
-            if load_optional then
-                vim.o.showtabline = 2
-            end
-        end,
+        init = function() vim.o.showtabline = 2 end,
         opts = {
-            animation = _my_core_opt.tui.animation,
-            icons = {
-                button = "×",
-                diagnostics = {
-                    [vim.diagnostic.severity.ERROR] = { enabled = true, icon = "E" },
-                    [vim.diagnostic.severity.WARN] = { enabled = false },
-                    [vim.diagnostic.severity.INFO] = { enabled = false },
-                    [vim.diagnostic.severity.HINT] = { enabled = false },
+            options = {
+                themable = true,
+                right_mouse_command = "",
+                middle_mouse_command = "bdelete! %d",
+                indicator = {
+                    icon = "▍",
+                    style = "icon",
                 },
-                modified = { button = "●" },
-                inactive = { button = "×" },
-                filetype = {
-                    custom_colors = false,
-                    enabled = _my_core_opt.tui.devicons,
+                buffer_close_icon = "×",
+                modified_icon = "+",
+                close_icon = "×",
+                left_trunc_marker = "<",
+                right_trunc_marker = ">",
+                max_name_length = 18,
+                max_prefix_length = 15,
+                tab_size = 18,
+                diagnostics = "nvim_lsp",
+                diagnostics_indicator = function(count)
+                    return "(" .. count .. ")"
+                end,
+                custom_filter = function(bufnr)
+                    return not vim.tbl_contains({
+                        "terminal", "quickfix", "prompt"
+                    }, vim.api.nvim_buf_get_option(bufnr, "buftype"))
+                end,
+                offsets = {
+                    {
+                        filetype = "NvimTree",
+                        text = "File Explorer",
+                        text_align = "left",
+                        separator = true,
+                    }
                 },
-            },
-            sidebar_filetypes = {
-                NvimTree = true,
-            },
-            maximum_length = 13,
+                show_buffer_icons = _my_core_opt.tui.devicons,
+                show_buffer_close_icons = true,
+                show_close_icon = false,
+                persist_buffer_sort = true,
+                separator_style = { "▕", "▕" },
+                enforce_regular_tabs = false,
+                always_show_bufferline = true,
+                sort_by = "id",
+            }
         },
         keys = {
-            { "<leader>bb", "<Cmd>BufferPick<CR>" },
-            { "<leader>bP", "<Cmd>BufferMovePrevious<CR>" },
-            { "<leader>bN", "<Cmd>BufferMoveNext<CR>" },
+            { "<leader>bb", "<Cmd>BufferLinePick<CR>" },
+            { "<leader>bP", "<Cmd>BufferLineMovePrev<CR>" },
+            { "<leader>bN", "<Cmd>BufferLineMoveNext<CR>" },
         }
     },
     {

@@ -202,7 +202,7 @@ function M.get_gv()
             silent = true
         }
     }
-    local a_val = vim.fn.getreg("a")
+    local a_val = vim.fn.getreg("a") --[[@as string]]
     vim.fn.setreg("a", a_bak)
     return a_val
 end
@@ -286,8 +286,8 @@ function M.get_word()
             error("No word found")
         end
         local word = M.str_sub(line, s_utf + 1, e_utf + 1)
-        local s_byte = vim.str_byteindex(line, s_utf)
-        local e_byte = vim.str_byteindex(line, e_utf + 1)
+        local s_byte = vim.str_byteindex(line, s_utf)     --[[@as integer]]
+        local e_byte = vim.str_byteindex(line, e_utf + 1) --[[@as integer]]
         return word, s_byte, e_byte
     else
         local context = M.get_context()
@@ -565,7 +565,8 @@ end
 
 ---String length in unicode.
 ---@param str string
----@return integer length Length of the unicode string.
+---@return integer utf32_length Length in UTF-32.
+---@return integer utf16_length Length in UTF-16.
 function M.str_len(str)
     return vim.str_utfindex(str)
 end

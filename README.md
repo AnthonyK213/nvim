@@ -256,7 +256,7 @@ Configuration for Neovim with some personal hacks.
 - **Leader**
   > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
   - <kbd>leader-b-</kbd> -> **Buffer**.
-    - n:    <kbd>b</kbd> -> *barbar.nvim*, BufferPick.
+    - n:    <kbd>b</kbd> -> *bufferline.nvim*, BufferPick.
     - n:    <kbd>c</kbd> -> Set directory to the current buffer.
     - n:    <kbd>d</kbd> -> Delete buffer.
     - n:    <kbd>g</kbd> -> Toggle background.
@@ -270,6 +270,7 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>b</kbd> -> *nvim-dap*, toggle break point.
     - n:    <kbd>c</kbd> -> *nvim-dap*, clear break point.
     - n:    <kbd>l</kbd> -> *nvim-dap*, run last.
+    - n:    <kbd>n</kbd> -> *nvim-dap-ui*, toggle dap-ui.
     - n:    <kbd>r</kbd> -> *nvim-dap*, toggle REPL window.
     - n:    <kbd>t</kbd> -> *nvim-dap*, terminate.
   - <kbd>leader-e-</kbd> -> **Evaluate**.
@@ -378,7 +379,7 @@ Configuration for Neovim with some personal hacks.
 - Display (Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
-  - [barbar.nvim](https://github.com/romgrk/barbar.nvim)
+  - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
   - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
 - Color scheme (Optional)
