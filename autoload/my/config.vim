@@ -211,6 +211,10 @@ function! my#config#coc() abort
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 endfunction
 
+function! my#config#coc_fzf() abort
+  nn <silent> <leader>fa :CocFzfList symbols<CR>
+endfunction
+
 function! my#config#crates() abort
   augroup CratesAttach
     autocmd!
@@ -392,6 +396,7 @@ function! my#config#vim_clap() abort
         \ g:_my_tui_border) >= 0 ?
         \ g:_my_tui_border :
         \ 'nil'
+  nn <silent> <leader>fa :Clap tags<CR>
   nn <silent> <leader>fb :Clap buffers<CR>
   nn <silent> <leader>ff :Clap files<CR>
   nn <silent> <leader>fg :Clap grep<CR>
@@ -409,6 +414,12 @@ function! my#config#vim_clap() abort
           \ "\<C-P>": "\<Up>",
           \ }
   endif
+endfunction
+
+function! my#config#vim_fzf() abort
+  nn <silent> <leader>fb :Buffers<CR>
+  nn <silent> <leader>ff :Files<CR>
+  nn <silent> <leader>fg :RG<CR>
 endfunction
 
 function! my#config#vim_floatterm() abort
@@ -503,7 +514,6 @@ function! my#config#vista() abort
         \ 'markdown': 'toc',
         \ 'vimwiki': 'markdown'
         \ }
-  nn <silent> <leader>fa :Clap tags<CR>
   nn <silent> <leader>mv :Vista!!<CR>
 endfunction
 

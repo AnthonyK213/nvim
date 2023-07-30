@@ -48,7 +48,6 @@ endfunction
 call plug#begin(my#compat#stdpath('data') . '/plugged')
 call s:plug('rakr/vim-one')
 call s:plug('morhetz/gruvbox')
-call s:plug('liuchengxu/vim-clap', function("my#config#vim_clap"), { 'do': funcref('s:post_clap') })
 call s:plug('tpope/vim-fugitive', function("my#config#vim_fugitive"))
 call s:plug('mhinz/vim-signify', function("my#config#vim_signify"))
 call s:plug('mhinz/vim-crates', function("my#config#crates"))
@@ -63,6 +62,9 @@ call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview
 call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
 call s:plug('skanehira/vsession', function("my#config#vsession"))
+"call s:plug('liuchengxu/vim-clap', function("my#config#vim_clap"), { 'do': funcref('s:post_clap') })
+call s:plug('junegunn/fzf', function("my#config#vim_fzf"), { 'do': { -> fzf#install() } })
+call s:plug('junegunn/fzf.vim')
 
 if has("termguicolors")
   set termguicolors
@@ -98,6 +100,7 @@ endif
 
 if g:_my_use_coc
   call s:plug('neoclide/coc.nvim', function("my#config#coc"), {'branch': 'release'})
+  call s:plug('antoinemadec/coc-fzf', function("my#config#coc_fzf"), {'branch': 'release'})
 else
   call s:plug('prabirshrestha/asyncomplete.vim', function("my#config#asyncomplete"))
   call s:plug('prabirshrestha/asyncomplete-buffer.vim')
