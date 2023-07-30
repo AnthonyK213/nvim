@@ -751,7 +751,6 @@ require("lazy").setup({
                     default_prompt = "> ",
                     title_pos = "center",
                     insert_only = true,
-                    anchor = "SW",
                     relative = "cursor",
                     border = _my_core_opt.tui.border,
                     win_options = { winblend = 10, },
@@ -759,6 +758,10 @@ require("lazy").setup({
                         if opts.kind == "editor" then
                             return { relative = "editor" }
                         end
+                    end,
+                    override = function(conf)
+                        conf.anchor = "SW"
+                        return conf
                     end,
                 },
                 select = {
