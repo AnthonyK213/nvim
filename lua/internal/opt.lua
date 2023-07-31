@@ -39,6 +39,7 @@ local opt = {
         animation = false,
         show_context = false,
         devicons = false,
+        bufferline_style = { "▕", "▕" },
         welcome_header = {
             [[                                                    ]],
             [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],

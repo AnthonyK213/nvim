@@ -192,10 +192,36 @@ require("lazy").setup({
                 show_buffer_close_icons = true,
                 show_close_icon = false,
                 persist_buffer_sort = true,
-                separator_style = { "▕", "▕" },
+                separator_style = _my_core_opt.tui.bufferline_style,
                 enforce_regular_tabs = false,
                 always_show_bufferline = true,
                 sort_by = "id",
+                groups = {
+                    options = {
+                        toggle_hidden_on_enter = true
+                    },
+                    items = {
+                        {
+                            name = "Tests",
+                            highlight = { sp = "purple" },
+                            priority = 2,
+                            icon = "",
+                            matcher = function(buf)
+                                return buf.name:match("%_test")
+                                    or buf.name:match("%_spec")
+                            end,
+                        },
+                        {
+                            name = "Docs",
+                            highlight = { sp = "cyan" },
+                            auto_close = false,
+                            matcher = function(buf)
+                                return buf.name:match("%.md")
+                                    or buf.name:match("%.txt")
+                            end,
+                        }
+                    }
+                }
             }
         },
         keys = {

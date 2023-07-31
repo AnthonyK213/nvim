@@ -74,7 +74,9 @@ Configuration for Neovim with some personal hacks.
         // (boolean) Enable devicons
         "devicons": false,
         // (string|array) Welcome page title
-        "welcome_header": "NEOVIM"
+        "welcome_header": "NEOVIM",
+        // (string|array) Bufferline style
+        "bufferline_style": "thin"
       },
       // GUI (neovim-qt, fvim)
       "gui": {
