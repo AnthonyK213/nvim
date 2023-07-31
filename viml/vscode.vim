@@ -23,8 +23,8 @@ call my#compat#vsc_kbd("n", "<leader>gn", "workbench.view.scm")
 " Comment
 call my#compat#vsc_kbd("n", "<leader>kc", "editor.action.addCommentLine")
 call my#compat#vsc_kbd("n", "<leader>ku", "editor.action.removeCommentLine")
-call my#compat#vsc_kbd("v", "<leader>kc", "editor.action.addCommentLine", [1])
-call my#compat#vsc_kbd("v", "<leader>ku", "editor.action.removeCommentLine", [1])
+call my#compat#vsc_kbd("v", "<leader>kc", "editor.action.addCommentLine")
+call my#compat#vsc_kbd("v", "<leader>ku", "editor.action.removeCommentLine")
 " Open
 call my#compat#vsc_kbd("n", "<leader>op", "workbench.action.toggleSidebarVisibility")
 call my#compat#vsc_kbd("n", "<leader>ot", "workbench.action.terminal.new")

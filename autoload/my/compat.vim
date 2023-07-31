@@ -30,30 +30,20 @@ function! my#compat#vim_source(file) abort
 endfunction
 
 " VSCode Key binding.
-function! my#compat#vsc_kbd(mode, lhs, cmd, range = [], args = v:null, block = 0) abort
-  if !(a:mode ==# "n" || a:mode ==# "v") | return | endif
-  let l:opts = { "noremap": v:true, "silent": v:true }
-  let l:arg = a:args == v:null ? "" : "," . (type(a:args) == v:t_string ? a:args : string(a:args))
-  let l:func = "VSCode"
-  let l:func .= a:block ? "Call" : "Notify"
-  let l:cnt = len(a:range)
-  if a:mode ==# "v"
-    if l:cnt == 1
-      let l:func .= "Visual"
-    else
-      return
-    endif
-  elseif a:mode ==# "n"
-    if l:cnt == 0
-    elseif l:cnt == 3
-      let l:func .= "Range"
-    elseif l:cnt == 5
-      let l:func .= "RangePos"
-    else
-      return
-    endif
+function! my#compat#vsc_kbd(mode, lhs, cmd, block = 0) abort
+  if a:mode !=# "n" && a:mode !=# "v" | return | endif
+  let l:func = "VSCode" . (a:block ? "Call" : "Notify")
+  if a:mode ==# "n"
+    let l:pos = ""
+    let l:prefix = "<Cmd>call "
+  elseif a:mode ==# "v"
+    let l:func .= "Range"
+    let l:pos = ",line(\"'<\"),line(\"'>\"),v:true"
+    let l:prefix = ":<C-U>call "
+  else
+    return
   endif
-  let l:pos = l:cnt == 0 ? "" : "," . join(a:range, ",")
-  let l:rhs = '<Cmd>call ' . l:func . '(' . string(a:cmd) . l:pos . l:arg . ")<CR>"
-  call nvim_set_keymap(a:mode, a:lhs, l:rhs, l:opts)
+  let l:rhs = l:prefix . l:func . '(' . string(a:cmd) . l:pos . ")<CR>"
+  let l:opt = { "noremap": v:true, "silent": v:true }
+  call nvim_set_keymap(a:mode, a:lhs, l:rhs, l:opt)
 endfunction
