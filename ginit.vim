@@ -1,12 +1,13 @@
 " GUI Configuration.
 " Supported GUIs:
-"   - [neovim-qt](https://github.com/equalsraf/neovim-qt)
-"   - [fvim](https://github.com/yatli/fvim)
+"   - [Neovim Qt](https://github.com/equalsraf/neovim-qt)
+"   - [Fvim](https://github.com/yatli/fvim)
+"   - [Neovide](https://github.com/neovide/neovide)
 
 
 let s:my_gui_table = {
       \ '_my_gui_theme': 'auto',
-      \ '_my_gui_opacity': 0.98,
+      \ '_my_gui_opacity': 1,
       \ '_my_gui_ligature': v:false,
       \ '_my_gui_popup_menu': v:false,
       \ '_my_gui_tabline': v:false,
@@ -55,36 +56,44 @@ let s:fvim_option_table = {
       \ 'FVimKeyAutoIme': v:true,
       \ }
 
+let s:neovide_option_table = {
+      \ 'o:linespace': g:_my_gui_line_space,
+      \ 'g:neovide_padding_top': 13,
+      \ 'g:neovide_padding_bottom': 13,
+      \ 'g:neovide_padding_right': 13,
+      \ 'g:neovide_padding_left': 13,
+      \ 'g:neovide_theme': g:_my_gui_theme,
+      \ 'g:neovide_transparency': g:_my_gui_opacity,
+      \ 'g:neovide_floating_blur_amount_x': 2.0,
+      \ 'g:neovide_floating_blur_amount_y': 2.0,
+      \ }
+
 
 " Functions
-function! s:gui_font_set(half, full, size) abort
+function! s:gui_font_set(half=g:_my_gui_font_half,
+      \ wide=g:_my_gui_font_wide,
+      \ size=g:_my_gui_font_size) abort
   if exists(':GuiFont')
     exe 'GuiFont!' a:half . ':h' . a:size
   else
     let &gfn = a:half . ':h' . a:size
   endif
-  let &gfw = a:full . ':h' . a:size
+  let &gfw = a:wide . ':h' . a:size
 endfunction
 
 function! s:gui_font_expand() abort
   let g:_my_gui_font_size += s:gui_font_step
-  call s:gui_font_set(g:_my_gui_font_half,
-        \ g:_my_gui_font_wide,
-        \ g:_my_gui_font_size)
+  call s:gui_font_set()
 endfunction
 
 function! s:gui_font_shrink() abort
   let g:_my_gui_font_size = max([g:_my_gui_font_size - s:gui_font_step, 3])
-  call s:gui_font_set(g:_my_gui_font_half,
-        \ g:_my_gui_font_wide,
-        \ g:_my_gui_font_size)
+  call s:gui_font_set()
 endfunction
 
 function! s:gui_font_origin() abort
   let g:_my_gui_font_size = s:gui_font_size_origin
-  call s:gui_font_set(g:_my_gui_font_half,
-        \ g:_my_gui_font_wide,
-        \ g:_my_gui_font_size)
+  call s:gui_font_set()
 endfunction
 
 function! s:gui_fullscreen_toggle() abort
@@ -107,7 +116,11 @@ endfunction
 
 function! s:gui_set_option_table(option_table) abort
   for [l:opt, l:arg] in items(a:option_table)
-    if exists(':' . l:opt)
+    if l:opt =~ '\v^g:.+$'
+      let g:{l:opt[2:]} = l:arg
+    elseif l:opt =~ '\v^o:.+$'
+      exe "set" l:opt[2:] . "=" . l:arg
+    elseif exists(':' . l:opt)
       silent exe l:opt l:arg
     endif
   endfor
@@ -153,15 +166,24 @@ set mouse=a
 " GUI
 "" Cursor blink
 if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
-  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-        \,a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor
-        \,sm:block-blinkwait240-blinkoff150-blinkon150
+  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,sm:block-blinkwait240-blinkoff150-blinkon150
 endif
 "" neovim-qt
 call s:gui_set_option_table(s:nvimqt_option_table)
 "" Fvim
-if exists('g:fvim_loaded')
+if exists("g:fvim_loaded")
   call s:gui_set_option_table(s:fvim_option_table)
+endif
+"" Neovide
+if exists("g:neovide")
+  call s:gui_set_option_table(s:neovide_option_table)
+  augroup ime_input
+    autocmd!
+    autocmd InsertLeave * execute "let g:neovide_input_ime=v:false"
+    autocmd InsertEnter * execute "let g:neovide_input_ime=v:true"
+    autocmd CmdlineEnter [/\?] execute "let g:neovide_input_ime=v:false"
+    autocmd CmdlineLeave [/\?] execute "let g:neovide_input_ime=v:true"
+  augroup END
 endif
 "" GUI theme
 if exists("g:_my_theme_switchable") && !empty(g:_my_theme_switchable)
@@ -180,7 +202,7 @@ endif
 " Font
 let s:gui_font_step = 2
 let s:gui_font_size_origin = g:_my_gui_font_size
-call s:gui_font_set(g:_my_gui_font_half, g:_my_gui_font_wide, g:_my_gui_font_size)
+call s:gui_font_set()
 
 
 " GUI key bindings
