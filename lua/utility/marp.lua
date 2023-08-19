@@ -98,13 +98,4 @@ function M.toggle()
     end
 end
 
--- ---@private
--- function M.cleanup()
-    -- for _, proc in pairs(M.tbl) do
-        -- proc:kill()
-    -- end
--- end
-
--- vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.cleanup })
-
 return M

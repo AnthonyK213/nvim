@@ -117,13 +117,6 @@ function M.input(bufnr)
     end)
 end
 
--- ---@private
--- function M.cleanup()
-    -- for _, proc in pairs(M.tbl) do
-        -- proc:kill()
-    -- end
--- end
-
 ---GLSL omnifunc.
 ---@param findstart integer
 ---@param base string
@@ -143,7 +136,5 @@ function M.omnifunc(findstart, base)
         end, comp_list)
     end
 end
-
--- vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.cleanup })
 
 return M
