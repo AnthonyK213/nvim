@@ -166,7 +166,9 @@ set mouse=a
 " GUI
 "" Cursor blink
 if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
-  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,sm:block-blinkwait240-blinkoff150-blinkon150
+  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,
+        \a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,
+        \sm:block-blinkwait240-blinkoff150-blinkon150
 endif
 "" neovim-qt
 call s:gui_set_option_table(s:nvimqt_option_table)
@@ -177,12 +179,17 @@ endif
 "" Neovide
 if exists("g:neovide")
   call s:gui_set_option_table(s:neovide_option_table)
-  augroup ime_input
-    autocmd!
-    autocmd InsertLeave * execute "let g:neovide_input_ime=v:false"
-    autocmd InsertEnter * execute "let g:neovide_input_ime=v:true"
-    autocmd CmdlineEnter [/\?] execute "let g:neovide_input_ime=v:false"
-    autocmd CmdlineLeave [/\?] execute "let g:neovide_input_ime=v:true"
+  augroup my_neovide
+    au!
+
+    " Disable IME automatically.
+    au InsertLeave * exe "let g:neovide_input_ime=v:false"
+    au InsertEnter * exe "let g:neovide_input_ime=v:true"
+    au CmdlineEnter [/\?] exe "let g:neovide_input_ime=v:false"
+    au CmdlineLeave [/\?] exe "let g:neovide_input_ime=v:true"
+
+    " Neovide should load ginit.vim **after** other initializations...
+    au UIEnter * source <sfile>:h/ginit.vim
   augroup END
 endif
 "" GUI theme
