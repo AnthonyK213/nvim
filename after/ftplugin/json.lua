@@ -2,7 +2,7 @@ local bufnr = vim.api.nvim_get_current_buf()
 
 vim.defer_fn(function()
     require("utility.util").new_keymap("n", "<leader>lm", function(fallback)
-        local lsps = vim.lsp.get_active_clients { bufnr = 0 }
+        local lsps = vim.lsp.get_clients { bufnr = 0 }
         if lsps and #lsps > 0 then
             vim.lsp.buf.format { async = false }
         elseif vim.fn.executable("jq") > 0 then

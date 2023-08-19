@@ -178,7 +178,7 @@ require("lazy").setup({
                 custom_filter = function(bufnr)
                     return not vim.tbl_contains({
                         "terminal", "quickfix", "prompt"
-                    }, vim.api.nvim_buf_get_option(bufnr, "buftype"))
+                    }, vim.api.nvim_get_option_value("buftype", { buf = bufnr }))
                 end,
                 offsets = {
                     {

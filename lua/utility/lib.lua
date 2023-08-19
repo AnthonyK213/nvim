@@ -425,7 +425,10 @@ function M.new_split(position, option)
         }
     }
     if hide_number then
-        vim.api.nvim_win_set_option(0, "number", false)
+        vim.api.nvim_set_option_value("number", false, {
+            scope = "local",
+            win = 0,
+        })
     end
     if vertical then
         vim.api.nvim_win_set_width(0, term_size)
