@@ -1,4 +1,12 @@
 local lib = require("utility.lib")
+local handles = {}
+vim.api.nvim_create_autocmd("VimLeavePre", { callback = function ()
+    for _, handle in ipairs(handles) do
+        if not handle:kill(vim.uv.constants.SIGTERM) then
+            handle:kill(vim.uv.constants.SIGKILL)
+        end
+    end
+end })
 
 ---@class futures.Process Provides access and control to local processes.
 ---@field path string Path to the system local executable.
@@ -92,6 +100,8 @@ function Process:start()
     end))
 
     if not self.handle then return false end
+
+    table.insert(handles, self.handle)
 
     self.stdout:read_start(vim.schedule_wrap(function(err, data)
         assert(not err, err)
