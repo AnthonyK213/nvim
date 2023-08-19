@@ -48,7 +48,7 @@ end
 ---@return integer winnr Window number of the terminal, -1 on failure.
 ---@return integer bufnr Buffer number of the terminal, -1 on failure.
 function Terminal:_prelude()
-    if self.proc.has_exited or not self.proc.is_valid then
+    if self.proc:has_exited() or not self.proc.is_valid then
         return false, -1, -1
     end
     local ok = false
@@ -74,7 +74,7 @@ function Terminal:_prelude()
     self.chan = vim.api.nvim_open_term(self.bufnr, {
         on_input = function(_, _, _, data)
             if data then
-                if self.proc.has_exited then
+                if self.proc:has_exited() then
                     self:close(true)
                 else
                     data = data:gsub("\r", "\r\n")
@@ -130,7 +130,6 @@ end
 ---@return integer? signal
 function Terminal:await()
     if not self:_prelude() then
-        self.proc.has_exited = true
         return
     end
     return self.proc:await()

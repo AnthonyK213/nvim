@@ -1,21 +1,75 @@
 local lib = require("utility.lib")
+
+---@type futures.ProcessHandle[]
 local handles = {}
-vim.api.nvim_create_autocmd("VimLeavePre", { callback = function ()
-    for _, handle in ipairs(handles) do
-        if not handle:kill(vim.uv.constants.SIGTERM) then
-            handle:kill(vim.uv.constants.SIGKILL)
+vim.api.nvim_create_autocmd("VimLeavePre", {
+    callback = function()
+        for _, handle in ipairs(handles) do
+            if not handle:kill() then
+                handle:kill(vim.uv.constants.SIGKILL)
+            end
         end
     end
-end })
+})
+
+---@class futures.ProcessHandle
+---@field private _data userdata uv_process_t.
+---@field private _pid integer Process ID.
+---@field private _exited boolean
+local ProcessHandle = {}
+
+---@private
+ProcessHandle.__index = ProcessHandle
+
+---Constructor.
+---@param data userdata uv_process_t.
+---@param pid integer Process ID.
+---@return futures.ProcessHandle
+function ProcessHandle.new(data, pid)
+    local handle = {
+        _data = data,
+        _pid = pid,
+        _exited = false,
+    }
+    setmetatable(handle, ProcessHandle)
+    return handle
+end
+
+---`pid` getter.
+function ProcessHandle:pid()
+    return self._pid
+end
+
+---`exited` getter.
+function ProcessHandle:exited()
+    return self._exited
+end
+
+function ProcessHandle:close()
+    self._data:close()
+    self._exited = true
+end
+
+---Sends te specified signal to the process and kill it.
+---@param signum? integer|string Signal, default `SIGTERM`.
+---@return integer ok 0 or fail.
+function ProcessHandle:kill(signum)
+    if self._exited then
+        return 0
+    end
+    local code = self._data:kill(signum or vim.uv.constants.SIGTERM)
+    if code then
+        self:close()
+    end
+    return code
+end
 
 ---@class futures.Process Provides access and control to local processes.
 ---@field path string Path to the system local executable.
 ---@field option table See `vim.uv.spawn()`.
 ---@field callback? fun(proc: futures.Process, code: integer, signal: integer) Callback invoked when the process exits.
----@field protected handle? userdata Process handle.
----@field id integer Process pid.
+---@field protected handle? futures.ProcessHandle Process handle.
 ---@field is_valid boolean True if the process is valid.
----@field has_exited boolean True if the process has already exited.
 ---@field protected callbacks fun(proc: futures.Process, code: integer, signal: integer)[]
 ---@field no_callbacks boolean Mark the process that its `callbacks` will not be executed.
 ---@field on_stdin? fun(data: string) Callback on standard input.
@@ -42,8 +96,7 @@ function Process.new(path, option, on_exit)
     local process = {
         path = path,
         option = option or {},
-        id = -1,
-        has_exited = false,
+        handle = nil,
         is_valid = true,
         callbacks = type(on_exit) == "function" and { on_exit } or {},
         no_callbacks = false,
@@ -71,14 +124,14 @@ end
 ---@return boolean ok True if process starts successfully.
 function Process:start()
     if not lib.executable(self.path) then self.is_valid = false end
-    if self.has_exited or not self.is_valid then return false end
+    if self:has_exited() or not self.is_valid then return false end
 
     self.stdout_buf = {}
     self.stderr_buf = {}
     local opt = { stdio = { self.stdin, self.stdout, self.stderr } }
     opt = vim.tbl_extend("keep", opt, self.option)
 
-    self.handle, self.id = vim.uv.spawn(self.path, opt, vim.schedule_wrap(function(code, signal)
+    local handle, pid = vim.uv.spawn(self.path, opt, vim.schedule_wrap(function(code, signal)
         vim.uv.shutdown(self.stdin)
         self.stdout:read_stop()
         self.stderr:read_stop()
@@ -86,7 +139,6 @@ function Process:start()
         self.stdout:close()
         self.stderr:close()
         self.handle:close()
-        self.has_exited = true
         if not self.no_callbacks then
             for _, f in ipairs(self.callbacks) do
                 if type(f) == "function" then
@@ -99,8 +151,9 @@ function Process:start()
         end
     end))
 
-    if not self.handle then return false end
+    if not handle then return false end
 
+    self.handle = ProcessHandle.new(handle, pid)
     table.insert(handles, self.handle)
 
     self.stdout:read_start(vim.schedule_wrap(function(err, data)
@@ -163,7 +216,7 @@ function Process:await()
         _s = signal
         assert(coroutine.resume(_co))
     end
-    if self:start() and not self.has_exited then
+    if self:start() and not self:has_exited() then
         coroutine.yield()
     end
     return _c, _s
@@ -199,14 +252,22 @@ function Process:write_and_wait(data)
     end
 end
 
+---Whether process has exited.
+---@return boolean
+function Process:has_exited()
+    if self.handle then
+        return self.handle:exited()
+    end
+    return false
+end
+
 ---Sends te specified signal to the process and kill it.
 ---@param signum? integer|string Signal, default `SIGTERM`.
----@return integer ok 0 or fail.
+---@return integer? ok 0 or fail.
 function Process:kill(signum)
-    if self.has_exited or not self.handle then
-        return 0
+    if self.handle then
+        return self.handle:kill(signum)
     end
-    return self.handle:kill(signum or vim.uv.constants.SIGTERM)
 end
 
 return Process

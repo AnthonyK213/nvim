@@ -10,7 +10,7 @@ M.tbl = {}
 ---@param bufnr integer
 ---@return boolean
 function M.is_alive(bufnr)
-    if M.tbl[bufnr] and not M.tbl[bufnr].has_exited then
+    if M.tbl[bufnr] and not M.tbl[bufnr]:has_exited() then
         return true
     end
     return false
