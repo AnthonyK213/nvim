@@ -34,11 +34,6 @@ function! s:plug(repo, config = v:null, option = {})
   endif
 endfunction
 
-function! s:post_clap(info) abort
-  let &rtp = &rtp
-  call clap#installer#force_download()
-endfunction
-
 function! s:post_mkdp(info) abort
   let &rtp = &rtp
   call mkdp#util#install()
@@ -62,7 +57,6 @@ call s:plug('iamcco/markdown-preview.nvim', function("my#config#markdown_preview
 call s:plug('sotte/presenting.vim')
 call s:plug('editorconfig/editorconfig-vim')
 call s:plug('skanehira/vsession', function("my#config#vsession"))
-"call s:plug('liuchengxu/vim-clap', function("my#config#vim_clap"), { 'do': funcref('s:post_clap') })
 call s:plug('junegunn/fzf', function("my#config#vim_fzf"), { 'do': { -> fzf#install() } })
 call s:plug('junegunn/fzf.vim')
 
