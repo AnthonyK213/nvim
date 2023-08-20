@@ -338,6 +338,7 @@ hi! link markdownLinkTextDelimiter Nano_Face_Subtle
 hi! link markdownListMarker Nano_Face_Salient
 
 if has("nvim")
+  " Markdown
   hi! link @text.title.1.marker.markdown markdownH1
   hi! link @text.title.2.marker.markdown markdownH2
   hi! link @text.title.3.marker.markdown markdownH3
@@ -362,6 +363,8 @@ if has("nvim")
   hi! link @text.reference.markdown_inline markdownLinkText
   hi! link @text.literal.block.markdown markdownCode
   hi! link @label.markdown markdownCodeDelimiter
+  " LSP
+  hi! link @lsp.type.keyword.lua Keyword
 endif
 
 " Misc
@@ -515,52 +518,49 @@ let s:nanovim_short_ft = [
       \ '__GonvimMarkdownPreview__',
       \ ]
 
-" Get the branch
-function! s:get_git_branch() abort
-  let l:current_dir = expand('%:p:h')
-  let l:is_git_repo = 0
+" Append file/directory/sub-path to a path.
+function! s:path_append(path, item) abort
+  let l:path_trim = substitute(a:path, '\v[\/]+$', "", "")
+  let l:item_trim = substitute(a:item, '\v^[\/]+', "", "")
+  return expand(l:path_trim . "/" . l:item_trim)
+endfunction
+
+" Get the Git root directory.
+function! s:get_git_root() abort
+  let l:dir = expand('%:p:h')
   while 1
-    if !empty(globpath(l:current_dir, ".git", 1))
-      let l:is_git_repo = 1
-      break
-    endif
-    let l:temp_dir = l:current_dir
-    let l:current_dir = fnamemodify(l:current_dir, ':h')
-    if l:temp_dir ==# l:current_dir
+    let l:results = globpath(l:dir, ".git", 1, 1)
+    for l:item in l:results
+      if isdirectory(l:item)
+        return l:dir
+      endif
+    endfor
+    let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
+    if l:current ==# l:dir
       break
     endif
   endwhile
-  if l:is_git_repo
-    let l:git_root = substitute(l:current_dir, '\v[\\/]$', '', '')
-    let l:dot_git = l:git_root . '/.git'
-    if isdirectory(l:dot_git)
-      let l:head_file = l:git_root . '/.git/HEAD'
-    else
-      try
-        let l:gitdir_line = readfile(l:dot_git)[0]
-        let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-        if len(l:gitdir_matches) > 0
-          let l:gitdir = l:gitdir_matches[1]
-          let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
-        endif
-      catch
-        return ''
-      endtry
-    endif
-    try
-      let l:ref_line = readfile(l:head_file)[0]
-      let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      if len(l:ref_matches) > 0
-        let l:branch = l:ref_matches[1]
-        if !empty(l:branch)
-          return l:branch
-        endif
-      endif
-    catch
-      return ''
-    endtry
+  return v:null
+endfunction
+
+" Get the Git branch.
+function! s:get_git_branch() abort
+  let l:git_root = s:get_git_root()
+  if l:git_root == v:null
+    return ""
   endif
-  return ''
+  let l:head_file = s:path_append(l:git_root, "/.git/HEAD")
+  if !empty(l:head_file) && !empty(glob(l:head_file))
+    let l:ref_line = readfile(l:head_file)[0]
+    let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
+    if len(l:ref_matches) > 0
+      let l:branch = l:ref_matches[1]
+      if !empty(l:branch)
+        return l:branch
+      endif
+    endif
+  endif
+  return ""
 endfunction
 
 function! s:cap_str_init(str) abort
@@ -657,7 +657,7 @@ augroup nanovim_redrawstatus
   autocmd FileChangedShellPost * redrawstatus
   autocmd BufEnter,WinEnter,VimEnter * call <SID>on_enter()
   autocmd BufLeave,WinLeave * call <SID>on_leave()
-augroup end
+augroup END
 " }}
 
 " vim: set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
