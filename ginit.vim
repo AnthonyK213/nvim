@@ -185,8 +185,6 @@ if exists("g:neovide")
     " Disable IME automatically.
     au InsertLeave * exe "let g:neovide_input_ime=v:false"
     au InsertEnter * exe "let g:neovide_input_ime=v:true"
-    au CmdlineEnter [/\?] exe "let g:neovide_input_ime=v:false"
-    au CmdlineLeave [/\?] exe "let g:neovide_input_ime=v:true"
 
     " Neovide should load ginit.vim **after** other initializations...
     au UIEnter * source <sfile>:h/ginit.vim
