@@ -166,7 +166,7 @@ set mouse=a
 " GUI
 "" Cursor blink
 if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
-  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,
+  :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,
         \a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,
         \sm:block-blinkwait240-blinkoff150-blinkon150
 endif
@@ -185,9 +185,12 @@ if exists("g:neovide")
     " Disable IME automatically.
     au InsertLeave * exe "let g:neovide_input_ime=v:false"
     au InsertEnter * exe "let g:neovide_input_ime=v:true"
+    " Command mode needs `INSERT`.
+    au CmdlineEnter * exe "let g:neovide_input_ime=v:true"
+    au CmdlineLeave * exe "let g:neovide_input_ime=v:false"
 
     " Neovide should load ginit.vim **after** other initializations...
-    au UIEnter * source <sfile>:h/ginit.vim
+    au UIEnter * exe 'source <sfile>:h/ginit.vim'
   augroup END
 endif
 "" GUI theme
