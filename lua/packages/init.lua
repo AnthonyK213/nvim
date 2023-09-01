@@ -449,7 +449,8 @@ require("lazy").setup({
                         },
                     },
                     border = border_style ~= "none",
-                    borderchars = border_styles[border_style] or border_styles["rounded"]
+                    borderchars = border_styles[border_style] or border_styles["rounded"],
+                    sorting_strategy = "ascending",
                 },
                 extensions = {
                     aerial = {
