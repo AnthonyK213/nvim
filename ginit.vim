@@ -76,7 +76,11 @@ function! s:gui_font_set(half=g:_my_gui_font_half,
   if exists(':GuiFont')
     exe 'GuiFont!' a:half . ':h' . a:size
   else
-    let &gfn = a:half . ':h' . a:size
+    if exists("g:neovide")
+      let &gfn = a:half . "," . a:wide . ':h' . a:size
+    else
+      let &gfn = a:half . ':h' . a:size
+    endif
   endif
   let &gfw = a:wide . ':h' . a:size
 endfunction
