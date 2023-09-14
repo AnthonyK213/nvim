@@ -12,3 +12,8 @@ if not vim.list_contains then
     vim.list_contains = vim.tbl_contains
     report_legacy()
 end
+
+if not vim.lsp.get_clients then
+    vim.lsp.get_clients = vim.lsp.get_active_clients
+    report_legacy()
+end

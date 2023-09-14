@@ -14,7 +14,6 @@ Configuration for Neovim with some personal hacks.
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
                         "$env:LOCALAPPDATA\nvim"
     ```
-    blk
   - GNU/Linux
     ``` sh
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
