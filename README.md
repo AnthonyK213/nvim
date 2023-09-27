@@ -77,7 +77,7 @@ Configuration for Neovim with some personal hacks.
         // (string|array) Bufferline style
         "bufferline_style": "thin"
       },
-      // GUI (neovim-qt, fvim)
+      // GUI (neovim-qt, fvim, neovide)
       "gui": {
         // ("auto"|"dark"|"light") GUI background theme
         "theme": "auto",
