@@ -259,32 +259,24 @@ require("lazy").setup({
         "lukas-reineke/indent-blankline.nvim",
         event = { "VeryLazy", "BufReadPre" },
         cond = load_optional,
-        opts = {
-            char = "▏",
-            context_char = "▏",
-            use_treesitter = false,
-            space_char_blankline = " ",
-            show_current_context = _my_core_opt.tui.show_context,
-            context_patterns = {
-                "class",
-                "function",
-                "method",
-                "^if",
-                "^while",
-                "^for",
-                "^object",
-                "^table",
-                "block",
-                "arguments",
-            },
-            buftype_exclude = { "help", "quickfix", "terminal", "nofile" },
-            filetype_exclude = {
-                "aerial", "alpha", "packer", "lazy",
-                "markdown", "presenting_markdown",
-                "vimwiki", "NvimTree", "mason", "lspinfo",
-                "NeogitStatus", "NeogitCommitView", "DiffviewFiles",
+        config = function()
+            require("ibl").setup {
+                indent = {
+                    char = "▏",
+                },
+                exclude = {
+                    filetypes = {
+                        "aerial", "alpha", "packer", "lazy",
+                        "markdown", "presenting_markdown",
+                        "vimwiki", "NvimTree", "mason", "lspinfo",
+                        "NeogitStatus", "NeogitCommitView", "DiffviewFiles",
+                    },
+                    buffertypes = {
+                        "help", "quickfix", "terminal", "nofile"
+                    },
+                }
             }
-        }
+        end
     },
     -- File system
     {
