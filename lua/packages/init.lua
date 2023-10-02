@@ -271,7 +271,7 @@ require("lazy").setup({
                     "vimwiki", "NvimTree", "mason", "lspinfo",
                     "NeogitStatus", "NeogitCommitView", "DiffviewFiles",
                 },
-                buffertypes = {
+                buftypes = {
                     "help", "quickfix", "terminal", "nofile"
                 },
             }
