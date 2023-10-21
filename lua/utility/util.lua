@@ -208,7 +208,7 @@ end
 ---Depends on `plenary.nvim`
 ---@param channel? string Upgrade channel, "stable" or "nightly".
 function M.nvim_upgrade(channel)
-    local proxy = _my_core_opt.dep.proxy
+    local proxy = _my_core_opt.dep.proxy or os.getenv("HTTP_PROXY")
     local version = vim.version()
 
     if not channel then
