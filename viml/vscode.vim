@@ -6,6 +6,7 @@ call my#compat#vsc_kbd("n", "<leader>bd", "workbench.action.closeActiveEditor")
 call my#compat#vsc_kbd("n", "<leader>bn", "workbench.action.nextEditor")
 call my#compat#vsc_kbd("n", "<leader>bp", "workbench.action.previousEditor")
 " Find
+call my#compat#vsc_kbd("n", "<leader>fa", "workbench.action.gotoSymbol")
 call my#compat#vsc_kbd("n", "<leader>ff", "workbench.action.quickOpen")
 call my#compat#vsc_kbd("n", "<leader>fg", "workbench.view.search")
 " Fold
