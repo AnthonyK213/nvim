@@ -723,54 +723,54 @@ require("lazy").setup({
     {
         "andymass/vim-matchup",
         init = function()
-            vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
-            vim.keymap.set("n", "<leader>mm", function()
-                local sl = vim.fn.MatchupStatusOffscreen()
-                sl = "%#Normal#" .. sl:gsub("%%<", "")
+            vim.g.matchup_matchparen_offscreen = { method = "popup" }
+            -- vim.keymap.set("n", "<leader>mm", function()
+                -- local sl = vim.fn.MatchupStatusOffscreen()
+                -- sl = "%#Normal#" .. sl:gsub("%%<", "")
 
-                local props, col, text = {}, 1, ""
+                -- local props, col, text = {}, 1, ""
 
-                for _, item in ipairs(vim.fn.split(sl, "%\\@1<!%#")) do
-                    local elems = vim.split(item, "#")
-                    local hl = elems[1]
-                    local rest = table.concat(elems, "#", 2, #elems)
-                    local len = #rest
-                    if len > 0 and not hl:match("^%s*$") then
-                        table.insert(props, {
-                            length = len,
-                            col = col,
-                            hl = hl,
-                        })
-                        text = text .. rest
-                        col = col + len
-                    end
-                end
+                -- for _, item in ipairs(vim.fn.split(sl, "%\\@1<!%#")) do
+                    -- local elems = vim.split(item, "#")
+                    -- local hl = elems[1]
+                    -- local rest = table.concat(elems, "#", 2, #elems)
+                    -- local len = #rest
+                    -- if len > 0 and not hl:match("^%s*$") then
+                        -- table.insert(props, {
+                            -- length = len,
+                            -- col = col,
+                            -- hl = hl,
+                        -- })
+                        -- text = text .. rest
+                        -- col = col + len
+                    -- end
+                -- end
 
-                if text:match("^%s*$") then
-                    return
-                end
+                -- if text:match("^%s*$") then
+                    -- return
+                -- end
 
-                local bufnr, _ = vim.lsp.util.open_floating_preview({ text }, "", {
-                    height = 1,
-                    width = vim.api.nvim_strwidth(text),
-                    border = _my_core_opt.tui.border,
-                    focusable = false,
-                    focus = false,
-                })
+                -- local bufnr, _ = vim.lsp.util.open_floating_preview({ text }, "", {
+                    -- height = 1,
+                    -- width = vim.api.nvim_strwidth(text),
+                    -- border = _my_core_opt.tui.border,
+                    -- focusable = false,
+                    -- focus = false,
+                -- })
 
-                local ns_id = vim.api.nvim_get_namespaces()["vim-matchup"]
+                -- local ns_id = vim.api.nvim_get_namespaces()["vim-matchup"]
 
-                if not ns_id then
-                    return
-                end
+                -- if not ns_id then
+                    -- return
+                -- end
 
-                for _, prop in ipairs(props) do
-                    vim.api.nvim_buf_set_extmark(bufnr, ns_id, 0, prop.col - 1, {
-                        end_col = prop.col + prop.length - 1,
-                        hl_group = prop.hl,
-                    })
-                end
-            end)
+                -- for _, prop in ipairs(props) do
+                    -- vim.api.nvim_buf_set_extmark(bufnr, ns_id, 0, prop.col - 1, {
+                        -- end_col = prop.col + prop.length - 1,
+                        -- hl_group = prop.hl,
+                    -- })
+                -- end
+            -- end)
         end,
     },
     {
