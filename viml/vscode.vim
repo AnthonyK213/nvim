@@ -1,5 +1,9 @@
 set noloadplugins
 call my#compat#require("internal")
+filetype off
+filetype indent off
+filetype plugin off
+syntax off
 set colorcolumn=
 " Buffer
 call my#compat#vsc_kbd("n", "<leader>bd", "workbench.action.closeActiveEditor")

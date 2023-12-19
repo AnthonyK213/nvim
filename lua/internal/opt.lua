@@ -244,3 +244,15 @@ end
 _eval(opt)
 
 _G._my_core_opt = opt
+
+---Filetype.
+vim.filetype.add {
+    filename = {
+        ["_nvimrc"] = "json",
+        [".nvimrc"] = "json",
+    },
+    extension = {
+        markdown = "vimwiki.markdown",
+        urdf = "xml",
+    }
+}

@@ -724,53 +724,6 @@ require("lazy").setup({
         "andymass/vim-matchup",
         init = function()
             vim.g.matchup_matchparen_offscreen = { method = "popup" }
-            -- vim.keymap.set("n", "<leader>mm", function()
-                -- local sl = vim.fn.MatchupStatusOffscreen()
-                -- sl = "%#Normal#" .. sl:gsub("%%<", "")
-
-                -- local props, col, text = {}, 1, ""
-
-                -- for _, item in ipairs(vim.fn.split(sl, "%\\@1<!%#")) do
-                    -- local elems = vim.split(item, "#")
-                    -- local hl = elems[1]
-                    -- local rest = table.concat(elems, "#", 2, #elems)
-                    -- local len = #rest
-                    -- if len > 0 and not hl:match("^%s*$") then
-                        -- table.insert(props, {
-                            -- length = len,
-                            -- col = col,
-                            -- hl = hl,
-                        -- })
-                        -- text = text .. rest
-                        -- col = col + len
-                    -- end
-                -- end
-
-                -- if text:match("^%s*$") then
-                    -- return
-                -- end
-
-                -- local bufnr, _ = vim.lsp.util.open_floating_preview({ text }, "", {
-                    -- height = 1,
-                    -- width = vim.api.nvim_strwidth(text),
-                    -- border = _my_core_opt.tui.border,
-                    -- focusable = false,
-                    -- focus = false,
-                -- })
-
-                -- local ns_id = vim.api.nvim_get_namespaces()["vim-matchup"]
-
-                -- if not ns_id then
-                    -- return
-                -- end
-
-                -- for _, prop in ipairs(props) do
-                    -- vim.api.nvim_buf_set_extmark(bufnr, ns_id, 0, prop.col - 1, {
-                        -- end_col = prop.col + prop.length - 1,
-                        -- hl_group = prop.hl,
-                    -- })
-                -- end
-            -- end)
         end,
     },
     {
@@ -1155,3 +1108,34 @@ require("lazy").setup({
         }
     }
 })
+
+---Filetype.
+vim.filetype.add {
+    filename = {
+        ["Cargo.toml"] = function()
+            return "toml", function(bufnr)
+                require("cmp").setup.buffer { sources = { { name = "crates" } } }
+                local crates = require("crates")
+                local kbd = vim.keymap.set
+                local _o = { noremap = true, silent = true, buffer = bufnr }
+                kbd("n", "K", crates.show_popup, _o)
+                kbd("n", "<leader>ct", crates.toggle, _o)
+                kbd("n", "<leader>cr", crates.reload, _o)
+                kbd("n", "<leader>cv", crates.show_versions_popup, _o)
+                kbd("n", "<leader>cf", crates.show_features_popup, _o)
+                kbd("n", "<leader>cd", crates.show_dependencies_popup, _o)
+                kbd("n", "<leader>cu", crates.update_crate, _o)
+                kbd("v", "<leader>cu", crates.update_crates, _o)
+                kbd("n", "<leader>ca", crates.update_all_crates, _o)
+                kbd("n", "<leader>cU", crates.upgrade_crate, _o)
+                kbd("v", "<leader>cU", crates.upgrade_crates, _o)
+                kbd("n", "<leader>cA", crates.upgrade_all_crates, _o)
+                kbd("n", "<leader>cH", crates.open_homepage, _o)
+                kbd("n", "<leader>cR", crates.open_repository, _o)
+                kbd("n", "<leader>cD", crates.open_documentation, _o)
+                kbd("n", "<leader>cC", crates.open_crates_io, _o)
+                crates.show()
+            end
+        end
+    },
+}
