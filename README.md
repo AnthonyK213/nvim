@@ -124,6 +124,12 @@ Configuration for Neovim with some personal hacks.
               },
               "telemetry": {
                 "enable": false
+              },
+              "format": {
+                "defaultConfig": {
+                  "indent_style": "space",
+                  "indent_size": "2"
+                }
               }
             }
           }
