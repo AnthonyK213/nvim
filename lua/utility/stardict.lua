@@ -39,16 +39,21 @@ local function try_focus()
   return false
 end
 
-local function preview(result)
+local function show(result)
   local def = result.definition:gsub("^[\n\r]?%*", "\r")
   def = string.format("# %s\r\n__%s__\n%s", result.dict, result.word, def)
   local contents = vim.split(def, "[\r\n]")
-  _bufnr, _winnr = vim.lsp.util.open_floating_preview(contents, "markdown", {
-    max_height = 20,
-    max_width = 50,
-    wrap = true,
-    border = _my_core_opt.tui.border,
-  })
+
+  if vim.g.vscode then
+    vim.notify(table.concat(contents, "\n"), vim.log.levels.INFO)
+  else
+    _bufnr, _winnr = vim.lsp.util.open_floating_preview(contents, "markdown", {
+      max_height = 20,
+      max_width = 50,
+      wrap = true,
+      border = _my_core_opt.tui.border,
+    })
+  end
 end
 
 local function on_stdout(data)
@@ -60,7 +65,7 @@ local function on_stdout(data)
   if #results == 0 then
     print("No information available")
   elseif #results == 1 then
-    preview(results[1])
+    show(results[1])
   else
     spawn(function()
       local choice, indice = futures.ui.select(results, {
@@ -70,7 +75,7 @@ local function on_stdout(data)
         end
       })
       if not choice then return end
-      preview(results[indice])
+      show(results[indice])
     end)
   end
 end
