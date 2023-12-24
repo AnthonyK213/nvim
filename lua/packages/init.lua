@@ -261,8 +261,21 @@ require("lazy").setup({
     cond = load_optional,
     main = "ibl",
     opts = {
+      enabled = true,
+      debounce = 1000,
       indent = {
         char = "▏",
+      },
+      viewport_buffer = {
+        min = 30,
+        max = 500
+      },
+      scope = {
+        enabled = true,
+        show_start = false,
+        show_end = false,
+        injected_languages = false,
+        priority = 500,
       },
       exclude = {
         filetypes = {
@@ -724,6 +737,9 @@ require("lazy").setup({
     "andymass/vim-matchup",
     init = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
+      vim.g.matchup_matchparen_deferred = 1
+      vim.g.matchup_matchparen_deferred_show_delay = 100
+      vim.g.matchup_matchparen_deferred_hide_delay = 700
     end,
   },
   {
