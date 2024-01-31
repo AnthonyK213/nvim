@@ -339,29 +339,29 @@ hi! link markdownListMarker Nano_Face_Salient
 
 if has("nvim")
   " Markdown
-  hi! link @text.title.1.marker.markdown markdownH1
-  hi! link @text.title.2.marker.markdown markdownH2
-  hi! link @text.title.3.marker.markdown markdownH3
-  hi! link @text.title.4.marker.markdown markdownH4
-  hi! link @text.title.5.marker.markdown markdownH5
-  hi! link @text.title.6.marker.markdown markdownH6
-  hi! link @text.title.1.markdown markdownH1
-  hi! link @text.title.2.markdown markdownH2
-  hi! link @text.title.3.markdown markdownH3
-  hi! link @text.title.4.markdown markdownH4
-  hi! link @text.title.5.markdown markdownH5
-  hi! link @text.title.6.markdown markdownH6
-  hi! link @text.strong.markdown_inline markdownBold
-  hi! link @text.emphasis.markdown_inline markdownItalic
-  hi! link @text.literal.markdown_inline markdownCode
-  hi! link @text.uri.markdown_inline markdownUrl
-  hi! link @punctuation.special.markdown markdownListMarker
-  hi! link @punctuation.delimiter.markdown_inline markdownBoldDelimiter
-  hi! link @punctuation.delimiter.markdown markdownCodeDelimiter
-  hi! link @punctuation.bracket.markdown_inline markdownLinkDelimiter
-  hi! link @text.escape.markdown_inline markdownEscape
-  hi! link @text.reference.markdown_inline markdownLinkText
-  hi! link @text.literal.block.markdown markdownCode
+  hi! link @markup.heading.1.marker.markdown markdownH1
+  hi! link @markup.heading.2.marker.markdown markdownH2
+  hi! link @markup.heading.3.marker.markdown markdownH3
+  hi! link @markup.heading.4.marker.markdown markdownH4
+  hi! link @markup.heading.5.marker.markdown markdownH5
+  hi! link @markup.heading.6.marker.markdown markdownH6
+  hi! link @markup.heading.1.markdown markdownH1
+  hi! link @markup.heading.2.markdown markdownH2
+  hi! link @markup.heading.3.markdown markdownH3
+  hi! link @markup.heading.4.markdown markdownH4
+  hi! link @markup.heading.5.markdown markdownH5
+  hi! link @markup.heading.6.markdown markdownH6
+  hi! link @markup.strong.markdown_inline markdownBold
+  hi! link @markup.italic.markdown_inline markdownItalic
+  hi! link @markup.raw.markdown_inline markdownCode
+  hi! link @markup.link.url.markdown_inline markdownUrl
+  hi! link @markup.list.markdown markdownListMarker
+  hi! link @markup.raw.delimiter.markdown_inline markdownCodeDelimiter
+  hi! link @markup.raw.delimiter.markdown markdownCodeDelimiter
+  hi! link @string.escape.markdown_inline markdownEscape
+  hi! link @markup.link.markdown_inline markdownLinkText
+  hi! link @markup.link.label.markdown_inline markdownLinkText
+  hi! link @markup.raw.block.markdown markdownCode
   hi! link @label.markdown markdownCodeDelimiter
   " LSP
   hi! link @lsp.type.keyword.lua Keyword
