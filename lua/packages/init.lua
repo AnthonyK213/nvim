@@ -1018,6 +1018,7 @@ require("lazy").setup({
             "mfussenegger/nvim-dap",
             config = function() require("packages.nvim-dap") end,
           },
+          "nvim-neotest/nvim-nio",
         }
       }
     }
