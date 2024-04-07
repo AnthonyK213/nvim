@@ -1,11 +1,20 @@
 set noloadplugins
+
 call my#compat#require("internal")
+
+filetype off
+filetype indent off
+filetype plugin off
+syntax off
+
 set colorcolumn=
+
 " Buffer
 call my#compat#vsc_kbd("n", "<leader>bd", "workbench.action.closeActiveEditor")
 call my#compat#vsc_kbd("n", "<leader>bn", "workbench.action.nextEditor")
 call my#compat#vsc_kbd("n", "<leader>bp", "workbench.action.previousEditor")
 " Find
+call my#compat#vsc_kbd("n", "<leader>fa", "workbench.action.gotoSymbol")
 call my#compat#vsc_kbd("n", "<leader>ff", "workbench.action.quickOpen")
 call my#compat#vsc_kbd("n", "<leader>fg", "workbench.view.search")
 " Fold
@@ -38,3 +47,5 @@ call my#compat#vsc_kbd("n", "<leader>li", "editor.action.goToImplementation")
 call my#compat#vsc_kbd("n", "<leader>lm", "editor.action.formatDocument")
 call my#compat#vsc_kbd("n", "<leader>ln", "editor.action.rename")
 call my#compat#vsc_kbd("n", "<leader>lr", "editor.action.goToReferences")
+call my#compat#vsc_kbd("n", "<leader>l[", "editor.action.marker.prev")
+call my#compat#vsc_kbd("n", "<leader>l]", "editor.action.marker.next")
