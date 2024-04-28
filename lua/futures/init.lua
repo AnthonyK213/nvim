@@ -78,7 +78,7 @@ end
 ---@param fut_list futures.Process[]|futures.Task[]|futures.Terminal[] List of futrues.
 ---@return boolean
 local function check_fut_list(fut_list)
-  if not vim.tbl_islist(fut_list) or vim.tbl_isempty(fut_list) then
+  if not vim.islist(fut_list) or vim.tbl_isempty(fut_list) then
     lib.notify_err("`fut_list` should be a list-like table which is not empty.")
     return false
   end

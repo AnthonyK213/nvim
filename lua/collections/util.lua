@@ -46,7 +46,7 @@ end
 ---@param iterable any[]|collections.Iterable
 ---@return (fun(iterable: any[]|collections.Iterable, item: any):boolean)|nil
 function M.get_contains(iterable)
-  if vim.tbl_islist(iterable) then
+  if vim.islist(iterable) then
     return vim.list_contains
   elseif vim.is_callable(iterable.contains) then
     return iterable.contains
@@ -59,7 +59,7 @@ end
 ---@param iterable any[]|collections.Iterable
 ---@return (fun(iterable: any[]|collections.Iterable):integer)?
 function M.get_count(iterable)
-  if vim.tbl_islist(iterable) then
+  if vim.islist(iterable) then
     return function(x)
       return #x
     end

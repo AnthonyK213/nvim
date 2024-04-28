@@ -13,7 +13,7 @@ setmetatable(Iterator, { __call = function(o, iterable) return o.get(iterable) e
 ---@return collections.Iterator
 function Iterator.get(iterable)
   local iter = {}
-  if vim.tbl_islist(iterable) then
+  if vim.islist(iterable) then
     local index = 0
     iter._next = function()
       index = index + 1

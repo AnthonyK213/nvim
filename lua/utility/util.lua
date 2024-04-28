@@ -23,7 +23,7 @@ function M.terminal()
     return false
   end
 
-  return futures.Terminal.new(vim.tbl_flatten({ my_sh })):start()
+  return futures.Terminal.new(vim.iter({ my_sh }):flatten():totable()):start()
 end
 
 ---Open and edit text file in vim.

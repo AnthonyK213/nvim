@@ -374,7 +374,7 @@ proj_table = {
     if not content then return nil, false end
 
     if not content.tasks
-        or not vim.tbl_islist(content.tasks)
+        or not vim.islist(content.tasks)
         or vim.tbl_isempty(content.tasks) then
       return nil, false
     end
@@ -394,7 +394,7 @@ proj_table = {
       if vim.stricmp(task.type, "shell") == 0 then
         local cmd = task.command
         local args = task.args or {}
-        if cmd and vim.tbl_islist(args) then
+        if cmd and vim.islist(args) then
           table.insert(args, 1, cmd)
           print(task.label .. ": running...")
           Terminal.new(args, { cwd = root }):await()

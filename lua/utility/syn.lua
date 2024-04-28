@@ -92,7 +92,7 @@ local function _check_predicate(predicate)
     return function(item)
       return item:type() == predicate
     end
-  elseif vim.tbl_islist(predicate) then
+  elseif vim.islist(predicate) then
     return function(item)
       return vim.list_contains(predicate, item:type())
     end

@@ -109,7 +109,7 @@ function MailConfig.get()
         return
       end
 
-      if vim.tbl_islist(result.providers) then
+      if vim.islist(result.providers) then
         local providers = {}
         for _, item in ipairs(result.providers) do
           if type(item.label) == "string"

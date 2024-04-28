@@ -612,7 +612,7 @@ end
 ---@param val any Value to find.
 ---@return integer index The first index of value `val`, 0 for not found.
 function M.tbl_find_first(tbl, val)
-  if vim.tbl_islist(tbl) then
+  if vim.islist(tbl) then
     for i, v in ipairs(tbl) do
       if v == val then
         return i
@@ -628,7 +628,7 @@ end
 ---@param val any Value to find.
 ---@return integer index The last index of value `val`, 0 for not found.
 function M.tbl_find_last(tbl, val)
-  if vim.tbl_islist(tbl) then
+  if vim.islist(tbl) then
     for i = #tbl, 1, -1 do
       if tbl[i] == val then
         return i
@@ -662,7 +662,7 @@ end
 ---@param tbl table Table to reverse.
 ---@return table result Reversed table if reversible.
 function M.tbl_reverse(tbl)
-  if vim.tbl_islist(tbl) then
+  if vim.islist(tbl) then
     local tmp = {}
     for i = #tbl, 1, -1 do
       table.insert(tmp, tbl[i])
