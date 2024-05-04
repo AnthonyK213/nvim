@@ -7,6 +7,7 @@ filetype indent off
 filetype plugin off
 syntax off
 
+set shada=
 set colorcolumn=
 
 " Buffer
