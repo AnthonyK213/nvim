@@ -877,6 +877,19 @@ require("lazy").setup({
       },
     }
   },
+  {
+    "stevearc/overseer.nvim",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
+    "Civitasv/cmake-tools.nvim",
+    event = "VeryLazy",
+    config = function() require("packages.cmake-tools") end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    }
+  },
   -- File type support
   {
     "lervag/vimtex",
