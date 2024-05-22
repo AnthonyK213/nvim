@@ -1,3 +1,15 @@
+local min_supported_version = "0.10.0"
+
+---WORKAROUND: [#28782](https://github.com/neovim/neovim/issues/28782)
+if not vim.version or vim.version.lt({
+      vim.version().major,
+      vim.version().minor,
+      vim.version().patch,
+    }, min_supported_version) then
+  vim.notify("The minimum supported version is " .. min_supported_version .. ", time to upgrade!",
+    vim.log.levels.ERROR)
+end
+
 local function report_legacy()
   vim.notify_once("The current version may have some deprecated features, time to upgrade!",
     vim.log.levels.WARN)
