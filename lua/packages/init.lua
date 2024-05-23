@@ -16,25 +16,11 @@ end
 
 vim.opt.rtp:prepend(lazy_path)
 
-vim.o.tgc = true
-vim.o.bg = _my_core_opt.tui.theme or "dark"
-vim.g._my_theme_switchable = false
-local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
-local load_optional = nvim_init_src ~= "neatUI" and nvim_init_src ~= "nano"
-if nvim_init_src == "nano" then
-  vim.g._my_theme_switchable = true
-  vim.g.nano_transparent = _my_core_opt.tui.transparent and 1 or 0
-  vim.cmd.colorscheme("nanovim")
-  _my_core_opt.tui.scheme = "nanovim"
-else
-  if not vim.list_contains({
-        "onedark", "tokyonight", "gruvbox", "nightfox", "onenord"
-      }, _my_core_opt.tui.scheme) then
-    if not pcall(vim.cmd.colorscheme, _my_core_opt.tui.scheme) then
-      vim.notify("Color scheme was not found.", vim.log.levels.WARN)
-    end
-  end
-end
+local load_3rd_ui = require("internal.cpt").set_color_scheme(function(cs)
+  return vim.list_contains({
+    "onedark", "tokyonight", "gruvbox", "nightfox", "onenord"
+  }, cs)
+end)
 
 -- Setup lazy.nvim.
 require("lazy").setup({
@@ -77,7 +63,7 @@ require("lazy").setup({
   -- Optional
   {
     "goolord/alpha-nvim",
-    cond = load_optional,
+    cond = load_3rd_ui,
     config = function()
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
@@ -97,7 +83,7 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     lazy = false,
-    cond = load_optional,
+    cond = load_3rd_ui,
     opts = {
       options = {
         theme = "auto",
@@ -152,7 +138,7 @@ require("lazy").setup({
   {
     "akinsho/bufferline.nvim",
     lazy = false,
-    cond = load_optional,
+    cond = load_3rd_ui,
     init = function() vim.o.showtabline = 2 end,
     opts = {
       options = {
@@ -233,7 +219,7 @@ require("lazy").setup({
   {
     "norcalli/nvim-colorizer.lua",
     ft = { "html", "javascript", "json", "typescript", "css", "vue" },
-    cond = load_optional,
+    cond = load_3rd_ui,
     config = function()
       require("colorizer").setup({
         "html",
@@ -258,7 +244,7 @@ require("lazy").setup({
   {
     "lukas-reineke/indent-blankline.nvim",
     event = { "VeryLazy", "BufReadPre" },
-    cond = load_optional,
+    cond = load_3rd_ui,
     main = "ibl",
     opts = {
       enabled = true,

@@ -6,6 +6,7 @@ lib.vim_source("viml/basics")
 local os_this = lib.get_os_type()
 
 local opt = {
+  offline = false,
   dep = {
     sh = ({
       [lib.Os.Linux] = "bash",

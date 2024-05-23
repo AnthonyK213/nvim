@@ -26,6 +26,8 @@ Configuration for Neovim with some personal hacks.
   - Example
     ``` json
     {
+      // When PC is not able to connect to the Internet to download the plus-in
+      "offline": false,
       // Dependencies
       "dep": {
         // (string|array) Shell

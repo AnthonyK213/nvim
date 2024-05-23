@@ -1,20 +1,23 @@
-require("cmp").setup.buffer {
-  formatting = {
-    format = function(entry, vim_item)
-      vim_item.menu = ({
-        omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
-        buffer = "[Buffer]",
-      })[entry.source.name]
-      return vim_item
-    end,
-  },
-  sources = {
-    { name = "luasnip" },
-    { name = "omni" },
-    { name = "buffer" },
-    { name = "path" },
-  },
-}
+local has_cmp, cmp = pcall(require, "cmp")
+if has_cmp then
+  cmp.setup.buffer {
+    formatting = {
+      format = function(entry, vim_item)
+        vim_item.menu = ({
+          omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
+          buffer = "[Buffer]",
+        })[entry.source.name]
+        return vim_item
+      end,
+    },
+    sources = {
+      { name = "luasnip" },
+      { name = "omni" },
+      { name = "buffer" },
+      { name = "path" },
+    },
+  }
+end
 
 local _opt = { noremap = true, silent = true, buffer = true }
 
