@@ -51,7 +51,7 @@ end
 --#region Adapter instances
 local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
   type = "executable",
-  command = "lldb-vscode",
+  command = "lldb-dap",
   name = "lldb",
 }, {
   {
