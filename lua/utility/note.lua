@@ -178,7 +178,7 @@ function M.md_sort_num_bullet()
       api.nvim_buf_set_lines(0, v - 1, v, true, { lf_new })
     end
   else
-    lib.notify_err("Not in a line of any numbered lists.")
+    lib.warn("Not in a line of any numbered lists.")
   end
 end
 

@@ -105,7 +105,7 @@ function MailConfig.get()
         mailConfig.inbox_dir = inbox
         mailConfig.outbox_dir = outbox
       else
-        lib.notify_err("Invalid `archive`.")
+        lib.warn("Invalid `archive`.")
         return
       end
 
@@ -124,22 +124,22 @@ function MailConfig.get()
           end
         end
         if vim.tbl_isempty(providers) then
-          lib.notify_err("No valid `providers`.")
+          lib.warn("No valid `providers`.")
           return
         end
         mailConfig.providers = providers
       else
-        lib.notify_err("Invalid `providers`.")
+        lib.warn("Invalid `providers`.")
         return
       end
     else
       util.edit_file(config_path, false)
-      lib.notify_err("Invalid `mail.json`")
+      lib.warn("Invalid `mail.json`")
       return
     end
   else
     if not config_path then
-      lib.notify_err("Cannot create `mail.json`.")
+      lib.warn("Cannot create `mail.json`.")
       return
     end
     vim.cmd.edit(config_path)
@@ -271,7 +271,7 @@ function Mail:send()
   -- Check fields.
   if not (self.from and self.to and self.reply_to
         and self.subject and self.body) then
-    lib.notify_err("Invalid email.")
+    lib.warn("Invalid email.")
     return
   end
 
@@ -282,7 +282,7 @@ function Mail:send()
     local user_name = self.from:match("<(.+)>")
 
     if not user_name then
-      lib.notify_err("Invalid user name.")
+      lib.warn("Invalid user name.")
       return
     end
 
@@ -296,7 +296,7 @@ function Mail:send()
     end
 
     if not provider then
-      lib.notify_err("Did not fide mailbox with user name: " .. user_name)
+      lib.warn("Did not fide mailbox with user name: " .. user_name)
       return
     end
 
@@ -308,7 +308,7 @@ function Mail:send()
       dylib_path
     ):await();
 
-    (code == 0 and vim.notify or lib.notify_err)(code_send[code])
+    (code == 0 and vim.notify or lib.warn)(code_send[code])
   end)
 end
 

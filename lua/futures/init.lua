@@ -65,7 +65,7 @@ end
 ---Await the spawned task.
 function JoinHandle:await()
   if not coroutine.running() then
-    vim.notify("Not in any asynchronous block", vim.log.levels.WARN)
+    lib.warn("Not in any asynchronous block")
     return
   end
   while coroutine.status(self.co) ~= "dead" do
@@ -79,7 +79,7 @@ end
 ---@return boolean
 local function check_fut_list(fut_list)
   if not vim.islist(fut_list) or vim.tbl_isempty(fut_list) then
-    lib.notify_err("`fut_list` should be a list-like table which is not empty.")
+    lib.warn("`fut_list` should be a list-like table which is not empty.")
     return false
   end
   return true
@@ -160,7 +160,7 @@ function M.join(fut_list, timeout)
   local count = 0
   if not check_fut_list(fut_list) then return result end
   if type(timeout) == "number" and timeout < 0 then
-    lib.notify_err("Invalid `timeout`.")
+    lib.warn("Invalid `timeout`.")
     return result
   end
   local fut_count = #fut_list

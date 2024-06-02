@@ -9,7 +9,7 @@ local lib = require("utility.lib")
 ---@return string? result The day of week.
 local function zeller(year, month, date)
   if (month < 1 or month > 12) then
-    lib.notify_err("Not a valid month.")
+    lib.warn("Not a valid month.")
     return
   end
 
@@ -28,7 +28,7 @@ local function zeller(year, month, date)
   end
 
   if (date < 1 or date > month_days_count) then
-    lib.notify_err("Not a valid date.")
+    lib.warn("Not a valid date.")
     return
   end
 

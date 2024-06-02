@@ -103,7 +103,7 @@ local function get_cmt_mark(throw)
   local ft = get_ft()
   if not ft then
     if throw then
-      lib.notify_err("Unsupported filetype")
+      lib.warn("Unsupported filetype")
     end
     return nil, nil
   end

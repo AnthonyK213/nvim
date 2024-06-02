@@ -52,10 +52,13 @@ end
 
 ---Check if executable exists.
 ---@param exe string Executable name.
+---@param to_warn? boolean If true, warn on executable not found.
 ---@return boolean is_executable True if `exe` is a valid executable.
-function M.executable(exe)
+function M.executable(exe, to_warn)
   if vim.fn.executable(exe) == 1 then return true end
-  M.notify_err("Executable " .. exe .. " is not found.")
+  if to_warn then
+    M.warn("Executable " .. exe .. " is not found.")
+  end
   return false
 end
 
@@ -113,14 +116,14 @@ end
 function M.get_dylib_path(dylib_name)
   local dylib_ext = M.get_dylib_ext()
   if not dylib_ext then
-    M.notify_err("Unsupported OS.")
+    M.warn("Unsupported OS.")
     return
   end
   local dylib_dir = _my_core_opt.path.dylib
   local dylib_file = dylib_name .. dylib_ext
   local dylib_path = M.path_append(dylib_dir, dylib_file)
   if not M.path_exists(dylib_path) then
-    M.notify_err(dylib_file .. " is not found.")
+    M.warn(dylib_file .. " is not found.")
     return
   end
   return dylib_path
@@ -246,7 +249,7 @@ end
 ---@return string? result Root directory path.
 function M.get_root(pattern, item_type, start_dir)
   if item_type and not (item_type == "file" or item_type == "directory") then
-    M.notify_err [[Type must be "file" or "directory".]]
+    M.warn [[Type must be "file" or "directory".]]
     return
   end
 
@@ -397,7 +400,7 @@ function M.new_split(position, option)
         "aboveleft", "belowright", "topleft", "botright"
       }, position) then
     print(position)
-    M.notify_err("Invalid position.")
+    M.warn("Invalid position.")
     return false, -1, -1
   end
   local vertical = option.vertical
@@ -438,10 +441,10 @@ function M.new_split(position, option)
   return true, vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf()
 end
 
----Notify the error message.
----@param err string Error message.
-function M.notify_err(err)
-  vim.notify(err, vim.log.levels.WARN, nil)
+---Notify the warning message.
+---@param msg string Message.
+function M.warn(msg)
+  vim.notify(msg, vim.log.levels.WARN, nil)
 end
 
 ---Parse the argument part of a command.
@@ -524,7 +527,7 @@ function M.str_char2nr(str)
     local c = string.byte(char, i)
     if seq == 0 then
       seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
-          c < 0xF8 and 4 or       --c < 0xFC and 5 or c < 0xFE and 6 or
+          c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
           error("invalid UTF-8 character.")
       result = bit.band(c, 2 ^ (8 - seq) - 1)
     else
@@ -779,7 +782,7 @@ function M.vim_source(file)
   if M.path_exists(full_path) then
     vim.cmd.source(full_path)
   else
-    M.notify_err("File `" .. file .. ".vim` is not found")
+    M.warn("File `" .. file .. ".vim` is not found")
   end
 end
 

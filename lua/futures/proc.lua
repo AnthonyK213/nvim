@@ -123,7 +123,7 @@ end
 ---Run the process.
 ---@return boolean ok True if process starts successfully.
 function Process:start()
-  if not lib.executable(self.path) then self.is_valid = false end
+  if not lib.executable(self.path, true) then self.is_valid = false end
   if self:has_exited() or not self.is_valid then return false end
 
   self.stdout_buf = {}
@@ -225,7 +225,7 @@ end
 ---Print `stderr`.
 function Process:notify_err()
   if self.record and not vim.tbl_isempty(self.stderr_buf) then
-    lib.notify_err(table.concat(self.stderr_buf))
+    lib.warn(table.concat(self.stderr_buf))
   end
 end
 

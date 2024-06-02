@@ -59,7 +59,7 @@ end
 local function on_stdout(data)
   local ok, results = pcall(vim.json.decode, data)
   if not ok then
-    lib.notify_err(results)
+    lib.warn(results)
     return
   end
   if #results == 0 then
@@ -81,27 +81,32 @@ local function on_stdout(data)
 end
 
 local function check_dict()
-  if not lib.executable("sdcv") then return end
-  local p = Process.new("sdcv", { args = { "-n", "-j", "-l" } })
-  p.on_stdout = function(data)
-    local ok, results = pcall(vim.json.decode, data)
-    if not ok or #results == 0 then
-      spawn(function()
-        if futures.ui.input {
-              prompt = "Local dictinary not found, get one?",
-            } == "y" then
-          require("utility.util").sys_open("http://download.huzheng.org/")
-        end
-      end)
+  local exists, dic_path = lib.path_exists(vim.uv.os_homedir() .. "/.stardict/dic/")
+  local n_dics = 0
+  if exists and dic_path then
+    for _, type_ in vim.fs.dir(dic_path) do
+      if type_ == "directory" then
+        n_dics = n_dics + 1
+      end
+    end
+    if n_dics > 0 then
+      vim.notify("Found " .. n_dics .. " dictionar" .. (n_dics == 1 and "y" or "ies") .. ".", vim.log.levels.INFO)
+      return
     end
   end
-  p:start()
+  spawn(function()
+    if futures.ui.input {
+          prompt = "No local dictinary found, get one?",
+        } == "y" then
+      require("utility.util").sys_open("https://github.com/AnthonyK213/.stardict")
+    end
+  end)
 end
 
 check_dict()
 
 function M.stardict_sdcv(word)
-  if not lib.executable("sdcv") then return end
+  if not lib.executable("sdcv", true) then return end
   if try_focus() then return end
   local p = Process.new("sdcv", { args = { "-n", "-j", word } })
   p.on_stdout = on_stdout
@@ -110,7 +115,7 @@ end
 
 function M.stardict(word)
   if not dylib_path then
-    lib.notify_err("Dynamic library is not found")
+    lib.warn("Dynamic library is not found")
     return
   end
   if try_focus() then return end

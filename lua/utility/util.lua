@@ -14,12 +14,12 @@ function M.terminal()
   elseif type(my_sh) == "string" then
     exec = my_sh
   else
-    lib.notify_err("The shell is invalid, please check `nvimrc`.")
+    lib.warn("The shell is invalid, please check `nvimrc`.")
     return false
   end
 
   if vim.fn.executable(exec) ~= 1 then
-    lib.notify_err(exec .. " is not a valid shell.")
+    lib.warn(exec .. " is not a valid shell.")
     return false
   end
 
@@ -75,7 +75,7 @@ function M.sys_open(obj, use_local)
   local cwd = use_local and lib.get_buf_dir() or vim.uv.cwd()
   if type(obj) ~= "string"
       or not (lib.path_exists(obj, cwd) or lib.url_match(obj)) then
-    lib.notify_err("Nothing found.")
+    lib.warn("Nothing found.")
     return false
   end
   local cmd
@@ -91,7 +91,7 @@ function M.sys_open(obj, use_local)
   elseif type(my_start) == "string" then
     cmd = my_start
   else
-    lib.notify_err("Invalid definition of `start`.")
+    lib.warn("Invalid definition of `start`.")
     return false
   end
   table.insert(args, obj)
@@ -214,7 +214,7 @@ function M.nvim_upgrade(channel)
   if not channel then
     channel = version.prerelease and "nightly" or "stable"
   elseif channel ~= "stable" and channel ~= "nightly" then
-    lib.notify_err("Invalid neovim release channel.")
+    lib.warn("Invalid neovim release channel.")
     return
   end
 
@@ -276,7 +276,7 @@ function M.nvim_upgrade(channel)
     vim.cmd.quitall { bang = true }
     return
   elseif os_type == lib.Os.Linux then
-    if not lib.executable("curl") then return end
+    if not lib.executable("curl", true) then return end
     dl_exec = "curl"
     dl_args = use_proxy and {
       "-L", source,
@@ -292,7 +292,7 @@ function M.nvim_upgrade(channel)
       "-C", bin_path.filename
     }
   else
-    lib.notify_err("Unsupported operating system.")
+    lib.warn("Unsupported operating system.")
     return
   end
 
@@ -322,7 +322,7 @@ end
 
 ---Build crates in `$config/rust/` directory.
 function M.build_dylibs()
-  if not lib.executable("cargo") then return end
+  if not lib.executable("cargo", true) then return end
 
   local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
   local dylibs_dir = _my_core_opt.path.dylib
@@ -330,7 +330,7 @@ function M.build_dylibs()
   local dylib_prefix = lib.has_windows() and "" or "lib"
   if not lib.path_exists(dylibs_dir) then
     if not vim.uv.fs_mkdir(dylibs_dir, 448) then
-      lib.notify_err("Could not crate directory `dylib`.")
+      lib.warn("Could not crate directory `dylib`.")
       return
     end
   end
@@ -347,7 +347,7 @@ function M.build_dylibs()
           cwd = crate_dir,
         }):await()
         if code ~= 0 then
-          lib.notify_err(_name .. ": Could not update the dependencies")
+          lib.warn(_name .. ": Could not update the dependencies")
           return
         end
         code = Process.new("cargo", {
@@ -355,7 +355,7 @@ function M.build_dylibs()
           cwd = crate_dir,
         }):await()
         if code ~= 0 then
-          lib.notify_err(_name .. ": Built failed")
+          lib.warn(_name .. ": Built failed")
           return
         end
         local dylib_name = _name .. dylib_ext
@@ -365,7 +365,7 @@ function M.build_dylibs()
         if success then
           print(_name .. ": Built successfully")
         else
-          lib.notify_err(err)
+          lib.warn(err)
         end
       end)
       table.insert(build_tasks, task)

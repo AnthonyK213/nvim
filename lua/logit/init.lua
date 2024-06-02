@@ -7,7 +7,7 @@ local Process = futures.Process
 ---@return string? root
 ---@return string? branch
 local function repo()
-  if not lib.executable("git") then return end
+  if not lib.executable("git", true) then return end
   local git_root = lib.get_root([[^\.git$]], "directory")
   if git_root then
     return git_root, lib.get_git_branch(git_root)
@@ -16,7 +16,7 @@ local function repo()
     if git_root then
       return git_root, lib.get_git_branch(git_root)
     else
-      lib.notify_err("Not a git repository.")
+      lib.warn("Not a git repository.")
       return
     end
   end
@@ -98,7 +98,7 @@ end
 function M.push_all(arg_tbl)
   local root, branch = repo()
   if not branch then
-    lib.notify_err("Not a valid git repository.")
+    lib.warn("Not a valid git repository.")
     return
   end
 

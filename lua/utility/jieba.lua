@@ -19,7 +19,7 @@ function M:init()
   if self.jieba then return true end
   local dylib_path = lib.get_dylib_path("njieba")
   if not dylib_path then
-    lib.notify_err("Dynamic library is not found")
+    lib.warn("Dynamic library is not found")
     return false
   end
   ffi.cdef [[

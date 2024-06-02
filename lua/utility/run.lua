@@ -73,7 +73,7 @@ local has_error = function(proc, label)
     vim.api.nvim_chan_send(chan, data)
     local l = ""
     if label then l = label .. ": " end
-    lib.notify_err(l .. "Compilation failed.")
+    lib.warn(l .. "Compilation failed.")
     return true
   end
   return false
@@ -81,7 +81,7 @@ end
 
 comp_table = {
   arduino = function(tbl)
-    if not lib.executable("processing-java") then return end
+    if not lib.executable("processing-java", true) then return end
     local output_dir
     local sketch_name = vim.fs.basename(lib.get_buf_dir())
     if lib.has_windows() then
@@ -98,12 +98,12 @@ comp_table = {
         "--run"
       }, { cwd = tbl.fwd }))
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   c = function(tbl)
     local my_cc = _my_core_opt.dep.cc
-    if not lib.executable(my_cc) then return end
+    if not lib.executable(my_cc, true) then return end
     local cmd_tbl = {
       [""]  = { my_cc, tbl.fnm, "-o", tbl.bin },
       check = { my_cc, tbl.fnm, "-g", "-o", tbl.bin },
@@ -125,7 +125,7 @@ comp_table = {
         return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))
       end
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   cpp = function(tbl)
@@ -135,7 +135,7 @@ comp_table = {
     }
     local cc = cc_tbl[_my_core_opt.dep.cc]
     if cc then
-      if not lib.executable(cc) then return end
+      if not lib.executable(cc, true) then return end
       if tbl.opt == "" then
         return function()
           if has_error(Process.new(cc, {
@@ -147,12 +147,12 @@ comp_table = {
           return run_bin(tbl)
         end
       else
-        lib.notify_err("Invalid argument.")
+        lib.warn("Invalid argument.")
       end
     end
   end,
   cs = function(tbl)
-    if not lib.executable("dotnet") then return end
+    if not lib.executable("dotnet", true) then return end
     local cmd_tbl = {
       [""]  = { "dotnet", "run" },
       build = { "dotnet", "build", "--configuration", "Release" },
@@ -163,20 +163,20 @@ comp_table = {
     if cmd then
       return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   javascript = function(tbl)
     local js = "node"
-    if not lib.executable(js) then return end
+    if not lib.executable(js, true) then return end
     if tbl.opt == "" then
       return wrap(Terminal.new({ js, tbl.fnm }, { cwd = tbl.fwd }))
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   lisp = function(tbl)
-    if not lib.executable("sbcl") then return end
+    if not lib.executable("sbcl", true) then return end
     local cmd_tbl = {
       [""]  = {
         "sbcl", "--noinform", "--load",
@@ -192,47 +192,47 @@ comp_table = {
     if cmd then
       return wrap(Terminal.new(cmd, { cwd = tbl.fwd }))
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   lua = function(tbl)
     if tbl.opt == "" then
       return "luafile %"
     elseif tbl.opt == "lua" then
-      if not lib.executable("lua") then return end
+      if not lib.executable("lua", true) then return end
       return wrap(Terminal.new({ "lua", tbl.fnm }, { cwd = tbl.fwd }))
     elseif tbl.opt == "jit" then
-      if not lib.executable("luajit") then return end
+      if not lib.executable("luajit", true) then return end
       return wrap(Terminal.new({ "luajit", tbl.fnm }, { cwd = tbl.fwd }))
     elseif tbl.opt == "test" then
       if lib.has_windows() then
-        lib.notify_err("Test is not supported on Windows")
+        lib.warn("Test is not supported on Windows")
       else
         lib.feedkeys("<Plug>PlenaryTestFile", "n", false)
       end
     else
-      lib.notify_err("Invalid arguments.")
+      lib.warn("Invalid arguments.")
     end
   end,
   python = function(tbl)
     local py = _my_core_opt.dep.py or "python"
-    if not lib.executable(py) then return end
+    if not lib.executable(py, true) then return end
     if tbl.opt == "" then
       return wrap(Terminal.new({ py, tbl.fnm }, { cwd = tbl.fwd }))
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   ruby = function(tbl)
-    if not lib.executable("ruby") then return end
+    if not lib.executable("ruby", true) then return end
     if tbl.opt == "" then
       return wrap(Terminal.new({ "ruby", tbl.fnm }, { cwd = tbl.fwd }))
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   rust = function(tbl)
-    if not lib.executable("rustc") then return end
+    if not lib.executable("rustc", true) then return end
     return function()
       if has_error(Process.new("rustc", {
             args = { tbl.fnm, "-o", tbl.bin },
@@ -314,14 +314,14 @@ comp_table = {
         return tex_done()
       end
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
   vim = function(tbl)
     if tbl.opt == "" then
       return "source %"
     else
-      lib.notify_err("Invalid argument.")
+      lib.warn("Invalid argument.")
     end
   end,
 }
@@ -340,14 +340,14 @@ proj_table = {
       test  = { "cargo", "test" }
     }
     local cmd = cmd_tbl[option]
-    if cargo_root and cmd and lib.executable("cargo") then
+    if cargo_root and cmd and lib.executable("cargo", true) then
       return wrap(Terminal.new(cmd, { cwd = cargo_root })), true
     end
     return nil, false
   end,
   ["Make file"] = function(option)
     local root = lib.get_root("^[Mm]akefile$", "file")
-    if root and lib.executable("make") then
+    if root and lib.executable("make", true) then
       return wrap(Terminal.new(#option == 0 and { "make" } or { "make", option }, {
         cwd = root
       })), true
@@ -356,7 +356,7 @@ proj_table = {
   end,
   ["VS solution"] = function(_)
     local sln_root = lib.get_root([[\.sln$]], "file")
-    if sln_root and lib.executable("MSBuild") then
+    if sln_root and lib.executable("MSBuild", true) then
       return wrap(Terminal.new({ "MSBuild.exe", sln_root }, {
         cwd = sln_root
       })), true
@@ -435,7 +435,7 @@ function M.get_recipe(option)
       end, false
     end
   else
-    lib.notify_err("File type is not supported yet.")
+    lib.warn("File type is not supported yet.")
   end
   return nil, false
 end

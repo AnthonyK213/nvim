@@ -802,7 +802,7 @@ require("lazy").setup({
     version = "*",
     keys = {
       { "<leader>gl", function()
-        if not require("utility.lib").executable("lazygit") then return end
+        if not require("utility.lib").executable("lazygit", true) then return end
         require("toggleterm.terminal").Terminal:new {
           cmd = "lazygit",
           hidden = true,

@@ -87,7 +87,7 @@ for i = 1, 10, 1 do
   kbd("Goto tab " .. tostring(i), { "n", "i", "t" }, "<M-" .. tostring(i % 10) .. ">", function()
     local tabs = vim.api.nvim_list_tabpages()
     if i > #tabs then
-      lib.notify_err("Tab " .. i .. " is not valid.")
+      lib.warn("Tab " .. i .. " is not valid.")
       return
     end
     vim.api.nvim_set_current_tabpage(tabs[i])
@@ -141,7 +141,7 @@ kbd("Run test", "n", "<C-S-F5>", function() require("utility.run").code_run("tes
 kbd("Show document", "n", "K", function()
   local word, _, _ = lib.get_word()
   if not pcall(vim.cmd.help, word) then
-    lib.notify_err(string.format("No help for %s", word))
+    lib.warn(string.format("No help for %s", word))
   end
 end)
 kbd("Search visual selection forward", "v", "*", function()
@@ -181,7 +181,7 @@ kbd("Delete current buffer", "n", "<leader>bd", function()
     unload = vim.o.hidden
   })
   if not ok then
-    lib.notify_err("Failed to delete buffer")
+    lib.warn("Failed to delete buffer")
   end
 end)
 kbd("Background toggle", "n", "<leader>bg", function()

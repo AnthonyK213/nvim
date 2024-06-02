@@ -20,7 +20,7 @@ local function text_eval(f)
     api.nvim_buf_set_text(0, row, s + #back - 1, row, e + #back, { tostring(result) })
   else
     api.nvim_win_set_cursor(0, origin_pos)
-    lib.notify_err("No valid expression was found")
+    lib.warn("No valid expression was found")
   end
 end
 

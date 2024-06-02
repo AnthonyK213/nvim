@@ -50,7 +50,7 @@ end
 ---@return integer winnr Window number of the terminal, -1 on failure.
 ---@return integer bufnr Buffer number of the terminal, -1 on failure.
 function Terminal:start()
-  if not lib.executable(self.cmd[1]) then self.is_valid = false end
+  if not lib.executable(self.cmd[1], true) then self.is_valid = false end
   if self.has_exited or not self.is_valid then return false, -1, -1 end
   local ok, winnr, bufnr = lib.new_split(self.option.split_pos or "belowright", {
     split_size = self.option.split_size,
@@ -77,11 +77,11 @@ function Terminal:start()
   self.id = vim.fn.termopen(self.cmd, self.option)
   if self.id == 0 then
     self.is_valid = false
-    lib.notify_err("Invalid arguments.")
+    lib.warn("Invalid arguments.")
     return false, winnr, bufnr
   elseif self.id == -1 then
     self.is_valid = false
-    lib.notify_err("Invalid executable.")
+    lib.warn("Invalid executable.")
     return false, winnr, bufnr
   end
   self.winnr, self.bunnr = winnr, bufnr

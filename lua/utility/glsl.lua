@@ -105,7 +105,7 @@ end
 function M.input(bufnr)
   bufnr = lib.bufnr(bufnr)
   if not M.is_alive(bufnr) then
-    lib.notify_err("glslViewer is not running!")
+    lib.warn("glslViewer is not running!")
     return
   end
 
