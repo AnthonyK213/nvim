@@ -202,6 +202,7 @@ opt.hl_link = {
   ["@markup.link.label.markdown_inline"] = "markdownLinkText",
   ["@markup.raw.block.markdown"] = "markdownCode",
   ["@label.markdown"] = "markdownCodeDelimiter",
+  ["@conceal.markdown_inline"] = "markdownCodeDelimiter",
   --#endregion
 }
 
