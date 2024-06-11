@@ -363,6 +363,7 @@ if has("nvim")
   hi! link @markup.link.label.markdown_inline markdownLinkText
   hi! link @markup.raw.block.markdown markdownCode
   hi! link @label.markdown markdownCodeDelimiter
+  hi! link @conceal.markdown_inline markdownCodeDelimiter
   " LSP
   hi! link @lsp.type.keyword.lua Keyword
 endif
