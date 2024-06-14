@@ -218,11 +218,13 @@ function Node:find_ancestor(predicate)
 end
 
 ---Get reverse lookup table for query.
----@param query Query
+---@param query vim.treesitter.Query
 ---@return table
 function M.captures_reverse_lookup(query)
-  local captures = vim.deepcopy(query.captures)
-  vim.tbl_add_reverse_lookup(captures)
+  local captures = {}
+  for k, v in pairs(query.captures) do
+    captures[v] = k
+  end
   return captures
 end
 

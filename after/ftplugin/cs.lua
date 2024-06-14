@@ -14,6 +14,9 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
     pos = { row_ - 1, col_ }
   }
   local query = vim.treesitter.query.get("c_sharp", "cmtdoc")
+  if not node or not query then
+    return false
+  end
   local end_ = node:end_()
   local captures = syn.captures_reverse_lookup(query)
   for _, match, metadata in query:iter_matches(node, bufnr_, row_, end_) do
