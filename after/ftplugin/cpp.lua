@@ -19,47 +19,50 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
   end
   local end_ = node:end_()
   local captures = syn.captures_reverse_lookup(query)
-  vim.print(captures)
-  for _, match, metadata in query:iter_matches(node, bufnr_, row_, end_) do
-    local root = match[captures.type]
-    if metadata.kind == "func_decl" then
-      root = syn.Node.new(root):find_ancestor {
-        "function_definition",
-        "field_declaration",
-        "declaration",
-      }.node
-    end
-    if root and root:start() == row_ then
-      -- No more comments after comment.
-      if row_ > 1 then
-        local prev = vim.treesitter.get_node {
-          bufnr = bufnr_,
-          pos = { row_ - 2, col_ }
-        }
-        if prev and prev:type() == "comment" then
-          return false
+  for _, match, metadata in query:iter_matches(node, bufnr_, row_, end_, { all = true }) do
+    if match[captures.type] then
+      for _, root in ipairs(match[captures.type]) do
+        if metadata.kind == "func_decl" then
+          root = syn.Node.new(root):find_ancestor {
+            "function_definition",
+            "field_declaration",
+            "declaration",
+          }.node
         end
-      end
-      if metadata.kind == "func_decl" then
-        local param_list = match[captures.params]
-        local params = syn.cpp.extract_params(param_list, bufnr_)
-        if params and params:any() then
-          for _, v in params:iter() do
-            table.insert(feed_, indent_ .. "/// @param " .. v .. " ")
+        if root and root:start() == row_ then
+          -- No more comments after comment.
+          if row_ > 1 then
+            local prev = vim.treesitter.get_node {
+              bufnr = bufnr_,
+              pos = { row_ - 2, col_ }
+            }
+            if prev and prev:type() == "comment" then
+              return false
+            end
           end
-        end
-        local type_ = syn.Node.new(root):find_first_child {
-          "primitive_type",
-          "type_identifier",
-          "qualified_identifier",
-          "template_type",
-        }
-        -- TODO: `void` return type should not insert the `@return` field.
-        if not type_:is_nil() then
-          table.insert(feed_, indent_ .. "/// @return ")
+          if metadata.kind == "func_decl" and match[captures.params] then
+            for _, param_list in ipairs(match[captures.params]) do
+              local params = syn.cpp.extract_params(param_list, bufnr_)
+              if params and params:any() then
+                for _, v in params:iter() do
+                  table.insert(feed_, indent_ .. "/// @param " .. v .. " ")
+                end
+              end
+              local type_ = syn.Node.new(root):find_first_child {
+                "primitive_type",
+                "type_identifier",
+                "qualified_identifier",
+                "template_type",
+              }
+              -- TODO: `void` return type should not insert the `@return` field.
+              if not type_:is_nil() then
+                table.insert(feed_, indent_ .. "/// @return ")
+              end
+            end
+          end
+          return true
         end
       end
-      return true
     end
   end
   return false

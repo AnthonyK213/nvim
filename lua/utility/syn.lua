@@ -149,9 +149,14 @@ end
 ---@param option { limit: integer, recursive: boolean, type: "bfs"|"dfs" }
 ---@return collections.List
 local function _find_children_dfs(node, predicate, option)
+  ---comment
+  ---@param node_ TSNode
+  ---@param predicate_ fun(node: TSNode):boolean
+  ---@param result_ collections.List
+  ---@param option_ { limit: integer, recursive: boolean, type: "bfs"|"dfs" }
   local function dfs_(node_, predicate_, result_, option_)
     if not node_ then return end
-    for child in node_:iter_children() do
+    for child, _ in node_:iter_children() do
       if predicate_(child) then
         if result_:count() >= option_.limit then
           return
