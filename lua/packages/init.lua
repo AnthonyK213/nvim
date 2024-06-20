@@ -602,58 +602,47 @@ require("lazy").setup({
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     opts = {
-      signs = {
-        add = {
-          hl = "GitSignsAdd",
-          text = "│",
-          numhl = "GitSignsAddNr",
-          linehl = "GitSignsAddLn"
-        },
-        change = {
-          hl = "GitSignsChange",
-          text = "│",
-          numhl = "GitSignsChangeNr",
-          linehl = "GitSignsChangeLn"
-        },
-        delete = {
-          hl = "GitSignsDelete",
-          text = "_",
-          numhl = "GitSignsDeleteNr",
-          linehl = "GitSignsDeleteLn"
-        },
-        topdelete = {
-          hl = "GitSignsDelete",
-          text = "‾",
-          numhl = "GitSignsDeleteNr",
-          linehl = "GitSignsDeleteLn"
-        },
-        changedelete = {
-          hl = "GitSignsChange",
-          text = "~",
-          numhl = "GitSignsChangeNr",
-          linehl = "GitSignsChangeLn"
-        },
+      signs                        = {
+        add          = { text = "│" },
+        change       = { text = "│" },
+        delete       = { text = "_" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked    = { text = "┆" },
       },
-      numhl = false,
-      linehl = false,
-      watch_gitdir = {
-        interval = 1000
+      signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
+      numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
+      linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
+      word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
+      watch_gitdir                 = {
+        follow_files = true
       },
-      current_line_blame = false,
-      sign_priority = 6,
-      update_debounce = 100,
-      status_formatter = nil,
-      preview_config = {
+      auto_attach                  = true,
+      attach_to_untracked          = false,
+      current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+      current_line_blame_opts      = {
+        virt_text = true,
+        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+        ignore_whitespace = false,
+        virt_text_priority = 100,
+      },
+      current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
+      sign_priority                = 6,
+      update_debounce              = 100,
+      status_formatter             = nil,   -- Use default
+      max_file_length              = 40000, -- Disable if file is longer than this (in lines)
+      preview_config               = {
         border = _my_core_opt.tui.border,
         style = "minimal",
         relative = "cursor",
         row = 0,
         col = 1
       },
-      on_attach = function(bufnr)
+      on_attach                    = function(bufnr)
         local _o = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "<leader>gj", require("gitsigns").next_hunk, _o)
-        vim.keymap.set("n", "<leader>gk", require("gitsigns").prev_hunk, _o)
+        vim.keymap.set("n", "<leader>gj", function() require("gitsigns").nav_hunk("next") end, _o)
+        vim.keymap.set("n", "<leader>gk", function() require("gitsigns").nav_hunk("prev") end, _o)
         vim.keymap.set("n", "<leader>gp", require("gitsigns").preview_hunk, _o)
         vim.keymap.set("n", "<leader>gb", require("gitsigns").blame_line, _o)
       end
