@@ -1039,7 +1039,7 @@ require("lazy").setup({
         markdown = { "markdown" }
       },
       close_automatic_events = {},
-      close_on_select = true,
+      close_on_select = false,
       manage_folds = false,
       filter_kind = {
         ["_"] = {
