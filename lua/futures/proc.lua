@@ -58,7 +58,7 @@ function ProcessHandle:kill(signum)
     return 0
   end
   local code = self._data:kill(signum or vim.uv.constants.SIGTERM)
-  if code then
+  if code ~= 0 then
     self:close()
   end
   return code
