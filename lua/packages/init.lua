@@ -247,7 +247,7 @@ require("lazy").setup({
     cond = load_3rd_ui,
     main = "ibl",
     opts = {
-      enabled = true,
+      enabled = _G._my_core_opt.tui.show_context,
       debounce = 1000,
       indent = {
         char = "▏",
