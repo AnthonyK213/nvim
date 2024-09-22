@@ -926,7 +926,20 @@ require("lazy").setup({
       }
     end
   },
-  "sotte/presenting.vim",
+  {
+    "sotte/presenting.nvim",
+    event = "VeryLazy",
+    opts = {
+      options = {
+        width = 80,
+      },
+      separator = {
+        markdown = "^#+%s",
+        ["vimwiki.markdown"] = "^#+%s",
+      }
+    },
+    cmd = { "Presenting" }
+  },
   "PhilT/vim-fsharp",
   "tikhomirov/vim-glsl",
   -- Completion; Snippet; LSP; Treesitter; DAP
@@ -1036,7 +1049,7 @@ require("lazy").setup({
     opts = {
       backends = {
         ["_"] = { "lsp", "treesitter" },
-        markdown = { "markdown" }
+        markdown = { "markdown" },
       },
       close_automatic_events = {},
       close_on_select = false,

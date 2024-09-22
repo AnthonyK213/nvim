@@ -362,7 +362,7 @@ Configuration for Neovim with some personal hacks.
 - **Miscellanea**
   - v:   <kbd>\*/#</kbd>    -> Search for the visual selection.
   - n:   <kbd>F5</kbd>      -> *nvim-dap*, continue debugging;
-                               *presenting.vim*, presenting view
+                               *presenting.nvim*, presenting view
   - n:   <kbd>S-F5</kbd>    -> `CodeRun`.
   - n:   <kbd>C-S-F5</kbd>  -> `CodeRun test`.
   - invt:<kbd>F8</kbd>      -> Toggle mouse status.
@@ -419,7 +419,7 @@ Configuration for Neovim with some personal hacks.
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-  - [presenting.vim](https://github.com/sotte/presenting.vim)
+  - [presenting.nvim](https://github.com/sotte/presenting.nvim)
   - [vim-fsharp](https://github.com/PhilT/vim-fsharp)
   - [vim-glsl](https://github.com/tikhomirov/vim-glsl)
 - Completion; Snippet; LSP; TreeSitter; DAP
