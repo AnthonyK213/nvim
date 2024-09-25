@@ -16,7 +16,7 @@ M.enabled = false
 
 ---@private
 function M:init()
-  if self.jieba then return true end
+  if self.njieba then return true end
   local dylib_path = lib.get_dylib_path("njieba")
   if not dylib_path then
     lib.warn("Dynamic library is not found")
@@ -28,7 +28,6 @@ int njieba_pos(void *jieba, const char *line, int pos, int *start, int *end);
 void njieba_drop(void *jieba);
 ]]
   self.njieba = ffi.load(dylib_path)
-  self.jieba = self.njieba.njieba_new()
   return true
 end
 
@@ -106,12 +105,20 @@ local function inner_word()
 end
 
 function M:enable()
-  if self:init() and not self.enabled then
-    vim.keymap.set({ "n", "v" }, "b", goto_word_begin, {})
-    vim.keymap.set({ "n", "v" }, "e", goto_word_end, {})
-    vim.keymap.set({ "v", "o" }, "iw", inner_word, {})
-    self.enabled = true
+  self:init()
+
+  if self.enabled then
+    return
   end
+
+  if not self.jieba then
+    self.jieba = self.njieba.njieba_new()
+  end
+
+  vim.keymap.set({ "n", "v" }, "b", goto_word_begin, {})
+  vim.keymap.set({ "n", "v" }, "e", goto_word_end, {})
+  vim.keymap.set({ "v", "o" }, "iw", inner_word, {})
+  self.enabled = true
 end
 
 function M:disable()
