@@ -43,8 +43,14 @@ local custom_attach = function(client, bufnr)
   kbd("n", "<leader>lt", vim.lsp.buf.type_definition, _o)
   kbd("n", "<leader>lw", vim.lsp.buf.workspace_symbol, _o)
   kbd("n", "<leader>lk", function() vim.diagnostic.open_float(float_opts) end, _o)
-  kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev { float = float_opts } end, _o)
-  kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
+
+  if vim.version.lt("0.11", vim.version()) then
+    kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev { float = float_opts } end, _o)
+    kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
+  else
+    kbd("n", "<leader>l[", function() vim.diagnostic.jump { count = -1, float = float_opts } end, _o)
+    kbd("n", "<leader>l]", function() vim.diagnostic.jump { count = 1, float = float_opts } end, _o)
+  end
 end
 
 -- LSP options.
