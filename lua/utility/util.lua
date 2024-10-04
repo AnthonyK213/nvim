@@ -66,6 +66,21 @@ function M.match_path_or_url_at_point()
   return nil
 end
 
+---Get the system open config.
+---@return {cmd:string, args?:string[]}?
+function M.sys_open_config()
+  local os_type = lib.get_os_type()
+  if os_type == lib.Os.Linux then
+    return { cmd = "xdg-open" }
+  elseif os_type == lib.Os.Windows then
+    return { cmd = "cmd", args = { "/c", "start", '""' } }
+  elseif os_type == lib.Os.Macos then
+    return { cmd = "open" }
+  else
+    return nil
+  end
+end
+
 ---Open path or URL with system default application.
 ---The environment variables should be expanded already.
 ---@param obj string? Path or URL to open.
@@ -78,22 +93,13 @@ function M.sys_open(obj, use_local)
     lib.warn("Nothing found.")
     return false
   end
-  local cmd
-  local args = {}
-  local my_start = _my_core_opt.dep.start
-  if type(my_start) == "table" then
-    cmd = my_start[1]
-    if #my_start >= 2 then
-      for i = 2, #my_start, 1 do
-        table.insert(args, my_start[i])
-      end
-    end
-  elseif type(my_start) == "string" then
-    cmd = my_start
-  else
+  local my_config = M.sys_open_config()
+  if not my_config then
     lib.warn("Invalid definition of `start`.")
     return false
   end
+  local cmd = my_config.cmd
+  local args = my_config.args or {}
   table.insert(args, obj)
   local handle
   handle = vim.uv.spawn(cmd, {

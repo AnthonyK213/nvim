@@ -359,9 +359,13 @@ require("lazy").setup({
       },
       update_focused_file = {
         enable = false,
-        update_cwd = false,
-        ignore_list = {},
+        update_root = {
+          enable = false,
+          ignore_list = {},
+        },
+        exclude = false,
       },
+      system_open = require("utility.util").sys_open_config(),
       diagnostics = {
         enable = true,
         show_on_dirs = false,

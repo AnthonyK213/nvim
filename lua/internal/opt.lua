@@ -15,11 +15,6 @@ local opt = {
     })[os_this],
     cc = "gcc",
     py3 = "/usr/bin/python3",
-    start = ({
-      [lib.Os.Linux] = "xdg-open",
-      [lib.Os.Windows] = { "cmd", "/c", "start", '""' },
-      [lib.Os.Macos] = "open"
-    })[os_this],
     proxy = nil,
   },
   path = {
