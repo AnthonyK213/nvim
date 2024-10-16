@@ -10,6 +10,11 @@ syntax off
 set shada=
 set colorcolumn=
 
+lua << EOF
+vim.g.clipboard = vim.g.vscode_clipboard
+vim.notify = require("vscode").notify
+EOF
+
 " Buffer
 call my#compat#vsc_kbd("n", "<leader>bd", "workbench.action.closeActiveEditor")
 call my#compat#vsc_kbd("n", "<leader>bn", "workbench.action.nextEditor")

@@ -32,7 +32,7 @@ endfunction
 " VSCode Key binding.
 function! my#compat#vsc_kbd(mode, lhs, cmd, block = 0) abort
   if a:mode !=# "n" && a:mode !=# "v" | return | endif
-  let l:func = "require('vscode-neovim')." . (a:block ? "call" : "action")
+  let l:func = "require('vscode')." . (a:block ? "call" : "action")
   if a:mode ==# "n"
     let l:option = ""
     let l:prefix = "<Cmd>lua "
