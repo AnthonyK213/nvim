@@ -385,7 +385,7 @@ Configuration for Neovim with some personal hacks.
 # Packages
 - Package manager
   - [lazy.nvim](https://github.com/folke/lazy.nvim)
-- Display (Optional)
+- UI (Optional)
   - [alpha-nvim](https://github.com/goolord/alpha-nvim)
   - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
   - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
@@ -400,7 +400,7 @@ Configuration for Neovim with some personal hacks.
 - File system
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-- Git
+- SCM
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 - Utilities
@@ -420,8 +420,6 @@ Configuration for Neovim with some personal hacks.
   - [vimwiki](https://github.com/vimwiki/vimwiki)
   - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
   - [presenting.nvim](https://github.com/sotte/presenting.nvim)
-  - [vim-fsharp](https://github.com/PhilT/vim-fsharp)
-  - [vim-glsl](https://github.com/tikhomirov/vim-glsl)
 - Completion; Snippet; LSP; TreeSitter; DAP
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
