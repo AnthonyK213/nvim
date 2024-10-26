@@ -64,4 +64,3 @@ install(
         ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
   DESTINATION lib/cmake/#{ProjectName}
   )
-

@@ -27,9 +27,18 @@ cmd("BuildDylibs", function(_)
   require("utility.util").build_dylibs()
 end, { desc = "Build crates in `$config/rust/` directory" })
 
-cmd("CreateProject", function (tbl)
+cmd("CreateProject", function(tbl)
   require("utility.template"):create_project(tbl.args)
-end, { nargs = "?", desc = "Create project" })
+end, {
+  nargs = "?",
+  complete = function()
+    local template = require("utility.template")
+    template:init()
+    return vim.tbl_keys(template.templates)
+  end
+  ,
+  desc = "Create project"
+})
 
 cmd("GlslViewer", function(tbl)
   require("utility.glsl").start(0, tbl.fargs)
