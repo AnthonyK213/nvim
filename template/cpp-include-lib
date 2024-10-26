@@ -1,0 +1,16 @@
+#ifndef _#{ProjectName}_H
+#define _#{ProjectName}_H
+
+#ifndef __cplusplus
+#define C_API
+#else
+#ifdef _WIN32
+#define C_API extern "C" __declspec(dllexport)
+#else
+#define C_API extern "C"
+#endif
+#endif
+
+C_API int add(int x, int y);
+
+#endif

@@ -1,0 +1,25 @@
+{
+  "name": "C++",
+  "args": [
+    "ProjectName"
+  ],
+  "dirs": [
+    "#{ProjectName}",
+    "#{ProjectName}/include",
+    "#{ProjectName}/include/#{ProjectName}",
+    "#{ProjectName}/src",
+    "#{ProjectName}/test"
+  ],
+  "files": {
+    "#{ProjectName}/.clang-format": "cpp-clang-format",
+    "#{ProjectName}/.editorconfig": "cpp-editorconfig",
+    "#{ProjectName}/.gitignore": "cpp-gitignore",
+    "#{ProjectName}/CMakeLists.txt": "cpp-cmakelists",
+    "#{ProjectName}/#{ProjectName}Config.cmake.in": "cpp-config-cmake-in",
+    "#{ProjectName}/include/#{ProjectName}/lib.h": "cpp-include-lib",
+    "#{ProjectName}/src/CMakeLists.txt": "cpp-src-cmakelists",
+    "#{ProjectName}/src/lib.cpp": "cpp-src-lib",
+    "#{ProjectName}/test/CMakeLists.txt": "cpp-test-cmakelists",
+    "#{ProjectName}/test/test.cpp": "cpp-test-test"
+  }
+}

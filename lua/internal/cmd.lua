@@ -27,6 +27,10 @@ cmd("BuildDylibs", function(_)
   require("utility.util").build_dylibs()
 end, { desc = "Build crates in `$config/rust/` directory" })
 
+cmd("CreateProject", function (tbl)
+  require("utility.template"):create_project(tbl.args)
+end, { nargs = "?", desc = "Create project" })
+
 cmd("GlslViewer", function(tbl)
   require("utility.glsl").start(0, tbl.fargs)
 end, { nargs = "*", desc = "Start glslViewer", complete = "file" })

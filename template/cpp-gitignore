@@ -1,0 +1,6 @@
+.cache/
+.vs/
+.vscode/
+CMake*.json
+build/
+out/
