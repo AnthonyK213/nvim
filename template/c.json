@@ -1,1 +1,22 @@
-{}
+{
+  "name": "C",
+  "args": [
+    "ProjectName"
+  ],
+  "dirs": [
+    "#{ProjectName}",
+    "#{ProjectName}/include",
+    "#{ProjectName}/include/#{ProjectName}",
+    "#{ProjectName}/src"
+  ],
+  "files": {
+    "#{ProjectName}/.clang-format": "common/common-clang-format",
+    "#{ProjectName}/.editorconfig": "common/common-editorconfig",
+    "#{ProjectName}/.gitignore": "common/common-gitignore",
+    "#{ProjectName}/CMakeLists.txt": "c/c-cmakelists",
+    "#{ProjectName}/#{ProjectName}Config.cmake.in": "cmake/cmake-config-cmake-in",
+    "#{ProjectName}/include/#{ProjectName}/lib.h": "c/c-include-lib",
+    "#{ProjectName}/src/CMakeLists.txt": "c/c-src-cmakelists",
+    "#{ProjectName}/src/lib.c": "c/c-src-lib"
+  }
+}

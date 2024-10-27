@@ -1,5 +1,5 @@
-#ifndef _#{ProjectName}_H
-#define _#{ProjectName}_H
+#ifndef _LIB_H
+#define _LIB_H
 
 #ifndef __cplusplus
 #define C_API

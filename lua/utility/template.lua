@@ -82,7 +82,9 @@ function Template:create_project(args)
       lib.warn("Directory already exists")
       return false
     end
-    vim.uv.fs_mkdir(dir_esc, 448)
+    if not vim.uv.fs_mkdir(dir_esc, 448) then
+      vim.notify("Failed to created directory " .. dir_esc)
+    end
   end
 
   for fname, content in pairs(self.files) do

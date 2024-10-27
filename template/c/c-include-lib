@@ -1,0 +1,16 @@
+#ifndef _LIB_H
+#define _LIB_H
+
+#ifndef __cplusplus
+#ifdef _WIN32
+#define C_EXPORT __declspec(dllexport)
+#else
+#define C_EXPORT
+#endif
+#else
+#define C_EXPORT extern "C"
+#endif
+
+C_EXPORT int add(int x, int y);
+
+#endif

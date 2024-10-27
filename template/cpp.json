@@ -11,11 +11,11 @@
     "#{ProjectName}/test"
   ],
   "files": {
-    "#{ProjectName}/.clang-format": "cpp/cpp-clang-format",
-    "#{ProjectName}/.editorconfig": "cpp/cpp-editorconfig",
-    "#{ProjectName}/.gitignore": "cpp/cpp-gitignore",
+    "#{ProjectName}/.clang-format": "common/common-clang-format",
+    "#{ProjectName}/.editorconfig": "common/common-editorconfig",
+    "#{ProjectName}/.gitignore": "common/common-gitignore",
     "#{ProjectName}/CMakeLists.txt": "cpp/cpp-cmakelists",
-    "#{ProjectName}/#{ProjectName}Config.cmake.in": "cpp/cpp-config-cmake-in",
+    "#{ProjectName}/#{ProjectName}Config.cmake.in": "cmake/cmake-config-cmake-in",
     "#{ProjectName}/include/#{ProjectName}/lib.h": "cpp/cpp-include-lib",
     "#{ProjectName}/src/CMakeLists.txt": "cpp/cpp-src-cmakelists",
     "#{ProjectName}/src/lib.cpp": "cpp/cpp-src-lib",
