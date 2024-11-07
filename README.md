@@ -415,6 +415,7 @@ Configuration for Neovim with some personal hacks.
   - [crates.nvim](https://github.com/Saecki/crates.nvim)
   - [overseer.nvim](https://github.com/stevearc/overseer.nvim)
   - [cmake-tools.nvim](https://github.com/Civitasv/cmake-tools.nvim)
+  - [vs-tasks.nvim](https://github.com/EthanJWright/vs-tasks.nvim)
 - File type support
   - [VimTeX](https://github.com/lervag/vimtex)
   - [vimwiki](https://github.com/vimwiki/vimwiki)

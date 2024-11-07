@@ -869,6 +869,23 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     }
   },
+  {
+    "EthanJWright/vs-tasks.nvim",
+    name = "vstask",
+    dependencies = {
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {
+      telescope_keys = {
+        split = "<CR>"
+      },
+    },
+    keys = {
+      { "<leader>tl", function() require("telescope").extensions.vstask.launch() end },
+    },
+  },
   -- File type support
   {
     "lervag/vimtex",
