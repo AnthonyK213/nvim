@@ -8,6 +8,7 @@ local _s_pat = space and "%s?" or ""
 local _k_slash = { s = "//", s_pat = "///*", d = { "/*", "*/" } }
 local _k_sharp = { s = "#" }
 local _k_lisps = { s = ";" }
+local _k_xml = { d = { "<!--", "-->" } }
 
 local _cmt_table = {
   arduino = _k_slash,
@@ -21,13 +22,13 @@ local _cmt_table = {
   fsharp = _k_slash,
   gitconfig = _k_sharp,
   glsl = _k_slash,
-  html = { d = { "<!--", "-->" } },
+  html = _k_xml,
   java = _k_slash,
   javascript = _k_slash,
   lisp = _k_lisps,
   lua = { s = "--", s_pat = "%-%-%-*" },
   make = _k_sharp,
-  markdown = { s = ">" },
+  markdown = _k_xml,
   rust = _k_slash,
   perl = _k_sharp,
   ps1 = _k_sharp,
@@ -40,6 +41,7 @@ local _cmt_table = {
   toml = _k_sharp,
   typescript = _k_slash,
   vim = { s = '"' },
+  xml = _k_xml,
   yaml = _k_sharp,
   zsh = _k_sharp,
 }
