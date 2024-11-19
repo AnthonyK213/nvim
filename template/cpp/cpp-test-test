@@ -1,4 +1,10 @@
+#include <#{ProjectName}/lib.h>
+
 #include <gtest/gtest.h>
+
+TEST(Dummy_Test, Add) {
+  ASSERT_EQ(2, add(1, 1));
+}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
