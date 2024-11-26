@@ -291,7 +291,7 @@ Configuration for Neovim with some personal hacks.
     - n:    <kbd>g</kbd> -> *telescope.nvim*, live\_grep.
   - <kbd>leader-g-</kbd> -> **Git**.
     - n:    <kbd>b</kbd> -> *gitsigns.nvim*, blame line.
-    - n:    <kbd>n</kbd> -> *diffview.nvim*, open diffview in tab.
+    - n:    <kbd>n</kbd> -> *Neogit*, open Neogit.
     - n:    <kbd>h</kbd> -> *diffview.nvim*, open diffview file history in tab.
     - n:    <kbd>j</kbd> -> *gitsigns.nvim*, next hunk.
     - n:    <kbd>k</kbd> -> *gitsigns.nvim*, previous hunk.
@@ -401,6 +401,7 @@ Configuration for Neovim with some personal hacks.
   - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 - SCM
+  - [neogit](https://github.com/NeogitOrg/neogit)
   - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 - Utilities
