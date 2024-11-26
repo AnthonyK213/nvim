@@ -467,7 +467,21 @@ require("lazy").setup({
   },
   -- Git
   {
+    "NeogitOrg/neogit",
+    event = "VeryLazy",
+    config = true,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    keys = {
+      { "<leader>gn", "<Cmd>Neogit<CR>" },
+    }
+  },
+  {
     "sindrets/diffview.nvim",
+    event = "VeryLazy",
     config = function()
       local actions = require("diffview.actions")
       require("diffview").setup {
@@ -598,7 +612,6 @@ require("lazy").setup({
       }
     end,
     keys = {
-      { "<leader>gn", "<Cmd>DiffviewOpen<CR>" },
       { "<leader>gh", "<Cmd>DiffviewFileHistory<CR>" },
     }
   },
