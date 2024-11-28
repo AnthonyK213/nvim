@@ -55,3 +55,6 @@ call my#compat#vsc_kbd("n", "<leader>ln", "editor.action.rename")
 call my#compat#vsc_kbd("n", "<leader>lr", "editor.action.goToReferences")
 call my#compat#vsc_kbd("n", "<leader>l[", "editor.action.marker.prev")
 call my#compat#vsc_kbd("n", "<leader>l]", "editor.action.marker.next")
+" MISC
+call my#compat#vsc_kbd("n", "<leader>mt", "markdown.showPreviewToSide")
+call my#compat#vsc_kbd("n", "<leader>mv", "outline.focus")
