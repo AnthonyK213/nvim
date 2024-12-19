@@ -1,14 +1,193 @@
-# Neovim Configuration
-Configuration for Neovim with some personal hacks.
+<p align="center">
+  <img alt="Naivis" src="https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png" height="80" />
+  <p align="center">Neovim configuration with some personal hacks.</p>
+</p>
 
-# Requirements
-- [**Neovim**](https://github.com/neovim/neovim) 0.10+
-- [**Git**](https://github.com/git/git)
-- [**ripgrep**](https://github.com/BurntSushi/ripgrep) &
-  [**fd**](https://github.com/sharkdp/fd)
+---
+
+# Configuration
+
+Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
+`home` or `config` directory. Example:
+
+<u>/home/anthonyk213/.nvimrc</u>
+
+``` json
+{
+  // Set `true` if internet connection is unavailable.
+  "offline": false,
+  // Dependencies
+  "dep": {
+    // (string|array) Shell
+    "sh": ["pwsh", "-nologo"],
+    // (string) C compiler
+    "cc": "clang",
+    // (string) Python3 executable path
+    "py3": "python3/executable/path",
+    // (string) Proxy
+    "proxy": "http://127.0.0.1:7890"
+  },
+  // Paths
+  "path": {
+    // (string) Home directory
+    "home": "$HOME",
+    // (string) Cloud drive directory
+    "cloud": "$HOME/cloud",
+    // (string) Desktop directory
+    "desktop": "$HOME/Desktop",
+    // (string) Binaries directory
+    "bin": "$HOME/bin"
+  },
+  // Terminal UI
+  "tui": {
+    // ("onedark"|"tokyonight"|"gruvbox"|"nightfox"|"onenord") Color scheme
+    "scheme": "nightfox",
+    // ("dark"|"light") Tui background theme
+    "theme": "dark",
+    // (string) Style of color scheme
+    "style": "nord",
+    // (boolean) Make background transparent
+    "transparent": false,
+    // (boolean) Global statusline
+    "global_statusline": false,
+    // (string) Floating window border style
+    "border": "single",
+    // (boolean) nvim-cmp ghost text
+    "cmp_ghost": false,
+    // (boolean) Dim inactive window automatically
+    "auto_dim": false,
+    // (boolean) Animation effects
+    "animation": false,
+    // (boolean) Show current context by indent line
+    "show_context": false,
+    // (boolean) Enable devicons
+    "devicons": false,
+    // (string|array) Welcome page title
+    "welcome_header": "NEOVIM",
+    // (string|array) Bufferline style
+    "bufferline_style": "thin"
+  },
+  // GUI (neovim-qt, fvim, neovide)
+  "gui": {
+    // ("auto"|"dark"|"light") GUI background theme
+    "theme": "auto",
+    // (number) Window opacity
+    "opacity": 0.98,
+    // (boolean) Render ligatures
+    "ligature": false,
+    // (boolean) Use GUI popup menu
+    "popup_menu": false,
+    // (boolean) Use GUI tabline
+    "tabline": false,
+    // (boolean) Use GUI scroll bar
+    "scroll_bar": false,
+    // (number) Line space
+    "line_space": 0.0,
+    // (boolean) Cursor blink
+    "cursor_blink": false,
+    // (number) GUI font size
+    "font_size": 13,
+    // (string) See `guifont`
+    "font_half": "Monospace",
+    // (string) See `guifontwide`
+    "font_wide": "Monospace"
+  },
+  // Language Server Protocol
+  "lsp": {
+    // (boolean|object) https://github.com/clangd/clangd
+    "clangd": false,
+    // (boolean|object) https://github.com/LuaLS/lua-language-server
+    "lua_ls": {
+      "load": false,
+      "settings": {
+        "Lua": {
+          "runtime": {
+            "version": "LuaJIT"
+          },
+          "diagnostics": {
+            "globals": [ "vim" ]
+          },
+          "workspace": {
+            // "${lua_expression}" is allowed.
+            "library": "${vim.api.nvim_get_runtime_file('', true)}",
+            "checkThirdParty": false
+          },
+          "telemetry": {
+            "enable": false
+          },
+          "format": {
+            "defaultConfig": {
+              "indent_style": "space",
+              "indent_size": "2"
+            }
+          }
+        }
+      }
+    },
+    // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
+    "omnisharp": {
+      "load": false,
+      // Some LSPs' semantic tokens are not usable
+      "disable_semantic_tokens": true
+    },
+    // (boolean|object) https://github.com/microsoft/pyright
+    "pyright": {
+      "load": false,
+      // Extra settings, depends on the LSP
+      "settings": {
+        "python": {
+          "analysis": {
+            "autoSearchPaths": true,
+            "diagnosticMode": "workspace",
+            "useLibraryCodeForTypes": true,
+            "stubPath": "stubPath",
+            "typeCheckingMode": "off"
+          }
+        }
+      }
+    },
+    // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
+    "rust_analyzer": false,
+    // (boolean|object) https://github.com/iamcco/vim-language-server
+    "vimls": false
+    // And so on...
+  },
+  // Treesitter
+  "ts": {
+    // (array) Parsers to install automatically
+    "ensure_installed": [],
+    // (array) File type to disable treesitter highlight
+    "highlight_disable": [],
+    // (array) File type to disable vim-matchup
+    "matchup_disable": []
+  },
+  // Debug Adapter Protocol
+  "dap": {
+    // (boolean) https://github.com/llvm/llvm-project
+    "lldb": false,
+    // (boolean) https://github.com/Samsung/netcoredbg
+    "netcoredbg": false,
+    // (boolean) https://github.com/microsoft/debugpy
+    "debugpy": false
+  },
+  // Disabled built-in plugins
+  "disable": [
+    "matchit",
+    "matchparen",
+    "netrwPlugin"
+  ]
+}
+```
 
 # Installation
-- **Clone repository**
+
+- Requirements
+  - [**Neovim**](https://github.com/neovim/neovim) 0.10+
+  - [**Git**](https://github.com/git/git)
+  - [**ripgrep**](https://github.com/BurntSushi/ripgrep) &
+    [**fd**](https://github.com/sharkdp/fd)
+
+- Clone repository
   - Windows
     ``` ps1
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
@@ -19,179 +198,13 @@ Configuration for Neovim with some personal hacks.
     git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
                         "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-- **Start Neovim and wait for the installation to complete**
-- **Customize with `nvimrc`**
-  - In the `home`|`config` directory, named `.nvimrc`
-    (also can be `_nvimrc` on Windows)
-  - Example
-    ``` json
-    {
-      // When PC is not able to connect to the Internet to download the plus-in
-      "offline": false,
-      // Dependencies
-      "dep": {
-        // (string|array) Shell
-        "sh": ["pwsh", "-nologo"],
-        // (string) C compiler
-        "cc": "clang",
-        // (string) Python3 executable path
-        "py3": "python3/executable/path",
-        // (string) Proxy
-        "proxy": "http://127.0.0.1:7890"
-      },
-      // Paths
-      "path": {
-        // (string) Home directory
-        "home": "$HOME",
-        // (string) Cloud drive directory
-        "cloud": "$HOME/cloud",
-        // (string) Desktop directory
-        "desktop": "$HOME/Desktop",
-        // (string) Binaries directory
-        "bin": "$HOME/bin"
-      },
-      // Terminal UI
-      "tui": {
-        // ("onedark"|"tokyonight"|"gruvbox"|"nightfox"|"onenord") Color scheme
-        "scheme": "nightfox",
-        // ("dark"|"light") Tui background theme
-        "theme": "dark",
-        // (string) Style of color scheme
-        "style": "nord",
-        // (boolean) Make background transparent
-        "transparent": false,
-        // (boolean) Global statusline
-        "global_statusline": false,
-        // (string) Floating window border style
-        "border": "single",
-        // (boolean) nvim-cmp ghost text
-        "cmp_ghost": false,
-        // (boolean) Dim inactive window automatically
-        "auto_dim": false,
-        // (boolean) Animation effects
-        "animation": false,
-        // (boolean) Show current context by indent line
-        "show_context": false,
-        // (boolean) Enable devicons
-        "devicons": false,
-        // (string|array) Welcome page title
-        "welcome_header": "NEOVIM",
-        // (string|array) Bufferline style
-        "bufferline_style": "thin"
-      },
-      // GUI (neovim-qt, fvim, neovide)
-      "gui": {
-        // ("auto"|"dark"|"light") GUI background theme
-        "theme": "auto",
-        // (number) Window opacity
-        "opacity": 0.98,
-        // (boolean) Render ligatures
-        "ligature": false,
-        // (boolean) Use GUI popup menu
-        "popup_menu": false,
-        // (boolean) Use GUI tabline
-        "tabline": false,
-        // (boolean) Use GUI scroll bar
-        "scroll_bar": false,
-        // (number) Line space
-        "line_space": 0.0,
-        // (boolean) Cursor blink
-        "cursor_blink": false,
-        // (number) GUI font size
-        "font_size": 13,
-        // (string) See `guifont`
-        "font_half": "Monospace",
-        // (string) See `guifontwide`
-        "font_wide": "Monospace"
-      },
-      // Language Server Protocol
-      "lsp": {
-        // (boolean|object) https://github.com/clangd/clangd
-        "clangd": false,
-        // (boolean|object) https://github.com/LuaLS/lua-language-server
-        "lua_ls": {
-          "load": false,
-          "settings": {
-            "Lua": {
-              "runtime": {
-                "version": "LuaJIT"
-              },
-              "diagnostics": {
-                "globals": [ "vim" ]
-              },
-              "workspace": {
-                // "${lua_expression}" is allowed.
-                "library": "${vim.api.nvim_get_runtime_file('', true)}",
-                "checkThirdParty": false
-              },
-              "telemetry": {
-                "enable": false
-              },
-              "format": {
-                "defaultConfig": {
-                  "indent_style": "space",
-                  "indent_size": "2"
-                }
-              }
-            }
-          }
-        },
-        // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
-        "omnisharp": {
-          "load": false,
-          // Some LSPs' semantic tokens are not usable
-          "disable_semantic_tokens": true
-        },
-        // (boolean|object) https://github.com/microsoft/pyright
-        "pyright": {
-          "load": false,
-          // Extra settings, depends on the LSP
-          "settings": {
-            "python": {
-              "analysis": {
-                "autoSearchPaths": true,
-                "diagnosticMode": "workspace",
-                "useLibraryCodeForTypes": true,
-                "stubPath": "stubPath",
-                "typeCheckingMode": "off"
-              }
-            }
-          }
-        },
-        // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
-        "rust_analyzer": false,
-        // (boolean|object) https://github.com/iamcco/vim-language-server
-        "vimls": false
-        // And so on...
-      },
-      // Treesitter
-      "ts": {
-        // (array) Parsers to install automatically
-        "ensure_installed": [],
-        // (array) File type to disable treesitter highlight
-        "highlight_disable": [],
-        // (array) File type to disable vim-matchup
-        "matchup_disable": []
-      },
-      // Debug Adapter Protocol
-      "dap": {
-        // (boolean) https://github.com/llvm/llvm-project
-        "lldb": false,
-        // (boolean) https://github.com/Samsung/netcoredbg
-        "netcoredbg": false,
-        // (boolean) https://github.com/microsoft/debugpy
-        "debugpy": false
-      },
-      // Disabled built-in plugins
-      "disable": [
-        "matchit",
-        "matchparen",
-        "netrwPlugin"
-      ]
-    }
-    ```
-- **Install LSP servers via `mason.nvim`**
-- **Set .vimrc for Vim (optional)**
+
+- Start Neovim and wait for the installation to complete
+
+- Install LSP servers via [mason.nvim](https://github.com/williamboman/mason.nvim)
+  (Optional when `offline` is `true`)
+
+- Set .vimrc for Vim (optional)
   - Windows
     ``` ps1
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
@@ -202,7 +215,8 @@ Configuration for Neovim with some personal hacks.
     cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
-- **Set mailboxes (optional)**
+
+- Configure mailboxes (optional)
   - In the `home`|`config` directory, named `.mail.json`
     (also can be `_mail.json` on Windows)
   - Example
@@ -222,236 +236,138 @@ Configuration for Neovim with some personal hacks.
     }
     ```
 
-# Key bindings
-- **Ctrl**
-  - in:  <kbd>C-S</kbd>     -> Save.
-  - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
-- **Meta**
-  - in:  <kbd>M-a</kbd>  -> Select all.
-  - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
-  - t:   <kbd>M-d</kbd>  -> Close the terminal.
-  - n:   <kbd>M-e</kbd>  -> *nvim-tree.lua*, nvim-tree find file.
-  - nv:  <kbd>M-g</kbd>  -> Find and replace.
-  - nv:  <kbd>M-h</kbd>  -> Jump to the window left.
-  - nv:  <kbd>M-j</kbd>  -> Jump to the window below.
-  - nv:  <kbd>M-k</kbd>  -> Jump to the window above.
-  - nv:  <kbd>M-l</kbd>  -> Jump to the window right.
-  - nv:  <kbd>M-n</kbd>  -> Move line(s) down.
-  - nv:  <kbd>M-p</kbd>  -> Move line(s) up.
-  - inv: <kbd>M-v</kbd>  -> Paste from system clipboard.
-  - inv: <kbd>M-w</kbd>  -> Jump to the window in turns.
-  - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
-  - i:   <kbd>M-CR</kbd> -> Begin a new line below the cursor and insert bullet.
-  - in:  <kbd>M-Nr</kbd> -> Jump to tab (Number: 1, 2, 3, ..., 9, 0).
-  - in:  <kbd>M-B</kbd>  -> Markdown/LaTeX **bold**.
-  - in:  <kbd>M-I</kbd>  -> Markdown/LaTeX *italic*.
-  - in:  <kbd>M-M</kbd>  -> Markdown ***bold_italic***;
-                            LaTeX Roman Family.
-  - in:  <kbd>M-P</kbd>  -> Markdown `block`.
-  - inv: <kbd>M-U</kbd>  -> Markdown <u>underscore</u>.
-- **Emacs**
-  - inv: <kbd>C-N</kbd>  -> Cursor down.
-  - inv: <kbd>C-P</kbd>  -> Cursor up.
-  - ci:  <kbd>C-B</kbd>  -> Cursor left.
-  - ci:  <kbd>C-F</kbd>  -> Cursor right.
-  - ci:  <kbd>C-A</kbd>  -> To the first character of the screen line.
-  - ci:  <kbd>C-E</kbd>  -> To the last character of the screen line.
-  - i:   <kbd>C-K</kbd>  -> Kill text until the end of the line.
-  - cin: <kbd>M-b</kbd>  -> Cursor one word left.
-  - cin: <kbd>M-f</kbd>  -> Cursor one word right.
-  - i:   <kbd>M-d</kbd>  -> Kill text until the end of the word.
-  - in:  <kbd>M-x</kbd>  -> Command-line mode.
-- **Leader**
-  > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
-  - <kbd>leader-b-</kbd> -> **Buffer**.
-    - n:    <kbd>b</kbd> -> *bufferline.nvim*, BufferPick.
-    - n:    <kbd>c</kbd> -> Set directory to the current buffer.
-    - n:    <kbd>d</kbd> -> Delete buffer.
-    - n:    <kbd>g</kbd> -> Toggle background.
-    - n:    <kbd>h</kbd> -> Stop the search highlighting.
-    - n:    <kbd>n</kbd> -> Next buffer.
-    - n:    <kbd>p</kbd> -> Previous buffer.
-  - <kbd>leader-c-</kbd> -> **Check**.
-    - nv:   <kbd>c</kbd> -> Chinese characters count.
-    - n:    <kbd>s</kbd> -> Toggle spell check.
-  - <kbd>leader-d-</kbd> -> **Debug**.
-    - n:    <kbd>b</kbd> -> *nvim-dap*, toggle break point.
-    - n:    <kbd>c</kbd> -> *nvim-dap*, clear break point.
-    - n:    <kbd>l</kbd> -> *nvim-dap*, run last.
-    - n:    <kbd>n</kbd> -> *nvim-dap-ui*, toggle dap-ui.
-    - n:    <kbd>r</kbd> -> *nvim-dap*, toggle REPL window.
-    - n:    <kbd>t</kbd> -> *nvim-dap*, terminate.
-  - <kbd>leader-e-</kbd> -> **Evaluate**.
-    - n:    <kbd>v</kbd> -> Evaluate lua chunk surrounded by backquote.
-    - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
-  - <kbd>leader-f-</kbd> -> **Find**.
-    - n:    <kbd>b</kbd> -> *telescope.nvim*, buffers.
-    - n:    <kbd>f</kbd> -> *telescope.nvim*, find\_files.
-    - n:    <kbd>g</kbd> -> *telescope.nvim*, live\_grep.
-  - <kbd>leader-g-</kbd> -> **Git**.
-    - n:    <kbd>b</kbd> -> *gitsigns.nvim*, blame line.
-    - n:    <kbd>n</kbd> -> *Neogit*, open Neogit.
-    - n:    <kbd>h</kbd> -> *diffview.nvim*, open diffview file history in tab.
-    - n:    <kbd>j</kbd> -> *gitsigns.nvim*, next hunk.
-    - n:    <kbd>k</kbd> -> *gitsigns.nvim*, previous hunk.
-    - n:    <kbd>l</kbd> -> *toggleterm.nvim*, open lazygit.
-    - n:    <kbd>p</kbd> -> *gitsigns.nvim*, preview hunk.
-    - n:    <kbd>s</kbd> -> Git status.
-  - <kbd>leader-h-</kbd> -> **Search cword/selection with ...**.
-    - nv:   <kbd>b</kbd> -> Baidu.
-    - nv:   <kbd>d</kbd> -> DuckDuckGo.
-    - nv:   <kbd>g</kbd> -> Google.
-    - nv:   <kbd>h</kbd> -> StarDict (requires local dictionary).
-    - nv:   <kbd>y</kbd> -> Youdao.
-  - <kbd>leader-j-</kbd> -> **Jieba**.
-    - n:    <kbd>m</kbd> -> Toggle jieba-mode.
-  - <kbd>leader-k-</kbd> -> **Comment**.
-    - nv:   <kbd>c</kbd> -> Comment current/selected line(s).
-    - nv:   <kbd>u</kbd> -> Uncomment current/selected line(s).
-  - <kbd>leader-l-</kbd> -> **LSP**
-    - n:    <kbd>0</kbd> -> Document symbol.
-    - n:    <kbd>a</kbd> -> Code action.
-    - n:    <kbd>d</kbd> -> Jump to declaration.
-    - n:    <kbd>f</kbd> -> Jump to definition.
-    - n:    <kbd>h</kbd> -> Signature help.
-    - n:    <kbd>i</kbd> -> Implementation.
-    - n:    <kbd>k</kbd> -> Show diagnostics in a floating window.
-    - n:    <kbd>m</kbd> -> Format.
-    - n:    <kbd>n</kbd> -> Rename.
-    - n:    <kbd>r</kbd> -> References.
-    - n:    <kbd>t</kbd> -> Type definition.
-    - n:    <kbd>w</kbd> -> Work space symbol.
-    - n:    <kbd>[</kbd> -> Jump to previous diagnostic mark.
-    - n:    <kbd>]</kbd> -> Jump to next diagnostic mark.
-  - <kbd>leader-m-</kbd> -> **Markdown**, **Mail**, **Misc**
-    - n:    <kbd>f</kbd> -> Fetch recently unseen mails from IMAP server.
-    - n:    <kbd>l</kbd> -> Regenerate list bullets.
-    - n:    <kbd>n</kbd> -> Create a new mail(.eml file).
-    - n:    <kbd>s</kbd> -> Send current buffer as an e-mail.
-    - n:    <kbd>v</kbd> -> *aerial.nvim*/*VimTeX*, Toc toggle.
-    - n:    <kbd>t</kbd> -> *markdown-preview.nvim*, toggle markdown preview;
-                            toggle marp preview (requires [marp](https://github.com/marp-team/marp-cli));
-                            LaTeX project pdf preview;
-                            toggle glsl preview (requires [glslViewer](https://github.com/patriciogonzalezvivo/glslViewer)).
-    - n:    <kbd>i</kbd> -> glslViewer input.
-  - <kbd>leader-n-</kbd> -> **GTD**.
-    - n:    <kbd>d</kbd> -> Append the weekday after a date(yyyy-mm-dd).
-    - n:    <kbd>s</kbd> -> Insert timestamp after cursor.
-    - n:    <kbd>t</kbd> -> Print TODO list.
-  - <kbd>leader-o-</kbd> -> **Open**.
-    - n:    <kbd>b</kbd> -> Open file of buffer with system default browser.
-    - n:    <kbd>e</kbd> -> Open system file manager.
-    - n:    <kbd>t</kbd> -> Open terminal.
-    - n:    <kbd>p</kbd> -> *nvim-tree.lua*, nvim-tree toggle.
-    - n:    <kbd>u</kbd> -> Open path or url under the cursor.
-  - <kbd>leader-s-</kbd> -> **Surrounding**.
-    - nv:   <kbd>a</kbd> -> Surrounding add.
-    - n:    <kbd>c</kbd> -> Surrounding change.
-    - n:    <kbd>d</kbd> -> Surrounding delete.
-  - <kbd>leader-t-</kbd> -> **Table mode**.
-    - n:    <kbd>a</kbd> -> *vim-table-mode*, Add formula.
-    - n:    <kbd>c</kbd> -> *vim-table-mode*, Evaluate formula.
-    - n:    <kbd>f</kbd> -> *vim-table-mode*, Re-align.
-  - <kbd>leader-v-</kbd> -> **Visual**
-    - n:    <kbd>s</kbd> -> Show highlight information.
-  - <kbd>leader-w-</kbd> -> **Vimwiki**.
-  - <kbd>leader-z-</kbd> -> Misc.
-    - v:   <kbd>bd</kbd> -> Base64 decode selection.
-    - v:   <kbd>be</kbd> -> Base64 encode selection.
-- **Miscellanea**
-  - v:   <kbd>\*/#</kbd>    -> Search for the visual selection.
-  - n:   <kbd>F5</kbd>      -> *nvim-dap*, continue debugging;
-                               *presenting.nvim*, presenting view
-  - n:   <kbd>S-F5</kbd>    -> `CodeRun`.
-  - n:   <kbd>C-S-F5</kbd>  -> `CodeRun test`.
-  - invt:<kbd>F8</kbd>      -> Toggle mouse status.
-  - n:   <kbd>F10</kbd>     -> *nvim-dap*, step over.
-  - n:   <kbd>S-F11</kbd>   -> *nvim-dap*, step into.
-  - n:   <kbd>C-S-F11</kbd> -> *nvim-dap*, step out.
+# Key Bindings
+
+> <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
+
+| Modifier                        | Key            | Mode | Description                                                       |
+|---------------------------------|----------------|------|-------------------------------------------------------------------|
+| <kbd>Ctrl</kbd>                 | <kbd>S</kbd>   | in   | Save current buffer to file.                                      |
+| <kbd>Ctrl</kbd>                 | `direction`    | n    | Adjust window size.                                               |
+| <kbd>Meta</kbd>                 | <kbd>a</kbd>   | in   | Select all.                                                       |
+| <kbd>Meta</kbd>                 | <kbd>c</kbd>   | v    | Copy to system clipboard.                                         |
+| <kbd>Meta</kbd>                 | <kbd>d</kbd>   | t    | Close the terminal.                                               |
+| <kbd>Meta</kbd>                 | <kbd>e</kbd>   | n    | *nvim-tree.lua* find file.                                        |
+| <kbd>Meta</kbd>                 | <kbd>g</kbd>   | nv   | Find and replace.                                                 |
+| <kbd>Meta</kbd>                 | <kbd>h</kbd>   | nv   | Goto the window left.                                             |
+| <kbd>Meta</kbd>                 | <kbd>j</kbd>   | nv   | Goto the window below.                                            |
+| <kbd>Meta</kbd>                 | <kbd>k</kbd>   | nv   | Goto the window above.                                            |
+| <kbd>Meta</kbd>                 | <kbd>l</kbd>   | nv   | Goto the window right.                                            |
+| <kbd>Meta</kbd>                 | <kbd>n</kbd>   | nv   | Move line(s) down.                                                |
+| <kbd>Meta</kbd>                 | <kbd>p</kbd>   | nv   | Move line(s) up.                                                  |
+| <kbd>Meta</kbd>                 | <kbd>v</kbd>   | inv  | Paste from system clipboard.                                      |
+| <kbd>Meta</kbd>                 | <kbd>w</kbd>   | inv  | Switch window in turns.                                           |
+| <kbd>Meta</kbd>                 | <kbd>x</kbd>   | v    | Cut to system clipboard.                                          |
+| <kbd>Meta</kbd>                 | <kbd>,</kbd>   | n    | Open `nvimrc`.                                                    |
+| <kbd>Meta</kbd>                 | <kbd>CR</kbd>  | i    | Begin a new line below the cursor and insert bullet.              |
+| <kbd>Meta</kbd>                 | `number`       | in   | Goto tab (Number 1, 2, 3, ..., 9, 0).                             |
+| <kbd>Meta</kbd>                 | <kbd>B</kbd>   | in   | Markdown/LaTeX **bold**.                                          |
+| <kbd>Meta</kbd>                 | <kbd>I</kbd>   | in   | Markdown/LaTeX *italic*.                                          |
+| <kbd>Meta</kbd>                 | <kbd>M</kbd>   | in   | Markdown ***bold_italic***; LaTeX Roman Family.                   |
+| <kbd>Meta</kbd>                 | <kbd>P</kbd>   | in   | Markdown `block`.                                                 |
+| <kbd>Meta</kbd>                 | <kbd>U</kbd>   | inv  | Markdown <u>underscore</u>.                                       |
+| <kbd>Ctrl</kbd>                 | <kbd>N</kbd>   | inv  | Cursor down.                                                      |
+| <kbd>Ctrl</kbd>                 | <kbd>P</kbd>   | inv  | Cursor up.                                                        |
+| <kbd>Ctrl</kbd>                 | <kbd>B</kbd>   | ci   | Cursor left.                                                      |
+| <kbd>Ctrl</kbd>                 | <kbd>F</kbd>   | ci   | Cursor right.                                                     |
+| <kbd>Ctrl</kbd>                 | <kbd>A</kbd>   | ci   | To the first character of the screen line.                        |
+| <kbd>Ctrl</kbd>                 | <kbd>E</kbd>   | ci   | To the last character of the screen line.                         |
+| <kbd>Ctrl</kbd>                 | <kbd>K</kbd>   | i    | Kill text until the end of the line.                              |
+| <kbd>Meta</kbd>                 | <kbd>b</kbd>   | cin  | Cursor one word left.                                             |
+| <kbd>Meta</kbd>                 | <kbd>f</kbd>   | cin  | Cursor one word right.                                            |
+| <kbd>Meta</kbd>                 | <kbd>d</kbd>   | i    | Kill text until the end of the word.                              |
+| <kbd>Meta</kbd>                 | <kbd>x</kbd>   | in   | Command-line mode.                                                |
+|                                 | <kbd>\*</kbd>  | v    | Search visual selection downward.                                 |
+|                                 | <kbd>#</kbd>   | v    | Search visual selection upward.                                   |
+|                                 | <kbd>F5</kbd>  | n    | *nvim-dap* continue debugging; *presenting.nvim* presenting view  |
+| <kbd>Shift</kbd>                | <kbd>F5</kbd>  | n    | `CodeRun`.                                                        |
+| <kbd>Ctrl</kbd><kbd>Shift</kbd> | <kbd>F5</kbd>  | n    | `CodeRun test`.                                                   |
+|                                 | <kbd>F8</kbd>  | invt | Toggle mouse status.                                              |
+|                                 | <kbd>F10</kbd> | n    | *nvim-dap* step over.                                             |
+| <kbd>Shift</kbd>                | <kbd>F11</kbd> | n    | *nvim-dap* step into.                                             |
+| <kbd>Ctrl</kbd><kbd>Shift</kbd> | <kbd>F11</kbd> | n    | *nvim-dap* step out.                                              |
+| <kbd>leader</kbd>               | <kbd>bb</kbd>  | n    | *bufferline.nvim* pick buffer.                                    |
+| <kbd>leader</kbd>               | <kbd>bc</kbd>  | n    | Set cwd to current buffer directory.                              |
+| <kbd>leader</kbd>               | <kbd>bd</kbd>  | n    | Delete current buffer.                                            |
+| <kbd>leader</kbd>               | <kbd>bg</kbd>  | n    | Toggle background theme.                                          |
+| <kbd>leader</kbd>               | <kbd>bh</kbd>  | n    | Stop the search highlighting.                                     |
+| <kbd>leader</kbd>               | <kbd>bn</kbd>  | n    | Goto the next buffer.                                             |
+| <kbd>leader</kbd>               | <kbd>bp</kbd>  | n    | Goto the previous buffer.                                         |
+| <kbd>leader</kbd>               | <kbd>cc</kbd>  | nv   | Chinese characters count.                                         |
+| <kbd>leader</kbd>               | <kbd>cs</kbd>  | n    | Toggle spell check.                                               |
+| <kbd>leader</kbd>               | <kbd>db</kbd>  | n    | *nvim-dap* toggle break point.                                    |
+| <kbd>leader</kbd>               | <kbd>dc</kbd>  | n    | *nvim-dap* clear break point.                                     |
+| <kbd>leader</kbd>               | <kbd>dl</kbd>  | n    | *nvim-dap* run last.                                              |
+| <kbd>leader</kbd>               | <kbd>dn</kbd>  | n    | *nvim-dap-ui* toggle dap-ui.                                      |
+| <kbd>leader</kbd>               | <kbd>dr</kbd>  | n    | *nvim-dap* toggle REPL window.                                    |
+| <kbd>leader</kbd>               | <kbd>dt</kbd>  | n    | *nvim-dap* terminate.                                             |
+| <kbd>leader</kbd>               | <kbd>ev</kbd>  | n    | Evaluate lua chunk surrounded by backquote.                       |
+| <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk(math) surrounded by backquote.                |
+| <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *telescope.nvim* buffers.                                         |
+| <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *telescope.nvim* find\_files.                                     |
+| <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *telescope.nvim* live\_grep.                                      |
+| <kbd>leader</kbd>               | <kbd>gb</kbd>  | n    | *gitsigns.nvim* blame line.                                       |
+| <kbd>leader</kbd>               | <kbd>gn</kbd>  | n    | *Neogit* open.                                                    |
+| <kbd>leader</kbd>               | <kbd>gh</kbd>  | n    | *diffview.nvim* open file history in tab.                         |
+| <kbd>leader</kbd>               | <kbd>gj</kbd>  | n    | *gitsigns.nvim* next hunk.                                        |
+| <kbd>leader</kbd>               | <kbd>gk</kbd>  | n    | *gitsigns.nvim* previous hunk.                                    |
+| <kbd>leader</kbd>               | <kbd>gl</kbd>  | n    | *toggleterm.nvim* open lazygit.                                   |
+| <kbd>leader</kbd>               | <kbd>gp</kbd>  | n    | *gitsigns.nvim* preview hunk.                                     |
+| <kbd>leader</kbd>               | <kbd>gs</kbd>  | n    | Git status.                                                       |
+| <kbd>leader</kbd>               | <kbd>hb</kbd>  | nv   | Search cword/selection with Baidu.                                |
+| <kbd>leader</kbd>               | <kbd>hd</kbd>  | nv   | Search cword/selection with DuckDuckGo.                           |
+| <kbd>leader</kbd>               | <kbd>hg</kbd>  | nv   | Search cword/selection with Google.                               |
+| <kbd>leader</kbd>               | <kbd>hh</kbd>  | nv   | Search cword/selection with StarDict (requires local dictionary). |
+| <kbd>leader</kbd>               | <kbd>hy</kbd>  | nv   | Search cword/selection with Youdao dictionary.                    |
+| <kbd>leader</kbd>               | <kbd>jm</kbd>  | n    | Toggle jieba-mode.                                                |
+| <kbd>leader</kbd>               | <kbd>kc</kbd>  | nv   | Comment current/selected line(s).                                 |
+| <kbd>leader</kbd>               | <kbd>ku</kbd>  | nv   | Uncomment current/selected line(s).                               |
+| <kbd>leader</kbd>               | <kbd>l0</kbd>  | n    | Document symbol.                                                  |
+| <kbd>leader</kbd>               | <kbd>la</kbd>  | n    | Code action.                                                      |
+| <kbd>leader</kbd>               | <kbd>ld</kbd>  | n    | Goto declaration.                                                 |
+| <kbd>leader</kbd>               | <kbd>lf</kbd>  | n    | Goto definition.                                                  |
+| <kbd>leader</kbd>               | <kbd>lh</kbd>  | n    | Signature help.                                                   |
+| <kbd>leader</kbd>               | <kbd>li</kbd>  | n    | Implementation.                                                   |
+| <kbd>leader</kbd>               | <kbd>lk</kbd>  | n    | Show diagnostics in a floating window.                            |
+| <kbd>leader</kbd>               | <kbd>lm</kbd>  | n    | Format.                                                           |
+| <kbd>leader</kbd>               | <kbd>ln</kbd>  | n    | Rename.                                                           |
+| <kbd>leader</kbd>               | <kbd>lr</kbd>  | n    | References.                                                       |
+| <kbd>leader</kbd>               | <kbd>lt</kbd>  | n    | Type definition.                                                  |
+| <kbd>leader</kbd>               | <kbd>lw</kbd>  | n    | Work space symbol.                                                |
+| <kbd>leader</kbd>               | <kbd>l\[</kbd> | n    | Goto previous diagnostic mark.                                    |
+| <kbd>leader</kbd>               | <kbd>l\]</kbd> | n    | Goto next diagnostic mark.                                        |
+| <kbd>leader</kbd>               | <kbd>mf</kbd>  | n    | Fetch recently unseen mails from IMAP server.                     |
+| <kbd>leader</kbd>               | <kbd>ml</kbd>  | n    | Regenerate list bullets.                                          |
+| <kbd>leader</kbd>               | <kbd>mn</kbd>  | n    | Create a new mail(.eml file).                                     |
+| <kbd>leader</kbd>               | <kbd>ms</kbd>  | n    | Send current buffer as an e-mail.                                 |
+| <kbd>leader</kbd>               | <kbd>mv</kbd>  | n    | *aerial.nvim*/*VimTeX* toggle table of content.                   |
+| <kbd>leader</kbd>               | <kbd>mt</kbd>  | n    | Toggle preview (Markdown/Marp/LaTeX/GLSL)                         |
+| <kbd>leader</kbd>               | <kbd>mi</kbd>  | n    | glslViewer input.                                                 |
+| <kbd>leader</kbd>               | <kbd>nd</kbd>  | n    | Append the weekday after a date(yyyy-mm-dd).                      |
+| <kbd>leader</kbd>               | <kbd>ns</kbd>  | n    | Insert timestamp after cursor.                                    |
+| <kbd>leader</kbd>               | <kbd>nt</kbd>  | n    | Print TODO list.                                                  |
+| <kbd>leader</kbd>               | <kbd>ob</kbd>  | n    | Open file of buffer with system default browser.                  |
+| <kbd>leader</kbd>               | <kbd>oe</kbd>  | n    | Open system file manager.                                         |
+| <kbd>leader</kbd>               | <kbd>ot</kbd>  | n    | Open terminal.                                                    |
+| <kbd>leader</kbd>               | <kbd>op</kbd>  | n    | *nvim-tree.lua* toggle.                                           |
+| <kbd>leader</kbd>               | <kbd>ou</kbd>  | n    | Open path or url under the cursor.                                |
+| <kbd>leader</kbd>               | <kbd>sa</kbd>  | nv   | Surrounding add.                                                  |
+| <kbd>leader</kbd>               | <kbd>sc</kbd>  | n    | Surrounding change.                                               |
+| <kbd>leader</kbd>               | <kbd>sd</kbd>  | n    | Surrounding delete.                                               |
+| <kbd>leader</kbd>               | <kbd>ta</kbd>  | n    | *vim-table-mode* add formula.                                     |
+| <kbd>leader</kbd>               | <kbd>tc</kbd>  | n    | *vim-table-mode* evaluate formula.                                |
+| <kbd>leader</kbd>               | <kbd>tf</kbd>  | n    | *vim-table-mode* re-align.                                        |
+| <kbd>leader</kbd>               | <kbd>vs</kbd>  | n    | Show highlight information.                                       |
+| <kbd>leader</kbd>               | <kbd>zbd</kbd> | v    | Decode visual selection with base64.                              |
+| <kbd>leader</kbd>               | <kbd>zbe</kbd> | v    | Encode visual selection with base64.                              |
 
 # Commands
-- `CodeRun`     -> Run or compile the code.
-- `BuildDylibs` -> Build crates in `$config/rust/` directory.
-- `GlslViewer`  -> Open glslViewer.
-- `NvimUpgrade` -> Upgrade neovim by channel input.
-- `PushAll`     -> Just push everything to the remote origin.
-  - `-b`        -> branch (default: current branch).
-  - `-m`        -> commit (default: date).
-  - `-r`        -> remote (default: origin).
-- `SshConfig`   -> Open and edit `~/.ssh/config`
-- `Time`        -> Print date and time.
 
-# Packages
-- Package manager
-  - [lazy.nvim](https://github.com/folke/lazy.nvim)
-- UI (Optional)
-  - [alpha-nvim](https://github.com/goolord/alpha-nvim)
-  - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
-  - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
-  - [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
-  - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
-- Color scheme (Optional)
-  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
-  - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
-  - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
-  - [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim)
-  - [onenord.nvim](https://github.com/rmehri01/onenord.nvim)
-- File system
-  - [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
-  - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-- SCM
-  - [neogit](https://github.com/NeogitOrg/neogit)
-  - [diffview.nvim](https://github.com/sindrets/diffview.nvim)
-  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
-- Utilities
-  - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-  - [dial.nvim](https://github.com/monaqa/dial.nvim)
-  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
-  - [lua-pairs](https://github.com/anthonyk213/lua-pairs)
-  - [vim-matchup](https://github.com/andymass/vim-matchup)
-  - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
-  - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
-  - [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
-  - [crates.nvim](https://github.com/Saecki/crates.nvim)
-  - [overseer.nvim](https://github.com/stevearc/overseer.nvim)
-  - [cmake-tools.nvim](https://github.com/Civitasv/cmake-tools.nvim)
-  - [vs-tasks.nvim](https://github.com/EthanJWright/vs-tasks.nvim)
-- File type support
-  - [VimTeX](https://github.com/lervag/vimtex)
-  - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-  - [presenting.nvim](https://github.com/sotte/presenting.nvim)
-- Completion; Snippet; LSP; TreeSitter; DAP
-  - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
-  - [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
-  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-  - [mason.nvim](https://github.com/williamboman/mason.nvim)
-  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-  - [aerial.nvim](https://github.com/stevearc/aerial.nvim)
-  - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
-- Games
-  - [nvim-tetris](https://github.com/alec-gibson/nvim-tetris)
-  - [nvimesweeper](https://github.com/seandewar/nvimesweeper)
-
-# API
-
-## `collections`
-- [collections.Deque](./lua/collections/deque.lua) type
-- [collections.HashSet](./lua/collections/hash_set.lua) type
-- [collections.Iterator](./lua/collections/iter.lua) type
-- [collections.LinkedList](./lua/collections/linked_list.lua) type
-- [collections.List](./lua/collections/list.lua) type
-- [collections.PriorityQueue](./lua/collections/priority_queue.lua) type
-- [collections.RbTree](./lua/collections/rb_tree.lua) type
-- [collections.Stack](./lua/collections/stack.lua) type
-
-## `futures`
-- [futures.Process](./lua/futures/proc.lua) type
-- [futures.Task](./lua/futures/task.lua) type
-- [futures.Terminal](./lua/futures/term.lua) type
-- [futures.Terminal2](./lua/futures/term2.lua) type
-
-## `utility`
-- [utility.lib](./lua/utility/lib.lua) library
-- [utility.syn](./lua/utility/syn.lua) library
+| Command       | Arguments                                         | Description                                |
+|---------------|---------------------------------------------------|--------------------------------------------|
+| `CodeRun`     | `build`/`test`/...                                | Run or compile the code.                   |
+| `BuildDylibs` |                                                   | Build crates in `$config/rust/` directory. |
+| `GlslViewer`  |                                                   | Open glslViewer.                           |
+| `NvimUpgrade` | `stable`/`nightly`                                | Upgrade neovim by channel.                 |
+| `PushAll`     | `-b` {branch}<br/>`-m` {commit}<br/>`-r` {remote} | Just push everything to the remote.        |
+| `Time`        |                                                   | Print date and time.                       |

@@ -70,11 +70,11 @@ end
 ---@return {cmd:string, args?:string[]}?
 function M.sys_open_config()
   local os_type = lib.get_os_type()
-  if os_type == lib.Os.Linux then
+  if os_type == lib.OS.Linux then
     return { cmd = "xdg-open" }
-  elseif os_type == lib.Os.Windows then
+  elseif os_type == lib.OS.Windows then
     return { cmd = "cmd", args = { "/c", "start", '""' } }
-  elseif os_type == lib.Os.Macos then
+  elseif os_type == lib.OS.MacOS then
     return { cmd = "open" }
   else
     return nil
@@ -227,9 +227,9 @@ function M.nvim_upgrade(channel)
   local Path = require("plenary.path")
   local archive
   local os_type = lib.get_os_type()
-  if os_type == lib.Os.Windows then
+  if os_type == lib.OS.Windows then
     archive = "nvim-win64.zip"
-  elseif os_type == lib.Os.Linux then
+  elseif os_type == lib.OS.Linux then
     archive = "nvim-linux64.tar.gz"
   else
     return
@@ -258,7 +258,7 @@ function M.nvim_upgrade(channel)
   local use_proxy = type(proxy) == "string"
 
   local dl_exec, dl_args, ex_exec, ex_args
-  if os_type == lib.Os.Windows then
+  if os_type == lib.OS.Windows then
     local dl_cmd = "Invoke-WebRequest"
         .. " -Uri " .. source
         .. " -OutFile " .. archive_path.filename
@@ -281,7 +281,7 @@ function M.nvim_upgrade(channel)
     vim.fn.jobstart("powershell.exe -c " .. pwsh_cmd, { detach = true })
     vim.cmd.quitall { bang = true }
     return
-  elseif os_type == lib.Os.Linux then
+  elseif os_type == lib.OS.Linux then
     if not lib.executable("curl", true) then return end
     dl_exec = "curl"
     dl_args = use_proxy and {

@@ -59,10 +59,6 @@ cmd("PushAll", function(tbl)
   require("logit").push_all(arg_tbl)
 end, { nargs = "?", desc = "Git push all" })
 
-cmd("SshConfig", function(_)
-  require("utility.util").edit_file("$HOME/.ssh/config", false)
-end, { desc = "Open ssh configuration" })
-
 cmd("Time", function(_)
   vim.notify(vim.fn.strftime("%Y-%m-%d %a %T"))
 end, { desc = "Print current time (May be useful in full screen?)" })

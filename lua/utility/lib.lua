@@ -3,13 +3,12 @@ local M = {}
 local _p_word_first_half = [[\v([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-]+)$]]
 local _p_word_last_half = [[\v^([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-])+]]
 
----Os types enum.
----@enum Os
-M.Os = {
+---@enum lib.OS
+local OS = {
   Unknown = 0,
-  Linux = 1,
+  Linux   = 1,
   Windows = 2,
-  Macos = 3,
+  MacOS   = 3,
 }
 
 ---Convert `integer` to a binary string.
@@ -104,9 +103,9 @@ end
 ---@return string?
 function M.get_dylib_ext()
   return ({
-    [M.Os.Windows] = ".dll",
-    [M.Os.Linux] = ".so",
-    [M.Os.Macos] = ".so",
+    [M.OS.Windows] = ".dll",
+    [M.OS.Linux] = ".so",
+    [M.OS.MacOS] = ".so",
   })[M.get_os_type()]
 end
 
@@ -228,17 +227,17 @@ end
 
 ---Get OS type.
 ---(`new_work` invocable)
----@return Os os_type_enum Type of current operating system.
+---@return lib.OS os_type_enum Type of current operating system.
 function M.get_os_type()
   local name = vim.uv.os_uname().sysname
   if name == "Linux" then
-    return M.Os.Linux
+    return M.OS.Linux
   elseif name == "Windows_NT" then
-    return M.Os.Windows
+    return M.OS.Windows
   elseif name == "Darwin" then
-    return M.Os.Macos
+    return M.OS.MacOS
   else
-    return M.Os.Unknown
+    return M.OS.Unknown
   end
 end
 
@@ -327,7 +326,7 @@ end
 ---(`new_work` invocable)
 ---@return boolean result True if current os is **Windows**.
 function M.has_windows()
-  return M.get_os_type() == M.Os.Windows
+  return M.get_os_type() == M.OS.Windows
 end
 
 ---Decode json from file path.
@@ -382,6 +381,19 @@ function M.json_decode(path, strictly)
   end
 
   return 1, nil
+end
+
+---@generic T
+---@param tbl T Table to make read-only.
+---@return T ro_obj Read-only object.
+function M.make_readonly(tbl)
+  return setmetatable({}, {
+    __index = tbl,
+    __newindex = function(o, k, v)
+      error("Attempt to modify read-only structure!")
+    end,
+    __metatable = false,
+  })
 end
 
 ---Create a new split window.
@@ -785,5 +797,7 @@ function M.vim_source(file)
     M.warn("File `" .. file .. ".vim` is not found")
   end
 end
+
+M.OS = M.make_readonly(OS)
 
 return M

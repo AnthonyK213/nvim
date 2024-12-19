@@ -9,9 +9,9 @@ local opt = {
   offline = false,
   dep = {
     sh = ({
-      [lib.Os.Linux] = "bash",
-      [lib.Os.Windows] = { "powershell.exe", "-nologo" },
-      [lib.Os.Macos] = "zsh"
+      [lib.OS.Linux] = "bash",
+      [lib.OS.Windows] = { "powershell.exe", "-nologo" },
+      [lib.OS.MacOS] = "zsh"
     })[os_this],
     cc = "gcc",
     py3 = "/usr/bin/python3",
