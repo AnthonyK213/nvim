@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Naivis" src="https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png" height="80" />
+  <img alt="Neovim" src="https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png" height="80" />
   <p align="center">Neovim configuration with some personal hacks.</p>
 </p>
 
@@ -8,7 +8,8 @@
 # Configuration
 
 Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
-`home` or `config` directory. Example:
+`home` or `config` directory.
+It's a pure text file with json syntax. Example:
 
 <u>/home/anthonyk213/.nvimrc</u>
 
@@ -201,10 +202,9 @@ Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
 
 - Start Neovim and wait for the installation to complete
 
-- Install LSP servers via [mason.nvim](https://github.com/williamboman/mason.nvim)
-  (Optional when `offline` is `true`)
+- Install LSP servers with `Mason` command (optional when `offline` is `true`)
 
-- Set .vimrc for Vim (optional)
+- Set `.vimrc` for Vim (optional)
   - Windows
     ``` ps1
     Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
@@ -244,7 +244,7 @@ Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
 |---------------------------------|----------------|------|-------------------------------------------------------------------|
 | <kbd>Ctrl</kbd>                 | <kbd>S</kbd>   | in   | Save current buffer to file.                                      |
 | <kbd>Ctrl</kbd>                 | `direction`    | n    | Adjust window size.                                               |
-| <kbd>Meta</kbd>                 | <kbd>a</kbd>   | in   | Select all.                                                       |
+| <kbd>Meta</kbd>                 | <kbd>a</kbd>   | in   | Select all text in current buffer.                                |
 | <kbd>Meta</kbd>                 | <kbd>c</kbd>   | v    | Copy to system clipboard.                                         |
 | <kbd>Meta</kbd>                 | <kbd>d</kbd>   | t    | Close the terminal.                                               |
 | <kbd>Meta</kbd>                 | <kbd>e</kbd>   | n    | *nvim-tree.lua* find file.                                        |
@@ -261,10 +261,10 @@ Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
 | <kbd>Meta</kbd>                 | <kbd>,</kbd>   | n    | Open `nvimrc`.                                                    |
 | <kbd>Meta</kbd>                 | <kbd>CR</kbd>  | i    | Begin a new line below the cursor and insert bullet.              |
 | <kbd>Meta</kbd>                 | `number`       | in   | Goto tab (Number 1, 2, 3, ..., 9, 0).                             |
-| <kbd>Meta</kbd>                 | <kbd>B</kbd>   | in   | Markdown/LaTeX **bold**.                                          |
-| <kbd>Meta</kbd>                 | <kbd>I</kbd>   | in   | Markdown/LaTeX *italic*.                                          |
-| <kbd>Meta</kbd>                 | <kbd>M</kbd>   | in   | Markdown ***bold_italic***; LaTeX Roman Family.                   |
-| <kbd>Meta</kbd>                 | <kbd>P</kbd>   | in   | Markdown `block`.                                                 |
+| <kbd>Meta</kbd>                 | <kbd>B</kbd>   | in   | Toggle Markdown/LaTeX **bold**.                                   |
+| <kbd>Meta</kbd>                 | <kbd>I</kbd>   | in   | Toggle Markdown/LaTeX *italic*.                                   |
+| <kbd>Meta</kbd>                 | <kbd>M</kbd>   | in   | Toggle Markdown ***bold_italic***; LaTeX Roman Family.            |
+| <kbd>Meta</kbd>                 | <kbd>P</kbd>   | in   | Toggle Markdown `block`.                                          |
 | <kbd>Meta</kbd>                 | <kbd>U</kbd>   | inv  | Markdown <u>underscore</u>.                                       |
 | <kbd>Ctrl</kbd>                 | <kbd>N</kbd>   | inv  | Cursor down.                                                      |
 | <kbd>Ctrl</kbd>                 | <kbd>P</kbd>   | inv  | Cursor up.                                                        |
@@ -304,8 +304,8 @@ Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
 | <kbd>leader</kbd>               | <kbd>ev</kbd>  | n    | Evaluate lua chunk surrounded by backquote.                       |
 | <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk(math) surrounded by backquote.                |
 | <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *telescope.nvim* buffers.                                         |
-| <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *telescope.nvim* find\_files.                                     |
-| <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *telescope.nvim* live\_grep.                                      |
+| <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *telescope.nvim* find files.                                      |
+| <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *telescope.nvim* live grep.                                       |
 | <kbd>leader</kbd>               | <kbd>gb</kbd>  | n    | *gitsigns.nvim* blame line.                                       |
 | <kbd>leader</kbd>               | <kbd>gn</kbd>  | n    | *Neogit* open.                                                    |
 | <kbd>leader</kbd>               | <kbd>gh</kbd>  | n    | *diffview.nvim* open file history in tab.                         |
