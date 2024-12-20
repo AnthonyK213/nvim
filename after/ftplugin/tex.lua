@@ -34,11 +34,8 @@ vim.keymap.set("n", "<leader>mt", function()
   if not require("utility.lib").path_exists(pdf_path) then
     local futures = require("futures")
     futures.spawn(function()
-      if futures.ui.input {
-            prompt = "Compile the project? Y/n: "
-          } ~= "Y" then
-        return
-      end
+      local yes_no = futures.ui.input { prompt = "Compile the project? [Y/n] " }
+      if not yes_no or yes_no:lower() ~= "y" then return end
       local opt = futures.ui.select({ "none", "biber", "bibtex" }, {
         prompt = "Compile option: "
       })

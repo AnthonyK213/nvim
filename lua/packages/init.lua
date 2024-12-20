@@ -560,7 +560,8 @@ require("lazy").setup({
               futures.spawn(function()
                 local msg = futures.ui.input { prompt = "Commit message: " }
                 if not msg or #msg == 0 then return end
-                if futures.ui.input { prompt = "Commit? Y/n: " } == "Y" then
+                local yes_no = futures.ui.input { prompt = "Commit? [Y/n] " }
+                if yes_no and yes_no:lower() == "y" then
                   if require("logit").commit(msg):start() then
                     print("Commiting...")
                   end

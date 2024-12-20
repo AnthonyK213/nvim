@@ -95,9 +95,10 @@ local function check_dict()
     end
   end
   spawn(function()
-    if futures.ui.input {
-          prompt = "No local dictionary found, get one? Y/n: ",
-        } == "Y" then
+    local yes_no = futures.ui.input {
+      prompt = "No local dictionary found, get one? [Y/n] "
+    }
+    if yes_no and yes_no:lower() == "y" then
       require("utility.util").sys_open("https://github.com/AnthonyK213/.stardict")
     end
   end)
