@@ -185,8 +185,8 @@ It's a pure text file with json syntax. Example:
 - Requirements
   - [**Neovim**](https://github.com/neovim/neovim) 0.10+
   - [**Git**](https://github.com/git/git)
-  - [**ripgrep**](https://github.com/BurntSushi/ripgrep) &
-    [**fd**](https://github.com/sharkdp/fd)
+  - [**ripgrep**](https://github.com/BurntSushi/ripgrep) (optional)
+  - [**fd**](https://github.com/sharkdp/fd) (optional)
 
 - Clone repository
   - Windows
@@ -202,7 +202,7 @@ It's a pure text file with json syntax. Example:
 
 - Start Neovim and wait for the installation to complete
 
-- Install LSP servers with `Mason` command (optional when `offline` is `true`)
+- Install LSP servers with `Mason` command (unavailable when `offline` is `true`)
 
 - Set `.vimrc` for Vim (optional)
   - Windows
@@ -216,8 +216,9 @@ It's a pure text file with json syntax. Example:
        "${XDG_DATA_HOME:-$HOME}"/.vimrc
     ```
 
+<!--
 - Configure mailboxes (optional)
-  - In the `home`|`config` directory, named `.mail.json`
+  - In `home` or `config` directory, named `.mail.json`
     (also can be `_mail.json` on Windows)
   - Example
     ``` json
@@ -235,10 +236,9 @@ It's a pure text file with json syntax. Example:
       ]
     }
     ```
+-->
 
 # Key Bindings
-
-> <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
 
 | Modifier                        | Key            | Mode | Description                                                       |
 |---------------------------------|----------------|------|-------------------------------------------------------------------|
@@ -279,7 +279,7 @@ It's a pure text file with json syntax. Example:
 | <kbd>Meta</kbd>                 | <kbd>x</kbd>   | in   | Command-line mode.                                                |
 |                                 | <kbd>\*</kbd>  | v    | Search visual selection downward.                                 |
 |                                 | <kbd>#</kbd>   | v    | Search visual selection upward.                                   |
-|                                 | <kbd>F5</kbd>  | n    | *nvim-dap* continue debugging; *presenting.nvim* presenting view  |
+|                                 | <kbd>F5</kbd>  | n    | *nvim-dap* continue debugging; *presenting.nvim* presenting view. |
 | <kbd>Shift</kbd>                | <kbd>F5</kbd>  | n    | `CodeRun`.                                                        |
 | <kbd>Ctrl</kbd><kbd>Shift</kbd> | <kbd>F5</kbd>  | n    | `CodeRun test`.                                                   |
 |                                 | <kbd>F8</kbd>  | invt | Toggle mouse status.                                              |
@@ -302,7 +302,7 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>dr</kbd>  | n    | *nvim-dap* toggle REPL window.                                    |
 | <kbd>leader</kbd>               | <kbd>dt</kbd>  | n    | *nvim-dap* terminate.                                             |
 | <kbd>leader</kbd>               | <kbd>ev</kbd>  | n    | Evaluate lua chunk surrounded by backquote.                       |
-| <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk(math) surrounded by backquote.                |
+| <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk (math) surrounded by backquote.               |
 | <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *telescope.nvim* buffers.                                         |
 | <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *telescope.nvim* find files.                                      |
 | <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *telescope.nvim* live grep.                                       |
@@ -313,7 +313,7 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>gk</kbd>  | n    | *gitsigns.nvim* previous hunk.                                    |
 | <kbd>leader</kbd>               | <kbd>gl</kbd>  | n    | *toggleterm.nvim* open lazygit.                                   |
 | <kbd>leader</kbd>               | <kbd>gp</kbd>  | n    | *gitsigns.nvim* preview hunk.                                     |
-| <kbd>leader</kbd>               | <kbd>gs</kbd>  | n    | Git status.                                                       |
+| <kbd>leader</kbd>               | <kbd>gs</kbd>  | n    | Show git status.                                                  |
 | <kbd>leader</kbd>               | <kbd>hb</kbd>  | nv   | Search cword/selection with Baidu.                                |
 | <kbd>leader</kbd>               | <kbd>hd</kbd>  | nv   | Search cword/selection with DuckDuckGo.                           |
 | <kbd>leader</kbd>               | <kbd>hg</kbd>  | nv   | Search cword/selection with Google.                               |
@@ -343,7 +343,7 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>mv</kbd>  | n    | *aerial.nvim*/*VimTeX* toggle table of content.                   |
 | <kbd>leader</kbd>               | <kbd>mt</kbd>  | n    | Toggle preview (Markdown/Marp/LaTeX/GLSL)                         |
 | <kbd>leader</kbd>               | <kbd>mi</kbd>  | n    | glslViewer input.                                                 |
-| <kbd>leader</kbd>               | <kbd>nd</kbd>  | n    | Append the weekday after a date(yyyy-mm-dd).                      |
+| <kbd>leader</kbd>               | <kbd>nd</kbd>  | n    | Append the weekday after a date (yyyy-mm-dd).                     |
 | <kbd>leader</kbd>               | <kbd>ns</kbd>  | n    | Insert timestamp after cursor.                                    |
 | <kbd>leader</kbd>               | <kbd>nt</kbd>  | n    | Print TODO list.                                                  |
 | <kbd>leader</kbd>               | <kbd>ob</kbd>  | n    | Open file of buffer with system default browser.                  |
@@ -360,6 +360,8 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>vs</kbd>  | n    | Show highlight information.                                       |
 | <kbd>leader</kbd>               | <kbd>zbd</kbd> | v    | Decode visual selection with base64.                              |
 | <kbd>leader</kbd>               | <kbd>zbe</kbd> | v    | Encode visual selection with base64.                              |
+
+> <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
 
 # Commands
 
