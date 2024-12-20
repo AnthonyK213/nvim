@@ -35,8 +35,8 @@ vim.keymap.set("n", "<leader>mt", function()
     local futures = require("futures")
     futures.spawn(function()
       if futures.ui.input {
-            prompt = "Compile the project? y/n: "
-          } ~= "y" then
+            prompt = "Compile the project? Y/n: "
+          } ~= "Y" then
         return
       end
       local opt = futures.ui.select({ "none", "biber", "bibtex" }, {

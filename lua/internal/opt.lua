@@ -251,5 +251,7 @@ vim.filetype.add {
   extension = {
     markdown = "vimwiki.markdown",
     urdf = "xml",
+    vert = "glsl",
+    frag = "glsl",
   }
 }

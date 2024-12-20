@@ -277,7 +277,7 @@ function Mail:send()
 
   -- Send.
   futures.spawn(function()
-    if futures.ui.input { prompt = "Send?" } ~= "y" then return end
+    if futures.ui.input { prompt = "Send? Y/n: " } ~= "Y" then return end
 
     local user_name = self.from:match("<(.+)>")
 

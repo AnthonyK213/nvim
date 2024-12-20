@@ -151,7 +151,7 @@ function M:create_project(name)
     local args = {}
 
     for _, arg in ipairs(T:get_args()) do
-      local val = futures.ui.input { prompt = arg }
+      local val = futures.ui.input { prompt = arg .. ": " }
       if not val then
         return
       end

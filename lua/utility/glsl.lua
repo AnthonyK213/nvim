@@ -110,7 +110,7 @@ function M.input(bufnr)
   end
 
   futures.spawn(function()
-    local data = futures.ui.input { prompt = "glslViewer", kind = "editor" }
+    local data = futures.ui.input { prompt = "glslViewer > ", kind = "editor" }
     if not data or #data == 0 then return end
     print("// > " .. data)
     M.tbl[bufnr]:write(data .. "\n")
