@@ -10,6 +10,11 @@ if not vim.version or vim.version.lt({
     vim.log.levels.ERROR)
 end
 
+---WORKAROUND: [#31675](https://github.com/neovim/neovim/issues/31675)
+if vim.version and vim.version.eq(vim.version(), { 0, 10, 3 }) then
+  vim.hl = vim.highlight
+end
+
 local function report_legacy()
   vim.notify_once("The current version may have some deprecated features, time to upgrade!",
     vim.log.levels.WARN)
