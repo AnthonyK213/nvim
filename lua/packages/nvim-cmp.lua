@@ -1,14 +1,24 @@
 local luasnip = require("luasnip")
 local cmp = require("cmp")
 local lib = require("utility.lib")
-local feedkeys = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,
-    true, true, true), mode, true)
-end
 
 require("luasnip.loaders.from_vscode").lazy_load {
   paths = { vim.fn.stdpath("config") .. "/snippet" }
 }
+
+local function feedkeys(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+---comment
+---@param chunk string
+---@return boolean
+local function is_md_list_marker(chunk)
+  if not chunk or not lib.has_filetype("markdown") then
+    return false
+  end
+  return vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))(\s\[.\])?\s$]]):match_str(chunk) ~= nil
+end
 
 local cmp_setup = {
   completion = {
@@ -34,17 +44,17 @@ local cmp_setup = {
     }),
     ["<Tab>"] = cmp.mapping({
       i = function(fallback)
-        local context = lib.get_context()
         if cmp.visible() then
           cmp.select_next_item {
             behavior = cmp.SelectBehavior.Insert
           }
-        elseif lib.has_filetype("markdown")
-            and vim.regex([[\v^\s*(\+|-|\*|\d+\.|\w\))\s$]]):
-            match_str(context.b) then
+          return
+        end
+
+        local context = lib.get_context()
+        if is_md_list_marker(context.b) then
           feedkeys("<C-\\><C-O>>>", "n")
-          vim.api.nvim_feedkeys(
-            string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
+          vim.api.nvim_feedkeys(string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
         elseif luasnip.locally_jumpable(1) then
           luasnip.jump(1)
         elseif luasnip.expandable() then
@@ -79,6 +89,17 @@ local cmp_setup = {
           cmp.select_prev_item {
             behavior = cmp.SelectBehavior.Insert
           }
+        end
+
+        local context = lib.get_context()
+        if is_md_list_marker(context.b) then
+          local idt = vim.fn.indent(".")
+          local pos = vim.api.nvim_win_get_cursor(0)
+          if idt ~= 0 then
+            feedkeys("<C-\\><C-O><<", "n")
+            pos[2] = pos[2] - math.min(idt, vim.bo.ts)
+            vim.api.nvim_win_set_cursor(0, pos)
+          end
         elseif luasnip.locally_jumpable(-1) then
           luasnip.jump(-1)
         else
