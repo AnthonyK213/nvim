@@ -230,7 +230,7 @@ function M.nvim_upgrade(channel)
   if os_type == lib.OS.Windows then
     archive = "nvim-win64.zip"
   elseif os_type == lib.OS.Linux then
-    archive = "nvim-linux64.tar.gz"
+    archive = "nvim-linux-x86_64.tar.gz"
   else
     return
   end
