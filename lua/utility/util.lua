@@ -59,7 +59,7 @@ function M.match_path_or_url_at_point()
 
   local path = vim.fn.expand("<cfile>")
   local exists, full_path = lib.path_exists(path, lib.get_buf_dir())
-  if exists then
+  if exists and full_path then
     return vim.fs.normalize(full_path)
   end
 
@@ -179,12 +179,18 @@ end
 ---@param mode string Mode short-name.
 ---@param lhs string Left-hand-side of the mapping.
 ---@param new_rhs fun(fallback: function) New `rhs`.
----@param opts? table<string, boolean|integer> Optional parameters map.
+---@param opts? vim.keymap.set.Opts Optional parameters map.
 function M.new_keymap(mode, lhs, new_rhs, opts)
   opts = opts or {}
-  local kbd_table = opts.buffer
-      and vim.api.nvim_buf_get_keymap(opts.buffer, mode)
-      or vim.api.nvim_get_keymap(mode)
+
+  local kbd_table
+  if type(opts.buffer) == "number" then
+    kbd_table = vim.api.nvim_buf_get_keymap(opts.buffer, mode)
+  elseif type(opts.buffer) == "boolean" and opts.buffer then
+    error("Should provide buffer number for a buffer specific keymap.")
+  else
+    kbd_table = vim.api.nvim_get_keymap(mode)
+  end
 
   local fallback
 

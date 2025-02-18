@@ -255,7 +255,7 @@ function M.get_root(pattern, item_type, start_dir)
   start_dir = start_dir or M.get_buf_dir()
   local re = vim.regex("\\v" .. pattern)
   local result = vim.fs.find(function(name)
-    return re:match_str(name)
+    return re:match_str(name) and true or false
   end, {
     path = start_dir,
     upward = true,
@@ -361,7 +361,8 @@ function M.json_decode(path, strictly)
     ---@return string
     ---@return integer
     function(chunk)
-      return chunk:gsub(",%s*([%]%}])", "%1")
+      local s = chunk:gsub(",%s*([%]%}])", "%1")
+      return s
     end,
   }
 
@@ -389,7 +390,7 @@ end
 function M.make_readonly(tbl)
   return setmetatable({}, {
     __index = tbl,
-    __newindex = function(o, k, v)
+    __newindex = function(_, _, _)
       error("Attempt to modify read-only structure!")
     end,
     __metatable = false,
@@ -690,6 +691,7 @@ end
 ---Unpack a packed table.
 ---@param pack table Packed table.
 ---@param i? integer
+---@return ... Unpacked args.
 function M.tbl_unpack(pack, i)
   return unpack(pack, i or 1, pack.n)
 end
