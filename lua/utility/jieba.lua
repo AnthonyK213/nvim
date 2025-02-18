@@ -104,11 +104,15 @@ local function inner_word()
   vim.cmd.normal { bang = true, args = { "gv" }, mods = { silent = true } }
 end
 
+---Enable jieba.
+---@return boolean
 function M:enable()
-  self:init()
+  if not self:init() then
+    return false
+  end
 
   if self.enabled then
-    return
+    return true
   end
 
   if not self.jieba then
@@ -119,8 +123,11 @@ function M:enable()
   vim.keymap.set({ "n", "v" }, "e", goto_word_end, {})
   vim.keymap.set({ "v", "o" }, "iw", inner_word, {})
   self.enabled = true
+
+  return true
 end
 
+---Disable jieba.
 function M:disable()
   if self.enabled then
     pcall(vim.keymap.del, { "n", "v" }, "b", {})

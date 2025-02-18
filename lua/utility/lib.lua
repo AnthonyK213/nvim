@@ -105,7 +105,7 @@ function M.get_dylib_ext()
   return ({
     [M.OS.Windows] = ".dll",
     [M.OS.Linux] = ".so",
-    [M.OS.MacOS] = ".so",
+    [M.OS.MacOS] = ".dylib",
   })[M.get_os_type()]
 end
 
