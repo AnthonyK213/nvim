@@ -104,8 +104,8 @@ end
 function M.get_dylib_ext()
   return ({
     [M.OS.Windows] = ".dll",
-    [M.OS.Linux] = ".so",
-    [M.OS.MacOS] = ".dylib",
+    [M.OS.Linux]   = ".so",
+    [M.OS.MacOS]   = ".dylib",
   })[M.get_os_type()]
 end
 
@@ -508,10 +508,14 @@ function M.path_exists(path, cwd)
     if _path:match("^/") then is_rel = false end
   end
   if is_rel then
-    _path = M.path_append(cwd or vim.uv.cwd(), _path)
+    local _cwd = cwd or vim.uv.cwd()
+    if not _cwd then
+      return false
+    end
+    _path = M.path_append(_cwd, _path)
   end
   local stat = vim.uv.fs_stat(_path)
-  return (stat and stat.type) or false, _path
+  return (stat and stat.type) and true or false, _path
 end
 
 ---Opens a text file, reads all the text in the file into a string,
