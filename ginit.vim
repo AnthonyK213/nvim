@@ -3,6 +3,7 @@
 "   - [Neovim Qt](https://github.com/equalsraf/neovim-qt)
 "   - [Fvim](https://github.com/yatli/fvim)
 "   - [Neovide](https://github.com/neovide/neovide)
+"   - [VimR](https://github.com/qvacua/vimr)
 
 
 let s:my_gui_table = {
@@ -68,6 +69,10 @@ let s:neovide_option_table = {
       \ 'g:neovide_floating_blur_amount_y': 2.0,
       \ }
 
+let s:vimr_option_table = {
+      \ 'VimRSetLinespacing': printf("%.1f", g:_my_gui_line_space),
+      \ }
+
 
 " Functions
 function! s:gui_font_set(half=g:_my_gui_font_half,
@@ -115,6 +120,8 @@ function! s:gui_fullscreen_toggle() abort
     endif
   elseif exists(':FVimToggleFullScreen')
     FVimToggleFullScreen
+  elseif exists(':VimRToggleFullscreen')
+    VimRToggleFullscreen
   endif
 endfunction
 
@@ -156,6 +163,8 @@ endfunction
 function! s:gui_file_explorer() abort
   if exists(':GuiTreeviewToggle')
     GuiTreeviewToggle
+  elseif exists(':VimRToggleTools')
+    VimRToggleTools
   endif
 endfunction
 
@@ -196,6 +205,10 @@ if exists("g:neovide")
     " Neovide should load ginit.vim **after** other initializations...
     au UIEnter * exe 'source <sfile>:h/ginit.vim'
   augroup END
+endif
+"" VimR
+if exists("g:gui_vimr")
+  call s:gui_set_option_table(s:vimr_option_table)
 endif
 "" GUI theme
 if exists("g:_my_theme_switchable") && !empty(g:_my_theme_switchable)

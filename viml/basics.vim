@@ -36,7 +36,7 @@ set noerrorbells novisualbell
 set winaltkeys=no
 set history=500
 set updatetime=300
-set notimeout nottimeout
+set notimeout ttimeoutlen=0
 set completeopt=menu,menuone,noselect
 
 
