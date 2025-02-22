@@ -1,6 +1,14 @@
-.cache/
+# Visual Studio
 .vs/
+
+# VS Code
 .vscode/
-CMake*.json
+
+# Build
+.cache/
 build/
 out/
+CMake*.json
+
+# Misc 
+.DS_Store

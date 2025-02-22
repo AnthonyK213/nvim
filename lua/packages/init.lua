@@ -915,6 +915,8 @@ require("lazy").setup({
         vim.g.vimtex_view_general_options = "-reuse-instance -forward-search @tex @line @pdf"
       elseif jit.os == "Linux" then
         vim.g.vimtex_view_method = "zathura"
+      elseif jit.os == "OSX" then
+        vim.g.vimtex_view_method = "skim"
       end
     end
   },
