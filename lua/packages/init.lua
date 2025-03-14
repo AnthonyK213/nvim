@@ -212,6 +212,8 @@ require("lazy").setup({
     },
     keys = {
       { "<leader>bb", "<Cmd>BufferLinePick<CR>" },
+      { "<leader>bp", "<Cmd>BufferLineCyclePrev<CR>" },
+      { "<leader>bn", "<Cmd>BufferLineCycleNext<CR>" },
       { "<leader>bP", "<Cmd>BufferLineMovePrev<CR>" },
       { "<leader>bN", "<Cmd>BufferLineMoveNext<CR>" },
     }
