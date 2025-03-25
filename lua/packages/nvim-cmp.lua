@@ -89,6 +89,7 @@ local cmp_setup = {
           cmp.select_prev_item {
             behavior = cmp.SelectBehavior.Insert
           }
+          return
         end
 
         local context = lib.get_context()
