@@ -285,7 +285,6 @@ end
 ---@param match fun(v: any):boolean The function that defines the conditions of the elements to search for.
 ---@return boolean
 function List:exists(match)
-  vim.validate { match = { match, "function" } }
   for _, v in self:iter() do
     if match(v) then
       return true
@@ -300,7 +299,6 @@ end
 ---@param count? integer The number of elements in the section to search.
 ---@return integer index The one-based index of the first occurrence of an element that matches the conditions defined by match, if found; otherwise, `0`.
 function List:find_index(match, startIndex, count)
-  vim.validate { match = { match, "function" } }
   if startIndex then
     self:boundary_check(startIndex, count)
   else
@@ -322,7 +320,6 @@ end
 ---@param count? integer The number of elements in the section to search.
 ---@return integer index The one-based index of the last occurrence of an element that matches the conditions defined by match, if found; otherwise, `0`.
 function List:find_last_index(match, startIndex, count)
-  vim.validate { match = { match, "function" } }
   if startIndex then
     self:boundary_check(startIndex, count, nil, nil, true)
   else
@@ -342,7 +339,6 @@ end
 ---@param match fun(v: any):boolean The function that defines the conditions of the elements to search for.
 ---@return collections.List result A `List` containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty `List`.
 function List:find_all(match)
-  vim.validate { match = { match, "function" } }
   local result = List()
   for i = 1, self._length, 1 do
     if match(self._data[i]) then
@@ -362,7 +358,6 @@ end
 ---@param match fun(v: any):boolean The function that defines the conditions of the elements to remove.
 ---@return integer count The number of elements removed from the `List`.
 function List:remove_all(match)
-  vim.validate { match = { match, "function" } }
   local count = 0
   for i = self._length, 1, -1 do
     if match(self._data[i]) then

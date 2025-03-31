@@ -60,14 +60,15 @@ local function goto_word_begin()
   else
     line = vim.api.nvim_get_current_line()
   end
-  local pos_utf = vim.str_utfindex(line, pos_byte)
+  local encoding = lib.str_encoding()
+  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
   local s_utf, _ = M.get_pos(line, pos_utf)
   if not s_utf then return end
   if s_utf == pos_utf then
     s_utf, _ = M.get_pos(line, pos_utf - 1)
     if not s_utf then return end
   end
-  local s_byte = vim.str_byteindex(line, s_utf)
+  local s_byte = vim.str_byteindex(line, encoding, s_utf)
   vim.api.nvim_win_set_cursor(0, { lnum, s_byte })
 end
 
@@ -79,26 +80,28 @@ local function goto_word_end()
     vim.api.nvim_win_set_cursor(0, { lnum + 1, 0 })
     return
   end
-  local pos_utf = vim.str_utfindex(line, pos_byte)
+  local encoding = lib.str_encoding()
+  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
   local _, e_utf = M.get_pos(line, pos_utf)
   if not e_utf then return end
   if e_utf == pos_utf then
     _, e_utf = M.get_pos(line, pos_utf + 1)
     if not e_utf then return end
   end
-  local e_byte = vim.str_byteindex(line, e_utf)
+  local e_byte = vim.str_byteindex(line, encoding, e_utf)
   vim.api.nvim_win_set_cursor(0, { lnum, e_byte })
 end
 
 local function inner_word()
   local line = vim.api.nvim_get_current_line()
   if #line == 0 then return end
+  local encoding = lib.str_encoding()
   local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
-  local pos_utf = vim.str_utfindex(line, pos_byte)
+  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
   local s_utf, e_utf = M.get_pos(line, pos_utf)
   if not s_utf or not e_utf then return end
-  local s_byte = vim.str_byteindex(line, s_utf)
-  local e_byte = vim.str_byteindex(line, e_utf)
+  local s_byte = vim.str_byteindex(line, encoding, s_utf)
+  local e_byte = vim.str_byteindex(line, encoding, e_utf)
   vim.api.nvim_buf_set_mark(0, "<", lnum, s_byte, {})
   vim.api.nvim_buf_set_mark(0, ">", lnum, e_byte, {})
   vim.cmd.normal { bang = true, args = { "gv" }, mods = { silent = true } }

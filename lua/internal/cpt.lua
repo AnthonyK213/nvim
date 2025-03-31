@@ -1,4 +1,4 @@
-local min_supported_version = "0.10.0"
+local min_supported_version = "0.11.0"
 
 ---WORKAROUND: [#28782](https://github.com/neovim/neovim/issues/28782)
 if not vim.version or vim.version.lt({

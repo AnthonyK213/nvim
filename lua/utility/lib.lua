@@ -2,6 +2,7 @@ local M = {}
 -- lua-language-server wtf: u4e00 -> 一 ???
 local _p_word_first_half = [[\v([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-]+)$]]
 local _p_word_last_half = [[\v^([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-])+]]
+local _default_encoding = "utf-32"
 
 ---@enum lib.OS
 local OS = {
@@ -282,14 +283,14 @@ function M.get_word()
   if jieba and jieba.is_enabled() then
     local line = vim.api.nvim_get_current_line()
     local _, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
-    local pos_utf = vim.str_utfindex(line, pos_byte)
+    local pos_utf = vim.str_utfindex(line, _default_encoding, pos_byte)
     local s_utf, e_utf = jieba.get_pos(line, pos_utf)
     if not s_utf or not e_utf then
       error("No word found")
     end
     local word = M.str_sub(line, s_utf + 1, e_utf + 1)
-    local s_byte = vim.str_byteindex(line, s_utf) --[[@as integer]]
-    local e_byte = vim.str_byteindex(line, e_utf + 1) --[[@as integer]]
+    local s_byte = vim.str_byteindex(line, _default_encoding, s_utf) --[[@as integer]]
+    local e_byte = vim.str_byteindex(line, _default_encoding, e_utf + 1) --[[@as integer]]
     return word, s_byte, e_byte
   else
     local context = M.get_context()
@@ -555,6 +556,12 @@ function M.str_char2nr(str)
   return result
 end
 
+---Returns default encoding of string.
+---@return "utf-8"|"utf-16"|"utf-32"
+function M.str_encoding()
+  return _default_encoding
+end
+
 ---Split string into a utfchar table.
 ---@param str string String to explode.
 ---@return string[] result Exploded string list.
@@ -586,12 +593,12 @@ function M.str_gexplode(str)
   end
 end
 
----String length in unicode.
+---String length.
 ---@param str string
----@return integer utf32_length Length in UTF-32.
----@return integer utf16_length Length in UTF-16.
-function M.str_len(str)
-  return vim.str_utfindex(str)
+---@param encoding? "utf-8"|"utf-16"|"utf-32" Default "utf-32"
+---@return integer length String length.
+function M.str_len(str, encoding)
+  return vim.str_utfindex(str, encoding or _default_encoding)
 end
 
 ---Replace chars in a string according to a dictionary.
@@ -608,21 +615,23 @@ function M.str_replace(str, esc_table)
   return table.concat(str_list)
 end
 
----Returns the Unicode substring of the string that starts at `i` and continues until `j`.
+---Returns the unicode substring of the string that starts at `i` and continues until `j`.
 ---@see string.sub
 ---@param str string
 ---@param i integer
 ---@param j? integer
+---@param encoding? "utf-8"|"utf-16"|"utf-32" Default "utf-32"
 ---@return string
-function M.str_sub(str, i, j)
-  local length = vim.str_utfindex(str)
+function M.str_sub(str, i, j, encoding)
+  local enc = encoding or _default_encoding
+  local length = vim.str_utfindex(str, enc)
   if i < 0 then i = i + length + 1 end
   if (j and j < 0) then j = j + length + 1 end
   local u = (i > 0) and i or 1
   local v = (j and j <= length) and j or length
   if (u > v) then return "" end
-  local s = vim.str_byteindex(str, u - 1)
-  local e = vim.str_byteindex(str, v)
+  local s = vim.str_byteindex(str, enc, u - 1)
+  local e = vim.str_byteindex(str, enc, v)
   return str:sub(s + 1, e)
 end
 

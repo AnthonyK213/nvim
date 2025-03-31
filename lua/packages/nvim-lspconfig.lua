@@ -30,7 +30,7 @@ local custom_attach = function(client, bufnr)
   kbd("n", "<F36>", builtin.lsp_implementations, _o)
   kbd("n", "<M-F>", lsp_fmt, _o)
   -- Neovim LSP
-  kbd("n", "K", vim.lsp.buf.hover, _o)
+  kbd("n", "K", function() vim.lsp.buf.hover(float_opts) end, _o)
   kbd("n", "<leader>l0", vim.lsp.buf.document_symbol, _o)
   kbd("n", "<leader>la", vim.lsp.buf.code_action, _o)
   kbd("n", "<leader>ld", vim.lsp.buf.declaration, _o)
@@ -44,13 +44,8 @@ local custom_attach = function(client, bufnr)
   kbd("n", "<leader>lw", vim.lsp.buf.workspace_symbol, _o)
   kbd("n", "<leader>lk", function() vim.diagnostic.open_float(float_opts) end, _o)
 
-  if vim.version.lt(vim.version(), "0.11") then
-    kbd("n", "<leader>l[", function() vim.diagnostic.goto_prev { float = float_opts } end, _o)
-    kbd("n", "<leader>l]", function() vim.diagnostic.goto_next { float = float_opts } end, _o)
-  else
-    kbd("n", "<leader>l[", function() vim.diagnostic.jump { count = -1, float = float_opts } end, _o)
-    kbd("n", "<leader>l]", function() vim.diagnostic.jump { count = 1, float = float_opts } end, _o)
-  end
+  kbd("n", "<leader>l[", function() vim.diagnostic.jump { count = -1, float = float_opts } end, _o)
+  kbd("n", "<leader>l]", function() vim.diagnostic.jump { count = 1, float = float_opts } end, _o)
 end
 
 -- LSP options.
@@ -124,6 +119,3 @@ vim.diagnostic.config {
   update_in_insert = false,
   severity_sort = false,
 }
-
--- Hover window border
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_opts)

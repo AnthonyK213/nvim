@@ -35,7 +35,7 @@ end
 ---@param pattern string|{ vs: string?, ts: string?, st: string? }
 ---@return boolean matched True if matched.
 function Syntax:match(pattern)
-  vim.validate { pattern = { pattern, { "string", "table" } } }
+  vim.validate("pattern", pattern, { "string", "table" })
   local map = { vs = "hl_group", ts = "capture", st = "type" }
 
   local match = function(item, pat)

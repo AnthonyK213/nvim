@@ -2,7 +2,7 @@ local lib = require("utility.lib")
 
 ---@class futures.Terminal Represents a neovim terminal.
 ---@field cmd string[] Command with arguments.
----@field option table See `termopen()`.
+---@field option table See `jobstart()`.
 ---@field callback? fun(term: futures.Terminal, job_id: integer, data: integer, event: string) Callback invoked when the terminal process exits.
 ---@field id integer `channel-id`
 ---@field is_valid boolean True if the terminal process is valid.
@@ -18,13 +18,13 @@ Terminal.__index = Terminal
 
 ---Constructor.
 ---@param cmd string[] Command with arguments.
----@param option? table See `termopen()`.
+---@param option? table See `jobstart()`.
 ---@param on_exit? fun(term: futures.Terminal, job_id: integer, data: integer, event: string) Callback invoked when the terminal process exits (discouraged, use `continue_with` instead).
 ---@return futures.Terminal
 function Terminal.new(cmd, option, on_exit)
   local terminal = {
     cmd = cmd,
-    option = option or {},
+    option = option and vim.deepcopy(option) or {}, -- Annoying API changes...
     id = -1,
     has_exited = false,
     is_valid = true,
@@ -33,6 +33,7 @@ function Terminal.new(cmd, option, on_exit)
     winnr = -1,
     bufnr = -1,
   }
+  terminal.option.term = true
   setmetatable(terminal, Terminal)
   return terminal
 end
@@ -74,7 +75,7 @@ function Terminal:start()
       self.callback(self, job_id, data, event)
     end
   end)
-  self.id = vim.fn.termopen(self.cmd, self.option)
+  self.id = vim.fn.jobstart(self.cmd, self.option)
   if self.id == 0 then
     self.is_valid = false
     lib.warn("Invalid arguments.")
