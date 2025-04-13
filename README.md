@@ -183,7 +183,7 @@ It's a pure text file with json syntax. Example:
 # Installation
 
 - Requirements
-  - [**Neovim**](https://github.com/neovim/neovim) 0.10+
+  - [**Neovim**](https://github.com/neovim/neovim) 0.11+
   - [**Git**](https://github.com/git/git)
   - [**ripgrep**](https://github.com/BurntSushi/ripgrep) (optional)
   - [**fd**](https://github.com/sharkdp/fd) (optional)

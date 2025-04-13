@@ -14,10 +14,10 @@ macro_rules! mailbox_parse {
 }
 
 fn fetch_inbox_top(
-    server: String,
+    server: &str,
     port: u16,
-    user_name: String,
-    password: String,
+    user_name: &str,
+    password: &str,
 ) -> imap::error::Result<Option<String>> {
     let client = imap::ClientBuilder::new(&server, port).native_tls()?;
 
@@ -120,7 +120,7 @@ pub extern "C" fn nmail_fetch(
     let _user_name = str_try_parse!(user_name, std::ptr::null_mut());
     let _password = str_try_parse!(password, std::ptr::null_mut());
 
-    if let Ok(Some(_body)) = fetch_inbox_top(_server, _port, _user_name, _password) {
+    if let Ok(Some(_body)) = fetch_inbox_top(&_server, _port, &_user_name, &_password) {
         if let Ok(body) = CString::new(_body) {
             return body.into_raw();
         }
