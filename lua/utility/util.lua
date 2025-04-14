@@ -1,8 +1,11 @@
-local M = {}
 local lib = require("utility.lib")
 local futures = require("futures")
+
 local Process = futures.Process
 local Task = futures.Task
+
+local M = {}
+
 local _bg_timer
 
 ---Open terminal and launch shell.
@@ -223,7 +226,7 @@ function M.nvim_upgrade(channel)
   local proxy = _my_core_opt.dep.proxy or os.getenv("HTTP_PROXY")
   local version = vim.version()
 
-  if not channel then
+  if not channel or channel:len() == 0 then
     channel = version.prerelease and "nightly" or "stable"
   elseif channel ~= "stable" and channel ~= "nightly" then
     lib.warn("Invalid neovim release channel.")
@@ -332,76 +335,6 @@ function M.nvim_upgrade(channel)
   end)
 end
 
----Build crates in `$config/rust/` directory.
-function M.build_dylibs()
-  if not lib.executable("cargo", true) then return end
-
-  local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
-  local dylibs_dir = _my_core_opt.path.dylib
-  local dylib_ext = lib.get_dylib_ext()
-  local dylib_prefix = lib.has_windows() and "" or "lib"
-  if not lib.path_exists(dylibs_dir) then
-    if not vim.uv.fs_mkdir(dylibs_dir, 448) then
-      lib.warn("Could not crate directory `dylib`.")
-      return
-    end
-  end
-
-  local build_tasks = {}
-
-  for _name, _type in vim.fs.dir(crates_dir) do
-    if _type == "directory" then
-      local crate_dir = lib.path_append(crates_dir, _name)
-      local task = futures.async(function()
-        local code
-        code = Process.new("cargo", {
-          args = { "update" },
-          cwd = crate_dir,
-        }):await()
-        if code ~= 0 then
-          lib.warn(_name .. ": Could not update the dependencies")
-          return
-        end
-        code = Process.new("cargo", {
-          args = { "build", "--release" },
-          cwd = crate_dir,
-        }):await()
-        if code ~= 0 then
-          lib.warn(_name .. ": Built failed")
-          return
-        end
-        local dylib_name = _name .. dylib_ext
-        local path_from = lib.path_append(crate_dir, "target/release/" .. dylib_prefix .. dylib_name)
-        local path_to = lib.path_append(dylibs_dir, dylib_name)
-        local err, success = futures.uv.fs_copyfile(path_from, path_to)
-        if success then
-          print(_name .. ": Built successfully")
-        else
-          lib.warn(err)
-        end
-      end)
-      table.insert(build_tasks, task)
-    end
-  end
-
-  if vim.tbl_isempty(build_tasks) then
-    vim.notify("No crate to build")
-    return
-  end
-
-  futures.spawn(function()
-    print("Building...")
-    local handles = vim.tbl_map(function(task)
-      return futures.spawn(task())
-    end, build_tasks)
-    for _, handle in ipairs(handles) do
-      handle:await()
-    end
-    Task.delay(1000):await()
-    print("Done")
-  end)
-end
-
 ---Determine if the background lock is active.
 ---@return boolean is_active
 function M.bg_lock_is_active()
@@ -420,6 +353,10 @@ function M.bg_lock_toggle()
     end
   else
     _bg_timer = vim.uv.new_timer()
+    if not _bg_timer then
+      lib.warn("Failed to create timer")
+      return
+    end
     _bg_timer:start(0, 600, vim.schedule_wrap(function()
       local hour = os.date("*t").hour
       local bg = (hour > 6 and hour < 18) and "light" or "dark"

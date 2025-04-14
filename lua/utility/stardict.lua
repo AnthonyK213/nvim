@@ -71,11 +71,16 @@ void str_free(char *s);
       lib.warn("Failed to load dictionaries")
       return false
     end
+
+    ffi.gc(self.dicts, self.nstardict.nstardict_drop)
   end
 
   return true
 end
 
+---@private
+---@param word string
+---@return string
 function M:search(word)
   if not self:init() then
     return "[]"
@@ -94,15 +99,6 @@ function M:search(word)
   self.nstardict.str_free(c_str)
 
   return result
-end
-
-function M.drop()
-  if not M.dicts then
-    return
-  end
-
-  M.nstardict.nstardict_drop(M.dicts)
-  M.dicts = nil
 end
 
 local function try_focus()
@@ -156,19 +152,31 @@ local function on_stdout(data)
   end
 end
 
+---
+---@param word string
 function M.stardict_sdcv(word)
-  if not lib.executable("sdcv", true) then return end
-  if try_focus() then return end
+  if not lib.executable("sdcv", true) then
+    return
+  end
+
+  if try_focus() then
+    return
+  end
+
   local p = Process.new("sdcv", { args = { "-n", "-j", word } })
   p.on_stdout = on_stdout
   p:start()
 end
 
+---
+---@param word string
 function M.stardict(word)
-  if try_focus() then return end
-  on_stdout(M:search(word))
-end
+  if try_focus() then
+    return
+  end
 
-vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.drop })
+  local result = M:search(word)
+  vim.schedule_wrap(on_stdout)(result)
+end
 
 return M

@@ -23,9 +23,25 @@ end, {
   desc = "Run or compile"
 })
 
-cmd("BuildDylibs", function(_)
-  require("utility.util").build_dylibs()
-end, { desc = "Build crates in `$config/rust/` directory" })
+cmd("BuildDylibs", function(tbl)
+  local crates = require("utility.crates")
+  local crate_list = crates.find_crates()
+  local args = tbl.args
+  if args:len() == 0 then
+    crates.build_crates(crate_list)
+  elseif crate_list[args] then
+    crates.build_crates({ [args] = crate_list[args] })
+  else
+    vim.notify("Crate not found")
+  end
+end, {
+  nargs = "?",
+  complete = function()
+    local crate_list = require("utility.crates").find_crates()
+    return vim.tbl_keys(crate_list)
+  end,
+  desc = "Build crates in this configuration"
+})
 
 cmd("CreateProject", function(tbl)
   require("utility.template"):create_project(tbl.args)
@@ -45,9 +61,7 @@ cmd("GlslViewer", function(tbl)
 end, { nargs = "*", desc = "Start glslViewer", complete = "file" })
 
 cmd("NvimUpgrade", function(tbl)
-  local arg = tbl.args
-  if arg == "" then arg = nil end
-  require("utility.util").nvim_upgrade(arg)
+  require("utility.util").nvim_upgrade(tbl.args)
 end, {
   nargs = "?",
   complete = function() return { "stable", "nightly" } end,

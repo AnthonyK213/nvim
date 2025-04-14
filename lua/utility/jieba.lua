@@ -120,6 +120,7 @@ function M:enable()
 
   if not self.jieba then
     self.jieba = self.njieba.njieba_new()
+    ffi.gc(self.jieba, self.njieba.njieba_drop)
   end
 
   vim.keymap.set({ "n", "v" }, "b", goto_word_begin, {})
@@ -139,14 +140,5 @@ function M:disable()
     self.enabled = false
   end
 end
-
----@private
-function M.drop()
-  if not M.jieba then return end
-  M.njieba.njieba_drop(M.jieba)
-  M.jieba = nil
-end
-
-vim.api.nvim_create_autocmd("VimLeavePre", { callback = M.drop })
 
 return M
