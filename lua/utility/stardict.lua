@@ -39,7 +39,7 @@ M.nstardict = nil
 
 ---@private
 ---Dictionaries.
-M.dicts = nil
+M.library = nil
 
 ---@private
 ---@return boolean
@@ -52,27 +52,27 @@ function M:init()
     end
 
     ffi.cdef [[
-void *nstardict_find_dicts(const char *dict_dir);
-char *nstardict_search(void *dicts, const char *word);
-void nstardict_drop(void *dicts);
+void *nstardict_new_library(const char *dict_dir);
+char *nstardict_consult(void *library, const char *word);
+void nstardict_drop_library(void *library);
 void str_free(char *s);
 ]]
 
     self.nstardict = ffi.load(dylib_path)
   end
 
-  if not self.dicts then
+  if not self.library then
     if not stardict_path or not check_dict() then
       return false
     end
-    self.dicts = self.nstardict.nstardict_find_dicts(stardict_path)
+    self.library = self.nstardict.nstardict_new_library(stardict_path)
 
-    if not self.dicts then
+    if not self.library then
       lib.warn("Failed to load dictionaries")
       return false
     end
 
-    ffi.gc(self.dicts, self.nstardict.nstardict_drop)
+    ffi.gc(self.library, self.nstardict.nstardict_drop_library)
   end
 
   return true
@@ -90,7 +90,7 @@ function M:search(word)
     return "[]"
   end
 
-  local c_str = self.nstardict.nstardict_search(self.dicts, word)
+  local c_str = self.nstardict.nstardict_consult(self.library, word)
   if not c_str then
     return "[]"
   end
