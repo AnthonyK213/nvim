@@ -7,6 +7,6 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-ex-util = { git = "https://github.com/AnthonyK213/ex-util" }
 imap = { git = "https://github.com/AnthonyK213/rust-imap" }
 lettre = "0.10"
+_ffi_util = { path = "../_ffi_util" }

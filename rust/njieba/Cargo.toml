@@ -7,5 +7,5 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-jieba-rs = "0.6"
-ex-util = { git = "https://github.com/AnthonyK213/ex-util" }
+jieba-rs = "0.7"
+_ffi_util = { path = "../_ffi_util" }

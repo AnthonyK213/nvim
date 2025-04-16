@@ -13,7 +13,7 @@ function M.find_crates()
   local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
 
   for _name, _type in vim.fs.dir(crates_dir) do
-    if _type == "directory" then
+    if _type == "directory" and not vim.startswith(_name, "_") then
       local dir = lib.path_append(crates_dir, _name)
       crates[_name] = {
         path = dir

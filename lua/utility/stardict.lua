@@ -55,7 +55,7 @@ function M:init()
 void *nstardict_new_library(const char *dict_dir);
 char *nstardict_consult(void *library, const char *word);
 void nstardict_drop_library(void *library);
-void str_free(char *s);
+void ffi_util_str_util_str_free(char *s);
 ]]
 
     self.nstardict = ffi.load(dylib_path)
@@ -96,7 +96,7 @@ function M:search(word)
   end
 
   local result = ffi.string(c_str)
-  self.nstardict.str_free(c_str)
+  self.nstardict.ffi_util_str_util_str_free(c_str)
 
   return result
 end

@@ -1,6 +1,10 @@
-use ex_util::{str_buf_to_string, str_try_parse};
+use _ffi_util::str_util;
 use jieba_rs::{Jieba, TokenizeMode};
 use std::ffi::{c_char, c_int};
+
+const ERR_NO_ERRORS: i32 = 0;
+const ERR_FAILED: i32 = 1;
+const ERR_INVALID_JB_PTR: i32 = 2;
 
 #[no_mangle]
 pub extern "C" fn njieba_new() -> Box<Jieba> {
@@ -15,30 +19,40 @@ pub extern "C" fn njieba_pos(
     start: *mut c_int,
     end: *mut c_int,
 ) -> c_int {
-    let jb = match jieba {
+    let jb_obj = match jieba {
         Some(v) => v,
-        None => return 4,
+        None => return ERR_INVALID_JB_PTR,
     };
-    let sentence = str_try_parse!(line, 1);
-    let tokens = jb.tokenize(&sentence, TokenizeMode::Default, false);
+
+    let sentence = match str_util::char_buf_to_string(line) {
+        Ok(s) => s,
+        Err(_) => return ERR_FAILED,
+    };
+
+    let tokens = jb_obj.tokenize(&sentence, TokenizeMode::Default, false);
+
     for token in tokens {
         let tk_start: c_int = match token.start.try_into() {
             Ok(v) => v,
-            Err(_) => return 2,
+            Err(_) => return ERR_FAILED,
         };
+
         let tk_end: c_int = match token.end.try_into() {
             Ok(v) => v,
-            Err(_) => return 2,
+            Err(_) => return ERR_FAILED,
         };
+
         if tk_start <= pos && tk_end > pos {
             unsafe {
                 start.write(tk_start);
                 end.write(tk_end);
             }
-            return 0;
+
+            return ERR_NO_ERRORS;
         }
     }
-    3
+
+    ERR_FAILED
 }
 
 #[no_mangle]

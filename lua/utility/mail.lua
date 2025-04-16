@@ -62,13 +62,13 @@ local function nmail_fetch(server, port, user_name, password, path)
   local ffi = require("ffi")
   ffi.cdef [[
 char *nmail_fetch(const char *server, int port, const char *user_name, const char *password);
-void str_free(char *s);
+void ffi_util_str_util_str_free(char *s);
 ]]
   local nmail = ffi.load(path)
   local c_str = nmail.nmail_fetch(server, port, user_name, password)
   if c_str == nil then return end
   local body = ffi.string(c_str)
-  nmail.str_free(c_str)
+  nmail.ffi_util_str_util_str_free(c_str)
   return body
 end
 
