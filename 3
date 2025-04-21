@@ -481,15 +481,16 @@ end
 ---@return boolean exists True if path exists.
 ---@return string? full_path
 function M.path_exists(path, cwd)
+  if type(path) ~= "string" then
+    return false, nil
+  end
   local is_rel = true
   local _path = vim.fs.normalize(path)
-
   if M.has_windows() then
     if _path:match("^%a:[\\/]") then is_rel = false end
   else
     if _path:match("^/") then is_rel = false end
   end
-
   if is_rel then
     local _cwd = cwd or vim.uv.cwd()
     if not _cwd then
@@ -497,7 +498,6 @@ function M.path_exists(path, cwd)
     end
     _path = M.path_append(_cwd, _path)
   end
-
   local stat = vim.uv.fs_stat(_path)
   return (stat and stat.type) and true or false, _path
 end

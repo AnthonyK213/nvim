@@ -22,6 +22,68 @@ local function get_channel(channel)
   return channel
 end
 
+---comment
+---@async
+---@param channel "stable"|"nightly"
+---@param proxy? string
+---@return vim.Version?
+local function fetch_version(channel, proxy)
+  local cmd = "curl"
+  if not lib.executable(cmd, true) then
+    return
+  end
+
+  local args = { "-L", "https://github.com/neovim/neovim/releases/tag/" .. channel }
+  if proxy then
+    table.insert(args, "-x")
+    table.insert(args, proxy)
+  end
+
+  local target = [[content="NVIM ]]
+  local version = nil
+
+  local fetch_tag_page = Process.new("curl", { args = args })
+  fetch_tag_page.on_stdout = function(data)
+    if version then
+      return
+    end
+    local _, e = data:find(target, 1, true)
+    if not e then
+      return
+    end
+    local ver_str = data:match("v([%d%l%+%-%.]+)\n", e)
+    if not ver_str then
+      return
+    end
+    version = vim.version.parse(ver_str)
+  end
+  fetch_tag_page:await()
+
+  return version
+end
+
+---comment
+---@async
+---@param channel "stable"|"nightly"
+---@param proxy? string
+---@return vim.Version?
+local function check_update(channel, proxy)
+  local ver_local = vim.version()
+  local ver_fetch = fetch_version(channel, proxy)
+
+  if not ver_fetch then
+    lib.warn("Failed to fetch version")
+    return
+  end
+
+  if vim.version.ge(ver_local, ver_fetch) then
+    lib.warn("Nvim is up to date")
+    return
+  end
+
+  return ver_fetch
+end
+
 ---
 ---@return string?
 local function get_nvim_dir()
@@ -39,12 +101,14 @@ end
 local function get_source_name()
   local os_type = lib.get_os_type()
 
+  -- TODO: Downlaod file depend on OS and Arch.
+
   if os_type == lib.OS.Windows then
     return "nvim-win64.zip"
   elseif os_type == lib.OS.Linux then
     return "nvim-linux-x86_64.tar.gz"
   elseif os_type == lib.OS.MacOS then
-    vim.notify("Maybe using a package manager is better...")
+    lib.warn("Maybe using a package manager is better on macOS...")
     return
   else
     lib.warn("Unsupported OS")
@@ -78,170 +142,125 @@ end
 ---@param nvim_dir string
 ---@param bak_dir string
 ---@param bak_name string
----@return boolean
-local function nvim_back_up(nvim_dir, bak_dir, bak_name)
+---@return string?
+local function nvim_backup(nvim_dir, bak_dir, bak_name)
   -- TODO
   -- - Check directories;
   -- - Make bak_dir if not exist;
   -- - Copy nvim_dir to bak_dir/bak_name.
-  return false
+  return vim.fs.joinpath(bak_dir, bak_name)
 end
 
 ---Upgrade neovim.
 ---@param channel? "stable"|"nightly" Upgrade channel.
-function M.upgrade(channel)
+function M.nvim_upgrade(channel)
   channel = get_channel(channel)
   if not channel then
     return
   end
 
-  local source_name = get_source_name()
-  if not source_name then
-    return
-  end
-
-  local source_url = "https://github.com/neovim/neovim/releases/download/"
-      .. channel .. "/" .. source_name
-
-  local nvim_dir = get_nvim_dir()
-  if not nvim_dir then
-    return
-  end
-
-  local install_dir = vim.fs.dirname(nvim_dir)
-  if not install_dir then
-    return
-  end
-
-  local bak_dir = get_bak_dir(install_dir)
-  local bak_name = get_bak_name(install_dir)
-  if not nvim_back_up(nvim_dir, bak_dir, bak_name) then
-    return
-  end
-
-  if lib.get_os_type() == lib.OS.Windows then
-    -- TODO: Use PS script.
-    return
-  end
-
-  -- TODO: Use curl and tar.
+  local proxy = get_proxy()
 
   futures.spawn(function()
+    local new_ver = check_update(channel, proxy)
+    if not new_ver then
+      return
+    end
 
-  end)
-end
+    local yes_no = futures.ui.input { prompt = "Upgrade to " .. tostring(new_ver) .. "? [Y/n] " }
+    if not yes_no or yes_no:lower() ~= "y" then
+      return
+    end
 
----Upgrade neovim.
----Depends on `plenary.nvim`
----@param channel? string Upgrade channel, "stable" or "nightly".
-function M.nvim_upgrade(channel)
-  local proxy = _my_core_opt.dep.proxy or os.getenv("HTTP_PROXY")
-  local version = vim.version()
+    local source_name = get_source_name()
+    if not source_name then
+      return
+    end
 
-  if not channel or channel:len() == 0 then
-    channel = version.prerelease and "nightly" or "stable"
-  elseif channel ~= "stable" and channel ~= "nightly" then
-    lib.warn("Invalid neovim release channel.")
-    return
-  end
+    local source_url = "https://github.com/neovim/neovim/releases/download/"
+        .. channel .. "/" .. source_name
 
-  local Path = require("plenary.path")
-  local archive
-  local os_type = lib.get_os_type()
-  if os_type == lib.OS.Windows then
-    archive = "nvim-win64.zip"
-  elseif os_type == lib.OS.Linux then
-    archive = "nvim-linux-x86_64.tar.gz"
-  else
-    return
-  end
+    local nvim_dir = get_nvim_dir()
+    if not nvim_dir then
+      return
+    end
 
-  local nvim_path = Path:new(vim.uv.exepath()):parent():parent()
-  local bin_path = nvim_path:parent()
-  local archive_path = bin_path:joinpath(archive)
-  local backup_path = bin_path:joinpath("nvim_bak")
-  local source = "https://github.com/neovim/neovim/releases/download/"
-      .. channel .. "/" .. archive
+    local install_dir = vim.fs.dirname(nvim_dir)
+    if not install_dir then
+      return
+    end
 
-  if not backup_path:exists() then backup_path:mkdir() end
+    local download_path = vim.fs.joinpath(install_dir, source_name)
 
-  if nvim_path:exists() then
-    local name = string.format("%s_%d.%d.%d%s", os.date("%y%m%d%H%M%S"),
-      version.major, version.minor, version.patch,
-      version.prerelease and "_dev" or "")
-    nvim_path:copy {
-      recursive = true,
-      override = true,
-      destination = backup_path:joinpath(name).filename
+    local bak_dir = get_bak_dir(install_dir)
+    local bak_name = get_bak_name(install_dir)
+    local bak_path = nvim_backup(nvim_dir, bak_dir, bak_name)
+    if not bak_path then
+      return
+    end
+
+    if lib.get_os_type() == lib.OS.Windows then
+      local dl_cmd = "Invoke-WebRequest"
+          .. " -Uri " .. source_url
+          .. " -OutFile " .. download_path
+      if proxy then
+        dl_cmd = dl_cmd .. " -Proxy " .. proxy
+      end
+      local rm_cmd = "Remove-Item"
+          .. " -Path " .. nvim_dir
+          .. " -Recurse"
+      local ex_cmd = "Expand-Archive"
+          .. " -Path " .. download_path
+          .. " -DestinationPath " .. install_dir
+      local rn_cmd = "Rename-Item"
+          .. " -Path " .. vim.fs.joinpath(install_dir, "nvim-win64") -- TODO: use get_source_name
+          .. " -NewName " .. nvim_dir
+      local cl_cmd = "Remove-Item"
+          .. " -Path " .. download_path
+      local pwsh_cmd = table.concat({ dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd }, ";")
+
+      vim.fn.jobstart("powershell.exe -c " .. pwsh_cmd, { detach = true })
+      vim.cmd.quitall { bang = true }
+      return
+    end
+
+    -- Use curl and tar.
+
+    local dl_exec = "curl"
+    local dl_args = {
+      "-L", source_url,
+      "-o", download_path,
     }
-  end
+    if proxy then
+      table.insert(dl_args, "-x")
+      table.insert(dl_args, proxy)
+    end
 
-  local use_proxy = type(proxy) == "string"
-
-  local dl_exec, dl_args, ex_exec, ex_args
-  if os_type == lib.OS.Windows then
-    local dl_cmd = "Invoke-WebRequest"
-        .. " -Uri " .. source
-        .. " -OutFile " .. archive_path.filename
-    if use_proxy then dl_cmd = dl_cmd .. " -Proxy " .. proxy end
-    local rm_cmd = "Remove-Item"
-        .. " -Path " .. nvim_path.filename
-        .. " -Recurse"
-    local ex_cmd = "Expand-Archive"
-        .. " -Path " .. archive_path.filename
-        .. " -DestinationPath " .. bin_path.filename
-    local rn_cmd = "Rename-Item"
-        .. " -Path " .. bin_path:joinpath("nvim-win64").filename
-        .. " -NewName " .. nvim_path.filename
-    local cl_cmd = "Remove-Item"
-        .. " -Path " .. archive_path.filename
-    local pwsh_cmd = table.concat({
-      dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd
-    }, ";")
-
-    vim.fn.jobstart("powershell.exe -c " .. pwsh_cmd, { detach = true })
-    vim.cmd.quitall { bang = true }
-    return
-  elseif os_type == lib.OS.Linux then
-    if not lib.executable("curl", true) then return end
-    dl_exec = "curl"
-    dl_args = use_proxy and {
-      "-L", source,
-      "-o", archive_path.filename,
-      "-x", proxy
-    } or {
-      "-L", source,
-      "-o", archive_path.filename,
+    local ex_exec = "tar"
+    local ex_args = {
+      "-xf", download_path,
+      "-C", install_dir, -- TODO: Extract with a certain name.
     }
-    ex_exec = "tar"
-    ex_args = {
-      "-xf", archive_path.filename,
-      "-C", bin_path.filename
-    }
-  else
-    lib.warn("Unsupported operating system.")
-    return
-  end
 
-  local download = Process.new(dl_exec, { args = dl_args })
-  local extract = Process.new(ex_exec, { args = ex_args })
-
-  futures.spawn(function()
+    local dl_proc = Process.new(dl_exec, { args = dl_args })
     vim.notify("Downloading...")
-    if download:await() ~= 0 then
-      download:notify_err()
+    if dl_proc:await() ~= 0 then
+      dl_proc:notify_err()
       return
     end
+
+    local ex_proc = Process.new(ex_exec, { args = ex_args })
     vim.notify("Package downloaded. Installing...")
-    if extract:await() ~= 0 then
-      extract:notify_err()
+    if ex_proc:await() ~= 0 then
+      ex_proc:notify_err()
       return
     end
-    nvim_path:rm { recursive = true }
-    bin_path:joinpath(archive:match("^(.-)%..+$")):rename {
-      new_name = nvim_path.filename
-    }
-    archive_path:rm()
+
+    -- TODO
+    -- - Remove old nvim directory (nvim_dir);
+    -- - Rename extracted directory to nvim_dir;
+    -- - Remove the archive downloaded.
+
     Task.delay(1000):await()
     vim.notify("Neovim has been upgraded to " .. channel .. " channel.")
   end)

@@ -1,5 +1,6 @@
 local ffi = require("ffi")
 local lib = require("utility.lib")
+local crates = require("utility.crates")
 local futures = require("futures")
 local spawn, Process = futures.spawn, futures.Process
 local stardict_path = vim.uv.os_homedir() .. "/.stardict/dic/"
@@ -45,7 +46,7 @@ M.library = nil
 ---@return boolean
 function M:init()
   if not self.nstardict then
-    local dylib_path = lib.get_dylib_path("nstardict")
+    local dylib_path = crates.get_dylib_path("nstardict")
     if not dylib_path then
       lib.warn("Dynamic library is not found")
       return false

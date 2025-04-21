@@ -6,6 +6,31 @@ local Task = futures.Task
 
 local M = {}
 
+---Get the directory stores the dylibs.
+---@return string
+function M.get_dylib_dir()
+  return vim.fn.stdpath("data") .. "/dylib/"
+end
+
+---Get dynamic library path in data/dylib/.
+---@param dylib_name string
+---@return string?
+function M.get_dylib_path(dylib_name)
+  local dylib_ext = lib.get_dylib_ext()
+  if not dylib_ext then
+    lib.warn("Unsupported OS.")
+    return
+  end
+  local dylib_dir = M.get_dylib_dir()
+  local dylib_file = dylib_name .. dylib_ext
+  local dylib_path = lib.path_append(dylib_dir, dylib_file)
+  if not lib.path_exists(dylib_path) then
+    lib.warn(dylib_file .. " is not found.")
+    return
+  end
+  return dylib_path
+end
+
 ---Find all crates in this configuration.
 ---@return table<string,{path:string}> crates
 function M.find_crates()
@@ -36,7 +61,7 @@ function M.build_crates(crates)
     return
   end
 
-  local dylibs_dir = _my_core_opt.path.dylib
+  local dylibs_dir = M.get_dylib_dir()
   local dylib_ext = lib.get_dylib_ext()
   local dylib_prefix = lib.has_windows() and "" or "lib"
 

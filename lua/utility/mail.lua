@@ -1,6 +1,7 @@
 local lib = require("utility.lib")
 local util = require("utility.util")
 local futures = require("futures")
+local crates = require("utility.crates")
 local dylib_name = "nmail"
 local code_send = {
   [0] = "Email sent successfully!",
@@ -265,7 +266,7 @@ function Mail:send()
   if not config then return end
 
   -- Check dylib.
-  local dylib_path = lib.get_dylib_path(dylib_name)
+  local dylib_path = crates.get_dylib_path(dylib_name)
   if not dylib_path then return end
 
   -- Check fields.
@@ -334,7 +335,7 @@ function Mailbox:fetch()
   if not config then return end
 
   -- Check dylib.
-  local dylib_path = lib.get_dylib_path(dylib_name)
+  local dylib_path = crates.get_dylib_path(dylib_name)
   if not dylib_path then return end
 
   -- Fetch.

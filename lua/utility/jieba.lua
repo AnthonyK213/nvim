@@ -1,5 +1,6 @@
 local ffi = require("ffi")
 local lib = require("utility.lib")
+local crates = require("utility.crates")
 
 local M = {}
 
@@ -17,7 +18,7 @@ M.enabled = false
 ---@private
 function M:init()
   if self.njieba then return true end
-  local dylib_path = lib.get_dylib_path("njieba")
+  local dylib_path = crates.get_dylib_path("njieba")
   if not dylib_path then
     lib.warn("Dynamic library is not found")
     return false

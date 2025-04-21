@@ -118,9 +118,6 @@ vim.g.markdown_fenced_languages = {
   "config", "gitconfig", "sshconfig", "dosini"
 }
 
--- Const paths
-opt.path.dylib = vim.fn.stdpath("data") .. "/dylib/"
-
 -- Highlights
 opt.hl = {
   FloatBorder = { fg = "$cyan" },
