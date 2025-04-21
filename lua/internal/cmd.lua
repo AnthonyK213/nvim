@@ -61,7 +61,7 @@ cmd("GlslViewer", function(tbl)
 end, { nargs = "*", desc = "Start glslViewer", complete = "file" })
 
 cmd("NvimUpgrade", function(tbl)
-  require("utility.util").nvim_upgrade(tbl.args)
+  require("utility.upgrade").nvim_upgrade(tbl.args)
 end, {
   nargs = "?",
   complete = function() return { "stable", "nightly" } end,
