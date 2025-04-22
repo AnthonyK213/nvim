@@ -33,7 +33,7 @@ end
 ---@param tbl table
 ---@return boolean
 local run_bin = function(tbl)
-  local bin = lib.path_append(tbl.fwd, tbl.bin)
+  local bin = vim.fs.joinpath(tbl.fwd, tbl.bin)
   local code = Terminal2.new(bin, { cwd = tbl.fwd }):continue_with(function()
     if lib.path_exists(bin) then
       vim.uv.fs_unlink(bin)
@@ -367,7 +367,7 @@ proj_table = {
     local root = lib.get_root(".vscode", "directory")
     if not root then return nil, false end
 
-    local path = lib.path_append(root, ".vscode/tasks.json")
+    local path = vim.fs.joinpath(root, ".vscode/tasks.json")
     if not lib.path_exists(path) then return nil, false end
 
     local _, content = lib.json_decode(path)

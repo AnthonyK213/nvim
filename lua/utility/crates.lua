@@ -23,7 +23,7 @@ function M.get_dylib_path(dylib_name)
   end
   local dylib_dir = M.get_dylib_dir()
   local dylib_file = dylib_name .. dylib_ext
-  local dylib_path = lib.path_append(dylib_dir, dylib_file)
+  local dylib_path = vim.fs.joinpath(dylib_dir, dylib_file)
   if not lib.path_exists(dylib_path) then
     lib.warn(dylib_file .. " is not found.")
     return
@@ -35,11 +35,11 @@ end
 ---@return table<string,{path:string}> crates
 function M.find_crates()
   local crates = {}
-  local crates_dir = lib.path_append(vim.fn.stdpath("config"), "rust")
+  local crates_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "rust")
 
   for _name, _type in vim.fs.dir(crates_dir) do
     if _type == "directory" and not vim.startswith(_name, "_") then
-      local dir = lib.path_append(crates_dir, _name)
+      local dir = vim.fs.joinpath(crates_dir, _name)
       crates[_name] = {
         path = dir
       }
@@ -94,8 +94,8 @@ function M.build_crates(crates)
         return
       end
       local dylib_name = crate_name .. dylib_ext
-      local path_from = lib.path_append(crate_info.path, "target/release/" .. dylib_prefix .. dylib_name)
-      local path_to = lib.path_append(dylibs_dir, dylib_name)
+      local path_from = vim.fs.joinpath(crate_info.path, "target/release/" .. dylib_prefix .. dylib_name)
+      local path_to = vim.fs.joinpath(dylibs_dir, dylib_name)
       local err, success = futures.uv.fs_copyfile(path_from, path_to)
       if success then
         print(crate_name .. ": Done")

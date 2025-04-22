@@ -94,8 +94,8 @@ function MailConfig.get()
         if not lib.path_exists(result.archive) then
           vim.uv.fs_mkdir(result.archive, 448)
         end
-        local inbox = lib.path_append(result.archive, "INBOX/")
-        local outbox = lib.path_append(result.archive, "OUTBOX/")
+        local inbox = vim.fs.joinpath(result.archive, "INBOX/")
+        local outbox = vim.fs.joinpath(result.archive, "OUTBOX/")
         if not lib.path_exists(inbox) then
           vim.uv.fs_mkdir(inbox, 448)
         end
@@ -204,7 +204,7 @@ function Mail.new_file()
       end
     })
     if not provider then return end
-    vim.cmd.edit(lib.path_append(config.outbox_dir, mail_name))
+    vim.cmd.edit(vim.fs.joinpath(config.outbox_dir, mail_name))
     local from = "<" .. provider.user_name .. ">"
     vim.api.nvim_paste(os.date([[
 From: ]] .. from .. [[
@@ -363,7 +363,7 @@ function Mailbox:fetch()
     end
 
     local mail_name = os.date("IN%Y%m%d%H%M%S.eml") --[[@as string]]
-    local mail_path = lib.path_append(config.inbox_dir, mail_name)
+    local mail_path = vim.fs.joinpath(config.inbox_dir, mail_name)
 
     local f = io.open(mail_path, "w")
     if f then

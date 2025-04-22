@@ -116,7 +116,7 @@ end
 function M.get_git_branch(git_root)
   git_root = git_root or M.get_root([[^\.git$]], "directory")
   if not git_root then return end
-  local head_file = M.path_append(git_root, "/.git/HEAD")
+  local head_file = vim.fs.joinpath(git_root, "/.git/HEAD")
   local file = io.open(head_file)
   if file then
     local gitdir_line = file:read("*l")
@@ -465,16 +465,6 @@ function M.parse_args(cmd_args)
   return result
 end
 
----Append file/directory/sub-path to a path.
----@param path string Path to be appended.
----@param item string Item to append to the path.
----@return string
-function M.path_append(path, item)
-  local path_trim = path:gsub("[\\/]+$", "")
-  local item_trim = item:gsub("^[\\/]+", "")
-  return vim.fs.normalize(path_trim .. "/" .. item_trim)
-end
-
 ---Check if file/directory exists.
 ---@param path string File/directory path.
 ---@param cwd? string The working directory.
@@ -495,7 +485,7 @@ function M.path_exists(path, cwd)
     if not _cwd then
       return false
     end
-    _path = M.path_append(_cwd, _path)
+    _path = vim.fs.joinpath(_cwd, _path)
   end
 
   local stat = vim.uv.fs_stat(_path)

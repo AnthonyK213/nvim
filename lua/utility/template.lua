@@ -36,7 +36,7 @@ function Template.new(temp_json_path)
     local dir = vim.fs.dirname(temp_json_path)
 
     for k, v in pairs(temp_json.files) do
-      local fname = lib.path_append(dir, v)
+      local fname = vim.fs.joinpath(dir, v)
       local f = io.open(fname, "rb")
       if not f then
         return nil
@@ -123,7 +123,7 @@ function M:init(reset)
 
   for fname, type_ in vim.fs.dir(dir) do
     if type_ == "file" and vim.endswith(fname, ".json") then
-      local T = Template.new(lib.path_append(dir, fname))
+      local T = Template.new(vim.fs.joinpath(dir, fname))
       if T then
         self.templates[T:get_name()] = T
       end
