@@ -1,7 +1,10 @@
 use anyhow::{Result, anyhow};
-use reqwest;
+use reqwest::{Client, Proxy, Url};
 use std::env;
+use std::io::Write;
 use std::path::PathBuf;
+use std::str::FromStr;
+use std::time::Duration;
 
 const BACKUP_DIR: &str = "nvim_bak";
 const ERR_NO_ERRORS: i32 = 0;
@@ -14,26 +17,28 @@ struct UpgradeArgs {
     pub install_dir: PathBuf,
     pub nvim_dir_name: String,
     pub backup_name: String,
-    pub source_url: String,
-    pub proxy: Option<String>,
+    pub source_url: Url,
+    pub proxy: Option<Proxy>,
 }
 
 impl UpgradeArgs {
     pub fn new(args: env::Args) -> Result<Self> {
-        let mut install_dir: Option<PathBuf> = None;
-        let mut nvim_dir_name: Option<String> = None;
-        let mut backup_name: Option<String> = None;
-        let mut source_url: Option<String> = None;
-        let mut proxy: Option<String> = None;
+        let mut install_dir = None;
+        let mut nvim_dir_name = None;
+        let mut backup_name = None;
+        let mut source_url = None;
+        let mut proxy = None;
 
         let mut args_iter = args.into_iter();
         while let Some(arg) = &args_iter.next() {
             match arg.as_str() {
-                "--install_dir" => install_dir = args_iter.next().map(|v| v.into()),
-                "--nvim_dir_name" => nvim_dir_name = args_iter.next(),
-                "--backup_name" => backup_name = args_iter.next(),
-                "--source_url" => source_url = args_iter.next(),
-                "--proxy" => proxy = args_iter.next(),
+                "--install-dir" => install_dir = args_iter.next().map(|v| PathBuf::from(&v)),
+                "--nvim-dir-name" => nvim_dir_name = args_iter.next(),
+                "--backup-name" => backup_name = args_iter.next(),
+                "--source-url" => {
+                    source_url = args_iter.next().and_then(|v| Url::from_str(&v).ok())
+                }
+                "--proxy" => proxy = args_iter.next().and_then(|v| Proxy::http(v).ok()),
                 _ => {}
             }
         }
@@ -67,32 +72,52 @@ impl UpgradeArgs {
 #[derive(Debug)]
 struct Upgrader {
     args: UpgradeArgs,
+    nvim_dir_path: PathBuf,
+    backup_dir: PathBuf,
+    backup_path: PathBuf,
+    download_path: PathBuf,
+    download_name: String,
 }
 
 impl Upgrader {
-    pub fn new(args: UpgradeArgs) -> Self {
-        Self { args }
+    pub fn new(args: UpgradeArgs) -> Result<Self> {
+        let install_dir = &args.install_dir;
+        let nvim_dir_path = install_dir.join(&args.nvim_dir_name);
+        let backup_dir = install_dir.join("nvim_bak");
+        let backup_path = backup_dir.join(&args.backup_name);
+        let download_name = args
+            .source_url
+            .path_segments()
+            .and_then(|segs| segs.last())
+            .and_then(|name| if name.is_empty() { None } else { Some(name) })
+            .ok_or(anyhow!("Invalid download_name"))?
+            .to_string();
+        let download_path = backup_dir.join(&download_name);
+
+        Ok(Self {
+            args,
+            nvim_dir_path,
+            backup_dir,
+            backup_path,
+            download_path,
+            download_name,
+        })
     }
 
     fn backup(&self) -> Result<()> {
-        let install_dir = &self.args.install_dir;
-        let nvim_dir_path = install_dir.clone().join(&self.args.nvim_dir_name);
-        let backup_dir = install_dir.clone().join("nvim_bak");
-        let backup_path = backup_dir.clone().join(&self.args.backup_name);
-
-        if !nvim_dir_path.exists() || !nvim_dir_path.is_dir() {
+        if !self.nvim_dir_path.exists() || !self.nvim_dir_path.is_dir() {
             return Err(anyhow!("Invalid nvim_dir_path"));
         }
 
-        if !backup_dir.exists() {
-            std::fs::create_dir(backup_dir)?;
+        if !self.backup_dir.exists() {
+            std::fs::create_dir(&self.backup_dir)?;
         }
 
-        if backup_path.exists() {
+        if self.backup_path.exists() {
             return Err(anyhow!("Backup exists"));
         }
 
-        std::fs::rename(nvim_dir_path, backup_path)?;
+        std::fs::rename(&self.nvim_dir_path, &self.backup_path)?;
 
         Ok(())
     }
@@ -102,26 +127,35 @@ impl Upgrader {
     }
 
     async fn download(&self) -> Result<()> {
-        let mut builder = reqwest::Client::builder();
+        let mut builder = Client::builder();
 
         if let Some(p) = &self.args.proxy {
-            let proxy = reqwest::Proxy::http(p)?;
-            builder = builder.proxy(proxy);
+            builder = builder.proxy(p.clone());
         }
 
-        let response = builder.build()?.get(&self.args.source_url).send().await?;
+        let resp = builder
+            .build()?
+            .get(self.args.source_url.as_ref())
+            .send()
+            .await?;
+
+        let mut dest = std::fs::File::create(&self.download_path)?;
+        let content = resp.bytes().await?;
+        dest.write_all(&content)?;
 
         Ok(())
     }
 
     fn extract(&self) -> Result<()> {
-        todo!()
+        Ok(())
     }
 
     pub async fn run(&self) -> Result<()> {
-        self.backup()?;
-        self.download().await?;
-        self.extract()?;
+        // self.backup()?;
+        // self.download().await?;
+        // self.extract()?;
+        println!("{:?}", self);
+        tokio::time::sleep(Duration::from_secs(10)).await;
 
         Ok(())
     }
@@ -130,9 +164,9 @@ impl Upgrader {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = UpgradeArgs::new(env::args())?;
-    let upgrader = Upgrader::new(args);
+    let upgrader = Upgrader::new(args)?;
 
-    //TODO: Restore
+    // TODO: Restore
 
     upgrader.run().await?;
 

@@ -154,7 +154,9 @@ function Process:start()
   if not handle then return false end
 
   self.handle = ProcessHandle.new(handle, pid)
-  table.insert(handles, self.handle)
+  if not self.option.detached then
+    table.insert(handles, self.handle)
+  end
 
   self.stdout:read_start(vim.schedule_wrap(function(err, data)
     assert(not err, err)

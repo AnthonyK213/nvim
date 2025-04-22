@@ -24,7 +24,8 @@ function M.get_dylib_path(dylib_name)
   end
 
   local dylib_dir = get_release_dir(dylib_name)
-  local dylib_file = dylib_name .. dylib_ext
+  local dylib_prefix = lib.has_windows() and "" or "lib"
+  local dylib_file = dylib_prefix .. dylib_name .. dylib_ext
   local dylib_path = vim.fs.joinpath(dylib_dir, dylib_file)
   local stat = vim.uv.fs_stat(dylib_path)
   if not stat or stat.type ~= "file" then
