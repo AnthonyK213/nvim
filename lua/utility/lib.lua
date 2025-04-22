@@ -394,7 +394,6 @@ function M.new_split(position, option)
   if not vim.list_contains({
         "aboveleft", "belowright", "topleft", "botright"
       }, position) then
-    print(position)
     M.warn("Invalid position.")
     return false, -1, -1
   end

@@ -23,7 +23,7 @@ end, {
   desc = "Run or compile"
 })
 
-cmd("BuildDylibs", function(tbl)
+cmd("BuildCrates", function(tbl)
   local crates = require("utility.crates")
   local crate_list = crates.find_crates()
   local args = tbl.args

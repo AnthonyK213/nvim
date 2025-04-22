@@ -6,13 +6,14 @@ local Task = futures.Task
 
 local M = {}
 
----Get the directory stores the dylibs.
+---Get the directory stores the binaries.
+---@param name string
 ---@return string
-function M.get_dylib_dir()
-  return vim.fn.stdpath("data") .. "/dylib/"
+local function get_release_dir(name)
+  return vim.fs.joinpath(vim.fn.stdpath("config"), "rust", name, "target/release")
 end
 
----Get dynamic library path in data/dylib/.
+---Get dynamic library path in this config.
 ---@param dylib_name string
 ---@return string?
 function M.get_dylib_path(dylib_name)
@@ -21,14 +22,32 @@ function M.get_dylib_path(dylib_name)
     lib.warn("Unsupported OS.")
     return
   end
-  local dylib_dir = M.get_dylib_dir()
+
+  local dylib_dir = get_release_dir(dylib_name)
   local dylib_file = dylib_name .. dylib_ext
   local dylib_path = vim.fs.joinpath(dylib_dir, dylib_file)
-  if not lib.path_exists(dylib_path) then
-    lib.warn(dylib_file .. " is not found.")
-    return
+  local stat = vim.uv.fs_stat(dylib_path)
+  if not stat or stat.type ~= "file" then
+    lib.warn(dylib_file .. "is not found.")
   end
+
   return dylib_path
+end
+
+---Get binary/executable file path in this config.
+---@param bin_name string
+---@return string
+function M.get_bin_path(bin_name)
+  local bin_dir = get_release_dir(bin_name)
+  local bin_ext = lib.has_windows() and ".exe" or ""
+  local bin_file = bin_name .. bin_ext
+  local bin_path = vim.fs.joinpath(bin_dir, bin_file)
+  local stat = vim.uv.fs_stat(bin_path)
+  if not stat or stat.type ~= "file" then
+    lib.warn(bin_file .. "is not found.")
+  end
+
+  return bin_path
 end
 
 ---Find all crates in this configuration.
@@ -61,17 +80,6 @@ function M.build_crates(crates)
     return
   end
 
-  local dylibs_dir = M.get_dylib_dir()
-  local dylib_ext = lib.get_dylib_ext()
-  local dylib_prefix = lib.has_windows() and "" or "lib"
-
-  if not lib.path_exists(dylibs_dir) then
-    if not vim.uv.fs_mkdir(dylibs_dir, 448) then
-      lib.warn("Could not crate directory `dylib`.")
-      return
-    end
-  end
-
   local build_tasks = {}
 
   for crate_name, crate_info in pairs(crates) do
@@ -93,15 +101,7 @@ function M.build_crates(crates)
         lib.warn(crate_name .. ": Failed to build the crate")
         return
       end
-      local dylib_name = crate_name .. dylib_ext
-      local path_from = vim.fs.joinpath(crate_info.path, "target/release/" .. dylib_prefix .. dylib_name)
-      local path_to = vim.fs.joinpath(dylibs_dir, dylib_name)
-      local err, success = futures.uv.fs_copyfile(path_from, path_to)
-      if success then
-        print(crate_name .. ": Done")
-      else
-        lib.warn(err)
-      end
+      vim.notify(crate_name .. ": Done")
     end)
     table.insert(build_tasks, task)
   end
@@ -112,7 +112,7 @@ function M.build_crates(crates)
   end
 
   futures.spawn(function()
-    print("Building...")
+    vim.notify("Building...")
     local handles = vim.tbl_map(function(task)
       return futures.spawn(task())
     end, build_tasks)
@@ -120,7 +120,7 @@ function M.build_crates(crates)
       handle:await()
     end
     Task.delay(1000):await()
-    print("Done")
+    vim.notify("Done")
   end)
 end
 

@@ -171,7 +171,7 @@ kbd("Delete current buffer", "n", "<leader>bd", function()
       or (#bufs == 0 and not vim.bo[handle].buflisted) then
     table.insert(bufs, vim.api.nvim_create_buf(true, true))
   end
-  if #bufs > 2 and not sp then
+  if #bufs >= 2 and not sp then
     local index = lib.tbl_find_first(bufs, handle)
     vim.api.nvim_set_current_buf(bufs[index + (index == 1 and 1 or -1)])
   end

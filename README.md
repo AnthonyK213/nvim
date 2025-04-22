@@ -367,9 +367,9 @@ It's a pure text file with json syntax. Example:
 
 | Command       | Arguments                                         | Description                                |
 |---------------|---------------------------------------------------|--------------------------------------------|
-| `CodeRun`     | `build`/`test`/...                                | Run or compile the code.                   |
-| `BuildDylibs` |                                                   | Build crates in `$config/rust/` directory. |
+| `CodeRun`     | `build`\|`test`\|...                              | Run or compile the code.                   |
+| `BuildCrates` | {crate}                                           | Build crates in `$config/rust/` directory. |
 | `GlslViewer`  |                                                   | Open glslViewer.                           |
-| `NvimUpgrade` | `stable`/`nightly`                                | Upgrade neovim by channel.                 |
+| `NvimUpgrade` | `stable`\|`nightly`                               | Upgrade neovim by channel.                 |
 | `PushAll`     | `-b` {branch}<br/>`-m` {commit}<br/>`-r` {remote} | Just push everything to the remote.        |
 | `Time`        |                                                   | Print date and time.                       |

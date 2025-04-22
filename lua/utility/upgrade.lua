@@ -138,18 +138,18 @@ local function get_bak_name(install_dir)
     version.prerelease and "_dev" or "")
 end
 
----
----@param nvim_dir string
----@param bak_dir string
----@param bak_name string
----@return string?
-local function nvim_backup(nvim_dir, bak_dir, bak_name)
-  -- TODO
-  -- - Check directories;
-  -- - Make bak_dir if not exist;
-  -- - Copy nvim_dir to bak_dir/bak_name.
-  return vim.fs.joinpath(bak_dir, bak_name)
-end
+-- ---
+-- ---@param nvim_dir string
+-- ---@param bak_dir string
+-- ---@param bak_name string
+-- ---@return string?
+-- local function nvim_backup(nvim_dir, bak_dir, bak_name)
+  -- -- TODO
+  -- -- - Check directories;
+  -- -- - Make bak_dir if not exist;
+  -- -- - Copy nvim_dir to bak_dir/bak_name.
+  -- return vim.fs.joinpath(bak_dir, bak_name)
+-- end
 
 ---Upgrade neovim.
 ---@param channel? "stable"|"nightly" Upgrade channel.
@@ -194,75 +194,75 @@ function M.nvim_upgrade(channel)
 
     local bak_dir = get_bak_dir(install_dir)
     local bak_name = get_bak_name(install_dir)
-    local bak_path = nvim_backup(nvim_dir, bak_dir, bak_name)
-    if not bak_path then
-      return
-    end
+    -- local bak_path = nvim_backup(nvim_dir, bak_dir, bak_name)
+    -- if not bak_path then
+      -- return
+    -- end
 
-    if lib.get_os_type() == lib.OS.Windows then
-      local dl_cmd = "Invoke-WebRequest"
-          .. " -Uri " .. source_url
-          .. " -OutFile " .. download_path
-      if proxy then
-        dl_cmd = dl_cmd .. " -Proxy " .. proxy
-      end
-      local rm_cmd = "Remove-Item"
-          .. " -Path " .. nvim_dir
-          .. " -Recurse"
-      local ex_cmd = "Expand-Archive"
-          .. " -Path " .. download_path
-          .. " -DestinationPath " .. install_dir
-      local rn_cmd = "Rename-Item"
-          .. " -Path " .. vim.fs.joinpath(install_dir, "nvim-win64") -- TODO: use get_source_name
-          .. " -NewName " .. nvim_dir
-      local cl_cmd = "Remove-Item"
-          .. " -Path " .. download_path
-      local pwsh_cmd = table.concat({ dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd }, ";")
+    -- if lib.get_os_type() == lib.OS.Windows then
+      -- local dl_cmd = "Invoke-WebRequest"
+          -- .. " -Uri " .. source_url
+          -- .. " -OutFile " .. download_path
+      -- if proxy then
+        -- dl_cmd = dl_cmd .. " -Proxy " .. proxy
+      -- end
+      -- local rm_cmd = "Remove-Item"
+          -- .. " -Path " .. nvim_dir
+          -- .. " -Recurse"
+      -- local ex_cmd = "Expand-Archive"
+          -- .. " -Path " .. download_path
+          -- .. " -DestinationPath " .. install_dir
+      -- local rn_cmd = "Rename-Item"
+          -- .. " -Path " .. vim.fs.joinpath(install_dir, "nvim-win64") -- TODO: use get_source_name
+          -- .. " -NewName " .. nvim_dir
+      -- local cl_cmd = "Remove-Item"
+          -- .. " -Path " .. download_path
+      -- local pwsh_cmd = table.concat({ dl_cmd, rm_cmd, ex_cmd, rn_cmd, cl_cmd }, ";")
 
-      vim.fn.jobstart("powershell.exe -c " .. pwsh_cmd, { detach = true })
-      vim.cmd.quitall { bang = true }
-      return
-    end
+      -- vim.fn.jobstart("powershell.exe -c " .. pwsh_cmd, { detach = true })
+      -- vim.cmd.quitall { bang = true }
+      -- return
+    -- end
 
-    -- Use curl and tar.
+    -- -- Use curl and tar.
 
-    local dl_exec = "curl"
-    local dl_args = {
-      "-L", source_url,
-      "-o", download_path,
-    }
-    if proxy then
-      table.insert(dl_args, "-x")
-      table.insert(dl_args, proxy)
-    end
+    -- local dl_exec = "curl"
+    -- local dl_args = {
+      -- "-L", source_url,
+      -- "-o", download_path,
+    -- }
+    -- if proxy then
+      -- table.insert(dl_args, "-x")
+      -- table.insert(dl_args, proxy)
+    -- end
 
-    local ex_exec = "tar"
-    local ex_args = {
-      "-xf", download_path,
-      "-C", install_dir, -- TODO: Extract with a certain name.
-    }
+    -- local ex_exec = "tar"
+    -- local ex_args = {
+      -- "-xf", download_path,
+      -- "-C", install_dir, -- TODO: Extract with a certain name.
+    -- }
 
-    local dl_proc = Process.new(dl_exec, { args = dl_args })
-    vim.notify("Downloading...")
-    if dl_proc:await() ~= 0 then
-      dl_proc:notify_err()
-      return
-    end
+    -- local dl_proc = Process.new(dl_exec, { args = dl_args })
+    -- vim.notify("Downloading...")
+    -- if dl_proc:await() ~= 0 then
+      -- dl_proc:notify_err()
+      -- return
+    -- end
 
-    local ex_proc = Process.new(ex_exec, { args = ex_args })
-    vim.notify("Package downloaded. Installing...")
-    if ex_proc:await() ~= 0 then
-      ex_proc:notify_err()
-      return
-    end
+    -- local ex_proc = Process.new(ex_exec, { args = ex_args })
+    -- vim.notify("Package downloaded. Installing...")
+    -- if ex_proc:await() ~= 0 then
+      -- ex_proc:notify_err()
+      -- return
+    -- end
 
-    -- TODO
-    -- - Remove old nvim directory (nvim_dir);
-    -- - Rename extracted directory to nvim_dir;
-    -- - Remove the archive downloaded.
+    -- -- TODO
+    -- -- - Remove old nvim directory (nvim_dir);
+    -- -- - Rename extracted directory to nvim_dir;
+    -- -- - Remove the archive downloaded.
 
-    Task.delay(1000):await()
-    vim.notify("Neovim has been upgraded to " .. channel .. " channel.")
+    -- Task.delay(1000):await()
+    -- vim.notify("Neovim has been upgraded to " .. channel .. " channel.")
   end)
 end
 
