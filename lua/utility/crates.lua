@@ -30,6 +30,7 @@ function M.get_dylib_path(dylib_name)
   local stat = vim.uv.fs_stat(dylib_path)
   if not stat or stat.type ~= "file" then
     lib.warn(dylib_file .. "is not found.")
+    return
   end
 
   return dylib_path
@@ -37,7 +38,7 @@ end
 
 ---Get binary/executable file path in this config.
 ---@param bin_name string
----@return string
+---@return string?
 function M.get_bin_path(bin_name)
   local bin_dir = get_release_dir(bin_name)
   local bin_ext = lib.has_windows() and ".exe" or ""
@@ -46,6 +47,7 @@ function M.get_bin_path(bin_name)
   local stat = vim.uv.fs_stat(bin_path)
   if not stat or stat.type ~= "file" then
     lib.warn(bin_file .. "is not found.")
+    return
   end
 
   return bin_path

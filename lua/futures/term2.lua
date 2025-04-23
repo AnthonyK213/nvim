@@ -1,6 +1,6 @@
 local lib = require("utility.lib")
 local Process = require("futures.proc")
-local augroup = vim.api.nvim_create_augroup("Terminal2", { clear = true })
+local augroup = vim.api.nvim_create_augroup("my.futures.term2", { clear = true })
 
 ---@class futures.Terminal2 Represents a neovim terminal which implemented with lua api.
 ---@field protected proc futures.Process

@@ -137,12 +137,12 @@ function M.auto_hl(scheme, hl_table, hl_link_table, palette)
     return
   end
 
-  local id = vim.api.nvim_create_augroup(scheme .. "Extd", {
+  local augroup = vim.api.nvim_create_augroup("my.utility.util." .. scheme .. ".extd", {
     clear = true
   })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
-    group = id,
+    group = augroup,
     pattern = scheme,
     callback = function()
       local map = palette()

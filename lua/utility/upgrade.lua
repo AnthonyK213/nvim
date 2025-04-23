@@ -4,6 +4,10 @@ local futures = require("futures")
 
 local Process = futures.Process
 
+local augroup = vim.api.nvim_create_augroup("my.utility.upgrade", {
+  clear = true
+})
+
 local M = {}
 
 ---
@@ -117,18 +121,45 @@ local function get_source_name()
 end
 
 ---
----@param install_dir string
+---@param nvim_dir_name string
 ---@return string
-local function get_bak_name(install_dir)
+local function get_bak_name(nvim_dir_name)
   local version = vim.version()
   return string.format(
     "%s_%d.%d.%d_%s%s",
-    vim.fs.basename(install_dir),
+    nvim_dir_name,
     version.major,
     version.minor,
     version.patch,
     os.date("%y%m%d%H%M%S"),
     version.prerelease and "_dev" or "")
+end
+
+---comment
+---@async
+---@param source_url string
+---@param download_path string
+---@param proxy? string
+---@return boolean
+local function download(source_url, download_path, proxy)
+  local args = {
+    "-L", source_url,
+    "-o", download_path,
+  }
+
+  if proxy then
+    table.insert(args, "--proxy")
+    table.insert(args, proxy)
+  end
+
+  local download_proc = Process.new("curl", { args = args })
+
+  if download_proc:await() ~= 0 then
+    download_proc:notify_err()
+    return false
+  end
+
+  return true
 end
 
 ---Upgrade neovim.
@@ -140,6 +171,11 @@ function M.nvim_upgrade(channel)
   end
 
   local proxy = get_proxy()
+
+  local upgrader = crates.get_bin_path("nvim-upgrade")
+  if not upgrader then
+    return
+  end
 
   futures.spawn(function()
     local new_ver = check_update(channel, proxy)
@@ -174,25 +210,40 @@ function M.nvim_upgrade(channel)
       return
     end
 
-    local backup_name = get_bak_name(install_dir)
+    local backup_dir = vim.fs.joinpath(install_dir, ".nvim_tmp")
+    local backup_name = get_bak_name(nvim_dir_name)
+    local download_path = vim.fs.joinpath(backup_dir, source_name)
 
-    local upgrader = crates.get_bin_path("nvim-upgrade")
-
-    local cmd = {
-      upgrader,
-      "--install-dir", install_dir,
-      "--nvim-dir-name", nvim_dir_name,
-      "--backup-name", backup_name,
-      "--source-url", source_url,
-    }
-
-    if proxy then
-      table.insert(cmd, "--proxy")
-      table.insert(cmd, proxy)
+    if vim.fn.isdirectory(backup_dir) == 0 then
+      local err, ok = futures.uv.fs_mkdir(backup_dir, 448)
+      if not ok then
+        lib.warn(err)
+        return
+      end
     end
 
-    vim.fn.jobstart(cmd, { detach = true, term = true })
-    -- vim.cmd.quitall { bang = true }
+    vim.notify("Downloading...")
+
+    if not download(source_url, download_path, proxy) then
+      return
+    end
+
+    vim.api.nvim_create_autocmd("VimLeave", {
+      group = augroup,
+      callback = function()
+        local cmd = {
+          upgrader,
+          "--install-dir", install_dir,
+          "--nvim-dir-name", nvim_dir_name,
+          "--backup-dir", backup_dir,
+          "--backup-name", backup_name,
+          "--source-name", source_name,
+        }
+        vim.fn.jobstart(cmd, { detach = true })
+      end
+    })
+
+    vim.notify("Downloaded. Close Neovim to install.")
   end)
 end
 
