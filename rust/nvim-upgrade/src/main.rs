@@ -90,7 +90,7 @@ impl Upgrader {
 
         let file = std::fs::File::open(&self.source_path)?;
 
-        let res = if let Some(ext) = self.source_path.extension() {
+        if let Some(ext) = self.source_path.extension() {
             match ext.to_str() {
                 Some("zip") => {
                     zip_extract::extract(file, &self.nvim_dir_path, true)?;
@@ -106,26 +106,31 @@ impl Upgrader {
             }
         } else {
             Err(anyhow!("Invalid archive"))
-        };
-
-        std::fs::remove_file(&self.source_path)?;
-
-        res?;
-
-        Ok(())
+        }
     }
 
     fn restore(&self) -> Result<()> {
-        todo!()
+        if self.nvim_dir_path.is_dir() {
+            std::fs::remove_dir_all(&self.nvim_dir_path)?;
+        }
+
+        std::fs::rename(&self.backup_path, &self.nvim_dir_path)?;
+
+        Ok(())
     }
 
     pub fn run(&self) -> Result<()> {
-        self.backup()?;
-        self.extract()?;
+        let res = (|| {
+            self.backup()?;
+            self.extract().or_else(|e| {
+                self.restore()?;
+                Err(e)
+            })
+        })();
 
-        // TODO: Restore on errors.
+        std::fs::remove_file(&self.source_path)?;
 
-        Ok(())
+        res
     }
 }
 
@@ -133,6 +138,8 @@ fn main() -> Result<()> {
     let args = UpgradeArgs::new(std::env::args())?;
     let upgrader = Upgrader::new(args);
     upgrader.run()?;
+
+    // TODO: Notify the result, what about a message box?
 
     Ok(())
 }

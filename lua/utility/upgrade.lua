@@ -8,6 +8,20 @@ local augroup = vim.api.nvim_create_augroup("my.utility.upgrade", {
   clear = true
 })
 
+local source_table = {
+  Windows = {
+    x64 = "nvim-win64.zip",
+  },
+  Linux = {
+    arm64 = "nvim-linux-arm64.tar.gz",
+    x64   = "nvim-linux-x86_64.tar.gz",
+  },
+  OSX = {
+    arm64 = "nvim-macos-arm64.tar.gz",
+    x64   = "nvim-macos-x86_64.tar.gz",
+  },
+}
+
 local M = {}
 
 ---
@@ -80,6 +94,7 @@ local function check_update(channel, proxy)
     return
   end
 
+  -- FIXME: field `prerelease` is different...
   if vim.version.ge(ver_local, ver_fetch) then
     lib.warn("Nvim is up to date")
     return
@@ -103,21 +118,18 @@ end
 ---comment
 ---@return string?
 local function get_source_name()
-  local os_type = lib.get_os_type()
-
-  -- TODO: Downlaod file depend on OS and Arch.
-
-  if os_type == lib.OS.Windows then
-    return "nvim-win64.zip"
-  elseif os_type == lib.OS.Linux then
-    return "nvim-linux-x86_64.tar.gz"
-  elseif os_type == lib.OS.MacOS then
-    lib.warn("Maybe using a package manager is better on macOS...")
-    return
-  else
-    lib.warn("Unsupported OS")
+  if jit.os == "OSX" then
+    lib.warn("Maybe using a package manager is better...")
     return
   end
+
+  local source_name = vim.tbl_get(source_table, jit.os, jit.arch)
+  if not source_name then
+    lib.warn("No pre-built binaries available")
+    return
+  end
+
+  return source_name
 end
 
 ---
@@ -159,6 +171,8 @@ local function download(source_url, download_path, proxy)
     return false
   end
 
+  -- TODO: Checksum
+
   return true
 end
 
@@ -187,6 +201,7 @@ function M.nvim_upgrade(channel)
       prompt = "Upgrade to " .. tostring(new_ver) .. "? [Y/n] "
     }
     if not yes_no or yes_no:lower() ~= "y" then
+      lib.warn("Canceled")
       return
     end
 
