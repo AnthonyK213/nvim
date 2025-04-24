@@ -21,7 +21,7 @@ endfunction
 
 " Set background according to the time.
 function! my#compat#bg_lock_toggle() abort
-  call v:lua.require("utility.util").bg_lock_toggle()
+  call v:lua.require("utility.theme").bg_lock_toggle()
 endfunction
 
 " Source vim file.

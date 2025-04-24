@@ -3,8 +3,6 @@ local futures = require("futures")
 
 local M = {}
 
-local _bg_timer
-
 ---Open terminal and launch shell.
 function M.terminal()
   local exec
@@ -214,42 +212,6 @@ function M.new_keymap(mode, lhs, new_rhs, opts)
   end
 
   vim.keymap.set(mode, lhs, function() new_rhs(fallback) end, opts)
-end
-
----Determine if the background lock is active.
----@return boolean is_active
-function M.bg_lock_is_active()
-  return _bg_timer ~= nil and _bg_timer:is_active()
-end
-
----Set background according to the time.
-function M.bg_lock_toggle()
-  if _bg_timer then
-    if _bg_timer:is_active() then
-      _bg_timer:stop()
-      vim.notify("Background is unlocked.")
-    else
-      _bg_timer:again()
-      vim.notify("Background is locked.")
-    end
-  else
-    _bg_timer = vim.uv.new_timer()
-    if not _bg_timer then
-      lib.warn("Failed to create timer")
-      return
-    end
-    _bg_timer:start(0, 600, vim.schedule_wrap(function()
-      local hour = os.date("*t").hour
-      local bg = (hour > 6 and hour < 18) and "light" or "dark"
-      if vim.g._my_theme_switchable == true then
-        if vim.o.bg ~= bg then vim.o.bg = bg end
-      elseif vim.is_callable(vim.g._my_theme_switchable) then
-        vim.g._my_theme_switchable(bg)
-      else
-        _bg_timer:stop()
-      end
-    end))
-  end
 end
 
 ---Set surrounding keybindings.

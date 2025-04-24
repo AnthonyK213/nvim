@@ -186,7 +186,7 @@ kbd("Delete current buffer", "n", "<leader>bd", function()
 end)
 kbd("Background toggle", "n", "<leader>bg", function()
   if not vim.g._my_theme_switchable
-      or require("utility.util").bg_lock_is_active() then
+      or require("utility.theme").bg_lock_is_active() then
     return
   end
   if vim.g._my_theme_switchable == true then

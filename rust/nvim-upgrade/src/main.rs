@@ -1,5 +1,6 @@
 use anyhow::{Result, anyhow};
 use flate2::read::GzDecoder;
+use native_dialog::{DialogBuilder, MessageLevel};
 use std::path::PathBuf;
 
 #[derive(Debug)]
@@ -94,19 +95,35 @@ impl Upgrader {
             match ext.to_str() {
                 Some("zip") => {
                     zip_extract::extract(file, &self.nvim_dir_path, true)?;
-                    Ok(())
                 }
                 Some("gz") => {
+                    if !self.nvim_dir_path.is_dir() {
+                        std::fs::create_dir(&self.nvim_dir_path)?;
+                    }
+
                     let t = GzDecoder::new(file);
                     let mut archive = tar::Archive::new(t);
-                    archive.unpack(&self.nvim_dir_path)?;
-                    Ok(())
+
+                    for entry in archive.entries()? {
+                        if let Ok(mut ent) = entry {
+                            if let Ok(path) = ent.path() {
+                                let path = path.to_owned();
+                                let mut comps = path.components();
+                                comps.next();
+                                let path = comps.as_path();
+                                let ext_path = self.nvim_dir_path.join(path);
+                                ent.unpack(&ext_path)?;
+                            }
+                        }
+                    }
                 }
-                _ => Err(anyhow!("Unknown archive")),
+                _ => return Err(anyhow!("Unknown archive")),
             }
         } else {
-            Err(anyhow!("Invalid archive"))
+            return Err(anyhow!("Invalid archive"));
         }
+
+        Ok(())
     }
 
     fn restore(&self) -> Result<()> {
@@ -134,12 +151,25 @@ impl Upgrader {
     }
 }
 
-fn main() -> Result<()> {
-    let args = UpgradeArgs::new(std::env::args())?;
-    let upgrader = Upgrader::new(args);
-    upgrader.run()?;
+fn main() {
+    let res = (|| -> Result<()> {
+        let args = UpgradeArgs::new(std::env::args())?;
+        let upgrader = Upgrader::new(args);
+        upgrader.run()?;
+        Ok(())
+    })();
 
-    // TODO: Notify the result, what about a message box?
+    let builder = DialogBuilder::message().set_title("Nvim upgrade");
 
-    Ok(())
+    match res {
+        Ok(()) => builder
+            .set_level(MessageLevel::Info)
+            .set_text("Upgrade completed"),
+        Err(e) => builder
+            .set_level(MessageLevel::Warning)
+            .set_text(format!("{:?}", &e)),
+    }
+    .confirm()
+    .show()
+    .unwrap();
 }
