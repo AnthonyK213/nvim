@@ -117,7 +117,7 @@ impl Upgrader {
                         }
                     }
                 }
-                _ => return Err(anyhow!("Unknown archive")),
+                _ => return Err(anyhow!("Unknown archive format")),
             }
         } else {
             return Err(anyhow!("Invalid archive"));

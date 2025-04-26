@@ -29,7 +29,7 @@ function M.get_dylib_path(dylib_name)
   local dylib_path = vim.fs.joinpath(dylib_dir, dylib_file)
   local stat = vim.uv.fs_stat(dylib_path)
   if not stat or stat.type ~= "file" then
-    lib.warn(dylib_file .. "is not found.")
+    lib.warn(dylib_file .. " is not found.")
     return
   end
 
@@ -46,7 +46,7 @@ function M.get_bin_path(bin_name)
   local bin_path = vim.fs.joinpath(bin_dir, bin_file)
   local stat = vim.uv.fs_stat(bin_path)
   if not stat or stat.type ~= "file" then
-    lib.warn(bin_file .. "is not found.")
+    lib.warn(bin_file .. " is not found.")
     return
   end
 
