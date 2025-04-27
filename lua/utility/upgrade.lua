@@ -22,7 +22,28 @@ local source_table = {
   },
 }
 
+---@enum upgrade.Status
+local Status = {
+  Idle = 0,
+  Busy = 1,
+  Done = 2,
+}
+
 local M = {}
+
+local _status = Status.Idle
+
+local function idle()
+  _status = Status.Idle
+end
+
+local function busy()
+  _status = Status.Busy
+end
+
+local function done()
+  _status = Status.Done
+end
 
 ---
 ---@param channel? string
@@ -179,21 +200,40 @@ end
 ---Upgrade neovim.
 ---@param channel? "stable"|"nightly" Upgrade channel.
 function M.nvim_upgrade(channel)
+  if _status == Status.Busy then
+    lib.warn("Upgrade in process.")
+    return
+  elseif _status == Status.Done then
+    lib.warn("Pending... Close Neovim to upgrade.")
+    return
+  end
+
+  busy()
+
   channel = get_channel(channel)
   if not channel then
+    idle()
+    return
+  end
+
+  local source_name = get_source_name()
+  if not source_name then
+    idle()
+    return
+  end
+
+  local upgrader = crates.get_bin_path("nvim-upgrade")
+  if not upgrader then
+    idle()
     return
   end
 
   local proxy = get_proxy()
 
-  local upgrader = crates.get_bin_path("nvim-upgrade")
-  if not upgrader then
-    return
-  end
-
   futures.spawn(function()
     local new_ver = check_update(channel, proxy)
     if not new_ver then
+      idle()
       return
     end
 
@@ -202,11 +242,7 @@ function M.nvim_upgrade(channel)
     }
     if not yes_no or yes_no:lower() ~= "y" then
       lib.warn("Canceled")
-      return
-    end
-
-    local source_name = get_source_name()
-    if not source_name then
+      idle()
       return
     end
 
@@ -215,6 +251,7 @@ function M.nvim_upgrade(channel)
 
     local nvim_dir = get_nvim_dir()
     if not nvim_dir then
+      idle()
       return
     end
 
@@ -222,6 +259,7 @@ function M.nvim_upgrade(channel)
 
     local install_dir = vim.fs.dirname(nvim_dir)
     if not install_dir then
+      idle()
       return
     end
 
@@ -233,6 +271,7 @@ function M.nvim_upgrade(channel)
       local err, ok = futures.uv.fs_mkdir(backup_dir, 448)
       if not ok then
         lib.warn(err)
+        idle()
         return
       end
     end
@@ -240,6 +279,7 @@ function M.nvim_upgrade(channel)
     vim.notify("Downloading...")
 
     if not download(source_url, download_path, proxy) then
+      idle()
       return
     end
 
@@ -259,6 +299,8 @@ function M.nvim_upgrade(channel)
     })
 
     vim.notify("Downloaded. Close Neovim to install.")
+
+    done()
   end)
 end
 
