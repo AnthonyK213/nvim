@@ -29,6 +29,8 @@ local Status = {
   Done = 2,
 }
 
+local CURL_CMD = "curl"
+
 local M = {}
 
 local _status = Status.Idle
@@ -67,8 +69,7 @@ end
 ---@param proxy? string
 ---@return vim.Version?
 local function fetch_version(channel, proxy)
-  local cmd = "curl"
-  if not lib.executable(cmd, true) then
+  if not lib.executable(CURL_CMD, true) then
     return
   end
 
@@ -81,7 +82,7 @@ local function fetch_version(channel, proxy)
   local target = [[content="NVIM ]]
   local version = nil
 
-  local fetch_tag_page = Process.new("curl", { args = args })
+  local fetch_tag_page = Process.new(CURL_CMD, { args = args })
   fetch_tag_page.on_stdout = function(data)
     if version then
       return
@@ -96,7 +97,12 @@ local function fetch_version(channel, proxy)
     end
     version = vim.version.parse(ver_str)
   end
-  fetch_tag_page:await()
+
+  -- fetch_tag_page.record = true
+  if fetch_tag_page:await() ~= 0 then
+    fetch_tag_page:notify_err()
+    return
+  end
 
   return version
 end
@@ -185,7 +191,7 @@ local function download(source_url, download_path, proxy)
     table.insert(args, proxy)
   end
 
-  local download_proc = Process.new("curl", { args = args })
+  local download_proc = Process.new(CURL_CMD, { args = args })
 
   if download_proc:await() ~= 0 then
     download_proc:notify_err()

@@ -396,10 +396,10 @@ proj_table = {
         local args = task.args or {}
         if cmd and vim.islist(args) then
           table.insert(args, 1, cmd)
-          print(task.label .. ": running...")
+          vim.notify(task.label .. ": running...")
           Terminal.new(args, { cwd = root }):await()
           Task.delay(1000):await()
-          print(task.label .. ": exit.")
+          vim.notify(task.label .. ": exit.")
         end
       end
     end, true

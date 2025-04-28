@@ -5,6 +5,28 @@
 
 ---
 
+# Installation
+
+- Requirements
+  - [**Neovim**](https://github.com/neovim/neovim) 0.11+
+  - [**Git**](https://github.com/git/git)
+  - [**ripgrep**](https://github.com/BurntSushi/ripgrep) (optional)
+  - [**fd**](https://github.com/sharkdp/fd) (optional)
+
+- Clone repository
+  - Windows
+    ``` ps1
+    git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
+                        "$env:LOCALAPPDATA\nvim"
+    ```
+  - GNU/Linux
+    ``` sh
+    git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
+                        "${XDG_DATA_HOME:-$HOME/.config}"/nvim
+    ```
+
+- Start Neovim and wait for the installation to complete
+
 # Configuration
 
 Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
@@ -180,62 +202,41 @@ It's a pure text file with json syntax. Example:
 }
 ```
 
-# Installation
+> After setting `lsp` in this configuration, the LSP servers can be installed
+> automatically by running `Mason` command (unavailable when `offline` is `true`).
 
-- Requirements
-  - [**Neovim**](https://github.com/neovim/neovim) 0.11+
-  - [**Git**](https://github.com/git/git)
-  - [**ripgrep**](https://github.com/BurntSushi/ripgrep) (optional)
-  - [**fd**](https://github.com/sharkdp/fd) (optional)
-
-- Clone repository
-  - Windows
-    ``` ps1
-    git clone --depth=1 https://github.com/AnthonyK213/nvim.git `
-                        "$env:LOCALAPPDATA\nvim"
-    ```
-  - GNU/Linux
-    ``` sh
-    git clone --depth=1 https://github.com/AnthonyK213/nvim.git \
-                        "${XDG_DATA_HOME:-$HOME/.config}"/nvim
-    ```
-
-- Start Neovim and wait for the installation to complete
-
-- Install LSP servers with `Mason` command (unavailable when `offline` is `true`)
-
-- Set `.vimrc` for Vim (optional)
-  - Windows
-    ``` ps1
-    Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
-              -Destination "$env:HOMEPATH\_vimrc"
-    ```
-  - GNU/Linux
-    ``` sh
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
-       "${XDG_DATA_HOME:-$HOME}"/.vimrc
-    ```
+> Set `.vimrc` for Vim (optional)
+> - Windows
+>   ``` ps1
+>   Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
+>             -Destination "$env:HOMEPATH\_vimrc"
+>   ```
+> - GNU/Linux
+>   ``` sh
+>   cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
+>      "${XDG_DATA_HOME:-$HOME}"/.vimrc
+>   ```
 
 <!--
-- Configure mailboxes (optional)
-  - In `home` or `config` directory, named `.mail.json`
-    (also can be `_mail.json` on Windows)
-  - Example
-    ``` json
-    {
-      "archive": "/path/to/email/archive/directory/",
-      "providers": [
-        {
-          "label": "A unique label for the mailbox provider",
-          "smtp": "SMTP server address",
-          "imap": "IMAP server address",
-          "port": 993,
-          "user_name": "User name",
-          "password": "Password"
-        }
-      ]
-    }
-    ```
+> Configure mailboxes (optional)
+> - In `home` or `config` directory, named `.mail.json`
+>   (also can be `_mail.json` on Windows)
+> - Example
+>   ``` json
+>   {
+>     "archive": "/path/to/email/archive/directory/",
+>     "providers": [
+>       {
+>         "label": "A unique label for the mailbox provider",
+>         "smtp": "SMTP server address",
+>         "imap": "IMAP server address",
+>         "port": 993,
+>         "user_name": "User name",
+>         "password": "Password"
+>       }
+>     ]
+>   }
+>   ```
 -->
 
 # Key Bindings

@@ -184,7 +184,7 @@ function M.join(fut_list, timeout)
           timer:close()
           if coroutine.status(_co) == "suspended" then
             if count ~= fut_count then
-              print("Time out")
+              vim.notify("Time out")
             end
             assert(coroutine.resume(_co))
           end
@@ -205,9 +205,9 @@ function M.join(fut_list, timeout)
     end, 10)
     if not ok then
       if code == -1 then
-        print("Time out.")
+        vim.notify("Time out.")
       else
-        print("Interrupted.")
+        vim.notify("Interrupted.")
       end
     end
   end
@@ -252,9 +252,9 @@ function M.select(fut_list)
     local ok, code = vim.wait(1e8, function() return done end, 10)
     if not ok then
       if code == -1 then
-        print("Time out.")
+        vim.notify("Time out.")
       else
-        print("Interrupted.")
+        vim.notify("Interrupted.")
       end
     end
   end
@@ -313,7 +313,7 @@ M.fs = {
       err, data = M.uv.fs_read(fd, stat.size, 0)
       assert(not err, err)
     end).catch(function(ex)
-      print(ex)
+      lib.warn(ex)
     end).finally(function()
       M.uv.fs_close(fd)
     end)

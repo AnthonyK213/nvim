@@ -565,19 +565,19 @@ require("lazy").setup({
                 local yes_no = futures.ui.input { prompt = "Commit? [Y/n] " }
                 if yes_no and yes_no:lower() == "y" then
                   if require("logit").commit(msg):start() then
-                    print("Commiting...")
+                    vim.notify("Commiting...")
                   end
                 end
               end)
             end,
             ["p"] = function()
               if require("logit").pull():start() then
-                print("Pulling from remote...")
+                vim.notify("Pulling from remote...")
               end
             end,
             ["P"] = function()
               if require("logit").push():start() then
-                print("Pushing...")
+                vim.notify("Pushing...")
               end
             end,
           },

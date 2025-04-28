@@ -56,15 +56,15 @@ function M.start(bufnr)
   local marp = require("futures").Process.new("marp", {
     args = { "--html", "--server", buf_dir, },
     cwd = buf_dir,
-  }):continue_with(function() print("Marp: Exit") end)
+  }):continue_with(function() vim.notify("Marp: Exited") end)
 
   marp.on_stderr = function(data)
     local m = data:match("Start server listened at (http://localhost:%d+/)")
     if not m then return end
     if require("utility.util").sys_open(m) then
-      print("Marp: Connected")
+      vim.notify("Marp: Connected")
     else
-      print("Marp: Failed to connect")
+      lib.warn("Marp: Failed to connect")
     end
   end
 
@@ -73,9 +73,9 @@ function M.start(bufnr)
     vim.api.nvim_buf_attach(bufnr, false, {
       on_detach = function(_, h) M.stop(h) end
     })
-    print("Marp: Started")
+    vim.notify("Marp: Started")
   else
-    print("Marp: Failed to start")
+    lib.warn("Marp: Failed to start")
   end
 end
 

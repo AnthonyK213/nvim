@@ -31,9 +31,9 @@ function M.hanzi_count(txt)
   end
 
   if h_count == 0 then
-    print("No Chinese character was found.")
+    vim.notify("No Chinese character was found.")
   else
-    print("The number of Chinese characters is " .. tostring(h_count) .. ".")
+    vim.notify("The number of Chinese characters is " .. tostring(h_count) .. ".")
   end
 end
 

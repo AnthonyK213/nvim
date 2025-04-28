@@ -55,7 +55,7 @@ function M.start(bufnr, fargs)
   local viewer = futures.Process.new("glslViewer", {
     args = fargs,
     cwd = lib.get_buf_dir(bufnr),
-  }):continue_with(function() print("glslViewer: Exit") end)
+  }):continue_with(function() vim.notify("glslViewer: Exited") end)
 
   viewer.on_stdout = function(data)
     local lines = vim.split(data, "[\n\r]", {
@@ -75,9 +75,9 @@ function M.start(bufnr, fargs)
     vim.api.nvim_buf_attach(bufnr, false, {
       on_detach = function(_, h) M.stop(h) end
     })
-    print("glslViewer: Started")
+    vim.notify("glslViewer: Started")
   else
-    print("glslViewer: Failed to start")
+    lib.warn("glslViewer: Failed to start")
   end
 end
 
@@ -112,7 +112,7 @@ function M.input(bufnr)
   futures.spawn(function()
     local data = futures.ui.input { prompt = "glslViewer > ", kind = "editor" }
     if not data or #data == 0 then return end
-    print("// > " .. data)
+    vim.notify("// > " .. data)
     M.tbl[bufnr]:write(data .. "\n")
   end)
 end

@@ -297,16 +297,16 @@ kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
   futures.spawn(function()
     local sr, sc, er, ec = require("utility.lib").get_gv_mark()
     local base64_code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {})):gsub("[^A-Za-z0-9+/]", "")
-    print("Decoding...")
+    vim.notify("Decoding...")
     local code = futures.Task.new(require("utility.base64").decode, base64_code):await()
     if not code then
-      print("Decode failed")
+      lib.warn("Decode failed")
       return
     end
     vim.api.nvim_buf_set_text(bufnr, sr, sc, er, ec, vim.split(code, "[\r\n]", {
       trimempty = true,
     }))
-    print("Decode finished")
+    vim.notify("Decode finished")
   end)
 end)
 kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
@@ -318,10 +318,10 @@ kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
   futures.spawn(function()
     local sr, sc, er, ec = require("utility.lib").get_gv_mark()
     local code = table.concat(vim.api.nvim_buf_get_text(bufnr, sr, sc, er, ec, {}), "\n")
-    print("Encoding...")
+    vim.notify("Encoding...")
     local base64_code = futures.Task.new(require("utility.base64").encode, code):await()
     if not base64_code then
-      print("Encode failed")
+      lib.warn("Encode failed")
       return
     end
     local replacement = {}
@@ -340,17 +340,17 @@ kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
       start = start + width
     end
     vim.api.nvim_buf_set_text(bufnr, sr, sc, er, ec, replacement)
-    print("Encode finished")
+    vim.notify("Encode finished")
   end)
 end)
 kbd("Toggle jieba-mode.", "n", "<leader>jm", function()
   local jieba = require("utility.jieba")
   if jieba.is_enabled() then
     jieba:disable()
-    vim.print("Jieba is disabled")
+    vim.notify("Jieba is disabled")
   else
     if jieba:enable() then
-      vim.print("Jieba is enabled")
+      vim.notify("Jieba is enabled")
     end
   end
 end)
