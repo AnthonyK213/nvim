@@ -1,4 +1,3 @@
-local M = {}
 -- lua-language-server wtf: u4e00 -> 一 ???
 local _p_word_first_half = [[\v([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-]+)$]]
 local _p_word_last_half = [[\v^([\]] .. [[u4e00-\]] .. [[u9fff0-9a-zA-Z_-])+]]
@@ -11,6 +10,8 @@ local OS = {
   Windows = 2,
   MacOS   = 3,
 }
+
+local M = {}
 
 ---Convert `integer` to a binary string.
 ---(`new_work` invocable)

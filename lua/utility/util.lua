@@ -6,7 +6,7 @@ local M = {}
 ---Open terminal and launch shell.
 function M.terminal()
   local exec
-  local my_sh = _my_core_opt.dep.sh
+  local my_sh = _my_core_opt.general.shell
   if type(my_sh) == "table" and #my_sh > 0 then
     exec = my_sh[1]
   elseif type(my_sh) == "string" then

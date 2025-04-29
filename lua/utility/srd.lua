@@ -1,7 +1,8 @@
-local M = {}
 local api = vim.api
 local lib = require("utility.lib")
 local futures = require("futures")
+
+local M = {}
 
 ---Surrounding pairs.
 ---@param pair_a string Left side of the surrounding.

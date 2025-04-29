@@ -129,11 +129,7 @@ comp_table = {
     end
   end,
   cpp = function(tbl)
-    local cc_tbl = {
-      gcc = "g++",
-      clang = "clang++"
-    }
-    local cc = cc_tbl[_my_core_opt.dep.cc]
+    local cc = _my_core_opt.dep.cxx
     if cc then
       if not lib.executable(cc, true) then return end
       if tbl.opt == "" then
@@ -215,7 +211,7 @@ comp_table = {
     end
   end,
   python = function(tbl)
-    local py = _my_core_opt.dep.py or "python"
+    local py = _my_core_opt.dep.py
     if not lib.executable(py, true) then return end
     if tbl.opt == "" then
       return wrap(Terminal.new({ py, tbl.fnm }, { cwd = tbl.fwd }))

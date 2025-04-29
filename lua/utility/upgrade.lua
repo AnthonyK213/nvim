@@ -139,7 +139,7 @@ end
 ---
 ---@return string?
 local function get_proxy()
-  return _my_core_opt.dep.proxy or os.getenv("HTTP_PROXY")
+  return _my_core_opt.general.proxy or os.getenv("HTTP_PROXY")
 end
 
 ---comment

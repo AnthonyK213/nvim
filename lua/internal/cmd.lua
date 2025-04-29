@@ -61,6 +61,10 @@ cmd("GlslViewer", function(tbl)
 end, { nargs = "*", desc = "Start glslViewer", complete = "file" })
 
 cmd("NvimUpgrade", function(tbl)
+  if not _G._my_core_opt.general.upgrade then
+    vim.notify("NvimUpgrade is disabled", vim.log.levels.WARN)
+    return
+  end
   require("utility.upgrade").nvim_upgrade(tbl.args)
 end, {
   nargs = "?",

@@ -37,29 +37,27 @@ It's a pure text file with json syntax. Example:
 
 ``` json
 {
-  // Set `true` if internet connection is unavailable.
-  "offline": false,
-  // Dependencies
-  "dep": {
-    // (string|array) Shell
-    "sh": ["pwsh", "-nologo"],
-    // (string) C compiler
-    "cc": "clang",
-    // (string) Python3 executable path
-    "py3": "python3/executable/path",
+  // General options
+  "general": {
+    // (boolean) Set this to `true` if internet connection is unavailable.
+    "offline": false,
     // (string) Proxy
-    "proxy": "http://127.0.0.1:7890"
+    "proxy": "http://127.0.0.1:7890",
+    // (string|array) The shell that the terminal emulator to start with.
+    "shell": ["powershell.exe", "-nologo"],
+    // (boolean) Enable nvim-upgrade. It's useful when you are using official
+    // released binary archives directly rather than installers or package
+    // managers.
+    "upgrade": false
   },
   // Paths
   "path": {
-    // (string) Home directory
+    // (string) Home directory.
     "home": "$HOME",
-    // (string) Cloud drive directory
-    "cloud": "$HOME/cloud",
-    // (string) Desktop directory
+    // (string) Desktop directory.
     "desktop": "$HOME/Desktop",
-    // (string) Binaries directory
-    "bin": "$HOME/bin"
+    // (string) Vimwiki directory.
+    "vimwiki": "$HOME/vimwiki"
   },
   // Terminal UI
   "tui": {
@@ -90,7 +88,7 @@ It's a pure text file with json syntax. Example:
     // (string|array) Bufferline style
     "bufferline_style": "thin"
   },
-  // GUI (neovim-qt, fvim, neovide)
+  // GUI (neovim-qt, fvim, neovide, VimR)
   "gui": {
     // ("auto"|"dark"|"light") GUI background theme
     "theme": "auto",
@@ -131,8 +129,7 @@ It's a pure text file with json syntax. Example:
             "globals": [ "vim" ]
           },
           "workspace": {
-            // "${lua_expression}" is allowed.
-            "library": "${vim.api.nvim_get_runtime_file('', true)}",
+            "library": {},
             "checkThirdParty": false
           },
           "telemetry": {
@@ -203,7 +200,8 @@ It's a pure text file with json syntax. Example:
 ```
 
 > After setting `lsp` in this configuration, the LSP servers can be installed
-> automatically by running `Mason` command (unavailable when `offline` is `true`).
+> automatically by running `Mason` command (unavailable when `general.offline`
+> is `true`).
 
 > Set `.vimrc` for Vim (optional)
 > - Windows

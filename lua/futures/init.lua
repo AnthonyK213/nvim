@@ -1,5 +1,6 @@
-local M = {}
 local lib = require("utility.lib")
+
+local M = {}
 
 ---@class futures.Future Represents an operation which will produce values in the future.
 ---@field private action function Function that represents the code to execute.

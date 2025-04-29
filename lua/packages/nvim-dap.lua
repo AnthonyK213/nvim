@@ -112,7 +112,9 @@ local dap_debugpy = A.new("python", "python", lib.has_windows() and {
     name = "Launch",
     request = "launch",
     program = "${file}",
-    pythonPath = function() return _my_core_opt.dep.py3 end,
+    pythonPath = function()
+      return vim.fn.exepath(_my_core_opt.dep.py)
+    end,
   }
 })
 

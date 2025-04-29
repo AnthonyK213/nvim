@@ -35,7 +35,9 @@ vim.keymap.set("n", "<leader>mt", function()
     local futures = require("futures")
     futures.spawn(function()
       local yes_no = futures.ui.input { prompt = "Compile the project? [Y/n] " }
-      if not yes_no or yes_no:lower() ~= "y" then return end
+      if not yes_no or yes_no:lower() ~= "y" then
+        return
+      end
       local opt = futures.ui.select({ "none", "biber", "bibtex" }, {
         prompt = "Compile option: "
       })

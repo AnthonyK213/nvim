@@ -1,7 +1,8 @@
-local M = {}
 local lib = require("utility.lib")
 local futures = require("futures")
 local Process = futures.Process
+
+local M = {}
 
 ---Get root and branch of the repository.
 ---@return string? root

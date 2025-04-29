@@ -149,7 +149,7 @@ function! s:gui_memo_lazy_save() abort
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
-    let l:path = expand(g:_my_path_cloud . '/Notes/diary')
+    let l:path = expand(g:_my_path_vimwiki . '/diary')
     if empty(glob(l:path))
       let l:path = g:_my_path_desktop
     endif

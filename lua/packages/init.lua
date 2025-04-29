@@ -928,8 +928,8 @@ require("lazy").setup({
     init = function()
       vim.g.vimwiki_list = {
         {
-          path = vim.fs.joinpath(_my_core_opt.path.cloud, "/Notes/"),
-          path_html = vim.fs.joinpath(_my_core_opt.path.cloud, "/Notes/html/"),
+          path = vim.fs.joinpath(_my_core_opt.path.vimwiki),
+          path_html = vim.fs.joinpath(_my_core_opt.path.vimwiki, "html"),
           syntax = "markdown",
           ext = ".markdown"
         }

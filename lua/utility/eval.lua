@@ -1,7 +1,8 @@
-local M = {}
 local api = vim.api
 local lib = require("utility.lib")
 local mlib = require("utility.mlib")
+
+local M = {}
 
 ---Evaluate text.
 ---@param f function Method to evaluate the text.

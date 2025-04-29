@@ -6,37 +6,36 @@ lib.vim_source("viml/basics")
 local os_this = lib.get_os_type()
 
 local opt = {
-  offline = false,
-  dep = {
-    sh = ({
-      [lib.OS.Linux] = "bash",
+  general = {
+    offline = false,
+    ---@type string?
+    proxy   = nil,
+    shell   = ({
+      [lib.OS.Linux]   = "bash",
       [lib.OS.Windows] = { "powershell.exe", "-nologo" },
-      [lib.OS.MacOS] = "zsh"
+      [lib.OS.MacOS]   = "zsh"
     })[os_this],
-    cc = "gcc",
-    py3 = "/usr/bin/python3",
-    proxy = nil,
+    upgrade = false,
   },
   path = {
-    home = vim.env.HOME,
-    cloud = vim.env.ONEDRIVE or vim.env.HOME,
-    desktop = vim.env.HOME .. "/Desktop",
-    bin = vim.env.HOME .. "/bin",
+    home    = vim.env.HOME,
+    desktop = vim.fs.joinpath(vim.env.HOME, "Desktop"),
+    vimwiki = vim.fs.joinpath(vim.env.HOME, "vimwiki"),
   },
   tui = {
-    scheme = "onedark",
-    theme = "dark",
-    style = "dark",
-    transparent = false,
+    scheme            = "onedark",
+    theme             = "dark",
+    style             = "dark",
+    transparent       = false,
     global_statusline = false,
-    border = "none",
-    cmp_ghost = false,
-    auto_dim = false,
-    animation = false,
-    show_context = false,
-    devicons = false,
-    bufferline_style = { "▕", "▕" },
-    welcome_header = {
+    border            = "none",
+    cmp_ghost         = false,
+    auto_dim          = false,
+    animation         = false,
+    show_context      = false,
+    devicons          = false,
+    bufferline_style  = { "▕", "▕" },
+    welcome_header    = {
       [[                                                    ]],
       [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
       [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
@@ -48,23 +47,23 @@ local opt = {
     },
   },
   gui = {
-    theme = "auto",
-    opacity = 0.98,
-    ligature = false,
-    popup_menu = false,
-    tabline = false,
-    scroll_bar = false,
-    line_space = 0.0,
-    font_size = 13,
-    font_half = "Monospace",
-    font_wide = "Monospace",
+    theme        = "auto",
+    opacity      = 0.98,
+    ligature     = false,
+    popup_menu   = false,
+    tabline      = false,
+    scroll_bar   = false,
+    line_space   = 0.0,
+    font_size    = 13,
+    font_half    = "Monospace",
+    font_wide    = "Monospace",
     cursor_blink = false,
   },
   lsp = {},
   ts = {
-    ensure_installed = {},
+    ensure_installed  = {},
     highlight_disable = {},
-    matchup_disable = {},
+    matchup_disable   = {},
   },
   dap = {
     python = false,
@@ -84,7 +83,7 @@ if exists and opt_file then
   if code == 0 then
     opt = vim.tbl_deep_extend("force", opt, result)
   else
-    vim.notify("Invalid option file", vim.log.levels.WARN, nil)
+    lib.warn("Invalid option file")
   end
 end
 
@@ -110,13 +109,53 @@ _tbl_set_var(opt.gui, "_my_gui_")
 
 -- Misc
 vim.g.mapleader = " "
-vim.g.python3_host_prog = opt.dep.py3
 vim.g.markdown_fenced_languages = {
   "c", "cpp", "cs", "rust", "lua", "vim", "python", "lisp", "tex",
   "javascript", "typescript", "json", "cmake", "sh", "ps1", "dosbatch",
   "ruby", "java", "go", "perl", "html", "xml", "toml", "yaml",
   "config", "gitconfig", "sshconfig", "dosini"
 }
+
+-- Directional operation which won't break the history.
+local rep_term = vim.api.nvim_replace_termcodes
+vim.g._const_dir_l = rep_term("<C-G>U<Left>", true, false, true)
+vim.g._const_dir_d = rep_term("<C-G>U<Down>", true, false, true)
+vim.g._const_dir_u = rep_term("<C-G>U<Up>", true, false, true)
+vim.g._const_dir_r = rep_term("<C-G>U<Right>", true, false, true)
+
+--[[Box Drawing
+┌┬─┐┍┯━┑┎┰─┒┏┳━┓╭┬─╮╒╤═╕╓╥─╖╔╦═╗
+├┼─┤┝┿━┥┠╂─┨┣╋━┫├┼─┤╞╪═╡╟╫─╢╠╬═╣
+││ │││ │┃┃ ┃┃┃ ┃││ │││ │║║ ║║║ ║
+└┴─┘┕┷━┙┖┸─┚┗┻━┛╰┴─╯╘╧═╛╙╨─╜╚╩═╝
+]]
+
+--[=[
+---Evaluate string values in option table.
+---@param tbl table
+local function _eval(tbl)
+  if type(tbl) == "table" then
+    for k, v in pairs(tbl) do
+      local t = type(v)
+      if t == "string" then
+        local m = v:match("^%${(.+)}$")
+        if m then
+          local ok, result = pcall(vim.fn.luaeval, m)
+          if ok then
+            tbl[k] = result
+          else
+            lib.warn("Invalid expression for key `" .. k .. "`")
+          end
+        end
+      elseif t == "table" then
+        _eval(v)
+      end
+    end
+  end
+end
+
+_eval(opt)
+]=]
 
 -- Highlights
 opt.hl = {
@@ -198,48 +237,28 @@ opt.hl_link = {
   --#endregion
 }
 
--- Directional operation which won't break the history.
-local rep_term = vim.api.nvim_replace_termcodes
-vim.g._const_dir_l = rep_term("<C-G>U<Left>", true, false, true)
-vim.g._const_dir_d = rep_term("<C-G>U<Down>", true, false, true)
-vim.g._const_dir_u = rep_term("<C-G>U<Up>", true, false, true)
-vim.g._const_dir_r = rep_term("<C-G>U<Right>", true, false, true)
-
---[[Box Drawing
-┌┬─┐┍┯━┑┎┰─┒┏┳━┓╭┬─╮╒╤═╕╓╥─╖╔╦═╗
-├┼─┤┝┿━┥┠╂─┨┣╋━┫├┼─┤╞╪═╡╟╫─╢╠╬═╣
-││ │││ │┃┃ ┃┃┃ ┃││ │││ │║║ ║║║ ║
-└┴─┘┕┷━┙┖┸─┚┗┻━┛╰┴─╯╘╧═╛╙╨─╜╚╩═╝
-]]
-
----Evaluate string values in option table.
----@param tbl table
-local function _eval(tbl)
-  if type(tbl) == "table" then
-    for k, v in pairs(tbl) do
-      local t = type(v)
-      if t == "string" then
-        local m = v:match("^%${(.+)}$")
-        if m then
-          local ok, result = pcall(vim.fn.luaeval, m)
-          if ok then
-            tbl[k] = result
-          else
-            vim.notify("Invalid expression for key `" .. k .. "`", vim.log.levels.WARN)
-          end
-        end
-      elseif t == "table" then
-        _eval(v)
-      end
+---Find executable. If not found, return the first element in `exe_list`.
+---@param exe_list string[]
+---@return string
+local function _find_exe(exe_list)
+  for _, exe in ipairs(exe_list) do
+    if vim.fn.executable(exe) == 1 then
+      return exe
     end
   end
+  return exe_list[1]
 end
 
-_eval(opt)
+-- Executable.
+opt.dep = {
+  cc  = _find_exe { "clang", "gcc" },
+  cxx = _find_exe { "clang++", "g++" },
+  py  = _find_exe { "python3", "python" }
+}
 
 _G._my_core_opt = opt
 
----Filetype.
+-- Filetype.
 vim.filetype.add {
   filename = {
     ["_nvimrc"] = "json",
