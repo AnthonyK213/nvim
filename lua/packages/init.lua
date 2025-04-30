@@ -936,7 +936,13 @@ require("lazy").setup({
   },
   {
     "iamcco/markdown-preview.nvim",
-    build = function() vim.fn["mkdp#util#install"]() end,
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = ":call mkdp#util#install()",
+    ft = {
+      "markdown",
+      "vimwiki",
+      "vimwiki.markdown"
+    },
     init = function()
       vim.g.mkdp_auto_start = 0
       vim.g.mkdp_auto_close = 1
@@ -1005,32 +1011,20 @@ require("lazy").setup({
         "williamboman/mason.nvim",
         cmd = "Mason",
         config = function()
-          require("mason").setup { ui = { border = _my_core_opt.tui.border } }
-          local mapping = require("mason-lspconfig.mappings.server").lspconfig_to_package
-          -- LSP
-          for name, conf in pairs(_my_core_opt.lsp) do
-            if (type(conf) == "boolean" and conf)
-                or (type(conf) == "table" and conf.load) then
-              local p = require("mason-registry").get_package(mapping[name])
-              if not p:is_installed() then
-                p:install()
-              end
-            end
-          end
-          -- DAP
-          for name, conf in pairs(_my_core_opt.dap) do
-            if conf and name ~= "lldb" then
-              local p = require("mason-registry").get_package(name)
-              if not p:is_installed() then
-                p:install()
-              end
-            end
-          end
+          require("mason").setup {
+            ui = {
+              border = _my_core_opt.tui.border
+            }
+          }
         end,
       },
       {
         "williamboman/mason-lspconfig.nvim",
-        config = true,
+        config = function()
+          require("mason-lspconfig").setup {
+            ensure_installed = vim.tbl_keys(_my_core_opt.lsp)
+          }
+        end,
       },
       "Hoffs/omnisharp-extended-lsp.nvim",
       {

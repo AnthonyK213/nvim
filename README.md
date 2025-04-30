@@ -200,9 +200,6 @@ It's a pure text file with json syntax. Example:
 }
 ```
 
-> After setting `lsp` in this configuration, the LSP servers can be installed
-> automatically by running `Mason` (unavailable if `general.offline` is `true`).
-
 > Set `.vimrc` for Vim (optional)
 > - Windows
 >   ``` ps1
