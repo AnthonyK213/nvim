@@ -499,17 +499,18 @@ endfunction
 
 function! my#config#vimwiki() abort
   let g:vimwiki_list = [{
-        \ 'path' : expand(g:_my_path_cloud . '/Notes/'),
-        \ 'path_html' : expand(g:_my_path_cloud . '/Notes/html/'),
+        \ 'path' : expand(g:_my_path_vimwiki),
+        \ 'path_html' : expand(g:_my_path_vimwiki . '/html/'),
         \ 'syntax' : 'markdown',
         \ 'ext' : '.markdown'
         \ }]
   let g:vimwiki_folding = 'syntax'
+  let g:vimwiki_filetypes = ['markdown']
   let g:vimwiki_ext2syntax = { '.markdown' : 'markdown' }
 endfunction
 
 function! my#config#vista() abort
-  let g:vista_default_executive = g:_my_use_coc ? "coc" : "vim_lsp"
+  let g:vista_default_executive = g:_my_general_use_coc ? "coc" : "vim_lsp"
   let g:vista_executive_for = {
         \ 'markdown': 'toc',
         \ 'vimwiki': 'markdown'

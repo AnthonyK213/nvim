@@ -15,22 +15,16 @@ endfunction
 
 let s:os_type = s:get_os_name()
 
-let g:_my_dep_sh = {
+let g:_my_general_offline = v:false
+let g:_my_general_shell = {
       \ "Linux": "bash",
       \ "Windows": ['powershell.exe', '-nologo'],
       \ "Macos": "zsh"
       \ }[s:os_type]
-let g:_my_dep_cc = 'gcc'
-let g:_my_dep_py3 = '/usr/bin/python3'
-let g:_my_dep_start = {
-      \ "Linux": "xdg-open",
-      \ "Windows": ['cmd', '/c', 'start', '""'],
-      \ "Macos": "open"
-      \ }[s:os_type]
+let g:_my_general_use_coc = v:false
 let g:_my_path_home = getenv('HOME')
-let g:_my_path_cloud = has_key(environ(), 'ONEDRIVE') ?
-      \ getenv('ONEDRIVE') : g:_my_path_home
 let g:_my_path_desktop = expand(g:_my_path_home . '/Desktop')
+let g:_my_path_vimwiki = expand(g:_my_path_home . '/vimwiki')
 let g:_my_tui_scheme = 'one'
 let g:_my_tui_theme = 'dark'
 let g:_my_tui_style = 'none'
@@ -48,7 +42,6 @@ let g:_my_gui_font_size = 13
 let g:_my_gui_font_half = 'Monospace'
 let g:_my_gui_font_wide = 'Monospace'
 let g:_my_gui_cursor_blink = v:false
-let g:_my_use_coc = v:false
 let g:_my_lsp_clangd = v:false
 let g:_my_lsp_powershell_es = { 'enable' : v:false, 'path' : v:null }
 let g:_my_lsp_lua_ls = v:false
@@ -82,9 +75,28 @@ if s:exists
   endtry
 endif
 
+function s:find_exe(exe_list) abort
+  for exe in a:exe_list
+    if executable(exe)
+      return exe
+    endif
+  endfor
+  return a:exe_list[0]
+endfunction
+
+" Executable
+let g:_my_dep_cc = s:find_exe(["clang", "gcc"])
+let g:_my_dep_cxx = s:find_exe(["clang++", "g++"])
+let g:_my_dep_py = s:find_exe(["python3", "python"])
+let g:_my_dep_start = {
+      \ "Linux": "xdg-open",
+      \ "Windows": ['cmd', '/c', 'start', '""'],
+      \ "Macos": "open"
+      \ }[s:os_type]
+
 " Misc
 let g:mapleader = "\<Space>"
-let g:python3_host_prog = g:_my_dep_py3
+let g:python3_host_prog = g:_my_dep_py
 let g:markdown_fenced_languages = [
       \ "c", "cpp", "cs", "rust", "lua", "vim", "python", "lisp", "tex",
       \ "javascript", "typescript", "json", "cmake", "sh", "ps1", "dosbatch",

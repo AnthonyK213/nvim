@@ -9,10 +9,11 @@ if empty(glob(s:plug_path)) && my#lib#executable('curl')
         \ '--create-dirs',
         \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
         \ ]
-  if exists("g:_my_dep_proxy")
-    call extend(s:plug_dl_cmd, ['-x', g:_my_dep_proxy])
+  if exists("g:_my_general_proxy")
+    call extend(s:plug_dl_cmd, ['-x', g:_my_general_proxy])
   endif
   call system(s:plug_dl_cmd)
+  let &runtimepath = &runtimepath
 endif
 
 if exists('g:nvim_init_src')
@@ -92,7 +93,7 @@ else
   endif
 endif
 
-if g:_my_use_coc
+if g:_my_general_use_coc
   call s:plug('neoclide/coc.nvim', function("my#config#coc"), {'branch': 'release'})
   call s:plug('antoinemadec/coc-fzf', function("my#config#coc_fzf"), {'branch': 'release'})
 else

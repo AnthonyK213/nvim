@@ -65,20 +65,11 @@ function! s:comp_clisp(tbl) abort
 endfunction
 
 function! s:comp_cpp(tbl) abort
-  let l:cc = g:_my_dep_cc
-  let l:cc_tbl = {
-        \ 'gcc' : 'g++',
-        \ 'clang' : 'clang++'
-        \}
-  if has_key(l:cc_tbl, l:cc)
-    let l:cppc = l:cc_tbl[l:cc]
-    if !my#lib#executable(cc)
-      return [v:null, v:null]
-    endif
-    return [function('s:cb_run_bin'), [l:cppc, a:tbl['fnm'], '-o', a:tbl['bin']]]
-  else
+  let l:cxx = g:_my_dep_cxx
+  if !my#lib#executable(cc)
     return [v:null, v:null]
   endif
+  return [function('s:cb_run_bin'), [l:cxx, a:tbl['fnm'], '-o', a:tbl['bin']]]
 endfunction
 
 function! s:comp_csharp(tbl) abort
@@ -146,10 +137,10 @@ function! s:comp_processing(tbl) abort
 endfunction
 
 function! s:comp_python(tbl) abort
-  if !my#lib#executable(g:_my_dep_py3)
+  if !my#lib#executable(g:_my_dep_py)
     return [v:null, v:null]
   endif
-  return [v:null, [g:_my_dep_py3, a:tbl["fnm"]]]
+  return [v:null, [g:_my_dep_py, a:tbl["fnm"]]]
 endfunction
 
 function! s:comp_ruby(tbl) abort

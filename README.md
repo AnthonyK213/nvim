@@ -1,16 +1,22 @@
-# Neovim Configuration
+<p align="center">
+  <img alt="Neovim" src="https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png" height="80" />
+  <p align="center">Neovim configuration with some personal hacks.</p>
+</p>
 
-## Requirements
-* [**Neovim**](https://github.com/neovim/neovim)
-* [**Git**](https://github.com/git/git)
-* [**curl**](https://github.com/curl/curl)
-* [**Node.js**](https://nodejs.org) (If `use_coc`)
-* [**ripgrep**](https://github.com/BurntSushi/ripgrep)
-  & [**fd**](https://github.com/sharkdp/fd)
-* [**lazygit**](https://github.com/jesseduffield/lazygit)
+---
 
-## Installation
-* **Clone repository**
+# Installation
+
+- Requirements
+  - [**Neovim**](https://github.com/neovim/neovim)
+  - [**Git**](https://github.com/git/git)
+  - [**curl**](https://github.com/curl/curl)
+  - [**Node.js**](https://nodejs.org) (If `general.use_coc` is `true`)
+  - [**ripgrep**](https://github.com/BurntSushi/ripgrep)
+  - [**fd**](https://github.com/sharkdp/fd)
+  - [**lazygit**](https://github.com/jesseduffield/lazygit)
+
+- **Clone repository**
   - Windows
     ```ps1
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git `
@@ -21,102 +27,108 @@
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git \
                                 "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
-* **Start Neovim and wait for the installation to complete**
-* **Customize with `nvimrc`**
-  - In the `home`|`config` directory, named `.nvimrc`
-    (also can be `_nvimrc` on Windows)
-  - Example
-    ``` json
-    {
-      // Dependencies
-      "dep": {
-        // (string|array) Shell
-        "sh": ["pwsh", "-nologo"],
-        // (string) C compiler
-        "cc": "clang",
-        // (string) Python3 executable path
-        "py3": "python3/executable/path",
-        // (string) Proxy
-        "proxy": "http://127.0.0.1:7890"
-      },
-      // Paths
-      "path": {
-        // (string) Home directory
-        "home": "$HOME",
-        // (string) Cloud drive directory
-        "cloud": "$HOME/cloud",
-        // (string) Desktop directory
-        "desktop": "$HOME/Desktop",
-        // (string) Binaries directory
-        "bin": "$HOME/bin"
-      },
-      // Terminal UI
-      "tui": {
-        // ("one"|"gruvbox") Color scheme
-        "scheme": "one",
-        // ("dark"|"light") Tui background theme
-        "theme": "dark",
-        // (string) Style of color scheme
-        "style": "one",
-        // (boolean) Make background transparent
-        "transparent": false,
-        // (boolean) Global statusline
-        "global_statusline": false,
-        // (string) Floating window border style
-        "border": "single",
-        // (boolean) Dim inactive window automatically
-        "auto_dim": false
-      },
-      // GUI (neovim-qt, fvim)
-      "gui": {
-        // ("auto"|"dark"|"light") GUI background theme
-        "theme": "auto",
-        // (number) Window opacity
-        "opacity": 0.98,
-        // (boolean) Render ligatures
-        "ligature": false,
-        // (boolean) Use GUI popup menu
-        "popup_menu": false,
-        // (boolean) Use GUI tabline
-        "tabline": false,
-        // (boolean) Use GUI scroll bar
-        "scroll_bar": false,
-        // (number) Line space
-        "line_space": 0.0,
-        // (boolean) Cursor blink
-        "cursor_blink": false,
-        // (number) GUI font size
-        "font_size": 13,
-        // (string) See `guifont`
-        "font_half": "Monospace",
-        // (string) See `guifontwide`
-        "font_wide": "Monospace"
-      },
-      // Language Server Protocol
-      "lsp": {
-        "clangd": false,
-        "powershell_es": false,
-        "rust_analyzer": false,
-        "lua_ls": false,
-        "vimls": false
-      },
-      // Use coc.nvim
-      "use_coc": false
-    }
-    ```
-* **Set .vimrc for Vim (optional)**
-  - Windows
-    ```ps1
-    Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
-              -Destination "$env:HOMEPATH\_vimrc"
-    ```
-  - GNU/Linux
-    ```sh
-    cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
-       "${XDG_DATA_HOME:-$HOME}"/.vimrc
-    ```
 
-## Key bindings
+- **Start Neovim and wait for the installation to complete**
+
+# Configuration
+
+Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
+`home` or `config` directory.
+It's a pure text file with json syntax. Example:
+
+<u>/home/anthonyk213/.nvimrc</u>
+
+``` json
+{
+  // General options
+  "general": {
+    // (boolean) Set this to `true` if internet connection is unavailable.
+    "offline": false,
+    // (string) Proxy
+    "proxy": "http://127.0.0.1:7890",
+    // (string|array) The shell that the terminal emulator to start with.
+    "shell": ["powershell.exe", "-nologo"],
+    // Use coc.nvim
+    "use_coc": false
+  },
+  // Paths
+  "path": {
+    // (string) Home directory
+    "home": "$HOME",
+    // (string) Cloud drive directory
+    "cloud": "$HOME/cloud",
+    // (string) Desktop directory
+    "desktop": "$HOME/Desktop",
+    // (string) Binaries directory
+    "bin": "$HOME/bin"
+  },
+  // TUI
+  "tui": {
+    // ("one"|"gruvbox") Color scheme
+    "scheme": "one",
+    // ("dark"|"light") TUI background theme
+    "theme": "dark",
+    // (string) Style of color scheme
+    "style": "one",
+    // (boolean) Make background transparent
+    "transparent": false,
+    // (boolean) Global statusline
+    "global_statusline": false,
+    // (string) Floating window border style
+    "border": "single",
+    // (boolean) Dim inactive window automatically
+    "auto_dim": false
+  },
+  // GUI (neovim-qt, fvim)
+  "gui": {
+    // ("auto"|"dark"|"light") GUI background theme
+    "theme": "auto",
+    // (number) Window opacity
+    "opacity": 0.98,
+    // (boolean) Render ligatures
+    "ligature": false,
+    // (boolean) Use GUI popup menu
+    "popup_menu": false,
+    // (boolean) Use GUI tabline
+    "tabline": false,
+    // (boolean) Use GUI scroll bar
+    "scroll_bar": false,
+    // (number) Line space
+    "line_space": 0.0,
+    // (boolean) Cursor blink
+    "cursor_blink": false,
+    // (number) GUI font size
+    "font_size": 13,
+    // (string) See `guifont`
+    "font_half": "Monospace",
+    // (string) See `guifontwide`
+    "font_wide": "Monospace"
+  },
+  // Language Server Protocol
+  "lsp": {
+    "clangd": false,
+    "powershell_es": false,
+    "rust_analyzer": false,
+    "lua_ls": false,
+    "vimls": false
+  }
+}
+```
+
+> Set `.vimrc` for Vim (optional)
+> - Windows
+>   ``` ps1
+>   Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
+>             -Destination "$env:HOMEPATH\_vimrc"
+>   ```
+> - GNU/Linux
+>   ``` sh
+>   cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
+>      "${XDG_DATA_HOME:-$HOME}"/.vimrc
+>   ```
+
+# Key bindings
+
 * **Ctrl**
   - in:  <kbd>C-S</kbd>     -> Save.
   - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
@@ -231,7 +243,8 @@
   - n:   <kbd>S-F5</kbd> -> `CodeRun`
   - invt:<kbd>F8</kbd>   -> Toggle mouse status.
 
-## Commands
+# Commands
+
 - `CodeRun`     -> Run or compile the code.
 - `Pdf`         -> View pdf after compiling a tex file.
 - `PushAll`     -> Just push everything to the remote origin.
@@ -239,42 +252,3 @@
   - `-m`        -> comment (default: date).
 - `SshConfig`   -> Open and edit ~/.ssh/config
 - `Time`        -> Print date and time.
-
-## Packages
-* Package manager
-  - [vim-plug](https://github.com/junegunn/vim-plug)
-* Display (Optional)
-  - [vim-airline](https://github.com/vim-airline/vim-airline)
-  - [vim-startify](https://github.com/mhinz/vim-startify)
-  - [indentLine](https://github.com/Yggdroot/indentLine)
-* Color scheme (Optional)
-  - [vim-one](https://github.com/rakr/vim-one)
-  - [gruvbox](https://github.com/morhetz/gruvbox)
-* File system
-  - [vim-clap](https://github.com/liuchengxu/vim-clap)
-* VCS
-  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
-  - [vim-signify](https://github.com/mhinz/vim-signify)
-* Utilities
-  - [vim-speeddating](https://github.com/tpope/vim-speeddating)
-  - [vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)
-  - [vim-ipairs](https://github.com/AnthonyK213/vim-ipairs)
-  - [vim-matchup](https://github.com/andymass/vim-matchup)
-  - [vim-floaterm](https://github.com/voldikss/vim-floaterm)
-  - [vsession](https://github.com/skanehira/vsession)
-* File type support
-  - [VimTeX](https://github.com/lervag/vimtex)
-  - [vimwiki](https://github.com/vimwiki/vimwiki)
-  - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-  - [presenting.vim](https://github.com/sotte/presenting.vim)
-  - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
-* Completion; Snippet (Provided by vimscript)
-  - [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
-  - [asyncomplete-buffer.vim](https://github.com/prabirshrestha/asyncomplete-buffer.vim)
-  - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
-  - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
-  - [nerdtree](https://github.com/preservim/nerdtree)
-  - [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
-* Completion; Snippet; LSP (Provided by `coc.nvim`)
-  - [coc.nvim](https://github.com/neoclide/coc.nvim)
-  - [vista.vim](https://github.com/liuchengxu/vista.vim)
