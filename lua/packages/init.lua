@@ -775,12 +775,12 @@ require("lazy").setup({
           default_prompt = "> ",
           title_pos = "center",
           insert_only = true,
-          relative = "cursor",
+          relative = "editor",
           border = _my_core_opt.tui.border,
           win_options = { winblend = 10, },
           get_config = function(opts)
-            if opts.kind == "editor" then
-              return { relative = "editor" }
+            if opts.kind == "at_cursor" then
+              return { relative = "cursor" }
             end
           end,
           override = function(conf)

@@ -93,7 +93,10 @@ end
 ---@param pair_a? string|string[] Left|Both side of the surrounding.
 function M.srd_add(mode, pair_a)
   futures.spawn(function()
-    local p_a0 = pair_a or futures.ui.input { prompt = "Surrounding add: " }
+    local p_a0 = pair_a or futures.ui.input {
+      prompt = "Surrounding add: ",
+      kind = "at_cursor",
+    }
     if not p_a0 then return end
     local p_a, p_b
     if type(p_a0) == "table" then
@@ -124,9 +127,15 @@ end
 function M.srd_sub(pair_a_new, pair_a_old)
   futures.spawn(function()
     local p_a_n0, p_a_o0
-    p_a_o0 = pair_a_old or futures.ui.input { prompt = "Surrounding delete: " }
+    p_a_o0 = pair_a_old or futures.ui.input {
+      prompt = "Surrounding delete: ",
+      kind = "at_cursor",
+    }
     if not p_a_o0 then return end
-    p_a_n0 = pair_a_new or futures.ui.input { prompt = "Change to: " }
+    p_a_n0 = pair_a_new or futures.ui.input {
+      prompt = "Change to: ",
+      kind = "at_cursor",
+    }
     if not p_a_n0 then return end
 
     local context = lib.get_context()
