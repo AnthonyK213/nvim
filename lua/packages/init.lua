@@ -267,7 +267,7 @@ require("lazy").setup({
       },
       exclude = {
         filetypes = {
-          "aerial", "alpha", "packer", "lazy",
+          "aerial", "alpha", "lazy",
           "markdown", "presenting_markdown",
           "vimwiki", "NvimTree", "mason", "lspinfo",
           "NeogitStatus", "NeogitCommitView", "DiffviewFiles",
@@ -409,13 +409,8 @@ require("lazy").setup({
             enable = true,
             chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
             exclude = {
-              filetype = {
-                "notify", "qf", "help",
-                "packer", "aerial"
-              },
-              buftype = {
-                "terminal"
-              }
+              filetype = { "notify", "qf", "help", "aerial" },
+              buftype  = { "terminal" }
             }
           }
         }

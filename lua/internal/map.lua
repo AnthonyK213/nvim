@@ -103,7 +103,7 @@ for key, val in pairs {
     local txt
     local mode = get_mode()
     if mode == "n" then
-      local word = lib.get_word()
+      local word = require("utility.util").get_word()
       txt = lib.url_encode(word)
     elseif mode == "v" then
       txt = lib.url_encode(lib.get_gv())
@@ -117,7 +117,7 @@ kbd("Look up the word in the dictionary", { "n", "v" }, "<leader>hh", function()
   local word
   local mode = get_mode()
   if mode == "n" then
-    word = lib.get_word()
+    word = require("utility.util").get_word()
   elseif mode == "v" then
     word = lib.get_gv()
   else
@@ -139,7 +139,7 @@ kbd("Run code", "n", "<S-F5>", function() require("utility.run").code_run() end)
 kbd("Run test", "n", "<F41>", function() require("utility.run").code_run("test") end)
 kbd("Run test", "n", "<C-S-F5>", function() require("utility.run").code_run("test") end)
 kbd("Show document", "n", "K", function()
-  local word, _, _ = lib.get_word()
+  local word, _, _ = require("utility.util").get_word()
   if not pcall(vim.cmd.help, word) then
     lib.warn(string.format("No help for %s", word))
   end

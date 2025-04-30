@@ -241,4 +241,19 @@ function M.set_srd_shortcuts(srd_table, opts)
   end
 end
 
+---Get the word and its position under the cursor.
+---This function will use jieba to get chinese word if jieba is enabled.
+---@return string word Word under the cursor.
+---@return integer start_column Start index of the line (0-based, included).
+---@return integer end_column End index of the line (0-based, not included).
+function M.get_word()
+  ---@module "jieba"
+  local jieba = package.loaded["utility.jieba"]
+  if jieba and jieba.is_enabled() then
+    return jieba.get_word()
+  else
+    return lib.get_word()
+  end
+end
+
 return M

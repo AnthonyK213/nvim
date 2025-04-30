@@ -49,6 +49,25 @@ function M.get_pos(sentence, position)
   end
 end
 
+---Get the word and its position under the cursor.
+---@return string word Word under the cursor.
+---@return integer start_column Start index of the line (0-based, included).
+---@return integer end_column End index of the line (0-based, not included).
+function M.get_word()
+  local encoding = lib.str_encoding()
+  local line = vim.api.nvim_get_current_line()
+  local _, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
+  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
+  local s_utf, e_utf = M.get_pos(line, pos_utf)
+  if not s_utf or not e_utf then
+    error("No word found")
+  end
+  local word = lib.str_sub(line, s_utf + 1, e_utf + 1)
+  local s_byte = vim.str_byteindex(line, encoding, s_utf) --[[@as integer]]
+  local e_byte = vim.str_byteindex(line, encoding, e_utf + 1) --[[@as integer]]
+  return word, s_byte, e_byte
+end
+
 local function goto_word_begin()
   local line
   local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))

@@ -1,5 +1,6 @@
 local api = vim.api
 local lib = require("utility.lib")
+local util = require("utility.util")
 local futures = require("futures")
 
 local M = {}
@@ -105,7 +106,7 @@ function M.srd_add(mode, pair_a)
     end
 
     if mode == "n" then
-      local word, s, e = lib.get_word()
+      local word, s, e = util.get_word()
       local line, col = unpack(api.nvim_win_get_cursor(0))
       api.nvim_buf_set_text(0, line - 1, s, line - 1, e, { p_a .. word .. p_b })
       api.nvim_win_set_cursor(0, { line, col + #p_a })

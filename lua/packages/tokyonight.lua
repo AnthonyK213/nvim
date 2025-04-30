@@ -2,17 +2,14 @@ require("tokyonight").setup {
   style = _my_core_opt.tui.style or "storm",
   transparent = _my_core_opt.tui.transparent,
   styles = {
-    comments = "italic",
-    keywords = "NONE",
-    functions = "NONE",
-    variables = "NONE",
-    sidebars = "dark",
-    floats = "dark",
+    comments  = { italic = true },
+    keywords  = {},
+    functions = {},
+    variables = {},
+    sidebars  = "dark",
+    floats    = "dark",
   },
-  sidebars = {
-    "help", "qf", "terminal",
-    "aerial", "packer",
-  },
+  sidebars = { "help", "qf", "terminal", "aerial" },
   dim_inactive = _my_core_opt.tui.auto_dim,
 }
 
