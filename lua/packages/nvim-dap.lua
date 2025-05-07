@@ -1,5 +1,5 @@
 local dap = require("dap")
-local dap_option = _my_core_opt.dap or {}
+local dap_option = _G._my_core_opt.dap or {}
 local lib = require("utility.lib")
 local dir = vim.fn.stdpath("data") .. "/mason"
 
@@ -113,7 +113,7 @@ local dap_debugpy = A.new("python", "python", lib.has_windows() and {
     request = "launch",
     program = "${file}",
     pythonPath = function()
-      return vim.fn.exepath(_my_core_opt.dep.py)
+      return vim.fn.exepath(_G._my_core_opt.dep.py)
     end,
   }
 })

@@ -1,6 +1,6 @@
 require("tokyonight").setup {
-  style = _my_core_opt.tui.style or "storm",
-  transparent = _my_core_opt.tui.transparent,
+  style = _G._my_core_opt.tui.style or "storm",
+  transparent = _G._my_core_opt.tui.transparent,
   styles = {
     comments  = { italic = true },
     keywords  = {},
@@ -10,11 +10,11 @@ require("tokyonight").setup {
     floats    = "dark",
   },
   sidebars = { "help", "qf", "terminal", "aerial" },
-  dim_inactive = _my_core_opt.tui.auto_dim,
+  dim_inactive = _G._my_core_opt.tui.auto_dim,
 }
 
 require("utility.util")
-    .auto_hl("tokyonight", _my_core_opt.hl, _my_core_opt.hl_link, function()
+    .auto_hl("tokyonight", _G._my_core_opt.hl, _G._my_core_opt.hl_link, function()
       return {
         red = vim.g.terminal_color_1,
         green = vim.g.terminal_color_2,

@@ -123,7 +123,7 @@ local function show(result)
       max_height = 20,
       max_width = 50,
       wrap = true,
-      border = _my_core_opt.tui.border,
+      border = _G._my_core_opt.tui.border,
     })
   end
 end

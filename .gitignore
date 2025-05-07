@@ -1,8 +1,14 @@
-*.netrwhist
-/rust/*/target
-Cargo.lock
+# Configuration
 [._]mail.json
 [._]nvimrc
-packer_compiled.*
-lazy-lock.json
+.luarc.json
+coc-settings.json
+
+# Rust
+/rust/*/target
+Cargo.lock
+
+# Misc
+*.netrwhist
 .DS_Store
+lazy-lock.json

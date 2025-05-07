@@ -1,4 +1,4 @@
-local lspconfig = require("lspconfig")
+local _ = require("lspconfig")
 
 local float_opts = {
   border = _G._my_core_opt.tui.border,
@@ -80,7 +80,7 @@ local server_settings = {
   end,
 }
 
----Setup servers via nvim-lspconfig.
+---Setup servers.
 ---@param name string Name of the language server.
 ---@param config boolean|table<string, any> Server configuration from `nvimrc`.
 local function setup_server(name, config)
@@ -91,10 +91,6 @@ local function setup_server(name, config)
   elseif type(config) == "table" then
     config_table = config
   else
-    return
-  end
-
-  if not config_table.load then
     return
   end
 
@@ -127,8 +123,13 @@ local function setup_server(name, config)
     end
   end
 
+  -- Configure the server.
+  vim.lsp.config(name, cfg)
+
   -- Enable the server.
-  lspconfig[name].setup(cfg)
+  if config_table.load then
+    vim.lsp.enable(name)
+  end
 end
 
 -- Setup servers.

@@ -136,13 +136,13 @@ local cmp_setup = {
   experimental = {}
 }
 
-local win_opt = { border = _my_core_opt.tui.border }
+local win_opt = { border = _G._my_core_opt.tui.border }
 cmp_setup.window = {
   completion = cmp.config.window.bordered(win_opt),
   documentation = cmp.config.window.bordered(win_opt)
 }
 
-if _my_core_opt.tui.cmp_ghost then
+if _G._my_core_opt.tui.cmp_ghost then
   cmp_setup.experimental.ghost_text = true
 end
 

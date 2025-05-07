@@ -3,11 +3,11 @@ local style_list = {
   "deep", "warm", "warmer",
   "light"
 }
-local opt_style = _my_core_opt.tui.style
+local opt_style = _G._my_core_opt.tui.style
 
 require("onedark").setup {
   style = vim.list_contains(style_list, opt_style) and opt_style or "dark",
-  transparent = _my_core_opt.tui.transparent,
+  transparent = _G._my_core_opt.tui.transparent,
   term_colors = true,
   ending_tildes = false,
   toggle_style_key = "<leader>bs",
@@ -20,7 +20,7 @@ require("onedark").setup {
     variables = "none"
   },
   colors = {},
-  highlights = _my_core_opt.hl,
+  highlights = _G._my_core_opt.hl,
   diagnostics = {
     darker = true,
     undercurl = true,
@@ -28,7 +28,7 @@ require("onedark").setup {
   },
 }
 
-require("utility.util").auto_hl("onedark", nil, _my_core_opt.hl_link, function()
+require("utility.util").auto_hl("onedark", nil, _G._my_core_opt.hl_link, function()
   return {
     red = vim.g.terminal_color_1,
     green = vim.g.terminal_color_2,

@@ -102,7 +102,7 @@ comp_table = {
     end
   end,
   c = function(tbl)
-    local my_cc = _my_core_opt.dep.cc
+    local my_cc = _G._my_core_opt.dep.cc
     if not lib.executable(my_cc, true) then return end
     local cmd_tbl = {
       [""]  = { my_cc, tbl.fnm, "-o", tbl.bin },
@@ -129,7 +129,7 @@ comp_table = {
     end
   end,
   cpp = function(tbl)
-    local cc = _my_core_opt.dep.cxx
+    local cc = _G._my_core_opt.dep.cxx
     if cc then
       if not lib.executable(cc, true) then return end
       if tbl.opt == "" then
@@ -211,7 +211,7 @@ comp_table = {
     end
   end,
   python = function(tbl)
-    local py = _my_core_opt.dep.py
+    local py = _G._my_core_opt.dep.py
     if not lib.executable(py, true) then return end
     if tbl.opt == "" then
       return wrap(Terminal.new({ py, tbl.fnm }, { cwd = tbl.fwd }))

@@ -16,13 +16,13 @@ require("gruvbox").setup {
   inverse = true,
   contrast = "soft",
   overrides = {},
-  dim_inactive = _my_core_opt.tui.auto_dim,
-  transparent_mode = _my_core_opt.tui.transparent,
+  dim_inactive = _G._my_core_opt.tui.auto_dim,
+  transparent_mode = _G._my_core_opt.tui.transparent,
 }
 
 require("utility.util").auto_hl("gruvbox", vim.tbl_extend("force", {
   EndOfBuffer = { fg = "$bg0", bg = "$bg0" }
-}, _my_core_opt.hl), _my_core_opt.hl_link, function()
+}, _G._my_core_opt.hl), _G._my_core_opt.hl_link, function()
   return {
     bg0 = vim.g.terminal_color_0,
     red = vim.g.terminal_color_1,

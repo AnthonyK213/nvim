@@ -33,7 +33,7 @@ end
 
 require("onenord").setup({
   borders = true,
-  fade_nc = _my_core_opt.tui.auto_dim,
+  fade_nc = _G._my_core_opt.tui.auto_dim,
   styles = {
     comments = "NONE",
     strings = "NONE",
@@ -43,14 +43,14 @@ require("onenord").setup({
     diagnostics = "underline",
   },
   disable = {
-    background = _my_core_opt.tui.transparent,
+    background = _G._my_core_opt.tui.transparent,
     cursorline = false,
     eob_lines = true,
   },
   inverse = {
     match_paren = false,
   },
-  custom_highlights = hl_cast(_my_core_opt.hl, _my_core_opt.hl_link),
+  custom_highlights = hl_cast(_G._my_core_opt.hl, _G._my_core_opt.hl_link),
   custom_colors = {},
 })
 

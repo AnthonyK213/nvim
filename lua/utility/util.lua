@@ -6,7 +6,7 @@ local M = {}
 ---Open terminal and launch shell.
 function M.terminal()
   local exec
-  local my_sh = _my_core_opt.general.shell
+  local my_sh = _G._my_core_opt.general.shell
   if type(my_sh) == "table" and #my_sh > 0 then
     exec = my_sh[1]
   elseif type(my_sh) == "string" then
@@ -111,8 +111,8 @@ end
 
 ---Auto-update the color scheme highlight groups.
 ---@param scheme string Name of color scheme.
----@param hl_table? table<string, table<string, string>> See _my_core_opt.hl
----@param hl_link_table? table<string, string> _my_core_opt.hl_link
+---@param hl_table? table<string, table<string, string>> See _G._my_core_opt.hl
+---@param hl_link_table? table<string, string> _G._my_core_opt.hl_link
 ---@param palette fun():table<string, string> Returns a color map (table).
 function M.auto_hl(scheme, hl_table, hl_link_table, palette)
   ---Get color value from a color table.

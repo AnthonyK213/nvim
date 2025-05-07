@@ -29,35 +29,35 @@ require("lazy").setup({
     "navarasu/onedark.nvim",
     lazy = false,
     priority = 1000,
-    cond = function() return _my_core_opt.tui.scheme == "onedark" end,
+    cond = function() return _G._my_core_opt.tui.scheme == "onedark" end,
     config = function() require("packages.onedark") end
   },
   {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    cond = function() return _my_core_opt.tui.scheme == "tokyonight" end,
+    cond = function() return _G._my_core_opt.tui.scheme == "tokyonight" end,
     config = function() require("packages.tokyonight") end
   },
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
     priority = 1000,
-    cond = function() return _my_core_opt.tui.scheme == "gruvbox" end,
+    cond = function() return _G._my_core_opt.tui.scheme == "gruvbox" end,
     config = function() require("packages.gruvbox") end
   },
   {
     "EdenEast/nightfox.nvim",
     lazy = false,
     priority = 1000,
-    cond = function() return _my_core_opt.tui.scheme == "nightfox" end,
+    cond = function() return _G._my_core_opt.tui.scheme == "nightfox" end,
     config = function() require("packages.nightfox") end
   },
   {
     "rmehri01/onenord.nvim",
     lazy = false,
     priority = 1000,
-    cond = function() return _my_core_opt.tui.scheme == "onenord" end,
+    cond = function() return _G._my_core_opt.tui.scheme == "onenord" end,
     config = function() require("packages.onenord") end
   },
   -- Optional
@@ -67,7 +67,7 @@ require("lazy").setup({
     config = function()
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
-      dashboard.section.header.val = _my_core_opt.tui.welcome_header
+      dashboard.section.header.val = _G._my_core_opt.tui.welcome_header
       dashboard.section.buttons.val = {
         dashboard.button("e", "∅  Empty File", ":enew<CR>"),
         dashboard.button("f", "⊕  Find File", ":Telescope find_files<CR>"),
@@ -90,7 +90,7 @@ require("lazy").setup({
         section_separators = "",
         component_separators = "",
         icons_enabled = false,
-        globalstatus = _my_core_opt.tui.global_statusline
+        globalstatus = _G._my_core_opt.tui.global_statusline
       },
       sections = {
         lualine_a = {
@@ -133,7 +133,7 @@ require("lazy").setup({
   {
     "nvim-tree/nvim-web-devicons",
     lazy = false,
-    cond = _my_core_opt.tui.devicons,
+    cond = _G._my_core_opt.tui.devicons,
   },
   {
     "akinsho/bufferline.nvim",
@@ -174,11 +174,11 @@ require("lazy").setup({
             separator = true,
           }
         },
-        show_buffer_icons = _my_core_opt.tui.devicons,
+        show_buffer_icons = _G._my_core_opt.tui.devicons,
         show_buffer_close_icons = true,
         show_close_icon = false,
         persist_buffer_sort = true,
-        separator_style = _my_core_opt.tui.bufferline_style,
+        separator_style = _G._my_core_opt.tui.bufferline_style,
         enforce_regular_tabs = false,
         always_show_bufferline = true,
         sort_by = "id",
@@ -399,7 +399,7 @@ require("lazy").setup({
         },
         file_popup = {
           open_win_config = {
-            border = _my_core_opt.tui.border,
+            border = _G._my_core_opt.tui.border,
           }
         },
         open_file = {
@@ -425,10 +425,10 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
     config = function()
-      local border_style = _my_core_opt.tui.border
+      local border_style = _G._my_core_opt.tui.border
       local border_styles = {
-        single = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-        double = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
+        single  = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        double  = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
         rounded = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       }
       require("telescope").setup {
@@ -446,8 +446,8 @@ require("lazy").setup({
         extensions = {
           aerial = {
             show_nesting = {
-              ["_"] = false,
-              json = true,
+              ["_"]    = false,
+              json     = true,
               markdown = true,
             }
           }
@@ -482,35 +482,35 @@ require("lazy").setup({
     config = function()
       local actions = require("diffview.actions")
       require("diffview").setup {
-        use_icons = false,
+        use_icons = _G._my_core_opt.tui.devicons,
         icons = {
           folder_closed = ">",
-          folder_open = "v",
+          folder_open   = "v",
         },
         signs = {
           fold_closed = ">",
-          fold_open = "v",
-          done = "✓",
+          fold_open   = "v",
+          done        = "✓",
         },
         keymaps = {
           disable_defaults = true,
           view = {
-            ["<Tab>"] = actions.select_next_entry,
-            ["<S-Tab>"] = actions.select_prev_entry,
-            ["gf"] = actions.goto_file,
-            ["<C-W><C-F>"] = actions.goto_file_split,
-            ["<C-W>gf"] = actions.goto_file_tab,
-            ["<localleader>e"] = actions.focus_files,
-            ["<localleader>b"] = actions.toggle_files,
-            ["g<C-X>"] = actions.cycle_layout,
-            ["[x"] = actions.prev_conflict,
-            ["]x"] = actions.next_conflict,
+            ["<Tab>"]           = actions.select_next_entry,
+            ["<S-Tab>"]         = actions.select_prev_entry,
+            ["gf"]              = actions.goto_file,
+            ["<C-W><C-F>"]      = actions.goto_file_split,
+            ["<C-W>gf"]         = actions.goto_file_tab,
+            ["<localleader>e"]  = actions.focus_files,
+            ["<localleader>b"]  = actions.toggle_files,
+            ["g<C-X>"]          = actions.cycle_layout,
+            ["[x"]              = actions.prev_conflict,
+            ["]x"]              = actions.next_conflict,
             ["<localleader>co"] = actions.conflict_choose("ours"),
             ["<localleader>ct"] = actions.conflict_choose("theirs"),
             ["<localleader>cb"] = actions.conflict_choose("base"),
             ["<localleader>ca"] = actions.conflict_choose("all"),
-            ["dx"] = actions.conflict_choose("none"),
-            ["q"] = "<Cmd>DiffviewClose<CR>",
+            ["dx"]              = actions.conflict_choose("none"),
+            ["q"]               = "<Cmd>DiffviewClose<CR>",
           },
           diff1 = {},
           diff2 = {},
@@ -524,35 +524,35 @@ require("lazy").setup({
             { { "n", "x" }, "3do", actions.diffget("theirs") },
           },
           file_panel = {
-            ["j"] = actions.next_entry,
-            ["<Down>"] = actions.next_entry,
-            ["k"] = actions.prev_entry,
-            ["<Up>"] = actions.prev_entry,
-            ["<Cr>"] = actions.select_entry,
-            ["o"] = actions.select_entry,
-            ["<2-LeftMouse>"] = actions.select_entry,
-            ["-"] = actions.toggle_stage_entry,
-            ["S"] = actions.stage_all,
-            ["U"] = actions.unstage_all,
-            ["X"] = actions.restore_entry,
-            ["L"] = actions.open_commit_log,
-            ["<C-B>"] = actions.scroll_view(-0.25),
-            ["<C-F>"] = actions.scroll_view(0.25),
-            ["<Tab>"] = actions.select_next_entry,
-            ["<S-Tab>"] = actions.select_prev_entry,
-            ["gf"] = actions.goto_file,
-            ["<C-W><C-F>"] = actions.goto_file_split,
-            ["<C-W>gf"] = actions.goto_file_tab,
-            ["i"] = actions.listing_style,
-            ["f"] = actions.toggle_flatten_dirs,
-            ["R"] = actions.refresh_files,
+            ["j"]              = actions.next_entry,
+            ["<Down>"]         = actions.next_entry,
+            ["k"]              = actions.prev_entry,
+            ["<Up>"]           = actions.prev_entry,
+            ["<Cr>"]           = actions.select_entry,
+            ["o"]              = actions.select_entry,
+            ["<2-LeftMouse>"]  = actions.select_entry,
+            ["-"]              = actions.toggle_stage_entry,
+            ["S"]              = actions.stage_all,
+            ["U"]              = actions.unstage_all,
+            ["X"]              = actions.restore_entry,
+            ["L"]              = actions.open_commit_log,
+            ["<C-B>"]          = actions.scroll_view(-0.25),
+            ["<C-F>"]          = actions.scroll_view(0.25),
+            ["<Tab>"]          = actions.select_next_entry,
+            ["<S-Tab>"]        = actions.select_prev_entry,
+            ["gf"]             = actions.goto_file,
+            ["<C-W><C-F>"]     = actions.goto_file_split,
+            ["<C-W>gf"]        = actions.goto_file_tab,
+            ["i"]              = actions.listing_style,
+            ["f"]              = actions.toggle_flatten_dirs,
+            ["R"]              = actions.refresh_files,
             ["<localleader>e"] = actions.focus_files,
             ["<localleader>b"] = actions.toggle_files,
-            ["g<C-X>"] = actions.cycle_layout,
-            ["[x"] = actions.prev_conflict,
-            ["]x"] = actions.next_conflict,
-            ["q"] = "<Cmd>DiffviewClose<CR>",
-            ["c"] = function()
+            ["g<C-X>"]         = actions.cycle_layout,
+            ["[x"]             = actions.prev_conflict,
+            ["]x"]             = actions.next_conflict,
+            ["q"]              = "<Cmd>DiffviewClose<CR>",
+            ["c"]              = function()
               local futures = require("futures")
               futures.spawn(function()
                 local msg = futures.ui.input { prompt = "Commit message: " }
@@ -565,46 +565,46 @@ require("lazy").setup({
                 end
               end)
             end,
-            ["p"] = function()
+            ["p"]              = function()
               if require("logit").pull():start() then
                 vim.notify("Pulling from remote...")
               end
             end,
-            ["P"] = function()
+            ["P"]              = function()
               if require("logit").push():start() then
                 vim.notify("Pushing...")
               end
             end,
           },
           file_history_panel = {
-            ["g!"] = actions.options,
-            ["<C-M-d>"] = actions.open_in_diffview,
-            ["y"] = actions.copy_hash,
-            ["L"] = actions.open_commit_log,
-            ["zR"] = actions.open_all_folds,
-            ["zM"] = actions.close_all_folds,
-            ["j"] = actions.next_entry,
-            ["<Down>"] = actions.next_entry,
-            ["k"] = actions.prev_entry,
-            ["<Up>"] = actions.prev_entry,
-            ["<Cr>"] = actions.select_entry,
-            ["o"] = actions.select_entry,
-            ["<2-LeftMouse>"] = actions.select_entry,
-            ["<C-B>"] = actions.scroll_view(-0.25),
-            ["<C-F>"] = actions.scroll_view(0.25),
-            ["<Tab>"] = actions.select_next_entry,
-            ["<S-Tab>"] = actions.select_prev_entry,
-            ["gf"] = actions.goto_file,
-            ["<C-W><C-F>"] = actions.goto_file_split,
-            ["<C-W>gf"] = actions.goto_file_tab,
+            ["g!"]             = actions.options,
+            ["<C-M-d>"]        = actions.open_in_diffview,
+            ["y"]              = actions.copy_hash,
+            ["L"]              = actions.open_commit_log,
+            ["zR"]             = actions.open_all_folds,
+            ["zM"]             = actions.close_all_folds,
+            ["j"]              = actions.next_entry,
+            ["<Down>"]         = actions.next_entry,
+            ["k"]              = actions.prev_entry,
+            ["<Up>"]           = actions.prev_entry,
+            ["<Cr>"]           = actions.select_entry,
+            ["o"]              = actions.select_entry,
+            ["<2-LeftMouse>"]  = actions.select_entry,
+            ["<C-B>"]          = actions.scroll_view(-0.25),
+            ["<C-F>"]          = actions.scroll_view(0.25),
+            ["<Tab>"]          = actions.select_next_entry,
+            ["<S-Tab>"]        = actions.select_prev_entry,
+            ["gf"]             = actions.goto_file,
+            ["<C-W><C-F>"]     = actions.goto_file_split,
+            ["<C-W>gf"]        = actions.goto_file_tab,
             ["<localleader>e"] = actions.focus_files,
             ["<localleader>b"] = actions.toggle_files,
-            ["g<C-X>"] = actions.cycle_layout,
-            ["q"] = "<Cmd>DiffviewClose<CR>",
+            ["g<C-X>"]         = actions.cycle_layout,
+            ["q"]              = "<Cmd>DiffviewClose<CR>",
           },
           option_panel = {
             ["<Tab>"] = actions.select_entry,
-            ["q"] = actions.close,
+            ["q"]     = actions.close,
           },
         },
       }
@@ -617,7 +617,7 @@ require("lazy").setup({
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     opts = {
-      signs                        = {
+      signs = {
         add          = { text = "│" },
         change       = { text = "│" },
         delete       = { text = "_" },
@@ -625,36 +625,36 @@ require("lazy").setup({
         changedelete = { text = "~" },
         untracked    = { text = "┆" },
       },
-      signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
-      numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
-      linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
-      word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
-      watch_gitdir                 = {
+      signcolumn = true,
+      numhl = false,
+      linehl = false,
+      word_diff = false,
+      watch_gitdir = {
         follow_files = true
       },
-      auto_attach                  = true,
-      attach_to_untracked          = false,
-      current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-      current_line_blame_opts      = {
-        virt_text = true,
-        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-        delay = 1000,
-        ignore_whitespace = false,
+      auto_attach = true,
+      attach_to_untracked = false,
+      current_line_blame = false,
+      current_line_blame_opts = {
+        virt_text          = true,
+        virt_text_pos      = "eol",
+        delay              = 1000,
+        ignore_whitespace  = false,
         virt_text_priority = 100,
       },
       current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
-      sign_priority                = 6,
-      update_debounce              = 100,
-      status_formatter             = nil,   -- Use default
-      max_file_length              = 40000, -- Disable if file is longer than this (in lines)
-      preview_config               = {
-        border = _my_core_opt.tui.border,
+      sign_priority = 6,
+      update_debounce = 100,
+      status_formatter = nil,
+      max_file_length = 40000,
+      preview_config = {
+        border = _G._my_core_opt.tui.border,
         style = "minimal",
         relative = "cursor",
         row = 0,
         col = 1
       },
-      on_attach                    = function(bufnr)
+      on_attach = function(bufnr)
         local _o = { noremap = true, silent = true, buffer = bufnr }
         vim.keymap.set("n", "<leader>gj", function() require("gitsigns").nav_hunk("next") end, _o)
         vim.keymap.set("n", "<leader>gk", function() require("gitsigns").nav_hunk("prev") end, _o)
@@ -751,20 +751,20 @@ require("lazy").setup({
     "stevearc/dressing.nvim",
     event = "VeryLazy",
     config = function()
-      local border_style = _my_core_opt.tui.border
+      local border_style = _G._my_core_opt.tui.border
       local border_styles = {
         single = {
-          prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+          prompt  = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
           results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
           preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         },
         double = {
-          prompt = { "═", "║", " ", "║", "╔", "╗", "║", "║" },
+          prompt  = { "═", "║", " ", "║", "╔", "╗", "║", "║" },
           results = { "═", "║", "═", "║", "╠", "╣", "╝", "╚" },
           preview = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
         },
         rounded = {
-          prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+          prompt  = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
           results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
           preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
@@ -776,7 +776,7 @@ require("lazy").setup({
           title_pos = "center",
           insert_only = true,
           relative = "editor",
-          border = _my_core_opt.tui.border,
+          border = _G._my_core_opt.tui.border,
           win_options = { winblend = 10, },
           get_config = function(opts)
             if opts.kind == "at_cursor" then
@@ -812,7 +812,7 @@ require("lazy").setup({
           hidden = true,
           direction = "float",
           float_opts = {
-            border = _my_core_opt.tui.border,
+            border = _G._my_core_opt.tui.border,
           },
         }:toggle()
       end }
@@ -833,7 +833,7 @@ require("lazy").setup({
         error = "  Error fetching crate",
       },
       popup = {
-        border = _my_core_opt.tui.border,
+        border = _G._my_core_opt.tui.border,
         text = {
           title = "# %s",
           pill_left = "",
@@ -923,8 +923,8 @@ require("lazy").setup({
     init = function()
       vim.g.vimwiki_list = {
         {
-          path = vim.fs.joinpath(_my_core_opt.path.vimwiki),
-          path_html = vim.fs.joinpath(_my_core_opt.path.vimwiki, "html"),
+          path = vim.fs.joinpath(_G._my_core_opt.path.vimwiki),
+          path_html = vim.fs.joinpath(_G._my_core_opt.path.vimwiki, "html"),
           syntax = "markdown",
           ext = ".markdown"
         }
@@ -1008,21 +1008,22 @@ require("lazy").setup({
     config = function() require("packages.nvim-lspconfig") end,
     dependencies = {
       {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         cmd = "Mason",
         config = function()
           require("mason").setup {
             ui = {
-              border = _my_core_opt.tui.border
+              border = _G._my_core_opt.tui.border
             }
           }
         end,
       },
       {
-        "williamboman/mason-lspconfig.nvim",
+        "mason-org/mason-lspconfig.nvim",
         config = function()
           require("mason-lspconfig").setup {
-            ensure_installed = vim.tbl_keys(_my_core_opt.lsp)
+            ensure_installed = vim.tbl_keys(_G._my_core_opt.lsp),
+            automatic_enable = false,
           }
         end,
       },
@@ -1054,7 +1055,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
     config = function()
-      local ts_option = _my_core_opt.ts or {}
+      local ts_option = _G._my_core_opt.ts or {}
       require("nvim-treesitter.configs").setup {
         ensure_installed = ts_option.ensure_installed or {},
         highlight = {
@@ -1108,7 +1109,7 @@ require("lazy").setup({
         vim.keymap.set("n", "<leader>fa", "<Cmd>Telescope aerial<CR>", _o)
       end,
       float = {
-        border = _my_core_opt.tui.border,
+        border = _G._my_core_opt.tui.border,
         relative = "win",
         min_height = { 8, 0.1 },
         max_height = 0.9,
@@ -1128,7 +1129,7 @@ require("lazy").setup({
   },
 }, {
   ui = {
-    border = _my_core_opt.tui.border,
+    border = _G._my_core_opt.tui.border,
     icons = {
       cmd = "⌘",
       config = "🛠",
@@ -1147,7 +1148,7 @@ require("lazy").setup({
   performance = {
     rtp = {
       reset = false,
-      disabled_plugins = _my_core_opt.disable,
+      disabled_plugins = _G._my_core_opt.disable,
     }
   }
 })

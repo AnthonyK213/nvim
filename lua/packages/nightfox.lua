@@ -67,29 +67,29 @@ local function hl_cast(hl, hl_link)
 end
 
 local style_table = {
-  night = "day",
-  day = "night",
-  dawn = "dusk",
-  dusk = "dawn",
-  nord = "day",
-  tera = "dawn",
+  night  = "day",
+  day    = "night",
+  dawn   = "dusk",
+  dusk   = "dawn",
+  nord   = "day",
+  tera   = "dawn",
   carbon = "dawn",
 }
-local opt_style = _my_core_opt.tui.style
+local opt_style = _G._my_core_opt.tui.style
 local fox_style = style_table[opt_style] and opt_style or "night"
 
 require("nightfox").setup {
   options = {
     compile_path = vim.fn.stdpath("data") .. "/nightfox",
     compile_file_suffix = "_compiled",
-    transparent = _my_core_opt.tui.transparent,
+    transparent = _G._my_core_opt.tui.transparent,
     styles = {
       comments = "italic"
     },
-    dim_inactive = _my_core_opt.tui.auto_dim,
+    dim_inactive = _G._my_core_opt.tui.auto_dim,
   },
   groups = {
-    all = hl_cast(_my_core_opt.hl, _my_core_opt.hl_link)
+    all = hl_cast(_G._my_core_opt.hl, _G._my_core_opt.hl_link)
   }
 }
 

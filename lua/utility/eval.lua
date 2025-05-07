@@ -87,6 +87,16 @@ local expow = function(args)
   end
 end
 
+local logx = function(args)
+  if #args == 1 then
+    return math.log(args[1])
+  elseif #args == 2 then
+    return math.log(args[1], args[2])
+  else
+    error("Wrong number of arguments.")
+  end
+end
+
 local func_map = {
   ["+"] = add,
   ["-"] = subtract,
@@ -105,7 +115,7 @@ local func_map = {
   fib   = function(args) return mlib.fibonacci(args[1]) end,
   floor = function(args) return math.floor(args[1]) end,
   gamma = function(args) return mlib.gamma(args[1]) end,
-  log   = function(args) return math.log(args[1]) end,
+  log   = logx,
   log10 = function(args) return math.log10(args[1]) end,
   pow   = power,
   pi    = function(args) return math.pi * multiply(args) end,
@@ -149,7 +159,11 @@ local function lisp_tree(str)
       tree_insert(tree_table, tonumber(elem), tree_level)
     end
   end
-  if tree_level ~= 0 then return end
+
+  if tree_level ~= 0 then
+    return
+  end
+
   return tree_table[1]
 end
 
@@ -157,11 +171,19 @@ end
 ---@param arg any
 ---@return any
 local function lisp_tree_eval(arg)
-  if type(arg) == "number" then return arg end
+  if type(arg) == "number" then
+    return arg
+  end
+
+  if #arg == 1 and type(arg[1]) == "number" then
+    return arg[1]
+  end
+
   local func = func_map[arg[1]]
   if not func then
     error("Invalid expression `" .. arg[1] .. "`.")
   end
+
   table.remove(arg, 1)
   return func(vim.tbl_map(lisp_tree_eval, arg))
 end
