@@ -14,9 +14,22 @@
   name: (identifier) @name
   (#set! "kind" "class")) @type
 
-(_
+(constructor_declaration
   (modifier)*
-  type: (_)? @return-type
+  name: (identifier) @name
+  parameters: (parameter_list) @params
+  (#set! "kind" "function")) @type
+
+(method_declaration
+  (modifier)*
+  returns: (_) @returns
+  name: (identifier) @name
+  parameters: (parameter_list) @params
+  (#set! "kind" "function")) @type
+
+(local_function_statement
+  (modifier)*
+  type: (_) @returns
   name: (identifier) @name
   parameters: (parameter_list) @params
   (#set! "kind" "function")) @type

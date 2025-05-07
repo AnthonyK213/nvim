@@ -35,7 +35,7 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
           end
           if metadata.kind == "function" then
             -- FIXME: `return-type` does not work.
-            local type_ = match[captures["return-type"]] and match[captures["return-type"]][1]
+            local type_ = match[captures.returns] and match[captures.returns][1]
             local param_list = match[captures.params][1]
             local params = syn.cs.extract_params(param_list, bufnr_)
             if params and params:any() then
@@ -45,7 +45,7 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
                     indent_, v))
               end
             end
-            if type_ then
+            if type_ and vim.treesitter.get_node_text(type_, bufnr_) ~= "void" then
               table.insert(feed_, indent_ .. "/// <returns></returns>")
             end
           end
@@ -72,7 +72,7 @@ vim.defer_fn(function()
 
       if not vim.treesitter.highlighter.active[bufnr_]
           or check_next_line(bufnr_, row, col, indent, summary) then
-        vim.api.nvim_buf_set_text(bufnr, row - 1, col, row - 1, col, summary)
+        vim.api.nvim_buf_set_text(bufnr_, row - 1, col, row - 1, col, summary)
         vim.api.nvim_win_set_cursor(0, { row + 1, col + #summary[2] })
         return
       end
