@@ -66,7 +66,7 @@ endfunction
 
 function! s:comp_cpp(tbl) abort
   let l:cxx = g:_my_dep_cxx
-  if !my#lib#executable(cc)
+  if !my#lib#executable(l:cxx)
     return [v:null, v:null]
   endif
   return [function('s:cb_run_bin'), [l:cxx, a:tbl['fnm'], '-o', a:tbl['bin']]]
