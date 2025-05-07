@@ -56,7 +56,7 @@ function! s:Process.continue_with(process) dict
         \ s:continue_cb(proc, job_id, data, event, a:process)})
 endfunction
 
-function s:Process.kill() dict
+function! s:Process.kill() dict
   return jobstop(self.id)
 endfunction
 

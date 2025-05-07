@@ -1,6 +1,6 @@
 let s:session_dir = my#compat#stdpath('data') . '/sessions'
 
-function s:coc_lsp_check(server, extension, enable="enable") abort
+function! s:coc_lsp_check(server, extension, enable="enable") abort
   let l:var_name = '_my_lsp_' . a:server
   if exists('g:' . l:var_name)
     let l:val = get(g:, l:var_name)

@@ -168,7 +168,7 @@ function! my#note#md_insert_bullet() abort
   endif
 endfunction
 
-function my#note#md_sort_num_bullet()
+function! my#note#md_sort_num_bullet()
   let l:lnum = line('.')
   let l:linf_c = s:md_check_line('.')
   if l:linf_c[0] == 2

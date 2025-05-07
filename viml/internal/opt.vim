@@ -1,7 +1,7 @@
 " Source basics.vim
 call my#compat#require('basics')
 
-function s:get_os_name() abort
+function! s:get_os_name() abort
   if has("unix")
     return "Linux"
   elseif has("win32")
@@ -50,7 +50,7 @@ let g:_my_lsp_texlab = v:false
 let g:_my_lsp_vimls = v:false
 
 " Merge custom options.
-function s:json_set_var(opt_file) abort
+function! s:json_set_var(opt_file) abort
   let [l:code, l:table] = my#lib#json_decode(a:opt_file)
   if l:code != 0
     call my#lib#notify_err("Invalid option file")
@@ -75,7 +75,7 @@ if s:exists
   endtry
 endif
 
-function s:find_exe(exe_list) abort
+function! s:find_exe(exe_list) abort
   for exe in a:exe_list
     if executable(exe)
       return exe

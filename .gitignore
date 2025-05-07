@@ -1,3 +1,13 @@
-*nvimrc
-*.netrwhist
+# Configuration
+[._]mail.json
+[._]nvimrc
+.luarc.json
 coc-settings.json
+
+# Rust
+/rust
+
+# Misc
+*.netrwhist
+.DS_Store
+lazy-lock.json

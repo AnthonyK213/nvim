@@ -94,7 +94,7 @@ endfunction
 
 let s:funcref_list = []
 
-function my#util#add_funcref(fn) abort
+function! my#util#add_funcref(fn) abort
   call add(s:funcref_list, a:fn)
   return len(s:funcref_list) - 1
 endfunction

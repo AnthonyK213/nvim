@@ -1,4 +1,4 @@
-function s:change_mode() abort
+function! s:change_mode() abort
   let l:mode_list = ['black', 'white', 'manual']
   if exists("b:runner") && exists(":ChangeMode")
     let l:mode = b:runner["mode"]

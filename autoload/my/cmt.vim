@@ -25,7 +25,7 @@ let s:cmt_mark_tab_single = {
       \ 'vim'       : '"',
       \ 'vimwiki'   : "%% ",
       \ 'yaml'      : '#',
-      \ 'zsh'      : '#',
+      \ 'zsh'       : '#',
       \ }
 
 let s:cmt_mark_tab_multi = {

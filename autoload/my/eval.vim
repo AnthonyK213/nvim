@@ -137,10 +137,20 @@ function! s:lisp_tree(str) abort
   return l:tree_table[0]
 endfunction
 
+function! s:is_number(x) abort
+  let l:tp = type(a:x)
+  return l:tp == v:t_number || l:tp == v:t_float
+endfunction
+
 function! s:lisp_tree_eval(arg) abort
-  if type(a:arg) == 5
+  if s:is_number(a:arg)
     return a:arg
   endif
+
+  if type(a:arg) == v:t_list && !empty(a:arg) && s:is_number(a:arg[0])
+    return a:arg[0]
+  endif
+
   let l:func = a:arg[0]
   call remove(a:arg, 0)
   return s:func_map[l:func](map(a:arg, {_, val -> s:lisp_tree_eval(val)}))

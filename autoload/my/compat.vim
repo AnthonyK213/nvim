@@ -65,7 +65,7 @@ function! my#compat#has_incompat() abort
 endfunction
 
 " Key bindings for markdown.
-function my#compat#md_kbd() abort
+function! my#compat#md_kbd() abort
   for [s:key, s:val] in items({'P':'`', 'I':'*', 'B':'**', 'M':'***', 'U':'<u>'})
     for s:mod_item in ['n', 'v']
       exe s:mod_item . 'n' '<buffer><silent> <M-' . s:key . '>'
