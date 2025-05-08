@@ -155,29 +155,19 @@ end
 
 ---
 ---@param word string
-function M.stardict_sdcv(word)
-  if not lib.executable("sdcv", true) then
-    return
-  end
-
-  if try_focus() then
-    return
-  end
-
-  local p = Process.new("sdcv", { args = { "-n", "-j", word } })
-  p.on_stdout = on_stdout
-  p:start()
-end
-
----
----@param word string
 function M.stardict(word)
   if try_focus() then
     return
   end
 
-  local result = M:search(word)
-  vim.schedule_wrap(on_stdout)(result)
+  if lib.executable("sdcv") then
+    local p = Process.new("sdcv", { args = { "-n", "-j", word } })
+    p.on_stdout = on_stdout
+    p:start()
+  else
+    local result = M:search(word)
+    vim.schedule_wrap(on_stdout)(result)
+  end
 end
 
 return M
