@@ -81,25 +81,6 @@ function M.get_buf_dir(bufnr)
   return vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
 end
 
----Get characters around the cursor.
----@return { b: string, f: string, p: string, n: string } context
----  - *p*: The character before cursor (previous);
----  - *n*: The character after cursor  (next);
----  - *b*: The half line before cursor (backward);
----  - *f*: The half line after cursor  (forward).
-function M.get_context()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local line = vim.api.nvim_get_current_line()
-  local back = line:sub(1, col)
-  local fore = line:sub(col + 1, #line)
-  return {
-    b = back,
-    f = fore,
-    p = M.str_sub(back, -1),
-    n = M.str_sub(fore, 1, 1)
-  }
-end
-
 ---Get dynamic library extension.
 ---(`new_work` invocable)
 ---@return string?
@@ -208,6 +189,28 @@ function M.get_gv_mark(bufnr)
   return s[1] - 1, s[2], e[1] - 1, e[2] + d
 end
 
+---Get backward/forward part of current line around the cursor.
+---@param half? -1|0|1 -1: backward part; 0: both parts; 1: forward part.
+---@return { b:string, f:string } result *b*: Half line before the cursor;
+---                                      *f*: Half line after the cursor.
+function M.get_half_line(half)
+  half = half or 0
+
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local line = vim.api.nvim_get_current_line()
+  local res = { b = "", f = "" }
+
+  if half <= 0 then
+    res.b = line:sub(1, col)
+  end
+
+  if half >= 0 then
+    res.f = line:sub(col + 1, #line)
+  end
+
+  return res
+end
+
 ---Get OS type.
 ---(`new_work` invocable)
 ---@return lib.OS os_type_enum Type of current operating system.
@@ -261,7 +264,7 @@ end
 ---@return integer start_column Start index of the line (0-based, included).
 ---@return integer end_column End index of the line (0-based, not included).
 function M.get_word()
-  local context = M.get_context()
+  local context = M.get_half_line()
   local b = context.b
   local f = context.f
   local s_a, _ = vim.regex(_p_word_first_half):match_str(b)
@@ -274,7 +277,7 @@ function M.get_word()
   end
   local word = p_a .. p_b
   if word == "" then
-    word = context.n
+    word = M.str_sub(f, 1, 1)
     p_b = word
   end
   return word, #b - #p_a, #b + #p_b

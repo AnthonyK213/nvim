@@ -51,7 +51,7 @@ local cmp_setup = {
           return
         end
 
-        local context = lib.get_context()
+        local context = lib.get_half_line(-1)
         if is_md_list_marker(context.b) then
           feedkeys("<C-\\><C-O>>>", "n")
           vim.api.nvim_feedkeys(string.rep(vim.g._const_dir_r, vim.bo.ts), "n", true)
@@ -92,7 +92,7 @@ local cmp_setup = {
           return
         end
 
-        local context = lib.get_context()
+        local context = lib.get_half_line(-1)
         if is_md_list_marker(context.b) then
           local idt = vim.fn.indent(".")
           local pos = vim.api.nvim_win_get_cursor(0)

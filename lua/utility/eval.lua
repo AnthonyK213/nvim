@@ -9,7 +9,7 @@ local M = {}
 local function text_eval(f)
   local origin_pos = api.nvim_win_get_cursor(0)
   vim.cmd.normal("F`")
-  local context = lib.get_context()
+  local context = lib.get_half_line()
   local back = context.b
   local fore = context.f
   local s, expr, e = fore:match("^()`(.-)()`")

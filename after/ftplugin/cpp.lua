@@ -73,7 +73,7 @@ end
 -- Add doxygen comment.
 vim.defer_fn(function()
   require("utility.util").new_keymap("i", "/", function(fallback)
-    local indent = require("utility.lib").get_context().b:match("^(%s*)//$")
+    local indent = require("utility.lib").get_half_line(-1).b:match("^(%s*)//$")
     if indent then
       local summary = {
         "**",

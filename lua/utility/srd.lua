@@ -138,7 +138,7 @@ function M.srd_sub(pair_a_new, pair_a_old)
     }
     if not p_a_n0 then return end
 
-    local context = lib.get_context()
+    local context = lib.get_half_line()
     local back = context.b
     local fore = context.f
     local p_a_n, p_a_o, p_b_n, p_b_o
