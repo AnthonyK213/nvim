@@ -54,18 +54,14 @@ local has_error = function(proc, label)
     local stderr = vim.tbl_isempty(proc.stderr_buf) and "" or
         [[
 
---------------------------------------------------------------------------------
-                                 STANDARD ERROR
---------------------------------------------------------------------------------
+================================ STANDARD ERROR ================================
 
 ]]
         .. table.concat(proc.stderr_buf)
     local stdout = vim.tbl_isempty(proc.stdout_buf) and "" or
         [[
 
---------------------------------------------------------------------------------
-                                  STANDARD OUT
---------------------------------------------------------------------------------
+================================= STANDARD OUT =================================
 
 ]]
         .. table.concat(proc.stdout_buf)
@@ -333,7 +329,7 @@ proj_table = {
       build = { "cargo", "build", "--release" },
       check = { "cargo", "check" },
       clean = { "cargo", "clean" },
-      test  = { "cargo", "test" }
+      test  = { "cargo", "test", "--", "--nocapture" }
     }
     local cmd = cmd_tbl[option]
     if cargo_root and cmd and lib.executable("cargo", true) then
