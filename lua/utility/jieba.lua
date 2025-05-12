@@ -36,9 +36,9 @@ function M.is_enabled()
   return M.enabled
 end
 
----Get start and end position of the word at `position` (in unicode).
+---Get start and end position of the word at `position`.
 ---@param sentence string The sentence.
----@param position integer Unicode postion in `sentence`.
+---@param position integer Char index in `sentence` (0-based).
 ---@return integer? start_pos Start position (0-based, included).
 ---@return integer? end_pos End position (0-based, included).
 function M.get_pos(sentence, position)
@@ -49,22 +49,27 @@ function M.get_pos(sentence, position)
   end
 end
 
----Get the word and its position under the cursor.
----@return string word Word under the cursor.
+---Get the word and its position at the cursor.
+---@return string word Word at the cursor.
 ---@return integer start_column Start index of the line (0-based, included).
 ---@return integer end_column End index of the line (0-based, not included).
 function M.get_word()
   local encoding = lib.str_encoding()
   local line = vim.api.nvim_get_current_line()
   local _, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
-  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
-  local s_utf, e_utf = M.get_pos(line, pos_utf)
-  if not s_utf or not e_utf then
+  -- NOTE: In fact, `vim.str_utfindex` is 1-based, while `pos_byte` is 0-based.
+  -- But the values of `pos_char` are the same at the begin position of the char
+  -- despite of the base, thus we can treat `pos_char` as a 0-based index here.
+  -- Anyway, `vim.str_utfindex` was implemented incorrectly, it should be fixed.
+  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
+  local s_char, e_char = M.get_pos(line, pos_char)
+  if not s_char or not e_char then
     error("No word found")
   end
-  local word = lib.str_sub(line, s_utf + 1, e_utf + 1)
-  local s_byte = vim.str_byteindex(line, encoding, s_utf) --[[@as integer]]
-  local e_byte = vim.str_byteindex(line, encoding, e_utf + 1) --[[@as integer]]
+  local word = lib.str_sub(line, s_char + 1, e_char + 1)
+  -- `vim.str_byteindex` is 0-based.
+  local s_byte = vim.str_byteindex(line, encoding, s_char)
+  local e_byte = vim.str_byteindex(line, encoding, e_char + 1)
   return word, s_byte, e_byte
 end
 
@@ -81,14 +86,14 @@ local function goto_word_begin()
     line = vim.api.nvim_get_current_line()
   end
   local encoding = lib.str_encoding()
-  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
-  local s_utf, _ = M.get_pos(line, pos_utf)
-  if not s_utf then return end
-  if s_utf == pos_utf then
-    s_utf, _ = M.get_pos(line, pos_utf - 1)
-    if not s_utf then return end
+  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
+  local s_char, _ = M.get_pos(line, pos_char)
+  if not s_char then return end
+  if s_char == pos_char then
+    s_char, _ = M.get_pos(line, pos_char - 1)
+    if not s_char then return end
   end
-  local s_byte = vim.str_byteindex(line, encoding, s_utf)
+  local s_byte = vim.str_byteindex(line, encoding, s_char)
   vim.api.nvim_win_set_cursor(0, { lnum, s_byte })
 end
 
@@ -101,14 +106,14 @@ local function goto_word_end()
     return
   end
   local encoding = lib.str_encoding()
-  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
-  local _, e_utf = M.get_pos(line, pos_utf)
-  if not e_utf then return end
-  if e_utf == pos_utf then
-    _, e_utf = M.get_pos(line, pos_utf + 1)
-    if not e_utf then return end
+  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
+  local _, e_char = M.get_pos(line, pos_char)
+  if not e_char then return end
+  if e_char == pos_char then
+    _, e_char = M.get_pos(line, pos_char + 1)
+    if not e_char then return end
   end
-  local e_byte = vim.str_byteindex(line, encoding, e_utf)
+  local e_byte = vim.str_byteindex(line, encoding, e_char)
   vim.api.nvim_win_set_cursor(0, { lnum, e_byte })
 end
 
@@ -117,11 +122,11 @@ local function inner_word()
   if #line == 0 then return end
   local encoding = lib.str_encoding()
   local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
-  local pos_utf = vim.str_utfindex(line, encoding, pos_byte)
-  local s_utf, e_utf = M.get_pos(line, pos_utf)
-  if not s_utf or not e_utf then return end
-  local s_byte = vim.str_byteindex(line, encoding, s_utf)
-  local e_byte = vim.str_byteindex(line, encoding, e_utf)
+  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
+  local s_char, e_char = M.get_pos(line, pos_char)
+  if not s_char or not e_char then return end
+  local s_byte = vim.str_byteindex(line, encoding, s_char)
+  local e_byte = vim.str_byteindex(line, encoding, e_char)
   vim.api.nvim_buf_set_mark(0, "<", lnum, s_byte, {})
   vim.api.nvim_buf_set_mark(0, ">", lnum, e_byte, {})
   vim.cmd.normal { bang = true, args = { "gv" }, mods = { silent = true } }
