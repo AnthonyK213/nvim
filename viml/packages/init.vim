@@ -44,6 +44,7 @@ endfunction
 call plug#begin(my#compat#stdpath('data') . '/plugged')
 call s:plug('rakr/vim-one')
 call s:plug('morhetz/gruvbox')
+call s:plug('ghifarit53/tokyonight-vim')
 call s:plug('tpope/vim-fugitive', function("my#config#vim_fugitive"))
 call s:plug('mhinz/vim-signify', function("my#config#vim_signify"))
 call s:plug('mhinz/vim-crates', function("my#config#crates"))
@@ -67,7 +68,8 @@ endif
 let s:colorscheme_table = {
       \ 'one': 'one',
       \ 'onedark': 'one',
-      \ 'gruvbox': 'gruvbox'
+      \ 'gruvbox': 'gruvbox',
+      \ 'tokyonight': 'tokyonight',
       \ }
 let g:_my_theme_switchable = 0
 let &bg = g:_my_tui_theme

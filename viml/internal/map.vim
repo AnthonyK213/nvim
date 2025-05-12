@@ -106,9 +106,9 @@ nn <silent> <leader>ou :call my#util#sys_open(my#util#match_path_or_url_under_cu
 nn <silent> <leader>ev :call my#eval#vim_eval()<CR>
 nn <silent> <leader>el :call my#eval#lisp_eval()<CR>
 " Append day of week after the date.
-nn <silent> <leader>dd :call my#note#append_day_from_date()<CR>
+nn <silent> <leader>nd :call my#note#append_day_from_date()<CR>
 " Insert an timestamp after cursor.
-nn <silent> <leader>ds a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
+nn <silent> <leader>ns a<C-R>=strftime('<%Y-%m-%d %a %H:%M>')<CR><Esc>
 " Hanzi count.
 nn <silent> <leader>cc :call my#note#hanzi_count("n")<CR>
 vn <silent> <leader>cc :<C-U>call my#note#hanzi_count("v")<CR>

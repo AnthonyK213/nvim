@@ -16,7 +16,7 @@
   - [**fd**](https://github.com/sharkdp/fd)
   - [**lazygit**](https://github.com/jesseduffield/lazygit)
 
-- **Clone repository**
+- Clone repository
   - Windows
     ```ps1
     git clone --depth=1 -b viml https://github.com/AnthonyK213/nvim.git `
@@ -28,7 +28,7 @@
                                 "${XDG_DATA_HOME:-$HOME/.config}"/nvim
     ```
 
-- **Start Neovim and wait for the installation to complete**
+- Start Neovim and wait for the installation to complete
 
 # Configuration
 
@@ -53,18 +53,16 @@ It's a pure text file with json syntax. Example:
   },
   // Paths
   "path": {
-    // (string) Home directory
+    // (string) Home directory.
     "home": "$HOME",
-    // (string) Cloud drive directory
-    "cloud": "$HOME/cloud",
-    // (string) Desktop directory
+    // (string) Desktop directory.
     "desktop": "$HOME/Desktop",
-    // (string) Binaries directory
-    "bin": "$HOME/bin"
+    // (string) Vimwiki directory.
+    "vimwiki": "$HOME/vimwiki"
   },
   // TUI
   "tui": {
-    // ("one"|"gruvbox") Color scheme
+    // ("one"|"gruvbox"|"tokyonight") Color scheme
     "scheme": "one",
     // ("dark"|"light") TUI background theme
     "theme": "dark",
@@ -79,7 +77,7 @@ It's a pure text file with json syntax. Example:
     // (boolean) Dim inactive window automatically
     "auto_dim": false
   },
-  // GUI (neovim-qt, fvim)
+  // GUI (neovim-qt, fvim, neovide, VimR)
   "gui": {
     // ("auto"|"dark"|"light") GUI background theme
     "theme": "auto",
@@ -115,140 +113,126 @@ It's a pure text file with json syntax. Example:
 }
 ```
 
-> Set `.vimrc` for Vim (optional)
-> - Windows
->   ``` ps1
->   Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
->             -Destination "$env:HOMEPATH\_vimrc"
->   ```
-> - GNU/Linux
->   ``` sh
->   cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
->      "${XDG_DATA_HOME:-$HOME}"/.vimrc
->   ```
+Set `.vimrc` for Vim (optional)
+- Windows
+  ``` ps1
+  Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
+            -Destination "$env:HOMEPATH\_vimrc"
+  ```
+- GNU/Linux
+  ``` sh
+  cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
+     "${XDG_DATA_HOME:-$HOME}"/.vimrc
+  ```
 
 # Key bindings
 
-* **Ctrl**
-  - in:  <kbd>C-S</kbd>     -> Save.
-  - n:   <kbd>C-Arrow</kbd> -> Adjust window size.
-* **Meta**
-  - in:  <kbd>M-a</kbd>  -> Select all.
-  - v:   <kbd>M-c</kbd>  -> Copy to system clipboard.
-  - t:   <kbd>M-d</kbd>  -> Close the terminal.
-  - int: <kbd>M-e</kbd>  -> File explorer focus.
-  - nv:  <kbd>M-g</kbd>  -> Find and replace.
-  - inv: <kbd>M-h</kbd>  -> Jump to the window left.
-  - inv: <kbd>M-j</kbd>  -> Jump to the window below.
-  - inv: <kbd>M-k</kbd>  -> Jump to the window above.
-  - inv: <kbd>M-l</kbd>  -> Jump to the window right.
-  - nv:  <kbd>M-n</kbd>  -> Move line(s) down.
-  - nv:  <kbd>M-p</kbd>  -> Move line(s) up.
-  - inv: <kbd>M-v</kbd>  -> Paste from system clipboard.
-  - inv: <kbd>M-w</kbd>  -> Jump to the window in turn.
-  - v:   <kbd>M-x</kbd>  -> Cut to system clipboard.
-  - n:   <kbd>M-,</kbd>  -> Open `nvimrc`.
-  - i:   <kbd>M-CR</kbd> -> Auto insert bullet.
-  - in:  <kbd>M-Nr</kbd> -> Switch tab(Number: 1, 2, 3, ..., 9, 0).
-  - inv: <kbd>M-B</kbd>  -> Markdown **bold** 
-  - inv: <kbd>M-I</kbd>  -> Markdown *italic*
-  - inv: <kbd>M-M</kbd>  -> Markdown ***bold_italic***
-  - inv: <kbd>M-P</kbd>  -> Markdown `block`
-  - inv: <kbd>M-U</kbd>  -> Markdown <u>underscore</u>
-* **Emacs**
-  - inv: <kbd>C-N</kbd>  -> Emacs next line.
-  - inv: <kbd>C-P</kbd>  -> Emacs previous line.
-  - ci:  <kbd>C-F</kbd>  -> Emacs forward.
-  - ci:  <kbd>C-B</kbd>  -> Emacs backward.
-  - ci:  <kbd>C-A</kbd>  -> Emacs line start.
-  - ci:  <kbd>C-E</kbd>  -> Emacs line end.
-  - i:   <kbd>C-K</kbd>  -> Emacs kill test on the right.
-  - cin: <kbd>M-f</kbd>  -> Emacs next word.
-  - cin: <kbd>M-b</kbd>  -> Emacs last word.
-  - i:   <kbd>M-d</kbd>  -> Emacs delete word.
-  - in:  <kbd>M-x</kbd>  -> Command line.
-* **Leader**
-  > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
-  - <kbd>leader-b-</kbd> -> **Buffer**.
-    - n:    <kbd>c</kbd> -> Set directory to the current buffer.
-    - n:    <kbd>d</kbd> -> Delete buffer.
-    - n:    <kbd>g</kbd> -> Toggle background.
-    - n:    <kbd>h</kbd> -> Turn off highlights.
-    - n:    <kbd>l</kbd> -> List buffers.
-    - n:    <kbd>n</kbd> -> Next buffer.
-    - n:    <kbd>p</kbd> -> Previous buffer.
-  - <kbd>leader-c-</kbd> -> **Check**.
-    - nv:   <kbd>c</kbd> -> Chinese characters count.
-    - n:    <kbd>s</kbd> -> Toggle spell check status.
-  - <kbd>leader-d-</kbd> -> **Date**.
-    - n:    <kbd>s</kbd> -> Insert time stamp at the end of line.
-    - n:    <kbd>d</kbd> -> Append day of week to yyyy-mm-dd.
-  - <kbd>leader-e-</kbd> -> **Evaluate**
-    - n:    <kbd>v</kbd> -> Evaluate viml chunk surrounded by backquote.
-    - n:    <kbd>l</kbd> -> Evaluate lisp chunk(math) surrounded by backquote.
-  - <kbd>leader-f-</kbd> -> **Find**.
-    - n:    <kbd>b</kbd> -> *vim-clap*, buffers.
-    - n:    <kbd>f</kbd> -> *vim-clap*, find files.
-    - n:    <kbd>g</kbd> -> *vim-clap*, live grep.
-  - <kbd>leader-g-</kbd> -> **VCS**.
-    - n:    <kbd>b</kbd> -> *vim-fugitive*, git blame.
-    - n:    <kbd>d</kbd> -> *vim-fugitive*, git diff.
-    - n:    <kbd>h</kbd> -> *vim-fugitive*, git log.
-    - n:    <kbd>j</kbd> -> *vim-signify*, next hunk.
-    - n:    <kbd>k</kbd> -> *vim-signify*, previous hunk.
-    - n:    <kbd>J</kbd> -> *vim-signify*, last hunk.
-    - n:    <kbd>K</kbd> -> *vim-signify*, first hunk.
-    - n:    <kbd>n</kbd> -> *vim-floaterm*, open lazygit.
-    - n:    <kbd>s</kbd> -> Git status.
-  - <kbd>leader-h-</kbd> -> **Search text in web browser**.
-    - nv:   <kbd>b</kbd> -> Search cword with Baidu.
-    - nv:   <kbd>g</kbd> -> Search cword with Google.
-    - nv:   <kbd>h</kbd> -> Search cword with Github.
-    - nv:   <kbd>y</kbd> -> Search cword with Youdao.
-  - <kbd>leader-k-</kbd> -> **Comment**.
-    - nv:   <kbd>c</kbd> -> Comment line/block.
-    - nv:   <kbd>u</kbd> -> Un-comment line/block.
-  - <kbd>leader-l-</kbd> -> **LSP**.
-    - n:    <kbd>a</kbd> -> *coc.nvim*, code action.
-    - n:    <kbd>d</kbd> -> *coc.nvim*, declaration.
-    - n:    <kbd>f</kbd> -> *coc.nvim*, definition.
-    - n:    <kbd>i</kbd> -> *coc.nvim*, implementation.
-    - n:    <kbd>m</kbd> -> *coc.nvim*, format selection.
-    - n:    <kbd>n</kbd> -> *coc.nvim*, rename.
-    - n:    <kbd>q</kbd> -> *coc.nvim*, autofix.
-    - n:    <kbd>r</kbd> -> *coc.nvim*, references.
-    - n:    <kbd>t</kbd> -> *coc.nvim*, type definition.
-    - n:    <kbd>[</kbd> -> *coc.nvim*, previous diagnostic.
-    - n:    <kbd>]</kbd> -> *coc.nvim*, next diagnostic.
-  - <kbd>leader-m-</kbd> -> **Markdown**.
-    - n:    <kbd>l</kbd> -> Sort number list.
-    - n:    <kbd>v</kbd> -> *vista.vim*, Toc vertical.
-  - <kbd>leader-o-</kbd> -> **Open**.
-    - n:    <kbd>b</kbd> -> Open file of buffer with system default browser.
-    - n:    <kbd>e</kbd> -> Open system file manager.
-    - n:    <kbd>t</kbd> -> Open terminal.
-    - n:    <kbd>p</kbd> -> File explorer toggle.
-    - n:    <kbd>u</kbd> -> Open path or url under the cursor.
-  - <kbd>leader-s-</kbd> -> **Surrounding**.
-    - nv:   <kbd>a</kbd> -> Surrounding add.
-    - n:    <kbd>c</kbd> -> Surrounding change.
-    - n:    <kbd>d</kbd> -> Surrounding delete.
-  - <kbd>leader-t-</kbd> -> **Table mode**
-    - n:    <kbd>a</kbd> -> *vim-table-mode*, Add formula.
-    - n:    <kbd>c</kbd> -> *vim-table-mode*, Evaluate formula.
-    - n:    <kbd>f</kbd> -> *vim-table-mode*, Re-align.
-  - <kbd>leader-w-</kbd> -> **Vimwiki**.
-* **Miscellanea**
-  - v:   <kbd>\*/#</kbd> -> Search visual selection.
-  - n:   <kbd>S-F5</kbd> -> `CodeRun`
-  - invt:<kbd>F8</kbd>   -> Toggle mouse status.
+| Modifier                        | Key            | Mode | Description                                                       |
+|---------------------------------|----------------|------|-------------------------------------------------------------------|
+| <kbd>Ctrl</kbd>                 | <kbd>S</kbd>   | in   | Save current buffer to file.                                      |
+| <kbd>Ctrl</kbd>                 | `direction`    | n    | Adjust window size.                                               |
+| <kbd>Meta</kbd>                 | <kbd>a</kbd>   | in   | Select all text in current buffer.                                |
+| <kbd>Meta</kbd>                 | <kbd>c</kbd>   | v    | Copy to system clipboard.                                         |
+| <kbd>Meta</kbd>                 | <kbd>d</kbd>   | t    | Close the terminal.                                               |
+| <kbd>Meta</kbd>                 | <kbd>e</kbd>   | n    | Focus to file explorer.                                           |
+| <kbd>Meta</kbd>                 | <kbd>g</kbd>   | nv   | Find and replace.                                                 |
+| <kbd>Meta</kbd>                 | <kbd>h</kbd>   | nv   | Goto the window left.                                             |
+| <kbd>Meta</kbd>                 | <kbd>j</kbd>   | nv   | Goto the window below.                                            |
+| <kbd>Meta</kbd>                 | <kbd>k</kbd>   | nv   | Goto the window above.                                            |
+| <kbd>Meta</kbd>                 | <kbd>l</kbd>   | nv   | Goto the window right.                                            |
+| <kbd>Meta</kbd>                 | <kbd>n</kbd>   | nv   | Move line(s) down.                                                |
+| <kbd>Meta</kbd>                 | <kbd>p</kbd>   | nv   | Move line(s) up.                                                  |
+| <kbd>Meta</kbd>                 | <kbd>v</kbd>   | inv  | Paste from system clipboard.                                      |
+| <kbd>Meta</kbd>                 | <kbd>w</kbd>   | inv  | Switch window in turns.                                           |
+| <kbd>Meta</kbd>                 | <kbd>x</kbd>   | v    | Cut to system clipboard.                                          |
+| <kbd>Meta</kbd>                 | <kbd>,</kbd>   | n    | Open `nvimrc`.                                                    |
+| <kbd>Meta</kbd>                 | <kbd>CR</kbd>  | i    | Begin a new line below the cursor and insert bullet.              |
+| <kbd>Meta</kbd>                 | `number`       | in   | Goto tab (Number 1, 2, 3, ..., 9, 0).                             |
+| <kbd>Meta</kbd>                 | <kbd>B</kbd>   | in   | Toggle Markdown **bold**.                                         |
+| <kbd>Meta</kbd>                 | <kbd>I</kbd>   | in   | Toggle Markdown *italic*.                                         |
+| <kbd>Meta</kbd>                 | <kbd>M</kbd>   | in   | Toggle Markdown ***bold_italic***.                                |
+| <kbd>Meta</kbd>                 | <kbd>P</kbd>   | in   | Toggle Markdown `block`.                                          |
+| <kbd>Meta</kbd>                 | <kbd>U</kbd>   | inv  | Markdown <u>underscore</u>.                                       |
+| <kbd>Ctrl</kbd>                 | <kbd>N</kbd>   | inv  | Cursor down.                                                      |
+| <kbd>Ctrl</kbd>                 | <kbd>P</kbd>   | inv  | Cursor up.                                                        |
+| <kbd>Ctrl</kbd>                 | <kbd>B</kbd>   | ci   | Cursor left.                                                      |
+| <kbd>Ctrl</kbd>                 | <kbd>F</kbd>   | ci   | Cursor right.                                                     |
+| <kbd>Ctrl</kbd>                 | <kbd>A</kbd>   | ci   | To the first character of the screen line.                        |
+| <kbd>Ctrl</kbd>                 | <kbd>E</kbd>   | ci   | To the last character of the screen line.                         |
+| <kbd>Ctrl</kbd>                 | <kbd>K</kbd>   | i    | Kill text until the end of the line.                              |
+| <kbd>Meta</kbd>                 | <kbd>b</kbd>   | cin  | Cursor one word left.                                             |
+| <kbd>Meta</kbd>                 | <kbd>f</kbd>   | cin  | Cursor one word right.                                            |
+| <kbd>Meta</kbd>                 | <kbd>d</kbd>   | i    | Kill text until the end of the word.                              |
+| <kbd>Meta</kbd>                 | <kbd>x</kbd>   | in   | Command-line mode.                                                |
+|                                 | <kbd>\*</kbd>  | v    | Search visual selection downward.                                 |
+|                                 | <kbd>#</kbd>   | v    | Search visual selection upward.                                   |
+| <kbd>Shift</kbd>                | <kbd>F5</kbd>  | n    | `CodeRun`.                                                        |
+| <kbd>Ctrl</kbd><kbd>Shift</kbd> | <kbd>F5</kbd>  | n    | `CodeRun test`.                                                   |
+|                                 | <kbd>F8</kbd>  | invt | Toggle mouse status.                                              |
+| <kbd>leader</kbd>               | <kbd>bc</kbd>  | n    | Set cwd to current buffer directory.                              |
+| <kbd>leader</kbd>               | <kbd>bd</kbd>  | n    | Delete current buffer.                                            |
+| <kbd>leader</kbd>               | <kbd>bg</kbd>  | n    | Toggle background theme.                                          |
+| <kbd>leader</kbd>               | <kbd>bh</kbd>  | n    | Stop the search highlighting.                                     |
+| <kbd>leader</kbd>               | <kbd>bl</kbd>  | n    | List buffers.                                                     |
+| <kbd>leader</kbd>               | <kbd>bn</kbd>  | n    | Goto the next buffer.                                             |
+| <kbd>leader</kbd>               | <kbd>bp</kbd>  | n    | Goto the previous buffer.                                         |
+| <kbd>leader</kbd>               | <kbd>cc</kbd>  | nv   | Chinese characters count.                                         |
+| <kbd>leader</kbd>               | <kbd>cs</kbd>  | n    | Toggle spell check.                                               |
+| <kbd>leader</kbd>               | <kbd>ev</kbd>  | n    | Evaluate viml chunk surrounded by backquote.                      |
+| <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk (math) surrounded by backquote.               |
+| <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *fzf.vim*, buffers.                                               |
+| <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *fzf.vim*, find files.                                            |
+| <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *fzf.vim*, live grep.                                             |
+| <kbd>leader</kbd>               | <kbd>gb</kbd>  | n    | *vim-fugitive*, git blame.                                        |
+| <kbd>leader</kbd>               | <kbd>gd</kbd>  | n    | *vim-fugitive*, git diff.                                         |
+| <kbd>leader</kbd>               | <kbd>gh</kbd>  | n    | *vim-fugitive*, git log.                                          |
+| <kbd>leader</kbd>               | <kbd>gj</kbd>  | n    | *vim-signify*, next hunk.                                         |
+| <kbd>leader</kbd>               | <kbd>gk</kbd>  | n    | *vim-signify*, previous hunk.                                     |
+| <kbd>leader</kbd>               | <kbd>gJ</kbd>  | n    | *vim-signify*, last hunk.                                         |
+| <kbd>leader</kbd>               | <kbd>gK</kbd>  | n    | *vim-signify*, first hunk.                                        |
+| <kbd>leader</kbd>               | <kbd>gl</kbd>  | n    | *vim-floaterm*, open lazygit.                                     |
+| <kbd>leader</kbd>               | <kbd>gs</kbd>  | n    | Show git status.                                                  |
+| <kbd>leader</kbd>               | <kbd>hb</kbd>  | nv   | Search cword/selection with Baidu.                                |
+| <kbd>leader</kbd>               | <kbd>hg</kbd>  | nv   | Search cword/selection with Google.                               |
+| <kbd>leader</kbd>               | <kbd>hh</kbd>  | nv   | Search cword/selection with StarDict (requires local dictionary). |
+| <kbd>leader</kbd>               | <kbd>hy</kbd>  | nv   | Search cword/selection with Youdao dictionary.                    |
+| <kbd>leader</kbd>               | <kbd>kc</kbd>  | nv   | Comment current/selected line(s).                                 |
+| <kbd>leader</kbd>               | <kbd>ku</kbd>  | nv   | Uncomment current/selected line(s).                               |
+| <kbd>leader</kbd>               | <kbd>la</kbd>  | n    | *coc.nvim*, code action.                                          |
+| <kbd>leader</kbd>               | <kbd>ld</kbd>  | n    | *coc.nvim*, goto declaration.                                     |
+| <kbd>leader</kbd>               | <kbd>lf</kbd>  | n    | *coc.nvim*, goto definition.                                      |
+| <kbd>leader</kbd>               | <kbd>li</kbd>  | n    | *coc.nvim*, implementation.                                       |
+| <kbd>leader</kbd>               | <kbd>lm</kbd>  | n    | *coc.nvim*, format.                                               |
+| <kbd>leader</kbd>               | <kbd>ln</kbd>  | n    | *coc.nvim*, rename.                                               |
+| <kbd>leader</kbd>               | <kbd>lq</kbd>  | n    | *coc.nvim*, atuofix.                                              |
+| <kbd>leader</kbd>               | <kbd>lr</kbd>  | n    | *coc.nvim*, references.                                           |
+| <kbd>leader</kbd>               | <kbd>lt</kbd>  | n    | *coc.nvim*, type definition.                                      |
+| <kbd>leader</kbd>               | <kbd>l\[</kbd> | n    | *coc.nvim*, goto previous diagnostic mark.                        |
+| <kbd>leader</kbd>               | <kbd>l\]</kbd> | n    | *coc.nvim*, goto next diagnostic mark.                            |
+| <kbd>leader</kbd>               | <kbd>ml</kbd>  | n    | Regenerate list bullets.                                          |
+| <kbd>leader</kbd>               | <kbd>mv</kbd>  | n    | *vista.vim* toggle table of content.                              |
+| <kbd>leader</kbd>               | <kbd>mt</kbd>  | n    | Toggle preview (Markdown/LaTeX)                                   |
+| <kbd>leader</kbd>               | <kbd>nd</kbd>  | n    | Append the weekday after a date (yyyy-mm-dd).                     |
+| <kbd>leader</kbd>               | <kbd>ns</kbd>  | n    | Insert timestamp after cursor.                                    |
+| <kbd>leader</kbd>               | <kbd>ob</kbd>  | n    | Open file of buffer with system default browser.                  |
+| <kbd>leader</kbd>               | <kbd>oe</kbd>  | n    | Open system file manager.                                         |
+| <kbd>leader</kbd>               | <kbd>ot</kbd>  | n    | Open terminal.                                                    |
+| <kbd>leader</kbd>               | <kbd>op</kbd>  | n    | Toggle file explorer.                                             |
+| <kbd>leader</kbd>               | <kbd>ou</kbd>  | n    | Open path or url under the cursor.                                |
+| <kbd>leader</kbd>               | <kbd>sa</kbd>  | nv   | Surrounding add.                                                  |
+| <kbd>leader</kbd>               | <kbd>sc</kbd>  | n    | Surrounding change.                                               |
+| <kbd>leader</kbd>               | <kbd>sd</kbd>  | n    | Surrounding delete.                                               |
+| <kbd>leader</kbd>               | <kbd>ta</kbd>  | n    | *vim-table-mode* add formula.                                     |
+| <kbd>leader</kbd>               | <kbd>tc</kbd>  | n    | *vim-table-mode* evaluate formula.                                |
+| <kbd>leader</kbd>               | <kbd>tf</kbd>  | n    | *vim-table-mode* re-align.                                        |
+| <kbd>leader</kbd>               | <kbd>vs</kbd>  | n    | Show highlight information.                                       |
+
+> <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
 
 # Commands
 
-- `CodeRun`     -> Run or compile the code.
-- `Pdf`         -> View pdf after compiling a tex file.
-- `PushAll`     -> Just push everything to the remote origin.
-  - `-b`        -> branch  (default: current branch).
-  - `-m`        -> comment (default: date).
-- `SshConfig`   -> Open and edit ~/.ssh/config
-- `Time`        -> Print date and time.
+| Command   | Arguments                       | Description                         |
+|-----------|---------------------------------|-------------------------------------|
+| `CodeRun` | `build`\|`test`\|...            | Run or compile the code.            |
+| `PushAll` | `-b` {branch}<br/>`-m` {commit} | Just push everything to the remote. |
+| `Time`    |                                 | Print date and time.                |

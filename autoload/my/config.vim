@@ -247,6 +247,11 @@ function! my#config#gruvbox() abort
   colorscheme gruvbox
 endfunction
 
+function! my#config#tokyonight() abort
+  let g:_my_theme_switchable = 0
+  colorscheme tokyonight
+endfunction
+
 function! my#config#indentLine() abort
   let g:indentLine_char = '▏'
   let g:vim_json_conceal = 0

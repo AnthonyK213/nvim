@@ -3,6 +3,7 @@
 "   - [Neovim Qt](https://github.com/equalsraf/neovim-qt)
 "   - [Fvim](https://github.com/yatli/fvim)
 "   - [Neovide](https://github.com/neovide/neovide)
+"   - [VimR](https://github.com/qvacua/vimr)
 
 
 let s:my_gui_table = {
@@ -68,6 +69,10 @@ let s:neovide_option_table = {
       \ 'g:neovide_floating_blur_amount_y': 2.0,
       \ }
 
+let s:vimr_option_table = {
+      \ 'VimRSetLinespacing': printf("%.1f", g:_my_gui_line_space),
+      \ }
+
 
 " Functions
 function! s:gui_font_set(half=g:_my_gui_font_half,
@@ -76,7 +81,11 @@ function! s:gui_font_set(half=g:_my_gui_font_half,
   if exists(':GuiFont')
     exe 'GuiFont!' a:half . ':h' . a:size
   else
-    let &gfn = a:half . ':h' . a:size
+    if exists("g:neovide")
+      let &gfn = a:half . "," . a:wide . ':h' . a:size
+    else
+      let &gfn = a:half . ':h' . a:size
+    endif
   endif
   let &gfw = a:wide . ':h' . a:size
 endfunction
@@ -111,6 +120,8 @@ function! s:gui_fullscreen_toggle() abort
     endif
   elseif exists(':FVimToggleFullScreen')
     FVimToggleFullScreen
+  elseif exists(':VimRToggleFullscreen')
+    VimRToggleFullscreen
   endif
 endfunction
 
@@ -138,7 +149,7 @@ function! s:gui_memo_lazy_save() abort
   if !empty(&bt)
     return
   elseif empty(expand('%:t'))
-    let l:path = expand(g:_my_path_cloud . '/Notes/diary')
+    let l:path = expand(g:_my_path_vimwiki . '/diary')
     if empty(glob(l:path))
       let l:path = g:_my_path_desktop
     endif
@@ -152,6 +163,8 @@ endfunction
 function! s:gui_file_explorer() abort
   if exists(':GuiTreeviewToggle')
     GuiTreeviewToggle
+  elseif exists(':VimRToggleTools')
+    VimRToggleTools
   endif
 endfunction
 
@@ -166,7 +179,7 @@ set mouse=a
 " GUI
 "" Cursor blink
 if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
-  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,
+  :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,
         \a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,
         \sm:block-blinkwait240-blinkoff150-blinkon150
 endif
@@ -185,12 +198,17 @@ if exists("g:neovide")
     " Disable IME automatically.
     au InsertLeave * exe "let g:neovide_input_ime=v:false"
     au InsertEnter * exe "let g:neovide_input_ime=v:true"
-    au CmdlineEnter [/\?] exe "let g:neovide_input_ime=v:false"
-    au CmdlineLeave [/\?] exe "let g:neovide_input_ime=v:true"
+    " Command mode needs `INSERT`.
+    au CmdlineEnter * exe "let g:neovide_input_ime=v:true"
+    au CmdlineLeave * exe "let g:neovide_input_ime=v:false"
 
     " Neovide should load ginit.vim **after** other initializations...
-    au UIEnter * source <sfile>:h/ginit.vim
+    au UIEnter * exe 'source <sfile>:h/ginit.vim'
   augroup END
+endif
+"" VimR
+if exists("g:gui_vimr")
+  call s:gui_set_option_table(s:vimr_option_table)
 endif
 "" GUI theme
 if exists("g:_my_theme_switchable") && !empty(g:_my_theme_switchable)
