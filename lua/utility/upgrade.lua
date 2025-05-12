@@ -1,5 +1,5 @@
 local lib = require("utility.lib")
-local crates = require("utility.crates")
+local rsmod = require("utility.rsmod")
 local futures = require("futures")
 
 local Process = futures.Process
@@ -228,7 +228,7 @@ function M.nvim_upgrade(channel)
     return
   end
 
-  local upgrader = crates.get_bin_path("nvim-upgrade")
+  local upgrader = rsmod.get_bin_path("nvim-upgrade")
   if not upgrader then
     idle()
     return

@@ -1,12 +1,12 @@
 local ffi = require("ffi")
 local lib = require("utility.lib")
-local crates = require("utility.crates")
+local rsmod = require("utility.rsmod")
+
+---FFI module.
+---@type ffi.namespace*
+local _njieba = nil
 
 local M = {}
-
----@private
----FFI module.
-M.njieba = nil
 
 ---@private
 ---Jieba instance.
@@ -17,8 +17,8 @@ M.enabled = false
 
 ---@private
 function M:init()
-  if self.njieba then return true end
-  local dylib_path = crates.get_dylib_path("njieba")
+  if _njieba then return true end
+  local dylib_path = rsmod.get_dylib_path("njieba")
   if not dylib_path then
     lib.warn("Dynamic library is not found")
     return false
@@ -28,7 +28,7 @@ void *njieba_new();
 int njieba_pos(void *jieba, const char *line, int pos, int *start, int *end);
 void njieba_drop(void *jieba);
 ]]
-  self.njieba = ffi.load(dylib_path)
+  _njieba = ffi.load(dylib_path)
   return true
 end
 
@@ -44,7 +44,7 @@ end
 function M.get_pos(sentence, position)
   local s, e = ffi.new("int[1]", 0), ffi.new("int[1]", 0)
   if M.jieba
-      and M.njieba.njieba_pos(M.jieba, sentence, position, s, e) == 0 then
+      and _njieba.njieba_pos(M.jieba, sentence, position, s, e) == 0 then
     return s[0], e[0] - 1
   end
 end
@@ -144,8 +144,8 @@ function M:enable()
   end
 
   if not self.jieba then
-    self.jieba = self.njieba.njieba_new()
-    ffi.gc(self.jieba, self.njieba.njieba_drop)
+    self.jieba = _njieba.njieba_new()
+    ffi.gc(self.jieba, _njieba.njieba_drop)
   end
 
   vim.keymap.set({ "n", "v" }, "b", goto_word_begin, {})

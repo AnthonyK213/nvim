@@ -24,21 +24,21 @@ end, {
 })
 
 cmd("BuildCrates", function(tbl)
-  local crates = require("utility.crates")
-  local crate_list = crates.find_crates()
+  local rsmod = require("utility.rsmod")
+  local crates = rsmod.find_crates()
   local args = tbl.args
   if args:len() == 0 then
-    crates.build_crates(crate_list)
-  elseif crate_list[args] then
-    crates.build_crates({ [args] = crate_list[args] })
+    rsmod.build_crates(crates)
+  elseif crates[args] then
+    rsmod.build_crates({ [args] = crates[args] })
   else
     vim.notify("Crate not found")
   end
 end, {
   nargs = "?",
   complete = function()
-    local crate_list = require("utility.crates").find_crates()
-    return vim.tbl_keys(crate_list)
+    local crates = require("utility.rsmod").find_crates()
+    return vim.tbl_keys(crates)
   end,
   desc = "Build crates in this configuration"
 })

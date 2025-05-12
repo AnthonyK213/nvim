@@ -1,106 +1,12 @@
 local ffi = require("ffi")
 local lib = require("utility.lib")
-local crates = require("utility.crates")
+local rsmod = require("utility.rsmod")
 local futures = require("futures")
 local spawn, Process = futures.spawn, futures.Process
 local stardict_path = vim.uv.os_homedir() .. "/.stardict/dic/"
 
-local function check_dict()
-  local exists, dic_path = lib.path_exists(stardict_path)
-  local n_dics = 0
-  if exists and dic_path then
-    for _, type_ in vim.fs.dir(dic_path) do
-      if type_ == "directory" then
-        n_dics = n_dics + 1
-      end
-    end
-    if n_dics > 0 then
-      vim.notify("Found " .. n_dics .. " dictionar" .. (n_dics == 1 and "y" or "ies") .. ".", vim.log.levels.INFO)
-      return true
-    end
-  end
-  spawn(function()
-    local yes_no = futures.ui.input {
-      prompt = "No local dictionary found, get one? [Y/n] "
-    }
-    if yes_no and yes_no:lower() == "y" then
-      require("utility.util").sys_open("https://github.com/AnthonyK213/.stardict")
-    end
-  end)
-  return false
-end
-
-local M = {}
-
+---Opened floating window.
 local _bufnr, _winnr = -1, -1
-
----@private
----FFI module.
-M.nstardict = nil
-
----@private
----Dictionaries.
-M.library = nil
-
----@private
----@return boolean
-function M:init()
-  if not self.nstardict then
-    local dylib_path = crates.get_dylib_path("nstardict")
-    if not dylib_path then
-      lib.warn("Dynamic library is not found")
-      return false
-    end
-
-    ffi.cdef [[
-void *nstardict_new_library(const char *dict_dir);
-char *nstardict_consult(void *library, const char *word);
-void nstardict_drop_library(void *library);
-void ffi_util_str_util_str_free(char *s);
-]]
-
-    self.nstardict = ffi.load(dylib_path)
-  end
-
-  if not self.library then
-    if not stardict_path or not check_dict() then
-      return false
-    end
-    self.library = self.nstardict.nstardict_new_library(stardict_path)
-
-    if not self.library then
-      lib.warn("Failed to load dictionaries")
-      return false
-    end
-
-    ffi.gc(self.library, self.nstardict.nstardict_drop_library)
-  end
-
-  return true
-end
-
----@private
----@param word string
----@return string
-function M:search(word)
-  if not self:init() then
-    return "[]"
-  end
-
-  if word:match("^%s*$") then
-    return "[]"
-  end
-
-  local c_str = self.nstardict.nstardict_consult(self.library, word)
-  if not c_str then
-    return "[]"
-  end
-
-  local result = ffi.string(c_str)
-  self.nstardict.ffi_util_str_util_str_free(c_str)
-
-  return result
-end
 
 local function try_focus()
   if vim.api.nvim_buf_is_valid(_bufnr)
@@ -111,6 +17,8 @@ local function try_focus()
   return false
 end
 
+---Show lookup result in floating window.
+---@param result { dict:string, word:string, definition:string }
 local function show(result)
   local def = result.definition:gsub("^[\n\r]?%*", "\r")
   def = string.format("# %s\r\n__%s__\n%s", result.dict, result.word, def)
@@ -151,6 +59,103 @@ local function on_stdout(data)
       show(results[indice])
     end)
   end
+end
+
+---Checks whether any local dictionaries exist. If not, prompt to download.
+---@return boolean
+local function check_dict()
+  local exists, dic_path = lib.path_exists(stardict_path)
+  local n_dics = 0
+  if exists and dic_path then
+    for _, type_ in vim.fs.dir(dic_path) do
+      if type_ == "directory" then
+        n_dics = n_dics + 1
+      end
+    end
+    if n_dics > 0 then
+      vim.notify("Found " .. n_dics .. " dictionar" .. (n_dics == 1 and "y" or "ies") .. ".", vim.log.levels.INFO)
+      return true
+    end
+  end
+  spawn(function()
+    local yes_no = futures.ui.input {
+      prompt = "No local dictionary found, get one? [Y/n] "
+    }
+    if yes_no and yes_no:lower() == "y" then
+      require("utility.util").sys_open("https://github.com/AnthonyK213/.stardict")
+    end
+  end)
+  return false
+end
+
+---FFI module.
+---@type ffi.namespace*
+local _nstardict = nil
+
+local M = {}
+
+---@private
+---Dictionaries.
+M.library = nil
+
+---@private
+---@return boolean
+function M:init()
+  if not _nstardict then
+    local dylib_path = rsmod.get_dylib_path("nstardict")
+    if not dylib_path then
+      lib.warn("Dynamic library is not found")
+      return false
+    end
+
+    ffi.cdef [[
+void *nstardict_new_library(const char *dict_dir);
+char *nstardict_consult(void *library, const char *word);
+void nstardict_drop_library(void *library);
+void ffi_util_str_util_str_free(char *s);
+]]
+
+    _nstardict = ffi.load(dylib_path)
+  end
+
+  if not self.library then
+    if not stardict_path or not check_dict() then
+      return false
+    end
+    self.library = _nstardict.nstardict_new_library(stardict_path)
+
+    if not self.library then
+      lib.warn("Failed to load dictionaries")
+      return false
+    end
+
+    ffi.gc(self.library, _nstardict.nstardict_drop_library)
+  end
+
+  return true
+end
+
+---@private
+---@param word string
+---@return string
+function M:search(word)
+  if not self:init() then
+    return "[]"
+  end
+
+  if word:match("^%s*$") then
+    return "[]"
+  end
+
+  local c_str = _nstardict.nstardict_consult(self.library, word)
+  if not c_str then
+    return "[]"
+  end
+
+  local result = ffi.string(c_str)
+  _nstardict.ffi_util_str_util_str_free(c_str)
+
+  return result
 end
 
 ---
