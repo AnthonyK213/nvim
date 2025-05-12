@@ -200,38 +200,38 @@ It's a pure text file with json syntax. Example:
 }
 ```
 
-> Set `.vimrc` for Vim (optional)
-> - Windows
->   ``` ps1
->   Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
->             -Destination "$env:HOMEPATH\_vimrc"
->   ```
-> - GNU/Linux
->   ``` sh
->   cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
->      "${XDG_DATA_HOME:-$HOME}"/.vimrc
->   ```
+Set `.vimrc` for Vim (optional)
+- Windows
+  ``` ps1
+  Copy-Item "$env:LOCALAPPDATA\nvim\viml\vimrc.vim" `
+            -Destination "$env:HOMEPATH\_vimrc"
+  ```
+- GNU/Linux
+  ``` sh
+  cp "${XDG_DATA_HOME:-$HOME/.config}"/nvim/viml/vimrc.vim \
+     "${XDG_DATA_HOME:-$HOME}"/.vimrc
+  ```
 
 <!--
-> Configure mailboxes (optional)
-> - In `home` or `config` directory, named `.mail.json`
->   (also can be `_mail.json` on Windows)
-> - Example
->   ``` json
->   {
->     "archive": "/path/to/email/archive/directory/",
->     "providers": [
->       {
->         "label": "A unique label for the mailbox provider",
->         "smtp": "SMTP server address",
->         "imap": "IMAP server address",
->         "port": 993,
->         "user_name": "User name",
->         "password": "Password"
->       }
->     ]
->   }
->   ```
+Configure mailboxes (optional)
+- In `home` or `config` directory, named `.mail.json`
+  (also can be `_mail.json` on Windows)
+- Example
+  ``` json
+  {
+    "archive": "/path/to/email/archive/directory/",
+    "providers": [
+      {
+        "label": "A unique label for the mailbox provider",
+        "smtp": "SMTP server address",
+        "imap": "IMAP server address",
+        "port": 993,
+        "user_name": "User name",
+        "password": "Password"
+      }
+    ]
+  }
+  ```
 -->
 
 # Key Bindings
@@ -332,10 +332,7 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>lw</kbd>  | n    | Work space symbol.                                                |
 | <kbd>leader</kbd>               | <kbd>l\[</kbd> | n    | Goto previous diagnostic mark.                                    |
 | <kbd>leader</kbd>               | <kbd>l\]</kbd> | n    | Goto next diagnostic mark.                                        |
-| <kbd>leader</kbd>               | <kbd>mf</kbd>  | n    | Fetch recently unseen mails from IMAP server.                     |
 | <kbd>leader</kbd>               | <kbd>ml</kbd>  | n    | Regenerate list bullets.                                          |
-| <kbd>leader</kbd>               | <kbd>mn</kbd>  | n    | Create a new mail(.eml file).                                     |
-| <kbd>leader</kbd>               | <kbd>ms</kbd>  | n    | Send current buffer as an e-mail.                                 |
 | <kbd>leader</kbd>               | <kbd>mv</kbd>  | n    | *aerial.nvim*/*VimTeX* toggle table of content.                   |
 | <kbd>leader</kbd>               | <kbd>mt</kbd>  | n    | Toggle preview (Markdown/Marp/LaTeX/GLSL)                         |
 | <kbd>leader</kbd>               | <kbd>mi</kbd>  | n    | glslViewer input.                                                 |
@@ -345,7 +342,7 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>ob</kbd>  | n    | Open file of buffer with system default browser.                  |
 | <kbd>leader</kbd>               | <kbd>oe</kbd>  | n    | Open system file manager.                                         |
 | <kbd>leader</kbd>               | <kbd>ot</kbd>  | n    | Open terminal.                                                    |
-| <kbd>leader</kbd>               | <kbd>op</kbd>  | n    | *nvim-tree.lua* toggle.                                           |
+| <kbd>leader</kbd>               | <kbd>op</kbd>  | n    | *nvim-tree.lua* toggle nvim-tree.                                           |
 | <kbd>leader</kbd>               | <kbd>ou</kbd>  | n    | Open path or url under the cursor.                                |
 | <kbd>leader</kbd>               | <kbd>sa</kbd>  | nv   | Surrounding add.                                                  |
 | <kbd>leader</kbd>               | <kbd>sc</kbd>  | n    | Surrounding change.                                               |
@@ -356,6 +353,11 @@ It's a pure text file with json syntax. Example:
 | <kbd>leader</kbd>               | <kbd>vs</kbd>  | n    | Show highlight information.                                       |
 | <kbd>leader</kbd>               | <kbd>zbd</kbd> | v    | Decode visual selection with base64.                              |
 | <kbd>leader</kbd>               | <kbd>zbe</kbd> | v    | Encode visual selection with base64.                              |
+<!--
+| <kbd>leader</kbd>               | <kbd>mf</kbd>  | n    | Fetch recently unseen mails from IMAP server.                     |
+| <kbd>leader</kbd>               | <kbd>mn</kbd>  | n    | Create a new mail (.eml file).                                    |
+| <kbd>leader</kbd>               | <kbd>ms</kbd>  | n    | Send current buffer as an e-mail.                                 |
+-->
 
 > <kbd>leader</kbd> is mapped to <kbd>SPACE</kbd>.
 

@@ -25,7 +25,7 @@ for [s:name, s:value] in items(s:my_gui_table)
   endif
 endfor
 
-function s:bool2int(b) abort
+function! s:bool2int(b) abort
   if type(a:b) == v:t_bool
     return a:b ? 1 : 0
   else
