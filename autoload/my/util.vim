@@ -1,5 +1,5 @@
 function! my#util#terminal() abort
-  let l:shell = g:_my_dep_sh
+  let l:shell = g:_my_general_shell
   if type(l:shell) == v:t_list && !empty(l:shell)
     let l:exec = l:shell[0]
     let l:cmd = l:shell
