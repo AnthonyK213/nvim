@@ -14,7 +14,7 @@ nn <silent> <leader>bc :lcd %:p:h<CR>
 nn <expr><silent> <leader>bd
       \ index(['help','terminal','nofile', 'quickfix'], &buftype) >= 0
       \ \|\| index(['git'], &filetype) >= 0
-      \ \|\| len(getbufinfo({'buflisted':1})) <= 2 ?
+      \ \|\| len(getbufinfo({'buflisted':1})) <= 1 ?
       \ ":bd<CR>" : ":bp\|bd#<CR>"
 nn <silent> <leader>bh :noh<CR>
 nn <silent> <leader>bl :ls<CR>
