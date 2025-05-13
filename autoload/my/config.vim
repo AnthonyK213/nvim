@@ -249,6 +249,26 @@ endfunction
 
 function! my#config#tokyonight() abort
   let g:_my_theme_switchable = 0
+  if has("nvim")
+    call my#util#auto_hl('tokyonight', g:_my_hl, {-> {
+          \ 'fg': g:terminal_color_0,
+          \ 'red': g:terminal_color_1,
+          \ 'green': g:terminal_color_2,
+          \ 'yellow': g:terminal_color_3,
+          \ 'blue': g:terminal_color_4,
+          \ 'purple': g:terminal_color_5,
+          \ 'cyan': g:terminal_color_6,
+          \ 'light_grey': g:terminal_color_7,
+          \ 'bg': g:terminal_color_8,
+          \ 'bright_red': g:terminal_color_9,
+          \ 'bright_green': g:terminal_color_10,
+          \ 'bright_yellow': g:terminal_color_11,
+          \ 'bright_blue': g:terminal_color_12,
+          \ 'bright_purple': g:terminal_color_13,
+          \ 'bright_cyan': g:terminal_color_14,
+          \ 'grey': g:terminal_color_15,
+          \ }})
+  endif
   colorscheme tokyonight
 endfunction
 
