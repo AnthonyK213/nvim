@@ -149,7 +149,7 @@ end
 ---@param option { limit: integer, recursive: boolean, type: "bfs"|"dfs" }
 ---@return collections.List
 local function _find_children_dfs(node, predicate, option)
-  ---comment
+  ---
   ---@param node_ TSNode
   ---@param predicate_ fun(node: TSNode):boolean
   ---@param result_ collections.List

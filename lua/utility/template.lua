@@ -58,7 +58,7 @@ function Template:get_args()
   return self.args
 end
 
----comment
+---Applies the arguments to the template.
 ---@param str string
 ---@param args table<string, string>
 ---@return string

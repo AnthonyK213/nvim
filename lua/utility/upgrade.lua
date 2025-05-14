@@ -47,7 +47,9 @@ local function done()
   _status = Status.Done
 end
 
----
+---Parses the input channel.
+---If the input is empty or `nil`, returns the current channel.
+---If the input is invalid, returns `nil`.
 ---@param channel? string
 ---@return string?
 local function get_channel(channel)
@@ -63,7 +65,7 @@ local function get_channel(channel)
   return channel
 end
 
----comment
+---Fetches the latest version of `channel`.
 ---@async
 ---@param channel "stable"|"nightly"
 ---@param proxy? string
@@ -107,7 +109,9 @@ local function fetch_version(channel, proxy)
   return version
 end
 
----comment
+---Checks whether Neovim could be upgarde.
+---If the input `channel` is different from current channel, just "upgrade" with
+---no hesitation :)
 ---@async
 ---@param channel "stable"|"nightly"
 ---@param proxy? string
@@ -121,8 +125,8 @@ local function check_update(channel, proxy)
     return
   end
 
-  -- FIXME: field `prerelease` is different...
-  if vim.version.ge(ver_local, ver_fetch) then
+  local the_same_channel = (ver_local.prerelease ~= nil) == (ver_fetch.prerelease ~= nil)
+  if the_same_channel and vim.version.ge(ver_local, ver_fetch) then
     lib.warn("Nvim is up to date")
     return
   end
@@ -130,19 +134,19 @@ local function check_update(channel, proxy)
   return ver_fetch
 end
 
----
+---Returns install directory of Neovim.
 ---@return string?
 local function get_nvim_dir()
   return vim.fs.dirname(vim.fs.dirname(vim.uv.exepath()))
 end
 
----
+---Returns http proxy from environment variable.
 ---@return string?
 local function get_proxy()
   return _G._my_core_opt.general.proxy or os.getenv("HTTP_PROXY")
 end
 
----comment
+---Returns the pre-built binary archive name.
 ---@return string?
 local function get_source_name()
   if jit.os == "OSX" then
@@ -159,7 +163,7 @@ local function get_source_name()
   return source_name
 end
 
----
+---Returns name of the backup direcroty.
 ---@param nvim_dir_name string
 ---@return string
 local function get_bak_name(nvim_dir_name)
@@ -174,7 +178,7 @@ local function get_bak_name(nvim_dir_name)
     version.prerelease and "_dev" or "")
 end
 
----comment
+---Downloads the pre-built binary archive.
 ---@async
 ---@param source_url string
 ---@param download_path string

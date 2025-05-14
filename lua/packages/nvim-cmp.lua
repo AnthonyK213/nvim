@@ -10,7 +10,7 @@ local function feedkeys(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
----comment
+---Checks whether `chunk` is a markdown list marker (with a suffix space).
 ---@param chunk string
 ---@return boolean
 local function is_md_list_marker(chunk)
