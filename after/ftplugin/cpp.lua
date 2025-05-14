@@ -5,9 +5,14 @@ local bufnr = vim.api.nvim_get_current_buf()
 ---@param row_ integer Row (1-indexed)
 ---@param col_ integer Colomn (0-indexed)
 ---@param indent_ string Indentation.
----@param feed_ collections.List List to feed.
----@return boolean
-local function check_next_line(bufnr_, row_, col_, indent_, feed_)
+---@return string[]|nil feed_ Lines to feed.
+local function check_next_line(bufnr_, row_, col_, indent_)
+  local feed_ = {
+    "**",
+    indent_ .. " * @brief ",
+    indent_ .. " *"
+  }
+
   local syn = require("utility.syn")
   local node = vim.treesitter.get_node {
     bufnr = bufnr_,
@@ -15,7 +20,7 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
   }
   local query = vim.treesitter.query.get("cpp", "cmtdoc")
   if not node or not query then
-    return false
+    return
   end
   local end_ = node:end_()
   local captures = syn.captures_reverse_lookup(query)
@@ -37,7 +42,7 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
               pos = { row_ - 2, col_ }
             }
             if prev and prev:type() == "comment" then
-              return false
+              return
             end
           end
 
@@ -62,34 +67,37 @@ local function check_next_line(bufnr_, row_, col_, indent_, feed_)
             end
           end
           table.insert(feed_, indent_ .. " */")
-          return true
+          return feed_
         end
       end
     end
   end
-  return false
 end
 
 -- Add doxygen comment.
 vim.defer_fn(function()
   require("utility.util").new_keymap("i", "/", function(fallback)
-    local indent = require("utility.lib").get_half_line(-1).b:match("^(%s*)//$")
-    if indent then
-      local summary = {
-        "**",
-        indent .. " * @brief ",
-        indent .. " *"
-      }
-      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-      local bufnr_ = vim.api.nvim_get_current_buf()
+    local bufnr_ = vim.api.nvim_get_current_buf()
 
-      if not vim.treesitter.highlighter.active[bufnr_]
-          or check_next_line(bufnr_, row, col, indent, summary) then
-        vim.api.nvim_buf_set_text(bufnr_, row - 1, col - 1, row - 1, col, summary)
-        vim.api.nvim_win_set_cursor(0, { row + 1, col + #summary[2] })
-        return
-      end
+    if not vim.treesitter.highlighter.active[bufnr_] then
+      fallback()
+      return
     end
-    fallback()
+
+    local indent = require("utility.lib").get_half_line(-1).b:match("^(%s*)//$")
+    if not indent then
+      fallback()
+      return
+    end
+
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    local summary = check_next_line(bufnr_, row, col, indent)
+    if not summary then
+      fallback()
+      return
+    end
+
+    vim.api.nvim_buf_set_text(bufnr_, row - 1, col - 1, row - 1, col, summary)
+    vim.api.nvim_win_set_cursor(0, { row + 1, col + #summary[2] })
   end, { noremap = true, silent = true, buffer = bufnr })
 end, 500)
