@@ -1,0 +1,327 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Configuration schema for Neovim.",
+  "type": "object",
+  "properties": {
+    "general": {
+      "description": "General settings",
+      "type": "object",
+      "properties": {
+        "offline": {
+          "description": "Set this to true if internet connection is unavailable",
+          "type": "boolean",
+          "default": false
+        },
+        "proxy": {
+          "description": "Proxy",
+          "type": "string"
+        },
+        "shell": {
+          "description": "The shell that the terminal emulator to start with",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        "upgrade": {
+          "description": "Whether to enable nvim-upgrade. It's useful when you are using official released binary archives directly rather than installers or package managers.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "path": {
+      "description": "Paths",
+      "type": "object",
+      "properties": {
+        "home": {
+          "description": "Path to home directory",
+          "type": "string"
+        },
+        "desktop": {
+          "description": "Path to desktop directory",
+          "type": "string"
+        },
+        "vimwiki": {
+          "description": "Path to vimwiki directory",
+          "type": "string"
+        }
+      }
+    },
+    "tui": {
+      "description": "TUI settings",
+      "type": "object",
+      "properties": {
+        "scheme": {
+          "description": "Color scheme",
+          "type": "string",
+          "enum": [
+            "gruvbox",
+            "nightfox",
+            "onedark",
+            "onenord",
+            "tokyonight"
+          ]
+        },
+        "theme": {
+          "description": "TUI background theme",
+          "type": "string",
+          "enum": [
+            "dark",
+            "light"
+          ]
+        },
+        "style": {
+          "description": "Style of the color scheme",
+          "type": "string"
+        },
+        "transparent": {
+          "description": "Whether to make background transparent",
+          "type": "boolean",
+          "default": false
+        },
+        "global_statusline": {
+          "description": "Whether to enable global statusline",
+          "type": "boolean",
+          "default": false
+        },
+        "border": {
+          "description": "Floating window border style",
+          "type": "string",
+          "enum": [
+            "none",
+            "single",
+            "double",
+            "rounded"
+          ]
+        },
+        "cmp_ghost": {
+          "description": "Whether to enable ghost text from nvim-cmp",
+          "type": "boolean",
+          "default": false
+        },
+        "auto_dim": {
+          "description": "Whether to dim inactive window automatically",
+          "type": "boolean",
+          "default": false
+        },
+        "animation": {
+          "description": "Whether to enable animation effects",
+          "type": "boolean",
+          "default": false
+        },
+        "show_context": {
+          "description": "Whether to show current context by indent line",
+          "type": "boolean",
+          "default": false
+        },
+        "devicons": {
+          "description": "Whether to enable devicons",
+          "type": "boolean",
+          "default": false
+        },
+        "welcome_header": {
+          "description": "Welcome page title",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        "bufferline_style": {
+          "description": "Separator style of bufferline.nvim",
+          "type": "string",
+          "enum": [
+            "slant",
+            "slope",
+            "thick",
+            "thin"
+          ]
+        }
+      }
+    },
+    "gui": {
+      "description": "GUI (Neovim Qt | FVim | Neovide | VimR) settings",
+      "type": "object",
+      "properties": {
+        "theme": {
+          "description": "GUI background theme",
+          "type": "string",
+          "enum": [
+            "auto",
+            "dark",
+            "light"
+          ]
+        },
+        "opacity": {
+          "description": "Window opacity (0.0~1.0)",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "ligature": {
+          "description": "Whether to render ligatures",
+          "type": "boolean",
+          "default": false
+        },
+        "popup_menu": {
+          "description": "Whether to use GUI popup menu",
+          "type": "boolean",
+          "default": false
+        },
+        "tabline": {
+          "description": "Whether to use GUI tabline",
+          "type": "boolean",
+          "default": false
+        },
+        "scroll_bar": {
+          "description": "Whether to show GUI scroll bar",
+          "type": "boolean",
+          "default": false
+        },
+        "line_space": {
+          "description": "Line space",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "cursor_blink": {
+          "description": "Whether to enable cursor blink",
+          "type": "boolean",
+          "default": false
+        },
+        "font_size": {
+          "description": "GUI font size",
+          "type": "integer",
+          "minimum": 1
+        },
+        "font_half": {
+          "description": "See 'guifont'",
+          "type": "string"
+        },
+        "font_wide": {
+          "description": "See 'guifontwide'",
+          "type": "string"
+        }
+      }
+    },
+    "lsp": {
+      "description": "Language Server Protocol",
+      "type": "object",
+      "patternProperties": {
+        "^.+$": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "load": {
+                  "description": "Whethter to load this server",
+                  "type": "boolean",
+                  "default": false
+                },
+                "disable_semantic_tokens": {
+                  "description": "Disable semantic tokens if it doesn't work well",
+                  "type": "boolean",
+                  "default": false
+                },
+                "settings": {
+                  "description": "Extra settings, depends on the LSP",
+                  "type": "object",
+                  "default": {}
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ts": {
+      "description": "Treesitter",
+      "type": "object",
+      "properties": {
+        "ensure_installed": {
+          "description": "Parsers to install automatically",
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "highlight_disable": {
+          "description": "File type to disable treesitter highlight",
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "matchup_disable": {
+          "description": "File type to disable vim-matchup",
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "dap": {
+      "description": "Debug Adapter Protocol",
+      "type": "object",
+      "properties": {
+        "lldb": {
+          "description": "https://github.com/llvm/llvm-project",
+          "type": "boolean",
+          "default": false
+        },
+        "netcoredbg": {
+          "description": "https://github.com/Samsung/netcoredbg",
+          "type": "boolean",
+          "default": false
+        },
+        "debugpy": {
+          "description": "https://github.com/microsoft/debugpy",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "disable": {
+      "description": "Built-in plugins to disable",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        }
+      ],
+      "default": [
+        "matchit",
+        "matchparen",
+        "netrwPlugin"
+      ]
+    }
+  }
+}

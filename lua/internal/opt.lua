@@ -48,7 +48,7 @@ local opt = {
   },
   gui = {
     theme        = "auto",
-    opacity      = 0.98,
+    opacity      = 1.0,
     ligature     = false,
     popup_menu   = false,
     tabline      = false,

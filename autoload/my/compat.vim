@@ -2,12 +2,18 @@
 function! my#compat#open_nvimrc() abort
 lua << EOF
   local exists, opt_file = require("utility.lib").get_dotfile("nvimrc")
+  local cfg_dir = vim.fn.stdpath("config")
   if exists then
     require("utility.util").edit_file(opt_file, false)
-    vim.api.nvim_set_current_dir(vim.fn.stdpath("config"))
+    vim.api.nvim_set_current_dir(cfg_dir)
   elseif opt_file then
     vim.cmd.new(opt_file)
-    vim.api.nvim_paste("{}", true, -1)
+    local schema_uri = vim.uri_from_fname(vim.fs.joinpath(cfg_dir, "schema.json"))
+    vim.api.nvim_buf_set_lines(0, 0, 1, true, {
+      "{",
+      string.format([[  "$schema": "%s"]], schema_uri),
+      "}",
+    })
   else
     vim.notify("No available configuration directory")
   end

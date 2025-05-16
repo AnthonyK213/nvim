@@ -8,10 +8,10 @@
 # Installation
 
 - Requirements
-  - [**Neovim**](https://github.com/neovim/neovim) 0.11+
-  - [**Git**](https://github.com/git/git)
-  - [**ripgrep**](https://github.com/BurntSushi/ripgrep) (optional)
-  - [**fd**](https://github.com/sharkdp/fd) (optional)
+  - [Neovim](https://github.com/neovim/neovim) 0.11+
+  - [Git](https://github.com/git/git)
+  - [ripgrep](https://github.com/BurntSushi/ripgrep) (optional)
+  - [fd](https://github.com/sharkdp/fd) (optional)
 
 - Clone repository
   - Windows
@@ -33,102 +33,50 @@ Create file named `.nvimrc` (also can be `_nvimrc` on Windows) in
 `home` or `config` directory.
 It's a pure text file with json syntax. Example:
 
-<u>/home/anthonyk213/.nvimrc</u>
+<u>/home/username/.nvimrc</u>
 
 ``` json
 {
-  // General options
+  "$schema": "file:///home/username/.config/nvim/schema.json",
   "general": {
-    // (boolean) Set this to `true` if internet connection is unavailable.
-    "offline": false,
-    // (string) Proxy
-    "proxy": "http://127.0.0.1:7890",
-    // (string|array) The shell that the terminal emulator to start with.
-    "shell": ["powershell.exe", "-nologo"],
-    // (boolean) Enable nvim-upgrade. It's useful when you are using official
-    // released binary archives directly rather than installers or package
-    // managers.
-    "upgrade": false
+    "shell": "zsh"
   },
-  // Paths
   "path": {
-    // (string) Home directory.
-    "home": "$HOME",
-    // (string) Desktop directory.
     "desktop": "$HOME/Desktop",
-    // (string) Vimwiki directory.
     "vimwiki": "$HOME/vimwiki"
   },
-  // TUI
   "tui": {
-    // ("onedark"|"tokyonight"|"gruvbox"|"nightfox"|"onenord") Color scheme.
     "scheme": "nightfox",
-    // ("dark"|"light") TUI background theme.
     "theme": "dark",
-    // (string) Style of color scheme.
     "style": "nord",
-    // (boolean) Make background transparent.
-    "transparent": false,
-    // (boolean) Enable global statusline.
-    "global_statusline": false,
-    // (string) Floating window border style.
-    "border": "single",
-    // (boolean) Enable nvim-cmp ghost text.
-    "cmp_ghost": false,
-    // (boolean) Dim inactive window automatically.
-    "auto_dim": false,
-    // (boolean) Enable animation effects.
-    "animation": false,
-    // (boolean) Show current context by indent line.
-    "show_context": false,
-    // (boolean) Enable devicons.
-    "devicons": false,
-    // (string|array) Welcome page title.
-    "welcome_header": "NEOVIM",
-    // (string|array) Bufferline style.
-    "bufferline_style": "thin"
+    "border": "rounded",
+    "bufferline_style": "slant",
+    "cmp_ghost": true,
+    "devicons": true,
+    "global_statusline": true,
+    "show_context": true
   },
-  // GUI (neovim-qt, fvim, neovide, VimR)
   "gui": {
-    // ("auto"|"dark"|"light") GUI background theme.
     "theme": "auto",
-    // (number) Window opacity.
-    "opacity": 0.98,
-    // (boolean) Render ligatures.
-    "ligature": false,
-    // (boolean) Use GUI popup menu.
-    "popup_menu": false,
-    // (boolean) Use GUI tabline.
-    "tabline": false,
-    // (boolean) Use GUI scroll bar.
-    "scroll_bar": false,
-    // (number) Line space.
-    "line_space": 0.0,
-    // (boolean) Enable cursor blink.
-    "cursor_blink": false,
-    // (number) GUI font size.
+    "font_half": "Courier New",
+    "font_wide": "Fangsong",
     "font_size": 13,
-    // (string) See `guifont`.
-    "font_half": "Monospace",
-    // (string) See `guifontwide`.
-    "font_wide": "Monospace"
+    "ligature": true,
+    "cursor_blink": true
   },
-  // Language Server Protocol
   "lsp": {
-    // (boolean|object) https://github.com/clangd/clangd
     "clangd": false,
-    // (boolean|object) https://github.com/LuaLS/lua-language-server
     "lua_ls": {
-      // (boolean) Whethter to load the LSP server.
       "load": false,
-      // Extra settings, depends on the LSP.
       "settings": {
         "Lua": {
           "runtime": {
             "version": "LuaJIT"
           },
           "diagnostics": {
-            "globals": [ "vim" ]
+            "globals": [
+              "vim"
+            ]
           },
           "workspace": {
             "library": [],
@@ -146,13 +94,6 @@ It's a pure text file with json syntax. Example:
         }
       }
     },
-    // (boolean|object) https://github.com/OmniSharp/omnisharp-roslyn
-    "omnisharp": {
-      "load": false,
-      // Some semantic tokens of this LSP are not usable.
-      "disable_semantic_tokens": true
-    },
-    // (boolean|object) https://github.com/microsoft/pyright
     "pyright": {
       "load": false,
       "settings": {
@@ -167,36 +108,20 @@ It's a pure text file with json syntax. Example:
         }
       }
     },
-    // (boolean|object) https://github.com/rust-analyzer/rust-analyzer
-    "rust_analyzer": false,
-    // (boolean|object) https://github.com/iamcco/vim-language-server
-    "vimls": false
+    "rust_analyzer": false
     // And so on...
   },
-  // Treesitter
   "ts": {
-    // (array) Parsers to install automatically
-    "ensure_installed": [],
-    // (array) File type to disable treesitter highlight
-    "highlight_disable": [],
-    // (array) File type to disable vim-matchup
-    "matchup_disable": []
+    "ensure_installed": [
+      "c",
+      "lua"
+    ]
   },
-  // Debug Adapter Protocol
   "dap": {
-    // (boolean) https://github.com/llvm/llvm-project
     "lldb": false,
-    // (boolean) https://github.com/Samsung/netcoredbg
     "netcoredbg": false,
-    // (boolean) https://github.com/microsoft/debugpy
     "debugpy": false
-  },
-  // Disabled built-in plugins
-  "disable": [
-    "matchit",
-    "matchparen",
-    "netrwPlugin"
-  ]
+  }
 }
 ```
 
