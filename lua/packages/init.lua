@@ -188,16 +188,6 @@ require("lazy").setup({
           },
           items = {
             {
-              name = "Tests",
-              highlight = { sp = "purple" },
-              priority = 2,
-              icon = "",
-              matcher = function(buf)
-                return buf.name:match("%_test")
-                    or buf.name:match("%_spec")
-              end,
-            },
-            {
               name = "Docs",
               highlight = { sp = "cyan" },
               auto_close = false,
@@ -465,7 +455,6 @@ require("lazy").setup({
   -- Git
   {
     "NeogitOrg/neogit",
-    event = "VeryLazy",
     config = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -478,7 +467,6 @@ require("lazy").setup({
   },
   {
     "sindrets/diffview.nvim",
-    event = "VeryLazy",
     config = function()
       local actions = require("diffview.actions")
       require("diffview").setup {
@@ -803,7 +791,6 @@ require("lazy").setup({
   },
   {
     "akinsho/toggleterm.nvim",
-    event = "VeryLazy",
     version = "*",
     keys = {
       { "<leader>gl", function()
@@ -875,10 +862,42 @@ require("lazy").setup({
   },
   {
     "Civitasv/cmake-tools.nvim",
-    event = "VeryLazy",
+    cmd = {
+      "CMakeGenerate",
+      "CMakeBuild",
+      "CMakeBuildCurrentFile",
+      "CMakeRun",
+      "CMakeRunCurrentFile",
+      "CMakeDebug",
+      "CMakeDebugCurrentFile",
+      "CMakeRunTest",
+      "CMakeLaunchArgs",
+      "CMakeSelectBuildType",
+      "CMakeSelectBuildTarget",
+      "CMakeSelectLaunchTarget",
+      "CMakeSelectKit",
+      "CMakeSelectConfigurePreset",
+      "CMakeSelectBuildPreset",
+      "CMakeSelectCwd",
+      "CMakeSelectBuildDir",
+      "CMakeOpen",
+      "CMakeOpenCache",
+      "CMakeClose",
+      "CMakeInstall",
+      "CMakeClean",
+      "CMakeStop",
+      "CMakeQuickBuild",
+      "CMakeQuickRun",
+      "CMakeQuickDebug",
+      "CMakeShowTargetFiles",
+      "CMakeQuickStart",
+      "CMakeSettings",
+      "CMakeTargetSettings",
+    },
     config = function() require("packages.cmake-tools") end,
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "stevearc/overseer.nvim",
     }
   },
   {
@@ -901,7 +920,7 @@ require("lazy").setup({
   -- File type support
   {
     "lervag/vimtex",
-    event = "VeryLazy",
+    ft = "tex",
     init = function()
       vim.g.tex_flavor = "latex"
       vim.g.vimtex_toc_config = {
@@ -939,13 +958,8 @@ require("lazy").setup({
   },
   {
     "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     build = ":call mkdp#util#install()",
-    ft = {
-      "markdown",
-      "vimwiki",
-      "vimwiki.markdown"
-    },
+    ft = { "markdown", "vimwiki.markdown" },
     init = function()
       vim.g.mkdp_auto_start = 0
       vim.g.mkdp_auto_close = 1
@@ -964,14 +978,14 @@ require("lazy").setup({
       }
       vim.g.mkdp_filetypes = {
         "markdown",
-        "vimwiki",
         "vimwiki.markdown"
       }
     end
   },
   {
     "sotte/presenting.nvim",
-    event = "VeryLazy",
+    ft = { "markdown", "vimwiki.markdown" },
+    cmd = { "Presenting" },
     opts = {
       options = {
         width = 80,
@@ -981,7 +995,6 @@ require("lazy").setup({
         ["vimwiki.markdown"] = "^#+%s",
       }
     },
-    cmd = { "Presenting" }
   },
   -- Completion; Snippet; LSP; Treesitter; DAP
   {
@@ -1052,7 +1065,10 @@ require("lazy").setup({
     event = "VeryLazy",
     config = function() require("packages.nvim-lspconfig") end,
   },
-  "Hoffs/omnisharp-extended-lsp.nvim",
+  {
+    "Hoffs/omnisharp-extended-lsp.nvim",
+    event = "VeryLazy",
+  },
   {
     "mason-org/mason.nvim",
     cmd = "Mason",

@@ -46,9 +46,9 @@ It's a pure text file with json syntax. Example:
     "vimwiki": "$HOME/vimwiki"
   },
   "tui": {
-    "scheme": "nightfox",
+    "scheme": "onedark",
     "theme": "dark",
-    "style": "nord",
+    "style": "night",
     "border": "rounded",
     "bufferline_style": "slant",
     "cmp_ghost": true,
@@ -267,7 +267,7 @@ Configure mailboxes (optional)
 | <kbd>leader</kbd>               | <kbd>ob</kbd>  | n    | Open file of buffer with system default browser.                  |
 | <kbd>leader</kbd>               | <kbd>oe</kbd>  | n    | Open system file manager.                                         |
 | <kbd>leader</kbd>               | <kbd>ot</kbd>  | n    | Open terminal.                                                    |
-| <kbd>leader</kbd>               | <kbd>op</kbd>  | n    | *nvim-tree.lua* toggle nvim-tree.                                           |
+| <kbd>leader</kbd>               | <kbd>op</kbd>  | n    | *nvim-tree.lua* toggle nvim-tree.                                 |
 | <kbd>leader</kbd>               | <kbd>ou</kbd>  | n    | Open path or url under the cursor.                                |
 | <kbd>leader</kbd>               | <kbd>sa</kbd>  | nv   | Surrounding add.                                                  |
 | <kbd>leader</kbd>               | <kbd>sc</kbd>  | n    | Surrounding change.                                               |

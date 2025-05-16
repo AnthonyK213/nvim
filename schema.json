@@ -159,7 +159,9 @@
               "type": "string",
               "enum": [
                 "slant",
+                "padded_slant",
                 "slope",
+                "padded_slope",
                 "thick",
                 "thin"
               ]
