@@ -24,11 +24,9 @@
             },
             {
               "type": "array",
-              "items": [
-                {
-                  "type": "string"
-                }
-              ]
+              "items": {
+                "type": "string"
+              }
             }
           ]
         },
@@ -82,7 +80,18 @@
         },
         "style": {
           "description": "Style of the color scheme",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "day",
+            "night",
+            "storm",
+            "moon",
+            "dawn",
+            "dusk",
+            "nord",
+            "tera",
+            "carbon"
+          ]
         },
         "transparent": {
           "description": "Whether to make background transparent",
@@ -105,7 +114,7 @@
           ]
         },
         "cmp_ghost": {
-          "description": "Whether to enable ghost text from nvim-cmp",
+          "description": "Whether to enable ghost text (nvim-cmp)",
           "type": "boolean",
           "default": false
         },
@@ -120,12 +129,12 @@
           "default": false
         },
         "show_context": {
-          "description": "Whether to show current context by indent line",
+          "description": "Whether to show current context (indent-blankline.nvim)",
           "type": "boolean",
           "default": false
         },
         "devicons": {
-          "description": "Whether to enable devicons",
+          "description": "Whether to enable devicons (nvim-web-devicons)",
           "type": "boolean",
           "default": false
         },
@@ -137,28 +146,40 @@
             },
             {
               "type": "array",
-              "items": [
-                {
-                  "type": "string"
-                }
-              ]
+              "items": {
+                "type": "string"
+              }
             }
           ]
         },
         "bufferline_style": {
-          "description": "Separator style of bufferline.nvim",
-          "type": "string",
-          "enum": [
-            "slant",
-            "slope",
-            "thick",
-            "thin"
+          "description": "Separator style of tabline (bufferline.nvim)",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "slant",
+                "slope",
+                "thick",
+                "thin"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
           ]
         }
       }
     },
     "gui": {
-      "description": "GUI (Neovim Qt | FVim | Neovide | VimR) settings",
+      "description": "GUI settings (Neovim Qt | FVim | Neovide | VimR)",
       "type": "object",
       "properties": {
         "theme": {
@@ -245,7 +266,7 @@
                   "default": false
                 },
                 "settings": {
-                  "description": "Extra settings, depends on the LSP",
+                  "description": "Extra settings, LSP specific",
                   "type": "object",
                   "default": {}
                 }
@@ -262,29 +283,344 @@
         "ensure_installed": {
           "description": "Parsers to install automatically",
           "type": "array",
-          "items": [
-            {
-              "type": "string"
-            }
-          ]
+          "items": {
+            "type": "string",
+            "enum": [
+              "ada",
+              "agda",
+              "angular",
+              "apex",
+              "arduino",
+              "asm",
+              "astro",
+              "authzed",
+              "awk",
+              "bash",
+              "bass",
+              "beancount",
+              "bibtex",
+              "bicep",
+              "bitbake",
+              "blade",
+              "blueprint",
+              "bp",
+              "brightscript",
+              "c",
+              "c_sharp",
+              "caddy",
+              "cairo",
+              "capnp",
+              "chatito",
+              "circom",
+              "clojure",
+              "cmake",
+              "comment",
+              "commonlisp",
+              "cooklang",
+              "corn",
+              "cpon",
+              "cpp",
+              "css",
+              "csv",
+              "cuda",
+              "cue",
+              "cylc",
+              "d",
+              "dart",
+              "desktop",
+              "devicetree",
+              "dhall",
+              "diff",
+              "disassembly",
+              "djot",
+              "dockerfile",
+              "dot",
+              "doxygen",
+              "dtd",
+              "earthfile",
+              "ebnf",
+              "editorconfig",
+              "eds",
+              "eex",
+              "elixir",
+              "elm",
+              "elsa",
+              "elvish",
+              "embedded_template",
+              "enforce",
+              "erlang",
+              "facility",
+              "faust",
+              "fennel",
+              "fidl",
+              "firrtl",
+              "fish",
+              "foam",
+              "forth",
+              "fortran",
+              "fsh",
+              "fsharp",
+              "func",
+              "fusion",
+              "gap",
+              "gaptst",
+              "gdscript",
+              "gdshader",
+              "git_config",
+              "git_rebase",
+              "gitattributes",
+              "gitcommit",
+              "gitignore",
+              "gleam",
+              "glimmer",
+              "glimmer_javascript",
+              "glimmer_typescript",
+              "glsl",
+              "gn",
+              "gnuplot",
+              "go",
+              "goctl",
+              "godot_resource",
+              "gomod",
+              "gosum",
+              "gotmpl",
+              "gowork",
+              "gpg",
+              "graphql",
+              "gren",
+              "groovy",
+              "gstlaunch",
+              "hack",
+              "hare",
+              "haskell",
+              "haskell_persistent",
+              "hcl",
+              "heex",
+              "helm",
+              "hjson",
+              "hlsl",
+              "hlsplaylist",
+              "hocon",
+              "hoon",
+              "html",
+              "htmldjango",
+              "http",
+              "hurl",
+              "hyprlang",
+              "idl",
+              "idris",
+              "ini",
+              "inko",
+              "ipkg",
+              "ispc",
+              "janet_simple",
+              "java",
+              "javadoc",
+              "javascript",
+              "jinja",
+              "jinja_inline",
+              "jq",
+              "jsdoc",
+              "json",
+              "json5",
+              "jsonc",
+              "jsonnet",
+              "julia",
+              "just",
+              "kcl",
+              "kconfig",
+              "kdl",
+              "kotlin",
+              "koto",
+              "kusto",
+              "lalrpop",
+              "latex",
+              "ledger",
+              "leo",
+              "linkerscript",
+              "liquid",
+              "liquidsoap",
+              "llvm",
+              "lua",
+              "luadoc",
+              "luap",
+              "luau",
+              "m68k",
+              "make",
+              "markdown",
+              "markdown_inline",
+              "matlab",
+              "menhir",
+              "mermaid",
+              "meson",
+              "mlir",
+              "muttrc",
+              "nasm",
+              "nginx",
+              "nickel",
+              "nim",
+              "nim_format_string",
+              "ninja",
+              "nix",
+              "norg",
+              "nqc",
+              "nu",
+              "objc",
+              "objdump",
+              "ocaml",
+              "ocaml_interface",
+              "ocamllex",
+              "odin",
+              "pascal",
+              "passwd",
+              "pem",
+              "perl",
+              "php",
+              "php_only",
+              "phpdoc",
+              "pioasm",
+              "po",
+              "pod",
+              "poe_filter",
+              "pony",
+              "powershell",
+              "printf",
+              "prisma",
+              "problog",
+              "prolog",
+              "promql",
+              "properties",
+              "proto",
+              "prql",
+              "psv",
+              "pug",
+              "puppet",
+              "purescript",
+              "pymanifest",
+              "python",
+              "ql",
+              "qmldir",
+              "qmljs",
+              "query",
+              "r",
+              "racket",
+              "ralph",
+              "rasi",
+              "razor",
+              "rbs",
+              "re2c",
+              "readline",
+              "regex",
+              "rego",
+              "requirements",
+              "rescript",
+              "rnoweb",
+              "robot",
+              "robots",
+              "roc",
+              "ron",
+              "rst",
+              "ruby",
+              "runescript",
+              "rust",
+              "scala",
+              "scfg",
+              "scheme",
+              "scss",
+              "sflog",
+              "slang",
+              "slim",
+              "slint",
+              "smali",
+              "smithy",
+              "snakemake",
+              "solidity",
+              "soql",
+              "sosl",
+              "sourcepawn",
+              "sparql",
+              "sql",
+              "squirrel",
+              "ssh_config",
+              "starlark",
+              "strace",
+              "styled",
+              "supercollider",
+              "superhtml",
+              "surface",
+              "svelte",
+              "sway",
+              "swift",
+              "sxhkdrc",
+              "systemtap",
+              "t32",
+              "tablegen",
+              "tact",
+              "tcl",
+              "teal",
+              "templ",
+              "tera",
+              "terraform",
+              "textproto",
+              "thrift",
+              "tiger",
+              "tlaplus",
+              "tmux",
+              "todotxt",
+              "toml",
+              "tsv",
+              "tsx",
+              "turtle",
+              "twig",
+              "typescript",
+              "typespec",
+              "typoscript",
+              "typst",
+              "udev",
+              "ungrammar",
+              "unison",
+              "usd",
+              "uxntal",
+              "v",
+              "vala",
+              "vento",
+              "verilog",
+              "vhdl",
+              "vhs",
+              "vim",
+              "vimdoc",
+              "vrl",
+              "vue",
+              "wgsl",
+              "wgsl_bevy",
+              "wing",
+              "wit",
+              "xcompose",
+              "xml",
+              "xresources",
+              "yaml",
+              "yang",
+              "yuck",
+              "zathurarc",
+              "zig",
+              "ziggy",
+              "ziggy_schema"
+            ]
+          }
         },
         "highlight_disable": {
           "description": "File type to disable treesitter highlight",
           "type": "array",
-          "items": [
-            {
-              "type": "string"
-            }
-          ]
+          "items": {
+            "type": "string"
+          }
         },
         "matchup_disable": {
           "description": "File type to disable vim-matchup",
           "type": "array",
-          "items": [
-            {
-              "type": "string"
-            }
-          ]
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -312,11 +648,9 @@
     "disable": {
       "description": "Built-in plugins to disable",
       "type": "array",
-      "items": [
-        {
-          "type": "string"
-        }
-      ],
+      "items": {
+        "type": "string"
+      },
       "default": [
         "matchit",
         "matchparen",

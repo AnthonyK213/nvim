@@ -141,7 +141,7 @@ kbd("Run test", "n", "<C-S-F5>", function() require("utility.run").code_run("tes
 kbd("Show document", "n", "K", function()
   local word, _, _ = require("utility.util").get_word()
   if not pcall(vim.cmd.help, word) then
-    lib.warn(string.format("No help for %s", word))
+    vim.notify(string.format("E149: Sorry, no help for %s", word), vim.log.levels.ERROR)
   end
 end)
 kbd("Search visual selection forward", "v", "*", function()

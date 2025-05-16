@@ -37,7 +37,7 @@ It's a pure text file with json syntax. Example:
 
 ``` json
 {
-  "$schema": "file:///home/username/.config/nvim/schema.json",
+  "$schema": "https://raw.githubusercontent.com/AnthonyK213/nvim/refs/heads/master/schema.json",
   "general": {
     "shell": "zsh"
   },

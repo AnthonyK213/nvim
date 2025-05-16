@@ -300,11 +300,11 @@ function M.has_windows()
   return M.get_os_type() == M.OS.Windows
 end
 
----Decode json from file path.
+---Decode a json file, loosely or strictly.
 ---(`new_work` invocable)
 ---@param path string Path of file to decode.
----@param strictly? boolean If false, try to ignore comment lines, possibly including trailing commas(discouraged).
----@return 0|1|2 code Code, 0: ok, 1: json is invalid, 2: file does not exist.
+---@param strictly? boolean If false, try to ignore comment lines and trailing commas (not recommended).
+---@return 0|1|2 code 0: ok, 1: json is invalid, 2: file does not exist.
 ---@return table? result Decode result.
 function M.json_decode(path, strictly)
   local content = M.read_all_text(path)

@@ -1,4 +1,4 @@
-local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazy_path = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy/lazy.nvim")
 if not vim.uv.fs_stat(lazy_path) then
   if vim.fn.executable("git") > 0 then
     vim.fn.system({
@@ -231,15 +231,15 @@ require("lazy").setup({
         css = { names = true, rgb_fn = true },
         vue = { names = true, rgb_fn = true },
       }, {
-        RGB = true,
-        RRGGBB = true,
-        names = false,
+        RGB      = true,
+        RRGGBB   = true,
+        names    = false,
         RRGGBBAA = false,
-        rgb_fn = false,
-        hsl_fn = false,
-        css = false,
-        css_fn = false,
-        mode = "background"
+        rgb_fn   = false,
+        hsl_fn   = false,
+        css      = false,
+        css_fn   = false,
+        mode     = "background"
       })
     end
   },
@@ -725,6 +725,7 @@ require("lazy").setup({
   },
   {
     "andymass/vim-matchup",
+    event = "VeryLazy",
     init = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
       vim.g.matchup_matchparen_deferred = 1
@@ -900,6 +901,7 @@ require("lazy").setup({
   -- File type support
   {
     "lervag/vimtex",
+    event = "VeryLazy",
     init = function()
       vim.g.tex_flavor = "latex"
       vim.g.vimtex_toc_config = {
@@ -919,6 +921,7 @@ require("lazy").setup({
   },
   {
     "vimwiki/vimwiki",
+    event = "VeryLazy",
     branch = "dev",
     init = function()
       vim.g.vimwiki_list = {
@@ -982,73 +985,120 @@ require("lazy").setup({
   },
   -- Completion; Snippet; LSP; Treesitter; DAP
   {
+    "L3MON4D3/LuaSnip",
+    event = "VeryLazy",
+    opts = {
+      region_check_events = { "CursorMoved", "InsertEnter" },
+      delete_check_events = { "TextChanged" },
+    }
+  },
+  {
     "hrsh7th/nvim-cmp",
     event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "hrsh7th/cmp-omni",
-      "hrsh7th/cmp-path",
-      {
-        "L3MON4D3/LuaSnip",
-        opts = {
-          region_check_events = { "CursorMoved", "InsertEnter" },
-          delete_check_events = { "TextChanged" },
-        }
-      },
-      "saadparwaiz1/cmp_luasnip",
-    },
     config = function() require("packages.nvim-cmp") end
   },
   {
-    "neovim/nvim-lspconfig",
-    -- event = "BufReadPre",
-    config = function() require("packages.nvim-lspconfig") end,
+    "hrsh7th/cmp-buffer",
+    event = "VeryLazy",
     dependencies = {
-      {
-        "mason-org/mason.nvim",
-        cmd = "Mason",
-        config = function()
-          require("mason").setup {
-            ui = {
-              border = _G._my_core_opt.tui.border
-            }
-          }
-        end,
-      },
-      {
-        "mason-org/mason-lspconfig.nvim",
-        config = function()
-          require("mason-lspconfig").setup {
-            ensure_installed = vim.tbl_keys(_G._my_core_opt.lsp),
-            automatic_enable = false,
-          }
-        end,
-      },
-      "Hoffs/omnisharp-extended-lsp.nvim",
-      {
-        "rcarriga/nvim-dap-ui",
-        event = "VeryLazy",
-        config = function()
-          local dap, dapui = require("dap"), require("dapui")
-          dapui.setup()
-          dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-        end,
-        keys = {
-          { "<leader>dn", function() require("dapui").toggle() end },
-          { "<leader>df", function() require("dapui").float_element() end },
-          { "<leader>dv", function() require("dapui").eval() end,         mode = "v" },
-        },
-        dependencies = {
-          {
-            "mfussenegger/nvim-dap",
-            config = function() require("packages.nvim-dap") end,
-          },
-          "nvim-neotest/nvim-nio",
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "hrsh7th/cmp-cmdline",
+    event = "VeryLazy",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "hrsh7th/cmp-nvim-lsp",
+    event = "VeryLazy",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "hrsh7th/cmp-nvim-lsp-signature-help",
+    event = "VeryLazy",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "hrsh7th/cmp-omni",
+    event = "VeryLazy",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "hrsh7th/cmp-path",
+    event = "VeryLazy",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "saadparwaiz1/cmp_luasnip",
+    event = "VeryLazy",
+    dependencies = {
+      "L3MON4D3/LuaSnip",
+      "hrsh7th/nvim-cmp",
+    }
+  },
+  {
+    "neovim/nvim-lspconfig",
+    event = "VeryLazy",
+    config = function() require("packages.nvim-lspconfig") end,
+  },
+  "Hoffs/omnisharp-extended-lsp.nvim",
+  {
+    "mason-org/mason.nvim",
+    cmd = "Mason",
+    config = function()
+      require("mason").setup {
+        ui = {
+          border = _G._my_core_opt.tui.border
         }
       }
+    end,
+  },
+  {
+    "mason-org/mason-lspconfig.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("mason-lspconfig").setup {
+        ensure_installed = vim.tbl_keys(_G._my_core_opt.lsp),
+        automatic_enable = false,
+      }
+    end,
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "mason-org/mason.nvim",
+    }
+  },
+  {
+    "mfussenegger/nvim-dap",
+    event = "VeryLazy",
+    config = function() require("packages.nvim-dap") end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
+    config = function()
+      local dap, dapui = require("dap"), require("dapui")
+      dapui.setup()
+      dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+    end,
+    keys = {
+      { "<leader>dn", function() require("dapui").toggle() end },
+      { "<leader>df", function() require("dapui").float_element() end },
+      { "<leader>dv", function() require("dapui").eval() end,         mode = "v" },
+    },
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
     }
   },
   {

@@ -1,4 +1,4 @@
-local _ = require("lspconfig")
+-- local lspconfig = require("lspconfig")
 
 local float_opts = {
   border = _G._my_core_opt.tui.border,
