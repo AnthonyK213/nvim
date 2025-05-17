@@ -1096,12 +1096,23 @@ require("lazy").setup({
   },
   {
     "mfussenegger/nvim-dap",
-    event = "VeryLazy",
     config = function() require("packages.nvim-dap") end,
+    keys = {
+      { "<F5>",       function() require("dap").continue() end },
+      { "<F10>",      function() require("dap").step_over() end },
+      { "<F23>",      function() require("dap").step_into() end },
+      { "<S-F11>",    function() require("dap").step_into() end },
+      { "<F47>",      function() require("dap").step_out() end },
+      { "<S-C-F11>",  function() require("dap").step_out() end },
+      { "<leader>db", function() require("dap").toggle_breakpoint() end },
+      { "<leader>dc", function() require("dap").clear_breakpoints() end },
+      { "<leader>dl", function() require("dap").run_last() end },
+      { "<leader>dr", function() require("dap").repl.toggle() end },
+      { "<leader>dt", function() require("dap").terminate() end },
+    }
   },
   {
     "rcarriga/nvim-dap-ui",
-    event = "VeryLazy",
     config = function()
       local dap, dapui = require("dap"), require("dapui")
       dapui.setup()
@@ -1115,6 +1126,20 @@ require("lazy").setup({
     dependencies = {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio",
+    }
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("mason-nvim-dap").setup {
+        ensure_installed = vim.tbl_keys(_G._my_core_opt.dap),
+        automatic_installation = false,
+      }
+    end,
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "mason-org/mason.nvim",
     }
   },
   {

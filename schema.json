@@ -630,17 +630,17 @@
       "description": "Debug Adapter Protocol",
       "type": "object",
       "properties": {
-        "lldb": {
-          "description": "https://github.com/llvm/llvm-project",
+        "codelldb": {
+          "description": "https://github.com/vadimcn/codelldb",
           "type": "boolean",
           "default": false
         },
-        "netcoredbg": {
+        "coreclr": {
           "description": "https://github.com/Samsung/netcoredbg",
           "type": "boolean",
           "default": false
         },
-        "debugpy": {
+        "python": {
           "description": "https://github.com/microsoft/debugpy",
           "type": "boolean",
           "default": false

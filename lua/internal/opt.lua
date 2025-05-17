@@ -65,10 +65,7 @@ local opt = {
     highlight_disable = {},
     matchup_disable   = {},
   },
-  dap = {
-    python = false,
-    csharp = false
-  },
+  dap = {},
   disable = {
     "matchit",
     "matchparen",

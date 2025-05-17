@@ -29,7 +29,7 @@ require("cmake-tools").setup {
         position = "belowright",
         size = 10,
         encoding = "utf-8",
-        auto_close_when_success = true,
+        auto_close_when_success = false,
       },
       toggleterm = {
         direction = "float",
@@ -46,7 +46,7 @@ require("cmake-tools").setup {
             quit_on_exit = "success"
           }
         },
-        on_new_task = function(task)
+        on_new_task = function(_)
           require("overseer").open(
             { enter = false, direction = "right" }
           )
@@ -75,7 +75,7 @@ require("cmake-tools").setup {
         position = "belowright",
         size = 10,
         encoding = "utf-8",
-        auto_close_when_success = true,
+        auto_close_when_success = false,
       },
       toggleterm = {
         direction = "float",
@@ -92,8 +92,7 @@ require("cmake-tools").setup {
             quit_on_exit = "success"
           }
         },
-        on_new_task = function(task)
-        end,
+        on_new_task = function(_) end,
       },
       terminal = {
         name = "Main Terminal",

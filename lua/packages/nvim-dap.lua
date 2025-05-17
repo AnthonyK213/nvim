@@ -4,7 +4,7 @@ local lib = require("utility.lib")
 local dir = vim.fn.stdpath("data") .. "/mason"
 
 --#region Adapter
----@class A
+---@class my.dap.Adaptor
 ---@field typename string
 ---@field filetype string|string[]
 ---@field option table
@@ -18,7 +18,7 @@ A.__index = A
 ---@param typename string
 ---@param option table
 ---@param configuration table[]
----@return A
+---@return my.dap.Adaptor
 function A.new(filetype, typename, option, configuration)
   local o = {
     filetype = filetype,
@@ -49,7 +49,8 @@ end
 --#endregion
 
 --#region Adapter instances
-local dap_lldb = A.new({ "c", "cpp", "rust" }, "lldb", {
+-- TODO: Using codelldb
+local dap_codelldb = A.new({ "c", "cpp", "rust" }, "lldb", {
   type = "executable",
   command = "lldb-dap",
   name = "lldb",
@@ -118,25 +119,9 @@ local dap_debugpy = A.new("python", "python", lib.has_windows() and {
   }
 })
 
-if dap_option.lldb then dap_lldb:setup() end
-if dap_option.netcoredbg then dap_netcoredbg:setup() end
-if dap_option.debugpy then dap_debugpy:setup() end
+if dap_option.codelldb then dap_codelldb:setup() end
+if dap_option.coreclr then dap_netcoredbg:setup() end
+if dap_option.python then dap_debugpy:setup() end
 
 -- dap.set_log_level("TRACE")
---#endregion
-
---#region Key mappings
-local kbd = vim.keymap.set
-local ntst = { noremap = true, silent = true }
-kbd("n", "<F5>", function() dap.continue() end, ntst)
-kbd("n", "<F10>", function() dap.step_over() end, ntst)
-kbd("n", "<F23>", function() dap.step_into() end, ntst)
-kbd("n", "<S-F11>", function() dap.step_into() end, ntst)
-kbd("n", "<F47>", function() dap.step_out() end, ntst)
-kbd("n", "<S-C-F11>", function() dap.step_out() end, ntst)
-kbd("n", "<leader>db", function() dap.toggle_breakpoint() end, ntst)
-kbd("n", "<leader>dc", function() dap.clear_breakpoints() end, ntst)
-kbd("n", "<leader>dl", function() dap.run_last() end, ntst)
-kbd("n", "<leader>dr", function() dap.repl.toggle() end, ntst)
-kbd("n", "<leader>dt", function() dap.terminate() end, ntst)
 --#endregion

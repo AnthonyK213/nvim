@@ -118,9 +118,7 @@ It's a pure text file with json syntax. Example:
     ]
   },
   "dap": {
-    "lldb": false,
-    "netcoredbg": false,
-    "debugpy": false
+    "python": false
   }
 }
 ```
