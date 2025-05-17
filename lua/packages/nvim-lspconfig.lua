@@ -1,13 +1,7 @@
--- local lspconfig = require("lspconfig")
-
 local float_opts = {
   border = _G._my_core_opt.tui.border,
   max_width = 80,
 }
-
--- nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Attaches.
 local function custom_attach(client, bufnr)
@@ -95,10 +89,9 @@ local function setup_server(name, config)
   end
 
   ---@type vim.lsp.Config
-  local cfg = {
-    capabilities = capabilities,
-    on_attach = custom_attach
-  }
+  local cfg = {}
+
+  cfg.on_attach = custom_attach
 
   -- Disable semantic tokens.
   if config_table.disable_semantic_tokens then

@@ -603,7 +603,7 @@ require("lazy").setup({
   },
   {
     "lewis6991/gitsigns.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     opts = {
       signs = {
         add          = { text = "│" },
@@ -857,8 +857,24 @@ require("lazy").setup({
   },
   {
     "stevearc/overseer.nvim",
-    event = "VeryLazy",
-    opts = {},
+    cmd = {
+      "OverseerOpen",
+      "OverseerClose",
+      "OverseerToggle",
+      "OverseerSaveBundle",
+      "OverseerLoadBundle",
+      "OverseerDeleteBundle",
+      "OverseerRunCmd",
+      "OverseerRun",
+      "OverseerInfo",
+      "OverseerBuild",
+      "OverseerQuickAction",
+      "OverseerTaskAction",
+      "OverseerClearCache",
+    },
+    opts = {
+      dap = false,
+    },
   },
   {
     "Civitasv/cmake-tools.nvim",
@@ -898,6 +914,8 @@ require("lazy").setup({
     dependencies = {
       "nvim-lua/plenary.nvim",
       "stevearc/overseer.nvim",
+      "akinsho/toggleterm.nvim",
+      "mfussenegger/nvim-dap",
     }
   },
   {
@@ -996,78 +1014,31 @@ require("lazy").setup({
       }
     },
   },
-  -- Completion; Snippet; LSP; Treesitter; DAP
-  {
-    "L3MON4D3/LuaSnip",
-    event = "VeryLazy",
-    opts = {
-      region_check_events = { "CursorMoved", "InsertEnter" },
-      delete_check_events = { "TextChanged" },
-    }
-  },
+  -- Completion; LSP; DAP; Treesitter
   {
     "hrsh7th/nvim-cmp",
-    event = "VeryLazy",
-    config = function() require("packages.nvim-cmp") end
-  },
-  {
-    "hrsh7th/cmp-buffer",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile", "CmdlineEnter" },
+    config = function() require("packages.nvim-cmp") end,
     dependencies = {
-      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-omni",
+      "hrsh7th/cmp-path",
+      {
+        "saadparwaiz1/cmp_luasnip",
+        dependencies = {
+          {
+            "L3MON4D3/LuaSnip",
+            opts = {
+              region_check_events = { "CursorMoved", "InsertEnter" },
+              delete_check_events = { "TextChanged" },
+            }
+          },
+        }
+      },
     }
-  },
-  {
-    "hrsh7th/cmp-cmdline",
-    event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    }
-  },
-  {
-    "hrsh7th/cmp-nvim-lsp",
-    event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    }
-  },
-  {
-    "hrsh7th/cmp-nvim-lsp-signature-help",
-    event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    }
-  },
-  {
-    "hrsh7th/cmp-omni",
-    event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    }
-  },
-  {
-    "hrsh7th/cmp-path",
-    event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    }
-  },
-  {
-    "saadparwaiz1/cmp_luasnip",
-    event = "VeryLazy",
-    dependencies = {
-      "L3MON4D3/LuaSnip",
-      "hrsh7th/nvim-cmp",
-    }
-  },
-  {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    config = function() require("packages.nvim-lspconfig") end,
-  },
-  {
-    "Hoffs/omnisharp-extended-lsp.nvim",
-    event = "VeryLazy",
   },
   {
     "mason-org/mason.nvim",
@@ -1081,18 +1052,26 @@ require("lazy").setup({
     end,
   },
   {
-    "mason-org/mason-lspconfig.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("mason-lspconfig").setup {
-        ensure_installed = vim.tbl_keys(_G._my_core_opt.lsp),
-        automatic_enable = false,
-      }
-    end,
+    "neovim/nvim-lspconfig",
+    config = function() require("packages.nvim-lspconfig") end,
     dependencies = {
-      "neovim/nvim-lspconfig",
-      "mason-org/mason.nvim",
+      {
+        "mason-org/mason-lspconfig.nvim",
+        config = function()
+          require("mason-lspconfig").setup {
+            ensure_installed = vim.tbl_keys(_G._my_core_opt.lsp),
+            automatic_enable = false,
+          }
+        end,
+        dependencies = {
+          "mason-org/mason.nvim",
+        }
+      },
     }
+  },
+  {
+    "Hoffs/omnisharp-extended-lsp.nvim",
+    event = "VeryLazy",
   },
   {
     "mfussenegger/nvim-dap",
@@ -1109,6 +1088,20 @@ require("lazy").setup({
       { "<leader>dl", function() require("dap").run_last() end },
       { "<leader>dr", function() require("dap").repl.toggle() end },
       { "<leader>dt", function() require("dap").terminate() end },
+    },
+    dependencies = {
+      {
+        "jay-babu/mason-nvim-dap.nvim",
+        config = function()
+          require("mason-nvim-dap").setup {
+            ensure_installed = vim.tbl_keys(_G._my_core_opt.dap),
+            automatic_installation = false,
+          }
+        end,
+        dependencies = {
+          "mason-org/mason.nvim",
+        }
+      },
     }
   },
   {
@@ -1126,20 +1119,6 @@ require("lazy").setup({
     dependencies = {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio",
-    }
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("mason-nvim-dap").setup {
-        ensure_installed = vim.tbl_keys(_G._my_core_opt.dap),
-        automatic_installation = false,
-      }
-    end,
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "mason-org/mason.nvim",
     }
   },
   {

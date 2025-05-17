@@ -1,10 +1,8 @@
 local dap = require("dap")
-local dap_option = _G._my_core_opt.dap or {}
 local lib = require("utility.lib")
-local dir = vim.fn.stdpath("data") .. "/mason"
+local mason_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "mason")
 
---#region Adapter
----@class my.dap.Adaptor
+---@class my.dap.Adapter
 ---@field typename string
 ---@field filetype string|string[]
 ---@field option table
@@ -18,7 +16,7 @@ A.__index = A
 ---@param typename string
 ---@param option table
 ---@param configuration table[]
----@return my.dap.Adaptor
+---@return my.dap.Adapter
 function A.new(filetype, typename, option, configuration)
   local o = {
     filetype = filetype,
@@ -46,18 +44,18 @@ function A:setup()
   end
 end
 
---#endregion
+---@type table<string, my.dap.Adapter>
+local adapters = {}
 
---#region Adapter instances
--- TODO: Using codelldb
-local dap_codelldb = A.new({ "c", "cpp", "rust" }, "lldb", {
+adapters.codelldb = A.new({ "c", "cpp", "rust" }, "codelldb", {
   type = "executable",
-  command = "lldb-dap",
-  name = "lldb",
+  command = "codelldb",
+  name = "codelldb",
+  detached = not lib.has_windows(),
 }, {
   {
     name = "Launch",
-    type = "lldb",
+    type = "codelldb",
     request = "launch",
     program = function()
       return vim.fn.input {
@@ -72,11 +70,9 @@ local dap_codelldb = A.new({ "c", "cpp", "rust" }, "lldb", {
   }
 })
 
-local dap_netcoredbg = A.new("cs", "coreclr", {
+adapters.coreclr = A.new("cs", "coreclr", {
   type = "executable",
-  command = lib.has_windows()
-      and string.format("%s/packages/netcoredbg/netcoredbg/netcoredbg", dir)
-      or "netcoredbg",
+  command = vim.fs.joinpath(mason_dir, "packages/netcoredbg/netcoredbg/netcoredbg"),
   args = { "--interpreter=vscode" }
 }, {
   {
@@ -86,7 +82,7 @@ local dap_netcoredbg = A.new("cs", "coreclr", {
     program = function()
       return vim.fn.input {
         prompt = "Path to dll: ",
-        default = vim.uv.cwd() .. "/bin/Debug/",
+        default = vim.uv.cwd() .. "/",
         completion = "file"
       }
     end,
@@ -100,28 +96,32 @@ local dap_netcoredbg = A.new("cs", "coreclr", {
   }
 })
 
-local dap_debugpy = A.new("python", "python", lib.has_windows() and {
+local function get_python_path()
+  local dir = lib.has_windows() and "Scripts" or "bin"
+  return vim.fs.joinpath(mason_dir, "packages/debugpy/venv", dir, "python")
+end
+
+adapters.python = A.new("python", "python", {
   type = "executable",
-  command = string.format("%s/packages/debugpy/venv/Scripts/python", dir),
+  command = get_python_path(),
   args = { "-m", "debugpy.adapter" }
-} or {
-  type = "executable",
-  command = "debugpy-adapter",
 }, {
   {
     type = "python",
     name = "Launch",
     request = "launch",
     program = "${file}",
-    pythonPath = function()
-      return vim.fn.exepath(_G._my_core_opt.dep.py)
-    end,
+    pythonPath = get_python_path,
   }
 })
 
-if dap_option.codelldb then dap_codelldb:setup() end
-if dap_option.coreclr then dap_netcoredbg:setup() end
-if dap_option.python then dap_debugpy:setup() end
+-- Setup adapters.
+for type_, load in pairs(_G._my_core_opt.dap or {}) do
+  local adapter = adapters[type_]
+  if load and adapter then
+    adapter:setup()
+  end
+end
 
--- dap.set_log_level("TRACE")
---#endregion
+-- Enable overseer integration.
+require("overseer").enable_dap()
