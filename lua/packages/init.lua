@@ -415,12 +415,13 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
     config = function()
-      local border_style = _G._my_core_opt.tui.border
       local border_styles = {
         single  = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         double  = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
         rounded = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       }
+      local border_chars = border_styles[_G._my_core_opt.tui.border or "none"]
+
       require("telescope").setup {
         defaults = {
           mappings = {
@@ -429,9 +430,8 @@ require("lazy").setup({
               ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
             },
           },
-          border = border_style ~= "none",
-          borderchars = border_styles[border_style] or border_styles["rounded"],
-          -- sorting_strategy = "ascending",
+          border = border_chars ~= nil,
+          borderchars = border_chars,
         },
         extensions = {
           aerial = {
@@ -443,8 +443,6 @@ require("lazy").setup({
           }
         }
       }
-      -- Load extensions.
-      require("telescope").load_extension("aerial")
     end,
     keys = {
       { "<leader>fb", function() require("telescope.builtin").buffers() end },
@@ -758,6 +756,7 @@ require("lazy").setup({
           preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
       }
+      local border_chars = border_styles[border_style or "none"]
 
       require("dressing").setup {
         input = {
@@ -765,7 +764,7 @@ require("lazy").setup({
           title_pos = "center",
           insert_only = true,
           relative = "editor",
-          border = _G._my_core_opt.tui.border,
+          border = border_style,
           win_options = { winblend = 10, },
           get_config = function(opts)
             if opts.kind == "at_cursor" then
@@ -781,8 +780,8 @@ require("lazy").setup({
           backend = { "telescope" },
           format_item_override = {},
           telescope = require("telescope.themes").get_dropdown {
-            border = border_style ~= "none",
-            borderchars = border_styles[border_style] or border_styles["rounded"],
+            border = border_chars ~= nil,
+            borderchars = border_chars,
           },
           get_config = nil,
         },
@@ -917,23 +916,6 @@ require("lazy").setup({
       "akinsho/toggleterm.nvim",
       "mfussenegger/nvim-dap",
     }
-  },
-  {
-    "EthanJWright/vs-tasks.nvim",
-    name = "vstask",
-    dependencies = {
-      "nvim-lua/popup.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    opts = {
-      telescope_keys = {
-        split = "<CR>"
-      },
-    },
-    keys = {
-      { "<leader>tl", function() require("telescope").extensions.vstask.launch() end },
-    },
   },
   -- File type support
   {
@@ -1205,7 +1187,11 @@ require("lazy").setup({
         height = nil,
         override = function(conf, _) return conf end,
       },
-    }
+    },
+    config = function(_, opts)
+      require("aerial").setup(opts)
+      require("telescope").load_extension("aerial")
+    end,
   },
   -- Games
   {
