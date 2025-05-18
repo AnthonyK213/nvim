@@ -286,11 +286,12 @@ Configure mailboxes (optional)
 
 # Commands
 
-| Command       | Arguments                                         | Description                                |
-|---------------|---------------------------------------------------|--------------------------------------------|
-| `CodeRun`     | `build`\|`test`\|...                              | Run or compile the code.                   |
-| `BuildCrates` | {crate}                                           | Build crates in `$config/rust/` directory. |
-| `GlslViewer`  |                                                   | Open glslViewer.                           |
-| `NvimUpgrade` | `stable`\|`nightly`                               | Upgrade neovim by channel.                 |
-| `PushAll`     | `-b` {branch}<br/>`-m` {commit}<br/>`-r` {remote} | Just push everything to the remote.        |
-| `Time`        |                                                   | Print date and time.                       |
+| Command         | Arguments                                             | Description                                |
+|-----------------|-------------------------------------------------------|--------------------------------------------|
+| `BuildCrates`   | \[{crate}\]                                           | Build crates in `$config/rust/` directory. |
+| `CodeRun`       | \[{option}\]                                          | Run or compile the code.                   |
+| `CreateProject` | {template}                                            | Create project with template.              |
+| `GlslViewer`    |                                                       | Open glslViewer.                           |
+| `NvimUpgrade`   | \[stable\|nightly\]                                   | Upgrade neovim by channel.                 |
+| `PushAll`       | \[-b {branch}\]<br>\[-m {commit}\]<br>\[-r {remote}\] | Just push everything to the remote.        |
+| `Time`          |                                                       | Print date and time.                       |

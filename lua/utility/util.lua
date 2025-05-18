@@ -182,9 +182,13 @@ function M.new_keymap(mode, lhs, new_rhs, opts)
   opts = opts or {}
 
   local kbd_table
-  if type(opts.buffer) == "number" then
-    kbd_table = vim.api.nvim_buf_get_keymap(opts.buffer, mode)
-  elseif type(opts.buffer) == "boolean" and opts.buffer then
+  local buf = opts.buffer
+  if type(buf) == "number" then
+    if not vim.api.nvim_buf_is_valid(buf) then
+      return
+    end
+    kbd_table = vim.api.nvim_buf_get_keymap(buf, mode)
+  elseif type(buf) == "boolean" and buf then
     error("Should provide buffer number for a buffer specific keymap.")
   else
     kbd_table = vim.api.nvim_get_keymap(mode)

@@ -49,7 +49,7 @@ local adapters = {}
 
 adapters.codelldb = A.new({ "c", "cpp", "rust" }, "codelldb", {
   type = "executable",
-  command = "codelldb",
+  command = vim.fs.joinpath(mason_dir, "packages/codelldb/extension/adapter/codelldb"),
   name = "codelldb",
   detached = not lib.has_windows(),
 }, {

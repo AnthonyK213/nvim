@@ -53,7 +53,7 @@ end, {
     return vim.tbl_keys(template.templates)
   end
   ,
-  desc = "Create project"
+  desc = "Create project with templates"
 })
 
 cmd("GlslViewer", function(tbl)
