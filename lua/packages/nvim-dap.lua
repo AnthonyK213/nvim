@@ -70,9 +70,17 @@ adapters.codelldb = A.new({ "c", "cpp", "rust" }, "codelldb", {
   }
 })
 
+local function get_netcoredbg_path()
+  if lib.has_windows() then
+    return vim.fs.joinpath(mason_dir, "packages/netcoredbg/netcoredbg/netcoredbg")
+  else
+    return vim.fs.joinpath(mason_dir, "bin/netcoredbg")
+  end
+end
+
 adapters.coreclr = A.new("cs", "coreclr", {
   type = "executable",
-  command = vim.fs.joinpath(mason_dir, "packages/netcoredbg/netcoredbg/netcoredbg"),
+  command = get_netcoredbg_path(),
   args = { "--interpreter=vscode" }
 }, {
   {

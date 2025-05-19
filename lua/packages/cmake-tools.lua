@@ -1,12 +1,15 @@
 require("cmake-tools").setup {
   cmake_command = "cmake",
   ctest_command = "ctest",
+  cmake_use_preset = true,
   cmake_regenerate_on_save = false,
   cmake_generate_options = { "-DCMAKE_EXPORT_COMPILE_COMMANDS=1" },
   cmake_build_options = {},
   cmake_build_directory = "build",
-  cmake_soft_link_compile_commands = false,
-  cmake_compile_commands_from_lsp = false,
+  cmake_compile_commands_options = {
+    action = "none",
+    target = vim.uv.cwd()
+  },
   cmake_kits_path = nil,
   cmake_variants_message = {
     short = { show = true },
@@ -115,4 +118,5 @@ require("cmake-tools").setup {
     refresh_rate_ms = 100,
   },
   cmake_virtual_text_support = true,
+  cmake_use_scratch_buffer = false,
 }
