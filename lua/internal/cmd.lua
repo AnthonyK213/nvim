@@ -20,7 +20,7 @@ end, {
       return {}
     end
   end,
-  desc = "Run or compile"
+  desc = "Run or compile the code"
 })
 
 cmd("BuildCrates", function(tbl)
@@ -43,18 +43,9 @@ end, {
   desc = "Build crates in this configuration"
 })
 
-cmd("CreateProject", function(tbl)
-  require("utility.template"):create_project(tbl.args)
-end, {
-  nargs = "?",
-  complete = function()
-    local template = require("utility.template")
-    template:init()
-    return vim.tbl_keys(template.templates)
-  end
-  ,
-  desc = "Create project with templates"
-})
+cmd("CreateProject", function(_)
+  require("utility.template"):create_project()
+end, { desc = "Create project with templates" })
 
 cmd("GlslViewer", function(tbl)
   require("utility.glsl").start(0, tbl.fargs)
@@ -69,13 +60,13 @@ cmd("NvimUpgrade", function(tbl)
 end, {
   nargs = "?",
   complete = function() return { "stable", "nightly" } end,
-  desc = "Neovim upgrade"
+  desc = "Upgrade Neovim by channel"
 })
 
 cmd("PushAll", function(tbl)
   local arg_tbl = require("utility.lib").parse_args(tbl.args)
   require("logit").push_all(arg_tbl)
-end, { nargs = "?", desc = "Git push all" })
+end, { nargs = "?", desc = "Just push everything to the remote" })
 
 cmd("Time", function(_)
   vim.notify(vim.fn.strftime("%Y-%m-%d %a %T"))

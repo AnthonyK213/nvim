@@ -290,8 +290,8 @@ Configure mailboxes (optional)
 |-----------------|-------------------------------------------------------|--------------------------------------------|
 | `BuildCrates`   | \[{crate}\]                                           | Build crates in `$config/rust/` directory. |
 | `CodeRun`       | \[{option}\]                                          | Run or compile the code.                   |
-| `CreateProject` | {template}                                            | Create project with template.              |
+| `CreateProject` |                                                       | Create project with templates.             |
 | `GlslViewer`    |                                                       | Open glslViewer.                           |
-| `NvimUpgrade`   | \[stable\|nightly\]                                   | Upgrade neovim by channel.                 |
+| `NvimUpgrade`   | \[stable\|nightly\]                                   | Upgrade Neovim by channel.                 |
 | `PushAll`       | \[-b {branch}\]<br>\[-m {commit}\]<br>\[-r {remote}\] | Just push everything to the remote.        |
 | `Time`          |                                                       | Print date and time.                       |

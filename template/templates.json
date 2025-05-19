@@ -1,0 +1,67 @@
+[
+  {
+    "name": "C executable",
+    "args": [
+      "ProjectName"
+    ],
+    "dirs": [
+      "#{ProjectName}",
+      "#{ProjectName}/src"
+    ],
+    "files": {
+      "#{ProjectName}/.clang-format": "common/common-clang-format",
+      "#{ProjectName}/.editorconfig": "common/common-editorconfig",
+      "#{ProjectName}/.gitignore": "common/common-gitignore",
+      "#{ProjectName}/CMakeLists.txt": "c/c-cmakelists",
+      "#{ProjectName}/src/CMakeLists.txt": "c/c-src-cmakelists-exe",
+      "#{ProjectName}/src/main.c": "c/c-src-exe"
+    }
+  },
+  {
+    "name": "C library",
+    "args": [
+      "ProjectName"
+    ],
+    "dirs": [
+      "#{ProjectName}",
+      "#{ProjectName}/include",
+      "#{ProjectName}/include/#{ProjectName}",
+      "#{ProjectName}/src"
+    ],
+    "files": {
+      "#{ProjectName}/.clang-format": "common/common-clang-format",
+      "#{ProjectName}/.editorconfig": "common/common-editorconfig",
+      "#{ProjectName}/.gitignore": "common/common-gitignore",
+      "#{ProjectName}/CMakeLists.txt": "c/c-cmakelists",
+      "#{ProjectName}/#{ProjectName}Config.cmake.in": "cmake/cmake-config-cmake-in",
+      "#{ProjectName}/include/#{ProjectName}/lib.h": "c/c-include-lib",
+      "#{ProjectName}/src/CMakeLists.txt": "c/c-src-cmakelists-lib",
+      "#{ProjectName}/src/lib.c": "c/c-src-lib"
+    }
+  },
+  {
+    "name": "C++ library",
+    "args": [
+      "ProjectName"
+    ],
+    "dirs": [
+      "#{ProjectName}",
+      "#{ProjectName}/include",
+      "#{ProjectName}/include/#{ProjectName}",
+      "#{ProjectName}/src",
+      "#{ProjectName}/test"
+    ],
+    "files": {
+      "#{ProjectName}/.clang-format": "common/common-clang-format",
+      "#{ProjectName}/.editorconfig": "common/common-editorconfig",
+      "#{ProjectName}/.gitignore": "common/common-gitignore",
+      "#{ProjectName}/CMakeLists.txt": "cpp/cpp-cmakelists",
+      "#{ProjectName}/#{ProjectName}Config.cmake.in": "cmake/cmake-config-cmake-in",
+      "#{ProjectName}/include/#{ProjectName}/lib.h": "cpp/cpp-include-lib",
+      "#{ProjectName}/src/CMakeLists.txt": "cpp/cpp-src-cmakelists",
+      "#{ProjectName}/src/lib.cpp": "cpp/cpp-src-lib",
+      "#{ProjectName}/test/CMakeLists.txt": "cpp/cpp-test-cmakelists",
+      "#{ProjectName}/test/test.cpp": "cpp/cpp-test-test"
+    }
+  }
+]

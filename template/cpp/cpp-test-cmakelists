@@ -55,22 +55,11 @@ target_link_libraries(
 
 include(GoogleTest)
 
-if(WIN32)
-  if(CMAKE_CONFIGURATION_TYPES)
-    add_custom_command(
-      TARGET ${PROJECT_NAME}-test POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "$<TARGET_PROPERTY:#{ProjectName},BINARY_DIR>/$<CONFIG>"
-        "$<TARGET_PROPERTY:#{ProjectName}-test,BINARY_DIR>/$<CONFIG>"
-      )
-  else(CMAKE_CONFIGURATION_TYPES)
-    add_custom_command(
-      TARGET ${PROJECT_NAME}-test POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "$<TARGET_PROPERTY:#{ProjectName},BINARY_DIR>"
-        "$<TARGET_PROPERTY:#{ProjectName}-test,BINARY_DIR>"
-      )
-  endif(CMAKE_CONFIGURATION_TYPES)
-endif(WIN32)
+add_custom_command(
+  TARGET ${PROJECT_NAME}-test POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "$<TARGET_PROPERTY:#{ProjectName},BINARY_DIR>/$<$<BOOL:${CMAKE_CONFIGURATION_TYPES}>:$<CONFIG>>"
+    "$<TARGET_PROPERTY:#{ProjectName}-test,BINARY_DIR>/$<$<BOOL:${CMAKE_CONFIGURATION_TYPES}>:$<CONFIG>>"
+  )
 
 gtest_discover_tests(${PROJECT_NAME}-test)

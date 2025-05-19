@@ -1,6 +1,8 @@
 local lib = require("utility.lib")
 local futures = require("futures")
 
+local template_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "template")
+
 ---@class template.Template
 ---@field private name string
 ---@field private args string[]
@@ -12,42 +14,23 @@ local Template = {}
 Template.__index = Template
 
 ---Constructor.
----@param temp_json_path string
+---@param temp_obj table
 ---@return template.Template?
-function Template.new(temp_json_path)
-  local code, temp_json = lib.json_decode(temp_json_path, true)
-
-  if code ~= 0 or not temp_json then
-    return nil
-  end
-
-  if not temp_json.name then
-    return nil
-  end
-
-  local t = {
-    name = temp_json.name,
-    args = temp_json.args or {},
-    dirs = temp_json.dirs or {},
-    files = {},
-  }
-
-  if temp_json.files then
-    local dir = vim.fs.dirname(temp_json_path)
-
-    for k, v in pairs(temp_json.files) do
-      local fname = vim.fs.joinpath(dir, v)
-      local f = io.open(fname, "rb")
-      if not f then
+function Template.new(temp_obj)
+  if temp_obj.files then
+    for k, v in pairs(temp_obj.files) do
+      local fname = vim.fs.joinpath(template_dir, v)
+      local file = io.open(fname, "rb")
+      if not file then
         return nil
       end
-      t.files[k] = f:read("*a")
-      f:close()
+      temp_obj.files[k] = file:read("*a")
+      file:close()
     end
   end
 
-  setmetatable(t, Template)
-  return t
+  setmetatable(temp_obj, Template)
+  return temp_obj
 end
 
 function Template:get_name()
@@ -108,6 +91,7 @@ end
 
 local M = {}
 
+---@private
 ---@type table<string, template.Template>
 M.templates = {}
 
@@ -115,42 +99,47 @@ M.templates = {}
 ---@param reset? boolean
 ---@return boolean
 function M:init(reset)
-  if not reset and #self.templates ~= 0 then return true end
+  if not reset and #self.templates ~= 0 then
+    return true
+  end
 
   self.templates = {}
 
-  local dir = vim.fn.stdpath("config") .. "/template/"
+  local temp_path = vim.fs.joinpath(template_dir, "templates.json")
+  local code, temp_json = lib.json_decode(temp_path, true)
+  if code ~= 0 or not temp_json then
+    return false
+  end
 
-  for fname, type_ in vim.fs.dir(dir) do
-    if type_ == "file" and vim.endswith(fname, ".json") then
-      local T = Template.new(vim.fs.joinpath(dir, fname))
-      if T then
-        self.templates[T:get_name()] = T
-      end
+  for _, temp_obj in ipairs(temp_json) do
+    local temp = Template.new(temp_obj)
+    if temp then
+      self.templates[temp:get_name()] = temp
     end
   end
 
   return true
 end
 
----
----@param name string
-function M:create_project(name)
+function M:create_project()
   if not self:init() then
-    lib.warn("No project template found.")
-    return
-  end
-
-  local T = self.templates[name]
-  if not T then
-    lib.warn("Project template " .. tostring(name) .. " is not found.")
+    lib.warn("Did not find any project template.")
     return
   end
 
   futures.spawn(function()
+    local name = futures.ui.select(vim.tbl_keys(self.templates), {
+      prompt = "Select a template: "
+    })
+
+    if not name then
+      return
+    end
+
+    local template = self.templates[name]
     local args = {}
 
-    for _, arg in ipairs(T:get_args()) do
+    for _, arg in ipairs(template:get_args()) do
       local val = futures.ui.input { prompt = arg .. ": " }
       if not val then
         return
@@ -158,7 +147,7 @@ function M:create_project(name)
       args[arg] = val
     end
 
-    if T:create_project(args) then
+    if template:create_project(args) then
       vim.notify("Project created.")
     end
   end)
