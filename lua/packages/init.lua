@@ -235,7 +235,7 @@ require("lazy").setup({
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "VeryLazy", "BufReadPre" },
+    event = { "BufReadPre", "BufNewFile" },
     cond = load_3rd_ui,
     main = "ibl",
     opts = {
@@ -711,7 +711,7 @@ require("lazy").setup({
   },
   {
     "andymass/vim-matchup",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     init = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
       vim.g.matchup_matchparen_deferred = 1
@@ -1143,7 +1143,6 @@ require("lazy").setup({
   },
   {
     "stevearc/aerial.nvim",
-    event = "VeryLazy",
     opts = {
       backends = {
         ["_"] = { "lsp", "treesitter" },

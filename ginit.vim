@@ -6,6 +6,7 @@
 "   - [VimR](https://github.com/qvacua/vimr)
 
 
+" Initialize global variables.
 let s:my_gui_table = {
       \ '_my_gui_theme': 'auto',
       \ '_my_gui_opacity': 1,
@@ -18,13 +19,14 @@ let s:my_gui_table = {
       \ '_my_gui_font_half': 'Monospace',
       \ '_my_gui_font_wide': 'Monospace',
       \ }
-
 for [s:name, s:value] in items(s:my_gui_table)
   if !exists('g:' . s:name)
     let g:{s:name} = s:value
   endif
 endfor
 
+
+" Functions
 function! s:bool2int(b) abort
   if type(a:b) == v:t_bool
     return a:b ? 1 : 0
@@ -33,48 +35,6 @@ function! s:bool2int(b) abort
   endif
 endfunction
 
-let s:nvimqt_option_table = {
-      \ 'GuiTabline': s:bool2int(g:_my_gui_tabline),
-      \ 'GuiPopupmenu': s:bool2int(g:_my_gui_popup_menu),
-      \ 'GuiLinespace': string(g:_my_gui_line_space),
-      \ 'GuiScrollBar': s:bool2int(g:_my_gui_scroll_bar),
-      \ 'GuiRenderLigatures': s:bool2int(g:_my_gui_ligature),
-      \ 'GuiAdaptiveColor': 1,
-      \ 'GuiWindowOpacity': string(g:_my_gui_opacity),
-      \ 'GuiAdaptiveStyle': 'Fusion',
-      \ }
-
-let s:fvim_option_table = {
-      \ 'FVimUIPopupMenu': g:_my_gui_popup_menu,
-      \ 'FVimFontAntialias': v:true,
-      \ 'FVimFontLigature': g:_my_gui_ligature,
-      \ 'FVimFontLineHeight': string(g:_my_gui_line_space),
-      \ 'FVimFontNoBuiltInSymbols': v:true,
-      \ 'FVimBackgroundOpacity': string(g:_my_gui_opacity),
-      \ 'FVimCursorSmoothMove': v:true,
-      \ 'FVimBackgroundComposition': '"none"',
-      \ 'FVimCustomTitleBar': v:false,
-      \ 'FVimKeyAutoIme': v:true,
-      \ }
-
-let s:neovide_option_table = {
-      \ 'o:linespace': g:_my_gui_line_space,
-      \ 'g:neovide_padding_top': 13,
-      \ 'g:neovide_padding_bottom': 13,
-      \ 'g:neovide_padding_right': 13,
-      \ 'g:neovide_padding_left': 13,
-      \ 'g:neovide_theme': g:_my_gui_theme,
-      \ 'g:neovide_transparency': g:_my_gui_opacity,
-      \ 'g:neovide_floating_blur_amount_x': 2.0,
-      \ 'g:neovide_floating_blur_amount_y': 2.0,
-      \ }
-
-let s:vimr_option_table = {
-      \ 'VimRSetLinespacing': printf("%.1f", g:_my_gui_line_space),
-      \ }
-
-
-" Functions
 function! s:gui_font_set(half=g:_my_gui_font_half,
       \ wide=g:_my_gui_font_wide,
       \ size=g:_my_gui_font_size) abort
@@ -169,21 +129,66 @@ function! s:gui_file_explorer() abort
 endfunction
 
 
+" For Neovide, `init.lua` should be loaded before `ginit.vim`.
+if exists("g:neovide")
+  call my#compat#require("my_init")
+endif
+
+
+" Configuration tables
+let s:nvimqt_option_table = {
+      \ 'GuiTabline': s:bool2int(g:_my_gui_tabline),
+      \ 'GuiPopupmenu': s:bool2int(g:_my_gui_popup_menu),
+      \ 'GuiLinespace': string(g:_my_gui_line_space),
+      \ 'GuiScrollBar': s:bool2int(g:_my_gui_scroll_bar),
+      \ 'GuiRenderLigatures': s:bool2int(g:_my_gui_ligature),
+      \ 'GuiAdaptiveColor': 1,
+      \ 'GuiWindowOpacity': string(g:_my_gui_opacity),
+      \ 'GuiAdaptiveStyle': 'Fusion',
+      \ }
+let s:fvim_option_table = {
+      \ 'FVimUIPopupMenu': g:_my_gui_popup_menu,
+      \ 'FVimFontAntialias': v:true,
+      \ 'FVimFontLigature': g:_my_gui_ligature,
+      \ 'FVimFontLineHeight': string(g:_my_gui_line_space),
+      \ 'FVimFontNoBuiltInSymbols': v:true,
+      \ 'FVimBackgroundOpacity': string(g:_my_gui_opacity),
+      \ 'FVimCursorSmoothMove': v:true,
+      \ 'FVimBackgroundComposition': '"none"',
+      \ 'FVimCustomTitleBar': v:false,
+      \ 'FVimKeyAutoIme': v:true,
+      \ }
+let s:neovide_option_table = {
+      \ 'o:linespace': g:_my_gui_line_space,
+      \ 'g:neovide_padding_top': 13,
+      \ 'g:neovide_padding_bottom': 13,
+      \ 'g:neovide_padding_right': 13,
+      \ 'g:neovide_padding_left': 13,
+      \ 'g:neovide_theme': g:_my_gui_theme,
+      \ 'g:neovide_opacity': g:_my_gui_opacity,
+      \ 'g:neovide_floating_blur_amount_x': 2.0,
+      \ 'g:neovide_floating_blur_amount_y': 2.0,
+      \ }
+let s:vimr_option_table = {
+      \ 'VimRSetLinespacing': printf("%.1f", g:_my_gui_line_space),
+      \ }
+
+
+" GUI
+"" Set CWD
 if exists('g:_my_path_desktop')
   exe 'cd' fnameescape(g:_my_path_desktop)
 endif
 cd %:p:h
+"" Enable mouse
 set mouse=a
-
-
-" GUI
 "" Cursor blink
 if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
   :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,
         \a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,
         \sm:block-blinkwait240-blinkoff150-blinkon150
 endif
-"" neovim-qt
+"" Neovim Qt
 call s:gui_set_option_table(s:nvimqt_option_table)
 "" Fvim
 if exists("g:fvim_loaded")
@@ -191,19 +196,16 @@ if exists("g:fvim_loaded")
 endif
 "" Neovide
 if exists("g:neovide")
+  call my#compat#require("my_init")
   call s:gui_set_option_table(s:neovide_option_table)
   augroup my_neovide
     au!
-
     " Disable IME automatically.
     au InsertLeave * exe "let g:neovide_input_ime=v:false"
     au InsertEnter * exe "let g:neovide_input_ime=v:true"
     " Command mode needs `INSERT`.
     au CmdlineEnter * exe "let g:neovide_input_ime=v:true"
     au CmdlineLeave * exe "let g:neovide_input_ime=v:false"
-
-    " Neovide should load ginit.vim **after** other initializations...
-    au UIEnter * exe 'source <sfile>:h/ginit.vim'
   augroup END
 endif
 "" VimR
