@@ -73,37 +73,80 @@ function M.get_word()
   return word, s_byte, e_byte
 end
 
-local function goto_word_begin()
-  local line
-  local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
-  if pos_byte == 0 and lnum ~= 1 then
-    lnum = lnum - 1
-    line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
-    pos_byte = #line - #lib.str_sub(line, -1, -1)
-    vim.api.nvim_win_set_cursor(0, { lnum, pos_byte })
-    return
-  else
-    line = vim.api.nvim_get_current_line()
-  end
-  local encoding = lib.str_encoding()
-  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
-  local s_char, _ = M.get_pos(line, pos_char)
-  if not s_char then return end
-  if s_char == pos_char then
-    s_char, _ = M.get_pos(line, pos_char - 1)
-    if not s_char then return end
-  end
-  local s_byte = vim.str_byteindex(line, encoding, s_char)
-  vim.api.nvim_win_set_cursor(0, { lnum, s_byte })
-end
-
-local function goto_word_end()
+---Words forward.
+local function words_forward()
   local line = vim.api.nvim_get_current_line()
   local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
   if pos_byte >= #line - #lib.str_sub(line, -1, -1)
       and lnum ~= vim.api.nvim_buf_line_count(0) then
     vim.api.nvim_win_set_cursor(0, { lnum + 1, 0 })
     return
+  end
+  local encoding = lib.str_encoding()
+  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
+  local _, e_char = M.get_pos(line, pos_char)
+  if not e_char then
+    return
+  end
+  local e_byte = vim.str_byteindex(line, encoding, e_char + 1)
+  vim.api.nvim_win_set_cursor(0, { lnum, e_byte })
+end
+
+---Words backward.
+local function words_backward()
+  ---@type string
+  local line
+  local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
+  local cross = false
+  if pos_byte == 0 then
+    while true do
+      if lnum == 1 then
+        return
+      end
+      lnum = lnum - 1
+      line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
+      if not line:match("^%s*$") then
+        pos_byte = #line - 1
+        cross = true
+        break
+      end
+    end
+  else
+    line = vim.api.nvim_get_current_line()
+  end
+  local encoding = lib.str_encoding()
+  local pos_char = vim.str_utfindex(line, encoding, pos_byte)
+  local s_char, _ = M.get_pos(line, pos_char)
+  if not s_char then
+    return
+  end
+  if not cross and s_char == pos_char then
+    s_char, _ = M.get_pos(line, pos_char - 1)
+    if not s_char then
+      return
+    end
+  end
+  local s_byte = vim.str_byteindex(line, encoding, s_char)
+  vim.api.nvim_win_set_cursor(0, { lnum, s_byte })
+end
+
+---Forward to the end of word inclusive.
+local function forward_word_end()
+  local line = vim.api.nvim_get_current_line()
+  local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
+  local lcnt = vim.api.nvim_buf_line_count(0)
+  if pos_byte >= #line - #lib.str_sub(line, -1, -1) then
+    pos_byte = 0
+    while true do
+      if lnum >= lcnt then
+        return
+      end
+      lnum = lnum + 1
+      line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
+      if not line:match("^%s*$") then
+        break
+      end
+    end
   end
   local encoding = lib.str_encoding()
   local pos_char = vim.str_utfindex(line, encoding, pos_byte)
@@ -148,8 +191,9 @@ function M:enable()
     ffi.gc(self.jieba, _njieba.njieba_drop)
   end
 
-  vim.keymap.set({ "n", "v" }, "b", goto_word_begin, {})
-  vim.keymap.set({ "n", "v" }, "e", goto_word_end, {})
+  vim.keymap.set({ "n", "v", "o" }, "w", words_forward, {})
+  vim.keymap.set({ "n", "v", "o" }, "b", words_backward, {})
+  vim.keymap.set({ "n", "v", "o" }, "e", forward_word_end, {})
   vim.keymap.set({ "v", "o" }, "iw", inner_word, {})
   self.enabled = true
 
@@ -159,8 +203,9 @@ end
 ---Disable jieba.
 function M:disable()
   if self.enabled then
-    pcall(vim.keymap.del, { "n", "v" }, "b", {})
-    pcall(vim.keymap.del, { "n", "v" }, "e", {})
+    pcall(vim.keymap.del, { "n", "v", "o" }, "w", {})
+    pcall(vim.keymap.del, { "n", "v", "o" }, "b", {})
+    pcall(vim.keymap.del, { "n", "v", "o" }, "e", {})
     pcall(vim.keymap.del, { "v", "o" }, "iw", {})
     self.enabled = false
   end
