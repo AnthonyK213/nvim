@@ -674,7 +674,7 @@ require("lazy").setup({
     "AnthonyK213/lua-pairs",
     event = "VeryLazy",
     opts = {
-      extd = {
+      extend = {
         markdown = {
           { k = "<M-P>", l = "`",   r = "`" },
           { k = "<M-I>", l = "*",   r = "*" },

@@ -106,7 +106,7 @@ local function words_backward()
       lnum = lnum - 1
       line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
       if not line:match("^%s*$") then
-        pos_byte = #line - 1
+        pos_byte = #line - #lib.str_sub(line, -1, -1)
         cross = true
         break
       end
@@ -135,6 +135,7 @@ local function forward_word_end()
   local line = vim.api.nvim_get_current_line()
   local lnum, pos_byte = unpack(vim.api.nvim_win_get_cursor(0))
   local lcnt = vim.api.nvim_buf_line_count(0)
+  local cross = false
   if pos_byte >= #line - #lib.str_sub(line, -1, -1) then
     pos_byte = 0
     while true do
@@ -144,6 +145,7 @@ local function forward_word_end()
       lnum = lnum + 1
       line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
       if not line:match("^%s*$") then
+        cross = true
         break
       end
     end
@@ -152,7 +154,7 @@ local function forward_word_end()
   local pos_char = vim.str_utfindex(line, encoding, pos_byte)
   local _, e_char = M.get_pos(line, pos_char)
   if not e_char then return end
-  if e_char == pos_char then
+  if not cross and e_char == pos_char then
     _, e_char = M.get_pos(line, pos_char + 1)
     if not e_char then return end
   end
