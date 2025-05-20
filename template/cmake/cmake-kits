@@ -1,0 +1,32 @@
+[
+  {
+    "name": "ninja - gcc",
+    "generator": "Ninja",
+    "compilers": {
+      "C": "gcc",
+      "CXX": "g++",
+      "Fortran": "gfortran"
+    },
+    "linker": "ld"
+  },
+  {
+    "name": "ninja - clang",
+    "generator": "Ninja",
+    "compilers": {
+      "C": "clang",
+      "CXX": "clang++",
+      "Fortran": "flang"
+    },
+    "linker": "ld"
+  },
+  {
+    "name": "ninja - clang(msvc)",
+    "generator": "Ninja",
+    "compilers": {
+      "C": "clang",
+      "CXX": "clang++",
+      "Fortran": "flang"
+    },
+    "linker": "clang-cl"
+  }
+]

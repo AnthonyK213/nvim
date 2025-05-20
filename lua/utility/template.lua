@@ -62,7 +62,7 @@ function Template:create_project(args)
   for _, dir in ipairs(self.dirs) do
     local dir_esc = self:apply_args(dir, args)
     if lib.path_exists(dir_esc) then
-      lib.warn("Directory already exists")
+      lib.warn(string.format("Directory %s already exists", dir_esc))
       return false
     end
     if not vim.uv.fs_mkdir(dir_esc, 448) then
@@ -74,15 +74,15 @@ function Template:create_project(args)
     local fname_esc = self:apply_args(fname, args)
 
     if lib.path_exists(fname_esc) then
-      lib.warn("File already exists")
+      lib.warn(string.format("File %s already exists", fname_esc))
       return false
     end
 
-    local f = io.open(fname_esc, "w")
-    if f then
+    local file = io.open(fname_esc, "w")
+    if file then
       local content_esc = self:apply_args(content, args)
-      f:write(content_esc)
-      f:close()
+      file:write(content_esc)
+      file:close()
     end
   end
 
