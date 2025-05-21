@@ -277,7 +277,7 @@ require("lazy").setup({
       on_attach = function(bufnr)
         local k = vim.keymap.set
         local n = require("nvim-tree.api")
-        local o = { buffer = bufnr, noremap = true, silent = true }
+        local o = { buffer = bufnr, noremap = true, silent = true, nowait = true }
         k("n", "<2-LeftMouse>", n.node.open.edit, o)
         k("n", "<2-RightMouse>", n.tree.change_root_to_node, o)
         k("n", "<C-J>", n.node.navigate.sibling.next, o)
@@ -295,10 +295,15 @@ require("lazy").setup({
         k("n", "R", n.tree.reload, o)
         k("n", "U", n.tree.change_root_to_parent, o)
         k("n", "a", n.fs.create, o)
+        k("n", "bD", n.marks.bulk.delete, o)
+        k("n", "bdd", n.marks.bulk.trash, o)
+        k("n", "bm", n.marks.bulk.move, o)
         k("n", "c", n.fs.copy.node, o)
+        k("n", "dd", n.fs.trash, o)
         k("n", "gj", n.node.navigate.git.next, o)
         k("n", "gk", n.node.navigate.git.prev, o)
         k("n", "i", n.node.open.horizontal, o)
+        k("n", "m", n.marks.toggle, o)
         k("n", "o", n.node.run.system, o)
         k("n", "p", n.fs.paste, o)
         k("n", "q", n.tree.close, o)
