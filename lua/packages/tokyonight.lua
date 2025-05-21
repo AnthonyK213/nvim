@@ -2,8 +2,8 @@ require("tokyonight").setup {
   style = _G._my_core_opt.tui.style or "storm",
   transparent = _G._my_core_opt.tui.transparent,
   styles = {
-    comments  = { italic = true },
-    keywords  = {},
+    comments  = { italic = false },
+    keywords  = { italic = false },
     functions = {},
     variables = {},
     sidebars  = "dark",

@@ -13,7 +13,7 @@ require("onedark").setup {
   toggle_style_key = "<leader>bs",
   toggle_style_list = style_list,
   code_style = {
-    comments = "italic",
+    comments = "none",
     keywords = "none",
     functions = "none",
     strings = "none",

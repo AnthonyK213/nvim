@@ -83,9 +83,6 @@ require("nightfox").setup {
     compile_path = vim.fn.stdpath("data") .. "/nightfox",
     compile_file_suffix = "_compiled",
     transparent = _G._my_core_opt.tui.transparent,
-    styles = {
-      comments = "italic"
-    },
     dim_inactive = _G._my_core_opt.tui.auto_dim,
   },
   groups = {
