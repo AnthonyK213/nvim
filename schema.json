@@ -83,8 +83,6 @@
           "enum": [
             "day",
             "night",
-            "storm",
-            "moon",
             "dawn",
             "dusk",
             "nord",
