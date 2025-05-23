@@ -580,30 +580,28 @@ endfunction
 " Get file name.
 " Shorten then file name when the window is too narrow.
 function! NanoGetFname() abort
-  let l:file_path = expand('%:p')
-  let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
   if empty(l:file_name)
     return "[No Name]"
   endif
-  let l:path_sepr = "/"
-  if has('win32')
-    let l:path_sepr = "\\"
-  endif
-  let width = &laststatus == 3 ? &co : winwidth(0)
+  let l:width = &laststatus == 3 ? &co : winwidth(0)
+  let l:file_path = expand('%:p')
   let l:file_path_str_width = strdisplaywidth(l:file_path)
-  if l:file_path_str_width > width * 0.7
+  if l:file_path_str_width > l:width * 0.7
     return l:file_name
   endif
-  if l:file_path_str_width > width * 0.4
-    let l:path_list = split(l:file_dir, l:path_sepr)
-    let l:path_head = "/"
-    if has('win32')
-      let l:path_head = remove(l:path_list, 0) . "\\"
-    endif
+  if l:file_path_str_width > l:width * 0.4
+    let l:path_list = split(l:file_path, '\v[/\\]\zs')
+    let l:path_head = remove(l:path_list, 0)
+    let l:path_tail = remove(l:path_list, -1)
     for l:d in l:path_list
       let l:dir = split(l:d, '\zs')
-      if empty(l:dir) | return "" | endif
+      if empty(l:dir) | return l:file_path | endif
+      let l:sep = ""
+      if l:dir[-1] =~ '\v[/\\]'
+        let l:sep = remove(l:dir, -1)
+      endif
+      if empty(l:dir) | continue | endif
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
       elseif len(l:dir) > 1
@@ -611,9 +609,9 @@ function! NanoGetFname() abort
       else
         let l:dir_short = '.'
       endif
-      let l:path_head .= l:dir_short . l:path_sepr
+      let l:path_head .= l:dir_short . l:sep
     endfor
-    return l:path_head . l:file_name
+    return l:path_head . l:path_tail
   endif
   return l:file_path
 endfunction
@@ -653,7 +651,7 @@ function! s:on_leave() abort
   endif
 endfunction
 
-augroup nanovim_redrawstatus
+augroup nanovim_statusline
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
   autocmd BufEnter,WinEnter,VimEnter * call <SID>on_enter()

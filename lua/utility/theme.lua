@@ -2,9 +2,9 @@ local lib = require("utility.lib")
 
 local M = {}
 
-local _min_intv = 3000
-local _begin = 6
-local _end = 18
+local _min_intv = 5000
+local _begin = 9
+local _end = 17
 
 ---@type uv.uv_timer_t?
 local _bg_timer
@@ -84,29 +84,29 @@ function M.bg_lock_toggle()
       _bg_timer:stop()
       vim.notify("theme-auto-switch: OFF")
     else
-      get_timer_cb()()
+      local cb = get_timer_cb()
+      if not cb then
+        lib.warn("Unsupported theme")
+        return
+      end
+      cb()
       _bg_timer:set_repeat(get_interval())
       _bg_timer:again()
       vim.notify("theme-auto-switch: ON")
     end
   else
-    local cb = get_timer_cb()
-    if not cb then
-      return
-    end
-
     _bg_timer = vim.uv.new_timer()
     if not _bg_timer then
       lib.warn("Failed to create timer")
       return
     end
 
-    _bg_timer:start(0, get_interval(), vim.schedule_wrap(function()
-      cb()
+    _bg_timer:start(0, 0, vim.schedule_wrap(function()
+      local cb = get_timer_cb()
+      if cb then cb() end
       _bg_timer:set_repeat(get_interval())
       _bg_timer:again()
     end))
-    vim.notify("theme-auto-switch: ON")
   end
 end
 

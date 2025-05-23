@@ -220,7 +220,9 @@ if exists("g:_my_theme_switchable") && !empty(g:_my_theme_switchable)
     else
       let &bg = g:_my_gui_theme
     endif
-  elseif g:_my_gui_theme == 'auto'
+  elseif g:_my_gui_theme == 'auto' && !exists("g:neovide") " 'auto' means to
+                                                           " follow the system
+                                                           " theme in neovide.
     call my#compat#bg_lock_toggle()
   endif
 endif
