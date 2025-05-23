@@ -65,15 +65,14 @@
           "enum": [
             "gruvbox",
             "nightfox",
-            "onedark",
-            "onenord",
-            "tokyonight"
+            "nanovim"
           ]
         },
         "theme": {
           "description": "TUI background theme",
           "type": "string",
           "enum": [
+            "auto",
             "dark",
             "light"
           ]

@@ -25,9 +25,9 @@ function! my#compat#require(modname) abort
   call v:lua.require(a:modname)
 endfunction
 
-" Set background according to the time.
-function! my#compat#bg_lock_toggle() abort
-  call v:lua.require("utility.theme").bg_lock_toggle()
+" Sets background theme.
+function! my#compat#set_theme(theme) abort
+  call v:lua.require("utility.theme").set_theme(a:theme)
 endfunction
 
 " Source vim file.

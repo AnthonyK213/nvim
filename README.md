@@ -46,7 +46,7 @@ It's a pure text file with json syntax. Example:
     "vimwiki": "$HOME/vimwiki"
   },
   "tui": {
-    "scheme": "onedark",
+    "scheme": "nightfox",
     "theme": "dark",
     "style": "night",
     "border": "rounded",

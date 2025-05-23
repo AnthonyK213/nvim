@@ -37,4 +37,5 @@ require("utility.util").auto_hl("gruvbox", vim.tbl_extend("force", {
 end)
 
 vim.g._my_theme_switchable = true
+require("utility.theme").set_theme(_G._my_core_opt.tui.theme)
 vim.cmd.colorscheme("gruvbox")

@@ -16,29 +16,13 @@ end
 
 vim.opt.rtp:prepend(lazy_path)
 
-local load_3rd_ui = require("internal.cpt").set_color_scheme(function(cs)
-  return vim.list_contains({
-    "onedark", "tokyonight", "gruvbox", "nightfox", "onenord"
-  }, cs)
-end)
+local tui_ = require("internal.tui")
+local load_3rd_ui = tui_.load_3rd_ui()
+tui_.set_color_scheme { "gruvbox", "nightfox" }
 
 -- Setup lazy.nvim.
 require("lazy").setup({
   -- Color scheme
-  {
-    "navarasu/onedark.nvim",
-    lazy = false,
-    priority = 1000,
-    cond = function() return _G._my_core_opt.tui.scheme == "onedark" end,
-    config = function() require("packages.onedark") end
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    cond = function() return _G._my_core_opt.tui.scheme == "tokyonight" end,
-    config = function() require("packages.tokyonight") end
-  },
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
@@ -52,13 +36,6 @@ require("lazy").setup({
     priority = 1000,
     cond = function() return _G._my_core_opt.tui.scheme == "nightfox" end,
     config = function() require("packages.nightfox") end
-  },
-  {
-    "rmehri01/onenord.nvim",
-    lazy = false,
-    priority = 1000,
-    cond = function() return _G._my_core_opt.tui.scheme == "onenord" end,
-    config = function() require("packages.onenord") end
   },
   -- Optional
   {

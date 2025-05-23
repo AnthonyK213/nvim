@@ -184,16 +184,9 @@ kbd("Delete current buffer", "n", "<leader>bd", function()
     lib.warn("Failed to delete buffer")
   end
 end)
-kbd("Background toggle", "n", "<leader>bg", function()
-  if not vim.g._my_theme_switchable
-      or require("utility.theme").bg_lock_is_active() then
-    return
-  end
-  if vim.g._my_theme_switchable == true then
-    vim.o.bg = vim.o.bg == "dark" and "light" or "dark"
-  elseif vim.is_callable(vim.g._my_theme_switchable) then
-    vim.g._my_theme_switchable()
-  end
+kbd("Toggle background theme", "n", "<leader>bg", function()
+  local bg = vim.o.bg == "dark" and "light" or "dark"
+  require("utility.theme").set_theme(bg)
 end)
 kbd("Open nvimrc", "n", "<M-,>", vim.fn["my#compat#open_nvimrc"])
 kbd("Open system file manager", "n", "<leader>oe", function()

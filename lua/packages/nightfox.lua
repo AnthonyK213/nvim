@@ -80,7 +80,7 @@ local fox_style = style_table[opt_style] and opt_style or "night"
 
 require("nightfox").setup {
   options = {
-    compile_path = vim.fn.stdpath("data") .. "/nightfox",
+    compile_path = vim.fs.joinpath(vim.fn.stdpath("data"), "nightfox"),
     compile_file_suffix = "_compiled",
     transparent = _G._my_core_opt.tui.transparent,
     dim_inactive = _G._my_core_opt.tui.auto_dim,
@@ -106,3 +106,4 @@ vim.g._my_theme_switchable = function(bg)
 end
 
 set_style(fox_style)
+require("utility.theme").set_theme(_G._my_core_opt.tui.theme)

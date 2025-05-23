@@ -213,18 +213,8 @@ if exists("g:gui_vimr")
   call s:gui_set_option_table(s:vimr_option_table)
 endif
 "" GUI theme
-if exists("g:_my_theme_switchable") && !empty(g:_my_theme_switchable)
-  if g:_my_gui_theme == 'light' || g:_my_gui_theme == 'dark'
-    if type(g:_my_theme_switchable) == v:t_func
-      call g:_my_theme_switchable(g:_my_gui_theme)
-    else
-      let &bg = g:_my_gui_theme
-    endif
-  elseif g:_my_gui_theme == 'auto' && !exists("g:neovide") " 'auto' means to
-                                                           " follow the system
-                                                           " theme in neovide.
-    call my#compat#bg_lock_toggle()
-  endif
+if !exists("g:neovide")
+  call my#compat#set_theme(g:_my_gui_theme)
 endif
 
 
@@ -251,8 +241,6 @@ endfor
 nn <silent> <C-S> :call <SID>gui_memo_lazy_save()<CR>
 "" Toggle GUI built-in file explorer
 nn <silent> <F3> :call <SID>gui_file_explorer()<CR>
-"" Lock/unlock background
-nn <silent> <F4> :call my#compat#bg_lock_toggle()<CR>
 "" Toggle line number display
 nn  <silent> <F9> :call <SID>gui_number_toggle()<CR>
 ino <silent> <F9> <C-\><C-o>:call <SID>gui_number_toggle()<CR>

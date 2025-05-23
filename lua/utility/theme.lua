@@ -1,112 +1,71 @@
-local lib = require("utility.lib")
+local ffi = require("ffi")
+local rsmod = require("utility.rsmod")
+
+---FFI module.
+---@type ffi.namespace*
+local _ntheme = nil
 
 local M = {}
 
-local _min_intv = 5000
-local _begin = 9
-local _end = 17
+---@enum my.theme.Theme
+M.Theme = {
+  Error       = -1,
+  Dark        = 0,
+  Light       = 1,
+  Unspecified = 2,
+}
 
----@type uv.uv_timer_t?
-local _bg_timer
-
----
----@return boolean
-local function is_day()
-  local hour = os.date("*t").hour
-  return hour >= _begin and hour < _end
-end
-
----
----@param from_h integer 0-23
----@param from_m integer 0-59
----@param from_s integer 0-61
----@param to_h integer 0-23
----@param to_m integer 0-59
----@param to_s integer 0-61
----@return integer seconds
-local function duration(from_h, from_m, from_s, to_h, to_m, to_s)
-  if to_h < from_h then
-    to_h = to_h + 24
+function M.init()
+  if _ntheme then
+    return true
   end
-  return 3600 * (to_h - from_h) + 60 * (to_m - from_m) + (to_s - from_s)
-end
 
----
----@return integer interval In milliseconds
-local function get_interval()
-  local date = os.date("*t")
-  local to_h = is_day() and _end or _begin
-  local dur = duration(date.hour, date.min, date.sec, to_h, 0, 0)
-  return dur * 1000 + _min_intv
-end
-
----Get theme according to the time.
----@return string
-local function get_theme()
-  return is_day() and "light" or "dark"
-end
-
-local function set_theme_by_opt()
-  local bg = get_theme()
-  if vim.o.bg ~= bg then
-    vim.o.bg = bg
+  local dylib_path = rsmod.get_dylib_path("ntheme")
+  if not dylib_path then
+    return false;
   end
-end
 
-local function set_theme_by_cb()
-  local bg = get_theme()
-  vim.g._my_theme_switchable(bg)
-end
-
-local function get_timer_cb()
-  if vim.g._my_theme_switchable == true then
-    return set_theme_by_opt
-  elseif vim.is_callable(vim.g._my_theme_switchable) then
-    return set_theme_by_cb
-  else
-    return nil
-  end
-end
-
----Determine if the background lock is active.
----@return boolean is_active
-function M.bg_lock_is_active()
-  if not _bg_timer or not _bg_timer:is_active() then
-    return false
-  end
+  ffi.cdef [[ int ntheme_detect(); ]]
+  _ntheme = ffi.load(dylib_path)
   return true
 end
 
----Set background according to the time.
-function M.bg_lock_toggle()
-  if _bg_timer then
-    if _bg_timer:is_active() then
-      _bg_timer:stop()
-      vim.notify("theme-auto-switch: OFF")
-    else
-      local cb = get_timer_cb()
-      if not cb then
-        lib.warn("Unsupported theme")
-        return
-      end
-      cb()
-      _bg_timer:set_repeat(get_interval())
-      _bg_timer:again()
-      vim.notify("theme-auto-switch: ON")
-    end
-  else
-    _bg_timer = vim.uv.new_timer()
-    if not _bg_timer then
-      lib.warn("Failed to create timer")
-      return
-    end
+---
+---@return my.theme.Theme
+function M.detect()
+  if not M.init() then
+    return M.Theme.Error
+  end
+  return _ntheme.ntheme_detect()
+end
 
-    _bg_timer:start(0, 0, vim.schedule_wrap(function()
-      local cb = get_timer_cb()
-      if cb then cb() end
-      _bg_timer:set_repeat(get_interval())
-      _bg_timer:again()
-    end))
+---
+---@param theme? string
+---@return "dark"|"light"
+function M.normalize(theme)
+  if not theme or theme == "auto" then
+    if M.detect() == M.Theme.Light then
+      return "light"
+    else
+      return "dark"
+    end
+  elseif theme == "dark" or theme == "light" then
+    return theme
+  else
+    return "dark"
+  end
+end
+
+---
+---@param theme? string
+function M.set_theme(theme)
+  local bg = M.normalize(theme)
+  if vim.g._my_theme_switchable == true then
+    if vim.o.bg ~= bg then
+      vim.o.bg = bg
+    end
+  elseif vim.is_callable(vim.g._my_theme_switchable) then
+    vim.g._my_theme_switchable(bg)
   end
 end
 

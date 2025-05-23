@@ -39,34 +39,3 @@ if not vim.lsp.get_clients then
   vim.lsp.get_clients = vim.lsp.get_active_clients
   report_legacy()
 end
-
-local M = {}
-
----Set color scheme.
----@param fallback? fun(cs: string):boolean Fall back function.
----@return boolean load_3rd_ui
-function M.set_color_scheme(fallback)
-  vim.o.tgc = true
-  vim.o.bg = _G._my_core_opt.tui.theme or "dark"
-  vim.g._my_theme_switchable = false
-
-  local nvim_init_src = vim.g.nvim_init_src or vim.env.NVIM_INIT_SRC
-  local load_3rd_ui = nvim_init_src ~= "neatUI"
-  if nvim_init_src == "nano" then
-    _G._my_core_opt.tui.scheme = "nanovim"
-    load_3rd_ui = false
-  end
-
-  if _G._my_core_opt.tui.scheme == "nanovim" then
-    vim.g._my_theme_switchable = true
-    vim.g.nano_transparent = _G._my_core_opt.tui.transparent and 1 or 0
-    vim.cmd.colorscheme("nanovim")
-  elseif fallback and fallback(_G._my_core_opt.tui.scheme) then
-  else
-    pcall(vim.cmd.colorscheme, _G._my_core_opt.tui.scheme)
-  end
-
-  return load_3rd_ui
-end
-
-return M

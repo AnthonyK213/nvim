@@ -3,7 +3,7 @@ local cmp = require("cmp")
 local lib = require("utility.lib")
 
 require("luasnip.loaders.from_vscode").lazy_load {
-  paths = { vim.fn.stdpath("config") .. "/snippet" }
+  paths = { vim.fs.joinpath(vim.fn.stdpath("config"), "snippet") }
 }
 
 local function feedkeys(key, mode)
