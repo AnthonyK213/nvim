@@ -11,6 +11,7 @@ end
 function M.nano_setup()
   vim.g._my_theme_switchable = true
   vim.g.nano_transparent = _G._my_core_opt.tui.transparent and 1 or 0
+  _G._my_core_opt.tui.scheme = "nanovim"
   require("utility.theme").set_theme(_G._my_core_opt.tui.theme)
   vim.cmd.colorscheme("nanovim")
 end
