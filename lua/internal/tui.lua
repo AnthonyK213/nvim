@@ -23,12 +23,15 @@ end
 ---
 ---@param exclude? string[]
 function M.set_color_scheme(exclude)
+  vim.g._my_theme_switchable = false
   if M.use_nano() then
     M.nano_setup()
   elseif exclude and vim.list_contains(exclude, _G._my_core_opt.tui.scheme) then
+    return
   else
-    vim.g._my_theme_switchable = false
-    pcall(vim.cmd.colorscheme, _G._my_core_opt.tui.scheme)
+    if not pcall(vim.cmd.colorscheme, _G._my_core_opt.tui.scheme) then
+      vim.notify("Color scheme " .. tostring(_G._my_core_opt.tui.scheme) .. " not found", vim.log.levels.WARN)
+    end
   end
 end
 

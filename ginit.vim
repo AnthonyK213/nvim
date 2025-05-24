@@ -188,6 +188,10 @@ if exists("g:_my_gui_cursor_blink") && g:_my_gui_cursor_blink
         \a:blinkwait800-blinkoff500-blinkon500-Cursor/lCursor,
         \sm:block-blinkwait240-blinkoff150-blinkon150
 endif
+"" GUI theme
+if !exists("g:neovide")
+  call my#compat#set_theme(g:_my_gui_theme)
+endif
 "" Neovim Qt
 call s:gui_set_option_table(s:nvimqt_option_table)
 "" Fvim
@@ -196,7 +200,6 @@ if exists("g:fvim_loaded")
 endif
 "" Neovide
 if exists("g:neovide")
-  call my#compat#require("my_init")
   call s:gui_set_option_table(s:neovide_option_table)
   augroup my_neovide
     au!
@@ -211,10 +214,6 @@ endif
 "" VimR
 if exists("g:gui_vimr")
   call s:gui_set_option_table(s:vimr_option_table)
-endif
-"" GUI theme
-if !exists("g:neovide")
-  call my#compat#set_theme(g:_my_gui_theme)
 endif
 
 
