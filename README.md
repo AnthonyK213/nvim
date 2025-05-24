@@ -62,12 +62,12 @@ It's a pure text file with json syntax. Example:
   },
   // TUI
   "tui": {
-    // ("one"|"gruvbox"|"tokyonight") Color scheme
-    "scheme": "one",
+    // ("gruvbox"|"nanovim") Color scheme
+    "scheme": "gruvbox",
     // ("dark"|"light") TUI background theme
     "theme": "dark",
     // (string) Style of color scheme
-    "style": "one",
+    "style": "dark",
     // (boolean) Make background transparent
     "transparent": false,
     // (boolean) Global statusline
@@ -77,7 +77,7 @@ It's a pure text file with json syntax. Example:
     // (boolean) Dim inactive window automatically
     "auto_dim": false
   },
-  // GUI (neovim-qt, fvim, neovide, VimR)
+  // GUI (Neovim Qt, FVim, Neovide, VimR)
   "gui": {
     // ("auto"|"dark"|"light") GUI background theme
     "theme": "auto",

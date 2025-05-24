@@ -42,9 +42,19 @@ endfunction
 
 " Load plug-ins
 call plug#begin(my#compat#stdpath('data') . '/plugged')
-call s:plug('rakr/vim-one')
+let s:colorscheme_table = { 'gruvbox': 'gruvbox' }
+call my#tui#set_color_scheme(s:colorscheme_table)
+if has_key(s:colorscheme_table, g:_my_tui_scheme)
+  call add(s:plug_config_list, function("my#config#" . s:colorscheme_table[g:_my_tui_scheme]))
+endif
+if my#tui#load_3rd_ui()
+    call s:plug('mhinz/vim-startify', function("my#config#vim_startify"))
+    call s:plug('vim-airline/vim-airline', function("my#config#vim_airline"))
+    call s:plug('chrisbra/Colorizer')
+    call s:plug('Yggdroot/indentLine', function("my#config#indentLine"))
+endif
+
 call s:plug('morhetz/gruvbox')
-call s:plug('ghifarit53/tokyonight-vim')
 call s:plug('tpope/vim-fugitive', function("my#config#vim_fugitive"))
 call s:plug('mhinz/vim-signify', function("my#config#vim_signify"))
 call s:plug('mhinz/vim-crates', function("my#config#crates"))
@@ -61,39 +71,6 @@ call s:plug('editorconfig/editorconfig-vim')
 call s:plug('skanehira/vsession', function("my#config#vsession"))
 call s:plug('junegunn/fzf', function("my#config#vim_fzf"), { 'do': { -> fzf#install() } })
 call s:plug('junegunn/fzf.vim')
-
-if has("termguicolors")
-  set termguicolors
-endif
-let s:colorscheme_table = {
-      \ 'one': 'one',
-      \ 'onedark': 'one',
-      \ 'gruvbox': 'gruvbox',
-      \ 'tokyonight': 'tokyonight',
-      \ }
-let g:_my_theme_switchable = 0
-let &bg = g:_my_tui_theme
-if s:nvim_init_src ==? 'nano'
-  let g:_my_theme_switchable = 1
-  let g:nano_transparent = g:_my_tui_transparent ? 1 : 0
-  colorscheme nanovim
-else
-  if has_key(s:colorscheme_table, g:_my_tui_scheme)
-    call add(s:plug_config_list, function("my#config#" . s:colorscheme_table[g:_my_tui_scheme]))
-  else
-    try
-      exe 'colorscheme' g:_my_tui_scheme
-    catch
-      echomsg 'Color scheme was not found.'
-    endtry
-  endif
-  if s:nvim_init_src !=? "neatUI"
-    call s:plug('mhinz/vim-startify', function("my#config#vim_startify"))
-    call s:plug('vim-airline/vim-airline', function("my#config#vim_airline"))
-    call s:plug('chrisbra/Colorizer')
-    call s:plug('Yggdroot/indentLine', function("my#config#indentLine"))
-  endif
-endif
 
 if g:_my_general_use_coc
   call s:plug('neoclide/coc.nvim', function("my#config#coc"), {'branch': 'release'})

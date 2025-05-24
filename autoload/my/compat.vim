@@ -1,6 +1,3 @@
-let s:_bg_timer = v:null
-let s:_bg_locked = 0
-
 " Check background according to time.
 function! s:bg_checker(bg_timer) abort
   let l:hour = str2nr(strftime('%H'))
@@ -17,40 +14,19 @@ function! s:markdown_preview_toggle() abort
   endif
 endfunction
 
-" Determine if the Background lock is active.
-function! my#compat#bg_lock_is_active() abort
-  return s:_bg_locked
-endfunction
-
-" Set background according to time.
-function! my#compat#bg_lock_toggle() abort
-  if !g:_my_theme_switchable
-    let s:_bg_locked = 0
-  elseif s:_bg_timer == v:null
-    let s:_bg_timer = timer_start(
-          \ 600,
-          \ function('s:bg_checker'),
-          \ { 'repeat': -1 })
-    call s:bg_checker(s:_bg_timer)
-    let s:_bg_locked = 1
-  else
-    if s:_bg_locked
-      call timer_pause(s:_bg_timer, 1)
-      let s:_bg_locked = 0
-      echom "Background is unlocked."
-    else
-      call timer_pause(s:_bg_timer, 0)
-      let s:_bg_locked = 1
-      echom "Background is locked."
-    end
+" Set theme (dark/light).
+function! my#compat#set_theme(theme) abort
+  let l:bg = a:theme ==# 'light' ? 'light' : 'dark'
+  if g:_my_theme_switchable
+    if &bg != l:bg
+      let &bg = l:bg
+    endif
   endif
 endfunction
 
 " Background toggle.
 function! my#compat#bg_toggle() abort
-  if !g:_my_theme_switchable || s:_bg_locked
-    return
-  else
+  if g:_my_theme_switchable
     let &bg = &bg ==# 'dark' ? 'light' : 'dark'
   endif
 endfunction

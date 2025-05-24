@@ -247,31 +247,6 @@ function! my#config#gruvbox() abort
   colorscheme gruvbox
 endfunction
 
-function! my#config#tokyonight() abort
-  let g:_my_theme_switchable = 0
-  if has("nvim")
-    call my#util#auto_hl('tokyonight', g:_my_hl, {-> {
-          \ 'fg': g:terminal_color_0,
-          \ 'red': g:terminal_color_1,
-          \ 'green': g:terminal_color_2,
-          \ 'yellow': g:terminal_color_3,
-          \ 'blue': g:terminal_color_4,
-          \ 'purple': g:terminal_color_5,
-          \ 'cyan': g:terminal_color_6,
-          \ 'light_grey': g:terminal_color_7,
-          \ 'bg': g:terminal_color_8,
-          \ 'bright_red': g:terminal_color_9,
-          \ 'bright_green': g:terminal_color_10,
-          \ 'bright_yellow': g:terminal_color_11,
-          \ 'bright_blue': g:terminal_color_12,
-          \ 'bright_purple': g:terminal_color_13,
-          \ 'bright_cyan': g:terminal_color_14,
-          \ 'grey': g:terminal_color_15,
-          \ }})
-  endif
-  colorscheme tokyonight
-endfunction
-
 function! my#config#indentLine() abort
   let g:indentLine_char = '▏'
   let g:vim_json_conceal = 0
@@ -319,69 +294,6 @@ function! my#config#nerdtree() abort
   nn  <silent> <M-e> :NERDTreeFocus<CR>
   ino <silent> <M-e> <Esc>:NERDTreeFocus<CR>
   tno <silent> <M-e> <C-\><C-N>:NERDTreeFocus<CR>
-endfunction
-
-function! my#config#one() abort
-  let g:one_allow_italics = 1
-  let g:airline_theme = 'one'
-  let g:_my_theme_switchable = 1
-  function! s:set_one_term_color() abort
-    if &bg ==# 'dark'
-      let g:terminal_color_0  = "#abb2bf"
-      let g:terminal_color_1  = "#e06c75"
-      let g:terminal_color_2  = "#98c379"
-      let g:terminal_color_3  = "#d19a66"
-      let g:terminal_color_4  = "#61afef"
-      let g:terminal_color_5  = "#c678dd"
-      let g:terminal_color_6  = "#56b6c2"
-      let g:terminal_color_7  = "#828997"
-      let g:terminal_color_8  = "#282c34"
-      let g:terminal_color_9  = "#e06c75"
-      let g:terminal_color_10 = "#98c379"
-      let g:terminal_color_11 = "#e5c07b"
-      let g:terminal_color_12 = "#61afef"
-      let g:terminal_color_13 = "#c678dd"
-      let g:terminal_color_14 = "#56b6c2"
-      let g:terminal_color_15 = "#3e4452"
-    else
-      let g:terminal_color_0  = "#494b53"
-      let g:terminal_color_1  = "#e45649"
-      let g:terminal_color_2  = "#50a14f"
-      let g:terminal_color_3  = "#986801"
-      let g:terminal_color_4  = "#4078f2"
-      let g:terminal_color_5  = "#a626a4"
-      let g:terminal_color_6  = "#0184bc"
-      let g:terminal_color_7  = "#696c77"
-      let g:terminal_color_8  = "#fafafa"
-      let g:terminal_color_9  = "#e45649"
-      let g:terminal_color_10 = "#50a14f"
-      let g:terminal_color_11 = "#c18401"
-      let g:terminal_color_12 = "#4078f2"
-      let g:terminal_color_13 = "#a626a4"
-      let g:terminal_color_14 = "#0184bc"
-      let g:terminal_color_15 = "#d0d0d0"
-    endif
-    return {
-          \ 'fg': g:terminal_color_0,
-          \ 'red': g:terminal_color_1,
-          \ 'green': g:terminal_color_2,
-          \ 'yellow': g:terminal_color_3,
-          \ 'blue': g:terminal_color_4,
-          \ 'purple': g:terminal_color_5,
-          \ 'cyan': g:terminal_color_6,
-          \ 'light_grey': g:terminal_color_7,
-          \ 'bg': g:terminal_color_8,
-          \ 'bright_red': g:terminal_color_9,
-          \ 'bright_green': g:terminal_color_10,
-          \ 'bright_yellow': g:terminal_color_11,
-          \ 'bright_blue': g:terminal_color_12,
-          \ 'bright_purple': g:terminal_color_13,
-          \ 'bright_cyan': g:terminal_color_14,
-          \ 'grey': g:terminal_color_15,
-          \ }
-  endfunction
-  call my#util#auto_hl('one', g:_my_hl, function("s:set_one_term_color"))
-  colorscheme one
 endfunction
 
 function! my#config#vim_airline() abort

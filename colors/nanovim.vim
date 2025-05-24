@@ -338,30 +338,34 @@ hi! link markdownLinkTextDelimiter Nano_Face_Subtle
 hi! link markdownListMarker Nano_Face_Salient
 
 if has("nvim")
-  hi! link @text.title.1.marker.markdown markdownH1
-  hi! link @text.title.2.marker.markdown markdownH2
-  hi! link @text.title.3.marker.markdown markdownH3
-  hi! link @text.title.4.marker.markdown markdownH4
-  hi! link @text.title.5.marker.markdown markdownH5
-  hi! link @text.title.6.marker.markdown markdownH6
-  hi! link @text.title.1.markdown markdownH1
-  hi! link @text.title.2.markdown markdownH2
-  hi! link @text.title.3.markdown markdownH3
-  hi! link @text.title.4.markdown markdownH4
-  hi! link @text.title.5.markdown markdownH5
-  hi! link @text.title.6.markdown markdownH6
-  hi! link @text.strong.markdown_inline markdownBold
-  hi! link @text.emphasis.markdown_inline markdownItalic
-  hi! link @text.literal.markdown_inline markdownCode
-  hi! link @text.uri.markdown_inline markdownUrl
-  hi! link @punctuation.special.markdown markdownListMarker
-  hi! link @punctuation.delimiter.markdown_inline markdownBoldDelimiter
-  hi! link @punctuation.delimiter.markdown markdownCodeDelimiter
-  hi! link @punctuation.bracket.markdown_inline markdownLinkDelimiter
-  hi! link @text.escape.markdown_inline markdownEscape
-  hi! link @text.reference.markdown_inline markdownLinkText
-  hi! link @text.literal.block.markdown markdownCode
+  " Markdown
+  hi! link @markup.heading.1.marker.markdown markdownH1
+  hi! link @markup.heading.2.marker.markdown markdownH2
+  hi! link @markup.heading.3.marker.markdown markdownH3
+  hi! link @markup.heading.4.marker.markdown markdownH4
+  hi! link @markup.heading.5.marker.markdown markdownH5
+  hi! link @markup.heading.6.marker.markdown markdownH6
+  hi! link @markup.heading.1.markdown markdownH1
+  hi! link @markup.heading.2.markdown markdownH2
+  hi! link @markup.heading.3.markdown markdownH3
+  hi! link @markup.heading.4.markdown markdownH4
+  hi! link @markup.heading.5.markdown markdownH5
+  hi! link @markup.heading.6.markdown markdownH6
+  hi! link @markup.strong.markdown_inline markdownBold
+  hi! link @markup.italic.markdown_inline markdownItalic
+  hi! link @markup.raw.markdown_inline markdownCode
+  hi! link @markup.link.url.markdown_inline markdownUrl
+  hi! link @markup.list.markdown markdownListMarker
+  hi! link @markup.raw.delimiter.markdown_inline markdownCodeDelimiter
+  hi! link @markup.raw.delimiter.markdown markdownCodeDelimiter
+  hi! link @string.escape.markdown_inline markdownEscape
+  hi! link @markup.link.markdown_inline markdownLinkText
+  hi! link @markup.link.label.markdown_inline markdownLinkText
+  hi! link @markup.raw.block.markdown markdownCode
   hi! link @label.markdown markdownCodeDelimiter
+  hi! link @conceal.markdown_inline markdownCodeDelimiter
+  " LSP
+  hi! link @lsp.type.keyword.lua Keyword
 endif
 
 " Misc
@@ -515,52 +519,49 @@ let s:nanovim_short_ft = [
       \ '__GonvimMarkdownPreview__',
       \ ]
 
-" Get the branch
-function! s:get_git_branch() abort
-  let l:current_dir = expand('%:p:h')
-  let l:is_git_repo = 0
+" Append file/directory/sub-path to a path.
+function! s:path_append(path, item) abort
+  let l:path_trim = substitute(a:path, '\v[\/]+$', "", "")
+  let l:item_trim = substitute(a:item, '\v^[\/]+', "", "")
+  return expand(l:path_trim . "/" . l:item_trim)
+endfunction
+
+" Get the Git root directory.
+function! s:get_git_root() abort
+  let l:dir = expand('%:p:h')
   while 1
-    if !empty(globpath(l:current_dir, ".git", 1))
-      let l:is_git_repo = 1
-      break
-    endif
-    let l:temp_dir = l:current_dir
-    let l:current_dir = fnamemodify(l:current_dir, ':h')
-    if l:temp_dir ==# l:current_dir
+    let l:results = globpath(l:dir, ".git", 1, 1)
+    for l:item in l:results
+      if isdirectory(l:item)
+        return l:dir
+      endif
+    endfor
+    let [l:current, l:dir] = [l:dir, fnamemodify(l:dir, ':h')]
+    if l:current ==# l:dir
       break
     endif
   endwhile
-  if l:is_git_repo
-    let l:git_root = substitute(l:current_dir, '\v[\\/]$', '', '')
-    let l:dot_git = l:git_root . '/.git'
-    if isdirectory(l:dot_git)
-      let l:head_file = l:git_root . '/.git/HEAD'
-    else
-      try
-        let l:gitdir_line = readfile(l:dot_git)[0]
-        let l:gitdir_matches = matchlist(l:gitdir_line, '\v^gitdir:\s(.+)$')
-        if len(l:gitdir_matches) > 0
-          let l:gitdir = l:gitdir_matches[1]
-          let l:head_file = l:git_root . '/' . l:gitdir . '/HEAD'
-        endif
-      catch
-        return ''
-      endtry
-    endif
-    try
-      let l:ref_line = readfile(l:head_file)[0]
-      let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
-      if len(l:ref_matches) > 0
-        let l:branch = l:ref_matches[1]
-        if !empty(l:branch)
-          return l:branch
-        endif
-      endif
-    catch
-      return ''
-    endtry
+  return v:null
+endfunction
+
+" Get the Git branch.
+function! s:get_git_branch() abort
+  let l:git_root = s:get_git_root()
+  if l:git_root == v:null
+    return ""
   endif
-  return ''
+  let l:head_file = s:path_append(l:git_root, "/.git/HEAD")
+  if !empty(l:head_file) && !empty(glob(l:head_file))
+    let l:ref_line = readfile(l:head_file)[0]
+    let l:ref_matches = matchlist(l:ref_line, '\vref:\s.+/(.{-})$')
+    if len(l:ref_matches) > 0
+      let l:branch = l:ref_matches[1]
+      if !empty(l:branch)
+        return l:branch
+      endif
+    endif
+  endif
+  return ""
 endfunction
 
 function! s:cap_str_init(str) abort
@@ -579,30 +580,28 @@ endfunction
 " Get file name.
 " Shorten then file name when the window is too narrow.
 function! NanoGetFname() abort
-  let l:file_path = expand('%:p')
-  let l:file_dir  = expand('%:p:h')
   let l:file_name = expand('%:t')
   if empty(l:file_name)
     return "[No Name]"
   endif
-  let l:path_sepr = "/"
-  if has('win32')
-    let l:path_sepr = "\\"
-  endif
-  let width = &laststatus == 3 ? &co : winwidth(0)
+  let l:width = &laststatus == 3 ? &co : winwidth(0)
+  let l:file_path = expand('%:p')
   let l:file_path_str_width = strdisplaywidth(l:file_path)
-  if l:file_path_str_width > width * 0.7
+  if l:file_path_str_width > l:width * 0.7
     return l:file_name
   endif
-  if l:file_path_str_width > width * 0.4
-    let l:path_list = split(l:file_dir, l:path_sepr)
-    let l:path_head = "/"
-    if has('win32')
-      let l:path_head = remove(l:path_list, 0) . "\\"
-    endif
+  if l:file_path_str_width > l:width * 0.4
+    let l:path_list = split(l:file_path, '\v[/\\]\zs')
+    let l:path_head = remove(l:path_list, 0)
+    let l:path_tail = remove(l:path_list, -1)
     for l:d in l:path_list
       let l:dir = split(l:d, '\zs')
-      if empty(l:dir) | return "" | endif
+      if empty(l:dir) | return l:file_path | endif
+      let l:sep = ""
+      if l:dir[-1] =~ '\v[/\\]'
+        let l:sep = remove(l:dir, -1)
+      endif
+      if empty(l:dir) | continue | endif
       if l:dir[0] !=# '.'
         let l:dir_short = l:dir[0]
       elseif len(l:dir) > 1
@@ -610,9 +609,9 @@ function! NanoGetFname() abort
       else
         let l:dir_short = '.'
       endif
-      let l:path_head .= l:dir_short . l:path_sepr
+      let l:path_head .= l:dir_short . l:sep
     endfor
-    return l:path_head . l:file_name
+    return l:path_head . l:path_tail
   endif
   return l:file_path
 endfunction
@@ -652,12 +651,12 @@ function! s:on_leave() abort
   endif
 endfunction
 
-augroup nanovim_redrawstatus
+augroup nanovim_statusline
   autocmd!
   autocmd FileChangedShellPost * redrawstatus
   autocmd BufEnter,WinEnter,VimEnter * call <SID>on_enter()
   autocmd BufLeave,WinLeave * call <SID>on_leave()
-augroup end
+augroup END
 " }}
 
 " vim: set sw=2 ts=2 sts=2 foldmarker={{,}} foldmethod=marker foldlevel=0:
