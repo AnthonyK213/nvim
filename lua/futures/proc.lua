@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 })
 
 ---@class futures.ProcessHandle
----@field private _data userdata uv_process_t.
+---@field private _data uv.uv_process_t Process handle.
 ---@field private _pid integer Process ID.
 ---@field private _exited boolean
 local ProcessHandle = {}
@@ -22,7 +22,7 @@ local ProcessHandle = {}
 ProcessHandle.__index = ProcessHandle
 
 ---Constructor.
----@param data userdata uv_process_t.
+---@param data uv.uv_process_t Process handle.
 ---@param pid integer Process ID.
 ---@return futures.ProcessHandle
 function ProcessHandle.new(data, pid)
@@ -75,9 +75,9 @@ end
 ---@field on_stdin? fun(data: string) Callback on standard input.
 ---@field on_stdout? fun(data: string) Callback on standard output.
 ---@field on_stderr? fun(data: string) Callbakc on standard error.
----@field protected stdin userdata Standard input handle.
----@field protected stdout userdata Standard output handle.
----@field protected stderr userdata Standard error handle.
+---@field protected stdin uv.uv_stream_t Standard input handle.
+---@field protected stdout uv.uv_stream_t Standard output handle.
+---@field protected stderr uv.uv_stream_t Standard error handle.
 ---@field stdin_buf string[] Standard input buffer.
 ---@field stdout_buf string[] Standard output buffer.
 ---@field stderr_buf string[] Standard error buffer.

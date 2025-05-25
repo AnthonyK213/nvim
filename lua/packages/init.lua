@@ -28,14 +28,14 @@ require("lazy").setup({
     lazy = false,
     priority = 1000,
     cond = function() return _G._my_core_opt.tui.scheme == "gruvbox" end,
-    config = function() require("packages.gruvbox") end
+    config = function() require("packages.gruvbox-conf") end
   },
   {
     "EdenEast/nightfox.nvim",
     lazy = false,
     priority = 1000,
     cond = function() return _G._my_core_opt.tui.scheme == "nightfox" end,
-    config = function() require("packages.nightfox") end
+    config = function() require("packages.nightfox-conf") end
   },
   -- Optional
   {
@@ -891,7 +891,7 @@ require("lazy").setup({
       "CMakeSettings",
       "CMakeTargetSettings",
     },
-    config = function() require("packages.cmake-tools") end,
+    config = function() require("packages.cmake-tools-conf") end,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "stevearc/overseer.nvim",
@@ -982,7 +982,7 @@ require("lazy").setup({
   {
     "hrsh7th/nvim-cmp",
     event = { "BufReadPre", "BufNewFile", "CmdlineEnter" },
-    config = function() require("packages.nvim-cmp") end,
+    config = function() require("packages.nvim-cmp-conf") end,
     dependencies = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-cmdline",
@@ -1018,7 +1018,7 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     -- NO VeryLazy!
-    config = function() require("packages.nvim-lspconfig") end,
+    config = function() require("packages.nvim-lspconfig-conf") end,
     dependencies = {
       {
         "mason-org/mason-lspconfig.nvim",
@@ -1057,7 +1057,7 @@ require("lazy").setup({
       "DapSetLogLevel",
       "DapShowLog",
     },
-    config = function() require("packages.nvim-dap") end,
+    config = function() require("packages.nvim-dap-conf") end,
     dependencies = {
       {
         "jay-babu/mason-nvim-dap.nvim",
@@ -1106,22 +1106,9 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
-    config = function()
-      local ts_option = _G._my_core_opt.ts or {}
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = ts_option.ensure_installed or {},
-        highlight = {
-          enable = true,
-          disable = ts_option.highlight_disable or {},
-          additional_vim_regex_highlighting = false,
-        },
-        matchup = {
-          enable = true,
-          disable = ts_option.matchup_disable or {},
-        }
-      }
-    end
+    lazy = false,
+    branch = "main",
+    config = function() require("packages.nvim-treesitter-conf") end
   },
   {
     "stevearc/aerial.nvim",

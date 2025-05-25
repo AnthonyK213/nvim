@@ -180,6 +180,7 @@ function M.join(fut_list, timeout)
     if count ~= fut_count then
       if timeout then
         local timer = vim.uv.new_timer()
+        assert(timer, "Failed to create timer.")
         timer:start(timeout, 0, vim.schedule_wrap(function()
           timer:stop()
           timer:close()

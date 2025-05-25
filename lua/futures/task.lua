@@ -10,7 +10,7 @@ local uv_callback_index = {
 ---@field callback? function Callback invoked when the task runs to complete.
 ---@field protected callbacks function[]
 ---@field no_callbacks boolean Mark the task that its `callbacks` will not be executed.
----@field protected handle? userdata Task handle.
+---@field protected handle? uv.luv_work_ctx_t Task handle.
 ---@field result table Result of the task, stored in a packed table.
 ---@field status 0|-1|-2 Task status, 0: Created; -1: Running; -2: RanToCompletion
 local Task = {}
@@ -94,7 +94,7 @@ function Task:start()
     return true
   end
   self.handle = vim.uv.new_work(self.action, cb)
-  return self.handle:queue(lib.tbl_unpack(self.varargs))
+  return self.handle:queue(lib.tbl_unpack(self.varargs)) or false
 end
 
 ---Wrap a task into a callback function which will start automatically.

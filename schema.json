@@ -606,20 +606,6 @@
               "ziggy_schema"
             ]
           }
-        },
-        "highlight_disable": {
-          "description": "File type to disable treesitter highlight",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "matchup_disable": {
-          "description": "File type to disable vim-matchup",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
