@@ -699,6 +699,7 @@ require("lazy").setup({
       vim.g.matchup_matchparen_deferred = 1
       vim.g.matchup_matchparen_deferred_show_delay = 100
       vim.g.matchup_matchparen_deferred_hide_delay = 700
+      -- NOTE: Look forward to the [new vim-matchup integration](https://github.com/andymass/vim-matchup/pull/330)
     end,
   },
   {
