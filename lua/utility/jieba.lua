@@ -274,10 +274,10 @@ function M:enable()
     ffi.gc(self.jieba, _njieba.njieba_drop)
   end
 
-  vim.keymap.set({ "n", "v", "o" }, "w", goto_words_forward, {})
-  vim.keymap.set({ "n", "v", "o" }, "b", goto_words_backward, {})
-  vim.keymap.set({ "n", "v", "o" }, "e", goto_forward_word_end, {})
-  vim.keymap.set({ "v", "o" }, "iw", select_inner_word, {})
+  vim.keymap.set({ "n", "x", "o" }, "w", goto_words_forward, {})
+  vim.keymap.set({ "n", "x", "o" }, "b", goto_words_backward, {})
+  vim.keymap.set({ "n", "x", "o" }, "e", goto_forward_word_end, {})
+  vim.keymap.set({ "x", "o" }, "iw", select_inner_word, {})
   self.enabled = true
 
   return true
@@ -286,10 +286,10 @@ end
 ---Disable jieba.
 function M:disable()
   if self.enabled then
-    pcall(vim.keymap.del, { "n", "v", "o" }, "w", {})
-    pcall(vim.keymap.del, { "n", "v", "o" }, "b", {})
-    pcall(vim.keymap.del, { "n", "v", "o" }, "e", {})
-    pcall(vim.keymap.del, { "v", "o" }, "iw", {})
+    pcall(vim.keymap.del, { "n", "x", "o" }, "w", {})
+    pcall(vim.keymap.del, { "n", "x", "o" }, "b", {})
+    pcall(vim.keymap.del, { "n", "x", "o" }, "e", {})
+    pcall(vim.keymap.del, { "x", "o" }, "iw", {})
     self.enabled = false
   end
 end

@@ -47,9 +47,8 @@ It's a pure text file with json syntax. Example:
     "vimwiki": "$HOME/vimwiki"
   },
   "tui": {
-    "scheme": "nightfox",
-    "theme": "dark",
-    "style": "night",
+    "scheme": "default",
+    "theme": "auto",
     "border": "rounded",
     "bufferline_style": "slant",
     "cmp_ghost": true,
@@ -223,7 +222,7 @@ Configure mailboxes (optional)
 | <kbd>leader</kbd>               | <kbd>dt</kbd>  | n    | *nvim-dap* terminate.                                             |
 | <kbd>leader</kbd>               | <kbd>ev</kbd>  | n    | Evaluate lua chunk surrounded by backquote.                       |
 | <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk (math) surrounded by backquote.               |
-| <kbd>leader</kbd>               | <kbd>fa</kbd>  | n    | *aerial.nvim* show symbols.                                         |
+| <kbd>leader</kbd>               | <kbd>fa</kbd>  | n    | *aerial.nvim* show symbols.                                       |
 | <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *telescope.nvim* buffers.                                         |
 | <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *telescope.nvim* find files.                                      |
 | <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *telescope.nvim* live grep.                                       |
@@ -258,7 +257,7 @@ Configure mailboxes (optional)
 | <kbd>leader</kbd>               | <kbd>l\[</kbd> | n    | Goto previous diagnostic mark.                                    |
 | <kbd>leader</kbd>               | <kbd>l\]</kbd> | n    | Goto next diagnostic mark.                                        |
 | <kbd>leader</kbd>               | <kbd>ml</kbd>  | n    | Regenerate list bullets.                                          |
-| <kbd>leader</kbd>               | <kbd>mv</kbd>  | n    | *aerial.nvim*/*VimTeX* toggle table of content/symbols.                   |
+| <kbd>leader</kbd>               | <kbd>mv</kbd>  | n    | *aerial.nvim*/*VimTeX* toggle table of content/symbols.           |
 | <kbd>leader</kbd>               | <kbd>mt</kbd>  | n    | Toggle preview (Markdown/Marp/LaTeX/GLSL)                         |
 | <kbd>leader</kbd>               | <kbd>mi</kbd>  | n    | glslViewer input.                                                 |
 | <kbd>leader</kbd>               | <kbd>nd</kbd>  | n    | Append the weekday after a date (yyyy-mm-dd).                     |

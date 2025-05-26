@@ -223,7 +223,7 @@ end
 ---@param opts? table A table of *:map-arguments*
 function M.set_srd_shortcuts(srd_table, opts)
   for key, val in pairs(srd_table) do
-    vim.keymap.set({ "n", "v" }, key, function()
+    vim.keymap.set({ "n", "x" }, key, function()
       local m = vim.api.nvim_get_mode().mode
       local mode
       if m == "n" then

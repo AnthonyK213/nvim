@@ -99,7 +99,7 @@ for key, val in pairs {
   Google     = { "g", "https://www.google.com/search?q=" },
   Youdao     = { "y", "https://dict.youdao.com/w/eng/" }
 } do
-  kbd("Search cword with " .. key, { "n", "v" }, "<leader>h" .. val[1], function()
+  kbd("Search cword with " .. key, { "n", "x" }, "<leader>h" .. val[1], function()
     local txt
     local mode = get_mode()
     if mode == "n" then
@@ -113,7 +113,7 @@ for key, val in pairs {
     require("utility.util").sys_open(val[2] .. txt)
   end)
 end
-kbd("Look up the word in the dictionary", { "n", "v" }, "<leader>hh", function()
+kbd("Look up the word in the dictionary", { "n", "x" }, "<leader>hh", function()
   local word
   local mode = get_mode()
   if mode == "n" then
@@ -144,14 +144,14 @@ kbd("Show document", "n", "K", function()
     vim.notify(string.format("E149: Sorry, no help for %s", word), vim.log.levels.ERROR)
   end
 end)
-kbd("Search visual selection forward", "v", "*", function()
+kbd("Search visual selection forward", "x", "*", function()
   local pat = lib.get_gv()
       :gsub("([/\\])", function(x)
         return "\\" .. x
       end):gsub("\n", [[\n]])
   vim.cmd([[/\V]] .. pat)
 end)
-kbd("Search visual selection backward", "v", "#", function()
+kbd("Search visual selection backward", "x", "#", function()
   local pat = lib.get_gv():gsub("([?\\])", function(x)
     return "\\" .. x
   end):gsub("\n", [[\n]])
@@ -220,7 +220,7 @@ end)
 kbd("Print TODO list", "n", "<leader>nt", function()
   require("utility.gtd").print_todo_list()
 end)
-kbd("Hanzi count", { "n", "v" }, "<leader>cc", function()
+kbd("Hanzi count", { "n", "x" }, "<leader>cc", function()
   local mode = get_mode()
   local txt
   if mode == "n" then
@@ -247,7 +247,7 @@ end)
 kbd("Fetch recent mail from imap server.", "n", "<leader>mf", function()
   require("utility.mail").Mailbox:fetch()
 end)
-kbd("Surrounding add", { "n", "v" }, "<leader>sa", function()
+kbd("Surrounding add", { "n", "x" }, "<leader>sa", function()
   local mode = get_mode()
   if mode then
     to_normal()
@@ -260,7 +260,7 @@ end)
 kbd("Surrounding change", "n", "<leader>sc", function()
   require("utility.srd").srd_sub()
 end)
-kbd("Comment current/selected line(s)", { "n", "v" }, "<leader>kc", function()
+kbd("Comment current/selected line(s)", { "n", "x" }, "<leader>kc", function()
   local mode = get_mode()
   if mode == "n" then
     require("utility.cmt").cmt_add_n()
@@ -271,7 +271,7 @@ kbd("Comment current/selected line(s)", { "n", "v" }, "<leader>kc", function()
     return
   end
 end)
-kbd("Uncomment current/selected line(s)", { "n", "v" }, "<leader>ku", function()
+kbd("Uncomment current/selected line(s)", { "n", "x" }, "<leader>ku", function()
   local mode = get_mode()
   if mode == "n" then
     require("utility.cmt").cmt_del_n()
@@ -283,7 +283,7 @@ kbd("Uncomment current/selected line(s)", { "n", "v" }, "<leader>ku", function()
   end
 end)
 kbd("Show highlight information", "n", "<leader>vs", function() vim.show_pos() end)
-kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
+kbd("Decode selected base64 code.", "x", "<leader>zbd", function()
   to_normal()
   local futures = require("futures")
   local bufnr = vim.api.nvim_get_current_buf()
@@ -302,7 +302,7 @@ kbd("Decode selected base64 code.", "v", "<leader>zbd", function()
     vim.notify("Decode finished")
   end)
 end)
-kbd("Encode selection to base64 code.", "v", "<leader>zbe", function()
+kbd("Encode selection to base64 code.", "x", "<leader>zbe", function()
   to_normal()
   local futures = require("futures")
   local bufnr = vim.api.nvim_get_current_buf()

@@ -636,10 +636,10 @@ require("lazy").setup({
   {
     "monaqa/dial.nvim",
     keys = {
-      { "<C-A>",  "<Plug>(dial-increment)",                                mode = { "n", "v" } },
-      { "<C-X>",  "<Plug>(dial-decrement)",                                mode = { "n", "v" } },
-      { "g<C-A>", function() return require("dial.map").inc_gvisual() end, mode = "v",         expr = true },
-      { "g<C-X>", function() return require("dial.map").dec_gvisual() end, mode = "v",         expr = true },
+      { "<C-A>",  "<Plug>(dial-increment)",                                mode = { "n", "x" } },
+      { "<C-X>",  "<Plug>(dial-decrement)",                                mode = { "n", "x" } },
+      { "g<C-A>", function() return require("dial.map").inc_gvisual() end, mode = "x",         expr = true },
+      { "g<C-X>", function() return require("dial.map").dec_gvisual() end, mode = "x",         expr = true },
     }
   },
   {
@@ -1098,7 +1098,7 @@ require("lazy").setup({
       { "<leader>dt", function() require("dap").terminate() end },
       { "<leader>dn", function() require("dapui").toggle() end },
       { "<leader>df", function() require("dapui").float_element() end },
-      { "<leader>dv", function() require("dapui").eval() end,           mode = "v" },
+      { "<leader>dv", function() require("dapui").eval() end,           mode = "x" },
     },
     dependencies = {
       "mfussenegger/nvim-dap",
@@ -1227,10 +1227,10 @@ vim.filetype.add {
         kbd("n", "<leader>cf", crates.show_features_popup, _o)
         kbd("n", "<leader>cd", crates.show_dependencies_popup, _o)
         kbd("n", "<leader>cu", crates.update_crate, _o)
-        kbd("v", "<leader>cu", crates.update_crates, _o)
+        kbd("x", "<leader>cu", crates.update_crates, _o)
         kbd("n", "<leader>ca", crates.update_all_crates, _o)
         kbd("n", "<leader>cU", crates.upgrade_crate, _o)
-        kbd("v", "<leader>cU", crates.upgrade_crates, _o)
+        kbd("x", "<leader>cU", crates.upgrade_crates, _o)
         kbd("n", "<leader>cA", crates.upgrade_all_crates, _o)
         kbd("n", "<leader>cH", crates.open_homepage, _o)
         kbd("n", "<leader>cR", crates.open_repository, _o)
