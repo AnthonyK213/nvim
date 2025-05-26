@@ -63,9 +63,10 @@
           "description": "Color scheme",
           "type": "string",
           "enum": [
+            "default",
             "gruvbox",
-            "nightfox",
-            "nanovim"
+            "nanovim",
+            "nightfox"
           ]
         },
         "theme": {
