@@ -22,7 +22,7 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 80
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
-nn  <silent> <leader>op :20Lexplore<CR>
+nn <silent> <leader>op :20Lexplore<CR>
 
 
 " Pairs
@@ -180,11 +180,13 @@ cno <M-BS> <C-W>
 
 
 " MISC
-nn <leader>bc :cd %:p:h<CR>:pwd<CR>
-nn <leader>bd :bd<CR>
-nn <leader>bg :let &bg = &bg ==# 'dark' ? 'light' : 'dark'<CR>
-nn <leader>bh :noh<CR>
-nn <leader>bl :ls<CR>
-nn <leader>bn :bn<CR>
-nn <leader>bp :bp<CR>
-nn <leader>ot :term<CR>
+nn <silent> <leader>bc :cd %:p:h<CR>:pwd<CR>
+nn <silent> <leader>bd :bd<CR>
+nn <silent> <leader>bg :let &bg = &bg ==# 'dark' ? 'light' : 'dark'<CR>
+nn <silent> <leader>bh :noh<CR>
+nn <silent> <leader>bl :ls<CR>
+nn <silent> <leader>bn :bn<CR>
+nn <silent> <leader>bp :bp<CR>
+nn <silent> <leader>ot :term<CR>
+nn <leader>fb :buffer<space>
+nn <leader>ff :find<space>
