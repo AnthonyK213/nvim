@@ -30,7 +30,7 @@ function M.set_color_scheme(exclude)
     return
   else
     if not pcall(vim.cmd.colorscheme, _G._my_core_opt.tui.scheme) then
-      vim.notify("Color scheme " .. tostring(_G._my_core_opt.tui.scheme) .. " not found", vim.log.levels.WARN)
+      vim.notify("Color scheme " .. tostring(_G._my_core_opt.tui.scheme) .. " was not found", vim.log.levels.WARN)
     end
   end
 end

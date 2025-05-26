@@ -23,7 +23,7 @@ local opt = {
     vimwiki = vim.fs.joinpath(vim.env.HOME, "vimwiki"),
   },
   tui = {
-    scheme            = "nightfox",
+    scheme            = "default",
     theme             = "auto",
     style             = "dark",
     transparent       = false,
