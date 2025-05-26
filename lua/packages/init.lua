@@ -1108,8 +1108,22 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
-    branch = "main",
-    config = function() require("packages.nvim-treesitter-conf") end
+    branch = "master",
+    config = function()
+      local ts_option = _G._my_core_opt.ts or {}
+      require("nvim-treesitter.configs").setup {
+        ensure_installed = ts_option.ensure_installed or {},
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        matchup = {
+          enable = true,
+        }
+      }
+    end
+    -- branch = "main",
+    -- config = function() require("packages.nvim-treesitter-conf") end
   },
   {
     "stevearc/aerial.nvim",
