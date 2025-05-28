@@ -187,14 +187,17 @@ require("lazy").setup({
   },
   {
     "norcalli/nvim-colorizer.lua",
-    ft = { "html", "javascript", "json", "typescript", "css", "vue" },
+    cmd = {
+      "ColorizerAttachToBuffer",
+      "ColorizerDetachFromBuffer",
+      "ColorizerReloadAllBuffers",
+      "ColorizerToggle",
+    },
+    ft = { "html", "css", "vue" },
     cond = load_3rd_ui,
     config = function()
       require("colorizer").setup({
         "html",
-        "javascript",
-        "json",
-        "typescript",
         css = { names = true, rgb_fn = true },
         vue = { names = true, rgb_fn = true },
       }, {

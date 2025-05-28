@@ -246,6 +246,9 @@ hi! link Error Nano_Face_Popout
 hi! link ErrorMsg Nano_Face_Popout
 hi! link Exception Nano_Face_Salient
 hi! link Float Nano_Face_Faded
+hi! link FloatBorder Nano_Face_Default
+hi! link FloatFooter Nano_Face_Popout
+hi! link FloatTitle Nano_Face_Popout
 hi! link FoldColumn Nano_Face_Faded
 hi! link Folded Nano_Face_Subtle
 hi! link Function Nano_Face_Strong
@@ -258,8 +261,12 @@ hi! link Macro Nano_Face_Default
 hi! link ModeMsg Nano_Face_Faded
 hi! link MoreMsg Nano_Face_Faded
 hi! link NonText Nano_Face_Subtle
+hi! link NormalFloat Nano_Face_Default
 hi! link Number Nano_Face_Faded
+hi! link NvimFloat Nano_Face_Faded
 hi! link Operator Nano_Face_Salient
+hi! link PmenuSbar Pmenu
+hi! link PmenuThumb Pmenu
 hi! link PreCondit Nano_Face_Default
 hi! link PreProc Nano_Face_Default
 hi! link Question Nano_Face_Popout
@@ -270,6 +277,9 @@ hi! link Special Nano_Face_Default
 hi! link SpecialChar Nano_Face_Default
 hi! link SpecialComment Nano_Face_Default
 hi! link SpecialKey Nano_Face_Faded
+hi! link SpellCap SpellBad
+hi! link SpellLocal SpellBad
+hi! link SpellRare SpellBad
 hi! link Statement Nano_Face_Salient
 hi! link StorageClass Nano_Face_Default
 hi! link String Nano_Face_Popout
@@ -284,17 +294,12 @@ hi! link Type Nano_Face_Salient
 hi! link Typedef Nano_Face_Salient
 hi! link VertSplit Nano_Face_Subtle
 hi! link WarningMsg Nano_Face_Popout
+hi! link healthError Nano_Face_Header_Critical
 hi! link healthSuccess Nano_Face_Header_Faded
 hi! link healthWarning Nano_Face_Header_Popout
-hi! link healthError Nano_Face_Header_Critical
 hi! link helpHyperTextEntry Nano_Face_Salient
 hi! link helpHyperTextJump Nano_Face_Popout
 hi! link qfLineNr Nano_Face_Subtle
-hi! link PmenuSbar Pmenu
-hi! link PmenuThumb Pmenu
-hi! link SpellCap SpellBad
-hi! link SpellRare SpellBad
-hi! link SpellLocal SpellBad
 " Diff
 hi! link DiffAdd Nano_Face_Salient
 hi! link DiffChange Nano_Face_Critical
