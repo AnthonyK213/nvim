@@ -499,23 +499,43 @@ set showtabline=0
 if has("nvim-0.7") | set laststatus=3 | endif
 
 let s:nanovim_mode = {
-      \ 'c'     : ' CO ',
-      \ 'i'     : ' IN ',
-      \ 'ic'    : ' IC ',
-      \ 'ix'    : ' IX ',
-      \ 'n'     : ' NO ',
-      \ 'nt'    : ' TN ',
-      \ 'multi' : ' MU ',
-      \ 'niI'   : ' ĨN ',
-      \ 'no'    : ' OP ',
-      \ 'R'     : ' RP ',
-      \ 'Rv'    : ' RP ',
-      \ 's'     : ' SC ',
-      \ 'S'     : ' SL ',
-      \ 't'     : ' TM ',
-      \ 'v'     : ' VC ',
-      \ 'V'     : ' VL ',
-      \ ''    : ' VB ',
+      \ 'n'    : ' NO ',
+      \ 'no'   : ' OP ',
+      \ 'nov'  : ' OV ',
+      \ 'noV'  : ' OV ',
+      \ 'no' : ' OV ',
+      \ 'niI'  : ' ĨN ',
+      \ 'niR'  : ' ĨN ',
+      \ 'niV'  : ' ĨN ',
+      \ 'nt'   : ' TN ',
+      \ 'ntT'  : ' TN ',
+      \ 'v'    : ' VC ',
+      \ 'vs'   : ' VS ',
+      \ 'V'    : ' VL ',
+      \ 'Vs'   : ' VS ',
+      \ ''   : ' VB ',
+      \ 's'  : ' VS ',
+      \ 's'    : ' SC ',
+      \ 'S'    : ' SL ',
+      \ ''   : ' SB ',
+      \ 'i'    : ' IN ',
+      \ 'ic'   : ' IC ',
+      \ 'ix'   : ' IX ',
+      \ 'R'    : ' RP ',
+      \ 'Rc'   : ' RC ',
+      \ 'Rx'   : ' RX ',
+      \ 'Rv'   : ' RV ',
+      \ 'Rvc'  : ' RV ',
+      \ 'Rvx'  : ' RV ',
+      \ 'c'    : ' CO ',
+      \ 'cr'   : ' CR ',
+      \ 'cv'   : ' CV ',
+      \ 'cvr'  : ' CV ',
+      \ 'r'    : ' CO ',
+      \ 'rm'   : ' CO ',
+      \ 'r?'   : ' CO ',
+      \ '!'    : ' CO ',
+      \ 't'    : ' TM ',
       \ }
 
 let s:nanovim_short_ft = [
@@ -579,7 +599,7 @@ endfunction
 " Get mode.
 " It is better to use just one character to show the mode.
 function! NanoGetMode() abort
-  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : ' _ '
+  return has_key(s:nanovim_mode, mode(1)) ? s:nanovim_mode[mode(1)] : ' XX '
 endfunction
 
 " Get file name.
@@ -596,26 +616,33 @@ function! NanoGetFname() abort
     return l:file_name
   endif
   if l:file_path_str_width > l:width * 0.4
-    let l:path_list = split(l:file_path, '\v[/\\]\zs')
-    let l:path_head = remove(l:path_list, 0)
-    let l:path_tail = remove(l:path_list, -1)
-    for l:d in l:path_list
-      let l:dir = split(l:d, '\zs')
-      if empty(l:dir) | return l:file_path | endif
-      let l:sep = ""
-      if l:dir[-1] =~ '\v[/\\]'
-        let l:sep = remove(l:dir, -1)
-      endif
-      if empty(l:dir) | continue | endif
-      if l:dir[0] !=# '.'
-        let l:dir_short = l:dir[0]
-      elseif len(l:dir) > 1
-        let l:dir_short = l:dir[0] . l:dir[1]
-      else
-        let l:dir_short = '.'
-      endif
-      let l:path_head .= l:dir_short . l:sep
-    endfor
+    let l:path_segs = split(l:file_path, '\v[/\\]\zs')
+    let l:path_head = remove(l:path_segs, 0)
+    let l:path_tail = remove(l:path_segs, -1)
+    let l:path_segs_len = len(l:path_segs)
+    if l:path_segs_len > 1
+      for l:i_seg in range(l:path_segs_len - 1)
+        let l:seg = l:path_segs[l:i_seg]
+        let l:seg_chars = split(l:seg, '\zs')
+        if empty(l:seg_chars) | return l:file_path | endif
+        let l:sep = ""
+        if l:seg_chars[-1] =~ '\v[/\\]'
+          let l:sep = remove(l:seg_chars, -1)
+        endif
+        if empty(l:seg_chars) | continue | endif
+        if l:seg_chars[0] !=# '.'
+          let l:dir_short = l:seg_chars[0]
+        elseif len(l:seg_chars) > 1
+          let l:dir_short = l:seg_chars[0] . l:seg_chars[1]
+        else
+          let l:dir_short = '.'
+        endif
+        let l:path_head .= l:dir_short . l:sep
+      endfor
+    endif
+    if l:path_segs_len > 0
+      let l:path_head .= l:path_segs[-1]
+    endif
     return l:path_head . l:path_tail
   endif
   return l:file_path
