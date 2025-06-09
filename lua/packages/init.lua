@@ -50,10 +50,12 @@ require("lazy").setup({
       bigfile = { enabled = true },
       dashboard = {
         enabled = load_3rd_ui,
+        width = 50,
         preset = {
           keys = {
             { icon = " ", key = "e", desc = "Empty File", action = ":enew" },
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = " ", key = "s", desc = "Load Session", action = ":SessionManager load_session" },
             { icon = " ", key = ",", desc = "Options", action = ":call my#compat#open_nvimrc()" },
             { icon = "󰒲 ", key = "p", desc = "Packages", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
