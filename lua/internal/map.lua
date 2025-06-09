@@ -248,6 +248,7 @@ kbd("Fetch recent mail from imap server.", "n", "<leader>mf", function()
   require("utility.mail").Mailbox:fetch()
 end)
 kbd("Surrounding add", { "n", "x" }, "<leader>sa", function()
+  if not vim.bo.modifiable then return end
   local mode = get_mode()
   if mode then
     to_normal()
@@ -255,9 +256,11 @@ kbd("Surrounding add", { "n", "x" }, "<leader>sa", function()
   end
 end)
 kbd("Surrounding delete", "n", "<leader>sd", function()
+  if not vim.bo.modifiable then return end
   require("utility.srd").srd_sub("")
 end)
 kbd("Surrounding change", "n", "<leader>sc", function()
+  if not vim.bo.modifiable then return end
   require("utility.srd").srd_sub()
 end)
 kbd("Comment current/selected line(s)", { "n", "x" }, "<leader>kc", function()

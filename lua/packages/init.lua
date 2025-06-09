@@ -48,63 +48,15 @@ require("lazy").setup({
         },
       },
       bigfile = { enabled = true },
-      dashboard = {
-        enabled = load_3rd_ui,
-        width = 50,
-        preset = {
-          keys = {
-            { icon = " ", key = "e", desc = "Empty File", action = ":enew" },
-            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-            { icon = " ", key = "s", desc = "Load Session", action = ":SessionManager load_session" },
-            { icon = " ", key = ",", desc = "Options", action = ":call my#compat#open_nvimrc()" },
-            { icon = "󰒲 ", key = "p", desc = "Packages", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-            { icon = " ", key = "q", desc = "Quit Nvim", action = ":qa" },
-          },
-          header = _G._my_core_opt.tui.welcome_header,
-        },
-        sections = {
-          { section = "header" },
-          { section = "keys",  gap = 1, padding = 1 },
-        },
-      },
-      input = { enabled = true },
-      picker = {
-        enabled = true,
-        layouts = {
-          default = {
-            layout = {
-              box = "horizontal",
-              width = 0.8,
-              min_width = 120,
-              height = 0.8,
-              {
-                box = "vertical",
-                border = _G._my_core_opt.tui.border,
-                title = "{title} {live} {flags}",
-                { win = "input", height = 1,     border = "bottom" },
-                { win = "list",  border = "none" },
-              },
-              {
-                win = "preview",
-                title = "{preview}",
-                border = _G._my_core_opt.tui.border,
-                width = 0.5
-              },
-            },
-          },
-          select = {
-            layout = {
-              border = _G._my_core_opt.tui.border,
-            },
-          }
-        }
-      },
+      dashboard = load_3rd_ui and require("packages.snacks-dashboard-conf") or nil,
+      input = require("packages.snacks-input-conf"),
+      picker = require("packages.snacks-picker-conf"),
     },
     keys = {
       { "<leader>fb", function() require("snacks").picker.buffers() end },
       { "<leader>ff", function() require("snacks").picker.files() end },
       { "<leader>fg", function() require("snacks").picker.grep() end },
+      { "<leader>fu", function() require("snacks").picker.undo() end },
     }
   },
   {
@@ -718,7 +670,7 @@ require("lazy").setup({
   },
   {
     "Shatur/neovim-session-manager",
-    event = "VeryLazy",
+    cmd = "SessionManager",
     config = function()
       require("session_manager").setup {
         sessions_dir = require("plenary.path"):new(vim.fn.stdpath("data"), "sessions"),
@@ -888,7 +840,7 @@ require("lazy").setup({
   },
   {
     "vimwiki/vimwiki",
-    event = "VeryLazy",
+    cmd = { "VimwikiIndex", "VimwikiDiaryIndex", },
     branch = "dev",
     init = function()
       vim.g.vimwiki_list = {
