@@ -793,52 +793,74 @@ require("lazy").setup({
   },
   {
     "saecki/crates.nvim",
+    tag = "stable",
     event = "BufRead Cargo.toml",
-    version = "0.3.0",
-    opts = {
-      text = {
-        loading = "  Loading...",
-        version = "  %s",
-        prerelease = "  %s",
-        yanked = "  %s yanked",
-        nomatch = "  Not found",
-        upgrade = "  %s",
-        error = "  Error fetching crate",
-      },
-      popup = {
-        border = _G._my_core_opt.tui.border,
-        text = {
-          title = "# %s",
-          pill_left = "",
-          pill_right = "",
-          created_label = "created        ",
-          updated_label = "updated        ",
-          downloads_label = "downloads      ",
-          homepage_label = "homepage       ",
-          repository_label = "repository     ",
-          documentation_label = "documentation  ",
-          crates_io_label = "crates.io      ",
-          categories_label = "categories     ",
-          keywords_label = "keywords       ",
-          version = "%s",
-          prerelease = "%s pre-release",
-          yanked = "%s yanked",
-          enabled = "* s",
-          transitive = "~ s",
+    config = function()
+      local crates = require("crates")
+      local option = {
+        popup = {
+          border = _G._my_core_opt.tui.border,
+        },
+        lsp = {
+          enabled = true,
+          on_attach = function(_, bufnr)
+            vim.keymap.set("n", "K", crates.show_popup, {
+              noremap = true,
+              silent = true,
+              buffer = bufnr
+            })
+          end,
+          actions = true,
+          completion = true,
+          hover = true,
+        }
+      }
+
+      if not _G._my_core_opt.tui.devicons then
+        option.text = {
+          loading    = "  Loading...",
+          version    = "  %s",
+          prerelease = "  %s",
+          yanked     = "  %s yanked",
+          nomatch    = "  Not found",
+          upgrade    = "  %s",
+          error      = "  Error fetching crate",
+        }
+        option.popup.text = {
+          title                     = "# %s",
+          pill_left                 = "",
+          pill_right                = "",
+          created_label             = "created        ",
+          updated_label             = "updated        ",
+          downloads_label           = "downloads      ",
+          homepage_label            = "homepage       ",
+          repository_label          = "repository     ",
+          documentation_label       = "documentation  ",
+          crates_io_label           = "crates.io      ",
+          lib_rs_label              = "lib.rs         ",
+          categories_label          = "categories     ",
+          keywords_label            = "keywords       ",
+          version                   = "%s",
+          prerelease                = "%s pre-release",
+          yanked                    = "%s yanked",
+          enabled                   = "* s",
+          transitive                = "~ s",
           normal_dependencies_title = "  Dependencies",
-          build_dependencies_title = "  Build dependencies",
-          dev_dependencies_title = "  Dev dependencies",
-          optional = "? %s",
-          loading = " ...",
-        },
-      },
-      src = {
-        text = {
-          prerelease = " pre-release ",
-          yanked = " yanked ",
-        },
-      },
-    }
+          build_dependencies_title  = "  Build dependencies",
+          dev_dependencies_title    = "  Dev dependencies",
+          optional                  = "? %s",
+          loading                   = " ...",
+        }
+        option.completion = {
+          text = {
+            prerelease = " pre-release ",
+            yanked     = " yanked ",
+          }
+        }
+      end
+
+      crates.setup(option)
+    end
   },
   {
     "stevearc/overseer.nvim",
@@ -976,9 +998,10 @@ require("lazy").setup({
       options = {
         width = 80,
       },
+      keep_separator = false,
       separator = {
-        markdown = "^#+%s",
-        ["vimwiki.markdown"] = "^#+%s",
+        markdown             = "^%-%-%-",
+        ["vimwiki.markdown"] = "^%-%-%-",
       }
     },
   },
@@ -1192,18 +1215,18 @@ require("lazy").setup({
   ui = {
     border = _G._my_core_opt.tui.border,
     icons = {
-      cmd = "⌘",
-      config = "🛠",
-      event = "📅",
-      ft = "📂",
-      init = "⚙",
-      keys = "🗝",
-      plugin = "🔌",
+      cmd     = "⌘",
+      config  = "🛠",
+      event   = "📅",
+      ft      = "📂",
+      init    = "⚙",
+      keys    = "🗝",
+      plugin  = "🔌",
       runtime = "💻",
-      source = "📄",
-      start = "🚀",
-      task = "📌",
-      lazy = "💤 ",
+      source  = "📄",
+      start   = "🚀",
+      task    = "📌",
+      lazy    = "💤 ",
     },
   },
   performance = {
@@ -1213,34 +1236,3 @@ require("lazy").setup({
     }
   }
 })
-
----Filetype.
-vim.filetype.add {
-  filename = {
-    ["Cargo.toml"] = function()
-      return "toml", function(bufnr)
-        require("cmp").setup.buffer { sources = { { name = "crates" } } }
-        local crates = require("crates")
-        local kbd = vim.keymap.set
-        local _o = { noremap = true, silent = true, buffer = bufnr }
-        kbd("n", "K", crates.show_popup, _o)
-        kbd("n", "<leader>ct", crates.toggle, _o)
-        kbd("n", "<leader>cr", crates.reload, _o)
-        kbd("n", "<leader>cv", crates.show_versions_popup, _o)
-        kbd("n", "<leader>cf", crates.show_features_popup, _o)
-        kbd("n", "<leader>cd", crates.show_dependencies_popup, _o)
-        kbd("n", "<leader>cu", crates.update_crate, _o)
-        kbd("x", "<leader>cu", crates.update_crates, _o)
-        kbd("n", "<leader>ca", crates.update_all_crates, _o)
-        kbd("n", "<leader>cU", crates.upgrade_crate, _o)
-        kbd("x", "<leader>cU", crates.upgrade_crates, _o)
-        kbd("n", "<leader>cA", crates.upgrade_all_crates, _o)
-        kbd("n", "<leader>cH", crates.open_homepage, _o)
-        kbd("n", "<leader>cR", crates.open_repository, _o)
-        kbd("n", "<leader>cD", crates.open_documentation, _o)
-        kbd("n", "<leader>cC", crates.open_crates_io, _o)
-        crates.show()
-      end
-    end
-  },
-}
