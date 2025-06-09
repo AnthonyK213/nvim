@@ -35,16 +35,7 @@ local opt = {
     show_context      = false,
     devicons          = false,
     bufferline_style  = { "▕", "▕" },
-    welcome_header    = {
-      [[                                                    ]],
-      [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
-      [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
-      [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
-      [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
-      [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
-      [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
-      [[                                                    ]],
-    },
+    welcome_header    = nil,
   },
   gui = {
     theme        = "auto",
@@ -87,6 +78,19 @@ end
 -- Normalize the paths.
 for k, v in pairs(opt.path) do
   opt.path[k] = vim.fs.normalize(v)
+end
+
+-- Convert header to a single string.
+if not opt.tui.welcome_header then
+  opt.tui.welcome_header = [[
+███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]]
+elseif vim.islist(opt.tui.welcome_header) then
+  opt.tui.welcome_header = table.concat(opt.tui.welcome_header, "\n")
 end
 
 ---Set global variables according to a table.

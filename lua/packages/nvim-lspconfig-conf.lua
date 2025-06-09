@@ -4,34 +4,17 @@ local float_opts = {
 }
 
 -- Attaches.
-local function custom_attach(client, bufnr)
-  local builtin = require("telescope.builtin")
+local function custom_attach(_, bufnr)
   local kbd = vim.keymap.set
-  local kbd_opts = {
-    noremap = true,
-    silent = true,
-    buffer = bufnr
-  }
+  local kbd_opts = { noremap = true, silent = true, buffer = bufnr }
+  local picker = require("snacks").picker
 
-  local lsp_fmt = function()
-    vim.lsp.buf.format { async = false }
-  end
-
-  local lsp_ref = function()
-    builtin.lsp_references { show_line = false }
-  end
-
-  if client.name == "omnisharp" then
-    kbd("n", "<F12>", require("omnisharp_extended").telescope_lsp_definitions, kbd_opts)
-  else
-    kbd("n", "<F12>", builtin.lsp_definitions, kbd_opts)
-  end
+  kbd("n", "<F12>", picker.lsp_definitions, kbd_opts)
   kbd("n", "<F2>", vim.lsp.buf.rename, kbd_opts)
-  kbd("n", "<S-F12>", lsp_ref, kbd_opts)
-  kbd("n", "<F24>", lsp_ref, kbd_opts)
-  kbd("n", "<C-F12>", builtin.lsp_implementations, kbd_opts)
-  kbd("n", "<F36>", builtin.lsp_implementations, kbd_opts)
-  kbd("n", "<M-F>", lsp_fmt, kbd_opts)
+  kbd("n", "<S-F12>", picker.lsp_references, kbd_opts)
+  kbd("n", "<F24>", picker.lsp_references, kbd_opts)
+  kbd("n", "<C-F12>", picker.lsp_implementations, kbd_opts)
+  kbd("n", "<F36>", picker.lsp_implementations, kbd_opts)
 
   kbd("n", "K", function() vim.lsp.buf.hover(float_opts) end, kbd_opts)
   kbd("n", "<leader>l0", vim.lsp.buf.document_symbol, kbd_opts)
@@ -40,7 +23,7 @@ local function custom_attach(client, bufnr)
   kbd("n", "<leader>lf", vim.lsp.buf.definition, kbd_opts)
   kbd("n", "<leader>lh", vim.lsp.buf.signature_help, kbd_opts)
   kbd("n", "<leader>li", vim.lsp.buf.implementation, kbd_opts)
-  kbd("n", "<leader>lm", lsp_fmt, kbd_opts)
+  kbd("n", "<leader>lm", function() vim.lsp.buf.format { async = false } end, kbd_opts)
   kbd("n", "<leader>ln", vim.lsp.buf.rename, kbd_opts)
   kbd("n", "<leader>lr", vim.lsp.buf.references, kbd_opts)
   kbd("n", "<leader>lt", vim.lsp.buf.type_definition, kbd_opts)
@@ -57,18 +40,6 @@ local server_settings = {
       local status, cmake = pcall(require, "cmake-tools")
       if status then
         cmake.clangd_on_new_config(new_config)
-      end
-    end
-  end,
-  omnisharp = function(o, s)
-    o.handlers = {
-      ["textDocument/definition"] = require("omnisharp_extended").handler,
-    }
-    if type(s) == "table" then
-      for k, v in pairs(s) do
-        if k ~= "cmd" then
-          o[k] = v
-        end
       end
     end
   end,

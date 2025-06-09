@@ -22,7 +22,7 @@ tui_.set_color_scheme { "gruvbox", "nightfox" }
 
 -- Setup lazy.nvim.
 require("lazy").setup({
-  -- Color scheme
+  -- UI
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
@@ -37,25 +37,73 @@ require("lazy").setup({
     cond = function() return _G._my_core_opt.tui.scheme == "nightfox" end,
     config = function() require("packages.nightfox-conf") end
   },
-  -- Optional
   {
-    "goolord/alpha-nvim",
-    cond = load_3rd_ui,
-    config = function()
-      local alpha = require("alpha")
-      local dashboard = require("alpha.themes.dashboard")
-      dashboard.section.header.val = _G._my_core_opt.tui.welcome_header
-      dashboard.section.buttons.val = {
-        dashboard.button("e", "∅  Empty File", ":enew<CR>"),
-        dashboard.button("f", "⊕  Find File", ":Telescope find_files<CR>"),
-        dashboard.button("s", "↺  Load Session", ":SessionManager load_session<CR>"),
-        dashboard.button(",", "⚙  Options", ":call my#compat#open_nvimrc()<CR>"),
-        dashboard.button("p", "⟲  Packages Sync", ":Lazy sync<CR>"),
-        dashboard.button("q", "⊗  Quit Nvim", ":qa<CR>"),
-      }
-
-      alpha.setup(dashboard.opts)
-    end
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      styles = {
+        input = {
+          border = _G._my_core_opt.tui.border,
+        },
+      },
+      bigfile = { enabled = true },
+      dashboard = {
+        enabled = load_3rd_ui,
+        preset = {
+          keys = {
+            { icon = " ", key = "e", desc = "Empty File", action = ":enew" },
+            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = " ", key = "s", desc = "Load Session", action = ":SessionManager load_session" },
+            { icon = " ", key = ",", desc = "Options", action = ":call my#compat#open_nvimrc()" },
+            { icon = "󰒲 ", key = "p", desc = "Packages", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+            { icon = " ", key = "q", desc = "Quit Nvim", action = ":qa" },
+          },
+          header = _G._my_core_opt.tui.welcome_header,
+        },
+        sections = {
+          { section = "header" },
+          { section = "keys",  gap = 1, padding = 1 },
+        },
+      },
+      input = { enabled = true },
+      picker = {
+        enabled = true,
+        layouts = {
+          default = {
+            layout = {
+              box = "horizontal",
+              width = 0.8,
+              min_width = 120,
+              height = 0.8,
+              {
+                box = "vertical",
+                border = _G._my_core_opt.tui.border,
+                title = "{title} {live} {flags}",
+                { win = "input", height = 1,     border = "bottom" },
+                { win = "list",  border = "none" },
+              },
+              {
+                win = "preview",
+                title = "{preview}",
+                border = _G._my_core_opt.tui.border,
+                width = 0.5
+              },
+            },
+          },
+          select = {
+            layout = {
+              border = _G._my_core_opt.tui.border,
+            },
+          }
+        }
+      },
+    },
+    keys = {
+      { "<leader>fb", function() require("snacks").picker.buffers() end },
+      { "<leader>ff", function() require("snacks").picker.files() end },
+      { "<leader>fg", function() require("snacks").picker.grep() end },
+    }
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -237,7 +285,7 @@ require("lazy").setup({
       },
       exclude = {
         filetypes = {
-          "aerial", "alpha", "lazy",
+          "aerial", "snacks_dashboard", "lazy",
           "markdown", "presenting_markdown",
           "vimwiki", "NvimTree", "mason", "lspinfo",
           "NeogitStatus", "NeogitCommitView", "DiffviewFiles",
@@ -396,53 +444,14 @@ require("lazy").setup({
       { "<M-e>",      "<Cmd>NvimTreeFindFile<CR>" },
     }
   },
-  {
-    "nvim-telescope/telescope.nvim",
-    event = "VeryLazy",
-    config = function()
-      local border_styles = {
-        single  = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-        double  = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
-        rounded = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-      }
-      local border_chars = border_styles[_G._my_core_opt.tui.border or "none"]
-
-      require("telescope").setup {
-        defaults = {
-          mappings = {
-            i = {
-              ["<C-Down>"] = require("telescope.actions").cycle_history_next,
-              ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
-            },
-          },
-          border = border_chars ~= nil,
-          borderchars = border_chars,
-        },
-        extensions = {
-          aerial = {
-            show_nesting = {
-              ["_"]    = false,
-              json     = true,
-              markdown = true,
-            }
-          }
-        }
-      }
-    end,
-    keys = {
-      { "<leader>fb", function() require("telescope.builtin").buffers() end },
-      { "<leader>ff", function() require("telescope.builtin").find_files() end },
-      { "<leader>fg", function() require("telescope.builtin").live_grep() end },
-    }
-  },
-  -- Git
+  -- VCS
   {
     "NeogitOrg/neogit",
     config = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "sindrets/diffview.nvim",
-      "nvim-telescope/telescope.nvim",
+      "folke/snacks.nvim",
     },
     keys = {
       { "<leader>gn", "<Cmd>Neogit<CR>" },
@@ -690,7 +699,7 @@ require("lazy").setup({
       },
       exclude = {
         buftype = { "prompt" },
-        filetype = { "DressingInput" },
+        filetype = { "snacks_input" },
       },
     }
   },
@@ -719,77 +728,6 @@ require("lazy").setup({
         autosave_only_in_session = false,
       }
     end
-  },
-  {
-    "stevearc/dressing.nvim",
-    event = "VeryLazy",
-    config = function()
-      local border_style = _G._my_core_opt.tui.border
-      local border_styles = {
-        single = {
-          prompt  = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-          results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-          preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-        },
-        double = {
-          prompt  = { "═", "║", " ", "║", "╔", "╗", "║", "║" },
-          results = { "═", "║", "═", "║", "╠", "╣", "╝", "╚" },
-          preview = { "═", "║", "═", "║", "╔", "╗", "╝", "╚" },
-        },
-        rounded = {
-          prompt  = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-          results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-          preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-        },
-      }
-      local border_chars = border_styles[border_style or "none"]
-
-      require("dressing").setup {
-        input = {
-          default_prompt = "> ",
-          title_pos = "center",
-          insert_only = true,
-          relative = "editor",
-          border = border_style,
-          win_options = { winblend = 10, },
-          get_config = function(opts)
-            if opts.kind == "at_cursor" then
-              return { relative = "cursor" }
-            end
-          end,
-          override = function(conf)
-            conf.anchor = "SW"
-            return conf
-          end,
-        },
-        select = {
-          backend = { "telescope" },
-          format_item_override = {},
-          telescope = require("telescope.themes").get_dropdown {
-            border = border_chars ~= nil,
-            borderchars = border_chars,
-          },
-          get_config = nil,
-        },
-      }
-    end
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    keys = {
-      { "<leader>gl", function()
-        if not require("utility.lib").executable("lazygit", true) then return end
-        require("toggleterm.terminal").Terminal:new {
-          cmd = "lazygit",
-          hidden = true,
-          direction = "float",
-          float_opts = {
-            border = _G._my_core_opt.tui.border,
-          },
-        }:toggle()
-      end }
-    }
   },
   {
     "saecki/crates.nvim",
@@ -1062,10 +1000,6 @@ require("lazy").setup({
     }
   },
   {
-    "Hoffs/omnisharp-extended-lsp.nvim",
-    event = "VeryLazy",
-  },
-  {
     "mfussenegger/nvim-dap",
     cmd = {
       "DapContinue",
@@ -1180,13 +1114,13 @@ require("lazy").setup({
       nerd_font = false,
       highlight_closest = false,
       on_attach = function(bufnr)
-        local _o = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "{", require("aerial").prev, _o)
-        vim.keymap.set("n", "}", require("aerial").next, _o)
-        vim.keymap.set("n", "[[", require("aerial").prev_up, _o)
-        vim.keymap.set("n", "]]", require("aerial").next_up, _o)
-        vim.keymap.set("n", "<leader>mv", require("aerial").toggle, _o)
-        vim.keymap.set("n", "<leader>fa", "<Cmd>Telescope aerial<CR>", _o)
+        local opt = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set("n", "{", require("aerial").prev, opt)
+        vim.keymap.set("n", "}", require("aerial").next, opt)
+        vim.keymap.set("n", "[[", require("aerial").prev_up, opt)
+        vim.keymap.set("n", "]]", require("aerial").next_up, opt)
+        vim.keymap.set("n", "<leader>mv", require("aerial").toggle, opt)
+        vim.keymap.set("n", "<leader>fa", require("aerial").snacks_picker, opt)
       end,
       float = {
         border = _G._my_core_opt.tui.border,
@@ -1197,10 +1131,6 @@ require("lazy").setup({
         override = function(conf, _) return conf end,
       },
     },
-    config = function(_, opts)
-      require("aerial").setup(opts)
-      require("telescope").load_extension("aerial")
-    end,
   },
   -- Games
   {

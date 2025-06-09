@@ -223,15 +223,14 @@ Configure mailboxes (optional)
 | <kbd>leader</kbd>               | <kbd>ev</kbd>  | n    | Evaluate lua chunk surrounded by backquote.                       |
 | <kbd>leader</kbd>               | <kbd>el</kbd>  | n    | Evaluate lisp chunk (math) surrounded by backquote.               |
 | <kbd>leader</kbd>               | <kbd>fa</kbd>  | n    | *aerial.nvim* show symbols.                                       |
-| <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *telescope.nvim* buffers.                                         |
-| <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *telescope.nvim* find files.                                      |
-| <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *telescope.nvim* live grep.                                       |
+| <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *snacks.nvim* buffers.                                            |
+| <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *snacks.nvim* find files.                                         |
+| <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *snacks.nvim* live grep.                                          |
 | <kbd>leader</kbd>               | <kbd>gb</kbd>  | n    | *gitsigns.nvim* blame line.                                       |
 | <kbd>leader</kbd>               | <kbd>gn</kbd>  | n    | *Neogit* open.                                                    |
 | <kbd>leader</kbd>               | <kbd>gh</kbd>  | n    | *diffview.nvim* open file history in tab.                         |
 | <kbd>leader</kbd>               | <kbd>gj</kbd>  | n    | *gitsigns.nvim* next hunk.                                        |
 | <kbd>leader</kbd>               | <kbd>gk</kbd>  | n    | *gitsigns.nvim* previous hunk.                                    |
-| <kbd>leader</kbd>               | <kbd>gl</kbd>  | n    | *toggleterm.nvim* open lazygit.                                   |
 | <kbd>leader</kbd>               | <kbd>gp</kbd>  | n    | *gitsigns.nvim* preview hunk.                                     |
 | <kbd>leader</kbd>               | <kbd>gs</kbd>  | n    | Show git status.                                                  |
 | <kbd>leader</kbd>               | <kbd>hb</kbd>  | nv   | Search cword/selection with Baidu.                                |
