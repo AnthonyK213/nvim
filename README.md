@@ -226,6 +226,7 @@ Configure mailboxes (optional)
 | <kbd>leader</kbd>               | <kbd>fb</kbd>  | n    | *snacks.nvim* buffers.                                            |
 | <kbd>leader</kbd>               | <kbd>ff</kbd>  | n    | *snacks.nvim* find files.                                         |
 | <kbd>leader</kbd>               | <kbd>fg</kbd>  | n    | *snacks.nvim* live grep.                                          |
+| <kbd>leader</kbd>               | <kbd>fu</kbd>  | n    | *snacks.nvim* undo tree.                                          |
 | <kbd>leader</kbd>               | <kbd>gb</kbd>  | n    | *gitsigns.nvim* blame line.                                       |
 | <kbd>leader</kbd>               | <kbd>gn</kbd>  | n    | *Neogit* open.                                                    |
 | <kbd>leader</kbd>               | <kbd>gh</kbd>  | n    | *diffview.nvim* open file history in tab.                         |

@@ -73,17 +73,7 @@ require("lazy").setup({
       },
       sections = {
         lualine_a = {
-          function()
-            return ({
-              i = "I", ic = "I", ix = "I",
-              v = "v", V = "V", [""] = "B",
-              n = "N", niI = "Ĩ", no = "N", nt = "N",
-              R = "R", Rv = "R",
-              s = "s", S = "S",
-              c = "C", t = "T",
-              multi = "M",
-            })[vim.api.nvim_get_mode().mode] or "_"
-          end
+          { "mode", fmt = function(str) return str:sub(1, 1) end }
         },
         lualine_b = { "branch" },
         lualine_c = {
