@@ -66,6 +66,74 @@ local M = {
         border = _G._my_core_opt.tui.border,
       },
     },
+    sidebar = {
+      preview = "main",
+      layout = {
+        backdrop  = false,
+        width     = 40,
+        min_width = 40,
+        height    = 0,
+        position  = "left",
+        border    = "none",
+        box       = "vertical",
+        {
+          win       = "input",
+          height    = 1,
+          border    = _G._my_core_opt.tui.border,
+          title     = "{title} {live} {flags}",
+          title_pos = "center",
+        },
+        {
+          win    = "list",
+          border = "none"
+        },
+        {
+          win    = "preview",
+          title  = "{preview}",
+          height = 0.4,
+          border = "top"
+        },
+      },
+    },
+    telescope = {
+      reverse = true,
+      layout = {
+        box      = "horizontal",
+        backdrop = true,
+        width    = 0.8,
+        height   = 0.8,
+        border   = "none",
+        {
+          box = "vertical",
+          {
+            win       = "list",
+            title     = " Results ",
+            title_pos = "center",
+            border    = _G._my_core_opt.tui.border
+          },
+          {
+            win       = "input",
+            height    = 1,
+            border    = _G._my_core_opt.tui.border,
+            title     = "{title} {live} {flags}",
+            title_pos = "center"
+          },
+        },
+        {
+          win       = "preview",
+          title     = "{preview:Preview}",
+          width     = 0.5,
+          border    = _G._my_core_opt.tui.border,
+          title_pos = "center",
+        },
+      },
+    },
+    vertical = {
+      layout = {
+        backdrop = true,
+        border   = _G._my_core_opt.tui.border,
+      },
+    },
     vscode = {
       preview = false,
       layout = {

@@ -105,10 +105,13 @@
           "description": "Floating window border style",
           "type": "string",
           "enum": [
-            "none",
-            "single",
+            "bold",
             "double",
-            "rounded"
+            "none",
+            "rounded",
+            "shadow",
+            "single",
+            "solid"
           ]
         },
         "cmp_ghost": {

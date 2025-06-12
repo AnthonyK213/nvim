@@ -831,6 +831,7 @@ require("lazy").setup({
   {
     "vimwiki/vimwiki",
     cmd = { "VimwikiIndex", "VimwikiDiaryIndex", },
+    ft = "vimwiki.markdown",
     branch = "dev",
     init = function()
       vim.g.vimwiki_list = {
