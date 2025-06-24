@@ -26,21 +26,21 @@ require("lazy").setup({
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
-    priority = 1000,
+    priority = 1500,
     cond = function() return _G._my_core_opt.tui.scheme == "gruvbox" end,
     config = function() require("packages.gruvbox-conf") end
   },
   {
     "EdenEast/nightfox.nvim",
     lazy = false,
-    priority = 1000,
+    priority = 1500,
     cond = function() return _G._my_core_opt.tui.scheme == "nightfox" end,
     config = function() require("packages.nightfox-conf") end
   },
   {
     "folke/snacks.nvim",
-    priority = 1000,
     lazy = false,
+    priority = 1000,
     opts = {
       styles = {
         input = {
@@ -65,21 +65,33 @@ require("lazy").setup({
     cond = load_3rd_ui,
     opts = {
       options = {
-        theme = "auto",
-        section_separators = "",
+        theme                = "auto",
+        section_separators   = "",
         component_separators = "",
-        icons_enabled = false,
-        globalstatus = _G._my_core_opt.tui.global_statusline
+        icons_enabled        = _G._my_core_opt.tui.devicons,
+        globalstatus         = _G._my_core_opt.tui.global_statusline
       },
       sections = {
         lualine_a = {
           { "mode", fmt = function(str) return str:sub(1, 1) end }
         },
-        lualine_b = { "branch" },
+        lualine_b = { { "b:gitsigns_head", icon = '' }, },
         lualine_c = {
           { "filename", path = 2 },
           { "aerial",   sep = "::" },
-          "diff"
+          {
+            "diff",
+            source = function()
+              local gitsigns = vim.b.gitsigns_status_dict
+              if gitsigns then
+                return {
+                  added    = gitsigns.added,
+                  modified = gitsigns.changed,
+                  removed  = gitsigns.removed
+                }
+              end
+            end
+          }
         },
         lualine_x = {
           { "diagnostics", sources = { "nvim_diagnostic" } },
@@ -96,13 +108,17 @@ require("lazy").setup({
         lualine_y = {},
         lualine_z = {},
       },
-      extensions = { "nvim-tree", "quickfix" }
+      extensions = {
+        "aerial",
+        "lazy",
+        "mason",
+        "nvim-dap-ui",
+        "nvim-tree",
+        "overseer",
+        "quickfix",
+        "toggleterm",
+      }
     }
-  },
-  {
-    "nvim-tree/nvim-web-devicons",
-    lazy = false,
-    cond = _G._my_core_opt.tui.devicons,
   },
   {
     "akinsho/bufferline.nvim",
@@ -115,7 +131,7 @@ require("lazy").setup({
         right_mouse_command = "",
         middle_mouse_command = "bdelete! %d",
         indicator = {
-          icon = "▍",
+          icon  = "▍",
           style = "icon",
         },
         buffer_close_icon = "×",
@@ -137,10 +153,10 @@ require("lazy").setup({
         end,
         offsets = {
           {
-            filetype = "NvimTree",
-            text = "File Explorer",
+            filetype   = "NvimTree",
+            text       = "File Explorer",
             text_align = "left",
-            separator = true,
+            separator  = true,
           }
         },
         show_buffer_icons = _G._my_core_opt.tui.devicons,
@@ -157,10 +173,10 @@ require("lazy").setup({
           },
           items = {
             {
-              name = "Docs",
-              highlight = { sp = "cyan" },
+              name       = "Docs",
+              highlight  = { sp = "cyan" },
               auto_close = false,
-              matcher = function(buf)
+              matcher    = function(buf)
                 return buf.name:match("%.md")
                     or buf.name:match("%.txt")
               end,
@@ -221,11 +237,11 @@ require("lazy").setup({
         max = 500
       },
       scope = {
-        enabled = true,
-        show_start = false,
-        show_end = false,
+        enabled            = true,
+        show_start         = false,
+        show_end           = false,
         injected_languages = false,
-        priority = 500,
+        priority           = 500,
       },
       exclude = {
         filetypes = {
@@ -239,6 +255,11 @@ require("lazy").setup({
         },
       }
     }
+  },
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = false,
+    cond = _G._my_core_opt.tui.devicons,
   },
   -- File system
   {
@@ -292,36 +313,36 @@ require("lazy").setup({
           enable = false,
           icons = {
             corner = "└ ",
-            edge = "│ ",
-            none = "  ",
+            edge   = "│ ",
+            none   = "  ",
           },
         },
         icons = {
           show = {
-            file = true,
-            folder = true,
+            file         = true,
+            folder       = true,
             folder_arrow = false,
-            git = true,
+            git          = true,
           },
           glyphs = {
             default = "▪ ",
             symlink = "▫ ",
             folder = {
-              default = "+",
-              open = "-",
-              empty = "*",
-              empty_open = "*",
-              symlink = "@",
+              default      = "+",
+              open         = "-",
+              empty        = "*",
+              empty_open   = "*",
+              symlink      = "@",
               symlink_open = "@",
             },
             git = {
-              unstaged = "✗",
-              staged = "✓",
-              unmerged = "U",
-              renamed = "➜",
+              unstaged  = "✗",
+              staged    = "✓",
+              unmerged  = "U",
+              renamed   = "➜",
               untracked = "★",
-              deleted = "D",
-              ignored = "◌"
+              deleted   = "D",
+              ignored   = "◌"
             },
           }
         },
@@ -329,7 +350,7 @@ require("lazy").setup({
       update_focused_file = {
         enable = false,
         update_root = {
-          enable = false,
+          enable      = false,
           ignore_list = {},
         },
         exclude = false,
@@ -339,25 +360,25 @@ require("lazy").setup({
         enable = true,
         show_on_dirs = false,
         icons = {
-          hint = "!",
-          info = "I",
+          hint    = "!",
+          info    = "I",
           warning = "W",
-          error = "E"
+          error   = "E"
         }
       },
       filters = {
         dotfiles = true,
-        custom = { ".cache" }
+        custom   = { ".cache" }
       },
       git = {
-        enable = true,
-        ignore = false,
+        enable  = true,
+        ignore  = false,
         timeout = 400
       },
       filesystem_watchers = {
-        enable = false,
+        enable         = false,
         debounce_delay = 50,
-        ignore_dirs = {},
+        ignore_dirs    = {},
       },
       actions = {
         change_dir = {
@@ -1032,9 +1053,10 @@ require("lazy").setup({
   },
   {
     "stevearc/aerial.nvim",
+    lazy = true,
     opts = {
       backends = {
-        ["_"] = { "lsp", "treesitter" },
+        ["_"]    = { "lsp", "treesitter" },
         markdown = { "markdown" },
       },
       close_automatic_events = {},
