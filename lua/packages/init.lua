@@ -1053,7 +1053,7 @@ require("lazy").setup({
   },
   {
     "stevearc/aerial.nvim",
-    lazy = true,
+    lazy = false,
     opts = {
       backends = {
         ["_"]    = { "lsp", "treesitter" },
@@ -1090,12 +1090,12 @@ require("lazy").setup({
         vim.keymap.set("n", "<leader>fa", require("aerial").snacks_picker, opt)
       end,
       float = {
-        border = _G._my_core_opt.tui.border,
-        relative = "win",
+        border     = _G._my_core_opt.tui.border,
+        relative   = "win",
         min_height = { 8, 0.1 },
         max_height = 0.9,
-        height = nil,
-        override = function(conf, _) return conf end,
+        height     = nil,
+        override   = function(conf, _) return conf end,
       },
     },
   },
