@@ -75,10 +75,10 @@ require("lazy").setup({
         lualine_a = {
           { "mode", fmt = function(str) return str:sub(1, 1) end }
         },
-        lualine_b = { { "b:gitsigns_head", icon = '' }, },
+        lualine_b = { { "b:gitsigns_head", icon = "" }, },
         lualine_c = {
           { "filename", path = 2 },
-          { "aerial",   sep = "::" },
+          -- { "aerial",   sep = "::" },
           {
             "diff",
             source = function()
@@ -1053,7 +1053,7 @@ require("lazy").setup({
   },
   {
     "stevearc/aerial.nvim",
-    lazy = false,
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       backends = {
         ["_"]    = { "lsp", "treesitter" },
