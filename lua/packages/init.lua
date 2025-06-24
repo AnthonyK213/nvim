@@ -26,42 +26,21 @@ require("lazy").setup({
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
-    priority = 1500,
+    priority = 2000,
     cond = function() return _G._my_core_opt.tui.scheme == "gruvbox" end,
     config = function() require("packages.gruvbox-conf") end
   },
   {
     "EdenEast/nightfox.nvim",
     lazy = false,
-    priority = 1500,
+    priority = 2000,
     cond = function() return _G._my_core_opt.tui.scheme == "nightfox" end,
     config = function() require("packages.nightfox-conf") end
   },
   {
-    "folke/snacks.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      styles = {
-        input = {
-          border = _G._my_core_opt.tui.border,
-        },
-      },
-      bigfile = { enabled = true },
-      dashboard = load_3rd_ui and require("packages.snacks-dashboard-conf") or nil,
-      input = require("packages.snacks-input-conf"),
-      picker = require("packages.snacks-picker-conf"),
-    },
-    keys = {
-      { "<leader>fb", function() require("snacks").picker.buffers() end },
-      { "<leader>ff", function() require("snacks").picker.files() end },
-      { "<leader>fg", function() require("snacks").picker.grep() end },
-      { "<leader>fu", function() require("snacks").picker.undo() end },
-    }
-  },
-  {
     "nvim-lualine/lualine.nvim",
     lazy = false,
+    priority = 1500,
     cond = load_3rd_ui,
     opts = {
       options = {
@@ -123,6 +102,7 @@ require("lazy").setup({
   {
     "akinsho/bufferline.nvim",
     lazy = false,
+    priority = 1500,
     cond = load_3rd_ui,
     init = function() vim.o.showtabline = 2 end,
     opts = {
@@ -167,22 +147,22 @@ require("lazy").setup({
         enforce_regular_tabs = false,
         always_show_bufferline = true,
         sort_by = "id",
-        groups = {
-          options = {
-            toggle_hidden_on_enter = true
-          },
-          items = {
-            {
-              name       = "Docs",
-              highlight  = { sp = "cyan" },
-              auto_close = false,
-              matcher    = function(buf)
-                return buf.name:match("%.md")
-                    or buf.name:match("%.txt")
-              end,
-            }
-          }
-        }
+        -- groups = {
+        -- options = {
+        -- toggle_hidden_on_enter = true
+        -- },
+        -- items = {
+        -- {
+        -- name       = "Docs",
+        -- highlight  = { sp = "cyan" },
+        -- auto_close = false,
+        -- matcher    = function(buf)
+        -- return buf.name:match("%.md")
+        -- or buf.name:match("%.txt")
+        -- end,
+        -- }
+        -- }
+        -- }
       }
     },
     keys = {
@@ -191,6 +171,28 @@ require("lazy").setup({
       { "<leader>bn", "<Cmd>BufferLineCycleNext<CR>" },
       { "<leader>bP", "<Cmd>BufferLineMovePrev<CR>" },
       { "<leader>bN", "<Cmd>BufferLineMoveNext<CR>" },
+    }
+  },
+  {
+    "folke/snacks.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      styles = {
+        input = {
+          border = _G._my_core_opt.tui.border,
+        },
+      },
+      bigfile = { enabled = true },
+      dashboard = load_3rd_ui and require("packages.snacks-dashboard-conf") or nil,
+      input = require("packages.snacks-input-conf"),
+      picker = require("packages.snacks-picker-conf"),
+    },
+    keys = {
+      { "<leader>fb", function() require("snacks").picker.buffers() end },
+      { "<leader>ff", function() require("snacks").picker.files() end },
+      { "<leader>fg", function() require("snacks").picker.grep() end },
+      { "<leader>fu", function() require("snacks").picker.undo() end },
     }
   },
   {
