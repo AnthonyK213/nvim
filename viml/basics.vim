@@ -16,6 +16,8 @@ set colorcolumn=80
 set shortmess+=c
 set noshowmode showcmd
 set list listchars=tab:>-,trail:·
+"" Set 'background' during startup to disable the background detection.
+set background=dark
 
 
 " Language, encode
