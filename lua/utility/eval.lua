@@ -155,8 +155,12 @@ local function lisp_tree(str)
       if tree_level == 0 then break end
     elseif func_map[elem] then
       tree_insert(tree_table, elem, tree_level)
-    elseif elem ~= "" then
-      tree_insert(tree_table, tonumber(elem), tree_level)
+    else
+      local num = tonumber(elem)
+      if not num then
+        error("Invalid expression")
+      end
+      tree_insert(tree_table, num, tree_level)
     end
   end
 
