@@ -225,7 +225,7 @@ require("lazy").setup({
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     cond = load_3rd_ui,
     main = "ibl",
     opts = {
@@ -672,7 +672,7 @@ require("lazy").setup({
   },
   {
     "andymass/vim-matchup",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     init = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
       vim.g.matchup_matchparen_deferred = 1
@@ -683,6 +683,7 @@ require("lazy").setup({
   },
   {
     "Shatur/neovim-session-manager",
+    event = "BufReadPre",
     cmd = "SessionManager",
     config = function()
       require("session_manager").setup {
@@ -914,7 +915,7 @@ require("lazy").setup({
   -- Completion; LSP; DAP; Treesitter
   {
     "hrsh7th/nvim-cmp",
-    event = { "BufReadPre", "BufNewFile", "CmdlineEnter" },
+    event = { "InsertEnter", "CmdlineEnter" },
     config = function() require("packages.nvim-cmp-conf") end,
     dependencies = {
       "hrsh7th/cmp-buffer",
@@ -1055,7 +1056,7 @@ require("lazy").setup({
   },
   {
     "stevearc/aerial.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     opts = {
       backends = {
         ["_"]    = { "lsp", "treesitter" },
