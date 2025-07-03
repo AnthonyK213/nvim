@@ -62,6 +62,10 @@ local function setup_server(name, config)
   ---@type vim.lsp.Config
   local cfg = {}
 
+  local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+  if has_cmp then
+    cfg.capabilities = cmp_nvim_lsp.default_capabilities()
+  end
   cfg.on_attach = custom_attach
 
   -- Disable semantic tokens.
